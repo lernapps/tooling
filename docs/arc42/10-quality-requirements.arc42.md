@@ -14,8 +14,9 @@ the scenarios are learning tests with small absolute numbers, not statistics. Ea
 - **Evals**: we run Claude Code, Codex and Gemini CLI ourselves, by hand, with each provider's latest model, on
   sample creator prompts, one set per archetype. The only source for iterations and for comparing assistants.
 - **Listing reports**: the validation report of every listing pull request (first-pass rate, findings per rule).
-- **Retrospective**: the section the agent writes at the end of its plan file (phases, failed checks, questions
-  to the creator, where it had to guess). It stays in the creator's repo and reaches the platform only with a
+- **Retrospective**: the section the agent writes at the end of its plan file (phases, failed checks, the
+  creator's turns after the plan, where it had to guess), and the counters the git hooks keep in the plan's front
+  matter (failed pre-push runs). It stays in the creator's repo and reaches the platform only with a
   listing.
 - **Conversations**: the owner talks to each creator after listing (D8 `a-creators-unpaid`).
 
@@ -158,7 +159,9 @@ metric: Most of the first 5 to 10 creators name the guidance as a reason it went
 
 ## An archetype in the evals
 
-Iterations can only be counted where we run the assistant ourselves.
+Iterations are compared in the evals, where we run the assistants ourselves. The pre-push hook counts its failed
+runs in the front matter of the plan file, so the same number arrives with every listing, without the assistant
+reporting it.
 
 ```arc42
 :::quality-scenario
@@ -167,7 +170,7 @@ title: An archetype in the evals
 quality: qg-few-iterations
 stimulus: The evals run a sample creator prompt for an archetype
 response: The assistant reaches an app that passes validation
-metric: At most N failed pre-push runs per app (source - evals)
+metric: At most N failed pre-push runs per app (source - evals, counter in the plan's front matter)
 :::
 ```
 
