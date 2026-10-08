@@ -64,6 +64,10 @@ defaults ([mrsimpson/renovate-config](https://github.com/mrsimpson/renovate-conf
 minor after 3 days, majors by hand) plus one rule: our own building blocks (`@lernapps/site`, these actions)
 follow `main` at once, at any time of the week (not only in the Saturday window), and merge when green.
 
+## Architecture
+
+npx @doctc/arc42 ger
+
 ## License
 
 [MIT](LICENSE)
