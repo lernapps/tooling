@@ -9,7 +9,7 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | lernapps/docs `docs/pdt42/2-design/d1-ecosystem.pdt42.md:16,31` | GitHub is the means of production; "Agent guidance and starter templates" are part of the platform's infrastructure | ch.1 intro | high | — |
 | lernapps/.github issue #12 | Goal: a creator builds an app with their AI assistant, and it comes out static, frontend-only, collecting nothing, and ready to list | ch.1 1.1 | high | — |
 | `.vibe/development-plan-agentic-app-creation.md` KD-01 | Five layers: process guidance, scaffolding, conventions, deterministic verification, formal validation | ch.1 UC-1 – UC-5 | high | — |
-| plan KD-02 | Archetypes: content app (Mathe-Karte-like) and playful SPA (typing trainer) | ch.1 1.1 | high | OPEN: final names and list of archetypes |
+| plan KD-02, owner 2026-10-08 | Archetypes: a content-heavy one (Mathe-Karte as inspiration) and an interactive one built first; quiz listed as a skeleton, not implemented; named after their character; TypeScript everywhere, strictly enforced | ch.1 1.1 | high | OPEN: names of the archetypes |
 | plan KD-03 | EPCC plan in a Markdown file; agent asks the creator what the catalog needs | ch.1 UC-1 | high | — |
 | plan KD-04; lernapps/apps `schemas/entry.js` | The agent fetches the entry schema and fills it; the guidance does not repeat its fields | ch.1 UC-6 | high | — |
 | plan KD-13, KD-15 | Fact sheet with deployment from the entry's commit, and re-validation, are later increments | ch.1 1.1 out of scope | high | — |
