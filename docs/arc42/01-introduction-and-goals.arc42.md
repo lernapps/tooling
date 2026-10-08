@@ -34,8 +34,10 @@ for a later increment and must stay possible.
 
 ## 1.2 Quality Goals
 
-The top goals: an agent reaches a listable app with little effort for the creator; no app built or validated with
-the tooling collects anything in secret; the tooling works with any AI agent; a change to a rule reaches every app.
+Grounded in the platform design: building is simple with the guidance, and listing takes minutes; what an app
+sends is checked, not declared; nothing is collected in secret, neither by the apps nor by the tooling. Fewer
+iterations for the assistant (cost), working through any assistant, and guidance that evolves with creators'
+practices follow with medium priority.
 
 See [10-quality-requirements.arc42.md](10-quality-requirements.arc42.md) for the complete
 quality catalog with priorities and measurable scenarios.

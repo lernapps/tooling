@@ -141,6 +141,25 @@ Apps are meant to be deployed outside lernapps.net's GitHub Pages as well.
 Apps change after they are listed; a validation does not stay true by itself.
 - **Deferred**: listed apps are re-validated on a schedule and when they change, in lernapps/apps.
 
+### KD-16: Quality goals are grounded in the platform design; metrics name their source
+Seven goals, each traced to the platform design: simple to build with guidance (`x-list-and-hear-back`), list in
+minutes (`ch-listing`, `a-creators-list`), checked not declared (`ch-fitness-signal`), nothing collected in secret,
+also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iterations for the assistant
+(`e-ai-assistants`), works through any assistant, the guidance evolves (`s-contribute-practices`).
+- **Decision**: Simplicity (creator) and cost (assistant's iterations) stay separate goals.
+- **Decision**: Other people's assistants cannot be observed, and nothing is collected in secret. Metrics are
+  learning tests with small numbers, as in the MVP, and each names its source: our evals, the listing reports, the
+  retrospective in the plan file, conversations with creators.
+
+### KD-17: The plan file ends with a retrospective
+- **Decision**: The plan template of the process guidance ends with a retrospective section the agent fills at the
+  end: phases reached, checks that failed and how often, questions to the creator, where it had to guess. The
+  template explains each part in comments, so the plan file itself guides the agent. It stays in the creator's repo
+  and reaches the platform only with a listing, where the review reads it. Cheap, and collects nothing.
+- **Deferred**: agent feedback sent to the platform with the creator's consent, as structured totals on the
+  anonymous thanks service ([#8](https://github.com/lernapps/tooling/issues/8)); first a flow in the platform design
+  in lernapps/docs.
+
 ## Notes
 
 - **Existing building blocks**: site actions and Renovate preset (this repo); site frame with `lernapps-check`
@@ -172,7 +191,8 @@ Apps change after they are listed; a validation does not stay true by itself.
 ## Plan
 
 ### Tasks
-- [ ] Owner review of ch. 1 and ch. 10: the `OPEN:` rows in `docs/arc42/architecture-evidence.md`
+- [ ] Owner review of the remaining `OPEN:` rows in `docs/arc42/architecture-evidence.md` (priorities, thresholds,
+  which assistants)
 - [ ] Ch. 2 Constraints: org rules, GitHub as means of production, frontend-only, MIT, English infrastructure
 - [ ] Ch. 3 Context: creator, creator's agent, operator answers, lernapps/apps (catalog), hosting, review agent
 - [ ] Ch. 4 Solution strategy: five layers × archetypes (KD-01, KD-02), promotion path (KD-12)
@@ -191,7 +211,8 @@ Apps change after they are listed; a validation does not stay true by itself.
 - [x] Set up arc42 in this repo: skill `arc42-language` in `.agents/skills/` (`skills-lock.json`), CLI `@doctc/arc42`
   pinned in `package.json`, workspace `docs/arc42/` (`npm run arc42 -- <command>`, `npm run check` validates)
 - [x] Ch. 1 Introduction and goals: use cases UC-1 – UC-6, stakeholders (draft)
-- [x] Ch. 10 Quality requirements: five quality goals, seven scenarios (draft; metrics to be confirmed)
+- [x] Ch. 10 Quality requirements: seven goals grounded in the platform design, thirteen scenarios with their
+  measurement source (KD-16)
 - [x] Publish the architecture at lernapps.net/tooling/ (`pages.yml`) with a preview per pull request that
   contains the arc42 diff and one comment listing the changes (`pr-preview.yml`, `scripts/review-summary.mjs`),
   as in lernapps/docs
@@ -202,7 +223,8 @@ Apps change after they are listed; a validation does not stay true by itself.
 *To be filled from the architecture (Plan phase). Expected building blocks, order to be decided:*
 - [ ] Check CLI and lint rules (KD-09)
 - [ ] Archetype packages with vite-plus config and git hooks (KD-05 – KD-07)
-- [ ] Generator and the first archetype scaffold with `AGENTS.md` (KD-03, KD-05)
+- [ ] Generator and the first archetype scaffold with `AGENTS.md` and the plan template with its retrospective
+  section (KD-03, KD-05, KD-17)
 - [ ] Skills: general rules, per archetype, third-party content (KD-08)
 - [ ] Formal validation: review prompt and report (KD-10)
 - [ ] Evals (KD-14)
