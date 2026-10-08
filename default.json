@@ -4,9 +4,10 @@
   "extends": ["github>mrsimpson/renovate-config"],
   "packageRules": [
     {
-      "description": "Our own building blocks (the shared site frame from lernapps.github.io, the actions in tooling) follow main at once and merge when green: they are git commits without a release date, and a change to them is meant to reach every site",
+      "description": "Our own building blocks (the site frame from lernapps.github.io, the actions in tooling) follow main at once, at any time of the week, and merge when green: they are git commits without a release date, and a change to them is meant to reach every site",
       "matchDepNames": ["@lernapps/site", "lernapps/**"],
       "minimumReleaseAge": "0 days",
+      "schedule": ["at any time"],
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true,
