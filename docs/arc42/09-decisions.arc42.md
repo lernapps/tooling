@@ -1,9 +1,6 @@
 # Architecture Decisions
 
-The decisions were made with the owner on 2026-10-08 and are traced in the plan
-([`.vibe/development-plan-agentic-app-creation.md`](../../.vibe/development-plan-agentic-app-creation.md), KD-01 –
-KD-17). Three are proposed and still to be confirmed: `dec-explainer-rendering`, `dec-quiz-question-types`,
-`dec-build-order`.
+Each decision in the short form of an ADR: context, decision, consequences.
 
 ## Five layers around the assistant
 
@@ -234,16 +231,16 @@ addresses: qg-few-iterations, risk-browser-checks-heavy
 :::
 ```
 
-## Review run by the owner first
+## The owner runs the review
 
-**Context:** a review agent in CI needs an API key and costs money per run. **Decision:** the owner runs the review
-locally; it moves into the listing workflow once listings justify it. **Consequences:** no secret in lernapps/apps
-for now.
+**Context:** a review agent in CI needs an API key and costs money per run. **Decision:** the listing workflow runs
+the deterministic checks; the owner starts the review agent locally on a pull request that passed them.
+**Consequences:** no secret in lernapps/apps; the review can move into the workflow without changing the procedure.
 
 ```arc42
 :::decision
-id: dec-review-local-first
-title: Review run by the owner first
+id: dec-review-by-owner
+title: The owner runs the review
 status: accepted
 date: 2026-10-08
 addresses: con-one-owner, risk-owner-bottleneck
@@ -253,7 +250,7 @@ addresses: con-one-owner, risk-owner-bottleneck
 ## Evals by hand with three assistants
 
 **Context:** other people's assistants cannot be observed. **Decision:** the owner runs the evals by hand with Claude
-Code, Codex and Gemini CLI on their latest models; no automated pipeline for now. **Consequences:** evals before
+Code, Codex and Gemini CLI on their latest models; there is no automated eval pipeline. **Consequences:** evals before
 merging guidance changes; the p90 of failed pre-push runs is measured there.
 
 ```arc42
@@ -282,45 +279,47 @@ addresses: qg-simple-to-build
 :::
 ```
 
-## Agent feedback deferred
+## The tooling sends nothing
 
-**Context:** sessions without a listing stay invisible. **Decision:** feedback sent by the assistant with the
-creator's consent per sending, structured totals only, on the anonymous thanks service, once it exists; first as a
-flow in the platform design (#8). **Consequences:** until then, measurement relies on evals, listings and
-conversations.
+**Context:** sessions that never reach a listing stay invisible, but the platform collects nothing in secret.
+**Decision:** the tooling sends nothing about a creator, an app or a session. Measurements stay in the creator's
+repo (plan file) and reach the platform only with a listing. Feedback from an assistant to the platform needs the
+creator's consent for each sending and carries structured totals only, through the platform's anonymous feedback
+channel. **Consequences:** measurement relies on evals, listings and conversations with creators.
 
 ```arc42
 :::decision
-id: dec-feedback-deferred
-title: Agent feedback deferred
+id: dec-tooling-sends-nothing
+title: The tooling sends nothing
 status: accepted
 date: 2026-10-08
 addresses: qg-nothing-collected, risk-invisible-failures
 :::
 ```
 
-## Fact sheet and re-validation later
+## Every report is bound to a commit
 
-**Context:** apps may be deployed anywhere; a validation does not stay true. **Decision:** the catalog entry becomes
-a fact sheet with a link, with the deployed app traced to the entry's commit, and listed apps are re-validated, in a
-later increment. **Consequences:** the report is bound to a commit now, so both can build on it.
+**Context:** apps may be deployed anywhere, and a validation does not stay true when the app changes.
+**Decision:** every validation report names the commit (or the URL and time) it checked. Showing an entry as a
+fact sheet of an app deployed elsewhere, and re-validating listed apps, belong to the app overview and build on
+that. **Consequences:** the deployed app can be traced to the validated commit.
 
 ```arc42
 :::decision
-id: dec-fact-sheet-later
-title: Fact sheet and re-validation later
+id: dec-report-per-commit
+title: Every report is bound to a commit
 status: accepted
 date: 2026-10-08
 addresses: qg-checked-not-declared
 :::
 ```
 
-## explainer pages rendered with Eleventy and TypeScript (proposed)
+## explainer pages rendered with Eleventy and TypeScript
 
 **Context:** explainer pages are rendered at build time like the other lernapps.net sites, but sources must be
-TypeScript. **Decision (proposed):** Eleventy 3 with TypeScript configuration, data and templates (`.11ty.ts`),
+TypeScript. **Decision:** Eleventy 3 with TypeScript configuration, data and templates (`.11ty.ts`),
 loaded through Node's type stripping, and client modules bundled by vite-plus. **Alternative:** pre-rendering with
-Vite only. **Consequences:** prototype first (`risk-explainer-rendering`).
+Vite only. **Consequences:** the combination has to be proven by a prototype (`risk-explainer-rendering`).
 
 ```arc42
 :::decision
@@ -332,12 +331,12 @@ addresses: qg-simple-to-build, risk-explainer-rendering
 :::
 ```
 
-## Question types of the quiz (proposed)
+## Question types of the quiz
 
 **Context:** quiz creators supply only questions and options, so the engine must cover what they need.
-**Decision (proposed):** single choice, multiple choice, true/false, number (with tolerance and unit), ordering and
-matching; each with feedback per option and an explanation per question. **Consequences:** more types later only
-as engine extensions, never in the creator's data format.
+**Decision:** single choice, multiple choice, true/false, number (with tolerance and unit), ordering and
+matching; each with feedback per option and an explanation per question. **Consequences:** further types are engine
+extensions and never change the creator's data format.
 
 ```arc42
 :::decision
@@ -346,22 +345,5 @@ title: Question types of the quiz
 status: proposed
 date: 2026-10-08
 addresses: qg-simple-to-build, qg-list-in-minutes
-:::
-```
-
-## Order of building (proposed)
-
-**Context:** the check defines "done" for every archetype; the quiz needs the least from creators.
-**Decision (proposed):** rule catalog and check CLI first, then the shared preset and hooks, then `quiz`, then
-`explainer`, then `interactive`; skills and review procedure grow with each archetype. **Consequences:** the first
-listings can come from quiz apps while the other archetypes are built.
-
-```arc42
-:::decision
-id: dec-build-order
-title: Order of building
-status: proposed
-date: 2026-10-08
-addresses: qg-list-in-minutes, qg-checked-not-declared
 :::
 ```

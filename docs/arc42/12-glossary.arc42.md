@@ -14,7 +14,7 @@ definition: A kind of app the tooling supports, named after its character (expla
 
 ## Assistant
 
-The platform design calls them AI assistants (`e-ai-assistants`); in the files the assistant reads, we say agent. Not part of the system.
+The platform design calls them [AI assistants](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-ai-assistants); in the files the assistant reads, we say agent. Not part of the system.
 
 ```arc42
 :::glossary-term
@@ -44,7 +44,7 @@ Not "developer": most creators are not professional developers.
 :::glossary-term
 id: term-creator
 title: Creator
-definition: The person who builds an app with their assistant, typically a teacher or parent (platform design e-creators).
+definition: The person who builds an app with their assistant, typically a teacher or parent.
 :::
 ```
 
@@ -74,7 +74,7 @@ definition: Sample creator prompts run by the owner with several assistants to t
 
 ## Fitness values
 
-They feed the platform's fitness signal (`ch-fitness-signal`): checked, not declared.
+They feed the platform's [fitness signal](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-ch-fitness-signal): checked, not declared.
 
 ```arc42
 :::glossary-term
@@ -170,7 +170,7 @@ definition: The rules that apply to one app - scope listing, its archetype, and 
 
 ## Validation report
 
-Bound to the commit it checked, so a later fact sheet can trace the deployed app to it.
+Bound to the commit it checked, so a fact sheet can trace the deployed app to it.
 
 ```arc42
 :::glossary-term

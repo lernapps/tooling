@@ -25,7 +25,7 @@ Review, evals and listing decisions run by hand, on one person's time (`con-one-
 id: risk-owner-bottleneck
 title: The owner is the bottleneck
 severity: high
-mitigation: Deterministic checks decide everything they can and comment failures without the owner; the quiz scaffold leaves little to review; the review moves into the listing workflow once listings justify the cost
+mitigation: Deterministic checks decide everything they can and comment failures without the owner; the quiz scaffold leaves little to review; the review can move into the listing workflow when listings justify its cost
 :::
 ```
 
@@ -103,7 +103,7 @@ We learn from listings only; sessions that fail before a listing leave no trace.
 id: risk-invisible-failures
 title: Sessions without a listing stay invisible
 severity: medium
-mitigation: Evals cover the archetypes; conversations with creators; agent feedback with consent once the thanks service exists (#8)
+mitigation: Evals cover the archetypes; conversations with creators; agent feedback sent with the creator's consent through the platform's anonymous feedback channel
 :::
 ```
 

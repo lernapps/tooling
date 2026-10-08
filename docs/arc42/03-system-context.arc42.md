@@ -46,7 +46,7 @@ flowchart LR
 
 ## Creator
 
-A teacher, parent or student who builds an app for a gap they noticed (`e-creators`). They talk to their assistant,
+A teacher, parent or student who builds an app for a gap they noticed ([app creators](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-creators)). They talk to their assistant,
 read the plan file and confirm it; after that, they are asked only at the checkpoints. They never need to know the
 rules or the toolchain.
 
@@ -62,7 +62,7 @@ requires: if-plan-file
 
 ## Creator's AI assistant
 
-Claude Code, Codex, Gemini CLI or another agent, chosen by the creator (`e-ai-assistants`). It reads `AGENTS.md`,
+Claude Code, Codex, Gemini CLI or another agent, chosen by the creator ([AI assistants](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-ai-assistants)). It reads `AGENTS.md`,
 writes the plan, runs the generator, follows the skills, reacts to the checks and fills the entry. It is a partner the
 platform designs for, not part of the system.
 
@@ -78,7 +78,7 @@ requires: if-agents-md, if-plan-file, if-generator-cli, if-skills, if-check-cli,
 
 ## Platform owner
 
-Decides whether an app is listed, maintains the rule catalog and runs the review and the evals for now (one owner,
+Decides whether an app is listed, maintains the rule catalog and runs the review and the evals (one owner,
 `con-one-owner`). Reads the validation report and the retrospective.
 
 ```arc42
@@ -93,7 +93,7 @@ requires: if-rule-catalog, if-validation-report, if-review-procedure
 
 ## Review agent
 
-An agent in a fresh context, run by the owner or later by the listing workflow. It follows the review procedure,
+An agent in a fresh context, run by the owner. It follows the review procedure,
 starts from the check CLI's report and judges what the checks cannot decide.
 
 ```arc42

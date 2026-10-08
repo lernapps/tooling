@@ -25,8 +25,8 @@ addresses: qg-simple-to-build, qg-list-in-minutes, qg-checked-not-declared, qg-n
 ## Five layers around the assistant, per archetype
 
 The assistant is supported by process guidance, scaffolding, conventions, deterministic verification and formal
-validation (plan KD-01). Each layer is built per archetype (`explainer`, `interactive`, `quiz`): an archetype is a
-bundle of scaffold, skills, rules in scope and review rubric (KD-02).
+validation. Each layer is built per archetype (`explainer`, `interactive`, `quiz`): an archetype is a
+bundle of scaffold, skills, rules in scope and review rubric.
 
 
 ## The scaffold meets the rules from the start
@@ -40,13 +40,13 @@ The assistant changes a working app instead of building one from nothing.
 
 One check CLI decides every rule that can be decided by a machine, in the pre-push hook, in the app's CI and in the
 listing validation. Its report is bound to a commit and provides the entry's fitness values. The review agent starts
-from that report and judges only the rest (KD-09, KD-10).
+from that report and judges only the rest.
 
 
 ## Plain files and git hooks
 
 Process guidance, plan and skills are Markdown files any assistant reads; the generator and the checks are CLIs;
-enforcement sits in git hooks, which every agent triggers (KD-03, KD-07, KD-08). Agent-specific hooks or an MCP
+enforcement sits in git hooks, which every agent triggers. Agent-specific hooks or an MCP
 server may add convenience, never replace these.
 
 
@@ -54,12 +54,12 @@ server may add convenience, never replace these.
 
 The tooling fetches what it needs (packages, schemas) and sends nothing. Measurements are kept where the creator's work
 is: counters and the retrospective in the plan file, which reach the platform only with a listing. Feedback sent
-directly is deferred and will need consent per sending (#8).
+directly to the platform would need the creator's consent for each sending.
 
 
 ## One rule catalog, one versioned package
 
 Every rule is defined once in the rule catalog, with scope, severity and enforcement; skills, lint configuration,
 the check CLI and the review rubric take their rules from it. Everything an app uses comes from one package,
-installed from git and kept current by Renovate, so a change reaches every app without editing it (KD-05, KD-12).
+installed from git and kept current by Renovate, so a change reaches every app without editing it.
 

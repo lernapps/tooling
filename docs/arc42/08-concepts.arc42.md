@@ -40,7 +40,7 @@ Findings move down the layers so they are not found again: a finding of the revi
 (enforcement `checked`) where a machine can decide it, otherwise a convention in a skill (`guided`); what is
 forgotten again and again becomes a step or a question in the plan template. Only the rule's `enforcement` changes,
 not its id. Every review finding names the rule and, if it has none yet, proposes one with the layer it should move
-to. Contributions of experienced creators (`s-contribute-practices`) enter the same way, as a pull request adding
+to. Contributions of experienced creators ([contributing best practices](https://lernapps.net/docs/platform-design/#2-design/d6-learning-engine.pdt42.md:el-s-contribute-practices)) enter the same way, as a pull request adding
 a rule.
 
 ```arc42
@@ -95,7 +95,7 @@ category: feedback
 The check CLI's result as JSON with a published schema: what was checked (commit, or URL and time), the rules in
 scope, findings per rule, and the fitness values derived from them (`storage`, `thirdParty` of the entry). The same
 input gives the same deterministic result. The entry's fitness values come from a report, never from the creator.
-Later, the fact sheet of an app deployed elsewhere can build on the commit the report names (plan KD-13).
+A fact sheet of an app deployed elsewhere can build on the commit the report names.
 
 ```arc42
 :::concept
@@ -168,8 +168,8 @@ category: content
 
 The quality scenarios name their source (chapter 10): our evals, the listing reports, the plan's retrospective and
 counters, conversations with creators. Nothing is collected in secret: counters and retrospective stay in the
-creator's repo until they submit a listing. Feedback sent to the platform with consent per sending is deferred
-([#8](https://github.com/lernapps/tooling/issues/8)).
+creator's repo until they submit a listing. Feedback sent to the platform would need the creator's consent for each sending and
+carry structured totals only.
 
 ```arc42
 :::concept

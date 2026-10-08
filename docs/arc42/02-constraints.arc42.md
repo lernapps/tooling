@@ -6,7 +6,8 @@ apply to the tooling and, through it, to every app built with it.
 
 ## Apps are static and frontend-only
 
-The apps collect nothing and stay fully frontend-only (platform design KD-18). They have no backend of their own and
+The apps collect nothing and stay fully frontend-only: there is no hidden data collection on the platform
+([returning use and praise to creators](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-ch-feedback)). They have no backend of their own and
 send nothing to a server; storage is at most on the learner's device.
 
 ```arc42
@@ -14,7 +15,7 @@ send nothing to a server; storage is at most on the learner's device.
 id: con-frontend-only
 title: Apps are static and frontend-only
 category: technical
-source: Platform design KD-18; listing criteria in lernapps/apps
+source: Platform design; listing criteria of the app overview
 :::
 ```
 
@@ -36,8 +37,8 @@ source: ORGANIZATION.md "Every page, in every repo"
 
 ## GitHub is the means of production
 
-The platform runs on GitHub: repositories, pull requests, GitHub Actions, GitHub Pages and Renovate (D1
-`platform-lernapps`). Only the owner creates repositories in the organisation; a repo named `x` with Pages is served
+The platform runs on GitHub: repositories, pull requests, GitHub Actions, GitHub Pages and Renovate
+([platform](https://lernapps.net/docs/platform-design/#2-design/d1-ecosystem.pdt42.md:el-platform-lernapps)). Only the owner creates repositories in the organisation; a repo named `x` with Pages is served
 at `lernapps.net/x/`. Actions are pinned to full commit SHAs and updated by Renovate.
 
 ```arc42
@@ -45,22 +46,22 @@ at `lernapps.net/x/`. Actions are pinned to full commit SHAs and updated by Reno
 id: con-github
 title: GitHub is the means of production
 category: organizational
-source: Platform design D1; ORGANIZATION.md "Rules across repos"
+source: Platform design; ORGANIZATION.md "Rules across repos"
 :::
 ```
 
 ## One owner, little time, no money
 
 The platform is free, pays no one and has one owner whose time is the cost of maintaining the guidance
-(`x-list-and-hear-back`). There is no budget for paid services; the only planned service is the small anonymous
-thanks service (KD-18).
+([list an app and hear it is used](https://lernapps.net/docs/platform-design/#2-design/d7-experiences.pdt42.md:el-x-list-and-hear-back)). There is no budget for paid services; the platform's only
+service is a small one for anonymous thanks and feedback.
 
 ```arc42
 :::constraint
 id: con-one-owner
 title: One owner, little time, no money
 category: organizational
-source: Platform design D7 x-list-and-hear-back, D8 a-creators-unpaid; GOVERNANCE.md
+source: Platform design; GOVERNANCE.md
 :::
 ```
 
@@ -74,7 +75,7 @@ by lernapps/apps and published as JSON Schema; the owner decides whether an app 
 id: con-entry-schema
 title: The listing is one entry in lernapps/apps
 category: organizational
-source: ORGANIZATION.md "Apps and the app overview"; plan KD-04
+source: ORGANIZATION.md "Apps and the app overview"
 :::
 ```
 

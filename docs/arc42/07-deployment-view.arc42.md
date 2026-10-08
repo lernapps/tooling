@@ -61,7 +61,7 @@ hosts: bb-tooling-package, bb-process-guidance, bb-generator, bb-skills, bb-arch
 ## Owner's machine
 
 Where the owner runs the review agent on a listing pull request and the evals by hand with Claude Code, Codex and
-Gemini CLI (decisions `dec-review-local-first`, `dec-evals-by-hand`).
+Gemini CLI (decisions `dec-review-by-owner`, `dec-evals-by-hand`).
 
 ```arc42
 :::deployment-node
