@@ -24,9 +24,10 @@ work, so that the creator does not need to know them, and has to show before lis
 | UC-5 | Validate for listing | A review agent in a fresh context runs the same deterministic checks on the built or deployed app, then judges what they cannot decide, and reports the result bound to one commit |
 | UC-6 | List the app | The agent fetches the entry schema of the app overview, fills it from the plan and the validation report, and opens a pull request to lernapps/apps |
 
-Two kinds of apps (archetypes) shape every use case from the start: content apps like the Mathe-Karte (pages,
-explanations and exercises, readable without JavaScript) and playful apps like a ten-finger typing trainer (a
-classic single-page app). More may follow.
+Two kinds of apps (archetypes) shape every use case from the start: content-heavy apps inspired by the
+Mathe-Karte (pages of explanation, pictures and exercises, readable without JavaScript) and interactive apps like a
+ten-finger typing trainer (a classic single-page app). A quiz archetype (a question bank as data and a generic
+engine) is foreseen but not built yet. All are written in TypeScript, strictly enforced.
 
 Out of scope for now: showing a catalog entry as a fact sheet of an app deployed elsewhere, with a guarantee that
 the deployed app comes from the commit the entry refers to; re-validating listed apps over time. Both are planned

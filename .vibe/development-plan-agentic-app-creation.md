@@ -38,7 +38,12 @@ explanation instead.
 - **Decision**: Every building block is designed per archetype from the start, with shared parts for what all
   archetypes have in common. The archetype is chosen in the Explore phase of the creator's plan, from the operator's
   answers, not before the conversation starts.
-- **Open**: the final names and the exact list of archetypes; two to start with.
+- **Decision** (2026-10-08): Two archetypes are built first: a content-heavy one (inspired by the Mathe-Karte: many
+  pages of explanation, pictures and generated exercises, every page readable without JavaScript) and an
+  interactive one (one client-rendered app page plus a static start page). A third, **quiz** (a question bank as
+  data and a generic engine), is listed as a skeleton and not implemented yet.
+- **Decision**: Archetypes are named after their character, not after their use.
+- **Open**: the name of the content-heavy archetype (working name `explainer`) and of the interactive one.
 
 ### KD-03: Process guidance is EPCC in AGENTS.md, with a Markdown plan
 The agent writes a human-readable plan file with one section per phase (Explore, Plan, Code, Commit), tasks and key
@@ -71,8 +76,12 @@ also cannot be the single starting point.
 [Vite+](https://viteplus.dev/) (`vp`) chains lint (Oxlint), format (Oxfmt), type check, test (Vitest) and the
 pre-commit run on staged files (`vp staged`, hooks installed with `vp config`) behind one CLI and one config file.
 - **Decision**: Scaffolds use vite-plus with its defaults, made stricter where our conventions need it. The config is
-  owned by the archetype package, not written by each app. The content archetype may build with Eleventy and use `vp`
-  for lint, format, test and staged only. i18n and accessibility are part of the scaffolds.
+  owned by the archetype package, not written by each app. The content-heavy archetype may render its pages with Eleventy and use
+  `vp` for lint, format, type check, test and staged. i18n and accessibility are part of the scaffolds.
+- **Decision** (2026-10-08): TypeScript everywhere, strictly enforced, in every archetype: `strict` and the stricter
+  compiler options on, no `any`, no JavaScript sources, type check in the pre-commit hook and in CI.
+- **Open**: how the content-heavy archetype renders its pages with TypeScript sources (Eleventy with a TypeScript
+  loader, or pre-rendering with Vite); decided in the architecture.
 - **Risk**: vite-plus is before 1.0 and its config format may still change; owning the config centrally keeps a
   change in one place.
 
