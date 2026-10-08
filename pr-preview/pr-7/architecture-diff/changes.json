@@ -5,7 +5,7 @@
     "commit": "91c4012323f8fea68de701a8e078f1bcb010a70e"
   },
   "head": {
-    "label": "041012c3a0fa5b57c3f21491f0932bd8ee904036"
+    "label": "e64b7b3a34f8f0a063958a4cd927123df1daba54"
   },
   "acceptanceBase": "91c4012323f8fea68de701a8e078f1bcb010a70e",
   "untracked": [],
@@ -20,6 +20,1750 @@
   },
   "architecture": {
     "elements": [
+      {
+        "id": "con-frontend-only",
+        "kind": "constraint",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 13
+        },
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints",
+            "Apps are static and frontend-only"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "con-page-rules",
+        "kind": "constraint",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 29
+        },
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints",
+            "Rules for every page"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "con-github",
+        "kind": "constraint",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 44
+        },
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints",
+            "GitHub is the means of production"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "con-one-owner",
+        "kind": "constraint",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 59
+        },
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints",
+            "One owner, little time, no money"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "con-entry-schema",
+        "kind": "constraint",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 73
+        },
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints",
+            "The listing is one entry in lernapps/apps"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "con-language-licence",
+        "kind": "constraint",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 88
+        },
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints",
+            "Languages and licence"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "actor-creator",
+        "kind": "actor",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 54
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "Creator"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "actor-assistant",
+        "kind": "actor",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 70
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "Creator's AI assistant"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "actor-owner",
+        "kind": "actor",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 85
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "Platform owner"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "actor-review-agent",
+        "kind": "actor",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 100
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "Review agent"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "actor-github",
+        "kind": "actor",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 115
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "GitHub"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "strategy-architecture",
+        "kind": "solution-strategy",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 18
+        },
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-tooling-package",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 86
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-rule-catalog",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 101
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Rule catalog"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-rule-catalog",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 115
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Rule catalog",
+            "Rule catalog interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-process-guidance",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 131
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-agents-md",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 146
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance",
+            "AGENTS.md"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-plan-file",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 160
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance",
+            "Plan file"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skills",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 177
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-skills",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 192
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Skills interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-generator",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 208
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Generator"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-generator-cli",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 223
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Generator",
+            "Generator CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-archetypes",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 238
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-archetype-preset",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 253
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "Archetype preset interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-git-hooks",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 268
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "Git hooks"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-archetype-explainer",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 286
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "explainer"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-topic-pages",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 300
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "explainer",
+            "Topic pages"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-archetype-interactive",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 314
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "interactive"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-app-module",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 328
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "interactive",
+            "App module"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-archetype-quiz",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 344
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "quiz"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-question-bank",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 358
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "quiz",
+            "Question bank"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-lint-rules",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 373
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Lint rules"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-lint-plugin",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 388
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Lint rules",
+            "Lint plugin"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-check-cli",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 405
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-check-cli",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 420
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI",
+            "Check CLI interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-validation-report",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 434
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI",
+            "Validation report"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-review-procedure",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 449
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-review-procedure",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 464
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure",
+            "Review procedure interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-evals",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 479
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Evals"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-app-template",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 495
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-archetype-templates",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 507
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates",
+            "Archetype templates interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-app-check-action",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 521
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "App check action"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-app-check-action",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 534
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "App check action",
+            "App check action interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-listing-validation",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 549
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Listing validation"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-listing-comment",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 564
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Listing validation",
+            "Listing results comment"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-new-app",
+        "kind": "runtime-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 13
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A new app, from first prompt to listing"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-push-fails",
+        "kind": "runtime-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 64
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A push fails"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-listing-validated",
+        "kind": "runtime-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 105
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A listing is validated"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-rule-changes",
+        "kind": "runtime-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 149
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A rule changes"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-creator-machine",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 53
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "Creator's machine"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-owner-machine",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 67
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "Owner's machine"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-github",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 80
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-tooling-repo",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 93
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "lernapps/tooling"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-template-repo",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 107
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "lernapps/app-template"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-app-ci",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 122
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "App repo CI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-apps-ci",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 136
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "lernapps/apps CI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-pages",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 151
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "lernapps.net Pages"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-rule-model",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 30
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Rule model"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-promotion-path",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 47
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Promotion path"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-plan-file",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 71
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Plan file"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-agent-messages",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 86
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Messages for agents"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-validation-report",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 101
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Validation report"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-versioned-distribution",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 116
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Versioned distribution"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-strict-typescript",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 131
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Strict TypeScript"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-i18n-a11y",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 146
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "i18n and accessibility"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-third-party-content",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 160
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Third-party content"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-measurement",
+        "kind": "concept",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 175
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Measurement"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-five-layers",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 16
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Five layers around the assistant"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-archetypes",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 33
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Three archetypes, named by character"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-epcc-plan-file",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 50
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "EPCC in AGENTS.md with a plan file"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-schema-explains-itself",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 66
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "The entry schema explains itself"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-one-package",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 83
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "One package from git"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-templates-repo",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 100
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Templates in lernapps/app-template, logic in the package"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-vite-plus",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 116
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "vite-plus as the toolchain"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-strict-typescript",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 132
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Strict TypeScript everywhere"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-git-hooks",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 148
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Git hooks enforce and count"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-skills",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 164
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Conventions as skills"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-rule-model",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 180
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Rules with scope, severity and enforcement"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-check-cli",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 196
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "A standalone check CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-review-agent",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 213
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Review by an agent, results as a comment"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-browser-checks-in-ci",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 228
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Browser checks in CI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-review-local-first",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 244
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Review run by the owner first"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-evals-by-hand",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 260
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Evals by hand with three assistants"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-correctness-suggested",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 276
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Content correctness is suggested"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-feedback-deferred",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 293
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Agent feedback deferred"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-fact-sheet-later",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 309
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Fact sheet and re-validation later"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-explainer-rendering",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 326
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "explainer pages rendered with Eleventy and TypeScript (proposed)"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-quiz-question-types",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 343
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Question types of the quiz (proposed)"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-build-order",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 360
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Order of building (proposed)"
+          ],
+          "occurrence": 1
+        }
+      },
       {
         "id": "qg-simple-to-build",
         "kind": "quality-goal",
@@ -380,10 +2124,1897 @@
           ],
           "occurrence": 1
         }
+      },
+      {
+        "id": "risk-assistants-skip-guidance",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 11
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Assistants skip the guidance"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-owner-bottleneck",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 24
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "The owner is the bottleneck"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-vite-plus-young",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 37
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "vite-plus is before 1.0"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-oxlint-plugins",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 50
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Oxlint JS plugins are young"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-explainer-rendering",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 63
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Rendering explainer pages from TypeScript is unproven"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-browser-checks-heavy",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 76
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Browser checks are heavy"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-no-shell",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 89
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Creators without a shell"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-invisible-failures",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 102
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Sessions without a listing stay invisible"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-entry-schema-changes",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 115
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "The entry model changes"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-counter-tampering",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 128
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Counters can be changed by hand"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-git-install",
+        "kind": "risk",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 141
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Installing from git"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-archetype",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 8
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Archetype"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-assistant",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 20
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Assistant"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-checkpoint",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 32
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Checkpoint"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-creator",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 44
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Creator"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-epcc",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 56
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "EPCC"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-evals",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 68
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Evals"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-fitness-values",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 80
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Fitness values"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-listing",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 92
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Listing"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-plan-file",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 104
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Plan file"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-promotion-path",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 116
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Promotion path"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-question-bank",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 128
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Question bank"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-retrospective",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 140
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Retrospective"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-rule",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 152
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Rule"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-rules-in-scope",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 164
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Rules in scope"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-validation-report",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 176
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Validation report"
+          ],
+          "occurrence": 1
+        }
       }
     ],
-    "diagrams": [],
+    "diagrams": [
+      {
+        "id": "context-overview",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 15
+        }
+      },
+      {
+        "id": "building-blocks-level-1",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 12
+        }
+      },
+      {
+        "id": "building-blocks-archetypes",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 53
+        }
+      },
+      {
+        "id": "rs-new-app-sequence",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 22
+        }
+      },
+      {
+        "id": "rs-push-fails-sequence",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 73
+        }
+      },
+      {
+        "id": "rs-listing-validated-sequence",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 114
+        }
+      },
+      {
+        "id": "rs-rule-changes-sequence",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 158
+        }
+      },
+      {
+        "id": "deployment-overview",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 10
+        }
+      }
+    ],
     "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-assistant",
+          "to": "if-agents-md",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-assistant",
+          "to": "if-check-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-assistant",
+          "to": "if-generator-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-assistant",
+          "to": "if-listing-comment",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-assistant",
+          "to": "if-plan-file",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-assistant",
+          "to": "if-skills",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-creator",
+          "to": "if-plan-file",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-github",
+          "to": "if-app-check-action",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-github",
+          "to": "if-archetype-preset",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-owner",
+          "to": "if-review-procedure",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-owner",
+          "to": "if-rule-catalog",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-owner",
+          "to": "if-validation-report",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-review-agent",
+          "to": "if-check-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-review-agent",
+          "to": "if-review-procedure",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-review-agent",
+          "to": "if-validation-report",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-app-check-action",
+          "to": "if-app-check-action",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-app-check-action",
+          "to": "if-check-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-app-template",
+          "to": "if-archetype-templates",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetype-explainer",
+          "to": "bb-archetypes",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetype-explainer",
+          "to": "if-topic-pages",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetype-interactive",
+          "to": "bb-archetypes",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetype-interactive",
+          "to": "if-app-module",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetype-quiz",
+          "to": "bb-archetypes",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetype-quiz",
+          "to": "if-question-bank",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetypes",
+          "to": "concept-i18n-a11y",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetypes",
+          "to": "concept-strict-typescript",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetypes",
+          "to": "concept-versioned-distribution",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetypes",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetypes",
+          "to": "if-archetype-preset",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetypes",
+          "to": "if-check-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-archetypes",
+          "to": "if-lint-plugin",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-check-cli",
+          "to": "concept-agent-messages",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-check-cli",
+          "to": "concept-rule-model",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-check-cli",
+          "to": "concept-validation-report",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-check-cli",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-check-cli",
+          "to": "if-check-cli",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-check-cli",
+          "to": "if-validation-report",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-check-cli",
+          "to": "if-rule-catalog",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-evals",
+          "to": "concept-measurement",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-evals",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-evals",
+          "to": "if-check-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-evals",
+          "to": "if-generator-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-evals",
+          "to": "if-review-procedure",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-evals",
+          "to": "if-validation-report",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-generator",
+          "to": "concept-versioned-distribution",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-generator",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-generator",
+          "to": "if-generator-cli",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-generator",
+          "to": "if-archetype-templates",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-generator",
+          "to": "if-plan-file",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-git-hooks",
+          "to": "concept-agent-messages",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-git-hooks",
+          "to": "concept-measurement",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-git-hooks",
+          "to": "bb-archetypes",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-git-hooks",
+          "to": "if-check-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-git-hooks",
+          "to": "if-plan-file",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-lint-rules",
+          "to": "concept-agent-messages",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-lint-rules",
+          "to": "concept-rule-model",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-lint-rules",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-lint-rules",
+          "to": "if-lint-plugin",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-lint-rules",
+          "to": "if-rule-catalog",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-listing-validation",
+          "to": "concept-agent-messages",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-listing-validation",
+          "to": "concept-validation-report",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-listing-validation",
+          "to": "if-listing-comment",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-listing-validation",
+          "to": "if-check-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-listing-validation",
+          "to": "if-review-procedure",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-listing-validation",
+          "to": "if-validation-report",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-process-guidance",
+          "to": "concept-plan-file",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-process-guidance",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-process-guidance",
+          "to": "if-agents-md",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-process-guidance",
+          "to": "if-plan-file",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "concept-promotion-path",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "concept-rule-model",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "if-review-procedure",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "if-rule-catalog",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "if-validation-report",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-rule-catalog",
+          "to": "concept-promotion-path",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-rule-catalog",
+          "to": "concept-rule-model",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-rule-catalog",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-rule-catalog",
+          "to": "if-rule-catalog",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills",
+          "to": "concept-rule-model",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills",
+          "to": "concept-third-party-content",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills",
+          "to": "bb-tooling-package",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills",
+          "to": "if-skills",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills",
+          "to": "if-rule-catalog",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-archetypes",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-archetypes",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-browser-checks-in-ci",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-browser-checks-in-ci",
+          "to": "risk-browser-checks-heavy",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-build-order",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-build-order",
+          "to": "qg-list-in-minutes",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-check-cli",
+          "to": "con-frontend-only",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-check-cli",
+          "to": "con-page-rules",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-check-cli",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-check-cli",
+          "to": "qg-list-in-minutes",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-check-cli",
+          "to": "risk-no-shell",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-correctness-suggested",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-epcc-plan-file",
+          "to": "qg-any-assistant",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-epcc-plan-file",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-epcc-plan-file",
+          "to": "risk-assistants-skip-guidance",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-evals-by-hand",
+          "to": "qg-any-assistant",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-evals-by-hand",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-explainer-rendering",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-explainer-rendering",
+          "to": "risk-explainer-rendering",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-fact-sheet-later",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-feedback-deferred",
+          "to": "qg-nothing-collected",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-feedback-deferred",
+          "to": "risk-invisible-failures",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-five-layers",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-five-layers",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-five-layers",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-git-hooks",
+          "to": "qg-any-assistant",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-git-hooks",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-git-hooks",
+          "to": "risk-assistants-skip-guidance",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-git-hooks",
+          "to": "risk-counter-tampering",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-one-package",
+          "to": "con-github",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-one-package",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-one-package",
+          "to": "risk-git-install",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-quiz-question-types",
+          "to": "qg-list-in-minutes",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-quiz-question-types",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-review-agent",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-review-agent",
+          "to": "qg-list-in-minutes",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-review-agent",
+          "to": "risk-owner-bottleneck",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-review-local-first",
+          "to": "con-one-owner",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-review-local-first",
+          "to": "risk-owner-bottleneck",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-rule-model",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-rule-model",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-rule-model",
+          "to": "risk-oxlint-plugins",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-schema-explains-itself",
+          "to": "con-entry-schema",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-schema-explains-itself",
+          "to": "qg-list-in-minutes",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-schema-explains-itself",
+          "to": "risk-entry-schema-changes",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-skills",
+          "to": "qg-any-assistant",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-skills",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-strict-typescript",
+          "to": "con-language-licence",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-strict-typescript",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-templates-repo",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-templates-repo",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-vite-plus",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-vite-plus",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-vite-plus",
+          "to": "risk-vite-plus-young",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-app-ci",
+          "to": "bb-app-check-action",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-app-ci",
+          "to": "bb-check-cli",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-app-ci",
+          "to": "dn-github",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-apps-ci",
+          "to": "bb-check-cli",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-apps-ci",
+          "to": "bb-listing-validation",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-apps-ci",
+          "to": "dn-github",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-archetype-explainer",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-archetype-interactive",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-archetype-quiz",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-archetypes",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-check-cli",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-generator",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-git-hooks",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-lint-rules",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-process-guidance",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-skills",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-tooling-package",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-owner-machine",
+          "to": "bb-check-cli",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-owner-machine",
+          "to": "bb-evals",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-owner-machine",
+          "to": "bb-review-procedure",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-pages",
+          "to": "bb-rule-catalog",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-pages",
+          "to": "dn-github",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-template-repo",
+          "to": "bb-app-template",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-template-repo",
+          "to": "dn-github",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-tooling-repo",
+          "to": "bb-app-check-action",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-tooling-repo",
+          "to": "bb-tooling-package",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-tooling-repo",
+          "to": "dn-github",
+          "relation": "parent"
+        }
+      },
       {
         "status": "added",
         "edge": {
@@ -479,6 +4110,238 @@
           "to": "qg-nothing-collected",
           "relation": "elaborates"
         }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-listing-validated",
+          "to": "bb-check-cli",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-listing-validated",
+          "to": "bb-listing-validation",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-listing-validated",
+          "to": "bb-review-procedure",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-app-check-action",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-app-template",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-archetypes",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-check-cli",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-generator",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-git-hooks",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-lint-rules",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-listing-validation",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-process-guidance",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-app",
+          "to": "bb-skills",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-push-fails",
+          "to": "bb-check-cli",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-push-fails",
+          "to": "bb-git-hooks",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-push-fails",
+          "to": "bb-process-guidance",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-rule-changes",
+          "to": "bb-check-cli",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-rule-changes",
+          "to": "bb-evals",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-rule-changes",
+          "to": "bb-lint-rules",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-rule-changes",
+          "to": "bb-review-procedure",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-rule-changes",
+          "to": "bb-rule-catalog",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-rule-changes",
+          "to": "bb-skills",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "strategy-architecture",
+          "to": "qg-any-assistant",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "strategy-architecture",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "strategy-architecture",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "strategy-architecture",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "strategy-architecture",
+          "to": "qg-list-in-minutes",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "strategy-architecture",
+          "to": "qg-nothing-collected",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "strategy-architecture",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
       }
     ],
     "proseSections": [
@@ -523,7 +4386,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 40
+          "line": 43
         }
       },
       {
@@ -538,7 +4401,255 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 53
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "Context overview"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 12
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "Five layers around the assistant, per archetype"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 25
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "The scaffold meets the rules from the start"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 32
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "Deterministic first, the same check everywhere"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 39
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "Plain files and git hooks"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 46
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "Nothing leaves the creator's side unasked"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 53
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "One rule catalog, one versioned package"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 60
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Level 1"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 9
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Level 2: archetype presets"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
           "line": 50
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "Deployment overview"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 7
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 1
         }
       },
       {
@@ -599,6 +4710,34 @@
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "line": 127
         }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 1
+        }
       }
     ],
     "documents": [
@@ -609,8 +4748,68 @@
         "removed": 0
       },
       {
+        "file": "docs/arc42/02-constraints.arc42.md",
+        "added": 7,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/03-system-context.arc42.md",
+        "added": 8,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/04-solution-strategy.arc42.md",
+        "added": 7,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 38,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/06-runtime-view.arc42.md",
+        "added": 9,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 11,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "added": 11,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
+        "added": 23,
+        "modified": 0,
+        "removed": 0
+      },
+      {
         "file": "docs/arc42/10-quality-requirements.arc42.md",
         "added": 23,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/11-risks.arc42.md",
+        "added": 12,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "added": 16,
         "modified": 0,
         "removed": 0
       }
