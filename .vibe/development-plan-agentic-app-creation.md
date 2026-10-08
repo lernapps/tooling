@@ -38,12 +38,15 @@ explanation instead.
 - **Decision**: Every building block is designed per archetype from the start, with shared parts for what all
   archetypes have in common. The archetype is chosen in the Explore phase of the creator's plan, from the operator's
   answers, not before the conversation starts.
-- **Decision** (2026-10-08): Two archetypes are built first: a content-heavy one (inspired by the Mathe-Karte: many
-  pages of explanation, pictures and generated exercises, every page readable without JavaScript) and an
-  interactive one (one client-rendered app page plus a static start page). A third, **quiz** (a question bank as
-  data and a generic engine), is listed as a skeleton and not implemented yet.
-- **Decision**: Archetypes are named after their character, not after their use.
-- **Open**: the name of the content-heavy archetype (working name `explainer`) and of the interactive one.
+- **Decision** (2026-10-08): Three archetypes, named after their character:
+  - **`explainer`**: content-heavy, inspired by the Mathe-Karte: many pages of explanation, pictures and generated
+    exercises, every page readable without JavaScript.
+  - **`interactive`**: one client-rendered app page plus a static start page, e.g. a ten-finger typing trainer.
+  - **`quiz`**: a deep scaffold with the whole quiz architecture built in (engine, question types, feedback,
+    scoring, order, accessibility, i18n, readable without JavaScript as far as possible). The implementer supplies
+    only the questions and their options, as typed and validated data.
+- **Open**: the question types of `quiz` and the order of building the three archetypes; decided in the
+  architecture.
 
 ### KD-03: Process guidance is EPCC in AGENTS.md, with a Markdown plan
 The agent writes a human-readable plan file with one section per phase (Explore, Plan, Code, Commit), tasks and key
@@ -90,6 +93,9 @@ Creators use different agents (Claude Code, Codex, Cursor, claude.ai without a s
 - **Decision**: Enforcement lives in git hooks, which are agent-neutral: the fast checks on pre-commit (`vp staged`),
   the slower ones (build, our CLIs, browser checks) on pre-push. Agent-specific hooks may add the same checks earlier
   but never replace them.
+- **Decision** (2026-10-08): The hooks also measure. A failed pre-push run increments a counter in the front
+  matter of the plan file, so the number of failed pre-push runs is counted deterministically, not reported by the
+  agent. The counter goes into the next commit; the retrospective and the review read it (`qs-eval-iterations`).
 
 ### KD-08: Conventions are skills, general and type-specific
 - **Decision**: Rules are split into general rules for every app (privacy, accessibility, language, licensing,
@@ -168,7 +174,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ### KD-17: The plan file ends with a retrospective
 - **Decision**: The plan template of the process guidance ends with a retrospective section the agent fills at the
   end: phases reached, checks that failed and how often, the creator's turns after the plan was confirmed
-  (`qs-few-turns-after-plan`: at most 3), where it had to guess. The
+  (`qs-few-turns-after-plan`: at most 3), where it had to guess. The failed pre-push runs are not reported
+  by the agent: the hook counts them in the plan's front matter (KD-07). The
   template explains each part in comments, so the plan file itself guides the agent. It stays in the creator's repo
   and reaches the platform only with a listing, where the review reads it. Cheap, and collects nothing.
 - **Deferred**: agent feedback sent to the platform with the creator's consent, as structured totals on the
@@ -207,7 +214,7 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 
 ### Tasks
 - [ ] Owner review of the remaining `OPEN:` rows in `docs/arc42/architecture-evidence.md` (N of failed
-  pre-push runs after the first evals; names of the archetypes)
+  pre-push runs after the first evals)
 - [ ] Ch. 2 Constraints: org rules, GitHub as means of production, frontend-only, MIT, English infrastructure
 - [ ] Ch. 3 Context: creator, creator's agent, operator answers, lernapps/apps (catalog), hosting, review agent
 - [ ] Ch. 4 Solution strategy: five layers × archetypes (KD-01, KD-02), promotion path (KD-12)
