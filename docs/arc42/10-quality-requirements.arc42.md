@@ -11,8 +11,8 @@ that nothing is collected in secret (KD-18 of the platform design).
 We cannot observe other people's AI assistants, and the platform collects nothing in secret. As in the MVP (D8),
 the scenarios are learning tests with small absolute numbers, not statistics. Each metric names its source:
 
-- **Evals**: we run several assistants ourselves on sample creator prompts, one set per archetype. The only source
-  for iterations and for comparing assistants.
+- **Evals**: we run Claude Code, Codex and Gemini CLI ourselves, by hand, with each provider's latest model, on
+  sample creator prompts, one set per archetype. The only source for iterations and for comparing assistants.
 - **Listing reports**: the validation report of every listing pull request (first-pass rate, findings per rule).
 - **Retrospective**: the section the agent writes at the end of its plan file (phases, failed checks, questions
   to the creator, where it had to guess). It stays in the creator's repo and reaches the platform only with a
@@ -187,7 +187,8 @@ metric: The assistant fixes it without asking the creator in every eval run; no 
 
 ## The first listings
 
-The listing is generated from the plan and the validation report, not typed by the creator.
+The listing is generated from the plan and the validation report, not typed by the creator. A first run that
+fails is expected for many creators; the results comment has to be enough for their assistant to fix it.
 
 ```arc42
 :::quality-scenario
@@ -195,8 +196,8 @@ id: qs-first-listings
 title: The first listings
 quality: qg-list-in-minutes
 stimulus: A creator with a working app asks their assistant to list it
-response: The assistant fills the entry from the plan and the validation report and opens the pull request to lernapps/apps
-metric: At least 4 of the first 5 listing pull requests pass validation on the first run, and no creator types an entry field by hand (source - listing reports, retrospective)
+response: The assistant fills the entry from the plan and the validation report and opens the pull request to lernapps/apps; if the validation fails, it posts the deterministic check results as a comment on the pull request, and the assistant fixes the app from that comment
+metric: Half of the listing pull requests pass validation on the first run, 7 of 8 on the second run after the comment; no creator types an entry field by hand (source - listing reports, retrospective)
 :::
 ```
 
@@ -272,7 +273,7 @@ title: A creator uses another assistant
 quality: qg-any-assistant
 stimulus: A creator builds an app with an assistant other than Claude Code, without an MCP server
 response: The assistant reads the workflow from AGENTS.md, writes the plan file, loads the skills, and the git hooks run the same checks
-metric: The evals pass with at least two assistants of different providers (source - evals)
+metric: The evals pass with Claude Code, Codex and Gemini CLI, each with its provider's latest model at the time of the run (source - evals)
 :::
 ```
 

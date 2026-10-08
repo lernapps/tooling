@@ -24,8 +24,9 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | lernapps/docs `d6-learning-engine.pdt42.md` `s-contribute-practices` | Experienced creators bring their practices into the guidance | ch.10 qg-guidance-evolves, qs-practice-contributed | high | — |
 | lernapps/docs `d8-mvp.pdt42.md` intro, `a-creators-unpaid` | Learning tests with small absolute numbers; conversations with creators are the main source | ch.10 measurement sources, qs-guidance-named | high | — |
 | owner, 2026-10-08 | Simplicity (qg-simple-to-build) and cost (qg-few-iterations) stay separate goals; the plan file ends with a retrospective section; agent feedback with consent is deferred (#8) | ch.10 | high | — |
-| agent inference | Priorities: four high, three medium | ch.10 10.1 | low | OPEN: confirm the priorities |
-| agent inference | At most 4 creator decisions in 4 of the first 5 listings; 4 of the first 5 listing PRs pass validation on the first run | ch.10 qs-few-decisions, qs-first-listings | low | OPEN: confirm the thresholds |
+| owner, 2026-10-08 | Priorities: four high, three medium | ch.10 10.1 | high | — |
+| owner, 2026-10-08 | Half of the listing PRs pass validation on the first run; 7 of 8 on the second run, after a comment with the deterministic check results | ch.10 qs-first-listings | high | — |
+| agent inference | At most 4 creator decisions in 4 of the first 5 listings | ch.10 qs-few-decisions | low | OPEN: confirm the threshold |
 | agent inference | At most N failed pre-push runs per app in the evals | ch.10 qs-eval-iterations | low | OPEN: set N after the first eval runs |
-| agent inference | The evals pass with at least two assistants of different providers | ch.10 qs-other-assistant | low | OPEN: which assistants |
+| owner, 2026-10-08 | Evals by hand with Claude Code, Codex and Gemini CLI, each with the latest model | ch.10 qs-other-assistant, measurement sources | high | — |
 | agent inference | The Mathe-Karte may adopt the shared checks without moving onto a scaffold | ch.1 1.3 | low | OPEN: confirm with the Mathe-Karte author |
