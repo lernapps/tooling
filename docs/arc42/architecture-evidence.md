@@ -28,6 +28,14 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | owner, 2026-10-08 | Half of the listing PRs pass validation on the first run; 7 of 8 on the second run, after a comment with the deterministic check results | ch.10 qs-first-listings | high | — |
 | owner, 2026-10-08 | Turns before the plan is agreed are good assistance and not counted; at most 3 creator turns after the confirmed plan | ch.10 qs-few-turns-after-plan | high | — |
 | owner, 2026-10-08 | The pre-push hook counts its failed runs in the plan's front matter | ch.10 qs-eval-iterations, measurement sources | high | — |
-| agent inference | At most N failed pre-push runs per app | ch.10 qs-eval-iterations | low | OPEN: set N after the first eval runs |
+| owner, 2026-10-08 | p90 of failed pre-push runs per app below 5 | ch.10 qs-eval-iterations | high | — |
 | owner, 2026-10-08 | Evals by hand with Claude Code, Codex and Gemini CLI, each with the latest model | ch.10 qs-other-assistant, measurement sources | high | — |
 | owner, 2026-10-08 | The Mathe-Karte's compliance with the tooling is out of scope for now; it is the inspiration for the content archetype | ch.1 1.3 | high | — |
+| ORGANIZATION.md "Rules across repos", "Every page, in every repo", "Language", "License"; GOVERNANCE.md | Constraints: page rules, GitHub as means of production, one owner, languages and licence | ch.2 | high | — |
+| lernapps.github.io `package.json`, `site-frame/README.md` | `@lernapps/site` is one root package installed from git; `lernapps-check` checks site rules | ch.5 dec-one-package, dec-check-cli | high | — |
+| owner, 2026-10-08 | Agreed proposals: one package from git; templates in lernapps/app-template; browser checks in CI; review run by the owner first; `lernapps-check` stays in the site frame and is called by the check CLI | ch.5, ch.7, ch.9 | high | — |
+| owner, 2026-10-08 | Rule model: one term "rule" with scope, severity (error, warning, hint) and enforcement; listing rules never warnings | ch.8 concept-rule-model, ch.9 dec-rule-model | high | — |
+| agent inference | explainer pages rendered with Eleventy 3 and TypeScript through Node's type stripping | ch.9 dec-explainer-rendering | low | OPEN: confirm, after a prototype |
+| agent inference | Quiz question types: single choice, multiple choice, true/false, number, ordering, matching | ch.9 dec-quiz-question-types | low | OPEN: confirm the set |
+| agent inference | Order of building: rule catalog and check CLI, shared preset and hooks, quiz, explainer, interactive | ch.9 dec-build-order | low | OPEN: confirm the order |
+| agent inference | Package layout (`rules/`, `guidance/`, `skills/`, `archetypes/`, `lint/`, `check/`, `review/`, `evals/`), CLI `lernapps create` / `lernapps check`, plan file at `.vibe/plan.md` with `prePushFailures` | ch.5, ch.8 | medium | — |

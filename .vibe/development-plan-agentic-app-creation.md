@@ -213,45 +213,43 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ## Plan
 
 ### Tasks
-- [ ] Owner review of the remaining `OPEN:` rows in `docs/arc42/architecture-evidence.md` (N of failed
-  pre-push runs after the first evals)
-- [ ] Ch. 2 Constraints: org rules, GitHub as means of production, frontend-only, MIT, English infrastructure
-- [ ] Ch. 3 Context: creator, creator's agent, operator answers, lernapps/apps (catalog), hosting, review agent
-- [ ] Ch. 4 Solution strategy: five layers × archetypes (KD-01, KD-02), promotion path (KD-12)
-- [ ] Ch. 5 Building blocks: process guidance, generator and archetype packages, skills, check CLI and lint rules,
-  formal validation, evals; which repo holds what (tooling, app-template, apps)
-- [ ] Ch. 6 Runtime: a creator from first prompt to listing; validation of a listing PR
-- [ ] Ch. 7 Deployment: distribution from git with Renovate; hosting on lernapps.net or elsewhere (KD-13)
-- [ ] Ch. 8 Cross-cutting concepts: plan file, human checkpoints, error messages for agents, i18n, a11y, third-party
-  content
-- [ ] Ch. 9 Decisions: carry KD-03 – KD-13 over as ADRs where they are architecture decisions
-- [ ] Ch. 11 Risks (vite-plus before 1.0, agents skipping phases, schema drift)
-- [ ] Settle the open points of KD-02 and KD-05 with the owner
-- [ ] Order of building for the Code phase, smallest useful slice first
+- [ ] Owner review of the proposed decisions: `dec-explainer-rendering`, `dec-quiz-question-types`,
+  `dec-build-order` (`OPEN:` rows in `docs/arc42/architecture-evidence.md`)
+- [ ] Update lernapps/.github#12 to the agreed architecture
 
 ### Completed
 - [x] Set up arc42 in this repo: skill `arc42-language` in `.agents/skills/` (`skills-lock.json`), CLI `@doctc/arc42`
   pinned in `package.json`, workspace `docs/arc42/` (`npm run arc42 -- <command>`, `npm run check` validates)
-- [x] Ch. 1 Introduction and goals: use cases UC-1 – UC-6, stakeholders (draft)
+- [x] Ch. 1 Introduction and goals: use cases, stakeholders
 - [x] Ch. 10 Quality requirements: seven goals grounded in the platform design, thirteen scenarios with their
   measurement source (KD-16)
 - [x] Publish the architecture at lernapps.net/tooling/ (`pages.yml`) with a preview per pull request that
   contains the arc42 diff and one comment listing the changes (`pr-preview.yml`, `scripts/review-summary.mjs`),
   as in lernapps/docs
+- [x] Ch. 1 reworked as the five-step journey; ch. 2 constraints, ch. 3 context, ch. 4 solution strategy,
+  ch. 5 building blocks (one package `@lernapps/tooling`, templates in app-template, listing validation in apps),
+  ch. 6 runtime (new app, failing push, listing validation, rule change), ch. 7 deployment, ch. 8 concepts (rule
+  model, promotion path, plan file, messages for agents, validation report, versioned distribution, strict
+  TypeScript, i18n and a11y, third-party content, measurement), ch. 9 decisions (21, three proposed), ch. 11 risks,
+  ch. 12 glossary; `arc42 validate`: 0 errors, 0 warnings
+- [x] Archetypes `explainer`, `interactive`, `quiz`; p90 of failed pre-push runs below 5
 
 ## Code
 
 ### Tasks
-*To be filled from the architecture (Plan phase). Expected building blocks, order to be decided:*
-- [ ] Check CLI and lint rules (KD-09)
-- [ ] Archetype packages with vite-plus config and git hooks (KD-05 – KD-07)
-- [ ] Generator and the first archetype scaffold with `AGENTS.md` and the plan template with its retrospective
-  section (KD-03, KD-05, KD-17)
-- [ ] Skills: general rules, per archetype, third-party content (KD-08)
-- [ ] Formal validation: review prompt and report (KD-10)
-- [ ] Evals (KD-14)
-- [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6)): no shared header
-  on the arc42 diff page, own actions not exercised by this repo's workflows, `/tooling/` missing from `SITES`
+*Order per `dec-build-order` (proposed); each step with its rules in the catalog, skills and evals.*
+- [ ] Package `@lernapps/tooling` at the repo root: TypeScript, CLI `lernapps`, Renovate preset unchanged
+- [ ] Rule catalog with schema and the first rules (listing, site), generated rule page on the docs site
+- [ ] Check CLI: static mode, browser mode, validation report and its published schema; messages for agents
+- [ ] Shared preset: vite-plus config, strict `tsconfig`, lint rules, git hooks with the `prePushFailures` counter
+- [ ] Process guidance: `AGENTS.md` text, plan template with phases, checkpoints, catalog questions, retrospective
+- [ ] Generator `lernapps create` and the `quiz` archetype (engine, question bank schema, template in
+  lernapps/app-template), with its skill
+- [ ] App check action next to the site actions
+- [ ] Listing validation in lernapps/apps with the results comment; review procedure and rubric
+- [ ] Evals for quiz with Claude Code, Codex and Gemini CLI
+- [ ] `explainer` archetype (after the rendering prototype), then `interactive`
+- [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
 
 ### Completed
 

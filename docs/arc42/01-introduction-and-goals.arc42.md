@@ -11,18 +11,21 @@ Renovate preset). This document covers the app-creation tooling; the site action
 
 ## 1.1 Requirements Overview
 
-A creator, typically a teacher or a parent, has an idea for a small learning app and an AI agent that writes the code.
-The creator is usually not a professional developer. The tooling has to carry the platform's rules into the agent's
-work, so that the creator does not need to know them, and has to show before listing that the app keeps them.
+A creator, typically a teacher or a parent, has an idea for a small learning app and an AI assistant that writes
+the code. The creator is usually not a professional developer. The tooling carries the rules in scope for the app
+(chapter 8, rule model) into the assistant's work, so that the creator does not need to know them, and shows before
+listing that the app keeps them.
 
-| # | Use case | What the tooling does |
-|---|---|---|
-| UC-1 | Start an app | The agent follows a phased plan (Explore, Plan, Code, Commit) in a Markdown file the creator can read, and asks the creator what the app is for, for whom, and what the catalog needs to know |
-| UC-2 | Get a starting point | The agent generates a scaffold for the kind of app (archetype), with toolchain, strict conventions, git hooks, i18n and a11y in place |
-| UC-3 | Build by the rules | The agent loads conventions as skills: general rules for every app and guidance for the archetype and topic (e.g. third-party content in content-heavy apps) |
-| UC-4 | Check while building | The agent and the git hooks run deterministic checks: the toolchain's lint, format, type and test checks plus our own checks of the platform rules (e.g. no requests to other servers before a click) |
-| UC-5 | Validate for listing | A review agent in a fresh context runs the same deterministic checks on the built or deployed app, then judges what they cannot decide, and reports the result bound to one commit |
-| UC-6 | List the app | The agent fetches the entry schema of the app overview, fills it from the plan and the validation report, and opens a pull request to lernapps/apps |
+The creator's journey has five steps. Process guidance runs through all of them: the assistant follows the phases of
+a plan file (Explore, Plan, Code, Commit) that the creator can read, and stops at the creator's checkpoints.
+
+| # | Step | Phase | What the tooling does |
+|---|---|---|---|
+| UC-1 | Clarify the app | Explore | The assistant asks what the app is for, for whom and what the catalog needs to know, and chooses the archetype. No code yet |
+| UC-2 | Set up | Plan → Code | Once the creator confirms the plan, the assistant generates the scaffold of the archetype: toolchain, strict TypeScript, git hooks, i18n and a11y in place |
+| UC-3 | Build | Code | The assistant follows the skills (general, per archetype, per topic) and gets fast feedback from the git hooks and our checks of the rules in scope |
+| UC-4 | Validate | Commit | The same deterministic checks run on the built or deployed app; a review agent in a fresh context judges what they cannot decide; the report is bound to one commit |
+| UC-5 | List | Commit | The assistant fetches the entry schema of the app overview, fills it from the plan and the validation report, and opens a pull request to lernapps/apps |
 
 Three kinds of apps (archetypes) shape every use case from the start:
 
