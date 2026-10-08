@@ -5,7 +5,7 @@
     "commit": "91c4012323f8fea68de701a8e078f1bcb010a70e"
   },
   "head": {
-    "label": "e64b7b3a34f8f0a063958a4cd927123df1daba54"
+    "label": "892a557865e2fa369b76005a75e81abb544a9778"
   },
   "acceptanceBase": "91c4012323f8fea68de701a8e078f1bcb010a70e",
   "untracked": [],
@@ -28,7 +28,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/02-constraints.arc42.md",
-          "line": 13
+          "line": 14
         },
         "section": {
           "file": "docs/arc42/02-constraints.arc42.md",
@@ -47,7 +47,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/02-constraints.arc42.md",
-          "line": 29
+          "line": 30
         },
         "section": {
           "file": "docs/arc42/02-constraints.arc42.md",
@@ -66,7 +66,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/02-constraints.arc42.md",
-          "line": 44
+          "line": 45
         },
         "section": {
           "file": "docs/arc42/02-constraints.arc42.md",
@@ -85,7 +85,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/02-constraints.arc42.md",
-          "line": 59
+          "line": 60
         },
         "section": {
           "file": "docs/arc42/02-constraints.arc42.md",
@@ -104,7 +104,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/02-constraints.arc42.md",
-          "line": 73
+          "line": 74
         },
         "section": {
           "file": "docs/arc42/02-constraints.arc42.md",
@@ -123,7 +123,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/02-constraints.arc42.md",
-          "line": 88
+          "line": 89
         },
         "section": {
           "file": "docs/arc42/02-constraints.arc42.md",
@@ -1354,7 +1354,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 16
+          "line": 13
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1373,7 +1373,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 33
+          "line": 30
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1392,7 +1392,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 50
+          "line": 47
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1411,7 +1411,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 66
+          "line": 63
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1430,7 +1430,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 83
+          "line": 80
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1449,7 +1449,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 100
+          "line": 97
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1468,7 +1468,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 116
+          "line": 113
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1487,7 +1487,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 132
+          "line": 129
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1506,7 +1506,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 148
+          "line": 145
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1525,7 +1525,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 164
+          "line": 161
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1544,7 +1544,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 180
+          "line": 177
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1563,7 +1563,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 196
+          "line": 193
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1582,7 +1582,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 213
+          "line": 210
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1601,7 +1601,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 228
+          "line": 225
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1613,20 +1613,20 @@
         }
       },
       {
-        "id": "dec-review-local-first",
+        "id": "dec-review-by-owner",
         "kind": "decision",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 244
+          "line": 241
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Review run by the owner first"
+            "The owner runs the review"
           ],
           "occurrence": 1
         }
@@ -1639,7 +1639,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 260
+          "line": 257
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1658,7 +1658,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 276
+          "line": 273
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1670,39 +1670,39 @@
         }
       },
       {
-        "id": "dec-feedback-deferred",
+        "id": "dec-tooling-sends-nothing",
         "kind": "decision",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 293
+          "line": 291
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Agent feedback deferred"
+            "The tooling sends nothing"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "dec-fact-sheet-later",
+        "id": "dec-report-per-commit",
         "kind": "decision",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 309
+          "line": 308
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Fact sheet and re-validation later"
+            "Every report is bound to a commit"
           ],
           "occurrence": 1
         }
@@ -1715,13 +1715,13 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 326
+          "line": 325
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "explainer pages rendered with Eleventy and TypeScript (proposed)"
+            "explainer pages rendered with Eleventy and TypeScript"
           ],
           "occurrence": 1
         }
@@ -1734,32 +1734,13 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 343
+          "line": 342
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Question types of the quiz (proposed)"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "dec-build-order",
-        "kind": "decision",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 360
-        },
-        "section": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "headingPath": [
-            "Architecture Decisions",
-            "Order of building (proposed)"
+            "Question types of the quiz"
           ],
           "occurrence": 1
         }
@@ -1772,7 +1753,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 36
+          "line": 34
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1791,7 +1772,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 50
+          "line": 48
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1810,7 +1791,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 64
+          "line": 63
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1829,7 +1810,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 78
+          "line": 77
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1848,7 +1829,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 92
+          "line": 91
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1867,7 +1848,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 105
+          "line": 104
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -3402,22 +3383,6 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-build-order",
-          "to": "qg-checked-not-declared",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dec-build-order",
-          "to": "qg-list-in-minutes",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
           "from": "dec-check-cli",
           "to": "con-frontend-only",
           "relation": "addresses"
@@ -3522,30 +3487,6 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-fact-sheet-later",
-          "to": "qg-checked-not-declared",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dec-feedback-deferred",
-          "to": "qg-nothing-collected",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dec-feedback-deferred",
-          "to": "risk-invisible-failures",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
           "from": "dec-five-layers",
           "to": "qg-checked-not-declared",
           "relation": "addresses"
@@ -3642,6 +3583,14 @@
       {
         "status": "added",
         "edge": {
+          "from": "dec-report-per-commit",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
           "from": "dec-review-agent",
           "to": "qg-checked-not-declared",
           "relation": "addresses"
@@ -3666,7 +3615,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-review-local-first",
+          "from": "dec-review-by-owner",
           "to": "con-one-owner",
           "relation": "addresses"
         }
@@ -3674,7 +3623,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-review-local-first",
+          "from": "dec-review-by-owner",
           "to": "risk-owner-bottleneck",
           "relation": "addresses"
         }
@@ -3772,6 +3721,22 @@
         "edge": {
           "from": "dec-templates-repo",
           "to": "qg-simple-to-build",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-tooling-sends-nothing",
+          "to": "qg-nothing-collected",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-tooling-sends-nothing",
+          "to": "risk-invisible-failures",
           "relation": "addresses"
         }
       },
@@ -4371,7 +4336,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 12
+          "line": 11
         }
       },
       {
@@ -4386,7 +4351,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 43
+          "line": 41
         }
       },
       {
@@ -4401,7 +4366,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 53
+          "line": 51
         }
       },
       {
@@ -4678,7 +4643,7 @@
         },
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 9
+          "line": 10
         }
       },
       {
@@ -4693,7 +4658,7 @@
         },
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 26
+          "line": 24
         }
       },
       {
@@ -4791,7 +4756,7 @@
       },
       {
         "file": "docs/arc42/09-decisions.arc42.md",
-        "added": 23,
+        "added": 22,
         "modified": 0,
         "removed": 0
       },
