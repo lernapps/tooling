@@ -170,7 +170,7 @@ title: An archetype in the evals
 quality: qg-few-iterations
 stimulus: The evals run a sample creator prompt for an archetype
 response: The assistant reaches an app that passes validation
-metric: At most N failed pre-push runs per app (source - evals, counter in the plan's front matter)
+metric: p90 of failed pre-push runs per app below 5 (source - evals, counter in the plan's front matter)
 :::
 ```
 
