@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Renovate preset of every lernapps repo: extends: [\"github>lernapps/tooling\"]",
+  "extends": ["github>mrsimpson/renovate-config"],
+  "packageRules": [
+    {
+      "description": "Our own building blocks (the shared chrome from lernapps.github.io, the actions in tooling) follow main at once and merge when green: they are git commits without a release date, and a change to them is meant to reach every site",
+      "matchDepNames": ["@lernapps/site", "lernapps/**"],
+      "minimumReleaseAge": "0 days",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "groupName": "lernapps building blocks"
+    }
+  ]
+}
