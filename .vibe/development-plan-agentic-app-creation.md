@@ -192,6 +192,9 @@ Apps change after they are listed; a validation does not stay true by itself.
   pinned in `package.json`, workspace `docs/arc42/` (`npm run arc42 -- <command>`, `npm run check` validates)
 - [x] Ch. 1 Introduction and goals: use cases UC-1 – UC-6, stakeholders (draft)
 - [x] Ch. 10 Quality requirements: five quality goals, seven scenarios (draft; metrics to be confirmed)
+- [x] Publish the architecture at lernapps.net/tooling/ (`pages.yml`) with a preview per pull request that
+  contains the arc42 diff and one comment listing the changes (`pr-preview.yml`, `scripts/review-summary.mjs`),
+  as in lernapps/docs
 
 ## Code
 
