@@ -52,5 +52,5 @@ quality catalog with priorities and measurable scenarios.
 | Review agent | agent run by the platform in a fresh context | A defined procedure, the deterministic checks as a starting point, a rubric per archetype |
 | Adopting adults | teachers and parents who use the app overview | Can trust the fitness signal of an entry: measured, not self-declared |
 | Learners | students, indirectly | Apps that run at once, collect nothing, and work with assistive technology and on a phone |
-| Mathe-Karte author | Ralf D. Müller ([@raifdmueller](https://github.com/raifdmueller)) | His skill, checks and review prompt are the source; his app may adopt the shared checks step by step, without being forced onto the scaffold |
+| Mathe-Karte author | Ralf D. Müller ([@raifdmueller](https://github.com/raifdmueller)) | His app, skill, checks and review prompt are the inspiration for the content archetype; whether the Mathe-Karte itself follows the tooling is out of scope for now |
 | Maintainers of the shared repos | `@lernapps/maintainers` | Few moving parts; one place per rule; Renovate carries changes to every repo |
