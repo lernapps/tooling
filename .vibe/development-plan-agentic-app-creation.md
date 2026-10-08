@@ -109,6 +109,9 @@ Creators use different agents (Claude Code, Codex, Cursor, claude.ai without a s
   deployed URL or a built bundle alone, so it also covers apps not built with our tooling.
 - **Decision**: The result is a report bound to the commit it reviewed. Its deterministic part provides the entry's
   `fitness` values, so they are measured, not self-declared.
+- **Decision** (2026-10-08): When the validation of a listing pull request fails, it posts the deterministic check
+  results as a comment, so the creator's assistant can fix the app from it. Target: half of the listing pull
+  requests pass on the first run, 7 of 8 on the second (`qs-first-listings`).
 - **Source**: `werkzeuge/review/ki-review.md` of the Mathe-Karte (verdict per head commit).
 
 ### KD-11: Content correctness is suggested, never a prerequisite
@@ -136,6 +139,8 @@ Apps are meant to be deployed outside lernapps.net's GitHub Pages as well.
   and scored with the checks and the review. This catches regressions when guidance changes and measures the MVP
   assumption `a-creators-list` ("creators list an app when it costs minutes"): time from the first prompt to an entry
   ready to list.
+- **Decision** (2026-10-08): The evals are run by hand with Claude Code, Codex and Gemini CLI, each with its
+  provider's latest model at the time of the run. No automated eval pipeline for now.
 
 ### KD-15: Re-validation of listed apps (later)
 Apps change after they are listed; a validation does not stay true by itself.
@@ -191,8 +196,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ## Plan
 
 ### Tasks
-- [ ] Owner review of the remaining `OPEN:` rows in `docs/arc42/architecture-evidence.md` (priorities, thresholds,
-  which assistants)
+- [ ] Owner review of the remaining `OPEN:` rows in `docs/arc42/architecture-evidence.md` (threshold of creator
+  decisions; N of failed pre-push runs after the first evals; the Mathe-Karte)
 - [ ] Ch. 2 Constraints: org rules, GitHub as means of production, frontend-only, MIT, English infrastructure
 - [ ] Ch. 3 Context: creator, creator's agent, operator answers, lernapps/apps (catalog), hosting, review agent
 - [ ] Ch. 4 Solution strategy: five layers × archetypes (KD-01, KD-02), promotion path (KD-12)
