@@ -62,7 +62,7 @@ Renovate bumps both.
 `default.json` is the preset of every lernapps repo (`"extends": ["github>lernapps/tooling"]`): the owner's
 defaults ([mrsimpson/renovate-config](https://github.com/mrsimpson/renovate-config): automerge of patch and
 minor after 3 days, majors by hand) plus one rule: our own building blocks (`@lernapps/site`, these actions)
-follow `main` at once and merge when green.
+follow `main` at once, at any time of the week (not only in the Saturday window), and merge when green.
 
 ## License
 
