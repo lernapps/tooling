@@ -167,7 +167,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 
 ### KD-17: The plan file ends with a retrospective
 - **Decision**: The plan template of the process guidance ends with a retrospective section the agent fills at the
-  end: phases reached, checks that failed and how often, questions to the creator, where it had to guess. The
+  end: phases reached, checks that failed and how often, the creator's turns after the plan was confirmed
+  (`qs-few-turns-after-plan`: at most 3), where it had to guess. The
   template explains each part in comments, so the plan file itself guides the agent. It stays in the creator's repo
   and reaches the platform only with a listing, where the review reads it. Cheap, and collects nothing.
 - **Deferred**: agent feedback sent to the platform with the creator's consent, as structured totals on the
@@ -205,8 +206,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ## Plan
 
 ### Tasks
-- [ ] Owner review of the remaining `OPEN:` rows in `docs/arc42/architecture-evidence.md` (threshold of creator
-  decisions; N of failed pre-push runs after the first evals; the Mathe-Karte)
+- [ ] Owner review of the remaining `OPEN:` rows in `docs/arc42/architecture-evidence.md` (N of failed
+  pre-push runs after the first evals; names of the archetypes)
 - [ ] Ch. 2 Constraints: org rules, GitHub as means of production, frontend-only, MIT, English infrastructure
 - [ ] Ch. 3 Context: creator, creator's agent, operator answers, lernapps/apps (catalog), hosting, review agent
 - [ ] Ch. 4 Solution strategy: five layers × archetypes (KD-01, KD-02), promotion path (KD-12)

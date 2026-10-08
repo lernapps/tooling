@@ -26,7 +26,7 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | owner, 2026-10-08 | Simplicity (qg-simple-to-build) and cost (qg-few-iterations) stay separate goals; the plan file ends with a retrospective section; agent feedback with consent is deferred (#8) | ch.10 | high | — |
 | owner, 2026-10-08 | Priorities: four high, three medium | ch.10 10.1 | high | — |
 | owner, 2026-10-08 | Half of the listing PRs pass validation on the first run; 7 of 8 on the second run, after a comment with the deterministic check results | ch.10 qs-first-listings | high | — |
-| agent inference | At most 4 creator decisions in 4 of the first 5 listings | ch.10 qs-few-decisions | low | OPEN: confirm the threshold |
+| owner, 2026-10-08 | Turns before the plan is agreed are good assistance and not counted; at most 3 creator turns after the confirmed plan | ch.10 qs-few-turns-after-plan | high | — |
 | agent inference | At most N failed pre-push runs per app in the evals | ch.10 qs-eval-iterations | low | OPEN: set N after the first eval runs |
 | owner, 2026-10-08 | Evals by hand with Claude Code, Codex and Gemini CLI, each with the latest model | ch.10 qs-other-assistant, measurement sources | high | — |
 | owner, 2026-10-08 | The Mathe-Karte's compliance with the tooling is out of scope for now; it is the inspiration for the content archetype | ch.1 1.3 | high | — |

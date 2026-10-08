@@ -125,18 +125,19 @@ priority: medium
 
 ## 10.2 Quality Scenarios
 
-## Few decisions for a new creator
+## Few turns after the plan
 
-The creator decides what matters and nothing else: scope, plan, publishing, listing.
+Turns before the plan is agreed are good assistance: the assistant explores the idea with the creator and asks what
+the catalog needs. Once the creator has confirmed the plan, the assistant should work on its own.
 
 ```arc42
 :::quality-scenario
-id: qs-few-decisions
-title: Few decisions for a new creator
+id: qs-few-turns-after-plan
+title: Few turns after the plan
 quality: qg-simple-to-build
-stimulus: A creator who has never used the tooling asks their assistant for a small app on one topic
-response: The assistant works through the plan phase by phase and asks the creator only at the defined checkpoints
-metric: At most 4 decisions by the creator in at least 4 of the first 5 listings (source - retrospective)
+stimulus: The creator confirms the plan at the end of the Plan phase
+response: The assistant builds, checks and prepares the listing on its own and comes back to the creator only for what it cannot decide
+metric: At most 3 creator turns from the confirmed plan to the listing pull request (source - retrospective)
 :::
 ```
 
