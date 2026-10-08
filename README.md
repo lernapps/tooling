@@ -15,7 +15,7 @@ Every site on lernapps.net is a static build in `_site/`, published on the repo'
 served by GitHub Pages under its path (`/`, `/apps/`, `/docs/`). Three composite actions do the work; the
 repos only hold two thin workflows that call them, with the same job names everywhere (`check`, `deploy`,
 `preview`). The contract with a repo: `npm ci`, then `npm run build` writes `_site/`, then `npm run check`
-checks it (`lernapps-check` from the shared chrome in lernapps.github.io).
+checks it (`lernapps-check` from the shared site frame in lernapps.github.io).
 
 | Action | Does |
 |---|---|
