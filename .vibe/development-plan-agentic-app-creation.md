@@ -192,6 +192,9 @@ Apps change after they are listed; a validation does not stay true by itself.
   pinned in `package.json`, workspace `docs/arc42/` (`npm run arc42 -- <command>`, `npm run check` validates)
 - [x] Ch. 1 Introduction and goals: use cases UC-1 – UC-6, stakeholders (draft)
 - [x] Ch. 10 Quality requirements: five quality goals, seven scenarios (draft; metrics to be confirmed)
+- [x] Publish the architecture at lernapps.net/tooling/ (`pages.yml`) with a preview per pull request that
+  contains the arc42 diff and one comment listing the changes (`pr-preview.yml`, `scripts/review-summary.mjs`),
+  as in lernapps/docs
 
 ## Code
 
@@ -203,6 +206,8 @@ Apps change after they are listed; a validation does not stay true by itself.
 - [ ] Skills: general rules, per archetype, third-party content (KD-08)
 - [ ] Formal validation: review prompt and report (KD-10)
 - [ ] Evals (KD-14)
+- [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6)): no shared header
+  on the arc42 diff page, own actions not exercised by this repo's workflows, `/tooling/` missing from `SITES`
 
 ### Completed
 
