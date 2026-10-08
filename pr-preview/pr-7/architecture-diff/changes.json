@@ -5,7 +5,7 @@
     "commit": "91c4012323f8fea68de701a8e078f1bcb010a70e"
   },
   "head": {
-    "label": "86a4e7bd6bd370cb8d7aa1dff23574c4226e4e40"
+    "label": "65a6ad5970d1e93baa3a7e3dd09a22f11b65fb13"
   },
   "acceptanceBase": "91c4012323f8fea68de701a8e078f1bcb010a70e",
   "untracked": [],
@@ -21,115 +21,191 @@
   "architecture": {
     "elements": [
       {
-        "id": "qg-low-effort",
+        "id": "qg-simple-to-build",
         "kind": "quality-goal",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 16
+          "line": 35
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "Low effort from idea to listing"
+            "Simple to build with guidance"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "qg-no-hidden-collection",
+        "id": "qg-list-in-minutes",
         "kind": "quality-goal",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 30
+          "line": 49
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "No hidden data collection"
+            "List in minutes"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "qg-trustworthy-validation",
+        "id": "qg-checked-not-declared",
         "kind": "quality-goal",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 43
+          "line": 63
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "Trustworthy validation"
+            "Checked, not declared"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "qg-agent-neutral",
+        "id": "qg-nothing-collected",
         "kind": "quality-goal",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 56
+          "line": 77
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "Works with any agent"
+            "Nothing collected in secret"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "qg-rules-stay-current",
+        "id": "qg-few-iterations",
         "kind": "quality-goal",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 69
+          "line": 91
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "Rules stay current in every app"
+            "Fewer iterations for the assistant"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "qs-first-app",
+        "id": "qg-any-assistant",
+        "kind": "quality-goal",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 104
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "Works through any assistant"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qg-guidance-evolves",
+        "kind": "quality-goal",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 119
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "The guidance evolves"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-few-decisions",
         "kind": "quality-scenario",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 83
+          "line": 133
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "First app of a new creator"
+            "Few decisions for a new creator"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-guidance-named",
+        "kind": "quality-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 148
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "Creators name the guidance"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-eval-iterations",
+        "kind": "quality-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 163
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "An archetype in the evals"
           ],
           "occurrence": 1
         }
@@ -142,7 +218,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 98
+          "line": 178
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -154,20 +230,20 @@
         }
       },
       {
-        "id": "qs-external-request",
+        "id": "qs-first-listings",
         "kind": "quality-scenario",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 113
+          "line": 193
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "An external request slips in"
+            "The first listings"
           ],
           "occurrence": 1
         }
@@ -180,7 +256,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 128
+          "line": 209
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -199,7 +275,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 143
+          "line": 224
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -211,20 +287,58 @@
         }
       },
       {
-        "id": "qs-other-agent",
+        "id": "qs-external-request",
         "kind": "quality-scenario",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 158
+          "line": 239
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "A creator uses another agent"
+            "An external request slips in"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-tooling-silent",
+        "kind": "quality-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 254
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "A session with the tooling"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-other-assistant",
+        "kind": "quality-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 269
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "A creator uses another assistant"
           ],
           "occurrence": 1
         }
@@ -237,13 +351,32 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 173
+          "line": 284
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
             "A rule changes"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-practice-contributed",
+        "kind": "quality-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 299
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "A creator contributes a practice"
           ],
           "occurrence": 1
         }
@@ -255,7 +388,15 @@
         "status": "added",
         "edge": {
           "from": "qs-actionable-failure",
-          "to": "qg-low-effort",
+          "to": "qg-few-iterations",
+          "relation": "elaborates"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "qs-eval-iterations",
+          "to": "qg-few-iterations",
           "relation": "elaborates"
         }
       },
@@ -263,15 +404,23 @@
         "status": "added",
         "edge": {
           "from": "qs-external-request",
-          "to": "qg-no-hidden-collection",
+          "to": "qg-nothing-collected",
           "relation": "elaborates"
         }
       },
       {
         "status": "added",
         "edge": {
-          "from": "qs-first-app",
-          "to": "qg-low-effort",
+          "from": "qs-few-decisions",
+          "to": "qg-simple-to-build",
+          "relation": "elaborates"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "qs-first-listings",
+          "to": "qg-list-in-minutes",
           "relation": "elaborates"
         }
       },
@@ -279,15 +428,31 @@
         "status": "added",
         "edge": {
           "from": "qs-foreign-app",
-          "to": "qg-trustworthy-validation",
+          "to": "qg-checked-not-declared",
           "relation": "elaborates"
         }
       },
       {
         "status": "added",
         "edge": {
-          "from": "qs-other-agent",
-          "to": "qg-agent-neutral",
+          "from": "qs-guidance-named",
+          "to": "qg-simple-to-build",
+          "relation": "elaborates"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "qs-other-assistant",
+          "to": "qg-any-assistant",
+          "relation": "elaborates"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "qs-practice-contributed",
+          "to": "qg-guidance-evolves",
           "relation": "elaborates"
         }
       },
@@ -295,7 +460,7 @@
         "status": "added",
         "edge": {
           "from": "qs-repeatable-validation",
-          "to": "qg-trustworthy-validation",
+          "to": "qg-checked-not-declared",
           "relation": "elaborates"
         }
       },
@@ -303,7 +468,15 @@
         "status": "added",
         "edge": {
           "from": "qs-rule-change",
-          "to": "qg-rules-stay-current",
+          "to": "qg-guidance-evolves",
+          "relation": "elaborates"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "qs-tooling-silent",
+          "to": "qg-nothing-collected",
           "relation": "elaborates"
         }
       }
@@ -365,7 +538,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 43
+          "line": 45
         }
       },
       {
@@ -388,13 +561,28 @@
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
+            "How the scenarios are measured"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 9
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
             "10.1 Quality Goals"
           ],
           "occurrence": 1
         },
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 7
+          "line": 25
         }
       },
       {
@@ -409,7 +597,7 @@
         },
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 76
+          "line": 126
         }
       }
     ],
@@ -422,7 +610,7 @@
       },
       {
         "file": "docs/arc42/10-quality-requirements.arc42.md",
-        "added": 15,
+        "added": 23,
         "modified": 0,
         "removed": 0
       }
