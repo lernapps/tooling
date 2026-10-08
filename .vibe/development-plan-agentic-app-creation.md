@@ -172,10 +172,7 @@ Apps change after they are listed; a validation does not stay true by itself.
 ## Plan
 
 ### Tasks
-- [ ] Set up arc42 in this repo with the skill `arc42-language` (doctoolchain/arc42-language), following
-  `arc42 guide chapter <n>` per chapter
-- [ ] Ch. 1 Introduction and goals: the creator's job, quality goals (agent reaches a listable app in few iterations,
-  no hidden data collection, works with any agent, guidance stays current)
+- [ ] Owner review of ch. 1 and ch. 10: the `OPEN:` rows in `docs/arc42/architecture-evidence.md`
 - [ ] Ch. 2 Constraints: org rules, GitHub as means of production, frontend-only, MIT, English infrastructure
 - [ ] Ch. 3 Context: creator, creator's agent, operator answers, lernapps/apps (catalog), hosting, review agent
 - [ ] Ch. 4 Solution strategy: five layers × archetypes (KD-01, KD-02), promotion path (KD-12)
@@ -186,11 +183,15 @@ Apps change after they are listed; a validation does not stay true by itself.
 - [ ] Ch. 8 Cross-cutting concepts: plan file, human checkpoints, error messages for agents, i18n, a11y, third-party
   content
 - [ ] Ch. 9 Decisions: carry KD-03 – KD-13 over as ADRs where they are architecture decisions
-- [ ] Ch. 10 – 11 Quality scenarios and risks (vite-plus before 1.0, agents skipping phases, schema drift)
+- [ ] Ch. 11 Risks (vite-plus before 1.0, agents skipping phases, schema drift)
 - [ ] Settle the open points of KD-02 and KD-05 with the owner
 - [ ] Order of building for the Code phase, smallest useful slice first
 
 ### Completed
+- [x] Set up arc42 in this repo: skill `arc42-language` in `.agents/skills/` (`skills-lock.json`), CLI `@doctc/arc42`
+  pinned in `package.json`, workspace `docs/arc42/` (`npm run arc42 -- <command>`, `npm run check` validates)
+- [x] Ch. 1 Introduction and goals: use cases UC-1 – UC-6, stakeholders (draft)
+- [x] Ch. 10 Quality requirements: five quality goals, seven scenarios (draft; metrics to be confirmed)
 
 ## Code
 

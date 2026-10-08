@@ -1,0 +1,14 @@
+{
+  "name": "lernapps-tooling",
+  "private": true,
+  "type": "module",
+  "description": "Shared tooling of the lernapps.net apps and sites: site actions, Renovate preset, guidance for building apps",
+  "scripts": {
+    "arc42": "arc42 --dir docs/arc42",
+    "check": "arc42 --dir docs/arc42 validate"
+  },
+  "devDependencies": {
+    "@doctc/arc42": "0.36.1"
+  },
+  "license": "MIT"
+}
