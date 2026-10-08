@@ -29,4 +29,4 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | agent inference | At most 4 creator decisions in 4 of the first 5 listings | ch.10 qs-few-decisions | low | OPEN: confirm the threshold |
 | agent inference | At most N failed pre-push runs per app in the evals | ch.10 qs-eval-iterations | low | OPEN: set N after the first eval runs |
 | owner, 2026-10-08 | Evals by hand with Claude Code, Codex and Gemini CLI, each with the latest model | ch.10 qs-other-assistant, measurement sources | high | — |
-| agent inference | The Mathe-Karte may adopt the shared checks without moving onto a scaffold | ch.1 1.3 | low | OPEN: confirm with the Mathe-Karte author |
+| owner, 2026-10-08 | The Mathe-Karte's compliance with the tooling is out of scope for now; it is the inspiration for the content archetype | ch.1 1.3 | high | — |
