@@ -5,7 +5,7 @@
     "commit": "91c4012323f8fea68de701a8e078f1bcb010a70e"
   },
   "head": {
-    "label": "8b1bf4e67f2c26862f6b19941ac2d26b339b73a5"
+    "label": "041012c3a0fa5b57c3f21491f0932bd8ee904036"
   },
   "acceptanceBase": "91c4012323f8fea68de701a8e078f1bcb010a70e",
   "untracked": [],
@@ -28,7 +28,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 35
+          "line": 36
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -47,7 +47,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 49
+          "line": 50
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -66,7 +66,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 63
+          "line": 64
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -85,7 +85,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 77
+          "line": 78
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -104,7 +104,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 91
+          "line": 92
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -123,7 +123,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 104
+          "line": 105
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -142,7 +142,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 119
+          "line": 120
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -161,7 +161,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 134
+          "line": 135
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -180,7 +180,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 149
+          "line": 150
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -199,7 +199,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 164
+          "line": 167
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -218,7 +218,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 179
+          "line": 182
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -237,7 +237,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 195
+          "line": 198
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -256,7 +256,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 211
+          "line": 214
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -275,7 +275,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 226
+          "line": 229
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -294,7 +294,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 241
+          "line": 244
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -313,7 +313,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 256
+          "line": 259
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -332,7 +332,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 271
+          "line": 274
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -351,7 +351,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 286
+          "line": 289
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -370,7 +370,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 301
+          "line": 304
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -523,7 +523,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 36
+          "line": 40
         }
       },
       {
@@ -538,7 +538,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 46
+          "line": 50
         }
       },
       {
@@ -582,7 +582,7 @@
         },
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 25
+          "line": 26
         }
       },
       {
@@ -597,7 +597,7 @@
         },
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 126
+          "line": 127
         }
       }
     ],
