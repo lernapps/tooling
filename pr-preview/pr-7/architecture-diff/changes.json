@@ -5,7 +5,7 @@
     "commit": "91c4012323f8fea68de701a8e078f1bcb010a70e"
   },
   "head": {
-    "label": "108ab132dc109c42b6938c1002e7069ea1860676"
+    "label": "8b1bf4e67f2c26862f6b19941ac2d26b339b73a5"
   },
   "acceptanceBase": "91c4012323f8fea68de701a8e078f1bcb010a70e",
   "untracked": [],
@@ -154,20 +154,20 @@
         }
       },
       {
-        "id": "qs-few-decisions",
+        "id": "qs-few-turns-after-plan",
         "kind": "quality-scenario",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 133
+          "line": 134
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
-            "Few decisions for a new creator"
+            "Few turns after the plan"
           ],
           "occurrence": 1
         }
@@ -180,7 +180,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 148
+          "line": 149
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -199,7 +199,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 163
+          "line": 164
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -218,7 +218,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 178
+          "line": 179
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -237,7 +237,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 194
+          "line": 195
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -256,7 +256,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 210
+          "line": 211
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -275,7 +275,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 225
+          "line": 226
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -294,7 +294,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 240
+          "line": 241
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -313,7 +313,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 255
+          "line": 256
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -332,7 +332,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 270
+          "line": 271
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -351,7 +351,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 285
+          "line": 286
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -370,7 +370,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 300
+          "line": 301
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -411,7 +411,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "qs-few-decisions",
+          "from": "qs-few-turns-after-plan",
           "to": "qg-simple-to-build",
           "relation": "elaborates"
         }
