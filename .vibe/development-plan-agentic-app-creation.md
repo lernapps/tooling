@@ -237,9 +237,11 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ## Code
 
 ### Tasks
-*Order of building (proposed, to be confirmed): the check defines "done" for every archetype, and the quiz needs
-the least from creators. Each step with its rules in the catalog, skills and evals.*
-- [ ] Package `@lernapps/tooling` at the repo root: TypeScript, CLI `lernapps`, Renovate preset unchanged
+*Order of building: the tooling's own build first (owner, 2026-10-08); the rest proposed, to be confirmed: the check
+defines "done" for every archetype, and the quiz needs the least from creators. Each step with its rules in the catalog, skills and evals.*
+- [ ] The tooling's own build first: package `@lernapps/tooling` at the repo root with strict TypeScript,
+  vite-plus (lint, format, type check, test, staged), git hooks and a `check` workflow in CI, the CLI `lernapps`
+  as an empty shell; the tooling is built with the same conventions it gives apps (owner, 2026-10-08)
 - [ ] Rule catalog with schema and the first rules (listing, site), generated rule page on the docs site
 - [ ] Check CLI: static mode, browser mode, validation report and its published schema; messages for agents
 - [ ] Shared preset: vite-plus config, strict `tsconfig`, lint rules, git hooks with the `prePushFailures` counter
