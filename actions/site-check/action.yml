@@ -1,0 +1,33 @@
+name: lernapps site check
+description: >-
+  Builds a lernapps.net site and checks the output, the same way for every site: checkout, Node 22,
+  npm ci, npm run build, npm run check. On main it uploads _site/ as the artifact "site" for site-deploy.
+inputs:
+  fetch-depth:
+    description: Commits to fetch (0 for the docs, whose build compares with the base branch)
+    default: "1"
+  upload:
+    description: Upload _site/ as the artifact "site" (default on main)
+    default: ${{ github.ref == 'refs/heads/main' }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        fetch-depth: ${{ inputs.fetch-depth }}
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: 22
+        cache: npm
+    - run: npm ci
+      shell: bash
+    - run: npm run build
+      shell: bash
+    - run: npm run check
+      shell: bash
+    - if: inputs.upload == 'true'
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: site
+        path: _site
+        include-hidden-files: true # .nojekyll
