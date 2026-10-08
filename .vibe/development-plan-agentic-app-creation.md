@@ -213,8 +213,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ## Plan
 
 ### Tasks
-- [ ] Owner review of the proposed decisions: `dec-explainer-rendering`, `dec-quiz-question-types`,
-  `dec-build-order` (`OPEN:` rows in `docs/arc42/architecture-evidence.md`)
+- [ ] Owner review of the proposed decisions `dec-explainer-rendering` and `dec-quiz-question-types`, and of the
+  order of building in the Code phase
 - [ ] Update lernapps/.github#12 to the agreed architecture
 
 ### Completed
@@ -237,7 +237,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ## Code
 
 ### Tasks
-*Order per `dec-build-order` (proposed); each step with its rules in the catalog, skills and evals.*
+*Order of building (proposed, to be confirmed): the check defines "done" for every archetype, and the quiz needs
+the least from creators. Each step with its rules in the catalog, skills and evals.*
 - [ ] Package `@lernapps/tooling` at the repo root: TypeScript, CLI `lernapps`, Renovate preset unchanged
 - [ ] Rule catalog with schema and the first rules (listing, site), generated rule page on the docs site
 - [ ] Check CLI: static mode, browser mode, validation report and its published schema; messages for agents

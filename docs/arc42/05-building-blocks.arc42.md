@@ -3,8 +3,8 @@
 The tooling is one package, `@lernapps/tooling`, at the root of lernapps/tooling, installed by apps from git at a
 commit of `main` and kept current by Renovate, like the site frame `@lernapps/site` (decision `dec-one-package`).
 Its parts are subpath exports and CLI commands of that package. Two blocks live in other repos: the archetype
-templates in lernapps/app-template and the listing validation in lernapps/apps. Planned folders are named in the prose;
-`path` is set only where the code exists.
+templates in lernapps/app-template and the listing validation in lernapps/apps. Folders inside the package are named in
+the prose.
 
 ## Level 1
 
@@ -277,7 +277,7 @@ implements: concept-agent-messages, concept-measurement
 
 #### explainer
 
-Content-heavy apps after the Mathe-Karte: one page per topic with explanation, picture and generated exercises, a
+Content-heavy apps: one page per topic with explanation, picture and generated exercises, a
 start and a test page, every page readable without JavaScript. Pages are rendered at build time from TypeScript
 sources; exercise generators and checkers are pure, tested functions; `llms.txt` and a tutor link make the app usable
 with an AI tutor. How pages are rendered from TypeScript is decided in `dec-explainer-rendering`.

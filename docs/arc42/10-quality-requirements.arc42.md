@@ -1,15 +1,16 @@
 # Quality Requirements
 
 The quality goals below decide between conflicting requirements of the app-creation tooling. Each one is grounded
-in the platform design (<https://lernapps.net/docs/platform-design/>): the value proposition of the creators'
-journey `x-list-and-hear-back` ("Build your app faster with good guidance, list it in minutes"), the gains of the
-partner role `e-ai-assistants`, the channels `ch-listing`, `ch-fitness-signal` and `ch-feedback`, and the decision
-that nothing is collected in secret (KD-18 of the platform design).
+in the platform design: the value proposition of the creators' journey
+[list an app and hear it is used](https://lernapps.net/docs/platform-design/#2-design/d7-experiences.pdt42.md:el-x-list-and-hear-back) ("Build your app faster with good guidance, list it in minutes"),
+the gains of [AI assistants](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-ai-assistants), and the channels [effortless listing](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-ch-listing),
+[visible fitness for use](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-ch-fitness-signal) and [returning use and praise to creators](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-ch-feedback), which
+also states that nothing is collected in secret.
 
 ## How the scenarios are measured
 
-We cannot observe other people's AI assistants, and the platform collects nothing in secret. As in the MVP (D8),
-the scenarios are learning tests with small absolute numbers, not statistics. Each metric names its source:
+We cannot observe other people's AI assistants, and the platform collects nothing in secret. As in the
+[MVP](https://lernapps.net/docs/platform-design/#2-design/d8-mvp.pdt42.md), the scenarios are learning tests with small absolute numbers, not statistics. Each metric names its source:
 
 - **Evals**: we run Claude Code, Codex and Gemini CLI ourselves, by hand, with each provider's latest model, on
   sample creator prompts, one set per archetype. The only source for iterations and for comparing assistants.
@@ -18,17 +19,14 @@ the scenarios are learning tests with small absolute numbers, not statistics. Ea
   creator's turns after the plan, where it had to guess), and the counters the git hooks keep in the plan's front
   matter (failed pre-push runs). It stays in the creator's repo and reaches the platform only with a
   listing.
-- **Conversations**: the owner talks to each creator after listing (D8 `a-creators-unpaid`).
-
-Agent feedback sent with the creator's consent would add sessions that never reach a listing; it is deferred until
-the anonymous thanks service exists ([lernapps/tooling#8](https://github.com/lernapps/tooling/issues/8)).
+- **Conversations**: the owner talks to each creator after listing ([creators contribute without payment](https://lernapps.net/docs/platform-design/#2-design/d8-mvp.pdt42.md:el-a-creators-unpaid)).
 
 ## 10.1 Quality Goals
 
 ## Simple to build with guidance
 
-Creators have little time and build alongside their actual job (`e-creators` pressure "Little time"); the
-journey promises to "build your app faster with good guidance" (`x-list-and-hear-back`). This goal is about
+Creators have little time and build alongside their actual job ([app creators](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-creators)); the
+journey promises to "build your app faster with good guidance" ([list an app and hear it is used](https://lernapps.net/docs/platform-design/#2-design/d7-experiences.pdt42.md:el-x-list-and-hear-back)). This goal is about
 simplicity for the creator: few, clear decisions, the next step always known, no need to know the platform's rules
 or the toolchain. When it conflicts with flexibility, simplicity wins: fewer choices, stricter defaults.
 
@@ -42,9 +40,9 @@ priority: high
 
 ## List in minutes
 
-Reach is no reason for creators to start (D4), so the first listing has to cost almost nothing: "Contributing an
-app takes minutes" (`ch-listing`, `s-listing-help`). This tests the riskiest assumption of the MVP,
-`a-creators-list`.
+Reach is no reason for creators to start ([relationships](https://lernapps.net/docs/platform-design/#2-design/d4-relationships.pdt42.md)), so the first listing has to cost almost nothing: "Contributing an
+app takes minutes" ([effortless listing](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-ch-listing), [help to list an app](https://lernapps.net/docs/platform-design/#2-design/d6-learning-engine.pdt42.md:el-s-listing-help)). It serves the riskiest
+assumption of the MVP, [creators list an app when it costs minutes](https://lernapps.net/docs/platform-design/#2-design/d8-mvp.pdt42.md:el-a-creators-list).
 
 ```arc42
 :::quality-goal
@@ -57,7 +55,8 @@ priority: high
 ## Checked, not declared
 
 Adults decide whether to use an app from its listing; what an app sends to third parties is "checked rather than
-declared" (`ch-fitness-signal`). Teachers use an app without checking it themselves (`a-trust-built-in`), so the
+declared" ([visible fitness for use](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-ch-fitness-signal)). Teachers use an app without checking it themselves
+([teachers use an app without checking it themselves](https://lernapps.net/docs/platform-design/#2-design/d8-mvp.pdt42.md:el-a-trust-built-in)), so the
 validation must be trustworthy: reproducible, bound to one commit, and the same for apps not built with the tooling.
 
 ```arc42
@@ -70,9 +69,9 @@ priority: high
 
 ## Nothing collected in secret
 
-The apps collect nothing and stay frontend-only (KD-18). The tooling follows the same rule towards creators:
+The apps collect nothing and stay frontend-only ([returning use and praise to creators](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-ch-feedback)). The tooling follows the same rule towards creators:
 it sends nothing about a creator, an app or a session without the creator's explicit consent, and then only
-structured totals (`ch-feedback`). When this conflicts with features or convenience, it wins.
+structured totals. When this conflicts with features or convenience, it wins.
 
 ```arc42
 :::quality-goal
@@ -84,7 +83,7 @@ priority: high
 
 ## Fewer iterations for the assistant
 
-AI assistants want to "reach a working app with fewer iterations and less guessing" (`e-ai-assistants`
+AI assistants want to "reach a working app with fewer iterations and less guessing" ([AI assistants](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-ai-assistants),
 convenience gain). This goal is about cost: every iteration costs the creator time and money for their assistant.
 Fast, precise feedback and a scaffold that already meets the rules keep iterations down.
 
@@ -98,7 +97,7 @@ priority: medium
 
 ## Works through any assistant
 
-"Whatever lernapps.net offers creators has to work through their AI assistants" (`e-ai-assistants`), and the
+"Whatever lernapps.net offers creators has to work through their AI assistants" ([AI assistants](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-ai-assistants)), and the
 providers compete. Guidance and enforcement must not depend on one vendor, an MCP server or agent-specific hooks.
 
 ```arc42
@@ -112,7 +111,8 @@ priority: medium
 ## The guidance evolves
 
 Maintaining the guidance is an activity of the creators' journey, paid with the owner's time
-(`x-list-and-hear-back`), and experienced creators bring their own practices into it (`s-contribute-practices`).
+([list an app and hear it is used](https://lernapps.net/docs/platform-design/#2-design/d7-experiences.pdt42.md:el-x-list-and-hear-back)), and experienced creators bring their own practices into it
+([contributing best practices](https://lernapps.net/docs/platform-design/#2-design/d6-learning-engine.pdt42.md:el-s-contribute-practices)).
 A rule lives in one place; a change reaches every app through its dependency updates, and is tested before it
 reaches creators.
 
@@ -144,7 +144,7 @@ metric: At most 3 creator turns from the confirmed plan to the listing pull requ
 
 ## Creators name the guidance
 
-The creators' own view is the main source in the MVP (D8).
+The creators' own view is the main source in the [MVP](https://lernapps.net/docs/platform-design/#2-design/d8-mvp.pdt42.md).
 
 ```arc42
 :::quality-scenario
@@ -207,8 +207,8 @@ metric: Half of the listing pull requests pass validation on the first run, 7 of
 
 ## An app not built with the tooling
 
-Some creators already have an app, e.g. a claude.ai artifact or a site of their own; the Mathe-Karte builds with
-Eleventy.
+Some creators already have an app, e.g. a chat assistant's artifact, a site of their own or an app built with
+another toolchain.
 
 ```arc42
 :::quality-scenario
@@ -283,7 +283,7 @@ metric: The evals pass with Claude Code, Codex and Gemini CLI, each with its pro
 
 ## A rule changes
 
-A template copied once drifts; the scaffold therefore refers to versioned packages (plan KD-05).
+A template copied once drifts; the scaffold therefore refers to the versioned package (`dec-one-package`).
 
 ```arc42
 :::quality-scenario
@@ -298,7 +298,7 @@ metric: No file in an app repo has to be edited by hand to receive the change (s
 
 ## A creator contributes a practice
 
-Whoever shapes the guidance shapes the platform (`s-contribute-practices`).
+Whoever shapes the guidance shapes the platform ([contributing best practices](https://lernapps.net/docs/platform-design/#2-design/d6-learning-engine.pdt42.md:el-s-contribute-practices)).
 
 ```arc42
 :::quality-scenario

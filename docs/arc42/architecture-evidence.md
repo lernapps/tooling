@@ -9,15 +9,15 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | lernapps/docs `docs/pdt42/2-design/d1-ecosystem.pdt42.md:16,31` | GitHub is the means of production; "Agent guidance and starter templates" are part of the platform's infrastructure | ch.1 intro | high | — |
 | lernapps/.github issue #12 | Goal: a creator builds an app with their AI assistant, and it comes out static, frontend-only, collecting nothing, and ready to list | ch.1 1.1 | high | — |
 | `.vibe/development-plan-agentic-app-creation.md` KD-01 | Five layers: process guidance, scaffolding, conventions, deterministic verification, formal validation | ch.1 UC-1 – UC-5 | high | — |
-| plan KD-02, owner 2026-10-08 | Archetypes `explainer` (Mathe-Karte as inspiration), `interactive`, `quiz` (deep scaffold: only questions and options supplied); named after their character; TypeScript everywhere, strictly enforced | ch.1 1.1 | high | — |
+| plan KD-02, owner 2026-10-08 | Archetypes `explainer`, `interactive`, `quiz` (deep scaffold: only questions and options supplied); named after their character; TypeScript everywhere, strictly enforced | ch.1 1.1 | high | — |
 | plan KD-03 | EPCC plan in a Markdown file; agent asks the creator what the catalog needs | ch.1 UC-1 | high | — |
 | plan KD-04; lernapps/apps `schemas/entry.js` | The agent fetches the entry schema and fills it; the guidance does not repeat its fields | ch.1 UC-6 | high | — |
 | plan KD-13, KD-15 | Fact sheet with deployment from the entry's commit, and re-validation, are later increments | ch.1 1.1 out of scope | high | — |
 | lernapps/docs `d8-mvp.pdt42.md` `a-creators-list` | Creators list an app when it costs minutes; 5–10 creators the owner knows | ch.1 1.3, ch.10 qg-list-in-minutes | high | — |
 | lernapps/docs `.vibe/development-plan-feat-platform-design.md` KD-11 | AI assistants seek to reach a working app with fewer iterations; instructions and scaffolding are the platform's offer to them | ch.1 1.3, ch.10 qg-few-iterations | high | — |
 | lernapps/docs plan KD-18; lernapps/.github `ORGANIZATION.md` "Every page, in every repo" | No cookies, no tracking, no requests to other servers before a click | ch.10 qg-nothing-collected, qs-external-request | high | — |
-| lernapps/.github `ORGANIZATION.md` "Where to find what", `GOVERNANCE.md` | Oliver Jägle owns the platform and decides listing; Ralf D. Müller authors the Mathe-Karte | ch.1 1.3 | high | — |
-| lernapps/mathe-karte `werkzeuge/skill/lern-app/SKILL.md`, `werkzeuge/review/ki-review.md`, `e2e/` | Source of the skill, the review procedure and the browser checks to generalise | ch.1 1.3 | high | — |
+| lernapps/.github `ORGANIZATION.md` "Where to find what", `GOVERNANCE.md` | Oliver Jägle owns the platform and decides listing | ch.1 1.3 | high | — |
+| lernapps/mathe-karte `werkzeuge/skill/lern-app/SKILL.md`, `werkzeuge/review/ki-review.md`, `e2e/` | An existing app's skill, review procedure and browser checks, generalised for the archetypes | ch.5 | high | — |
 | lernapps/docs `d7-experiences.pdt42.md` `x-list-and-hear-back` value proposition, activities, costs | "Build your app faster with good guidance, list it in minutes"; maintaining the guidance costs the owner's time | ch.10 qg-simple-to-build, qg-list-in-minutes, qg-guidance-evolves | high | — |
 | lernapps/docs `e2-scan.pdt42.md` `e-ai-assistants` | Convenience gain "fewer iterations and less guessing"; "whatever lernapps.net offers creators has to work through their AI assistants"; providers compete | ch.10 qg-few-iterations, qg-any-assistant | high | — |
 | lernapps/docs `d5-transactions.pdt42.md` `ch-listing`, `ch-fitness-signal`, `ch-feedback` | Listing takes minutes; fitness checked rather than declared; only explicit clicks and totals, no free text | ch.10 qg-list-in-minutes, qg-checked-not-declared, qg-nothing-collected | high | — |
@@ -30,12 +30,12 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | owner, 2026-10-08 | The pre-push hook counts its failed runs in the plan's front matter | ch.10 qs-eval-iterations, measurement sources | high | — |
 | owner, 2026-10-08 | p90 of failed pre-push runs per app below 5 | ch.10 qs-eval-iterations | high | — |
 | owner, 2026-10-08 | Evals by hand with Claude Code, Codex and Gemini CLI, each with the latest model | ch.10 qs-other-assistant, measurement sources | high | — |
-| owner, 2026-10-08 | The Mathe-Karte's compliance with the tooling is out of scope for now; it is the inspiration for the content archetype | ch.1 1.3 | high | — |
+| owner, 2026-10-08 | The architecture names no single app; existing apps are implementations of an archetype, not its definition | ch.1, ch.5 | high | — |
 | ORGANIZATION.md "Rules across repos", "Every page, in every repo", "Language", "License"; GOVERNANCE.md | Constraints: page rules, GitHub as means of production, one owner, languages and licence | ch.2 | high | — |
 | lernapps.github.io `package.json`, `site-frame/README.md` | `@lernapps/site` is one root package installed from git; `lernapps-check` checks site rules | ch.5 dec-one-package, dec-check-cli | high | — |
 | owner, 2026-10-08 | Agreed proposals: one package from git; templates in lernapps/app-template; browser checks in CI; review run by the owner first; `lernapps-check` stays in the site frame and is called by the check CLI | ch.5, ch.7, ch.9 | high | — |
 | owner, 2026-10-08 | Rule model: one term "rule" with scope, severity (error, warning, hint) and enforcement; listing rules never warnings | ch.8 concept-rule-model, ch.9 dec-rule-model | high | — |
 | agent inference | explainer pages rendered with Eleventy 3 and TypeScript through Node's type stripping | ch.9 dec-explainer-rendering | low | OPEN: confirm, after a prototype |
 | agent inference | Quiz question types: single choice, multiple choice, true/false, number, ordering, matching | ch.9 dec-quiz-question-types | low | OPEN: confirm the set |
-| agent inference | Order of building: rule catalog and check CLI, shared preset and hooks, quiz, explainer, interactive | ch.9 dec-build-order | low | OPEN: confirm the order |
 | agent inference | Package layout (`rules/`, `guidance/`, `skills/`, `archetypes/`, `lint/`, `check/`, `review/`, `evals/`), CLI `lernapps create` / `lernapps check`, plan file at `.vibe/plan.md` with `prePushFailures` | ch.5, ch.8 | medium | — |
+| owner, 2026-10-08 | The architecture describes no progress and quotes no ids of other documents; direct cross references to the platform design are deep links to its rendered pages | all chapters | high | — |
