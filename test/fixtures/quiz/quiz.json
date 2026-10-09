@@ -1,0 +1,69 @@
+{
+  "$schema": "https://lernapps.net/tooling/schemas/quiz.v1.schema.json",
+  "title": "Quiz: Längen und Zeit",
+  "intro": "Sechs Fragen zum Umrechnen von Längen und Zeiten, für die Klasse 5.",
+  "rememberLastResult": true,
+  "questions": [
+    {
+      "id": "meter",
+      "type": "single-choice",
+      "text": "Wie viele Zentimeter hat ein Meter?",
+      "options": [
+        { "text": "10", "correct": false, "feedback": "10 Zentimeter sind ein Dezimeter." },
+        { "text": "100", "correct": true, "feedback": "Genau: Zenti heißt ein Hundertstel." },
+        { "text": "1000", "correct": false, "feedback": "1000 Millimeter sind ein Meter, nicht 1000 Zentimeter." }
+      ],
+      "explanation": "Zenti bedeutet ein Hundertstel: 1 cm ist der hundertste Teil von 1 m."
+    },
+    {
+      "id": "laengen",
+      "type": "multiple-choice",
+      "text": "Welche Einheiten messen eine Länge? Wähle alle passenden.",
+      "options": [
+        { "text": "Kilometer", "correct": true, "feedback": "Richtig: 1 km sind 1000 m." },
+        { "text": "Sekunde", "correct": false, "feedback": "Eine Sekunde misst eine Zeit." },
+        { "text": "Millimeter", "correct": true, "feedback": "Richtig: 1 mm ist ein Tausendstel Meter." },
+        { "text": "Gramm", "correct": false, "feedback": "Gramm misst ein Gewicht." }
+      ],
+      "explanation": "Kilometer und Millimeter sind Längen, Sekunde ist eine Zeit und Gramm ein Gewicht."
+    },
+    {
+      "id": "stunde",
+      "type": "true-false",
+      "text": "Eine Stunde hat 100 Minuten.",
+      "answer": false,
+      "feedback": {
+        "true": "Bei der Zeit rechnet man nicht mit 100: Eine Stunde hat 60 Minuten.",
+        "false": "Genau: Eine Stunde hat 60 Minuten."
+      },
+      "explanation": "Eine Stunde hat 60 Minuten, eine Minute 60 Sekunden."
+    },
+    {
+      "id": "schritt",
+      "type": "number",
+      "text": "Ein Schritt ist etwa 0,75 m lang. Wie viele Meter sind 4 Schritte? Runde auf eine Stelle nach dem Komma.",
+      "answer": 3,
+      "tolerance": 0.05,
+      "unit": "m",
+      "explanation": "4 · 0,75 m = 3 m."
+    },
+    {
+      "id": "zeiten",
+      "type": "ordering",
+      "text": "Ordne die Zeiten von der kürzesten zur längsten.",
+      "items": ["1 Minute", "1 Stunde", "1 Tag", "1 Woche"],
+      "explanation": "1 Minute ist kürzer als 1 Stunde, 1 Stunde kürzer als 1 Tag und 1 Tag kürzer als 1 Woche."
+    },
+    {
+      "id": "abkuerzungen",
+      "type": "matching",
+      "text": "Welche Abkürzung gehört zu welcher Einheit?",
+      "pairs": [
+        { "left": "Kilometer", "right": "km" },
+        { "left": "Zentimeter", "right": "cm" },
+        { "left": "Millimeter", "right": "mm" }
+      ],
+      "explanation": "Die Abkürzung nimmt den Anfang der Vorsilbe und m für Meter."
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-// The CLI `lernapps`: one entry for the tooling's commands. Today only `check`, which runs every deterministic
-// check: in a repo the toolchain (format, lint, types; unit tests, build, end-to-end tests) and the checks of the
-// built app, or the checks of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML.
+// The CLI `lernapps`: one entry for the tooling's commands. `check` runs every deterministic check: in a repo the
+// toolchain (format, lint, types; unit tests, build, end-to-end tests) and the checks of the built app, or the checks
+// of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML. `create` writes a new app
+// from an archetype's template (generator/create.ts).
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { delimiter, join, relative, resolve } from "node:path";
@@ -10,11 +11,14 @@ import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
 import { failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
 import { BrowserError, launch, serve, visitApp } from "../check/visit.ts";
+import { create, CreateError } from "../generator/create.ts";
+import { UsageError } from "./usage.ts";
 
 const USAGE = `Usage: lernapps <command> [options]
 
 Commands:
   check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
+  create --archetype <name> [<dir>]               write a new app from the archetype's template
 
 Options:
   -h, --help      print this help
@@ -58,8 +62,6 @@ interface Step {
 
 const PLAN = ".vibe/plan.md";
 const CHECKS_PASS = "checks-pass";
-
-class UsageError extends Error {}
 
 function version(): string {
   const manifest: unknown = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
@@ -298,6 +300,8 @@ async function main(argv: string[]): Promise<number> {
   switch (command) {
     case "check":
       return check(rest);
+    case "create":
+      return create(rest);
     case "-h":
     case "--help":
       process.stdout.write(USAGE);
@@ -321,6 +325,9 @@ try {
   if (error instanceof UsageError || parseError) {
     process.stderr.write(`lernapps: ${error.message}\n\n${USAGE}`);
     process.exitCode = 2;
+  } else if (error instanceof CreateError) {
+    process.stderr.write(`lernapps create: ${error.message}\n`);
+    process.exitCode = 1;
   } else {
     throw error;
   }
