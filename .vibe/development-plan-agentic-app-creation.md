@@ -294,7 +294,6 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ### Tasks
 *Order of building agreed with the owner (2026-10-09). Tracking issue: [#9](https://github.com/lernapps/tooling/issues/9).
 Each step brings its rules in their artifacts and, where it touches the guidance, an eval run.*
-- [ ] 3 · Check CLI `lernapps check` ([#12](https://github.com/lernapps/tooling/issues/12))
 - [ ] 4 · Shared preset and lint rules ([#13](https://github.com/lernapps/tooling/issues/13))
 - [ ] 6 · Generator and the quiz archetype ([#15](https://github.com/lernapps/tooling/issues/15))
 - [ ] 7 · App check action ([#16](https://github.com/lernapps/tooling/issues/16))
@@ -316,6 +315,10 @@ Each step brings its rules in their artifacts and, where it touches the guidance
   writes the rule page at lernapps.net/tooling/rules/
 - [x] 5 · Process guidance: `AGENTS.md`, the plan template, its front matter schema and the skill `lernapps-app`
   ([#14](https://github.com/lernapps/tooling/issues/14), merged in #27)
+- [x] 3 · Check CLI `lernapps check` ([#12](https://github.com/lernapps/tooling/issues/12), merged in #31): checks of
+  the built app in `check/rules/`, each with its rule id and severity; YAML validation report with its schema;
+  `--entry`, `--site`, `--report`; every check runs, those without input are left out. 26 rules. Follow-ups:
+  suppressions with a reason, `on-click` measured by clicking, external links, per-archetype readability, `npm audit`
 
 ## Commit
 
