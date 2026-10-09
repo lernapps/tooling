@@ -5,7 +5,7 @@
     "commit": "91c4012323f8fea68de701a8e078f1bcb010a70e"
   },
   "head": {
-    "label": "f16c677db0b513fe87f3124877f4ba6f426fc944"
+    "label": "e3109cfec7f0553cbc3d043da302c5271f1ed491"
   },
   "acceptanceBase": "91c4012323f8fea68de701a8e078f1bcb010a70e",
   "untracked": [],
@@ -142,7 +142,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/03-system-context.arc42.md",
-          "line": 54
+          "line": 53
         },
         "section": {
           "file": "docs/arc42/03-system-context.arc42.md",
@@ -161,7 +161,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/03-system-context.arc42.md",
-          "line": 70
+          "line": 69
         },
         "section": {
           "file": "docs/arc42/03-system-context.arc42.md",
@@ -180,7 +180,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/03-system-context.arc42.md",
-          "line": 85
+          "line": 84
         },
         "section": {
           "file": "docs/arc42/03-system-context.arc42.md",
@@ -199,7 +199,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/03-system-context.arc42.md",
-          "line": 100
+          "line": 99
         },
         "section": {
           "file": "docs/arc42/03-system-context.arc42.md",
@@ -218,7 +218,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/03-system-context.arc42.md",
-          "line": 115
+          "line": 114
         },
         "section": {
           "file": "docs/arc42/03-system-context.arc42.md",
@@ -237,7 +237,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/04-solution-strategy.arc42.md",
-          "line": 18
+          "line": 8
         },
         "section": {
           "file": "docs/arc42/04-solution-strategy.arc42.md",
@@ -255,54 +255,13 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 86
+          "line": 84
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "headingPath": [
             "Building Blocks",
             "@lernapps/tooling"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "bb-rule-catalog",
-        "kind": "building-block",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 101
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Rule catalog"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "if-rule-catalog",
-        "kind": "interface",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 115
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Rule catalog",
-            "Rule catalog interface"
           ],
           "occurrence": 1
         }
@@ -315,7 +274,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 131
+          "line": 106
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -335,7 +294,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 146
+          "line": 121
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -356,7 +315,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 160
+          "line": 135
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -377,7 +336,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 177
+          "line": 153
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -397,7 +356,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 192
+          "line": 167
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -418,7 +377,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 208
+          "line": 183
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -438,7 +397,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 223
+          "line": 198
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -459,7 +418,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 238
+          "line": 213
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -479,7 +438,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 253
+          "line": 228
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -500,7 +459,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 268
+          "line": 243
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -514,135 +473,6 @@
         }
       },
       {
-        "id": "bb-archetype-explainer",
-        "kind": "building-block",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 286
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Archetype presets",
-            "explainer"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "if-topic-pages",
-        "kind": "interface",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 300
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Archetype presets",
-            "explainer",
-            "Topic pages"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "bb-archetype-interactive",
-        "kind": "building-block",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 314
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Archetype presets",
-            "interactive"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "if-app-module",
-        "kind": "interface",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 328
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Archetype presets",
-            "interactive",
-            "App module"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "bb-archetype-quiz",
-        "kind": "building-block",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 344
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Archetype presets",
-            "quiz"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "if-question-bank",
-        "kind": "interface",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 358
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Archetype presets",
-            "quiz",
-            "Question bank"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
         "id": "bb-lint-rules",
         "kind": "building-block",
         "status": "added",
@@ -650,7 +480,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 373
+          "line": 261
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -670,7 +500,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 388
+          "line": 275
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -691,7 +521,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 405
+          "line": 302
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -711,7 +541,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 420
+          "line": 316
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -732,7 +562,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 434
+          "line": 331
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -753,7 +583,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 449
+          "line": 347
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -773,7 +603,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 464
+          "line": 362
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -794,7 +624,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 479
+          "line": 377
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -807,14 +637,14 @@
         }
       },
       {
-        "id": "bb-app-template",
+        "id": "bb-app-templates",
         "kind": "building-block",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 495
+          "line": 393
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -833,7 +663,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 507
+          "line": 405
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -853,7 +683,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 521
+          "line": 420
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -872,7 +702,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 534
+          "line": 433
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -892,7 +722,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 549
+          "line": 449
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -911,7 +741,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 564
+          "line": 463
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -931,7 +761,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 13
+          "line": 14
         },
         "section": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
@@ -950,7 +780,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 64
+          "line": 66
         },
         "section": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
@@ -969,7 +799,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 105
+          "line": 107
         },
         "section": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
@@ -988,7 +818,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 149
+          "line": 152
         },
         "section": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
@@ -1007,7 +837,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 53
+          "line": 56
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -1019,20 +849,40 @@
         }
       },
       {
-        "id": "dn-owner-machine",
+        "id": "dn-agent-harness",
         "kind": "deployment-node",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 67
+          "line": 72
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "headingPath": [
             "Deployment View",
-            "Owner's machine"
+            "Creator's machine",
+            "Creator's agent harness"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-lernapps-agents",
+        "kind": "deployment-node",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 88
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "Environment for lernapps agents"
           ],
           "occurrence": 1
         }
@@ -1045,7 +895,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 80
+          "line": 101
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -1064,7 +914,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 93
+          "line": 115
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -1077,21 +927,21 @@
         }
       },
       {
-        "id": "dn-template-repo",
+        "id": "dn-templates-repo",
         "kind": "deployment-node",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 107
+          "line": 129
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "headingPath": [
             "Deployment View",
             "GitHub",
-            "lernapps/app-template"
+            "lernapps/app-templates"
           ],
           "occurrence": 1
         }
@@ -1104,7 +954,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 122
+          "line": 144
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -1124,7 +974,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 136
+          "line": 158
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -1137,65 +987,45 @@
         }
       },
       {
-        "id": "dn-pages",
-        "kind": "deployment-node",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 151
-        },
-        "section": {
-          "file": "docs/arc42/07-deployment-view.arc42.md",
-          "headingPath": [
-            "Deployment View",
-            "GitHub",
-            "lernapps.net Pages"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "concept-rule-model",
+        "id": "concept-rule-catalog",
         "kind": "concept",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 30
+          "line": 38
         },
         "section": {
           "file": "docs/arc42/08-concepts.arc42.md",
           "headingPath": [
             "Cross-cutting Concepts",
-            "Rule model"
+            "Rule catalog"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "concept-promotion-path",
+        "id": "concept-plain-language",
         "kind": "concept",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 47
+          "line": 53
         },
         "section": {
           "file": "docs/arc42/08-concepts.arc42.md",
           "headingPath": [
             "Cross-cutting Concepts",
-            "Promotion path"
+            "Plain language"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "concept-plan-file",
+        "id": "concept-terse-output",
         "kind": "concept",
         "status": "added",
         "attributes": [],
@@ -1208,140 +1038,45 @@
           "file": "docs/arc42/08-concepts.arc42.md",
           "headingPath": [
             "Cross-cutting Concepts",
-            "Plan file"
+            "Terse output"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "concept-agent-messages",
+        "id": "concept-traceability",
         "kind": "concept",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 86
+          "line": 87
         },
         "section": {
           "file": "docs/arc42/08-concepts.arc42.md",
           "headingPath": [
             "Cross-cutting Concepts",
-            "Messages for agents"
+            "Logging and traceability"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "concept-validation-report",
+        "id": "concept-stable-contracts",
         "kind": "concept",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 101
+          "line": 102
         },
         "section": {
           "file": "docs/arc42/08-concepts.arc42.md",
           "headingPath": [
             "Cross-cutting Concepts",
-            "Validation report"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "concept-versioned-distribution",
-        "kind": "concept",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 116
-        },
-        "section": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "headingPath": [
-            "Cross-cutting Concepts",
-            "Versioned distribution"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "concept-strict-typescript",
-        "kind": "concept",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 131
-        },
-        "section": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "headingPath": [
-            "Cross-cutting Concepts",
-            "Strict TypeScript"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "concept-i18n-a11y",
-        "kind": "concept",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 146
-        },
-        "section": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "headingPath": [
-            "Cross-cutting Concepts",
-            "i18n and accessibility"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "concept-third-party-content",
-        "kind": "concept",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 160
-        },
-        "section": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "headingPath": [
-            "Cross-cutting Concepts",
-            "Third-party content"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "concept-measurement",
-        "kind": "concept",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "line": 175
-        },
-        "section": {
-          "file": "docs/arc42/08-concepts.arc42.md",
-          "headingPath": [
-            "Cross-cutting Concepts",
-            "Measurement"
+            "Stable contracts"
           ],
           "occurrence": 1
         }
@@ -1373,13 +1108,13 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 30
+          "line": 31
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Three archetypes, named by character"
+            "Archetypes as the variation point"
           ],
           "occurrence": 1
         }
@@ -1392,7 +1127,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 47
+          "line": 49
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1411,7 +1146,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 63
+          "line": 65
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1430,7 +1165,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 80
+          "line": 82
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1449,13 +1184,13 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 97
+          "line": 99
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Templates in lernapps/app-template, logic in the package"
+            "Templates in lernapps/app-templates, logic in the package"
           ],
           "occurrence": 1
         }
@@ -1468,7 +1203,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 113
+          "line": 115
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1487,7 +1222,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 129
+          "line": 131
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1499,20 +1234,20 @@
         }
       },
       {
-        "id": "dec-git-hooks",
+        "id": "dec-one-check-command",
         "kind": "decision",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 145
+          "line": 151
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Git hooks enforce and count"
+            "One check command; hooks and CI run the same"
           ],
           "occurrence": 1
         }
@@ -1525,7 +1260,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 161
+          "line": 167
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1537,20 +1272,20 @@
         }
       },
       {
-        "id": "dec-rule-model",
+        "id": "dec-rules-in-artifacts",
         "kind": "decision",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 177
+          "line": 187
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Rules with scope, severity and enforcement"
+            "Rules live in their artifacts"
           ],
           "occurrence": 1
         }
@@ -1563,13 +1298,13 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 193
+          "line": 205
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "A standalone check CLI"
+            "A standalone check CLI with YAML output"
           ],
           "occurrence": 1
         }
@@ -1582,32 +1317,13 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 210
+          "line": 222
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
             "Review by an agent, results as a comment"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "dec-browser-checks-in-ci",
-        "kind": "decision",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 225
-        },
-        "section": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "headingPath": [
-            "Architecture Decisions",
-            "Browser checks in CI"
           ],
           "occurrence": 1
         }
@@ -1620,7 +1336,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 241
+          "line": 239
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1639,7 +1355,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 257
+          "line": 255
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1658,7 +1374,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 273
+          "line": 271
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1677,7 +1393,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 291
+          "line": 289
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -1696,51 +1412,13 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 308
+          "line": 306
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
             "Every report is bound to a commit"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "dec-explainer-rendering",
-        "kind": "decision",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 325
-        },
-        "section": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "headingPath": [
-            "Architecture Decisions",
-            "explainer pages rendered with Eleventy and TypeScript"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "dec-quiz-question-types",
-        "kind": "decision",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 342
-        },
-        "section": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "headingPath": [
-            "Architecture Decisions",
-            "Question types of the quiz"
           ],
           "occurrence": 1
         }
@@ -1784,7 +1462,7 @@
         }
       },
       {
-        "id": "qg-checked-not-declared",
+        "id": "qg-findable",
         "kind": "quality-goal",
         "status": "added",
         "attributes": [],
@@ -1792,6 +1470,25 @@
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "line": 63
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "Listings help find the right app"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qg-checked-not-declared",
+        "kind": "quality-goal",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 78
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1810,7 +1507,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 77
+          "line": 92
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1829,7 +1526,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 91
+          "line": 106
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1848,7 +1545,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 104
+          "line": 119
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1867,7 +1564,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 120
+          "line": 135
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1886,7 +1583,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 135
+          "line": 150
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1905,7 +1602,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 150
+          "line": 165
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1924,7 +1621,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 167
+          "line": 182
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1943,7 +1640,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 182
+          "line": 197
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -1962,13 +1659,32 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 198
+          "line": 213
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
           "headingPath": [
             "Quality Requirements",
             "The first listings"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-entry-matches-app",
+        "kind": "quality-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 228
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "An entry promises what the app has"
           ],
           "occurrence": 1
         }
@@ -1981,7 +1697,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 214
+          "line": 244
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -2000,7 +1716,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 229
+          "line": 259
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -2019,7 +1735,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 244
+          "line": 274
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -2038,7 +1754,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 259
+          "line": 289
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -2057,7 +1773,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 274
+          "line": 304
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -2076,7 +1792,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 289
+          "line": 319
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -2095,7 +1811,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 304
+          "line": 334
         },
         "section": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
@@ -2183,39 +1899,39 @@
         }
       },
       {
-        "id": "risk-explainer-rendering",
+        "id": "risk-browser-at-creator",
         "kind": "risk",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/11-risks.arc42.md",
-          "line": 63
+          "line": 64
         },
         "section": {
           "file": "docs/arc42/11-risks.arc42.md",
           "headingPath": [
             "Risks and Technical Debt",
-            "Rendering explainer pages from TypeScript is unproven"
+            "A browser at the creator"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "risk-browser-checks-heavy",
+        "id": "risk-rule-drift",
         "kind": "risk",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/11-risks.arc42.md",
-          "line": 76
+          "line": 78
         },
         "section": {
           "file": "docs/arc42/11-risks.arc42.md",
           "headingPath": [
             "Risks and Technical Debt",
-            "Browser checks are heavy"
+            "Rule artifacts drift apart"
           ],
           "occurrence": 1
         }
@@ -2228,7 +1944,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/11-risks.arc42.md",
-          "line": 89
+          "line": 91
         },
         "section": {
           "file": "docs/arc42/11-risks.arc42.md",
@@ -2247,7 +1963,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/11-risks.arc42.md",
-          "line": 102
+          "line": 104
         },
         "section": {
           "file": "docs/arc42/11-risks.arc42.md",
@@ -2266,7 +1982,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/11-risks.arc42.md",
-          "line": 115
+          "line": 117
         },
         "section": {
           "file": "docs/arc42/11-risks.arc42.md",
@@ -2285,7 +2001,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/11-risks.arc42.md",
-          "line": 128
+          "line": 130
         },
         "section": {
           "file": "docs/arc42/11-risks.arc42.md",
@@ -2304,7 +2020,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/11-risks.arc42.md",
-          "line": 141
+          "line": 143
         },
         "section": {
           "file": "docs/arc42/11-risks.arc42.md",
@@ -2506,25 +2222,6 @@
         }
       },
       {
-        "id": "term-question-bank",
-        "kind": "glossary-term",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/12-glossary.arc42.md",
-          "line": 128
-        },
-        "section": {
-          "file": "docs/arc42/12-glossary.arc42.md",
-          "headingPath": [
-            "Glossary",
-            "Question bank"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
         "id": "term-retrospective",
         "kind": "glossary-term",
         "status": "added",
@@ -2532,7 +2229,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/12-glossary.arc42.md",
-          "line": 140
+          "line": 128
         },
         "section": {
           "file": "docs/arc42/12-glossary.arc42.md",
@@ -2551,7 +2248,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/12-glossary.arc42.md",
-          "line": 152
+          "line": 140
         },
         "section": {
           "file": "docs/arc42/12-glossary.arc42.md",
@@ -2570,7 +2267,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/12-glossary.arc42.md",
-          "line": 164
+          "line": 152
         },
         "section": {
           "file": "docs/arc42/12-glossary.arc42.md",
@@ -2589,7 +2286,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/12-glossary.arc42.md",
-          "line": 176
+          "line": 164
         },
         "section": {
           "file": "docs/arc42/12-glossary.arc42.md",
@@ -2617,7 +2314,7 @@
         "attributes": [],
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 12
+          "line": 15
         }
       },
       {
@@ -2626,7 +2323,7 @@
         "attributes": [],
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 53
+          "line": 52
         }
       },
       {
@@ -2635,7 +2332,7 @@
         "attributes": [],
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 22
+          "line": 23
         }
       },
       {
@@ -2644,7 +2341,7 @@
         "attributes": [],
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 73
+          "line": 75
         }
       },
       {
@@ -2653,7 +2350,7 @@
         "attributes": [],
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 114
+          "line": 116
         }
       },
       {
@@ -2662,7 +2359,7 @@
         "attributes": [],
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 158
+          "line": 161
         }
       },
       {
@@ -2671,7 +2368,7 @@
         "attributes": [],
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 10
+          "line": 11
         }
       }
     ],
@@ -2760,14 +2457,6 @@
         "status": "added",
         "edge": {
           "from": "actor-owner",
-          "to": "if-rule-catalog",
-          "relation": "requires"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "actor-owner",
           "to": "if-validation-report",
           "relation": "requires"
         }
@@ -2815,7 +2504,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-app-template",
+          "from": "bb-app-templates",
           "to": "if-archetype-templates",
           "relation": "provides"
         }
@@ -2823,56 +2512,8 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-archetype-explainer",
-          "to": "bb-archetypes",
-          "relation": "parent"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-archetype-explainer",
-          "to": "if-topic-pages",
-          "relation": "provides"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-archetype-interactive",
-          "to": "bb-archetypes",
-          "relation": "parent"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-archetype-interactive",
-          "to": "if-app-module",
-          "relation": "provides"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-archetype-quiz",
-          "to": "bb-archetypes",
-          "relation": "parent"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-archetype-quiz",
-          "to": "if-question-bank",
-          "relation": "provides"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
           "from": "bb-archetypes",
-          "to": "concept-i18n-a11y",
+          "to": "concept-rule-catalog",
           "relation": "implements"
         }
       },
@@ -2880,15 +2521,7 @@
         "status": "added",
         "edge": {
           "from": "bb-archetypes",
-          "to": "concept-strict-typescript",
-          "relation": "implements"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-archetypes",
-          "to": "concept-versioned-distribution",
+          "to": "concept-stable-contracts",
           "relation": "implements"
         }
       },
@@ -2928,7 +2561,7 @@
         "status": "added",
         "edge": {
           "from": "bb-check-cli",
-          "to": "concept-agent-messages",
+          "to": "concept-rule-catalog",
           "relation": "implements"
         }
       },
@@ -2936,7 +2569,7 @@
         "status": "added",
         "edge": {
           "from": "bb-check-cli",
-          "to": "concept-rule-model",
+          "to": "concept-stable-contracts",
           "relation": "implements"
         }
       },
@@ -2944,7 +2577,15 @@
         "status": "added",
         "edge": {
           "from": "bb-check-cli",
-          "to": "concept-validation-report",
+          "to": "concept-terse-output",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-check-cli",
+          "to": "concept-traceability",
           "relation": "implements"
         }
       },
@@ -2975,16 +2616,8 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-check-cli",
-          "to": "if-rule-catalog",
-          "relation": "requires"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
           "from": "bb-evals",
-          "to": "concept-measurement",
+          "to": "concept-traceability",
           "relation": "implements"
         }
       },
@@ -3032,7 +2665,7 @@
         "status": "added",
         "edge": {
           "from": "bb-generator",
-          "to": "concept-versioned-distribution",
+          "to": "concept-stable-contracts",
           "relation": "implements"
         }
       },
@@ -3072,7 +2705,7 @@
         "status": "added",
         "edge": {
           "from": "bb-git-hooks",
-          "to": "concept-agent-messages",
+          "to": "concept-terse-output",
           "relation": "implements"
         }
       },
@@ -3080,7 +2713,7 @@
         "status": "added",
         "edge": {
           "from": "bb-git-hooks",
-          "to": "concept-measurement",
+          "to": "concept-traceability",
           "relation": "implements"
         }
       },
@@ -3112,7 +2745,7 @@
         "status": "added",
         "edge": {
           "from": "bb-lint-rules",
-          "to": "concept-agent-messages",
+          "to": "concept-rule-catalog",
           "relation": "implements"
         }
       },
@@ -3120,7 +2753,7 @@
         "status": "added",
         "edge": {
           "from": "bb-lint-rules",
-          "to": "concept-rule-model",
+          "to": "concept-terse-output",
           "relation": "implements"
         }
       },
@@ -3143,16 +2776,8 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-lint-rules",
-          "to": "if-rule-catalog",
-          "relation": "requires"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
           "from": "bb-listing-validation",
-          "to": "concept-agent-messages",
+          "to": "concept-terse-output",
           "relation": "implements"
         }
       },
@@ -3160,7 +2785,7 @@
         "status": "added",
         "edge": {
           "from": "bb-listing-validation",
-          "to": "concept-validation-report",
+          "to": "concept-traceability",
           "relation": "implements"
         }
       },
@@ -3200,7 +2825,23 @@
         "status": "added",
         "edge": {
           "from": "bb-process-guidance",
-          "to": "concept-plan-file",
+          "to": "concept-plain-language",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-process-guidance",
+          "to": "concept-terse-output",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-process-guidance",
+          "to": "concept-traceability",
           "relation": "implements"
         }
       },
@@ -3232,7 +2873,7 @@
         "status": "added",
         "edge": {
           "from": "bb-review-procedure",
-          "to": "concept-promotion-path",
+          "to": "concept-plain-language",
           "relation": "implements"
         }
       },
@@ -3240,7 +2881,7 @@
         "status": "added",
         "edge": {
           "from": "bb-review-procedure",
-          "to": "concept-rule-model",
+          "to": "concept-rule-catalog",
           "relation": "implements"
         }
       },
@@ -3264,14 +2905,6 @@
         "status": "added",
         "edge": {
           "from": "bb-review-procedure",
-          "to": "if-rule-catalog",
-          "relation": "requires"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-review-procedure",
           "to": "if-validation-report",
           "relation": "requires"
         }
@@ -3279,40 +2912,8 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-rule-catalog",
-          "to": "concept-promotion-path",
-          "relation": "implements"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-rule-catalog",
-          "to": "concept-rule-model",
-          "relation": "implements"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-rule-catalog",
-          "to": "bb-tooling-package",
-          "relation": "parent"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "bb-rule-catalog",
-          "to": "if-rule-catalog",
-          "relation": "provides"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
           "from": "bb-skills",
-          "to": "concept-rule-model",
+          "to": "concept-plain-language",
           "relation": "implements"
         }
       },
@@ -3320,7 +2921,15 @@
         "status": "added",
         "edge": {
           "from": "bb-skills",
-          "to": "concept-third-party-content",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills",
+          "to": "concept-terse-output",
           "relation": "implements"
         }
       },
@@ -3343,9 +2952,9 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-skills",
-          "to": "if-rule-catalog",
-          "relation": "requires"
+          "from": "bb-tooling-package",
+          "to": "concept-stable-contracts",
+          "relation": "implements"
         }
       },
       {
@@ -3361,22 +2970,6 @@
         "edge": {
           "from": "dec-archetypes",
           "to": "qg-simple-to-build",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dec-browser-checks-in-ci",
-          "to": "qg-few-iterations",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dec-browser-checks-in-ci",
-          "to": "risk-browser-checks-heavy",
           "relation": "addresses"
         }
       },
@@ -3401,6 +2994,14 @@
         "edge": {
           "from": "dec-check-cli",
           "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-check-cli",
+          "to": "qg-findable",
           "relation": "addresses"
         }
       },
@@ -3440,6 +3041,14 @@
         "status": "added",
         "edge": {
           "from": "dec-epcc-plan-file",
+          "to": "qg-findable",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-epcc-plan-file",
           "to": "qg-simple-to-build",
           "relation": "addresses"
         }
@@ -3471,22 +3080,6 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-explainer-rendering",
-          "to": "qg-simple-to-build",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dec-explainer-rendering",
-          "to": "risk-explainer-rendering",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
           "from": "dec-five-layers",
           "to": "qg-checked-not-declared",
           "relation": "addresses"
@@ -3511,7 +3104,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-git-hooks",
+          "from": "dec-one-check-command",
           "to": "qg-any-assistant",
           "relation": "addresses"
         }
@@ -3519,7 +3112,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-git-hooks",
+          "from": "dec-one-check-command",
           "to": "qg-few-iterations",
           "relation": "addresses"
         }
@@ -3527,7 +3120,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-git-hooks",
+          "from": "dec-one-check-command",
           "to": "risk-assistants-skip-guidance",
           "relation": "addresses"
         }
@@ -3535,8 +3128,24 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-git-hooks",
+          "from": "dec-one-check-command",
+          "to": "risk-browser-at-creator",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-one-check-command",
           "to": "risk-counter-tampering",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-one-check-command",
+          "to": "risk-owner-bottleneck",
           "relation": "addresses"
         }
       },
@@ -3561,22 +3170,6 @@
         "edge": {
           "from": "dec-one-package",
           "to": "risk-git-install",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dec-quiz-question-types",
-          "to": "qg-list-in-minutes",
-          "relation": "addresses"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dec-quiz-question-types",
-          "to": "qg-simple-to-build",
           "relation": "addresses"
         }
       },
@@ -3631,7 +3224,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-rule-model",
+          "from": "dec-rules-in-artifacts",
           "to": "qg-checked-not-declared",
           "relation": "addresses"
         }
@@ -3639,7 +3232,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-rule-model",
+          "from": "dec-rules-in-artifacts",
           "to": "qg-guidance-evolves",
           "relation": "addresses"
         }
@@ -3647,8 +3240,16 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-rule-model",
+          "from": "dec-rules-in-artifacts",
           "to": "risk-oxlint-plugins",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-rules-in-artifacts",
+          "to": "risk-rule-drift",
           "relation": "addresses"
         }
       },
@@ -3657,6 +3258,14 @@
         "edge": {
           "from": "dec-schema-explains-itself",
           "to": "con-entry-schema",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-schema-explains-itself",
+          "to": "qg-findable",
           "relation": "addresses"
         }
       },
@@ -3767,6 +3376,30 @@
       {
         "status": "added",
         "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-process-guidance",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skills",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "dn-creator-machine",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
           "from": "dn-app-ci",
           "to": "bb-app-check-action",
           "relation": "hosts"
@@ -3816,30 +3449,6 @@
         "status": "added",
         "edge": {
           "from": "dn-creator-machine",
-          "to": "bb-archetype-explainer",
-          "relation": "hosts"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dn-creator-machine",
-          "to": "bb-archetype-interactive",
-          "relation": "hosts"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dn-creator-machine",
-          "to": "bb-archetype-quiz",
-          "relation": "hosts"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dn-creator-machine",
           "to": "bb-archetypes",
           "relation": "hosts"
         }
@@ -3880,22 +3489,6 @@
         "status": "added",
         "edge": {
           "from": "dn-creator-machine",
-          "to": "bb-process-guidance",
-          "relation": "hosts"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dn-creator-machine",
-          "to": "bb-skills",
-          "relation": "hosts"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dn-creator-machine",
           "to": "bb-tooling-package",
           "relation": "hosts"
         }
@@ -3903,7 +3496,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dn-owner-machine",
+          "from": "dn-lernapps-agents",
           "to": "bb-check-cli",
           "relation": "hosts"
         }
@@ -3911,7 +3504,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dn-owner-machine",
+          "from": "dn-lernapps-agents",
           "to": "bb-evals",
           "relation": "hosts"
         }
@@ -3919,7 +3512,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dn-owner-machine",
+          "from": "dn-lernapps-agents",
           "to": "bb-review-procedure",
           "relation": "hosts"
         }
@@ -3927,31 +3520,15 @@
       {
         "status": "added",
         "edge": {
-          "from": "dn-pages",
-          "to": "bb-rule-catalog",
+          "from": "dn-templates-repo",
+          "to": "bb-app-templates",
           "relation": "hosts"
         }
       },
       {
         "status": "added",
         "edge": {
-          "from": "dn-pages",
-          "to": "dn-github",
-          "relation": "parent"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dn-template-repo",
-          "to": "bb-app-template",
-          "relation": "hosts"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
-          "from": "dn-template-repo",
+          "from": "dn-templates-repo",
           "to": "dn-github",
           "relation": "parent"
         }
@@ -3985,6 +3562,14 @@
         "edge": {
           "from": "qs-actionable-failure",
           "to": "qg-few-iterations",
+          "relation": "elaborates"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "qs-entry-matches-app",
+          "to": "qg-findable",
           "relation": "elaborates"
         }
       },
@@ -4112,7 +3697,7 @@
         "status": "added",
         "edge": {
           "from": "rs-new-app",
-          "to": "bb-app-template",
+          "to": "bb-app-templates",
           "relation": "involves"
         }
       },
@@ -4240,7 +3825,7 @@
         "status": "added",
         "edge": {
           "from": "rs-rule-changes",
-          "to": "bb-rule-catalog",
+          "to": "bb-skills",
           "relation": "involves"
         }
       },
@@ -4248,7 +3833,7 @@
         "status": "added",
         "edge": {
           "from": "rs-rule-changes",
-          "to": "bb-skills",
+          "to": "bb-tooling-package",
           "relation": "involves"
         }
       },
@@ -4273,6 +3858,14 @@
         "edge": {
           "from": "strategy-architecture",
           "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "strategy-architecture",
+          "to": "qg-findable",
           "relation": "addresses"
         }
       },
@@ -4351,7 +3944,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 41
+          "line": 38
         }
       },
       {
@@ -4366,7 +3959,7 @@
         },
         "head": {
           "file": "docs/arc42/01-introduction-and-goals.arc42.md",
-          "line": 51
+          "line": 48
         }
       },
       {
@@ -4418,13 +4011,13 @@
           "file": "docs/arc42/04-solution-strategy.arc42.md",
           "headingPath": [
             "Solution Strategy",
-            "Five layers around the assistant, per archetype"
+            "Clarify: the plan file asks first"
           ],
           "occurrence": 1
         },
         "head": {
           "file": "docs/arc42/04-solution-strategy.arc42.md",
-          "line": 25
+          "line": 15
         }
       },
       {
@@ -4433,13 +4026,13 @@
           "file": "docs/arc42/04-solution-strategy.arc42.md",
           "headingPath": [
             "Solution Strategy",
-            "The scaffold meets the rules from the start"
+            "Set up: start from a working app"
           ],
           "occurrence": 1
         },
         "head": {
           "file": "docs/arc42/04-solution-strategy.arc42.md",
-          "line": 32
+          "line": 22
         }
       },
       {
@@ -4448,13 +4041,13 @@
           "file": "docs/arc42/04-solution-strategy.arc42.md",
           "headingPath": [
             "Solution Strategy",
-            "Deterministic first, the same check everywhere"
+            "Build: one check command, run by the hooks"
           ],
           "occurrence": 1
         },
         "head": {
           "file": "docs/arc42/04-solution-strategy.arc42.md",
-          "line": 39
+          "line": 29
         }
       },
       {
@@ -4463,13 +4056,13 @@
           "file": "docs/arc42/04-solution-strategy.arc42.md",
           "headingPath": [
             "Solution Strategy",
-            "Plain files and git hooks"
+            "Validate: deterministic first, judgment for the rest"
           ],
           "occurrence": 1
         },
         "head": {
           "file": "docs/arc42/04-solution-strategy.arc42.md",
-          "line": 46
+          "line": 37
         }
       },
       {
@@ -4478,13 +4071,13 @@
           "file": "docs/arc42/04-solution-strategy.arc42.md",
           "headingPath": [
             "Solution Strategy",
-            "Nothing leaves the creator's side unasked"
+            "List: the entry comes from the plan and the report"
           ],
           "occurrence": 1
         },
         "head": {
           "file": "docs/arc42/04-solution-strategy.arc42.md",
-          "line": 53
+          "line": 43
         }
       },
       {
@@ -4493,13 +4086,13 @@
           "file": "docs/arc42/04-solution-strategy.arc42.md",
           "headingPath": [
             "Solution Strategy",
-            "One rule catalog, one versioned package"
+            "Across the journey"
           ],
           "occurrence": 1
         },
         "head": {
           "file": "docs/arc42/04-solution-strategy.arc42.md",
-          "line": 60
+          "line": 49
         }
       },
       {
@@ -4528,7 +4121,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 9
+          "line": 12
         }
       },
       {
@@ -4543,7 +4136,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 50
+          "line": 49
         }
       },
       {
@@ -4586,7 +4179,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 7
+          "line": 8
         }
       },
       {
@@ -4673,7 +4266,7 @@
         },
         "head": {
           "file": "docs/arc42/10-quality-requirements.arc42.md",
-          "line": 127
+          "line": 142
         }
       },
       {
@@ -4732,7 +4325,7 @@
       },
       {
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "added": 38,
+        "added": 30,
         "modified": 0,
         "removed": 0
       },
@@ -4750,19 +4343,19 @@
       },
       {
         "file": "docs/arc42/08-concepts.arc42.md",
-        "added": 11,
+        "added": 6,
         "modified": 0,
         "removed": 0
       },
       {
         "file": "docs/arc42/09-decisions.arc42.md",
-        "added": 22,
+        "added": 19,
         "modified": 0,
         "removed": 0
       },
       {
         "file": "docs/arc42/10-quality-requirements.arc42.md",
-        "added": 23,
+        "added": 25,
         "modified": 0,
         "removed": 0
       },
@@ -4774,7 +4367,7 @@
       },
       {
         "file": "docs/arc42/12-glossary.arc42.md",
-        "added": 16,
+        "added": 15,
         "modified": 0,
         "removed": 0
       }
