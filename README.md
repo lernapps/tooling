@@ -56,7 +56,7 @@ tests of internals.
 
 Every site on lernapps.net is a static build in `_site/`, published on the repo's `gh-pages` branch and
 served by GitHub Pages under its path (`/`, `/apps/`, `/docs/`). Three composite actions do the work; the
-repos only hold two thin workflows that call them, with the same job names everywhere (`check`, `deploy`,
+repos only hold two thin workflows that call them, with the same job names everywhere (`site`, `deploy`,
 `preview`). The contract with a repo: `npm ci`, then `npm run build` writes `_site/`, then `npm run check`
 checks it (`lernapps-check` from the shared site frame in lernapps.github.io). A repo whose `check` checks its
 code names the site check with the input `check-script`; this repo does (`check:site`, job `site`), and its own
@@ -83,13 +83,13 @@ concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  check:
+  site:
     runs-on: ubuntu-latest
     steps:
       - uses: lernapps/tooling/actions/site-check@<commit> # main
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: check
+    needs: site
     runs-on: ubuntu-latest
     permissions:
       contents: write
