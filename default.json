@@ -12,6 +12,11 @@
       "automergeType": "pr",
       "platformAutomerge": true,
       "groupName": "lernapps building blocks"
+    },
+    {
+      "description": "vite-plus and the Vite core it bundles move together: package.json overrides vite with npm:@voidzero-dev/vite-plus-core at the same version as vite-plus",
+      "matchPackageNames": ["vite-plus", "@voidzero-dev/vite-plus-core"],
+      "groupName": "vite-plus"
     }
   ]
 }

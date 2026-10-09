@@ -5,6 +5,9 @@ description: >-
   SITE_PATH_PREFIX (links stay inside the preview) and SITE_PREVIEW (banner, noindex) set.
   The job needs permissions: contents: write, pull-requests: write.
 inputs:
+  check-script:
+    description: The npm script that checks the built site (a repo whose `check` checks its code names another one)
+    default: check
   site:
     description: Where the repo is served on lernapps.net, e.g. "/", "/apps/", "/docs/"
     required: true
@@ -42,8 +45,10 @@ runs:
         node-version: 22
         cache: npm
     - if: github.event.action != 'closed'
-      run: npm ci && npm run build && npm run check
+      run: npm ci && npm run build && npm run "$CHECK_SCRIPT"
       shell: bash
+      env:
+        CHECK_SCRIPT: ${{ inputs.check-script }}
     - uses: rossjrw/pr-preview-action@ffa7509e91a3ec8dfc2e5536c4d5c1acdf7a6de9 # v1.8.1
       with:
         source-dir: _site

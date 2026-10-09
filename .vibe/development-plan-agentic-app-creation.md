@@ -217,6 +217,18 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
   references to the platform design are deep links.
 - lernapps/app-template is renamed lernapps/app-templates.
 
+### KD-21: How each step is built and committed
+- **Decision** (2026-10-09, owner): Test-driven, from the consumer's contract: the test is written against what a
+  consumer relies on (a command's output and exit code, `npm run check` on a fresh clone, a built bundle), seen
+  failing, then the implementation follows. End-to-end first: tests run the real command on a real fixture (a
+  temporary repo, a built bundle, a local server). No unit tests of internals; unit tests only where a piece of
+  logic's own contract is consumed.
+- **Decision** (2026-10-09, owner): Each issue is implemented by a fresh agent on its own branch, with a pull request
+  that the owner merges.
+- **Decision** (2026-10-09, owner): Commits follow Conventional Commits; the body has the sections `## Intent` (why),
+  `## Key decisions` (the choices made and why) and `## Side effects (if any)` (what else changes, or "None"), then
+  the attribution lines.
+
 ## Notes
 
 - **Existing building blocks**: site actions and Renovate preset (this repo); site frame with `lernapps-check`

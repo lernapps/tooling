@@ -1,0 +1,4 @@
+# The fast part of the checks (format, lint, type check). The staged files are formatted and fixed first;
+# then the same command as the first half of the CI job `check`.
+vp staged
+npm run --silent lernapps -- check --pre-commit

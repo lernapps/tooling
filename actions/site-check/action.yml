@@ -1,8 +1,11 @@
 name: lernapps site check
 description: >-
   Builds a lernapps.net site and checks the output, the same way for every site: checkout, Node 22,
-  npm ci, npm run build, npm run check. On main it uploads _site/ as the artifact "site" for site-deploy.
+  npm ci, npm run build, npm run check (or the script named by check-script). On main it uploads _site/ as the artifact "site" for site-deploy.
 inputs:
+  check-script:
+    description: The npm script that checks the built site (a repo whose `check` checks its code names another one)
+    default: check
   fetch-depth:
     description: Commits to fetch (0 for the docs, whose build compares with the base branch)
     default: "1"
@@ -23,8 +26,10 @@ runs:
       shell: bash
     - run: npm run build
       shell: bash
-    - run: npm run check
+    - run: npm run "$CHECK_SCRIPT"
       shell: bash
+      env:
+        CHECK_SCRIPT: ${{ inputs.check-script }}
     - if: inputs.upload == 'true'
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:

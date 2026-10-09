@@ -1,0 +1,2 @@
+# The heavy part of the checks (unit tests, build): the same command as the second half of the CI job `check`.
+npm run --silent lernapps -- check --pre-push
