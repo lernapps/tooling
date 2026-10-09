@@ -20,8 +20,13 @@ export interface Result {
  * Without the settings of a preview build (pr-preview.yml): a test copy has no base branch to compare with.
  */
 const { ARC42_DIFF_BASE: _base, SITE_PATH_PREFIX: _prefix, SITE_PREVIEW: _preview, ...inherited } = process.env;
+/**
+ * Without the variables git sets for a hook (GIT_DIR, GIT_INDEX_FILE, ...): a test started by the pre-push hook would
+ * otherwise run `git init`, `git add` and `git reset` of its temporary repos against the repo being pushed.
+ */
+const outsideGit = Object.fromEntries(Object.entries(inherited).filter(([name]) => !name.startsWith("GIT_")));
 export const testEnv: NodeJS.ProcessEnv = {
-  ...inherited,
+  ...outsideGit,
   LERNAPPS_E2E_INNER: "1",
   GIT_AUTHOR_NAME: "lernapps test",
   GIT_AUTHOR_EMAIL: "test@lernapps.invalid",

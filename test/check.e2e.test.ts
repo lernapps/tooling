@@ -4,9 +4,11 @@
 //   - CI command:    `npm run lernapps -- check` (job `check` in .github/workflows/check.yml)
 //   - `npm run check`: the CI command; it builds nothing
 //   - `npm run build && npm run check:site`: the docs site, built and checked (site actions, job `site`)
-import { writeFileSync } from "node:fs";
+//   - installed from git: the CLI and the subpath exports (guidance, skills) a consumer relies on
+import { existsSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
+import { frontMatterErrors } from "./plan.ts";
 import { freshClone, ok, run, tempDir, type Result } from "./support.ts";
 
 // A check run inside a test copy runs the tests too; it must not start these tests again.
@@ -119,13 +121,42 @@ describe.skipIf(inner)("a fresh clone", () => {
 });
 
 describe.skipIf(inner)("installed from git", () => {
-  test("a consumer gets the CLI lernapps", { timeout: SLOW }, () => {
+  let consumer = "";
+
+  beforeAll(() => {
     const source = freshClone();
-    const consumer = tempDir("consumer");
+    consumer = tempDir("consumer");
     writeFileSync(join(consumer, "package.json"), `${JSON.stringify({ name: "consumer", private: true })}\n`);
     ok("npm", ["install", "--no-audit", "--no-fund", `git+file://${source}`], consumer);
+  }, SLOW);
+
+  test("a consumer gets the CLI lernapps", { timeout: SLOW }, () => {
     const result = run("npx", ["--no", "--", "lernapps", "--help"], consumer);
     expect(result.code, output(result)).toBe(0);
     expect(result.stdout).toMatch(/^Usage: lernapps <command>/);
+  });
+
+  // The generator copies these; the hooks and the review validate the plan's front matter against the schema.
+  const resolve = (specifier: string) => {
+    const script = `process.stdout.write(fileURLToPath(import.meta.resolve(${JSON.stringify(specifier)})))`;
+    const prelude = 'import { fileURLToPath } from "node:url";';
+    return ok("node", ["--input-type=module", "--eval", `${prelude}\n${script}`], consumer).stdout;
+  };
+
+  test.each([
+    "@lernapps/tooling/guidance/AGENTS.md",
+    "@lernapps/tooling/guidance/plan-template.md",
+    "@lernapps/tooling/guidance/plan-front-matter.v1.schema.json",
+    "@lernapps/tooling/skills/lernapps-app/SKILL.md",
+  ])("a consumer resolves %s to a file in the package", (specifier) => {
+    const path = resolve(specifier);
+    expect(path.startsWith(join(consumer, "node_modules", "@lernapps", "tooling"))).toBe(true);
+    expect(existsSync(path), path).toBe(true);
+  });
+
+  test("the installed plan template validates against the installed schema", () => {
+    const template = resolve("@lernapps/tooling/guidance/plan-template.md");
+    const schema = resolve("@lernapps/tooling/guidance/plan-front-matter.v1.schema.json");
+    expect(frontMatterErrors(schema, template)).toEqual([]);
   });
 });
