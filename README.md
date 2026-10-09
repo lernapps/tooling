@@ -323,7 +323,8 @@ Renovate bumps both.
 
 `default.json` is the preset of every lernapps repo (`"extends": ["github>lernapps/tooling"]`): the owner's
 defaults ([mrsimpson/renovate-config](https://github.com/mrsimpson/renovate-config): automerge of patch and
-minor after 3 days, majors by hand) plus one rule: our own building blocks (`@lernapps/site`, these actions)
+minor after 3 days, majors by hand) plus one rule: our own building blocks (the packages `@lernapps/*`: `@lernapps/site`,
+`@lernapps/tooling`, `@lernapps/app-templates`; these actions)
 follow `main` at once, at any time of the week (not only in the Saturday window), and merge when green. A second
 rule groups `vite-plus` with `@voidzero-dev/vite-plus-core`, which `package.json` puts in place of `vite` through
 `overrides` (as the vite-plus README asks), so both always move to the same version.
