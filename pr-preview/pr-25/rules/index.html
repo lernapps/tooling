@@ -40,13 +40,18 @@
       <thead><tr><th>Rule</th><th>Scope</th><th>Severity</th></tr></thead>
       <tbody>
 <tr><td><a href="#accessible"><code>accessible</code></a></td><td>listing, site</td><td>error</td></tr>
+<tr><td><a href="#checks-pass"><code>checks-pass</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#dependency-licence"><code>dependency-licence</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#entry-fitness-matches"><code>entry-fitness-matches</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#entry-from-schema"><code>entry-from-schema</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#entry-links-resolve"><code>entry-links-resolve</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#explore-before-code"><code>explore-before-code</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#few-turns-after-plan"><code>few-turns-after-plan</code></a></td><td>listing</td><td>hint</td></tr>
 <tr><td><a href="#fix-from-message"><code>fix-from-message</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#free-of-charge"><code>free-of-charge</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#learner-text-german"><code>learner-text-german</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#learners-act"><code>learners-act</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#links-resolve"><code>links-resolve</code></a></td><td>listing, site</td><td>error</td></tr>
 <tr><td><a href="#no-account"><code>no-account</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-ads"><code>no-ads</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-request-before-click"><code>no-request-before-click</code></a></td><td>listing, site</td><td>error</td></tr>
@@ -59,6 +64,7 @@
 <tr><td><a href="#usable-at-360px"><code>usable-at-360px</code></a></td><td>listing, site</td><td>error</td></tr>
 <tr><td><a href="#imprint-and-privacy"><code>imprint-and-privacy</code></a></td><td>site</td><td>error</td></tr>
 <tr><td><a href="#readable-without-javascript"><code>readable-without-javascript</code></a></td><td>site</td><td>error</td></tr>
+<tr><td><a href="#site-check"><code>site-check</code></a></td><td></td><td></td></tr>
       </tbody>
     </table>
 <section id="accessible">
@@ -67,7 +73,34 @@
 <div>
 <p>Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives.</p>
 </div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/accessible.ts"><code>check/rules/accessible.ts</code></a>.</p>
+</section>
+
+<section id="checks-pass">
+<h2>Run the checks before you push</h2>
+<p><code>checks-pass</code> · listing · error</p>
+<div>
+<p>Run <code>lernapps check</code> before you push; the hooks run it too. Format, lint, type check, unit tests, build, the checks of the built app and the end-to-end tests must pass. A failure names the step: fix it from the step's output.</p>
+</div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+</section>
+
+<section id="dependency-licence">
+<h2>Only dependencies with an open licence</h2>
+<p><code>dependency-licence</code> · listing · error</p>
+<div>
+<p>Add a package to <code>dependencies</code> only if it and its own dependencies have one of these licences: MIT, MIT-0, ISC, 0BSD, BSD-2-Clause, BSD-3-Clause, Apache-2.0, MPL-2.0, BlueOak-1.0.0, Zlib, Unlicense, CC0-1.0, CC-BY-4.0, Python-2.0. Tools for the build belong in <code>devDependencies</code>.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/dependency-licence.ts"><code>check/rules/dependency-licence.ts</code></a>.</p>
+</section>
+
+<section id="entry-fitness-matches">
+<h2>Fitness values as measured</h2>
+<p><code>entry-fitness-matches</code> · listing · error</p>
+<div>
+<p>Take <code>fitness.storage</code> and <code>fitness.thirdParty</code> from what the app does, not from what it should do: <code>lernapps check --report &lt;file&gt;</code> measures what it does before a click. An app that keeps anything in <code>localStorage</code> has <code>storage: device</code>; one that loads from another server after a click has <code>thirdParty: on-click</code>.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-fitness-matches.ts"><code>check/rules/entry-fitness-matches.ts</code></a>.</p>
 </section>
 
 <section id="entry-from-schema">
@@ -77,6 +110,15 @@
 <p>Fetch the entry schema each time you need it; never fill the entry from memory or from another app. Take every value from the creator's answers, the plan or the app; never invent one.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+</section>
+
+<section id="entry-links-resolve">
+<h2>Every link of the entry resolves</h2>
+<p><code>entry-links-resolve</code> · listing · error</p>
+<div>
+<p>Give each topic the path of a page that exists, relative to the app's <code>url</code>. Check the entry against the deployed app with <code>lernapps check --entry &lt;file&gt;</code>.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-links-resolve.ts"><code>check/rules/entry-links-resolve.ts</code></a>.</p>
 </section>
 
 <section id="explore-before-code">
@@ -133,6 +175,15 @@
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
+<section id="links-resolve">
+<h2>Every link resolves</h2>
+<p><code>links-resolve</code> · listing, site · error</p>
+<div>
+<p>Point every link and every resource (pictures, scripts, styles) to a page or file that the build writes. Use relative links inside the app.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/links-resolve.ts"><code>check/rules/links-resolve.ts</code></a>.</p>
+</section>
+
 <section id="no-account">
 <h2>No account</h2>
 <p><code>no-account</code> · listing · error</p>
@@ -157,7 +208,7 @@
 <div>
 <p>Bundle fonts, scripts and pictures at build time. Load anything from another server (a video, a map) only after the learner clicks for it.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-request-before-click.ts"><code>check/rules/no-request-before-click.ts</code></a>.</p>
 </section>
 
 <section id="no-tracking">
@@ -166,7 +217,7 @@
 <div>
 <p>No cookies, no analytics, no tracking pixels, no server that stores data. If the app stores anything, it stays on the device (<code>localStorage</code>) and serves only the app.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>.</p>
 </section>
 
 <section id="plan-file">
@@ -220,7 +271,7 @@
 <div>
 <p>Every page works at 360 px width without horizontal scrolling, with every control reachable.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/usable-at-360px.ts"><code>check/rules/usable-at-360px.ts</code></a>.</p>
 </section>
 
 <section id="imprint-and-privacy">
@@ -238,7 +289,16 @@
 <div>
 <p>Every page says what it is and what the app does without JavaScript. The skill of the archetype says how much more.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/readable-without-javascript.ts"><code>check/rules/readable-without-javascript.ts</code></a>.</p>
+</section>
+
+<section id="site-check">
+<h2>site-check</h2>
+<p><code>site-check</code></p>
+<div>
+<p>The bundle of an app on lernapps.net passes lernapps-check of the site frame.</p>
+</div>
+<p>Checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/site-check.ts"><code>check/rules/site-check.ts</code></a>.</p>
 </section>
   </main>
 <footer class="la-footer">
