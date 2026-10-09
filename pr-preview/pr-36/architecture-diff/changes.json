@@ -1,37 +1,19 @@
 {
   "version": 1,
   "base": {
-    "label": "be03169b327fbc866b5f905bd1bf7c5d6eb41c36",
-    "commit": "be03169b327fbc866b5f905bd1bf7c5d6eb41c36"
+    "label": "d3cc3cf59fa684449af09edd77c053b33e36f08e",
+    "commit": "d3cc3cf59fa684449af09edd77c053b33e36f08e"
   },
   "head": {
-    "label": "ba32350fefc78656c1c91267570b69d5e6e0ca8a"
+    "label": "d21bcbdfe23c86367428ff3a30d81f3ca884bf48"
   },
-  "acceptanceBase": "be03169b327fbc866b5f905bd1bf7c5d6eb41c36",
+  "acceptanceBase": "d3cc3cf59fa684449af09edd77c053b33e36f08e",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": true,
-  "findings": [
-    {
-      "kind": "block-without-prose-change",
-      "severity": "warning",
-      "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 248,
-      "elementId": "if-archetype-preset",
-      "message": "Block 'if-archetype-preset' changed without changing its section prose."
-    }
-  ],
+  "hasBlockingFindings": false,
+  "findings": [],
   "groups": {
-    "warnings": [
-      {
-        "kind": "block-without-prose-change",
-        "severity": "warning",
-        "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 248,
-        "elementId": "if-archetype-preset",
-        "message": "Block 'if-archetype-preset' changed without changing its section prose."
-      }
-    ],
+    "warnings": [],
     "untouched": [],
     "updated": [],
     "uncovered": []
@@ -135,14 +117,14 @@
             "after": "npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y; per archetype its preset, runtime and end-to-end tests) and the hooks directory"
           }
         ],
-        "proseChanged": false,
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "line": 237
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 248
+          "line": 249
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -163,7 +145,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 264
+          "line": 265
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -197,7 +179,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 460
+          "line": 461
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
