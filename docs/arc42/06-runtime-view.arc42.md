@@ -101,7 +101,9 @@ sequenceDiagram
 
 A pull request adds an entry to lernapps/apps. The listing validation checks the deployed app against the entry:
 the rules, the topic links, the fitness values. On failure it comments the report; the creator's assistant fixes the
-app or the entry and pushes again. Then the review agent judges the rest and the owner decides.
+app or the entry and pushes again. Then the owner starts the review agent in a fresh context: it judges the rest
+against the rubric of the app's archetype and writes a verdict for the reviewed commit, which the owner posts on the
+pull request before deciding. Proposed rules from the verdict go to the tooling as new pull requests.
 
 ```arc42
 :::runtime-scenario
@@ -137,9 +139,11 @@ sequenceDiagram
     listing->>check: second run
     check-->>listing: report: rules kept, topic links resolve, fitness values match
     owner->>review: start the review of the pull request
-    review->>procedure: prompt and rubric
+    review->>procedure: prompt, rubric of the archetype, rule catalog
+    review->>check: validation report of the commit
+    review->>procedure: check the verdict against its schema and the catalog
     review-->>owner: verdict for the reviewed commit
-    owner->>listing: merge or decline
+    owner->>listing: verdict as a comment, merge or decline
 ```
 
 ## A rule changes

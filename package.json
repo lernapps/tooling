@@ -13,6 +13,7 @@
   "files": [
     "dist",
     "check/validation-report.v1.schema.json",
+    "review/verdict.v1.schema.json",
     "guidance",
     "skills"
   ],
@@ -20,6 +21,7 @@
   "exports": {
     "./package.json": "./package.json",
     "./check/validation-report.v1.schema.json": "./check/validation-report.v1.schema.json",
+    "./review/verdict.v1.schema.json": "./review/verdict.v1.schema.json",
     "./guidance/AGENTS.md": "./guidance/AGENTS.md",
     "./guidance/plan-template.md": "./guidance/plan-template.md",
     "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
@@ -30,6 +32,7 @@
     "lernapps": "node src/cli.ts",
     "check": "npm run --silent lernapps -- check",
     "rules": "node scripts/rules.ts list",
+    "verdict": "node scripts/verdict.ts",
     "build": "./scripts/build.sh",
     "check:site": "lernapps-check --site /tooling/",
     "arc42": "arc42 --dir docs/arc42"

@@ -1,0 +1,33 @@
+reviewed:
+  commit: 256048440692edfd0337a8e47046c6a7425e0a00
+  repo: test/fixtures/reviews/ad/app
+report: .reviews/ad-2560484/report.yaml
+archetype: explainer
+outcome: fail
+rules:
+  - runs-in-browser
+  - no-account
+  - free-of-charge
+  - no-ads
+  - learners-act
+  - learner-text-german
+  - no-learner-data-in-texts
+  - no-tracking
+  - third-party-licence
+  - retrospective-filled
+  - correct-content-support
+  - topic-has-exercises
+findings:
+  - rule: no-ads
+    link: https://lernapps.net/tooling/rules/#no-ads
+    severity: error
+    where: dist/kuerzen/index.html, aside "Anzeige"
+    found: 'An ad for paid tutoring on the exercise page: "Anzeige – Nachhilfe-Profi: Mathe-Nachhilfe bei dir zu Hause. Die erste Stunde kostet 20 % weniger." with the link "Jetzt Nachhilfe buchen" to nachhilfe-profi.example.'
+    fix: Remove the aside with the ad from the exercise page.
+    moveTo: [skill, check]
+  - rule: correct-content-support
+    link: https://lernapps.net/tooling/rules/#correct-content-support
+    severity: hint
+    where: dist/kuerzen/index.html
+    found: The answers of the exercises are computable, but the repo has no test that checks the solutions shown.
+    fix: Generate the exercises from data and test each solution with a checker.

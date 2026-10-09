@@ -124,6 +124,13 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
     expect(output(result)).toMatch(/learners-act.*appears twice in a skill/);
   });
 
+  test("a rubric item without its rule id turns npm run check red and names the item", { timeout: SLOW }, () => {
+    plant("review/archetypes/planted.md", "# Planted\n\n## The planted item\n\nJudge it, without an id.\n");
+    const result = check_();
+    expect(result.code, output(result)).not.toBe(0);
+    expect(output(result)).toMatch(/review\/archetypes\/planted\.md:3: rubric item "The planted item" has no rule id/);
+  });
+
   test("two checks with the same id turn npm run check red", { timeout: SLOW }, () => {
     plant("check/rules/planted.ts", check({ id: "planted-rule", url: `${RULES}planted-rule` }));
     plant("check/rules/planted-again.ts", check({ id: "planted-rule", url: `${RULES}planted-rule` }));
