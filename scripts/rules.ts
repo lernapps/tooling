@@ -1,26 +1,29 @@
 // Reads the rule catalog from the artifacts where the rules live (docs/arc42 ch. 8, concept "Rule catalog";
 // ch. 9, decision "Rules live in their artifacts"). Nothing is generated into the artifacts; there is no central
-// rule file.
+// rule file, and no artifact needs to know the others.
 //
 //   node scripts/rules.ts test          the id test (test/rules.test.ts): one line per problem, exit 1 on any
+//   node scripts/rules.ts list          every rule of every artifact, grouped by id, as YAML (npm run rules)
 //   node scripts/rules.ts page <file>   writes the rule page of the docs site (scripts/build.sh); fails like test
 //
-// Where a rule is declared, and where it is enforced:
-//   - skills/**/*.md   declares: a section of a skill, headed by a rule block; every rule is explained there
-//   - check/rules/*.ts enforces a `checked` rule: a check of the built app, default export { id, url, ... }
-//   - lint/rules/*.ts  enforces a `checked` rule: a lint rule (ESLint-compatible), file name = id, meta.docs.url
-//   - review/**/*.md   enforces a `reviewed` rule: an item of the review rubric, headed by a `rubric` block (id)
+// The artifacts, each one deployment unit with its own ids:
+//   - skills/**/*.md   a section of a skill, headed by a rule block (id, scope, severity)
+//   - check/rules/*.ts a check of the built app, default export { id, url, ... }
+//   - lint/rules/*.ts  a lint rule (ESLint-compatible), file name = id, meta.docs.url
+//   - review/**/*.md   an item of the review rubric, headed by a `rubric` block (id)
+// The same id in several artifacts is one rule, told and enforced in several places. An id is unique within its
+// artifact kind; whether the artifacts of one id agree is judged by an agent (.agents/skills/rules-review/).
 // A rule block is a fenced block with the info string `rule` right under the section's heading, one key per line:
 //
 //   ```rule
 //   id: no-request-before-click
 //   scope: [listing, site]
 //   severity: error
-//   enforcement: guided
 //   ```
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { stringify } from "yaml";
 
 const RULE_PAGE = "https://lernapps.net/tooling/rules/";
 const SOURCE = "https://github.com/lernapps/tooling/blob/main/";
@@ -28,42 +31,28 @@ const SOURCE = "https://github.com/lernapps/tooling/blob/main/";
 const ID = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 const SCOPE = /^(listing|site|archetype:[a-z][a-z0-9-]*)$/;
 const SEVERITIES = ["error", "warning", "hint"];
-const ENFORCEMENTS = ["guided", "checked", "reviewed"];
-const KEYS = { rule: ["id", "scope", "severity", "enforcement"], rubric: ["id"] };
+const KEYS = { rule: ["id", "scope", "severity"], rubric: ["id"] };
 type Info = keyof typeof KEYS;
 
-interface Rule {
+type Kind = "skill" | "check" | "lint rule" | "rubric item";
+
+/** One artifact that carries a rule. */
+interface Entry {
+  kind: Kind;
   id: string;
-  scopes: string[];
-  severity: string;
-  enforcement: string;
-  title: string;
-  /** The section's text below the rule block: where the rule is explained. Markdown. */
-  body: string;
-  /** Where it is declared: path relative to the repo, and line of the rule block. */
+  /** Path relative to the repo; for Markdown with the line of the block. */
   file: string;
-  line: number;
-}
-
-/** A fenced block with info string `rule` or `rubric`, and the section it heads. */
-interface Block {
-  fields: Map<string, string>;
-  title: string | undefined;
-  body: string;
-  file: string;
-  line: number;
-}
-
-interface Implementation {
-  kind: "check" | "lint rule" | "rubric item";
-  id: string | undefined;
-  url: string | undefined;
-  file: string;
+  line?: number | undefined;
+  title?: string | undefined;
+  /** What the artifact says about the rule: the section's text, or the description of a check or lint rule. */
+  text?: string | undefined;
+  scopes?: string[];
+  severity?: string;
 }
 
 interface Catalog {
-  rules: Rule[];
-  implementations: Implementation[];
+  /** By id, in the order skill, check, lint rule, rubric item. */
+  rules: Map<string, Entry[]>;
   problems: string[];
 }
 
@@ -78,6 +67,15 @@ function filesBelow(dir: string, extension: string): string[] {
       return entry.name.endsWith(extension) ? [path] : [];
     })
     .sort();
+}
+
+/** A fenced block with info string `rule` or `rubric`, and the section it heads. */
+interface Block {
+  fields: Map<string, string>;
+  title: string | undefined;
+  body: string;
+  file: string;
+  line: number;
 }
 
 /** The blocks of one kind in a Markdown file, with the section each one heads. */
@@ -137,6 +135,7 @@ function readBlocks(root: string, path: string, info: Info, problems: string[]):
       body.push(text);
     }
 
+    if (heading === undefined) problems.push(`${at}: a ${info} block must stand under the heading of its section`);
     blocks.push({ fields, title: heading?.title, body: body.join("\n").trim(), file, line: i + 1 });
     heading = undefined; // one block per section
     i = end;
@@ -144,12 +143,11 @@ function readBlocks(root: string, path: string, info: Info, problems: string[]):
   return blocks;
 }
 
-/** A rule from its rule block, with the problems of its fields. */
-function toRule({ fields, title, body, file, line }: Block, problems: string[]): Rule {
+/** A skill section from its rule block, with the problems of its fields. */
+function fromRuleBlock({ fields, title, body, file, line }: Block, problems: string[]): Entry {
   const at = `${file}:${line}`;
   const id = fields.get("id") ?? "";
   const name = id === "" ? "rule block" : `rule ${id}`;
-  if (!ID.test(id)) problems.push(`${at}: ${name}: id must be a stable name like no-request-before-click`);
   const scopeText = fields.get("scope") ?? "";
   const scopes = scopeText
     .replace(/^\[(.*)\]$/, "$1")
@@ -166,12 +164,7 @@ function toRule({ fields, title, body, file, line }: Block, problems: string[]):
   if (severity === "warning" && scopes.includes("listing")) {
     problems.push(`${at}: ${name}: a listing rule is never a warning`);
   }
-  const enforcement = fields.get("enforcement") ?? "";
-  if (!ENFORCEMENTS.includes(enforcement)) {
-    problems.push(`${at}: ${name}: unknown enforcement "${enforcement}" (${ENFORCEMENTS.join(", ")})`);
-  }
-  if (title === undefined) problems.push(`${at}: ${name}: a rule block must stand under the heading of its section`);
-  return { id, scopes, severity, enforcement, title: title ?? id, body, file, line };
+  return { kind: "skill", id, file, line, title: title ?? id, text: body, scopes, severity };
 }
 
 function field(value: unknown, ...path: string[]): unknown {
@@ -185,8 +178,10 @@ function field(value: unknown, ...path: string[]): unknown {
 
 const text = (value: unknown) => (typeof value === "string" ? value : undefined);
 
-async function readImplementations(root: string, problems: string[]): Promise<Implementation[]> {
-  const implementations: Implementation[] = [];
+/** Reads all artifacts and tests each on its own: ids valid and unique within the kind, messages linked. */
+async function readCatalog(root: string): Promise<Catalog> {
+  const problems: string[] = [];
+  const entries: Entry[] = [];
   const load = async (path: string): Promise<unknown> => {
     try {
       const module: unknown = await import(pathToFileURL(path).href);
@@ -196,99 +191,83 @@ async function readImplementations(root: string, problems: string[]): Promise<Im
       return undefined;
     }
   };
-  for (const path of filesBelow(join(root, "check", "rules"), ".ts")) {
-    const check = await load(path);
-    implementations.push({
-      kind: "check",
-      id: text(field(check, "id")),
-      url: text(field(check, "url")),
-      file: relative(root, path),
-    });
-  }
-  for (const path of filesBelow(join(root, "lint", "rules"), ".ts")) {
-    const rule = await load(path);
-    implementations.push({
-      kind: "lint rule",
-      id: basename(path, ".ts"),
-      url: text(field(rule, "meta", "docs", "url")),
-      file: relative(root, path),
-    });
-  }
-  for (const path of filesBelow(join(root, "review"), ".md")) {
-    for (const { fields, title, file, line } of readBlocks(root, path, "rubric", problems)) {
-      if (title === undefined)
-        problems.push(`${file}:${line}: a rubric block must stand under the heading of its item`);
-      implementations.push({ kind: "rubric item", id: fields.get("id"), url: undefined, file: `${file}:${line}` });
-    }
-  }
-  return implementations;
-}
-
-/** Reads all artifacts and tests the ids: unique, every checked rule implemented, every message linked. */
-async function readCatalog(root: string): Promise<Catalog> {
-  const problems: string[] = [];
-  const rules: Rule[] = [];
-  for (const path of filesBelow(join(root, "skills"), ".md")) {
-    for (const block of readBlocks(root, path, "rule", problems)) rules.push(toRule(block, problems));
-  }
-
-  const declared = new Map<string, Rule>();
-  for (const rule of rules) {
-    const first = declared.get(rule.id);
-    if (first) {
-      problems.push(`${rule.file}:${rule.line}: rule ${rule.id} declared twice (first in ${first.file}:${first.line})`);
-    } else if (rule.id !== "") {
-      declared.set(rule.id, rule);
-    }
-  }
-
-  const implementations = await readImplementations(root, problems);
-  const seen = new Map<string, Implementation>();
-  for (const implementation of implementations) {
-    const { kind, id, url, file } = implementation;
-    if (id === undefined || !ID.test(id)) {
+  const linked = (file: string, id: string, key: string, url: string | undefined) => {
+    if (url !== ruleUrl(id)) {
       problems.push(
-        kind === "check"
-          ? `${file}: check has no rule id: export default { id: "<rule id>", url: "${RULE_PAGE}#<rule id>", ... }`
-          : kind === "lint rule"
-            ? `${file}: lint rule has no rule id: name the file <rule id>.ts`
-            : `${file}: rubric item has no rule id: \`\`\`rubric with id: <rule id>`,
-      );
-      continue;
-    }
-    const twice = seen.get(`${kind}:${id}`);
-    if (twice) problems.push(`${file}: rule ${id} implemented twice by a ${kind} (also ${twice.file})`);
-    seen.set(`${kind}:${id}`, implementation);
-    const rule = declared.get(id);
-    if (!rule) {
-      problems.push(`${file}: rule ${id} is not declared: add its section with a rule block to a skill (skills/)`);
-    } else if (rule.enforcement !== (kind === "rubric item" ? "reviewed" : "checked")) {
-      problems.push(
-        `${file}: rule ${id} has a ${kind} but is declared ${rule.enforcement} in ${rule.file}:${rule.line}`,
-      );
-    }
-    if (kind !== "rubric item" && url !== ruleUrl(id)) {
-      problems.push(
-        `${file}: the messages of rule ${id} do not link to the rule: ` +
-          (kind === "check" ? "url" : "meta.docs.url") +
-          ` must be ${ruleUrl(id)}` +
+        `${file}: the messages of rule ${id} do not link to the rule: ${key} must be ${ruleUrl(id)}` +
           (url === undefined ? "" : `, not ${url}`),
       );
     }
+  };
+
+  for (const path of filesBelow(join(root, "skills"), ".md")) {
+    for (const block of readBlocks(root, path, "rule", problems)) entries.push(fromRuleBlock(block, problems));
   }
-  for (const rule of declared.values()) {
-    const enforced = implementations.filter((implementation) => implementation.id === rule.id);
-    if (rule.enforcement === "checked" && !enforced.some((implementation) => implementation.kind !== "rubric item")) {
+  for (const path of filesBelow(join(root, "check", "rules"), ".ts")) {
+    const check = await load(path);
+    const file = relative(root, path);
+    const id = text(field(check, "id")) ?? "";
+    if (id !== "") linked(file, id, "url", text(field(check, "url")));
+    entries.push({ kind: "check", id, file, text: text(field(check, "description")) });
+  }
+  for (const path of filesBelow(join(root, "lint", "rules"), ".ts")) {
+    const rule = await load(path);
+    const file = relative(root, path);
+    const id = basename(path, ".ts");
+    linked(file, id, "meta.docs.url", text(field(rule, "meta", "docs", "url")));
+    entries.push({ kind: "lint rule", id, file, text: text(field(rule, "meta", "docs", "description")) });
+  }
+  for (const path of filesBelow(join(root, "review"), ".md")) {
+    for (const { fields, title, body, file, line } of readBlocks(root, path, "rubric", problems)) {
+      entries.push({ kind: "rubric item", id: fields.get("id") ?? "", file, line, title, text: body });
+    }
+  }
+
+  const HOW: Record<Kind, string> = {
+    skill: "id: <rule id> in its rule block",
+    check: 'export default { id: "<rule id>", ... }',
+    "lint rule": "name the file <rule id>.ts",
+    "rubric item": "id: <rule id> in its rubric block",
+  };
+  const rules = new Map<string, Entry[]>();
+  for (const entry of entries) {
+    const at = entry.line === undefined ? entry.file : `${entry.file}:${entry.line}`;
+    if (!ID.test(entry.id)) {
       problems.push(
-        `${rule.file}:${rule.line}: checked rule ${rule.id} has no implementation: ` +
-          "a check in check/rules/ or a lint rule in lint/rules/",
+        `${at}: ${entry.kind} has no valid rule id (a stable name like no-request-before-click): ${HOW[entry.kind]}`,
       );
+      continue;
     }
-    if (rule.enforcement === "reviewed" && !enforced.some((implementation) => implementation.kind === "rubric item")) {
-      problems.push(`${rule.file}:${rule.line}: reviewed rule ${rule.id} has no rubric item in review/`);
+    const same = rules.get(entry.id) ?? [];
+    const twice = same.find((other) => other.kind === entry.kind);
+    if (twice) {
+      const first = twice.line === undefined ? twice.file : `${twice.file}:${twice.line}`;
+      problems.push(`${at}: rule ${entry.id} appears twice in a ${entry.kind} (first in ${first})`);
+      continue;
     }
+    rules.set(entry.id, [...same, entry]);
   }
-  return { rules, implementations, problems };
+  return { rules, problems };
+}
+
+// The list
+
+/** Every rule, grouped by id: what each artifact says about it, for people and for the rules review. */
+function ruleList(catalog: Catalog): string {
+  const list = Object.fromEntries(
+    [...catalog.rules.keys()].sort().map((id) => [
+      id,
+      (catalog.rules.get(id) ?? []).map(({ kind, file, line, title, scopes, severity, text }) => ({
+        in: kind,
+        file: line === undefined ? file : `${file}:${line}`,
+        ...(title === undefined ? {} : { title }),
+        ...(scopes === undefined ? {} : { scope: scopes }),
+        ...(severity === undefined ? {} : { severity }),
+        ...(text === undefined || text === "" ? {} : { text }),
+      })),
+    ]),
+  );
+  return stringify(list, { lineWidth: 0 });
 }
 
 // The rule page
@@ -328,76 +307,74 @@ function blocks(markdown: string): string {
 
 const source = (file: string) => `<a href="${SOURCE}${escape(file)}"><code>${escape(file)}</code></a>`;
 
-const LABEL: Record<Implementation["kind"], string> = {
-  check: "geprüft von der Prüfung",
-  "lint rule": "geprüft von der Lint-Regel",
-  "rubric item": "beurteilt nach dem Punkt der Begutachtung in",
+const LABEL: Record<Kind, string> = {
+  skill: "told in the skill",
+  check: "checked by the check",
+  "lint rule": "checked by the lint rule",
+  "rubric item": "judged by the rubric item in",
 };
 
-const ORDER = (rule: Rule) => (rule.scopes.includes("listing") ? 0 : rule.scopes.includes("site") ? 1 : 2);
-
 function rulePage(catalog: Catalog): string {
-  const rules = [...catalog.rules].sort((a, b) => ORDER(a) - ORDER(b) || a.id.localeCompare(b.id));
+  const rules = [...catalog.rules].map(([id, entries]) => {
+    const skill = entries.find((entry) => entry.kind === "skill");
+    const told = skill ?? entries.find((entry) => entry.text !== undefined && entry.text !== "");
+    return { id, entries, skill, title: told?.title ?? id, text: told?.text ?? "" };
+  });
+  const order = ({ skill }: (typeof rules)[number]) =>
+    skill?.scopes?.includes("listing") ? 0 : skill?.scopes?.includes("site") ? 1 : 2;
+  rules.sort((a, b) => order(a) - order(b) || a.id.localeCompare(b.id));
   const rows = rules
     .map(
-      (rule) =>
-        `<tr><td><a href="#${rule.id}"><code>${rule.id}</code></a></td><td>${rule.scopes.join(", ")}</td>` +
-        `<td>${rule.severity}</td><td>${rule.enforcement}</td></tr>`,
+      ({ id, skill }) =>
+        `<tr><td><a href="#${id}"><code>${id}</code></a></td><td>${skill?.scopes?.join(", ") ?? ""}</td>` +
+        `<td>${skill?.severity ?? ""}</td></tr>`,
     )
     .join("\n");
   const sections = rules
-    .map((rule) => {
-      const implementations = catalog.implementations.filter((implementation) => implementation.id === rule.id);
-      const where = [
-        `Steht in ${source(rule.file)}`,
-        ...implementations.map(
-          (implementation) => `${LABEL[implementation.kind]} ${source(implementation.file.replace(/:\d+$/, ""))}`,
-        ),
-      ].join("; ");
+    .map(({ id, entries, skill, title, text }) => {
+      const where = entries.map((entry) => `${LABEL[entry.kind]} ${source(entry.file)}`).join("; ");
+      const where_ = where.charAt(0).toUpperCase() + where.slice(1);
       return [
-        `<section id="${rule.id}">`,
+        `<section id="${id}">`,
         // A heading like "`plan-file`: Keep the plan file": the id is shown below it.
-        `<h2 lang="en">${inline(rule.title.replace(/^`[^`]+`:\s*/, ""))}</h2>`,
-        `<p><code>${rule.id}</code> · ${rule.scopes.join(", ")} · ${rule.severity} · ${rule.enforcement}</p>`,
-        `<div lang="en">\n${blocks(rule.body)}\n</div>`,
-        `<p>${where}.</p>`,
+        `<h2>${inline(title.replace(/^`[^`]+`:\s*/, ""))}</h2>`,
+        `<p>${[`<code>${id}</code>`, skill?.scopes?.join(", "), skill?.severity].filter(Boolean).join(" · ")}</p>`,
+        `<div>\n${blocks(text)}\n</div>`,
+        `<p>${where_}.</p>`,
         "</section>",
       ].join("\n");
     })
     .join("\n\n");
   return `<!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>Regeln – Werkzeuge – lernapps.net</title>
+  <title>Rules – Tooling – lernapps.net</title>
   <link rel="canonical" href="${RULE_PAGE}">
   <link rel="stylesheet" href="../stil.css">
 </head>
 <body>
   <main id="main-content" tabindex="-1">
-    <h1>Regeln</h1>
-    <p>Jede Regel ist eine Anforderung an eine Lern-App. Erklärt ist sie in einem Abschnitt eines Skills für
-      KI-Assistenten; durchgesetzt wird sie dort, wo sie wirkt: als Prüfung, als Lint-Regel oder als Punkt der
-      Begutachtung. Diese Seite liest sie von dort. Die Regeln selbst sind englisch, weil KI-Assistenten sie so
-      lesen.</p>
+    <h1>Rules</h1>
+    <p>Each rule is one requirement on a learning app. It lives where it acts: as a section of a skill for AI
+      assistants, as a check, as a lint rule or as an item of the review rubric. The same rule can live in several of
+      them, always under the same id. This page reads them from there.</p>
     <ul>
-      <li><strong>Geltung:</strong> <code>listing</code> gilt für jede App in der App-Übersicht, egal wo sie liegt;
-        <code>site</code> für jede Seite auf lernapps.net; <code>archetype:…</code> für Apps dieser Art.</li>
-      <li><strong>Schwere:</strong> <code>error</code> darf nicht verletzt werden; <code>warning</code> nur mit
-        Begründung an Ort und Stelle; <code>hint</code> ist eine Empfehlung.</li>
-      <li><strong>Durchsetzung:</strong> <code>guided</code> steht in einem Skill; <code>checked</code> prüft ein
-        Programm; <code>reviewed</code> beurteilt die Begutachtung.</li>
+      <li><strong>Scope:</strong> <code>listing</code> applies to every app in the app overview, wherever it is
+        hosted; <code>site</code> to every page on lernapps.net; <code>archetype:…</code> to apps of that
+        archetype.</li>
+      <li><strong>Severity:</strong> <code>error</code> must not be broken; <code>warning</code> only with a reason
+        recorded in place; <code>hint</code> is a recommendation.</li>
     </ul>
-    <p>Jede Meldung einer Prüfung verlinkt auf ihre Regel hier, über deren Kennung: <code>${RULE_PAGE}#&lt;Kennung&gt;</code>.</p>
+    <p>Every message of a check links to its rule here, by its id: <code>${RULE_PAGE}#&lt;id&gt;</code>.</p>
     <table>
-      <thead><tr><th>Regel</th><th>Geltung</th><th>Schwere</th><th>Durchsetzung</th></tr></thead>
+      <thead><tr><th>Rule</th><th>Scope</th><th>Severity</th></tr></thead>
       <tbody>
 ${rows}
       </tbody>
     </table>
-
 ${sections}
   </main>
 </body>
@@ -407,8 +384,8 @@ ${sections}
 
 async function main(args: string[]): Promise<number> {
   const [command, out] = args;
-  if (command !== "test" && !(command === "page" && out)) {
-    process.stderr.write("usage: node scripts/rules.ts test | page <file>\n");
+  if (command !== "test" && command !== "list" && !(command === "page" && out)) {
+    process.stderr.write("usage: node scripts/rules.ts test | list | page <file>\n");
     return 2;
   }
   const root = resolve(import.meta.dirname, "..");
@@ -417,15 +394,14 @@ async function main(args: string[]): Promise<number> {
     process.stderr.write(`${catalog.problems.map((problem) => `rules: ${problem}`).join("\n")}\n`);
     return 1;
   }
-  if (command === "page" && out) {
+  if (command === "list") {
+    process.stdout.write(ruleList(catalog));
+  } else if (command === "page" && out) {
     mkdirSync(dirname(resolve(out)), { recursive: true });
     writeFileSync(resolve(out), rulePage(catalog));
-    process.stdout.write(`rules: ${catalog.rules.length} rules written to ${out}\n`);
+    process.stdout.write(`rules: ${catalog.rules.size} rules written to ${out}\n`);
   } else {
-    const checked = catalog.rules.filter((rule) => rule.enforcement === "checked").length;
-    process.stdout.write(
-      `rules: ${catalog.rules.length} rules, ids unique, ${checked} checked rules implemented, every message linked\n`,
-    );
+    process.stdout.write(`rules: ${catalog.rules.size} rules, ids unique per artifact kind, every message linked\n`);
   }
   return 0;
 }

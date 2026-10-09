@@ -134,13 +134,13 @@ definition: The last section of the plan file, filled by the assistant at the en
 
 ## Rule
 
-Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. All rules together are the rule catalog (chapter 8).
+Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. One rule can be told in a skill and checked by a program at the same time, under one id. All rules together are the rule catalog (chapter 8).
 
 ```arc42
 :::glossary-term
 id: term-rule
 title: Rule
-definition: One requirement on an app, with a stable id, scope (listing, site, archetype), severity (error, warning, hint) and enforcement (guided, checked, reviewed); it lives as skill text, lint rule, check or rubric item.
+definition: One requirement on an app, with a stable id, scope (listing, site, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id.
 :::
 ```
 

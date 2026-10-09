@@ -2,8 +2,8 @@
 
 The rules no program decides: the review agent judges each item for an app that asks to be listed, starting from
 the validation report. This rubric is still being written; the prompt and the format of the verdict follow. Each
-item judges one `reviewed` rule, declared and explained in a skill (`skills/lernapps-app/SKILL.md`); the item's
-`rubric` block names its rule id, and the verdict names the rule id of every finding.
+item's `rubric` block names its rule id, the same id as where a skill tells the rule (`skills/lernapps-app/SKILL.md`),
+and the verdict names the rule id of every finding.
 
 ## Runs in the browser, without installation
 
