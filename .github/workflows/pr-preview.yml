@@ -4,7 +4,7 @@ name: Preview
 # https://lernapps.net/tooling/pr-preview/pr-<number>/, updated on every push and removed when the pull request
 # is closed (shared action of this repo). It contains the changes of the architecture (architecture-diff/) since
 # the merge base as one page. One comment on the pull request, updated in place, links it and lists the changed
-# elements (scripts/review-summary.mjs).
+# elements (scripts/review-summary.ts).
 on:
   pull_request:
     types: [opened, reopened, synchronize, closed]
@@ -32,7 +32,7 @@ jobs:
           fetch-depth: 0 # the diff needs the base branch
           comment: false # the comment below lists the changes
       - if: github.event.action != 'closed'
-        run: node scripts/review-summary.mjs "origin/${{ github.base_ref }}" > summary.md
+        run: node scripts/review-summary.ts "origin/${{ github.base_ref }}" > summary.md
       - name: Comment on the pull request
         if: github.event.action != 'closed'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0

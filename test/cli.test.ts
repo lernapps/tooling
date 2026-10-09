@@ -1,0 +1,47 @@
+// The contract of the CLI `lernapps`: usage, exit codes, the command structure.
+import { describe, expect, test } from "vite-plus/test";
+import { repoRoot, run } from "./support.ts";
+
+const lernapps = (...args: string[]) => run("node", ["src/cli.ts", ...args], repoRoot);
+
+describe("lernapps", () => {
+  test("--help prints the usage with the check command and exits 0", () => {
+    const result = lernapps("--help");
+    expect(result.code).toBe(0);
+    expect(result.stdout).toMatch(/^Usage: lernapps <command>/);
+    expect(result.stdout).toContain("check [--pre-commit] [--pre-push]");
+    expect(result.stderr).toBe("");
+  });
+
+  test("without a command it prints the usage and exits non-zero", () => {
+    const result = lernapps();
+    expect(result.code).not.toBe(0);
+    expect(result.stderr).toContain("Usage: lernapps <command>");
+  });
+
+  test("an unknown command exits non-zero and says so", () => {
+    const result = lernapps("frobnicate");
+    expect(result.code).not.toBe(0);
+    expect(result.stderr).toContain("unknown command: frobnicate");
+  });
+
+  test("check --help describes the fast and the heavy part and exits 0", () => {
+    const result = lernapps("check", "--help");
+    expect(result.code).toBe(0);
+    expect(result.stdout).toMatch(/^Usage: lernapps check \[--pre-commit\] \[--pre-push\]/);
+    expect(result.stdout).toContain("--pre-commit");
+    expect(result.stdout).toContain("--pre-push");
+  });
+
+  test("check with an unknown option exits non-zero", () => {
+    const result = lernapps("check", "--pre-merge");
+    expect(result.code).not.toBe(0);
+    expect(result.stderr).toContain("--pre-merge");
+  });
+
+  test("--version prints the version of the package", () => {
+    const result = lernapps("--version");
+    expect(result.code).toBe(0);
+    expect(result.stdout.trim()).toMatch(/^\d+\.\d+\.\d+/);
+  });
+});
