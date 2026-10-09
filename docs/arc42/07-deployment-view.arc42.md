@@ -84,12 +84,18 @@ The environment where agents defined by lernapps run: the review agent on a list
 with Claude Code, Codex and Gemini CLI. Today it is the owner's machine; it can move to a dedicated environment
 without changing the blocks.
 
+It holds a checkout of lernapps/tooling at `main` with its dependencies installed. For a review, the owner starts a
+fresh agent there with the prompt `review/prompt.md`, the app's repo and the commit to review. The agent works in a
+directory of its own per review (`.reviews/`, ignored by git): it clones the app at that commit, builds the bundle,
+runs the check CLI for the validation report, and writes the verdict next to it. The owner posts the verdict on the
+listing pull request; nothing else leaves the environment.
+
 ```arc42
 :::deployment-node
 id: dn-lernapps-agents
 title: Environment for lernapps agents
 type: environment
-hosts: bb-review-procedure, bb-evals, bb-check-cli
+hosts: bb-tooling-package, bb-review-procedure, bb-evals, bb-check-cli
 :::
 ```
 

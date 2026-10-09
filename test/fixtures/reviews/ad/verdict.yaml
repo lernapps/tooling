@@ -1,0 +1,40 @@
+reviewed:
+  commit: 256048440692edfd0337a8e47046c6a7425e0a00
+  repo: .reviews/ad-app
+report: .reviews/ad-app-2560484/report.yaml
+archetype: explainer
+outcome: fail
+rules:
+  - runs-in-browser
+  - no-account
+  - free-of-charge
+  - no-ads
+  - learners-act
+  - learner-text-german
+  - no-learner-data-in-texts
+  - no-tracking
+  - third-party-licence
+  - retrospective-filled
+  - correct-content-support
+  - topic-has-exercises
+findings:
+  - rule: no-ads
+    link: https://lernapps.net/tooling/rules/#no-ads
+    severity: error
+    where: dist/kuerzen/index.html, aside "Anzeige"
+    found: 'An ad for paid tutoring, marked "Anzeige": "Nachhilfe-Profi: Mathe-Nachhilfe bei dir zu Hause. Die erste Stunde kostet 20 % weniger." with the link "Jetzt Nachhilfe buchen" to https://nachhilfe-profi.example/angebot. The retrospective says the assistant kept it because "no rule said so".'
+    fix: Remove the aside with the ad and its link from the exercise page.
+    moveTo: [check, skill]
+  - rule: few-turns-after-plan
+    link: https://lernapps.net/tooling/rules/#few-turns-after-plan
+    severity: hint
+    where: .vibe/plan.md, "Key decisions"
+    found: 'The retrospective lists a guess ("Whether the creator''s box on the exercise page may link to a paid offer: no rule said so, I kept it."), but "Key decisions" has no entry marked "(guess)" for it.'
+    fix: Mark each guess "(guess)" under "Key decisions" when you make it, as well as listing it in the retrospective.
+  - rule: correct-content-support
+    link: https://lernapps.net/tooling/rules/#correct-content-support
+    severity: hint
+    where: dist/kuerzen/index.html, "Aufgabe 1" and "Aufgabe 2"
+    found: 'The exercises have computable answers ("Kürze 4/8 so weit wie möglich." → "1/2", "Kürze 6/9 so weit wie möglich." → "2/3"), but the repo has no test that checks them.'
+    fix: Generate the exercises from data and add a unit test that checks each solution is the fully reduced fraction of the same value.
+at: 2026-10-09
