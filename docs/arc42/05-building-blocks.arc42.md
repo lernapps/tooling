@@ -129,7 +129,8 @@ protocol: Markdown file at the app's root
 #### Plan file
 
 The human-readable plan in the app repo (`.vibe/plan.md`). It stays in the creator's repo and reaches the platform
-only with a listing.
+only with a listing. Its front matter has a versioned JSON Schema in the package; its headings (the four phases,
+then the retrospective and its parts) are fixed, so hooks, review and evals can read it.
 
 ```arc42
 :::interface
