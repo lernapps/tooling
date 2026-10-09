@@ -43,11 +43,12 @@ files (`vp staged`), then runs `lernapps check --pre-commit`; pre-push runs `ler
 ```bash
 npm ci                                   # dependencies, build of the CLI, git hooks
 npm run lernapps -- check                # what CI runs; --pre-commit / --pre-push for one part
-npm run check                            # the same, then the build and site check of the docs (site actions)
+npm run check                            # the same; builds nothing
+npm run build && npm run check:site      # the docs site, built and checked (job `site` in pages.yml)
 ```
 
 The tests (`test/`) check what a consumer relies on, end to end: a fresh clone gets green from `npm ci && npm run
-check`, a planted type error, lint error or failing test turns the hook command, `git commit` / `git push` and the CI
+check` without building anything, the docs site builds and passes `check:site`, a planted type error, lint error or failing test turns the hook command, `git commit` / `git push` and the CI
 command red, the package installed from git provides `lernapps`, and the CLI's usage and exit codes. There are no unit
 tests of internals.
 
@@ -57,11 +58,13 @@ Every site on lernapps.net is a static build in `_site/`, published on the repo'
 served by GitHub Pages under its path (`/`, `/apps/`, `/docs/`). Three composite actions do the work; the
 repos only hold two thin workflows that call them, with the same job names everywhere (`check`, `deploy`,
 `preview`). The contract with a repo: `npm ci`, then `npm run build` writes `_site/`, then `npm run check`
-checks it (`lernapps-check` from the shared site frame in lernapps.github.io).
+checks it (`lernapps-check` from the shared site frame in lernapps.github.io). A repo whose `check` checks its
+code names the site check with the input `check-script`; this repo does (`check:site`, job `site`), and its own
+workflows use the actions from the checkout, so a change to an action is exercised by its pull request.
 
 | Action | Does |
 |---|---|
-| `actions/site-check` | checkout, Node 22, `npm ci`, `npm run build`, `npm run check`; on `main` uploads `_site/` |
+| `actions/site-check` | checkout, Node 22, `npm ci`, `npm run build`, `npm run check` (input `check-script`); on `main` uploads `_site/` |
 | `actions/site-deploy` | publishes that artifact to the root of `gh-pages` (previews stay) |
 | `actions/site-preview` | a preview per pull request at `https://lernapps.net/<site>pr-preview/pr-<n>/`, removed on close |
 
@@ -118,7 +121,7 @@ merge base (`architecture-diff/`) and one comment listing them (`scripts/review-
 
 ```bash
 npm ci
-npm run build && npm run check              # scripts/build.sh validates and builds into _site/; check: see above
+npm run build && npm run check:site         # scripts/build.sh validates and builds into _site/; lernapps-check
 ARC42_DIFF_BASE=origin/main npm run build   # also the review page of the changes (compares commits)
 npm run arc42 -- get                        # any arc42 command on docs/arc42/
 python3 -m http.server -d _site 8000        # preview; links assume the /tooling/ prefix

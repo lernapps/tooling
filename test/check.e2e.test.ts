@@ -2,7 +2,8 @@
 // commands. The same mistake must turn the hook command and the CI command red.
 //   - hook commands: `npm run lernapps -- check --pre-commit` (pre-commit), `... --pre-push` (pre-push)
 //   - CI command:    `npm run lernapps -- check` (job `check` in .github/workflows/check.yml)
-//   - `npm run check`: the CI command, then the build and site check of the docs (site actions)
+//   - `npm run check`: the CI command; it builds nothing
+//   - `npm run build && npm run check:site`: the docs site, built and checked (site actions, job `site`)
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
@@ -38,6 +39,18 @@ describe.skipIf(inner)("a fresh clone", () => {
   test("npm run check is green", { timeout: SLOW }, () => {
     const result = run("npm", ["run", "check"], clone);
     expect(result.code, output(result)).toBe(0);
+  });
+
+  test("npm run check builds nothing", { timeout: SLOW }, () => {
+    ok("npm", ["run", "check"], clone);
+    expect(run("test", ["-e", "_site"], clone).code).not.toBe(0);
+  });
+
+  test("npm run build && npm run check:site is green", { timeout: SLOW }, () => {
+    ok("npm", ["run", "build"], clone);
+    const result = run("npm", ["run", "check:site"], clone);
+    expect(result.code, output(result)).toBe(0);
+    expect(result.stdout).toContain("lernapps-check");
   });
 
   test("npm ci installs the git hooks", () => {
