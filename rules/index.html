@@ -40,6 +40,7 @@
       <tbody>
 <tr><td><a href="#accessible"><code>accessible</code></a></td><td>listing, site</td><td>error</td></tr>
 <tr><td><a href="#checks-pass"><code>checks-pass</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#correct-content-support"><code>correct-content-support</code></a></td><td>listing</td><td>hint</td></tr>
 <tr><td><a href="#dependency-licence"><code>dependency-licence</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#entry-fitness-matches"><code>entry-fitness-matches</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#entry-from-schema"><code>entry-from-schema</code></a></td><td>listing</td><td>error</td></tr>
@@ -53,6 +54,7 @@
 <tr><td><a href="#links-resolve"><code>links-resolve</code></a></td><td>listing, site</td><td>error</td></tr>
 <tr><td><a href="#no-account"><code>no-account</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-ads"><code>no-ads</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#no-learner-data-in-texts"><code>no-learner-data-in-texts</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-request-before-click"><code>no-request-before-click</code></a></td><td>listing, site</td><td>error</td></tr>
 <tr><td><a href="#no-tracking"><code>no-tracking</code></a></td><td>listing, site</td><td>error</td></tr>
 <tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>listing</td><td>error</td></tr>
@@ -65,9 +67,12 @@
 <tr><td><a href="#imprint-and-privacy"><code>imprint-and-privacy</code></a></td><td>site</td><td>error</td></tr>
 <tr><td><a href="#readable-without-javascript"><code>readable-without-javascript</code></a></td><td>site</td><td>error</td></tr>
 <tr><td><a href="#keep-the-preset"><code>keep-the-preset</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#quiz-feedback-explains"><code>quiz-feedback-explains</code></a></td><td>archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#site-check"><code>site-check</code></a></td><td></td><td></td></tr>
+<tr><td><a href="#start-page-explains"><code>start-page-explains</code></a></td><td>archetype:interactive</td><td>error</td></tr>
 <tr><td><a href="#storage-through-wrapper"><code>storage-through-wrapper</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#strict-typescript"><code>strict-typescript</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#topic-has-exercises"><code>topic-has-exercises</code></a></td><td>archetype:explainer</td><td>error</td></tr>
       </tbody>
     </table>
 <section id="accessible">
@@ -86,6 +91,15 @@
 <p>Run <code>lernapps check</code> before you push; the hooks run it too. Format, lint, type check, unit tests, build, the checks of the built app and the end-to-end tests must pass. A failure names the step: fix it from the step's output.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+</section>
+
+<section id="correct-content-support">
+<h2>Help keep the content correct</h2>
+<p><code>correct-content-support</code> · listing · hint</p>
+<div>
+<p>Where answers are computable, generate the exercises and test the answers with a checker. Name a source learners and teachers can follow for facts. This should be done where it fits; it is never a condition for listing.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="dependency-licence">
@@ -166,7 +180,7 @@
 <div>
 <p>Write every text for learners, teachers and parents in German, in plain language: short sentences, active voice, no jargon. Keep the texts in message files, not in code: in an app from an archetype, in <code>src/messages/de.json</code>, shown with <code>translator</code> from <code>@lernapps/tooling/i18n</code>.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/learner-text-german.ts"><code>lint/rules/learner-text-german.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/learner-text-german.ts"><code>lint/rules/learner-text-german.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="learners-act">
@@ -205,6 +219,15 @@
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
+<section id="no-learner-data-in-texts">
+<h2>Nothing about a particular learner in public texts</h2>
+<p><code>no-learner-data-in-texts</code> · listing · error</p>
+<div>
+<p>Write no name, class, school, grade, picture or other detail of a real learner into the app, the entry, the README, the plan or a commit message, even when the creator mentions one. Use made-up names in exercises.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
 <section id="no-request-before-click">
 <h2>No request to another server before a click</h2>
 <p><code>no-request-before-click</code> · listing, site · error</p>
@@ -220,7 +243,7 @@
 <div>
 <p>No cookies, no analytics, no tracking pixels, no server that stores data. If the app stores anything, it stays on the device (<code>localStorage</code>) and serves only the app.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="plan-file">
@@ -238,7 +261,7 @@
 <div>
 <p>At the end of Commit, fill every part of the retrospective with facts: phases reached, failed checks with rule ids, the creator's turns after the plan, where you had to guess. No names of people.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="runs-in-browser">
@@ -274,7 +297,7 @@
 <div>
 <p>Use content of others (texts, pictures, quotes) only with a licence that allows it, and name source and licence next to it.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="usable-at-360px">
@@ -313,6 +336,15 @@
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
 </section>
 
+<section id="quiz-feedback-explains">
+<h2>Feedback explains the answer (quiz)</h2>
+<p><code>quiz-feedback-explains</code> · archetype:quiz · error</p>
+<div>
+<p>Give every option feedback that says why it is right or wrong, and every question an explanation. Example: &quot;Nein: 3/4 ist größer, weil 3/4 = 6/8 und 6/8 &gt; 5/8.&quot;</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md"><code>review/archetypes/quiz.md</code></a>.</p>
+</section>
+
 <section id="site-check">
 <h2>site-check</h2>
 <p><code>site-check</code></p>
@@ -320,6 +352,15 @@
 <p>The bundle of an app on lernapps.net passes lernapps-check of the site frame.</p>
 </div>
 <p>Checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/site-check.ts"><code>check/rules/site-check.ts</code></a>.</p>
+</section>
+
+<section id="start-page-explains">
+<h2>The start page explains the app (interactive)</h2>
+<p><code>start-page-explains</code> · archetype:interactive · error</p>
+<div>
+<p>Say on the static start page what learners train, for whom, and how to begin. In the app page's <code>&lt;noscript&gt;</code>, say that the app needs JavaScript and what it does.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md"><code>review/archetypes/interactive.md</code></a>.</p>
 </section>
 
 <section id="storage-through-wrapper">
@@ -338,6 +379,15 @@
 <p>Write every source in TypeScript; no JavaScript files. Never use <code>any</code>: use <code>unknown</code> and narrow it, or write the type. Type the data the creator supplies and validate it at build time.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+</section>
+
+<section id="topic-has-exercises">
+<h2>Every topic has exercises (explainer)</h2>
+<p><code>topic-has-exercises</code> · archetype:explainer · error</p>
+<div>
+<p>Give every topic page exercises that practise what it explains, on the page or one link away, each with a solution or feedback learners can check.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
 </section>
   </main>
 <footer class="la-footer">
