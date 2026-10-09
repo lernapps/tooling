@@ -125,8 +125,9 @@ git, gets both hooks on `npm install`, a lint violation stops its `git commit` w
 another host stops its `git push` and counts the failure in its plan, and each lint rule gives its verdict on source
 snippets; a fresh clone gets green from `npm ci && npm run
 check` without building anything, the docs site builds and passes `check:site`, a planted type error, lint error or failing test turns the hook command, `git commit` / `git push` and the CI
-command red, a rule id used twice in the same kind of artifact or a message without its link turns the CI command red, the rule
-list and the rule page show every rule grouped by id, the package installed from git provides `lernapps` and resolves the
+command red, a rule id used twice in the same kind of artifact or a message without its link turns the CI command red, a rubric item without its id turns it red, the rule
+list and the rule page show every rule grouped by id, the recorded verdict of the review validates and names the commit
+and the rule of its fixture, a broken verdict fails the verdict check with a message, the package installed from git provides `lernapps` and resolves the
 guidance exports, the plan template and a filled plan validate against the front matter schema while incomplete ones
 fail with a message naming the problem, every plan has the sections the retrospective needs, and the CLI's usage and
 exit codes. `lernapps check` runs on fixture apps (`test/fixtures/apps/`), one passing and one per broken rule, as a
@@ -157,7 +158,7 @@ Bundle scripts, styles, fonts ... with the app at build time.
 | section of a skill | a rule block with `id`, `scope`, `severity` | `skills/**/*.md` |
 | lint rule | file name = id, `meta.docs.url` = link | `lint/rules/<id>.ts` |
 | check of the check CLI | `export default { id, url, description, severity, run }` | `check/rules/*.ts` |
-| item of the review rubric | a fenced `rubric` block with `id: <rule id>` | `review/**/*.md` |
+| item of the review rubric | a fenced `rubric` block with `id: <rule id>` under every item's heading | `review/rubric.md`, `review/archetypes/<name>.md` |
 
 The link is always `https://lernapps.net/tooling/rules/#<id>`.
 
@@ -171,8 +172,38 @@ node scripts/rules.ts page <file>  # the rule page of the docs site, from the sa
 one id still say the same is not decided by a program: the skill `rules-review` (`.agents/skills/`) has an agent
 read the list and report drift, gaps and rules that could move to a lint rule or check. The rules of scope `listing`
 (the listing criteria of lernapps/apps) and `site` (ORGANIZATION.md, "Every page, in every repo") are in
-`skills/lernapps-app/SKILL.md`, with the workflow rules; `review/rubric.md` holds the first rubric items, a
-placeholder the review step fills.
+`skills/lernapps-app/SKILL.md`, with the workflow rules and the first rules of one archetype; the rubric of the review
+(below) judges those no program decides, under the same ids.
+
+## The review
+
+Before an app is listed, an agent in a fresh context judges what no check decides, and the owner decides on the
+listing (architecture, chapter 5, "Review procedure"). It runs in the environment for lernapps agents, today the
+owner's machine: a checkout of this repo at `main` after `npm ci`.
+
+| File | What it is |
+|---|---|
+| `review/prompt.md` | the prompt the owner gives a fresh agent, with the app's repo and the commit to review |
+| `review/rubric.md` | the items for every app, each headed by its rule id |
+| `review/archetypes/<name>.md` | the items of one archetype (`explainer`, `interactive`, `quiz`) |
+| `review/verdict.v1.schema.json` | JSON Schema of the verdict, exported as `@lernapps/tooling/review/verdict.v1.schema.json` and published at <https://lernapps.net/tooling/schemas/verdict.v1.schema.json> |
+
+The agent works in `.reviews/<repo>-<commit>/` (ignored by git). It clones the app at the commit and builds the
+bundle, runs `lernapps check` for the validation report and starts from it, then reads the bundle, the dependencies
+and the plan's retrospective, and judges every rubric item of the app's archetype. It writes `verdict.yaml` there:
+the reviewed commit, the rubric items judged, and per finding the rule id with its link, or a proposed new rule and
+where it would act (skill, lint rule, check, rubric item); `outcome` is `fail` when a finding has severity `error`.
+Before it hands the verdict over, it checks it:
+
+```sh
+npm run --silent verdict -- .reviews/<name>/verdict.yaml   # schema, and every rule id in the rule catalog
+```
+
+The owner posts the verdict on the listing pull request in lernapps/apps, merges or declines, and turns each proposed
+rule into a pull request here. CI calls no model: `test/review.e2e.test.ts` checks a verdict recorded by a fresh agent
+for a fixture app with a planted ad (`test/fixtures/reviews/ad/`), committed with a fixed author and date so that its
+commit is the same everywhere. After a change to the fixture, record it again: `node test/review-fixture.ts ad <dir>`
+creates the fixture repo, a fresh agent reviews it with the prompt, and its verdict replaces `verdict.yaml`.
 
 ## Site actions
 

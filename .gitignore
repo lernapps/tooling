@@ -1,3 +1,7 @@
 node_modules/
 _site/
 dist/
+# the built bundle of a fixture app repo of the review (test/fixtures/reviews/<name>/app/)
+!/test/fixtures/reviews/*/app/dist/
+# the work directories of the review agent (review/prompt.md)
+/.reviews/

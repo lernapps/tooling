@@ -10,7 +10,8 @@
 //   - skills/**/*.md   a section of a skill, headed by a rule block (id, scope, severity)
 //   - check/rules/*.ts a check of the check CLI, default export { id, url, description, severity, run }
 //   - lint/rules/*.ts  a lint rule (ESLint-compatible), file name = id, meta.docs.url
-//   - review/**/*.md   an item of the review rubric, headed by a `rubric` block (id)
+//   - review/**/*.md   an item of the review rubric, headed by a `rubric` block (id); in the rubric files
+//                      (review/rubric.md, review/archetypes/*.md) every level-2 heading is an item and needs one
 // The same id in several artifacts is one rule, told and enforced in several places. An id is unique within its
 // artifact kind; whether the artifacts of one id agree is judged by an agent (.agents/skills/rules-review/).
 // A rule block is a fenced block with the info string `rule` right under the section's heading, one key per line:
@@ -143,6 +144,38 @@ function readBlocks(root: string, path: string, info: Info, problems: string[]):
   return blocks;
 }
 
+/** The rubric files: one for every app, one per archetype. Every level-2 heading in them is an item. */
+const isRubric = (file: string) => /^review\/(rubric|archetypes\/[^/]+)\.md$/.test(file.split("\\").join("/"));
+
+/** The items of a rubric file whose heading is not followed by its rubric block. */
+function itemsWithoutBlock(root: string, path: string): string[] {
+  const file = relative(root, path);
+  const lines = readFileSync(path, "utf8").split("\n");
+  const problems: string[] = [];
+  let fence: string | undefined;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i] ?? "";
+    const open = /^(`{3,}|~{3,})/.exec(line);
+    if (fence !== undefined) {
+      if (line.trim() === fence) fence = undefined;
+      continue;
+    }
+    if (open) {
+      fence = open[1];
+      continue;
+    }
+    const item = /^##\s+(.*?)\s*#*\s*$/.exec(line);
+    if (!item) continue;
+    const next = lines.slice(i + 1).find((text) => text.trim() !== "") ?? "";
+    if (!/^(`{3,}|~{3,})\s*rubric\s*$/.test(next)) {
+      problems.push(
+        `${file}:${i + 1}: rubric item "${item[1] ?? ""}" has no rule id: put a rubric block with its id under the heading`,
+      );
+    }
+  }
+  return problems;
+}
+
 /** A skill section from its rule block, with the problems of its fields. */
 function fromRuleBlock({ fields, title, body, file, line }: Block, problems: string[]): Entry {
   const at = `${file}:${line}`;
@@ -228,6 +261,7 @@ async function readCatalog(root: string): Promise<Catalog> {
     for (const { fields, title, body, file, line } of readBlocks(root, path, "rubric", problems)) {
       entries.push({ kind: "rubric item", id: fields.get("id") ?? "", file, line, title, text: body });
     }
+    if (isRubric(relative(root, path))) problems.push(...itemsWithoutBlock(root, path));
   }
 
   const HOW: Record<Kind, string> = {

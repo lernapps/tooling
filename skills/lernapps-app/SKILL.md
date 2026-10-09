@@ -216,6 +216,28 @@ severity: error
 
 Learners try, practise or decide in the app; reading alone is not enough. Each page or screen asks them to act.
 
+### `no-learner-data-in-texts`: Nothing about a particular learner in public texts
+
+```rule
+id: no-learner-data-in-texts
+scope: listing
+severity: error
+```
+
+Write no name, class, school, grade, picture or other detail of a real learner into the app, the entry, the README,
+the plan or a commit message, even when the creator mentions one. Use made-up names in exercises.
+
+### `correct-content-support`: Help keep the content correct
+
+```rule
+id: correct-content-support
+scope: listing
+severity: hint
+```
+
+Where answers are computable, generate the exercises and test the answers with a checker. Name a source learners and
+teachers can follow for facts. This should be done where it fits; it is never a condition for listing.
+
 ### `no-request-before-click`: No request to another server before a click
 
 ```rule
@@ -350,3 +372,35 @@ Keep what the app must remember with `createStorage` from `@lernapps/tooling/sto
 on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. Never use
 `localStorage`, `sessionStorage`, IndexedDB or cookies directly.
 
+### `topic-has-exercises`: Every topic has exercises (explainer)
+
+```rule
+id: topic-has-exercises
+scope: archetype:explainer
+severity: error
+```
+
+Give every topic page exercises that practise what it explains, on the page or one link away, each with a solution
+or feedback learners can check.
+
+### `start-page-explains`: The start page explains the app (interactive)
+
+```rule
+id: start-page-explains
+scope: archetype:interactive
+severity: error
+```
+
+Say on the static start page what learners train, for whom, and how to begin. In the app page's `<noscript>`, say
+that the app needs JavaScript and what it does.
+
+### `quiz-feedback-explains`: Feedback explains the answer (quiz)
+
+```rule
+id: quiz-feedback-explains
+scope: archetype:quiz
+severity: error
+```
+
+Give every option feedback that says why it is right or wrong, and every question an explanation. Example: "Nein:
+3/4 ist größer, weil 3/4 = 6/8 und 6/8 > 5/8."
