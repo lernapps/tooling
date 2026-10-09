@@ -5,49 +5,15 @@
     "commit": "77b36be74b7bd5dcf4d716826663c8c5ca3a1bc0"
   },
   "head": {
-    "label": "a0d821603ac2cead8aad28f4ab13096e56f69ef8"
+    "label": "f69091d2d276d54256732795b15d7434445fcdb3"
   },
   "acceptanceBase": "77b36be74b7bd5dcf4d716826663c8c5ca3a1bc0",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": true,
-  "findings": [
-    {
-      "kind": "block-without-prose-change",
-      "severity": "warning",
-      "file": "docs/arc42/11-risks.arc42.md",
-      "line": 78,
-      "elementId": "risk-rule-drift",
-      "message": "Block 'risk-rule-drift' changed without changing its section prose."
-    },
-    {
-      "kind": "block-without-prose-change",
-      "severity": "warning",
-      "file": "docs/arc42/12-glossary.arc42.md",
-      "line": 140,
-      "elementId": "term-rule",
-      "message": "Block 'term-rule' changed without changing its section prose."
-    }
-  ],
+  "hasBlockingFindings": false,
+  "findings": [],
   "groups": {
-    "warnings": [
-      {
-        "kind": "block-without-prose-change",
-        "severity": "warning",
-        "file": "docs/arc42/11-risks.arc42.md",
-        "line": 78,
-        "elementId": "risk-rule-drift",
-        "message": "Block 'risk-rule-drift' changed without changing its section prose."
-      },
-      {
-        "kind": "block-without-prose-change",
-        "severity": "warning",
-        "file": "docs/arc42/12-glossary.arc42.md",
-        "line": 140,
-        "elementId": "term-rule",
-        "message": "Block 'term-rule' changed without changing its section prose."
-      }
-    ],
+    "warnings": [],
     "untouched": [],
     "updated": [],
     "uncovered": []
@@ -212,14 +178,14 @@
             "after": "Stable rule ids and the tooling's id test (unique per artifact kind, every message linked); an agent reviews the rules grouped by id; the evals show contradicting guidance"
           }
         ],
-        "proseChanged": false,
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/11-risks.arc42.md",
           "line": 78
         },
         "head": {
           "file": "docs/arc42/11-risks.arc42.md",
-          "line": 78
+          "line": 79
         },
         "section": {
           "file": "docs/arc42/11-risks.arc42.md",
@@ -241,7 +207,7 @@
             "after": "One requirement on an app, with a stable id, scope (listing, site, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id."
           }
         ],
-        "proseChanged": false,
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/12-glossary.arc42.md",
           "line": 140
