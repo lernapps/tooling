@@ -95,7 +95,7 @@ listing pull request; nothing else leaves the environment.
 id: dn-lernapps-agents
 title: Environment for lernapps agents
 type: environment
-hosts: bb-review-procedure, bb-evals, bb-check-cli
+hosts: bb-tooling-package, bb-review-procedure, bb-evals, bb-check-cli
 :::
 ```
 

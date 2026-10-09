@@ -5,9 +5,10 @@
 //     names a rule of the catalog or proposes a new one and where it would act (`npm run verdict -- <file>`);
 //   - a review of a fixture app with a planted ad gives a verdict that names the rule no-ads.
 // The review itself is done by an agent, and CI calls no model. So the fixture's verdict is recorded: an agent in a
-// fresh context followed review/prompt.md on the fixture repo and wrote test/fixtures/reviews/ad/verdict.yaml. The
-// fixture repo is committed with a fixed author, date and message, so its commit is the same on every machine; a
-// change to the fixture changes the commit and fails the test until the verdict is recorded again. To record it:
+// fresh context (a new session with nothing but this repo) followed review/prompt.md on the fixture repo and wrote
+// test/fixtures/reviews/ad/verdict.yaml. The fixture repo is committed with a fixed author, date and message, so its
+// commit is the same on every machine; a change to the fixture changes the commit and fails the test until the
+// verdict is recorded again. To record it:
 //   node test/review-fixture.ts ad <dir>     the fixture repo, committed; prints its commit
 // then start a fresh agent with review/prompt.md on <dir> and copy its verdict here.
 import { readFileSync, readdirSync, writeFileSync, existsSync } from "node:fs";
