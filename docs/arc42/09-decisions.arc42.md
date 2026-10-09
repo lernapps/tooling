@@ -22,9 +22,13 @@ addresses: qg-simple-to-build, qg-few-iterations, qg-checked-not-declared
 ## Archetypes as the variation point
 
 **Context:** a content-heavy app and a typing trainer differ in stack, rules and review. **Decision:** apps are
-built from archetypes, named after their character; an archetype is a template, a preset, skills and the rules in
-scope. The architecture fixes the variation point, not the list of archetypes. **Consequences:** a new archetype
-needs a template, a preset and skills, no new building block; it is justified only by a different set of rules,
+built from archetypes, named after their character. An archetype is:
+- a template and, where its apps need one, a runtime, both in lernapps/app-templates;
+- the shared preset of the tooling;
+- skills and the rules in scope.
+
+The architecture fixes the variation point, not the list of archetypes. **Consequences:** a new archetype needs a
+template, skills and perhaps a runtime, but no new building block. It is justified only by a different set of rules,
 stack or review.
 
 ```arc42
@@ -88,20 +92,48 @@ addresses: qg-guidance-evolves, risk-git-install, con-github
 :::
 ```
 
-## Templates in lernapps/app-templates, logic in the package
+## Templates and runtimes in lernapps/app-templates, tooling in the package
 
 **Context:** each archetype needs a starting app that can be seen and tried. **Decision:** lernapps/app-templates
-holds one folder per archetype; the generator in the package copies a folder at a pinned commit.
-**Consequences:** templates and presets change together through the pinned commit; templates stay small because the
-logic is in the package.
+holds one folder per archetype and, at its root, the runtime of the archetypes. The generator in the tooling copies a
+folder at a pinned commit. **Consequences:**
+- templates and runtimes change together in one repo, and the tooling's pin moves them as one;
+- templates stay small because the logic is in the runtime and the preset.
 
 ```arc42
 :::decision
 id: dec-templates-repo
-title: Templates in lernapps/app-templates, logic in the package
+title: Templates and runtimes in lernapps/app-templates, tooling in the package
 status: accepted
-date: 2026-10-08
+date: 2026-10-09
 addresses: qg-simple-to-build, qg-guidance-evolves
+:::
+```
+
+## The runtime is a package the app depends on
+
+**Context:** a deep archetype such as the quiz brings code that runs in the app: an engine, a build step, generic
+end-to-end tests. Copied into the app, it would drift like a template. Shipped with the tooling, the tooling would
+be part of the app instead of a tool for building it. **Decision:**
+- the runtimes are one package, `@lernapps/app-templates`, at the root of lernapps/app-templates, installed from git
+  at a commit;
+- it has subpath exports per archetype and ships no template folders;
+- the generator makes a new app depend on the commit it copied the template from;
+- the app composes the runtime's build step with the shared preset;
+- the tooling stays a development dependency and never depends on the runtime.
+
+**Consequences:**
+- a new feature of an archetype reaches every app with a dependency bump, which Renovate proposes;
+- the runtime's own tests and the template's checks run in app-templates;
+- the tooling's generator tests install the runtime from a local clone at the pinned commit.
+
+```arc42
+:::decision
+id: dec-runtime-package
+title: The runtime is a package the app depends on
+status: accepted
+date: 2026-10-09
+addresses: qg-guidance-evolves, qg-simple-to-build
 :::
 ```
 

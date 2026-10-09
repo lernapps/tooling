@@ -346,8 +346,9 @@ severity: error
 
 An app from an archetype extends the preset of `@lernapps/tooling` and configures nothing the preset sets:
 `vite.config.ts` is `export default lernapps()`, `tsconfig.json` only extends `@lernapps/tooling/tsconfig.json`, the
-hooks come from the package (`prepare` in `package.json`). Pass only the app's own settings to `lernapps({ ... })`, such
-as the pages to build. Never turn a lint rule off or lower its severity, never replace a hook.
+hooks come from the package (`prepare` in `package.json`). Pass only the app's own settings to `lernapps({ ... })`,
+such as the pages to build or the build step of its archetype's runtime, as generated: `lernapps({ plugins: [quiz()]
+})`. Never turn a lint rule off or lower its severity, never replace a hook.
 
 ### `strict-typescript`: TypeScript only, strict
 
@@ -393,14 +394,3 @@ severity: hint
 
 Say on the static start page what learners train, for whom, and how to begin. In the app page's `<noscript>`, say
 that the app needs JavaScript and what it does.
-
-### `quiz-feedback-explains`: Feedback explains the answer (quiz)
-
-```rule
-id: quiz-feedback-explains
-scope: archetype:quiz
-severity: hint
-```
-
-Give every option feedback that says why it is right or wrong, and every question an explanation. Example: "Nein:
-3/4 ist größer, weil 3/4 = 6/8 und 6/8 > 5/8."
