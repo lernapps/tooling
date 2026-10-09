@@ -6,8 +6,8 @@ Each decision in the short form of an ADR: context, decision, consequences.
 
 **Context:** a creator's assistant needs guidance before, during and after building, and the platform needs proof
 before listing. **Decision:** process guidance, scaffolding, conventions, deterministic verification and formal
-validation, each a separate building block. **Consequences:** every layer can improve on its own; findings move
-between layers (`concept-promotion-path`).
+validation, each in its own building blocks. **Consequences:** every layer can improve on its own; a rule can move
+between layers (`concept-rule-catalog`).
 
 ```arc42
 :::decision
@@ -19,17 +19,18 @@ addresses: qg-simple-to-build, qg-few-iterations, qg-checked-not-declared
 :::
 ```
 
-## Three archetypes, named by character
+## Archetypes as the variation point
 
-**Context:** a content-heavy app and a typing trainer differ in stack, rules and review. **Decision:** archetypes
-`explainer`, `interactive` and `quiz`, each a bundle of template, preset, skills, rules in scope and rubric; named
-after their character, not their use. **Consequences:** every building block is designed per archetype; a new
-archetype is justified only by a different check profile, stack or rubric.
+**Context:** a content-heavy app and a typing trainer differ in stack, rules and review. **Decision:** apps are
+built from archetypes, named after their character; an archetype is a template, a preset, skills and the rules in
+scope. The architecture fixes the variation point, not the list of archetypes. **Consequences:** a new archetype
+needs a template, a preset and skills, no new building block; it is justified only by a different set of rules,
+stack or review.
 
 ```arc42
 :::decision
 id: dec-archetypes
-title: Three archetypes, named by character
+title: Archetypes as the variation point
 status: accepted
 date: 2026-10-08
 addresses: qg-simple-to-build, qg-few-iterations
@@ -39,9 +40,10 @@ addresses: qg-simple-to-build, qg-few-iterations
 ## EPCC in AGENTS.md with a plan file
 
 **Context:** assistants run through all steps at once unless guided; the guidance must work with any assistant.
-**Decision:** the EPCC workflow as plain text in `AGENTS.md` and a plan file with phases, checkpoints, front matter
-counters and a retrospective; `@codemcp/workflows` stays optional. **Consequences:** no MCP server needed; the plan
-is readable by the creator and is the source for measurement.
+**Decision:** the EPCC workflow as plain text in `AGENTS.md` and a plan file with phases, checkpoints, the creator's
+answers for the entry, front matter counters and a retrospective; `@codemcp/workflows` stays optional.
+**Consequences:** no MCP server needed; the plan is readable by the creator, carries what the entry needs, and is the
+source for measurement.
 
 ```arc42
 :::decision
@@ -49,15 +51,15 @@ id: dec-epcc-plan-file
 title: EPCC in AGENTS.md with a plan file
 status: accepted
 date: 2026-10-08
-addresses: qg-any-assistant, qg-simple-to-build, risk-assistants-skip-guidance
+addresses: qg-any-assistant, qg-simple-to-build, qg-findable, risk-assistants-skip-guidance
 :::
 ```
 
 ## The entry schema explains itself
 
-**Context:** the entry model will be tuned for discovery. **Decision:** the guidance only tells the assistant to
-fetch the published schema and fill it; field descriptions live in the schema. **Consequences:** the schema must be
-self-explanatory; changing it needs no change to the tooling.
+**Context:** the entry model of the app overview is tuned for discovery over time. **Decision:** the guidance only
+tells the assistant to fetch the published schema and fill it; field descriptions live in the schema.
+**Consequences:** the schema must be self-explanatory; changing it needs no change to the tooling.
 
 ```arc42
 :::decision
@@ -65,7 +67,7 @@ id: dec-schema-explains-itself
 title: The entry schema explains itself
 status: accepted
 date: 2026-10-08
-addresses: qg-list-in-minutes, con-entry-schema, risk-entry-schema-changes
+addresses: qg-list-in-minutes, qg-findable, con-entry-schema, risk-entry-schema-changes
 :::
 ```
 
@@ -86,17 +88,17 @@ addresses: qg-guidance-evolves, risk-git-install, con-github
 :::
 ```
 
-## Templates in lernapps/app-template, logic in the package
+## Templates in lernapps/app-templates, logic in the package
 
-**Context:** each archetype needs a starting app that can be seen and tried. **Decision:** lernapps/app-template
-holds one folder per archetype; the generator in the package copies a folder at a pinned commit. **Consequences:**
-templates and presets change together through the pinned commit; the templates stay small because the logic is in
-the package.
+**Context:** each archetype needs a starting app that can be seen and tried. **Decision:** lernapps/app-templates
+holds one folder per archetype; the generator in the package copies a folder at a pinned commit.
+**Consequences:** templates and presets change together through the pinned commit; templates stay small because the
+logic is in the package.
 
 ```arc42
 :::decision
 id: dec-templates-repo
-title: Templates in lernapps/app-template, logic in the package
+title: Templates in lernapps/app-templates, logic in the package
 status: accepted
 date: 2026-10-08
 addresses: qg-simple-to-build, qg-guidance-evolves
@@ -105,9 +107,9 @@ addresses: qg-simple-to-build, qg-guidance-evolves
 
 ## vite-plus as the toolchain
 
-**Context:** creators should get lint, format, type check, test and hooks without choosing tools. **Decision:**
+**Context:** creators should get lint, format, type check, tests and hooks without choosing tools. **Decision:**
 vite-plus with its defaults, made stricter by the presets; the presets own the configuration. **Consequences:** one
-CLI and one config; the risk of a young tool is contained in the presets.
+toolchain and one config; the risk of a young tool is contained in the presets.
 
 ```arc42
 :::decision
@@ -121,9 +123,9 @@ addresses: qg-simple-to-build, qg-few-iterations, risk-vite-plus-young
 
 ## Strict TypeScript everywhere
 
-**Context:** types give assistants the fastest feedback. **Decision:** TypeScript only, strict, in every archetype
-(`concept-strict-typescript`). **Consequences:** the explainer's static rendering must work with TypeScript
-(`dec-explainer-rendering`).
+**Context:** types give assistants the fastest feedback. **Decision:** every app is TypeScript only: `strict` and the
+stricter compiler options, no `any`, no JavaScript sources; data the creator supplies is typed and validated at
+build time. **Consequences:** every archetype's toolchain must support TypeScript sources end to end.
 
 ```arc42
 :::decision
@@ -135,26 +137,30 @@ addresses: qg-few-iterations, con-language-licence
 :::
 ```
 
-## Git hooks enforce and count
+## One check command; hooks and CI run the same
 
-**Context:** agent hooks exist only in some assistants. **Decision:** pre-commit runs `vp staged`, pre-push runs the
-full check and the static check CLI; a failed pre-push increments `prePushFailures` in the plan's front matter.
-**Consequences:** every assistant meets the same checks; the number of failed pushes is measured, not reported.
+**Context:** checks that only CI runs reach the assistant late and cost the owner's attention; checks that differ
+between hook and CI surprise. **Decision:** `lernapps check` runs every deterministic check. `--pre-commit` selects
+the fast part (format, lint, types), `--pre-push` the heavy part (unit tests, build, checks of the built app,
+end-to-end tests with Playwright); no flag or both flags run everything. The hooks run the two parts, CI runs
+everything. A failed pre-push increments `prePushFailures` in the plan's front matter. **Consequences:** failures
+reach the assistant on the creator's machine, before any CI run; CI is a safety net for skipped hooks and adds no
+checks of its own; the creator's machine needs a browser for the end-to-end tests.
 
 ```arc42
 :::decision
-id: dec-git-hooks
-title: Git hooks enforce and count
+id: dec-one-check-command
+title: One check command; hooks and CI run the same
 status: accepted
-date: 2026-10-08
-addresses: qg-any-assistant, qg-few-iterations, risk-assistants-skip-guidance, risk-counter-tampering
+date: 2026-10-09
+addresses: qg-few-iterations, qg-any-assistant, risk-owner-bottleneck, risk-assistants-skip-guidance, risk-counter-tampering, risk-browser-at-creator
 :::
 ```
 
 ## Conventions as skills
 
 **Context:** guidance must be loaded when needed, not all at once. **Decision:** skills in the agentskills.io
-format, general, per archetype and per topic; their rule sections are generated from the rule catalog.
+format, general, per archetype and per topic, synced from the package into the creator's agent harness.
 **Consequences:** skills reach every app through the package; apps built otherwise can install them alone.
 
 ```arc42
@@ -167,43 +173,49 @@ addresses: qg-any-assistant, qg-guidance-evolves
 :::
 ```
 
-## Rules with scope, severity and enforcement
+## Rules live in their artifacts
 
-**Context:** "rules" came from several sources with different weight. **Decision:** one rule model
-(`concept-rule-model`) and one catalog; listing rules are never warnings. **Consequences:** skills, lint, checks and
-rubric share ids; a rule moves between layers by changing its enforcement.
+**Context:** a central rule file compiled into skills, lint configuration, checks and rubric would duplicate what
+the artifacts already say, and skill text cannot be generated well; rules move between layers rarely.
+**Decision:** each rule lives where it acts, as skill text, lint rule, check or rubric item, with a stable id and the
+shared vocabulary of scope, severity and enforcement (`concept-rule-catalog`). The tooling's build only reads the
+artifacts and tests the ids. **Rejected:** a central catalog with a compile step. **Consequences:** moving a rule is
+a pull request that writes the new artifact and removes the old text; the artifacts can drift in wording, which the
+evals and the id test catch.
 
 ```arc42
 :::decision
-id: dec-rule-model
-title: Rules with scope, severity and enforcement
+id: dec-rules-in-artifacts
+title: Rules live in their artifacts
 status: accepted
-date: 2026-10-08
-addresses: qg-guidance-evolves, qg-checked-not-declared, risk-oxlint-plugins
+date: 2026-10-09
+addresses: qg-guidance-evolves, qg-checked-not-declared, risk-oxlint-plugins, risk-rule-drift
 :::
 ```
 
-## A standalone check CLI
+## A standalone check CLI with YAML output
 
-**Context:** the same rules must be checked on scaffolded apps and on apps built otherwise. **Decision:** one CLI
-that works on a bundle or a URL, without the source repo; for scope `site` it calls `lernapps-check` of the site
-frame, which stays there. **Consequences:** the same check in hook, CI and listing; the report is the fitness signal.
+**Context:** the same rules must be checked on scaffolded apps and on apps built otherwise, and people and agents
+read the result. **Decision:** one CLI that works on a repo, a bundle or a URL, without needing the source repo for
+the checks of the built app; it checks an entry against the app with `--entry`; it reports in YAML; for scope
+`site` it calls `lernapps-check` of the site frame, which stays there. **Consequences:** the same check in hook, CI
+and listing; the report is the fitness signal and is readable without a viewer.
 
 ```arc42
 :::decision
 id: dec-check-cli
-title: A standalone check CLI
+title: A standalone check CLI with YAML output
 status: accepted
-date: 2026-10-08
-addresses: qg-checked-not-declared, qg-list-in-minutes, con-frontend-only, con-page-rules, risk-no-shell
+date: 2026-10-09
+addresses: qg-checked-not-declared, qg-list-in-minutes, qg-findable, con-frontend-only, con-page-rules, risk-no-shell
 :::
 ```
 
 ## Review by an agent, results as a comment
 
 **Context:** some rules need judgment; creators should be able to fix failures without the owner. **Decision:** the
-listing validation comments the deterministic results on failure; a review agent in a fresh context, starting from
-the report, judges the rest; its verdict names the commit. Target: half pass on the first run, 7 of 8 on the second.
+listing validation comments the report on failure; a review agent in a fresh context, starting from the report,
+judges the rest; its verdict names the commit. Target: half pass on the first run, 7 of 8 on the second.
 **Consequences:** the owner sees only listings that passed the checks.
 
 ```arc42
@@ -216,26 +228,12 @@ addresses: qg-checked-not-declared, qg-list-in-minutes, risk-owner-bottleneck
 :::
 ```
 
-## Browser checks in CI
-
-**Context:** Chromium is heavy for a pre-push hook. **Decision:** static checks in the hook; browser checks in the
-app check action and the listing validation. **Consequences:** some failures show up only in CI.
-
-```arc42
-:::decision
-id: dec-browser-checks-in-ci
-title: Browser checks in CI
-status: accepted
-date: 2026-10-08
-addresses: qg-few-iterations, risk-browser-checks-heavy
-:::
-```
-
 ## The owner runs the review
 
 **Context:** a review agent in CI needs an API key and costs money per run. **Decision:** the listing workflow runs
-the deterministic checks; the owner starts the review agent locally on a pull request that passed them.
-**Consequences:** no secret in lernapps/apps; the review can move into the workflow without changing the procedure.
+the deterministic checks; the owner starts the review agent in the environment for lernapps agents on a pull request
+that passed them. **Consequences:** no secret in lernapps/apps; the environment can change without changing the
+procedure.
 
 ```arc42
 :::decision
@@ -249,8 +247,8 @@ addresses: con-one-owner, risk-owner-bottleneck
 
 ## Evals by hand with three assistants
 
-**Context:** other people's assistants cannot be observed. **Decision:** the owner runs the evals by hand with Claude
-Code, Codex and Gemini CLI on their latest models; there is no automated eval pipeline. **Consequences:** evals before
+**Context:** other people's assistants cannot be observed. **Decision:** the evals run by hand with Claude Code,
+Codex and Gemini CLI on their latest models; there is no automated eval pipeline. **Consequences:** evals before
 merging guidance changes; the p90 of failed pre-push runs is measured there.
 
 ```arc42
@@ -266,8 +264,8 @@ addresses: qg-any-assistant, qg-few-iterations
 ## Content correctness is suggested
 
 **Context:** correctness is checkable only where answers are computable. **Decision:** generator and checker tests,
-cited sources and verified links are guidance (`hint`), never a listing condition. **Consequences:** the review notes,
-but does not block, missing correctness support.
+cited sources and verified links are `hint` rules, never a listing condition. **Consequences:** the review notes, but
+does not block, missing correctness support.
 
 ```arc42
 :::decision
@@ -311,39 +309,5 @@ title: Every report is bound to a commit
 status: accepted
 date: 2026-10-08
 addresses: qg-checked-not-declared
-:::
-```
-
-## explainer pages rendered with Eleventy and TypeScript
-
-**Context:** explainer pages are rendered at build time like the other lernapps.net sites, but sources must be
-TypeScript. **Decision:** Eleventy 3 with TypeScript configuration, data and templates (`.11ty.ts`),
-loaded through Node's type stripping, and client modules bundled by vite-plus. **Alternative:** pre-rendering with
-Vite only. **Consequences:** the combination has to be proven by a prototype (`risk-explainer-rendering`).
-
-```arc42
-:::decision
-id: dec-explainer-rendering
-title: explainer pages rendered with Eleventy and TypeScript
-status: proposed
-date: 2026-10-08
-addresses: qg-simple-to-build, risk-explainer-rendering
-:::
-```
-
-## Question types of the quiz
-
-**Context:** quiz creators supply only questions and options, so the engine must cover what they need.
-**Decision:** single choice, multiple choice, true/false, number (with tolerance and unit), ordering and
-matching; each with feedback per option and an explanation per question. **Consequences:** further types are engine
-extensions and never change the creator's data format.
-
-```arc42
-:::decision
-id: dec-quiz-question-types
-title: Question types of the quiz
-status: proposed
-date: 2026-10-08
-addresses: qg-simple-to-build, qg-list-in-minutes
 :::
 ```

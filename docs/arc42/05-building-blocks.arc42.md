@@ -2,9 +2,12 @@
 
 The tooling is one package, `@lernapps/tooling`, at the root of lernapps/tooling, installed by apps from git at a
 commit of `main` and kept current by Renovate, like the site frame `@lernapps/site` (decision `dec-one-package`).
-Its parts are subpath exports and CLI commands of that package. Two blocks live in other repos: the archetype
-templates in lernapps/app-template and the listing validation in lernapps/apps. Folders inside the package are named in
-the prose.
+Its parts are subpath exports and commands of one CLI, `lernapps`. Two blocks live in other repos: the archetype
+templates in lernapps/app-templates and the listing validation in lernapps/apps. Folders inside the package are
+named in the prose.
+
+Rules have no block of their own: each rule lives in the block where it acts, as skill text, lint rule, check or
+rubric item (concept `concept-rule-catalog`).
 
 ## Level 1
 
@@ -19,7 +22,6 @@ notation: mermaid
 ```mermaid
 flowchart TB
     subgraph bb-tooling-package["@lernapps/tooling"]
-        bb-rule-catalog["Rule catalog"]
         bb-process-guidance["Process guidance"]
         bb-skills["Skills"]
         bb-generator["Generator"]
@@ -29,20 +31,17 @@ flowchart TB
         bb-review-procedure["Review procedure"]
         bb-evals["Evals"]
     end
-    bb-app-template["Archetype templates (lernapps/app-template)"]
+    bb-app-templates["Archetype templates (lernapps/app-templates)"]
     bb-app-check-action["App check action"]
     bb-listing-validation["Listing validation (lernapps/apps)"]
-    bb-skills -->|"if-rule-catalog"| bb-rule-catalog
-    bb-lint-rules -->|"if-rule-catalog"| bb-rule-catalog
-    bb-check-cli -->|"if-rule-catalog"| bb-rule-catalog
-    bb-review-procedure -->|"if-rule-catalog"| bb-rule-catalog
-    bb-generator -->|"if-archetype-templates"| bb-app-template
+    bb-generator -->|"if-archetype-templates"| bb-app-templates
     bb-generator -->|"if-plan-file"| bb-process-guidance
     bb-archetypes -->|"if-lint-plugin"| bb-lint-rules
     bb-archetypes -->|"if-check-cli"| bb-check-cli
     bb-app-check-action -->|"if-check-cli"| bb-check-cli
     bb-listing-validation -->|"if-check-cli"| bb-check-cli
     bb-listing-validation -->|"if-review-procedure"| bb-review-procedure
+    bb-review-procedure -->|"if-validation-report"| bb-check-cli
     bb-evals -->|"if-generator-cli"| bb-generator
     bb-evals -->|"if-validation-report"| bb-check-cli
 ```
@@ -63,9 +62,6 @@ flowchart TB
     subgraph bb-tooling-package["@lernapps/tooling"]
         subgraph bb-archetypes["Archetype presets"]
             bb-git-hooks["Git hooks"]
-            bb-archetype-explainer["explainer"]
-            bb-archetype-interactive["interactive"]
-            bb-archetype-quiz["quiz"]
         end
         bb-check-cli["Check CLI"]
         bb-process-guidance["Process guidance"]
@@ -79,53 +75,32 @@ flowchart TB
 ## @lernapps/tooling
 
 The one package every app depends on. Its version is a commit of `main`; Renovate moves every app to the latest
-commit and merges when the app's checks are green (preset `github>lernapps/tooling`). It has a single CLI, `lernapps`,
-with the commands `create` (generator) and `check` (check CLI).
+commit and merges when the app's checks are green (preset `github>lernapps/tooling`). An app holds only thin files
+that refer to it: configuration that extends a preset, the hooks installed by it, skills synced from it. The
+package's own build runs the same check command it gives apps, plus a test that the rule ids across skills, lint
+rules, checks and rubric are consistent.
 
 ```arc42
 :::building-block
 id: bb-tooling-package
 title: "@lernapps/tooling"
-technology: TypeScript, Node 24, npm package installed from git
-:::
-```
-
-### Rule catalog
-
-Every rule, once: id, text, scope (`listing`, `site`, `archetype:<name>`), severity (`error`, `warning`, `hint`),
-enforcement (`guided`, `checked`, `reviewed`), pitfalls and source (concept `concept-rule-model`). One YAML file per
-rule in `rules/`, validated against a schema. Skills, lint configuration, check CLI and review rubric are generated
-from it or read it; a page on lernapps.net/tooling/ lists the rules for people.
-
-```arc42
-:::building-block
-id: bb-rule-catalog
-title: Rule catalog
-parent: bb-tooling-package
-technology: YAML, JSON Schema
-implements: concept-rule-model, concept-promotion-path
-:::
-```
-
-#### Rule catalog interface
-
-The rules as data, with their schema. Consumers select rules by scope and enforcement.
-
-```arc42
-:::interface
-id: if-rule-catalog
-title: Rule catalog
-provider: bb-rule-catalog
-protocol: YAML files with JSON Schema, read at build time
+technology: TypeScript, Node, npm package installed from git
+implements: concept-stable-contracts
 :::
 ```
 
 ### Process guidance
 
-The EPCC workflow for the creator's assistant (`guidance/`): the text of the app's `AGENTS.md` (short, always loaded,
-pointing to the skills), and the plan template with its phases, checkpoints, the questions of the Explore phase
-(including "fetch the entry schema and fill it"), the front matter with counters and the closing retrospective,
-each explained in comments (concept `concept-plan-file`).
+The EPCC workflow for the creator's assistant (`guidance/`): the text of the app's `AGENTS.md` and the plan
+template. `AGENTS.md` is short and always loaded; it tells the assistant to keep a plan and points to the skills.
+
+The plan template has the phases Explore, Plan, Code and Commit, each with its tasks and the creator's checkpoints
+(confirm the plan, publish, list). Explore holds the questions for the creator, including what the entry schema of
+the app overview needs to help adults find the app; the answers stay in the plan for listing. The front matter holds
+the archetype, the current phase and counters the hooks write (`prePushFailures`). The plan ends with a
+retrospective: phases reached, checks that failed and how often, the creator's turns after the plan was confirmed,
+where the assistant had to guess. Comments in the template explain each part, so the template itself guides the
+assistant.
 
 ```arc42
 :::building-block
@@ -133,14 +108,14 @@ id: bb-process-guidance
 title: Process guidance
 parent: bb-tooling-package
 technology: Markdown
-implements: concept-plan-file
+implements: concept-plain-language, concept-terse-output, concept-traceability
 :::
 ```
 
 #### AGENTS.md
 
-The entry point every assistant reads. Generated into the app; it stays short and refers to the skills and the
-plan, which come from the package.
+The entry point every assistant reads, generated into the app. It stays short and refers to the plan and the
+skills.
 
 ```arc42
 :::interface
@@ -153,8 +128,8 @@ protocol: Markdown file at the app's root
 
 #### Plan file
 
-The human-readable plan in the app repo (`.vibe/plan.md`): phases with tasks, key decisions, the catalog notes,
-front matter counters written by the hooks, and the retrospective.
+The human-readable plan in the app repo (`.vibe/plan.md`). It stays in the creator's repo and reaches the platform
+only with a listing.
 
 ```arc42
 :::interface
@@ -167,11 +142,12 @@ protocol: Markdown with YAML front matter
 
 ### Skills
 
-Conventions as skills in the agentskills.io format (`skills/`): `lernapps-app` (workflow and general rules),
-one per archetype (`lernapps-explainer`, `lernapps-interactive`, `lernapps-quiz`), topic skills (third-party content,
-videos, curriculum references) and `lernapps-listing` (fetch the entry schema, fill it from plan and report, open
-the pull request). The rule sections are generated from the rule catalog. Shipped in the package and synced into the
-app's `.agents/skills/`; also installable with `npx skills add lernapps/tooling` for apps built otherwise.
+The `guided` rules and the know-how around them (`skills/`), in the agentskills.io format: `lernapps-app` (workflow
+and general rules), one per archetype, topic skills such as third-party content (bundle it at build time, name
+source and licence next to it, embeds only after a click, links verified, never guessed), and `lernapps-listing`
+(fetch the entry schema, fill it from plan and report, open the pull request). Each skill names the rule ids it
+carries. They are synced from the package into the creator's agent harness (chapter 7) and can be installed alone
+with `npx skills add lernapps/tooling` for apps built otherwise.
 
 ```arc42
 :::building-block
@@ -179,30 +155,29 @@ id: bb-skills
 title: Skills
 parent: bb-tooling-package
 technology: Markdown (agentskills.io)
-requires: if-rule-catalog
-implements: concept-rule-model, concept-third-party-content
+implements: concept-rule-catalog, concept-plain-language, concept-terse-output
 :::
 ```
 
 #### Skills interface
 
-The skills the assistant loads when a task needs them; one per concern, each pointing to the rules it carries.
+The skills the assistant loads when a task needs them; one per concern.
 
 ```arc42
 :::interface
 id: if-skills
 title: Skills
 provider: bb-skills
-protocol: SKILL.md files in .agents/skills/
+protocol: SKILL.md files in the harness's skill folder
 :::
 ```
 
 ### Generator
 
 `lernapps create --archetype <name>` writes a new app from the archetype's template at the commit pinned in the
-package: thin files that refer to the package (vite-plus config, `tsconfig.json`, hooks), `AGENTS.md`, the plan
-file carried over from the conversation, the app's workflows, LICENSE and the content-error issue form. It is run
-after the creator has confirmed the plan.
+package: the thin files that refer to the package, `AGENTS.md`, the plan file carried over from the conversation,
+the app's workflows, LICENSE and an issue form for content errors. The assistant runs it after the creator has
+confirmed the plan.
 
 ```arc42
 :::building-block
@@ -211,13 +186,13 @@ title: Generator
 parent: bb-tooling-package
 technology: TypeScript CLI
 requires: if-archetype-templates, if-plan-file
-implements: concept-versioned-distribution
+implements: concept-stable-contracts
 :::
 ```
 
 #### Generator CLI
 
-The assistant runs it once, after the plan is confirmed; it fails if the archetype is unknown or the folder is not empty.
+It fails if the archetype is unknown or the folder is not empty.
 
 ```arc42
 :::interface
@@ -230,24 +205,24 @@ protocol: CLI `lernapps create`
 
 ### Archetype presets
 
-What an app imports and never edits (`archetypes/`): per archetype the vite-plus configuration (lint, format, type
-check, test, staged), the strict `tsconfig` base, i18n and a11y helpers, and the git hooks. A shared base holds what
-all archetypes have in common.
+What an app imports and never edits (`archetypes/`), one preset per archetype on a shared base: the vite-plus
+configuration (lint with the severities of our lint rules, format, type check, unit tests, staged files), the strict
+`tsconfig` base, the Playwright configuration for end-to-end tests, i18n and a11y helpers, and the git hooks.
 
 ```arc42
 :::building-block
 id: bb-archetypes
 title: Archetype presets
 parent: bb-tooling-package
-technology: TypeScript, vite-plus
+technology: TypeScript, vite-plus, Playwright
 requires: if-lint-plugin, if-check-cli
-implements: concept-strict-typescript, concept-i18n-a11y, concept-versioned-distribution
+implements: concept-rule-catalog, concept-stable-contracts
 :::
 ```
 
 #### Archetype preset interface
 
-What an app imports and extends: the vite-plus configuration, the `tsconfig` base and the hooks, by archetype.
+What an app imports and extends: configuration, `tsconfig` base and hooks, by archetype.
 
 ```arc42
 :::interface
@@ -260,114 +235,27 @@ protocol: npm subpath exports (config, tsconfig, hooks)
 
 #### Git hooks
 
-Installed by the preset (`vp config`). Pre-commit runs `vp staged` (format, lint, type check of staged files).
-Pre-push runs `vp check`, the tests, the build and the static part of the check CLI; when it fails, it increments
-`prePushFailures` in the plan file's front matter and prints the check messages.
+Installed by the preset. Pre-commit runs `lernapps check --pre-commit`, pre-push runs `lernapps check --pre-push`;
+together they run exactly what CI runs. When the pre-push run fails, the hook increments `prePushFailures` in the
+plan file's front matter and prints the messages.
 
 ```arc42
 :::building-block
 id: bb-git-hooks
 title: Git hooks
 parent: bb-archetypes
-technology: vite-plus staged, shell
+technology: vite-plus hooks, shell
 requires: if-check-cli, if-plan-file
-implements: concept-agent-messages, concept-measurement
-:::
-```
-
-#### explainer
-
-Content-heavy apps: one page per topic with explanation, picture and generated exercises, a
-start and a test page, every page readable without JavaScript. Pages are rendered at build time from TypeScript
-sources; exercise generators and checkers are pure, tested functions; `llms.txt` and a tutor link make the app usable
-with an AI tutor. How pages are rendered from TypeScript is decided in `dec-explainer-rendering`.
-
-```arc42
-:::building-block
-id: bb-archetype-explainer
-title: explainer
-parent: bb-archetypes
-technology: TypeScript, static rendering at build time, small client modules
-:::
-```
-
-##### Topic pages
-
-What an explainer creator writes: one page per topic (front matter with explanation, rule, example, picture),
-exercise generators and checkers as pure functions, and the German texts. Typed, validated at build time.
-
-```arc42
-:::interface
-id: if-topic-pages
-title: Topic pages
-provider: bb-archetype-explainer
-protocol: Markdown with typed front matter, TypeScript modules
-:::
-```
-
-#### interactive
-
-A client-rendered single-page app plus a static start page that explains it and a `<noscript>` note. Keyboard and
-pointer interaction, state in memory or on the device only, rendering with DOM, SVG or canvas.
-
-```arc42
-:::building-block
-id: bb-archetype-interactive
-title: interactive
-parent: bb-archetypes
-technology: TypeScript, Vite
-:::
-```
-
-##### App module
-
-What an interactive creator writes: the app's TypeScript module behind a small contract with the preset (mount
-point, i18n texts, storage wrapper, start page text).
-
-```arc42
-:::interface
-id: if-app-module
-title: App module
-provider: bb-archetype-interactive
-protocol: TypeScript module contract
-:::
-```
-
-#### quiz
-
-The deepest scaffold: the whole quiz is built in, the creator supplies only the question bank. The engine renders
-every question statically (readable without JavaScript, answers revealed at the end of the page) and enhances it in
-the browser: question types, feedback per option and explanation per question, scoring, order shuffled by a seed in
-the address, deep links to a question, nothing stored except optionally the last result on the device.
-
-```arc42
-:::building-block
-id: bb-archetype-quiz
-title: quiz
-parent: bb-archetypes
-technology: TypeScript, static rendering at build time
-:::
-```
-
-##### Question bank
-
-The only thing a quiz creator writes: questions, options, correct answers, feedback and explanations as typed data,
-validated at build time. Question types: decided in `dec-quiz-question-types`.
-
-```arc42
-:::interface
-id: if-question-bank
-title: Question bank
-provider: bb-archetype-quiz
-protocol: TypeScript types and JSON Schema; data files in the app
+implements: concept-terse-output, concept-traceability
 :::
 ```
 
 ### Lint rules
 
-The `checked` rules that can be decided on source code (`lint/`), as an Oxlint JS plugin (fallback: ESLint plugin):
-no URLs to other hosts in code, storage only through the wrapper of the preset, learner texts only from the i18n
-files, no `any`. Severity per rule comes from the catalog; a suppression needs a reason.
+The `checked` rules that can be decided on source code (`lint/`), as an Oxlint JS plugin written against the
+ESLint-compatible API: no URLs to other hosts in code, storage only through the preset's wrapper, learner texts only
+from the i18n files, no `any`. Each rule carries its rule id; its severity is set in the preset's configuration; a
+suppression needs a reason.
 
 ```arc42
 :::building-block
@@ -375,14 +263,13 @@ id: bb-lint-rules
 title: Lint rules
 parent: bb-tooling-package
 technology: TypeScript, Oxlint JS plugin
-requires: if-rule-catalog
-implements: concept-rule-model, concept-agent-messages
+implements: concept-rule-catalog, concept-terse-output
 :::
 ```
 
 #### Lint plugin
 
-The preset loads the plugin with the severities from the catalog; apps do not configure it themselves.
+The preset loads the plugin; apps do not configure it themselves.
 
 ```arc42
 :::interface
@@ -395,55 +282,66 @@ protocol: Oxlint / ESLint plugin API
 
 ### Check CLI
 
-`lernapps check <dir|url>` decides the `checked` rules on a built bundle or a deployed URL (`check/`). Static mode
-reads the files: external resources, links, dependency licences, site rules (calling `lernapps-check` of the site
-frame for scope `site`). Browser mode (`--browser`, Playwright with Chromium) loads every page: requests before a
-click, storage, readable without JavaScript, 360 px without overflow, axe. Writes the validation report and prints
-messages for agents. Runs without the app's source repository.
+`lernapps check` runs every deterministic check (`check/`) and is the same command in hooks, CI and listing
+validation:
+
+| Part | Runs with | Contents |
+|---|---|---|
+| fast | `--pre-commit` | format, lint, type check of staged files |
+| heavy | `--pre-push` | unit tests, build, checks of the built app, end-to-end tests in a browser (Playwright) |
+| all | no flag, or both flags | both parts (CI) |
+
+The checks of the built app work on a bundle or a deployed URL, without the source repo: requests to other hosts
+before a click, storage, readable without JavaScript where the archetype requires it, 360 px without overflow, axe,
+links, dependency licences, and the site rules by calling `lernapps-check` of the site frame for apps on
+lernapps.net. With `--entry <file>` it also checks an entry against the app: the app's URL and every topic link
+resolve, and the fitness values match. Each check carries its rule id and severity. The output is the validation
+report.
 
 ```arc42
 :::building-block
 id: bb-check-cli
 title: Check CLI
 parent: bb-tooling-package
-technology: TypeScript CLI, Playwright, axe-core
-requires: if-rule-catalog
-implements: concept-rule-model, concept-agent-messages, concept-validation-report
+technology: TypeScript CLI, vite-plus, Playwright, axe-core
+implements: concept-rule-catalog, concept-terse-output, concept-traceability, concept-stable-contracts
 :::
 ```
 
 #### Check CLI interface
 
-Exit code 0 when no `error` rule fails; messages in the shape of `concept-agent-messages`; `--report <file>` writes the validation report.
+Exit code 0 when no `error` rule fails; the report on standard output; `--report <file>` writes it to a file.
 
 ```arc42
 :::interface
 id: if-check-cli
 title: Check CLI
 provider: bb-check-cli
-protocol: CLI `lernapps check`, exit code and messages
+protocol: CLI `lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>]`
 :::
 ```
 
 #### Validation report
 
-The result of a check run as JSON: commit (or URL and time), findings per rule id with location and fix, and the
-fitness values for the entry. Its schema is published at lernapps.net next to the entry schema.
+The result of a check run as YAML: what was checked (commit, or URL and time), the rules in scope, findings per rule
+id with location and fix, suppressions with their reasons, and the fitness values for the entry. Deterministic: the
+same input gives the same report. Its schema is published at lernapps.net as JSON Schema, which validates the YAML.
 
 ```arc42
 :::interface
 id: if-validation-report
 title: Validation report
 provider: bb-check-cli
-protocol: JSON with published JSON Schema
+protocol: YAML with published JSON Schema
 :::
 ```
 
 ### Review procedure
 
-The formal validation's judgment (`review/`): a prompt for an agent in a fresh context, the rubric generated from
-the `reviewed` rules in scope, and the format of its verdict. The agent starts from the validation report, reads the
-built bundle, the dependencies and the plan's retrospective, and judges what the checks cannot decide.
+The formal validation's judgment (`review/`): a prompt for an agent in a fresh context, the rubric of `reviewed`
+rules per archetype, each item with its rule id, and the format of the verdict. The agent starts from the validation
+report, reads the built bundle, the dependencies and the plan's retrospective, and judges what no check decides:
+whether learners act themselves, ads, plain language, learner-specific data in public texts.
 
 ```arc42
 :::building-block
@@ -451,14 +349,14 @@ id: bb-review-procedure
 title: Review procedure
 parent: bb-tooling-package
 technology: Markdown
-requires: if-rule-catalog, if-validation-report
-implements: concept-rule-model, concept-promotion-path
+requires: if-validation-report
+implements: concept-rule-catalog, concept-plain-language
 :::
 ```
 
 #### Review procedure interface
 
-Run by an agent in a fresh context; its verdict names the reviewed commit and, per finding, the rule and the layer it should move to.
+Its verdict names the reviewed commit and, per finding, the rule id, or proposes a new rule and where it would act.
 
 ```arc42
 :::interface
@@ -473,7 +371,7 @@ protocol: Markdown prompt and rubric
 
 Sample creator prompts, at least one per archetype, with the expected result (`evals/`). Run by hand with Claude
 Code, Codex and Gemini CLI on their latest models; scored with the check CLI, the review procedure and the plan's
-counters. Run before a change to the guidance is merged.
+counters. They run before a change to the guidance is merged.
 
 ```arc42
 :::building-block
@@ -482,20 +380,20 @@ title: Evals
 parent: bb-tooling-package
 technology: Markdown prompts, scoring script
 requires: if-generator-cli, if-check-cli, if-validation-report, if-review-procedure
-implements: concept-measurement
+implements: concept-traceability
 :::
 ```
 
 ## Archetype templates
 
-lernapps/app-template, one folder per archetype: the files the generator copies, each a working app that passes
+lernapps/app-templates, one folder per archetype: the files the generator copies, each a working app that passes
 every check. Each folder can be tried on its own; the logic stays in the package.
 
 ```arc42
 :::building-block
-id: bb-app-template
+id: bb-app-templates
 title: Archetype templates
-technology: lernapps/app-template, one folder per archetype
+technology: lernapps/app-templates, one folder per archetype
 :::
 ```
 
@@ -507,15 +405,16 @@ The generator copies one folder at the commit pinned in the package, so template
 :::interface
 id: if-archetype-templates
 title: Archetype templates
-provider: bb-app-template
-protocol: Files at a pinned commit of lernapps/app-template
+provider: bb-app-templates
+protocol: Files at a pinned commit of lernapps/app-templates
 :::
 ```
 
 ## App check action
 
-A composite action next to the site actions (`actions/app-check`): build, check CLI with `--browser`, report as
-artifact. Runs in every app's CI; apps on lernapps.net deploy with the site actions after it.
+A composite action next to the site actions (`actions/app-check`): runs `lernapps check` without flags, exactly
+what the hooks ran, with the Playwright browser cached; uploads the report. Apps on lernapps.net deploy with the
+site actions after it.
 
 ```arc42
 :::building-block
@@ -541,9 +440,10 @@ protocol: GitHub Actions `uses:` at a pinned commit
 
 ## Listing validation
 
-A workflow in lernapps/apps on pull requests that add or change an entry: runs the check CLI against the entry's URL,
-compares the report with the declared fitness values and, if checks fail, posts the deterministic results as a
-comment for the creator's assistant. The review agent then judges the rest; the owner decides.
+A workflow in lernapps/apps on pull requests that add or change an entry. It runs the checks of the built app against
+the entry's URL with `--entry`, so it also confirms that the topic links resolve and the fitness values match. If
+checks fail, it posts the report as a comment for the creator's assistant. The review agent then judges the rest;
+the owner decides.
 
 ```arc42
 :::building-block
@@ -551,14 +451,13 @@ id: bb-listing-validation
 title: Listing validation
 technology: GitHub Actions workflow in lernapps/apps
 requires: if-check-cli, if-review-procedure, if-validation-report
-implements: concept-validation-report, concept-agent-messages
+implements: concept-terse-output, concept-traceability
 :::
 ```
 
 ### Listing results comment
 
-The comment the listing validation posts on the pull request when checks fail: the deterministic results in the
-shape of `concept-agent-messages`, so the creator's assistant can fix the app and push again.
+The validation report as a comment on the pull request, so the creator's assistant can fix the app and push again.
 
 ```arc42
 :::interface

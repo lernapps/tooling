@@ -8,7 +8,7 @@ Not "template": the template is only one part of an archetype. Names describe wh
 :::glossary-term
 id: term-archetype
 title: Archetype
-definition: A kind of app the tooling supports, named after its character (explainer, interactive, quiz); a bundle of template, preset, skills, rules in scope and review rubric.
+definition: A kind of app the tooling supports, named after its character; a template, a preset, skills and the rules in scope.
 :::
 ```
 
@@ -110,25 +110,13 @@ definition: The assistant's Markdown plan in the app repo with phases, checkpoin
 
 ## Promotion path
 
-Only the rule's enforcement changes; its id stays.
+A move is a pull request that adds the new artifact and removes the old text; the id stays.
 
 ```arc42
 :::glossary-term
 id: term-promotion-path
 title: Promotion path
-definition: How a recurring finding moves to a lower layer - from review to a check, otherwise to a skill, or to a step in the plan template.
-:::
-```
-
-## Question bank
-
-Typed and validated at build time against the quiz's schema.
-
-```arc42
-:::glossary-term
-id: term-question-bank
-title: Question bank
-definition: The typed questions, options, answers, feedback and explanations a quiz creator supplies; the only creator input of the quiz archetype.
+definition: How a rule moves to the layer where it works best - a recurring review finding becomes a lint rule or check, a forgotten step a question in the plan template.
 :::
 ```
 
@@ -146,13 +134,13 @@ definition: The last section of the plan file, filled by the assistant at the en
 
 ## Rule
 
-Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity.
+Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. All rules together are the rule catalog (chapter 8).
 
 ```arc42
 :::glossary-term
 id: term-rule
 title: Rule
-definition: One requirement on an app in the rule catalog, with scope (listing, site, archetype), severity (error, warning, hint), enforcement (guided, checked, reviewed), pitfalls and source.
+definition: One requirement on an app, with a stable id, scope (listing, site, archetype), severity (error, warning, hint) and enforcement (guided, checked, reviewed); it lives as skill text, lint rule, check or rubric item.
 :::
 ```
 
@@ -176,6 +164,6 @@ Bound to the commit it checked, so a fact sheet can trace the deployed app to it
 :::glossary-term
 id: term-validation-report
 title: Validation report
-definition: The JSON result of the check CLI for one commit or URL - findings per rule and the fitness values; its schema is published.
+definition: The YAML result of the check CLI for one commit or URL - findings per rule id and the fitness values; its schema is published.
 :::
 ```

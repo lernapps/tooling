@@ -25,7 +25,7 @@ Review, evals and listing decisions run by hand, on one person's time (`con-one-
 id: risk-owner-bottleneck
 title: The owner is the bottleneck
 severity: high
-mitigation: Deterministic checks decide everything they can and comment failures without the owner; the quiz scaffold leaves little to review; the review can move into the listing workflow when listings justify its cost
+mitigation: Deterministic checks decide everything they can and comment failures without the owner; a deep scaffold leaves little to review; the review can move into the listing workflow when listings justify its cost
 :::
 ```
 
@@ -55,29 +55,31 @@ mitigation: Write the rules against the ESLint-compatible API, so they can run a
 :::
 ```
 
-## Rendering explainer pages from TypeScript is unproven
+## A browser at the creator
 
-Static rendering with TypeScript sources (`dec-explainer-rendering`) has not been tried in this setup.
+The end-to-end tests and the checks of the built app run pre-push and need a browser. Downloading it costs time once,
+and some assistant sandboxes cannot run one.
 
 ```arc42
 :::risk
-id: risk-explainer-rendering
-title: Rendering explainer pages from TypeScript is unproven
+id: risk-browser-at-creator
+title: A browser at the creator
 severity: medium
-mitigation: Prototype the explainer template before the presets are fixed; fall back to pre-rendering with Vite
+mitigation: The preset installs Playwright's browser once and caches it; the check says clearly when no browser can run and which part was skipped; CI runs the same checks, and the listing validation runs them against the deployed app
 :::
 ```
 
-## Browser checks are heavy
+## Rule artifacts drift apart
 
-The browser checks need Chromium, which is too heavy for every creator's pre-push hook.
+Without a central rule file, the same rule can be worded differently in a skill and a check, or a moved rule can
+stay in its old place.
 
 ```arc42
 :::risk
-id: risk-browser-checks-heavy
-title: Browser checks are heavy
-severity: medium
-mitigation: Static checks in the hook, browser checks in the app's CI and in the listing validation; apps not on GitHub meet the browser checks only at listing
+id: risk-rule-drift
+title: Rule artifacts drift apart
+severity: low
+mitigation: Stable rule ids and the tooling's id test (unique, every checked rule implemented, every message linked); the evals show contradicting guidance
 :::
 ```
 
@@ -109,7 +111,7 @@ mitigation: Evals cover the archetypes; conversations with creators; agent feedb
 
 ## The entry model changes
 
-The entry schema will be tuned for discovery.
+The entry schema is tuned for discovery over time.
 
 ```arc42
 :::risk

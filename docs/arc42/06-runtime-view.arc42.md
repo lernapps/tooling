@@ -6,15 +6,16 @@ failing push, the validation of a listing, and a rule that changes.
 ## A new app, from first prompt to listing
 
 The creator asks their assistant for an app. The assistant reads `AGENTS.md`, explores the idea with the creator in
-the plan file and confirms the plan with them. Then it works on its own: it generates the scaffold, builds with the
-skills and the hooks' feedback, publishes, and lists the app from the plan and the validation report.
+the plan file, including what the entry needs to help adults find the app, and confirms the plan with them. Then it
+works on its own: it generates the scaffold, builds with the skills and the hooks' feedback, publishes, and lists
+the app from the plan and the validation report.
 
 ```arc42
 :::runtime-scenario
 id: rs-new-app
 title: A new app, from first prompt to listing
 trigger: A creator asks their AI assistant for a learning app
-involves: bb-process-guidance, bb-generator, bb-app-template, bb-skills, bb-archetypes, bb-lint-rules, bb-git-hooks, bb-check-cli, bb-app-check-action, bb-listing-validation
+involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-archetypes, bb-lint-rules, bb-git-hooks, bb-check-cli, bb-app-check-action, bb-listing-validation
 :::
 ```
 
@@ -23,7 +24,7 @@ involves: bb-process-guidance, bb-generator, bb-app-template, bb-skills, bb-arch
 id: rs-new-app-sequence
 scenario: rs-new-app
 notation: mermaid-sequence
-aliases: creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-template, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, listing=bb-listing-validation
+aliases: creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, listing=bb-listing-validation
 :::
 ```
 
@@ -40,25 +41,26 @@ sequenceDiagram
     participant ci as App check action
     participant listing as Listing validation
     assistant->>guidance: read AGENTS.md, start the plan file
-    assistant->>creator: Explore: purpose, learners, catalog questions
+    assistant->>creator: Explore: purpose, learners, what the entry needs
     creator->>assistant: answers, confirms the plan
-    assistant->>generator: lernapps create --archetype quiz
+    assistant->>generator: lernapps create --archetype <name>
     generator->>templates: copy the archetype folder
     assistant->>skills: load the skills of the archetype and topic
-    assistant->>hooks: commit (vp staged: format, lint rules, types)
+    assistant->>hooks: commit
+    hooks->>check: lernapps check --pre-commit
     assistant->>hooks: push
-    hooks->>check: static checks
-    check-->>assistant: messages for agents, or ok
+    hooks->>check: lernapps check --pre-push (incl. end-to-end tests)
+    check-->>assistant: messages, or ok
     assistant->>ci: pull request in the app repo
-    ci->>check: checks with --browser
+    ci->>check: lernapps check (the same checks)
     assistant->>creator: checkpoint: publish
     assistant->>listing: entry from plan and report, pull request to lernapps/apps
 ```
 
 ## A push fails
 
-The pre-push hook finds a request to another server in a built page. It prints the message, counts the failure in the
-plan's front matter, and the assistant fixes the app without asking the creator.
+The pre-push run finds a request to another server in a built page. The hook prints the message, counts the
+failure in the plan's front matter, and the assistant fixes the app without asking the creator.
 
 ```arc42
 :::runtime-scenario
@@ -85,21 +87,21 @@ sequenceDiagram
     participant check as Check CLI
     participant plan as Plan file
     assistant->>hooks: git push
-    hooks->>check: lernapps check _site
-    check-->>hooks: error no-external-before-click, page, element, fix
+    hooks->>check: lernapps check --pre-push
+    check-->>hooks: error no-request-before-click, page, element, fix
     hooks->>plan: prePushFailures + 1
     hooks-->>assistant: push refused, message
     assistant->>assistant: fix, commit (with the counter)
     assistant->>hooks: git push
-    hooks->>check: lernapps check _site
+    hooks->>check: lernapps check --pre-push
     check-->>hooks: ok
 ```
 
 ## A listing is validated
 
-A pull request adds an entry to lernapps/apps. The listing validation checks the deployed app and compares the
-report with the entry. On failure it comments the deterministic results; the creator's assistant fixes the app and
-pushes again. Then the review agent judges the rest and the owner decides.
+A pull request adds an entry to lernapps/apps. The listing validation checks the deployed app against the entry:
+the rules, the topic links, the fitness values. On failure it comments the report; the creator's assistant fixes the
+app or the entry and pushes again. Then the review agent judges the rest and the owner decides.
 
 ```arc42
 :::runtime-scenario
@@ -128,12 +130,12 @@ sequenceDiagram
     participant procedure as Review procedure
     participant owner as Owner
     assistant->>listing: pull request with the entry
-    listing->>check: lernapps check --browser <url>
+    listing->>check: lernapps check <url> --entry <file>
     check-->>listing: validation report
-    listing-->>assistant: comment with the deterministic results (on failure)
-    assistant->>listing: fix in the app, push the entry again
+    listing-->>assistant: comment with the report (on failure)
+    assistant->>listing: fix, push again
     listing->>check: second run
-    check-->>listing: report, fitness values match the entry
+    check-->>listing: report: rules kept, topic links resolve, fitness values match
     owner->>review: start the review of the pull request
     review->>procedure: prompt and rubric
     review-->>owner: verdict for the reviewed commit
@@ -142,15 +144,16 @@ sequenceDiagram
 
 ## A rule changes
 
-The owner tightens a rule, or a creator contributes one. The catalog changes in one place; skills, lint rules,
-checks and rubric follow; the evals run; after the merge, Renovate brings the new package commit to every app.
+The owner tightens a rule, or a creator contributes one. The pull request changes the artifact where the rule acts:
+the skill text, the lint rule, the check or the rubric item, keeping or adding the rule id. The tooling's build
+checks the ids; the evals run; after the merge, Renovate brings the new package commit to every app.
 
 ```arc42
 :::runtime-scenario
 id: rs-rule-changes
 title: A rule changes
-trigger: A pull request to lernapps/tooling changes the rule catalog
-involves: bb-rule-catalog, bb-skills, bb-lint-rules, bb-check-cli, bb-review-procedure, bb-evals
+trigger: A pull request to lernapps/tooling changes a rule in its artifact
+involves: bb-tooling-package, bb-skills, bb-lint-rules, bb-check-cli, bb-review-procedure, bb-evals
 :::
 ```
 
@@ -159,25 +162,27 @@ involves: bb-rule-catalog, bb-skills, bb-lint-rules, bb-check-cli, bb-review-pro
 id: rs-rule-changes-sequence
 scenario: rs-rule-changes
 notation: mermaid-sequence
-aliases: owner=actor-owner, catalog=bb-rule-catalog, skills=bb-skills, lint=bb-lint-rules, check=bb-check-cli, procedure=bb-review-procedure, evals=bb-evals, github=actor-github
+aliases: owner=actor-owner, package=bb-tooling-package, skills=bb-skills, lint=bb-lint-rules, check=bb-check-cli, procedure=bb-review-procedure, evals=bb-evals, github=actor-github
 :::
 ```
 
 ```mermaid
 sequenceDiagram
     participant owner as Owner
-    participant catalog as Rule catalog
     participant skills as Skills
     participant lint as Lint rules
     participant check as Check CLI
     participant procedure as Review rubric
+    participant package as Package build
     participant evals as Evals
     participant github as GitHub (Renovate)
-    owner->>catalog: change a rule (scope, severity, enforcement)
-    catalog->>skills: regenerate rule sections
-    catalog->>lint: severities
-    catalog->>check: rules in scope
-    catalog->>procedure: regenerate rubric
+    owner->>check: pull request: new check for a recurring finding (same rule id)
+    owner->>procedure: remove the rubric item of that rule
+    package->>skills: read rule ids
+    package->>lint: read rule ids
+    package->>check: read rule ids
+    package->>procedure: read rule ids
+    package-->>owner: ids unique, every checked rule implemented
     owner->>evals: run by hand with three assistants
     evals-->>owner: scores per archetype
     owner->>github: merge to main

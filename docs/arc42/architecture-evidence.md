@@ -9,7 +9,7 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | lernapps/docs `docs/pdt42/2-design/d1-ecosystem.pdt42.md:16,31` | GitHub is the means of production; "Agent guidance and starter templates" are part of the platform's infrastructure | ch.1 intro | high | — |
 | lernapps/.github issue #12 | Goal: a creator builds an app with their AI assistant, and it comes out static, frontend-only, collecting nothing, and ready to list | ch.1 1.1 | high | — |
 | `.vibe/development-plan-agentic-app-creation.md` KD-01 | Five layers: process guidance, scaffolding, conventions, deterministic verification, formal validation | ch.1 UC-1 – UC-5 | high | — |
-| plan KD-02, owner 2026-10-08 | Archetypes `explainer`, `interactive`, `quiz` (deep scaffold: only questions and options supplied); named after their character; TypeScript everywhere, strictly enforced | ch.1 1.1 | high | — |
+| plan KD-02, owner 2026-10-08 | Archetypes named after their character, as a variation point; the archetypes themselves are part of the plan; TypeScript everywhere, strictly enforced | ch.1 1.1, ch.9 dec-archetypes | high | — |
 | plan KD-03 | EPCC plan in a Markdown file; agent asks the creator what the catalog needs | ch.1 UC-1 | high | — |
 | plan KD-04; lernapps/apps `schemas/entry.js` | The agent fetches the entry schema and fills it; the guidance does not repeat its fields | ch.1 UC-6 | high | — |
 | plan KD-13, KD-15 | Fact sheet with deployment from the entry's commit, and re-validation, are later increments | ch.1 1.1 out of scope | high | — |
@@ -33,9 +33,11 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | owner, 2026-10-08 | The architecture names no single app; existing apps are implementations of an archetype, not its definition | ch.1, ch.5 | high | — |
 | ORGANIZATION.md "Rules across repos", "Every page, in every repo", "Language", "License"; GOVERNANCE.md | Constraints: page rules, GitHub as means of production, one owner, languages and licence | ch.2 | high | — |
 | lernapps.github.io `package.json`, `site-frame/README.md` | `@lernapps/site` is one root package installed from git; `lernapps-check` checks site rules | ch.5 dec-one-package, dec-check-cli | high | — |
-| owner, 2026-10-08 | Agreed proposals: one package from git; templates in lernapps/app-template; browser checks in CI; review run by the owner first; `lernapps-check` stays in the site frame and is called by the check CLI | ch.5, ch.7, ch.9 | high | — |
-| owner, 2026-10-08 | Rule model: one term "rule" with scope, severity (error, warning, hint) and enforcement; listing rules never warnings | ch.8 concept-rule-model, ch.9 dec-rule-model | high | — |
-| agent inference | explainer pages rendered with Eleventy 3 and TypeScript through Node's type stripping | ch.9 dec-explainer-rendering | low | OPEN: confirm, after a prototype |
-| agent inference | Quiz question types: single choice, multiple choice, true/false, number, ordering, matching | ch.9 dec-quiz-question-types | low | OPEN: confirm the set |
-| agent inference | Package layout (`rules/`, `guidance/`, `skills/`, `archetypes/`, `lint/`, `check/`, `review/`, `evals/`), CLI `lernapps create` / `lernapps check`, plan file at `.vibe/plan.md` with `prePushFailures` | ch.5, ch.8 | medium | — |
+| owner, 2026-10-08 | Agreed proposals: one package from git; templates in lernapps/app-templates (renamed by the owner); review run by the owner first; `lernapps-check` stays in the site frame and is called by the check CLI | ch.5, ch.7, ch.9 | high | — |
+| owner, 2026-10-08 | Rule model: one term "rule" with scope, severity (error, warning, hint) and enforcement; listing rules never warnings | ch.8 concept-rule-catalog | high | — |
+| agent inference | Package layout (`guidance/`, `skills/`, `archetypes/`, `lint/`, `check/`, `review/`, `evals/`), CLI `lernapps create` / `lernapps check`, plan file at `.vibe/plan.md` with `prePushFailures` | ch.5, ch.8 | medium | — |
 | owner, 2026-10-08 | The architecture describes no progress and quotes no ids of other documents; direct cross references to the platform design are deep links to its rendered pages | all chapters | high | — |
+| owner, 2026-10-09 | Rules live in their artifacts (skill, Oxlint rule, check, rubric item) with stable ids; no central file, no compile step; the rule catalog is a concept | ch.8 concept-rule-catalog, ch.9 dec-rules-in-artifacts | high | — |
+| owner, 2026-10-09 | One check command with `--pre-commit` and `--pre-push`; no flag runs all; hooks and CI check the same; Playwright end-to-end tests run pre-push | ch.5 bb-check-cli, ch.9 dec-one-check-command | high | — |
+| owner, 2026-10-09 | Discovery as a quality goal; listing as a step of the strategy; YAML report; environment for lernapps agents; creator's agent harness as deployment unit; cross-cutting concepts only where several blocks are affected | ch.4, ch.5, ch.7, ch.8, ch.10 | high | — |
+| lernapps/docs `d5-transactions.pdt42.md` `t-find-app`, `d6-learning-engine.pdt42.md` `s-finding` | Adults find an app for a topic and grade in the app overview | ch.10 qg-findable | high | — |
