@@ -33,6 +33,20 @@ describe("lernapps", () => {
     expect(result.stdout).toContain("--pre-push");
   });
 
+  test("check --help describes the checks of a built app and the report", () => {
+    const result = lernapps("check", "--help");
+    expect(result.code).toBe(0);
+    for (const option of ["<dir|url>", "--entry <file>", "--site <path>", "--report <file>"]) {
+      expect(result.stdout).toContain(option);
+    }
+  });
+
+  test("check with a built app and --pre-push is a usage error", () => {
+    const result = lernapps("check", "--pre-push", "https://lernapps.net/");
+    expect(result.code).toBe(2);
+    expect(result.stderr).toContain("--pre-push");
+  });
+
   test("check with an unknown option exits non-zero", () => {
     const result = lernapps("check", "--pre-merge");
     expect(result.code).not.toBe(0);
