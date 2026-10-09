@@ -308,10 +308,10 @@ function blocks(markdown: string): string {
 const source = (file: string) => `<a href="${SOURCE}${escape(file)}"><code>${escape(file)}</code></a>`;
 
 const LABEL: Record<Kind, string> = {
-  skill: "erklärt im Skill",
-  check: "geprüft von der Prüfung",
-  "lint rule": "geprüft von der Lint-Regel",
-  "rubric item": "beurteilt nach dem Punkt der Begutachtung in",
+  skill: "told in the skill",
+  check: "checked by the check",
+  "lint rule": "checked by the lint rule",
+  "rubric item": "judged by the rubric item in",
 };
 
 function rulePage(catalog: Catalog): string {
@@ -337,40 +337,40 @@ function rulePage(catalog: Catalog): string {
       return [
         `<section id="${id}">`,
         // A heading like "`plan-file`: Keep the plan file": the id is shown below it.
-        `<h2 lang="en">${inline(title.replace(/^`[^`]+`:\s*/, ""))}</h2>`,
+        `<h2>${inline(title.replace(/^`[^`]+`:\s*/, ""))}</h2>`,
         `<p>${[`<code>${id}</code>`, skill?.scopes?.join(", "), skill?.severity].filter(Boolean).join(" · ")}</p>`,
-        `<div lang="en">\n${blocks(text)}\n</div>`,
+        `<div>\n${blocks(text)}\n</div>`,
         `<p>${where_}.</p>`,
         "</section>",
       ].join("\n");
     })
     .join("\n\n");
   return `<!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>Regeln – Werkzeuge – lernapps.net</title>
+  <title>Rules – Tooling – lernapps.net</title>
   <link rel="canonical" href="${RULE_PAGE}">
   <link rel="stylesheet" href="../stil.css">
 </head>
 <body>
   <main id="main-content" tabindex="-1">
-    <h1>Regeln</h1>
-    <p>Jede Regel ist eine Anforderung an eine Lern-App. Sie steht dort, wo sie wirkt: als Abschnitt eines Skills
-      für KI-Assistenten, als Prüfung, als Lint-Regel oder als Punkt der Begutachtung. Dieselbe Regel kann an
-      mehreren Stellen stehen, immer mit derselben Kennung. Diese Seite liest sie von dort. Die Regeln selbst sind
-      englisch, weil KI-Assistenten sie so lesen.</p>
+    <h1>Rules</h1>
+    <p>Each rule is one requirement on a learning app. It lives where it acts: as a section of a skill for AI
+      assistants, as a check, as a lint rule or as an item of the review rubric. The same rule can live in several of
+      them, always under the same id. This page reads them from there.</p>
     <ul>
-      <li><strong>Geltung:</strong> <code>listing</code> gilt für jede App in der App-Übersicht, egal wo sie liegt;
-        <code>site</code> für jede Seite auf lernapps.net; <code>archetype:…</code> für Apps dieser Art.</li>
-      <li><strong>Schwere:</strong> <code>error</code> darf nicht verletzt werden; <code>warning</code> nur mit
-        Begründung an Ort und Stelle; <code>hint</code> ist eine Empfehlung.</li>
+      <li><strong>Scope:</strong> <code>listing</code> applies to every app in the app overview, wherever it is
+        hosted; <code>site</code> to every page on lernapps.net; <code>archetype:…</code> to apps of that
+        archetype.</li>
+      <li><strong>Severity:</strong> <code>error</code> must not be broken; <code>warning</code> only with a reason
+        recorded in place; <code>hint</code> is a recommendation.</li>
     </ul>
-    <p>Jede Meldung einer Prüfung verlinkt auf ihre Regel hier, über deren Kennung: <code>${RULE_PAGE}#&lt;Kennung&gt;</code>.</p>
+    <p>Every message of a check links to its rule here, by its id: <code>${RULE_PAGE}#&lt;id&gt;</code>.</p>
     <table>
-      <thead><tr><th>Regel</th><th>Geltung</th><th>Schwere</th></tr></thead>
+      <thead><tr><th>Rule</th><th>Scope</th><th>Severity</th></tr></thead>
       <tbody>
 ${rows}
       </tbody>
