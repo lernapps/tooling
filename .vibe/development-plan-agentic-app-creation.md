@@ -286,8 +286,6 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ### Tasks
 *Order of building agreed with the owner (2026-10-09). Tracking issue: [#9](https://github.com/lernapps/tooling/issues/9).
 Each step brings its rules in their artifacts and, where it touches the guidance, an eval run.*
-- [ ] 1 · The tooling's own build: package, strict TypeScript, vite-plus, hooks, `check` in CI
-  ([#10](https://github.com/lernapps/tooling/issues/10))
 - [ ] 2 · Rule ids and the id test; the first rules ([#11](https://github.com/lernapps/tooling/issues/11))
 - [ ] 3 · Check CLI `lernapps check` ([#12](https://github.com/lernapps/tooling/issues/12))
 - [ ] 4 · Shared preset and lint rules ([#13](https://github.com/lernapps/tooling/issues/13))
@@ -302,6 +300,10 @@ Each step brings its rules in their artifacts and, where it touches the guidance
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
 
 ### Completed
+- [x] 1 · The tooling's own build: package, strict TypeScript, vite-plus, hooks, `check` in CI
+  ([#10](https://github.com/lernapps/tooling/issues/10), merged in #23). `npm run check` checks the code and builds
+  nothing; the docs site is built and checked by the job `site` (`npm run build && npm run check:site`); the site
+  actions have the input `check-script`; every site repo names its Pages job `site` (owner, 2026-10-09)
 
 ## Commit
 
