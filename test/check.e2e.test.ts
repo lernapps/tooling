@@ -170,6 +170,7 @@ describe.skipIf(inner)("installed from git", () => {
     "@lernapps/tooling/guidance/plan-template.md",
     "@lernapps/tooling/guidance/plan-front-matter.v1.schema.json",
     "@lernapps/tooling/skills/lernapps-app/SKILL.md",
+    "@lernapps/tooling/skills/lernapps-quiz/SKILL.md",
     "@lernapps/tooling/check/validation-report.v1.schema.json",
     "@lernapps/tooling/review/verdict.v1.schema.json",
   ])("a consumer resolves %s to a file in the package", (specifier) => {

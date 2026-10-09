@@ -14,6 +14,7 @@
     "dist",
     "archetypes",
     "check/validation-report.v1.schema.json",
+    "generator",
     "review/verdict.v1.schema.json",
     "guidance",
     "skills"
@@ -50,7 +51,8 @@
     "./guidance/AGENTS.md": "./guidance/AGENTS.md",
     "./guidance/plan-template.md": "./guidance/plan-template.md",
     "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
-    "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md"
+    "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md",
+    "./skills/lernapps-quiz/SKILL.md": "./skills/lernapps-quiz/SKILL.md"
   },
   "scripts": {
     "prepare": "vp pack && vp config --no-agent",
@@ -87,5 +89,12 @@
   },
   "engines": {
     "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
+  },
+  "appTemplates": {
+    "repository": "https://github.com/lernapps/app-templates.git",
+    "commit": "6c21e766f4fc6d19beeb907708c89efb10231530",
+    "archetypes": [
+      "quiz"
+    ]
   }
 }

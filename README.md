@@ -19,8 +19,10 @@ npm install --save-dev --save-exact "github:lernapps/tooling#<commit>"
 npx lernapps --help
 ```
 
-It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the guidance and the preset below. Today the CLI has one command, `lernapps check`, the same in the git hooks, in CI and in the listing
-validation. It runs whatever exists and decides nothing from the rules' scope or severity:
+It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the guidance and the presets below.
+The CLI has two commands: `lernapps create` writes a new app from an archetype (see "The generator"), and
+`lernapps check`, the same in the git hooks, in CI and in the listing validation, runs whatever exists and decides
+nothing from the rules' scope or severity:
 
 | Command | Runs |
 |---|---|
@@ -83,7 +85,7 @@ export default lernapps(); // or lernapps({ build: { ... } }): the app's own set
 |---|---|
 | `@lernapps/tooling/preset` | `lernapps(config?)`: the vite-plus configuration. Lint with the lint plugin below, each rule's severity, `typescript/no-explicit-any`, type-aware with type check; format; unit tests in `src/` and `test/`; staged files (`vp check --fix`); `base: "./"`, so the app works under any path |
 | `@lernapps/tooling/tsconfig.json` | the strict TypeScript base (browser code, `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, ...) |
-| `@lernapps/tooling/playwright` | the Playwright configuration: `e2e/*.e2e.ts` against `vp preview`, in Chromium at desktop width and at 360 px; an app's `playwright.config.ts` is `export { default } from "@lernapps/tooling/playwright";` |
+| `@lernapps/tooling/playwright` | the Playwright configuration: `e2e/*.e2e.ts` against `vp preview` on a free port, in Chromium at desktop width and at 360 px; an app's `playwright.config.ts` is `export { default } from "@lernapps/tooling/playwright";` |
 | `@lernapps/tooling/storage` | `createStorage(app)`: `load`, `save`, `remove` of JSON values on the device, under the app's prefix (apps on lernapps.net share one origin), each wrapped in try/catch |
 | `@lernapps/tooling/i18n` | `translator(messages)`: the texts of `src/messages/de.json` by key, with `{placeholder}` values |
 | `@lernapps/tooling/a11y` | `announce(text)` through a live region, `moveFocus(element)`, `prefersReducedMotion()` |
@@ -107,6 +109,55 @@ The package is TypeScript only and strict (`tsconfig.json`: `strict`, `noUncheck
 `prepare`, which npm runs on `npm ci` and when it installs the package from git; in this repo the scripts run the
 source directly with Node's type stripping (`npm run lernapps -- <command>`, Node 22.18 or later).
 
+### The generator
+
+`lernapps create --archetype <name> [<dir>]` writes a new app into an empty folder. Only `.git` and the plan file
+`.vibe/plan.md` may be there; it fails on anything else, and on an unknown archetype. It copies the folder `<name>/`
+of [lernapps/app-templates](https://github.com/lernapps/app-templates) at the commit pinned in this package
+(`appTemplates` in `package.json`, with the archetypes there). The app's dependency on the archetype's runtime,
+`@lernapps/app-templates`, is set to that same commit, so template and runtime match. Then it writes, from
+`generator/app/` and `guidance/`, what every app has:
+
+| File | What it is |
+|---|---|
+| `package.json` | the template's, named after the folder: `@lernapps/tooling`, the runtime `@lernapps/app-templates`, `vite-plus`; `prepare` installs the hooks, `build` writes `_site/`, `check` runs `lernapps check` |
+| `AGENTS.md`, `.vibe/plan.md` | the process guidance; a plan already in the folder (from the conversation) is kept, else the template starts in Code |
+| `.github/workflows/pages.yml` | `lernapps check` and the publication with the site actions (`site-check`, `site-deploy`) |
+| `.github/ISSUE_TEMPLATE/inhaltsfehler.yml` | the issue form for errors in the content |
+| `LICENSE`, `renovate.json` | MIT; the Renovate preset of lernapps |
+
+Fetching the template needs git and the network. To work without them, name a local clone of app-templates that has
+the pinned commit: `--templates <dir>` or the environment variable `LERNAPPS_TEMPLATES` (the tests and CI do). The
+app then installs the runtime from that clone too. `--tooling <spec>` sets the dependency on this package (the tests
+install it from a local clone), `--plan <file>` carries a plan over from elsewhere. The pin moves by hand when
+app-templates changes: set `appTemplates.commit` to its new commit on `main`.
+
+### The archetypes
+
+An archetype is a template and a runtime in lernapps/app-templates, plus skills and the rules in scope here. The
+runtime is the package `@lernapps/app-templates` at that repo's root: apps depend on it, so a new feature reaches an
+app with a dependency bump. This package stays a development dependency of the app: preset, lint rules, hooks,
+checks, generator, guidance. It never depends on app-templates.
+
+The archetype `quiz` is a deep scaffold for a quiz about things to know. The creator's assistant writes only the
+question bank `src/quiz.json`:
+- every option with background knowledge (`info`);
+- every question with an explanation and links for further reading.
+
+Its schema is published at <https://lernapps.net/tooling/schemas/quiz.v1.schema.json>. The docs build takes it from
+app-templates at the pinned commit. The app's `vite.config.ts` composes the shared preset with the quiz's build step:
+
+```ts
+import { lernapps } from "@lernapps/tooling/preset";
+import { quiz } from "@lernapps/app-templates/quiz/plugin";
+
+export default lernapps({ plugins: [quiz()] });
+```
+
+The skill `skills/lernapps-quiz/SKILL.md` (export `@lernapps/tooling/skills/lernapps-quiz/SKILL.md`) says how the
+quiz works and how to write good questions, options, background and links. The runtime's exports are described in
+the README of app-templates.
+
 ### Development
 
 `npm ci` also installs the git hooks (`vp config`, hooks in `.vite-hooks/`): pre-commit formats and fixes the staged
@@ -117,6 +168,7 @@ files (`vp staged`), then runs `lernapps check --pre-commit`; pre-push runs `ler
 npm ci                                   # dependencies, build of the CLI, git hooks
 npm run lernapps -- check                # what CI runs; --pre-commit / --pre-push for one part
 npm run check                            # the same; builds nothing
+LERNAPPS_TEMPLATES=../app-templates npm run check   # also the generator's tests, from a local clone
 npm run build && npm run check:site      # the docs site, built and checked (job `site` in pages.yml)
 ```
 
@@ -130,7 +182,18 @@ list and the rule page show every rule grouped by id, the recorded verdict of th
 and the rule of its fixture, a broken verdict fails the verdict check with a message, the package installed from git provides `lernapps` and resolves the
 guidance exports, the plan template and a filled plan validate against the front matter schema while incomplete ones
 fail with a message naming the problem, every plan has the sections the retrospective needs, and the CLI's usage and
-exit codes. `lernapps check` runs on fixture apps (`test/fixtures/apps/`), one passing and one per broken rule, as a
+exit codes. `lernapps create --archetype quiz` with the fixture bank `test/fixtures/quiz/quiz.json` gives an app that
+passes `lernapps check`. In Chromium:
+- each type of question accepts a right and rejects a wrong answer;
+- after the answer, every option's background shows, with the right one and the learner's choice marked, and the
+  explanation and links;
+- a deep link opens its question, and the seed gives the order;
+- the page reads without JavaScript, with the same in its answer key.
+
+A broken bank fails the build with its message. The generator refuses an unknown archetype and a folder that is not
+empty. These tests take the templates and the runtime from `LERNAPPS_TEMPLATES` and are skipped without it; CI checks
+out app-templates at the pinned commit.
+`lernapps check` runs on fixture apps (`test/fixtures/apps/`), one passing and one per broken rule, as a
 bundle, on a URL, with `--entry` and `--site`, and in temporary app repos: exit codes, the YAML report validated
 against its schema, the messages, the counter in the plan. There are no unit tests of internals.
 
@@ -172,8 +235,9 @@ node scripts/rules.ts page <file>  # the rule page of the docs site, from the sa
 one id still say the same is not decided by a program: the skill `rules-review` (`.agents/skills/`) has an agent
 read the list and report drift, gaps and rules that could move to a lint rule or check. The rules of scope `listing`
 (the listing criteria of lernapps/apps) and `site` (ORGANIZATION.md, "Every page, in every repo") are in
-`skills/lernapps-app/SKILL.md`, with the workflow rules and the first rules of one archetype; the rubric of the review
-(below) judges those no program decides, under the same ids.
+`skills/lernapps-app/SKILL.md`, with the workflow rules and the first rules of the archetypes explainer and
+interactive; those of scope `archetype:quiz` (writing questions, options, background and links; the bank that validates) are in
+`skills/lernapps-quiz/SKILL.md`. The rubric of the review (below) judges those no program decides, under the same ids.
 
 ## The review
 
