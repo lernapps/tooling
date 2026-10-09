@@ -85,6 +85,29 @@ severity: error
 Fetch the entry schema each time you need it; never fill the entry from memory or from another app. Take every value
 from the creator's answers, the plan or the app; never invent one.
 
+### `entry-links-resolve`: Every link of the entry resolves
+
+```rule
+id: entry-links-resolve
+scope: listing
+severity: error
+```
+
+Give each topic the path of a page that exists, relative to the app's `url`. Check the entry against the deployed app
+with `lernapps check --entry <file>`.
+
+### `entry-fitness-matches`: Fitness values as measured
+
+```rule
+id: entry-fitness-matches
+scope: listing
+severity: error
+```
+
+Take `fitness.storage` and `fitness.thirdParty` from what the app does, not from what it should do: `lernapps check
+--report <file>` measures what it does before a click. An app that keeps anything in `localStorage` has
+`storage: device`; one that loads from another server after a click has `thirdParty: on-click`.
+
 ### `fix-from-message`: Fix failed checks, never bypass them
 
 ```rule
@@ -95,6 +118,17 @@ severity: error
 
 Read the message of a failed check and fix the cause. Never bypass a hook (`--no-verify`), never delete a test to
 make it pass. Suppress a warning only where it occurs, with the reason next to it.
+
+### `checks-pass`: Run the checks before you push
+
+```rule
+id: checks-pass
+scope: listing
+severity: error
+```
+
+Run `lernapps check` before you push; the hooks run it too. Format, lint, type check, unit tests, build, the checks of
+the built app and the end-to-end tests must pass. A failure names the step: fix it from the step's output.
 
 ### `retrospective-filled`: Fill the retrospective
 
@@ -241,3 +275,26 @@ severity: error
 
 Use content of others (texts, pictures, quotes) only with a licence that allows it, and name source and licence next
 to it.
+
+### `links-resolve`: Every link resolves
+
+```rule
+id: links-resolve
+scope: [listing, site]
+severity: error
+```
+
+Point every link and every resource (pictures, scripts, styles) to a page or file that the build writes. Use
+relative links inside the app.
+
+### `dependency-licence`: Only dependencies with an open licence
+
+```rule
+id: dependency-licence
+scope: listing
+severity: error
+```
+
+Add a package to `dependencies` only if it and its own dependencies have one of these licences: MIT, MIT-0, ISC,
+0BSD, BSD-2-Clause, BSD-3-Clause, Apache-2.0, MPL-2.0, BlueOak-1.0.0, Zlib, Unlicense, CC0-1.0, CC-BY-4.0,
+Python-2.0. Tools for the build belong in `devDependencies`.

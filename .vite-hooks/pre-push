@@ -1,2 +1,3 @@
-# The heavy part of the checks (unit tests, build): the same command as the second half of the CI job `check`.
+# The heavy part of the checks (unit tests, build, checks of the built app, end-to-end tests): the same command as
+# the second half of the CI job `check`. A failure increments prePushFailures in the plan file, when there is one.
 npm run --silent lernapps -- check --pre-push

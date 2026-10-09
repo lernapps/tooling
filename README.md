@@ -20,13 +20,27 @@ npx lernapps --help
 ```
 
 It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the guidance below and the presets
-that follow. Today the CLI has one command:
+that follow. Today the CLI has one command, `lernapps check`, the same in the git hooks, in CI and in the listing
+validation. It runs whatever exists and decides nothing from the rules' scope or severity:
 
 | Command | Runs |
 |---|---|
 | `lernapps check --pre-commit` | the fast part: format, lint, type check (`vp check`) |
-| `lernapps check --pre-push` | the heavy part: unit and end-to-end tests (`vp test`), build (`vp pack`) |
+| `lernapps check --pre-push` | the heavy part: unit tests (`vp test`), build (`vp build` for an app with `index.html`, else `vp pack`), the checks of the built app in `dist/`, the dependency licences, the Playwright tests when `playwright.config.*` exists; a failure increments `prePushFailures` in `.vibe/plan.md` |
 | `lernapps check` | both parts, as CI does |
+| `lernapps check <dir\|url>` | the checks of a built app alone, on a bundle (served on 127.0.0.1) or a URL, without the repo |
+| `... --entry <file>` | also a catalog entry against the app: its URL and topic links resolve, the fitness values match; without `<dir\|url>` the app at the entry's `url` |
+| `... --site <path>` | the app is served on lernapps.net at `<path>`: also the site rules, by `lernapps-check` of the site frame |
+| `... --report <file>` | also writes the full report to `<file>`, passing or not |
+
+The checks of the built app (`check/rules/*.ts`, one rule id each) open every page reachable from the start page in
+Chromium, as a learner would, without a click: requests to other hosts (blocked and recorded), cookies and data sent,
+the page without JavaScript, the width at 360 px, axe-core (WCAG 2.1 A and AA), links below the app's address. The
+browser is installed once on the first run and cached by Playwright. A passing check prints one line; a failing one
+prints the validation report as YAML, every finding with rule id, severity, where, what was found, how to fix it and
+the link `https://lernapps.net/tooling/rules/#<id>`; the exit code is 1 when a finding has severity `error`. The
+report's JSON Schema is `@lernapps/tooling/check/validation-report.v1.schema.json`, published at
+<https://lernapps.net/tooling/schemas/validation-report.v1.schema.json>.
 
 The process guidance for building an app (EPCC: Explore, Plan, Code, Commit) is plain Markdown, exported for the
 generator and the assistant's harness:
@@ -67,8 +81,9 @@ command red, a rule id used twice in the same kind of artifact or a message with
 list and the rule page show every rule grouped by id, the package installed from git provides `lernapps` and resolves the
 guidance exports, the plan template and a filled plan validate against the front matter schema while incomplete ones
 fail with a message naming the problem, every plan has the sections the retrospective needs, and the CLI's usage and
-exit codes. There are no unit
-tests of internals.
+exit codes. `lernapps check` runs on fixture apps (`test/fixtures/apps/`), one passing and one per broken rule, as a
+bundle, on a URL, with `--entry` and `--site`, and in temporary app repos: exit codes, the YAML report validated
+against its schema, the messages, the counter in the plan. There are no unit tests of internals.
 
 ### Rules
 
@@ -93,7 +108,7 @@ Bundle scripts, styles, fonts ... with the app at build time.
 |---|---|---|
 | section of a skill | a rule block with `id`, `scope`, `severity` | `skills/**/*.md` |
 | lint rule | file name = id, `meta.docs.url` = link | `lint/rules/<id>.ts` |
-| check of the built app | `export default { id, url, ... }` | `check/rules/*.ts` |
+| check of the check CLI | `export default { id, url, description, severity, run }` | `check/rules/*.ts` |
 | item of the review rubric | a fenced `rubric` block with `id: <rule id>` | `review/**/*.md` |
 
 The link is always `https://lernapps.net/tooling/rules/#<id>`.

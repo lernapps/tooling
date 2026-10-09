@@ -1,7 +1,7 @@
 name: Check
 
 # The checks of the tooling's own code: exactly what the git hooks run together, `lernapps check` without a
-# flag (pre-commit: format, lint, type check; pre-push: unit and end-to-end tests, build). CI is the safety net
+# flag (pre-commit: format, lint, type check; pre-push: unit and end-to-end tests, build, checks). CI is the safety net
 # for skipped hooks and adds no checks of its own. The docs site is built and checked by pages.yml.
 on:
   push:

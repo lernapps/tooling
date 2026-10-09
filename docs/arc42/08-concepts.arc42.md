@@ -24,7 +24,7 @@ caught; the review judges what no program decides. No artifact refers to the oth
 |---|---|---|---|
 | section of a skill (`skills/**/*.md`) | a `rule` block with id, scope and severity under the section's heading; "must" for errors, "should" or "may" for hints | `bb-skills` | the creator's agent harness |
 | lint rule (`lint/rules/<id>.ts`) | its file name; `meta.docs.url` links the rule; severity in the preset's configuration | `bb-lint-rules`, `bb-archetypes` | the editor and the pre-commit hook; CI |
-| check of the check CLI (`check/rules/*.ts`) | `id` and `url` in its default export | `bb-check-cli` | the pre-push hook; CI; the listing validation |
+| check of the check CLI (`check/rules/*.ts`) | `id`, `url` and `severity` in its default export | `bb-check-cli` | the pre-push hook; CI; the listing validation |
 | item of the review rubric (`review/**/*.md`) | a `rubric` block with its id under the item's heading | `bb-review-procedure` | the environment where lernapps agents run |
 
 The link of every message is the rule's entry on the rule page, `https://lernapps.net/tooling/rules/#<id>`. The

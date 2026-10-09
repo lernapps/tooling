@@ -4,12 +4,13 @@
 //   - CI command:    `npm run lernapps -- check` (job `check` in .github/workflows/check.yml)
 //   - `npm run check`: the CI command; it builds nothing
 //   - `npm run build && npm run check:site`: the docs site, built and checked (site actions, job `site`)
-//   - installed from git: the CLI and the subpath exports (guidance, skills) a consumer relies on
+//   - installed from git: the CLI, its checks of a built app, and the subpath exports (guidance, skills, the schema
+//     of the validation report) a consumer relies on
 import { existsSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
 import { frontMatterErrors } from "./plan.ts";
-import { freshClone, ok, run, tempDir, type Result } from "./support.ts";
+import { freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
 
 // A check run inside a test copy runs the tests too; it must not start these tests again.
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
@@ -136,6 +137,23 @@ describe.skipIf(inner)("installed from git", () => {
     expect(result.stdout).toMatch(/^Usage: lernapps <command>/);
   });
 
+  test("the installed CLI runs the checks of a built app", { timeout: SLOW }, () => {
+    const passing = run(
+      "npx",
+      ["--no", "--", "lernapps", "check", join(repoRoot, "test/fixtures/apps/passing")],
+      consumer,
+    );
+    expect(passing.code, output(passing)).toBe(0);
+    expect(passing.stdout).toMatch(/^lernapps check: ok, 6 rules, no findings/);
+    const broken = run(
+      "npx",
+      ["--no", "--", "lernapps", "check", join(repoRoot, "test/fixtures/apps/broken-link")],
+      consumer,
+    );
+    expect(broken.code, output(broken)).toBe(1);
+    expect(broken.stdout).toContain("rule: links-resolve");
+  });
+
   // The generator copies these; the hooks and the review validate the plan's front matter against the schema.
   const resolve = (specifier: string) => {
     const script = `process.stdout.write(fileURLToPath(import.meta.resolve(${JSON.stringify(specifier)})))`;
@@ -148,6 +166,7 @@ describe.skipIf(inner)("installed from git", () => {
     "@lernapps/tooling/guidance/plan-template.md",
     "@lernapps/tooling/guidance/plan-front-matter.v1.schema.json",
     "@lernapps/tooling/skills/lernapps-app/SKILL.md",
+    "@lernapps/tooling/check/validation-report.v1.schema.json",
   ])("a consumer resolves %s to a file in the package", (specifier) => {
     const path = resolve(specifier);
     expect(path.startsWith(join(consumer, "node_modules", "@lernapps", "tooling"))).toBe(true);
