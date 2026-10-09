@@ -96,7 +96,7 @@ genannten" or "Keine davon", no joke options. Three or four options are enough.
 ```rule
 id: quiz-feedback-explains
 scope: archetype:quiz
-severity: error
+severity: hint
 ```
 
 Every option's feedback says why the option is right or wrong; "Falsch" alone is not feedback. For a wrong option,

@@ -70,9 +70,10 @@ export function ok(command: string, args: readonly string[], cwd: string): Resul
 let tempRoot: string | undefined;
 // Also imported by scripts run outside the test runner (review-fixture.ts); they keep their directories.
 if (process.env["VITEST"]) {
+  // Removing a fresh clone's node_modules can take longer than the default hook timeout on a busy machine.
   afterAll(() => {
     if (tempRoot !== undefined) rmSync(tempRoot, { recursive: true, force: true });
-  });
+  }, 120_000);
 }
 
 export function tempDir(name: string): string {
