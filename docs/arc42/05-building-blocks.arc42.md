@@ -293,11 +293,12 @@ validation:
 | all | no flag, or both flags | both parts (CI) |
 
 The checks of the built app work on a bundle or a deployed URL, without the source repo: requests to other hosts
-before a click, storage, readable without JavaScript where the archetype requires it, 360 px without overflow, axe,
-links, dependency licences, and the site rules by calling `lernapps-check` of the site frame for apps on
-lernapps.net. With `--entry <file>` it also checks an entry against the app: the app's URL and every topic link
-resolve, and the fitness values match. Each check carries its rule id and severity. The output is the validation
-report.
+before a click, storage, readable without JavaScript, 360 px without overflow, axe, links, and the site rules by
+calling `lernapps-check` of the site frame for an app served on lernapps.net (`--site <path>`). Dependency licences
+need the repo and are checked with the heavy part. With `--entry <file>` it also checks an entry against the app: the
+app's URL and every topic link resolve, and the fitness values match. Each check is a module in `check/rules/` with
+its rule id and severity; the CLI runs every check that finds something to check, and the toolchain steps that
+exist, and decides nothing from a rule's scope. The output is the validation report.
 
 ```arc42
 :::building-block
@@ -311,14 +312,16 @@ implements: concept-rule-catalog, concept-terse-output, concept-traceability, co
 
 #### Check CLI interface
 
-Exit code 0 when no `error` rule fails; the report on standard output; `--report <file>` writes it to a file.
+Exit code 0 when no `error` rule fails, 1 when one does, 2 on a usage error. A passing check prints one line,
+otherwise the report on standard output; `--report <file>` always writes it to a file. `--site <path>` names the path
+of an app served on lernapps.net.
 
 ```arc42
 :::interface
 id: if-check-cli
 title: Check CLI
 provider: bb-check-cli
-protocol: CLI `lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>]`
+protocol: CLI `lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--site <path>] [--report <file>]`
 :::
 ```
 
@@ -326,14 +329,15 @@ protocol: CLI `lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <
 
 The result of a check run as YAML: what was checked (commit, or URL and time), the rules in scope, findings per rule
 id with location and fix, suppressions with their reasons, and the fitness values for the entry. Deterministic: the
-same input gives the same report. Its schema is published at lernapps.net as JSON Schema, which validates the YAML.
+same input gives the same report. Its schema is published at lernapps.net as JSON Schema, which validates the YAML,
+and exported by the package.
 
 ```arc42
 :::interface
 id: if-validation-report
 title: Validation report
 provider: bb-check-cli
-protocol: YAML with published JSON Schema
+protocol: YAML with published JSON Schema (https://lernapps.net/tooling/schemas/validation-report.v1.schema.json)
 :::
 ```
 

@@ -1,6 +1,6 @@
 // Runs real commands in real directories: the tests check what a consumer of the tooling relies on,
 // not its internals.
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { cpSync, mkdirSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -38,6 +38,19 @@ export function run(command: string, args: readonly string[], cwd: string): Resu
   const result = spawnSync(command, args, { cwd, env: testEnv, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   if (result.error) throw result.error;
   return { code: result.status ?? 1, stdout: result.stdout, stderr: result.stderr };
+}
+
+/** Runs a command without blocking the test's own process, e.g. while the test serves an app the command checks. */
+export function runAsync(command: string, args: readonly string[], cwd: string): Promise<Result> {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, { cwd, env: testEnv });
+    let stdout = "";
+    let stderr = "";
+    child.stdout.on("data", (chunk: Buffer) => (stdout += chunk.toString()));
+    child.stderr.on("data", (chunk: Buffer) => (stderr += chunk.toString()));
+    child.on("error", reject);
+    child.on("close", (code) => resolve({ code: code ?? 1, stdout, stderr }));
+  });
 }
 
 /** Runs a command and fails with its output when it does not exit 0. */

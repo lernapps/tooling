@@ -8,7 +8,7 @@
 //
 // The artifacts, each one deployment unit with its own ids:
 //   - skills/**/*.md   a section of a skill, headed by a rule block (id, scope, severity)
-//   - check/rules/*.ts a check of the built app, default export { id, url, ... }
+//   - check/rules/*.ts a check of the check CLI, default export { id, url, description, severity, run }
 //   - lint/rules/*.ts  a lint rule (ESLint-compatible), file name = id, meta.docs.url
 //   - review/**/*.md   an item of the review rubric, headed by a `rubric` block (id)
 // The same id in several artifacts is one rule, told and enforced in several places. An id is unique within its
@@ -208,7 +208,14 @@ async function readCatalog(root: string): Promise<Catalog> {
     const file = relative(root, path);
     const id = text(field(check, "id")) ?? "";
     if (id !== "") linked(file, id, "url", text(field(check, "url")));
-    entries.push({ kind: "check", id, file, text: text(field(check, "description")) });
+    const severity = text(field(check, "severity"));
+    entries.push({
+      kind: "check",
+      id,
+      file,
+      text: text(field(check, "description")),
+      ...(severity === undefined ? {} : { severity }),
+    });
   }
   for (const path of filesBelow(join(root, "lint", "rules"), ".ts")) {
     const rule = await load(path);
