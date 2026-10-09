@@ -117,7 +117,20 @@ severity: error
 ```
 
 Read the message of a failed check and fix the cause. Never bypass a hook (`--no-verify`), never delete a test to
-make it pass. Suppress a warning only where it occurs, with the reason next to it.
+make it pass.
+
+### `suppression-reason`: Suppress only in place, with the reason
+
+```rule
+id: suppression-reason
+scope: listing
+severity: error
+```
+
+Suppress a lint message only on the line where it occurs, name the rule and write why after `--`:
+`// oxlint-disable-next-line lernapps/no-request-before-click -- the video loads after a click`. Suppress a type
+error only with `// @ts-expect-error -- <reason>`, never with `@ts-ignore` or `@ts-nocheck`. The review reads every
+suppression.
 
 ### `checks-pass`: Run the checks before you push
 
@@ -234,7 +247,8 @@ severity: error
 ```
 
 Bundle fonts, scripts and pictures at build time. Load anything from another server (a video, a map) only after the
-learner clicks for it.
+learner clicks for it. Keep URLs of other servers out of code; where the learner clicks to load one, suppress the lint
+message on that line with this reason.
 
 ### `accessible`: Accessible to WCAG 2.1 AA
 
@@ -285,7 +299,8 @@ severity: error
 ```
 
 Write every text for learners, teachers and parents in German, in plain language: short sentences, active voice, no
-jargon. Keep the texts in message files, not in code.
+jargon. Keep the texts in message files, not in code: in an app from an archetype, in `src/messages/de.json`, shown
+with `translator` from `@lernapps/tooling/i18n`.
 
 ### `third-party-licence`: Name source and licence of others' content
 
@@ -320,6 +335,42 @@ severity: error
 Add a package to `dependencies` only if it and its own dependencies have one of these licences: MIT, MIT-0, ISC,
 0BSD, BSD-2-Clause, BSD-3-Clause, Apache-2.0, MPL-2.0, BlueOak-1.0.0, Zlib, Unlicense, CC0-1.0, CC-BY-4.0,
 Python-2.0. Tools for the build belong in `devDependencies`.
+
+### `keep-the-preset`: Extend the preset, change nothing of it
+
+```rule
+id: keep-the-preset
+scope: [archetype:explainer, archetype:interactive, archetype:quiz]
+severity: error
+```
+
+An app from an archetype extends the preset of `@lernapps/tooling` and configures nothing the preset sets:
+`vite.config.ts` is `export default lernapps()`, `tsconfig.json` only extends `@lernapps/tooling/tsconfig.json`, the
+hooks come from the package (`prepare` in `package.json`). Pass only the app's own settings to `lernapps({ ... })`, such
+as the pages to build. Never turn a lint rule off or lower its severity, never replace a hook.
+
+### `strict-typescript`: TypeScript only, strict
+
+```rule
+id: strict-typescript
+scope: [archetype:explainer, archetype:interactive, archetype:quiz]
+severity: error
+```
+
+Write every source in TypeScript; no JavaScript files. Never use `any`: use `unknown` and narrow it, or write the type.
+Type the data the creator supplies and validate it at build time.
+
+### `storage-through-wrapper`: Store only through the preset's storage
+
+```rule
+id: storage-through-wrapper
+scope: [archetype:explainer, archetype:interactive, archetype:quiz]
+severity: error
+```
+
+Keep what the app must remember with `createStorage` from `@lernapps/tooling/storage`, named after the app: it stays
+on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. Never use
+`localStorage`, `sessionStorage`, IndexedDB or cookies directly.
 
 ### `topic-has-exercises`: Every topic has exercises (explainer)
 

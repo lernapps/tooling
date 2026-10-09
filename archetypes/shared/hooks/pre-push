@@ -1,0 +1,4 @@
+# The pre-push hook of every lernapps app (installed by the preset): the heavy part of the checks (unit tests, build,
+# checks of the built app, end-to-end tests), the second half of what CI runs. A failure increments prePushFailures
+# in the plan file.
+lernapps check --pre-push

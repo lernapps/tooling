@@ -1,0 +1,4 @@
+# The pre-commit hook of every lernapps app (installed by the preset): formats and fixes the staged files, then runs
+# the fast part of the checks (format, lint, type check), the first half of what CI runs.
+vp staged
+lernapps check --pre-commit

@@ -206,9 +206,15 @@ protocol: CLI `lernapps create`
 
 ### Archetype presets
 
-What an app imports and never edits (`archetypes/`), one preset per archetype on a shared base: the vite-plus
-configuration (lint with the severities of our lint rules, format, type check, unit tests, staged files), the strict
-`tsconfig` base, the Playwright configuration for end-to-end tests, i18n and a11y helpers, and the git hooks.
+What an app imports and never edits (`archetypes/`), one preset per archetype on a shared base
+(`archetypes/shared/`): the vite-plus configuration (lint with the lint plugin and the severity of each of its rules,
+no `any`, type-aware with type check; format; unit tests; staged files; a build with relative URLs, so the app works
+under any path), the strict `tsconfig` base, the Playwright configuration for end-to-end tests at desktop width and at
+360 px, the helpers apps use at runtime (texts from the message files, announcements and focus for assistive
+technology, storage on the device that keeps working when the browser blocks it), and the git hooks. An app's
+`vite.config.ts` calls the preset, passing only its own settings, such as the pages to build; its `tsconfig.json`
+only extends the base. The configuration files of an app thus stay one line each, and a change to a rule or a hook
+reaches every app with the next version of the package.
 
 ```arc42
 :::building-block
@@ -223,29 +229,33 @@ implements: concept-rule-catalog, concept-stable-contracts
 
 #### Archetype preset interface
 
-What an app imports and extends: configuration, `tsconfig` base and hooks, by archetype.
+What an app imports and extends: the vite-plus configuration, the `tsconfig` base, the Playwright configuration,
+the runtime helpers and the hooks, by archetype. The helpers are typed by their TypeScript sources and run as built
+modules.
 
 ```arc42
 :::interface
 id: if-archetype-preset
 title: Archetype preset
 provider: bb-archetypes
-protocol: npm subpath exports (config, tsconfig, hooks)
+protocol: npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y) and the hooks directory
 :::
 ```
 
 #### Git hooks
 
-Installed by the preset. Pre-commit runs `lernapps check --pre-commit`, pre-push runs `lernapps check --pre-push`;
-together they run exactly what CI runs. When the pre-push run fails, the hook increments `prePushFailures` in the
-plan file's front matter and prints the messages.
+Shell scripts in the package (`archetypes/shared/hooks/`), installed with the vite-plus hook dispatcher when the
+app's dependencies are installed (`vp config --hooks-dir` pointing into the package, in the app's `prepare` script).
+The app holds no hook scripts of its own. Pre-commit formats and fixes the staged files, then runs `lernapps check
+--pre-commit`; pre-push runs `lernapps check --pre-push`; together they run exactly what CI runs. When the pre-push
+run fails, the check CLI increments `prePushFailures` in the plan file's front matter and prints the messages.
 
 ```arc42
 :::building-block
 id: bb-git-hooks
 title: Git hooks
 parent: bb-archetypes
-technology: vite-plus hooks, shell
+technology: shell scripts in the package, vite-plus hook dispatcher
 requires: if-check-cli, if-plan-file
 implements: concept-terse-output, concept-traceability
 :::
@@ -255,15 +265,18 @@ implements: concept-terse-output, concept-traceability
 
 The rules that can be decided on source code (`lint/`), as an Oxlint JS plugin written against the
 ESLint-compatible API: no URLs to other hosts in code, storage only through the preset's wrapper, learner texts only
-from the i18n files, no `any`. Each rule carries its rule id; its severity is set in the preset's configuration; a
-suppression needs a reason.
+from the message files, and every suppression with its rules and its reason. Each rule is a module named by its rule
+id; its messages say what was found and how to fix it, and end with the link to the rule. Its severity is set in the
+preset's configuration. `any` is forbidden by Oxlint's own rule, set in the same configuration. The rules read
+syntax only, so they are fast enough for the editor and the pre-commit hook; what they cannot see (a request a
+built page makes) the check CLI finds on the built app under the same rule id.
 
 ```arc42
 :::building-block
 id: bb-lint-rules
 title: Lint rules
 parent: bb-tooling-package
-technology: TypeScript, Oxlint JS plugin
+technology: TypeScript, Oxlint JS plugin on the ESLint-compatible API, syntax only
 implements: concept-rule-catalog, concept-terse-output
 :::
 ```
