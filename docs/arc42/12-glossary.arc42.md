@@ -167,3 +167,15 @@ title: Validation report
 definition: The YAML result of the check CLI for one commit or URL - findings per rule id and the fitness values; its schema is published.
 :::
 ```
+
+## Verdict
+
+The judgment part of the formal validation, next to the validation report; the owner decides on the listing.
+
+```arc42
+:::glossary-term
+id: term-verdict
+title: Verdict
+definition: The YAML result of the review agent for one commit - findings per rule id, or proposed new rules and where they would act; its schema is published.
+:::
+```

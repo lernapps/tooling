@@ -1,0 +1,12 @@
+{
+  "name": "brueche-kuerzen",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vp build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@lernapps/tooling": "github:lernapps/tooling#b70552b"
+  }
+}

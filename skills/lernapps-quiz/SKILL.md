@@ -101,7 +101,8 @@ severity: error
 
 Every option's feedback says why the option is right or wrong; "Falsch" alone is not feedback. For a wrong option,
 name the mistake behind it and point the way, e.g. "Du hast nur den Nenner geteilt. Beim Kürzen teilst du Zähler
-und Nenner durch dieselbe Zahl." The `explanation` shows how to reach the right answer, in one to three sentences.
+und Nenner durch dieselbe Zahl." or "Nein: 3/4 ist größer, weil 3/4 = 6/8 und 6/8 > 5/8." The `explanation` shows
+how to reach the right answer, in one to three sentences.
 
 ### `quiz-number-precision`: Numbers with unit and rounding
 

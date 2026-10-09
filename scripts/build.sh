@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, the
-# rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schema of the validation report
-# and of the question bank of a quiz (schemas/) and the architecture (arc42, docs/arc42/) as the arc42 web app.
+# rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of
+# the review verdict and of the question bank of a quiz (schemas/) and the architecture (arc42, docs/arc42/) as the
+# arc42 web app.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
 set -euo pipefail
@@ -13,7 +14,7 @@ rm -rf _site
 mkdir -p _site
 cp site/index.html site/stil.css site/spa.css _site/
 mkdir -p _site/schemas
-cp check/validation-report.v1.schema.json archetypes/quiz/quiz.v1.schema.json _site/schemas/
+cp check/validation-report.v1.schema.json review/verdict.v1.schema.json archetypes/quiz/quiz.v1.schema.json _site/schemas/
 node scripts/rules.ts page _site/rules/index.html
 
 arc42 --dir docs/arc42 validate

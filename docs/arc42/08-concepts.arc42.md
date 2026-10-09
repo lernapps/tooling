@@ -25,7 +25,7 @@ caught; the review judges what no program decides. No artifact refers to the oth
 | section of a skill (`skills/**/*.md`) | a `rule` block with id, scope and severity under the section's heading; "must" for errors, "should" or "may" for hints | `bb-skills` | the creator's agent harness |
 | lint rule (`lint/rules/<id>.ts`) | its file name; `meta.docs.url` links the rule; severity in the preset's configuration | `bb-lint-rules`, `bb-archetypes` | the editor and the pre-commit hook; CI |
 | check of the check CLI (`check/rules/*.ts`) | `id`, `url` and `severity` in its default export | `bb-check-cli` | the pre-push hook; CI; the listing validation |
-| item of the review rubric (`review/**/*.md`) | a `rubric` block with its id under the item's heading | `bb-review-procedure` | the environment where lernapps agents run |
+| item of the review rubric (`review/rubric.md` for every app, `review/archetypes/<name>.md` per archetype) | a `rubric` block with its id under the item's heading; every item has one | `bb-review-procedure` | the environment where lernapps agents run |
 
 The link of every message is the rule's entry on the rule page, `https://lernapps.net/tooling/rules/#<id>`. The
 tooling's own build reads all artifacts and tests each kind on its own: ids are valid and unique within the kind,
@@ -97,10 +97,10 @@ category: operations
 
 ## Stable contracts
 
-What others build on does not change silently: rule ids, the commands and flags of the CLI, the subpath exports of
-the package, the schema of the validation report and the front matter of the plan file. A breaking change gets a
-new schema version or a new name, and Renovate brings it to every app with the evals run before. The entry schema
-belongs to lernapps/apps; the tooling fetches it each time instead of copying it.
+What others build on does not change silently: rule ids, the commands and flags of the CLI, the subpath exports of the
+package, the schemas of the validation report and of the review verdict, and the front matter of the plan file. A
+breaking change gets a new schema version or a new name, and Renovate brings it to every app with the evals run
+before. The entry schema belongs to lernapps/apps; the tooling fetches it each time instead of copying it.
 
 ```arc42
 :::concept
