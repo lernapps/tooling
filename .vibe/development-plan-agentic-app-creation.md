@@ -47,9 +47,9 @@ explanation instead.
     only the questions and their options, as typed and validated data.
 - **Decision** (2026-10-09): The architecture only fixes the archetype as a variation point (template, preset,
   skills, rules in scope); the archetypes themselves and their technology are part of this plan.
-- **Proposed**: `explainer` renders its pages with Eleventy 3 from TypeScript sources (`.11ty.ts`, Node's type
+- **Decision** (2026-10-09, accepted by the owner): `explainer` renders its pages with Eleventy 3 from TypeScript sources (`.11ty.ts`, Node's type
   stripping), client modules bundled by vite-plus; alternative: pre-rendering with Vite only. Prove with a prototype.
-- **Proposed**: question types of `quiz`: single choice, multiple choice, true/false, number (with tolerance and
+- **Decision** (2026-10-09, accepted by the owner): question types of `quiz`: single choice, multiple choice, true/false, number (with tolerance and
   unit), ordering, matching; each with feedback per option and an explanation per question. Further types are
   engine extensions and never change the creator's data format.
 
@@ -248,9 +248,6 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ## Plan
 
 ### Tasks
-- [ ] Owner review of the proposals in KD-02 (explainer rendering, quiz question types) and of the order of building
-  in the Code phase
-- [ ] Update lernapps/.github#12 to the agreed architecture
 
 ### Completed
 - [x] Set up arc42 in this repo: skill `arc42-language` in `.agents/skills/` (`skills-lock.json`), CLI `@doctc/arc42`
@@ -268,28 +265,28 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
   TypeScript, i18n and a11y, third-party content, measurement), ch. 9 decisions (21, three proposed), ch. 11 risks,
   ch. 12 glossary; `arc42 validate`: 0 errors, 0 warnings
 - [x] Archetypes `explainer`, `interactive`, `quiz`; p90 of failed pre-push runs below 5
+- [x] Owner review of the architecture (2026-10-09) and of the archetype proposals in KD-02 (accepted)
+- [x] Order of building agreed with the owner (2026-10-09); each step is an issue under the tracking issue
+  [#9](https://github.com/lernapps/tooling/issues/9)
 
 ## Code
 
 ### Tasks
-*Order of building: the tooling's own build first (owner, 2026-10-08); the rest proposed, to be confirmed: the check
-defines "done" for every archetype, and the quiz needs the least from creators. Each step with its rules in the catalog, skills and evals.*
-- [ ] The tooling's own build first: package `@lernapps/tooling` at the repo root with strict TypeScript,
-  vite-plus (lint, format, type check, test, staged), git hooks and a `check` workflow in CI, the CLI `lernapps`
-  as an empty shell; the tooling is built with the same conventions it gives apps (owner, 2026-10-08)
-- [ ] Rule ids and the id test in the tooling's build; the first rules (listing, site) in their artifacts; rule
-  page on the docs site
-- [ ] Check CLI: `--pre-commit` / `--pre-push`, checks of the built app, Playwright end-to-end tests, `--entry`, YAML
-  report and its published schema; messages for agents
-- [ ] Shared preset: vite-plus config, strict `tsconfig`, Playwright config, lint rules, git hooks running
-  `lernapps check --pre-commit` / `--pre-push` with the `prePushFailures` counter
-- [ ] Process guidance: `AGENTS.md` text, plan template with phases, checkpoints, catalog questions, retrospective
-- [ ] Generator `lernapps create` and the `quiz` archetype (engine, question bank schema, template in
-  lernapps/app-templates), with its skill
-- [ ] App check action next to the site actions, running `lernapps check` without flags
-- [ ] Listing validation in lernapps/apps with the results comment; review procedure and rubric
-- [ ] Evals for quiz with Claude Code, Codex and Gemini CLI
-- [ ] `explainer` archetype (after the rendering prototype), then `interactive`
+*Order of building agreed with the owner (2026-10-09). Tracking issue: [#9](https://github.com/lernapps/tooling/issues/9).
+Each step brings its rules in their artifacts and, where it touches the guidance, an eval run.*
+- [ ] 1 · The tooling's own build: package, strict TypeScript, vite-plus, hooks, `check` in CI
+  ([#10](https://github.com/lernapps/tooling/issues/10))
+- [ ] 2 · Rule ids and the id test; the first rules ([#11](https://github.com/lernapps/tooling/issues/11))
+- [ ] 3 · Check CLI `lernapps check` ([#12](https://github.com/lernapps/tooling/issues/12))
+- [ ] 4 · Shared preset and lint rules ([#13](https://github.com/lernapps/tooling/issues/13))
+- [ ] 5 · Process guidance: `AGENTS.md` and the plan template ([#14](https://github.com/lernapps/tooling/issues/14))
+- [ ] 6 · Generator and the quiz archetype ([#15](https://github.com/lernapps/tooling/issues/15))
+- [ ] 7 · App check action ([#16](https://github.com/lernapps/tooling/issues/16))
+- [ ] 8 · Review procedure and rubric ([#17](https://github.com/lernapps/tooling/issues/17))
+- [ ] 9 · Listing validation with the results comment ([lernapps/apps#3](https://github.com/lernapps/apps/issues/3))
+- [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
+- [ ] 11 · The explainer archetype, after the rendering prototype ([#19](https://github.com/lernapps/tooling/issues/19))
+- [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
 
 ### Completed
@@ -297,8 +294,8 @@ defines "done" for every archetype, and the quiz needs the least from creators. 
 ## Commit
 
 ### Tasks
-- [ ] Update the READMEs of tooling and app-templates and ORGANIZATION.md "Where to find what"
-- [ ] Update lernapps/.github#12 to the agreed scope
+- [ ] 13 · Documentation across repos and the creator's entry point, incl. lernapps/.github#12
+  ([#21](https://github.com/lernapps/tooling/issues/21))
 - [ ] Pull request per repo, previews green
 
 ### Completed
