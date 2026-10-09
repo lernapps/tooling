@@ -50,7 +50,7 @@ export default defineConfig({
     include: ["test/**/*.test.ts"],
   },
   pack: {
-    // The CLI, its checks, and what apps import at runtime: the presets, their helpers and the lint plugin.
+    // The CLI, its checks, and what apps import at runtime: the preset, its helpers and the lint plugin.
     entry: {
       cli: "src/cli.ts",
       ...checks,
@@ -59,9 +59,6 @@ export default defineConfig({
       storage: "archetypes/shared/storage.ts",
       i18n: "archetypes/shared/i18n.ts",
       a11y: "archetypes/shared/a11y.ts",
-      "quiz-preset": "archetypes/quiz/preset.ts",
-      quiz: "archetypes/quiz/engine.ts",
-      "quiz-e2e": "archetypes/quiz/e2e.ts",
       lint: "lint/plugin.ts",
     },
     format: "esm",

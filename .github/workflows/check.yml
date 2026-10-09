@@ -26,8 +26,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # The generator's tests create apps from the templates at the commit pinned in package.json (appTemplates),
-      # from a local clone named by LERNAPPS_TEMPLATES: the tests themselves never fetch from GitHub.
+      # The generator's tests create apps from the templates at the commit pinned in package.json (appTemplates), and
+      # install the runtime of that commit, from a local clone named by LERNAPPS_TEMPLATES: the tests themselves
+      # never fetch from GitHub. Full history, so npm can clone from it.
       - id: templates
         run: echo "commit=$(node -p 'require("./package.json").appTemplates.commit')" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -35,6 +36,7 @@ jobs:
           repository: lernapps/app-templates
           ref: ${{ steps.templates.outputs.commit }}
           path: .app-templates
+          fetch-depth: 0
       - run: npm run lernapps -- check
         env:
           LERNAPPS_TEMPLATES: ${{ github.workspace }}/.app-templates

@@ -111,59 +111,52 @@ source directly with Node's type stripping (`npm run lernapps -- <command>`, Nod
 
 ### The generator
 
-`lernapps create --archetype <name> [<dir>]` writes a new app into an empty folder (only `.git` and the plan file
-`.vibe/plan.md` may be there; it fails on anything else, and on an unknown archetype). It copies the folder
-`<name>/` of [lernapps/app-templates](https://github.com/lernapps/app-templates) at the commit pinned in this
-package (`appTemplates` in `package.json`), so templates and presets change together, then writes from
-`generator/app/` and `guidance/` what every app has:
+`lernapps create --archetype <name> [<dir>]` writes a new app into an empty folder. Only `.git` and the plan file
+`.vibe/plan.md` may be there; it fails on anything else, and on an unknown archetype. It copies the folder `<name>/`
+of [lernapps/app-templates](https://github.com/lernapps/app-templates) at the commit pinned in this package
+(`appTemplates` in `package.json`, with the archetypes there). The app's dependency on the archetype's runtime,
+`@lernapps/app-templates`, is set to that same commit, so template and runtime match. Then it writes, from
+`generator/app/` and `guidance/`, what every app has:
 
 | File | What it is |
 |---|---|
-| `package.json` | the template's, named after the folder: `@lernapps/tooling` and `vite-plus`, `prepare` installs the hooks, `build` writes `_site/`, `check` runs `lernapps check` |
+| `package.json` | the template's, named after the folder: `@lernapps/tooling`, the runtime `@lernapps/app-templates`, `vite-plus`; `prepare` installs the hooks, `build` writes `_site/`, `check` runs `lernapps check` |
 | `AGENTS.md`, `.vibe/plan.md` | the process guidance; a plan already in the folder (from the conversation) is kept, else the template starts in Code |
 | `.github/workflows/pages.yml` | `lernapps check` and the publication with the site actions (`site-check`, `site-deploy`) |
 | `.github/ISSUE_TEMPLATE/inhaltsfehler.yml` | the issue form for errors in the content |
 | `LICENSE`, `renovate.json` | MIT; the Renovate preset of lernapps |
 
 Fetching the template needs git and the network. To work without them, name a local clone of app-templates that has
-the pinned commit: `--templates <dir>` or the environment variable `LERNAPPS_TEMPLATES` (the tests and CI do).
-`--tooling <spec>` sets the dependency on the package (the tests install it from a local clone), `--plan <file>`
-carries a plan over from elsewhere. The pin moves by hand when app-templates changes: set `appTemplates.commit` to
-its new commit on `main`.
+the pinned commit: `--templates <dir>` or the environment variable `LERNAPPS_TEMPLATES` (the tests and CI do). The
+app then installs the runtime from that clone too. `--tooling <spec>` sets the dependency on this package (the tests
+install it from a local clone), `--plan <file>` carries a plan over from elsewhere. The pin moves by hand when
+app-templates changes: set `appTemplates.commit` to its new commit on `main`.
 
-### The archetype quiz
+### The archetypes
 
-A deep scaffold: the creator's assistant writes only the question bank `src/quiz.json`; the engine, the six types of
-questions, feedback, scoring, order and the page without JavaScript come from the package (`archetypes/quiz/`). The
-template's thin files:
+An archetype is a template and a runtime in lernapps/app-templates, plus skills and the rules in scope here. The
+runtime is the package `@lernapps/app-templates` at that repo's root: apps depend on it, so a new feature reaches an
+app with a dependency bump. This package stays a development dependency of the app: preset, lint rules, hooks,
+checks, generator, guidance. It never depends on app-templates.
+
+The archetype `quiz` is a deep scaffold for a quiz about things to know. The creator's assistant writes only the
+question bank `src/quiz.json`:
+- every option with background knowledge (`info`);
+- every question with an explanation and links for further reading.
+
+Its schema is published at <https://lernapps.net/tooling/schemas/quiz.v1.schema.json>. The docs build takes it from
+app-templates at the pinned commit. The app's `vite.config.ts` composes the shared preset with the quiz's build step:
 
 ```ts
-// vite.config.ts: the shared preset plus the quiz's build step
-import { quiz } from "@lernapps/tooling/quiz/preset";
-export default quiz();
+import { lernapps } from "@lernapps/tooling/preset";
+import { quiz } from "@lernapps/app-templates/quiz/plugin";
+
+export default lernapps({ plugins: [quiz()] });
 ```
 
-```ts
-// src/main.ts: the engine on the page the build rendered
-import "@lernapps/tooling/quiz/style.css";
-import { startQuiz } from "@lernapps/tooling/quiz";
-startQuiz();
-```
-
-| Export | What it is |
-|---|---|
-| `@lernapps/tooling/quiz/preset` | `quiz(config?)`: the shared preset plus a build step that validates `src/quiz.json` and renders every question into `index.html` at `<!-- quiz -->` |
-| `@lernapps/tooling/quiz` | `startQuiz()`, the engine: one question at a time in the order of the seed in the address (`?seed=<n>`), deep links `#frage-<id>`, feedback per option, the score and the solutions at the end; stores nothing, or the last result through the preset's storage when the bank says `rememberLastResult`. Also the scoring (`isCorrect`, `score`) and the bank's types |
-| `@lernapps/tooling/quiz/e2e` | `quizTests()`: the Playwright tests of every quiz, for its own bank: each question's deep link, a right and a wrong answer, the full score, the page without JavaScript |
-| `@lernapps/tooling/quiz/style.css` | the quiz's look |
-| `@lernapps/tooling/quiz/quiz.v1.schema.json` | the JSON Schema of the question bank, published at <https://lernapps.net/tooling/schemas/quiz.v1.schema.json> |
-
-Types of questions: `single-choice`, `multiple-choice`, `true-false` (each with feedback per option), `number` (with
-`tolerance` and `unit`; comma or point), `ordering`, `matching`; each with an `explanation`. One point per question
-answered right. Without JavaScript the page reads as a worksheet: every question, then the solutions. A broken bank
-fails the build with one line per problem, e.g. `questions[0] (question "kuerzen"): a single-choice question needs
-exactly one correct option; it has 2`. The skill `skills/lernapps-quiz/SKILL.md` (export
-`@lernapps/tooling/skills/lernapps-quiz/SKILL.md`) says how to write good questions, options and feedback.
+The skill `skills/lernapps-quiz/SKILL.md` (export `@lernapps/tooling/skills/lernapps-quiz/SKILL.md`) says how the
+quiz works and how to write good questions, options, background and links. The runtime's exports are described in
+the README of app-templates.
 
 ### Development
 
@@ -190,11 +183,16 @@ and the rule of its fixture, a broken verdict fails the verdict check with a mes
 guidance exports, the plan template and a filled plan validate against the front matter schema while incomplete ones
 fail with a message naming the problem, every plan has the sections the retrospective needs, and the CLI's usage and
 exit codes. `lernapps create --archetype quiz` with the fixture bank `test/fixtures/quiz/quiz.json` gives an app that
-passes `lernapps check`; in Chromium each type of question accepts a right and rejects a wrong answer, a deep link
-opens its question, the seed gives the order, the page reads without JavaScript, and a broken bank fails the build
-with its message; the generator refuses an unknown archetype and a folder that is not empty. These tests take the
-templates from `LERNAPPS_TEMPLATES` and are skipped without it; CI checks out app-templates at the pinned commit. The
-scoring of a quiz has unit tests (`test/quiz.test.ts`), the one piece of logic whose own contract is consumed.
+passes `lernapps check`. In Chromium:
+- each type of question accepts a right and rejects a wrong answer;
+- after the answer, every option's background shows, with the right one and the learner's choice marked, and the
+  explanation and links;
+- a deep link opens its question, and the seed gives the order;
+- the page reads without JavaScript, with the same in its answer key.
+
+A broken bank fails the build with its message. The generator refuses an unknown archetype and a folder that is not
+empty. These tests take the templates and the runtime from `LERNAPPS_TEMPLATES` and are skipped without it; CI checks
+out app-templates at the pinned commit.
 `lernapps check` runs on fixture apps (`test/fixtures/apps/`), one passing and one per broken rule, as a
 bundle, on a URL, with `--entry` and `--site`, and in temporary app repos: exit codes, the YAML report validated
 against its schema, the messages, the counter in the plan. There are no unit tests of internals.
@@ -238,7 +236,7 @@ one id still say the same is not decided by a program: the skill `rules-review` 
 read the list and report drift, gaps and rules that could move to a lint rule or check. The rules of scope `listing`
 (the listing criteria of lernapps/apps) and `site` (ORGANIZATION.md, "Every page, in every repo") are in
 `skills/lernapps-app/SKILL.md`, with the workflow rules and the first rules of the archetypes explainer and
-interactive; those of scope `archetype:quiz` (writing questions, options and feedback; the bank that validates) are in
+interactive; those of scope `archetype:quiz` (writing questions, options, background and links; the bank that validates) are in
 `skills/lernapps-quiz/SKILL.md`. The rubric of the review (below) judges those no program decides, under the same ids.
 
 ## The review
