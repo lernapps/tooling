@@ -1,0 +1,153 @@
+{
+  "version": 1,
+  "base": {
+    "label": "51e4c5fc1e68d08e539fb0f6de606d9ed3a2bd66",
+    "commit": "51e4c5fc1e68d08e539fb0f6de606d9ed3a2bd66"
+  },
+  "head": {
+    "label": "473797aba343b91506a1589e975020e27e23ee26"
+  },
+  "acceptanceBase": "51e4c5fc1e68d08e539fb0f6de606d9ed3a2bd66",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-check-cli",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 303
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 304
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-check-cli",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "CLI `lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>]`",
+            "after": "CLI `lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--site <path>] [--report <file>]`"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 317
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 320
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI",
+            "Check CLI interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-validation-report",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "YAML with published JSON Schema",
+            "after": "YAML with published JSON Schema (https://lernapps.net/tooling/schemas/validation-report.v1.schema.json)"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 332
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 336
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI",
+            "Validation report"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-rule-catalog",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 42
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 42
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Rule catalog"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 3,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
