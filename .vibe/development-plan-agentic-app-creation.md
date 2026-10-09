@@ -286,10 +286,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ### Tasks
 *Order of building agreed with the owner (2026-10-09). Tracking issue: [#9](https://github.com/lernapps/tooling/issues/9).
 Each step brings its rules in their artifacts and, where it touches the guidance, an eval run.*
-- [ ] 2 · Rule ids and the id test; the first rules ([#11](https://github.com/lernapps/tooling/issues/11))
 - [ ] 3 · Check CLI `lernapps check` ([#12](https://github.com/lernapps/tooling/issues/12))
 - [ ] 4 · Shared preset and lint rules ([#13](https://github.com/lernapps/tooling/issues/13))
-- [ ] 5 · Process guidance: `AGENTS.md` and the plan template ([#14](https://github.com/lernapps/tooling/issues/14))
 - [ ] 6 · Generator and the quiz archetype ([#15](https://github.com/lernapps/tooling/issues/15))
 - [ ] 7 · App check action ([#16](https://github.com/lernapps/tooling/issues/16))
 - [ ] 8 · Review procedure and rubric ([#17](https://github.com/lernapps/tooling/issues/17))
@@ -304,6 +302,12 @@ Each step brings its rules in their artifacts and, where it touches the guidance
   ([#10](https://github.com/lernapps/tooling/issues/10), merged in #23). `npm run check` checks the code and builds
   nothing; the docs site is built and checked by the job `site` (`npm run build && npm run check:site`); the site
   actions have the input `check-script`; every site repo names its Pages job `site` (owner, 2026-10-09)
+- [x] 2 · Rule ids and the id test; the first rules ([#11](https://github.com/lernapps/tooling/issues/11), merged in
+  #28). Rules are declared as `rule` blocks in skills; a rule's scope can be a list; severity lives only in the rule
+  block; ids shared with other mechanisms are one rule enforced several ways; the id test reads the artifacts and
+  writes the rule page at lernapps.net/tooling/rules/
+- [x] 5 · Process guidance: `AGENTS.md`, the plan template, its front matter schema and the skill `lernapps-app`
+  ([#14](https://github.com/lernapps/tooling/issues/14), merged in #27)
 
 ## Commit
 
