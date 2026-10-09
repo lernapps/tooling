@@ -49,8 +49,42 @@ npm run build && npm run check:site      # the docs site, built and checked (job
 
 The tests (`test/`) check what a consumer relies on, end to end: a fresh clone gets green from `npm ci && npm run
 check` without building anything, the docs site builds and passes `check:site`, a planted type error, lint error or failing test turns the hook command, `git commit` / `git push` and the CI
-command red, the package installed from git provides `lernapps`, and the CLI's usage and exit codes. There are no unit
+command red, a duplicate rule id, a `checked` rule without implementation or a message without its link turns the CI
+command red, the rule page lists every rule, the package installed from git provides `lernapps`, and the CLI's usage
+and exit codes. There are no unit
 tests of internals.
+
+### Rules
+
+Every rule an app follows lives in the artifact where it acts, with a stable id (architecture, chapter 8, "Rule
+catalog"). A rule is declared once, by a rule block under the heading of the section that explains it:
+
+````markdown
+### Load nothing from other servers before a click
+
+```rule
+id: no-request-before-click
+scope: [listing, site]
+severity: error
+enforcement: guided
+```
+
+Bundle scripts, styles, fonts ... with the app at build time.
+````
+
+| Artifact | Declares or implements | Where |
+|---|---|---|
+| section of a skill | a `guided` or `checked` rule, by its rule block | `skills/**/*.md` |
+| item of the review rubric | a `reviewed` rule, by its rule block | `review/**/*.md` |
+| lint rule | a `checked` rule: file name = id, `meta.docs.url` = link | `lint/rules/<id>.ts` |
+| check of the built app | a `checked` rule: `export default { id, url, ... }` | `check/rules/*.ts` |
+
+The link is always `https://lernapps.net/tooling/rules/#<id>`. `node scripts/rules.ts test` reads all artifacts and
+fails on an id declared twice, a `checked` rule without lint rule or check, a lint rule or check without a declared
+id, or a link that does not point to its rule; `test/rules.test.ts` runs it, so `lernapps check` (pre-push hook and
+CI) fails too. `node scripts/rules.ts page <file>` writes the rule page of the docs site from the same reading. The
+first rules, of scope `listing` (the listing criteria of lernapps/apps) and `site` (ORGANIZATION.md, "Every page, in
+every repo"), are in `skills/lernapps-app/SKILL.md` and `review/rubric.md`; both are placeholders the next steps fill.
 
 ## Site actions
 
@@ -115,7 +149,7 @@ rule groups `vite-plus` with `@voidzero-dev/vite-plus-core`, which `package.json
 
 The architecture of the tooling for building apps is written with [arc42](https://github.com/doctoolchain/arc42-language)
 in `docs/arc42/` (agents: skill `arc42-language` in `.agents/skills/`); the plan of the current work is in `.vibe/`.
-It is published at <https://lernapps.net/tooling/>, like every lernapps.net site: `pages.yml` with the site actions
+It is published at <https://lernapps.net/tooling/>, with the rule page at <https://lernapps.net/tooling/rules/>, like every lernapps.net site: `pages.yml` with the site actions
 above, and a preview per pull request (`pr-preview.yml`) that also contains the architecture's changes since the
 merge base (`architecture-diff/`) and one comment listing them (`scripts/review-summary.ts`).
 
