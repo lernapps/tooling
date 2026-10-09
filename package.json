@@ -20,8 +20,9 @@
   "scripts": {
     "prepare": "vp pack && vp config --no-agent",
     "lernapps": "node src/cli.ts",
+    "check": "npm run --silent lernapps -- check",
     "build": "./scripts/build.sh",
-    "check": "npm run --silent lernapps -- check && npm run build && lernapps-check --site /tooling/",
+    "check:site": "lernapps-check --site /tooling/",
     "arc42": "arc42 --dir docs/arc42"
   },
   "devDependencies": {

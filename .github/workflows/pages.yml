@@ -1,9 +1,10 @@
 name: Pages
 
-# Builds the tooling's documentation into _site/ (start page and architecture, scripts/build.sh), checks it,
-# and on main publishes it to the gh-pages branch, which GitHub Pages serves at https://lernapps.net/tooling/.
-# The same as every lernapps.net site: the steps are the shared actions of this repo, used at a pinned
-# commit of main like everywhere else. Renovate bumps the pinned commits.
+# Builds the tooling's documentation into _site/ (start page and architecture, scripts/build.sh), checks the
+# built site (npm run check:site: lernapps-check), and on main publishes it to the gh-pages branch, which GitHub
+# Pages serves at https://lernapps.net/tooling/. The steps are the shared site actions of this repo, used from the
+# checkout here, so a change to an action is exercised by its own pull request. The job is named `site`, not
+# `check`: `check` is the check of the tooling's code (check.yml).
 on:
   push:
     branches: [main]
@@ -18,16 +19,20 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  check: # required status check
+  site:
     runs-on: ubuntu-latest
     steps:
-      - uses: lernapps/tooling/actions/site-check@b406949f062fd156316abc91e15ce2f16d665510 # main
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./actions/site-check
+        with:
+          check-script: check:site
 
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: check
+    needs: site
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: lernapps/tooling/actions/site-deploy@b406949f062fd156316abc91e15ce2f16d665510 # main
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./actions/site-deploy

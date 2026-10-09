@@ -25,10 +25,12 @@ jobs:
     env:
       ARC42_DIFF_BASE: origin/${{ github.base_ref }} # the build renders the changes since the merge base
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - id: preview
-        uses: lernapps/tooling/actions/site-preview@b406949f062fd156316abc91e15ce2f16d665510 # main
+        uses: ./actions/site-preview
         with:
           site: /tooling/
+          check-script: check:site
           fetch-depth: 0 # the diff needs the base branch
           comment: false # the comment below lists the changes
       - if: github.event.action != 'closed'
