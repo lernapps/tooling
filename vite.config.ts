@@ -47,7 +47,17 @@ export default defineConfig({
     include: ["test/**/*.test.ts"],
   },
   pack: {
-    entry: { cli: "src/cli.ts", ...checks },
+    // The CLI, its checks, and what apps import at runtime: the preset, its helpers and the lint plugin.
+    entry: {
+      cli: "src/cli.ts",
+      ...checks,
+      preset: "archetypes/shared/preset.ts",
+      playwright: "archetypes/shared/playwright.ts",
+      storage: "archetypes/shared/storage.ts",
+      i18n: "archetypes/shared/i18n.ts",
+      a11y: "archetypes/shared/a11y.ts",
+      lint: "lint/plugin.ts",
+    },
     format: "esm",
     platform: "node",
     dts: false,

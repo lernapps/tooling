@@ -19,8 +19,7 @@ npm install --save-dev --save-exact "github:lernapps/tooling#<commit>"
 npx lernapps --help
 ```
 
-It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the guidance below and the presets
-that follow. Today the CLI has one command, `lernapps check`, the same in the git hooks, in CI and in the listing
+It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the guidance and the preset below. Today the CLI has one command, `lernapps check`, the same in the git hooks, in CI and in the listing
 validation. It runs whatever exists and decides nothing from the rules' scope or severity:
 
 | Command | Runs |
@@ -56,6 +55,52 @@ Consumers rely on the front matter schema and on the plan's headings: `## Explor
 `## Commit`, `## Retrospective` with `### Phases reached`, `### Failed checks`, `### Creator turns after the plan` and
 `### Where I had to guess`. A breaking change gets a new schema version.
 
+### The preset
+
+What every app imports and never edits: the shared base of the archetype presets (`archetypes/shared/`). An app that
+only extends it gets every lint rule and both git hooks, without configuration of its own:
+
+```ts
+// vite.config.ts: lint, format, type check, unit tests, staged files, build
+import { lernapps } from "@lernapps/tooling/preset";
+
+export default lernapps(); // or lernapps({ build: { ... } }): the app's own settings, merged over the preset
+```
+
+```jsonc
+// tsconfig.json
+{ "extends": "@lernapps/tooling/tsconfig.json" }
+```
+
+```jsonc
+// package.json: vite-plus installs the preset's hooks on npm install
+"scripts": { "prepare": "vp config --no-agent --hooks-dir node_modules/@lernapps/tooling/archetypes/shared/hooks" },
+"devDependencies": { "@lernapps/tooling": "github:lernapps/tooling#<commit>", "vite-plus": "1.0.0" },
+"overrides": { "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0" }
+```
+
+| Export | What it is |
+|---|---|
+| `@lernapps/tooling/preset` | `lernapps(config?)`: the vite-plus configuration. Lint with the lint plugin below, each rule's severity, `typescript/no-explicit-any`, type-aware with type check; format; unit tests in `src/` and `test/`; staged files (`vp check --fix`); `base: "./"`, so the app works under any path |
+| `@lernapps/tooling/tsconfig.json` | the strict TypeScript base (browser code, `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, ...) |
+| `@lernapps/tooling/playwright` | the Playwright configuration: `e2e/*.e2e.ts` against `vp preview`, in Chromium at desktop width and at 360 px; an app's `playwright.config.ts` is `export { default } from "@lernapps/tooling/playwright";` |
+| `@lernapps/tooling/storage` | `createStorage(app)`: `load`, `save`, `remove` of JSON values on the device, under the app's prefix (apps on lernapps.net share one origin), each wrapped in try/catch |
+| `@lernapps/tooling/i18n` | `translator(messages)`: the texts of `src/messages/de.json` by key, with `{placeholder}` values |
+| `@lernapps/tooling/a11y` | `announce(text)` through a live region, `moveFocus(element)`, `prefersReducedMotion()` |
+| `@lernapps/tooling/lint` | the lint plugin (`lint/`), an Oxlint JS plugin on the ESLint-compatible API; the preset loads it |
+
+The hooks (`archetypes/shared/hooks/`): pre-commit formats and fixes the staged files (`vp staged`), then runs
+`lernapps check --pre-commit`; pre-push runs `lernapps check --pre-push`, whose failure increments `prePushFailures` in
+`.vibe/plan.md`. The lint rules, each `lint/rules/<id>.ts`, report as `lernapps(<id>)` with the fix and the link to the
+rule:
+
+| Rule | Reports |
+|---|---|
+| `no-request-before-click` | a URL of another host in code (lernapps.net and XML namespaces excepted); content loaded after a click is suppressed in place with that reason |
+| `storage-through-wrapper` | `localStorage`, `sessionStorage`, `indexedDB` or `document.cookie` used directly |
+| `learner-text-german` | a text written into the page from a string in code (`textContent`, `innerHTML`, a label, title or alt, `document.title`, `alert`, JSX text) |
+| `suppression-reason` | a disable comment without the rules or without `-- <reason>`; `@ts-ignore`, `@ts-nocheck`, `@ts-expect-error` without a reason |
+
 The package is TypeScript only and strict (`tsconfig.json`: `strict`, `noUncheckedIndexedAccess`,
 `exactOptionalPropertyTypes`, `noImplicitOverride`; lint forbids `any`; no JavaScript sources). The toolchain is
 [vite-plus](https://viteplus.dev/) (`vp`), configured in `vite.config.ts`. The CLI is built into `dist/` by
@@ -75,7 +120,10 @@ npm run check                            # the same; builds nothing
 npm run build && npm run check:site      # the docs site, built and checked (job `site` in pages.yml)
 ```
 
-The tests (`test/`) check what a consumer relies on, end to end: a fresh clone gets green from `npm ci && npm run
+The tests (`test/`) check what a consumer relies on, end to end: an app that only extends the preset, installed from
+git, gets both hooks on `npm install`, a lint violation stops its `git commit` with the rule's message, a request to
+another host stops its `git push` and counts the failure in its plan, and each lint rule gives its verdict on source
+snippets; a fresh clone gets green from `npm ci && npm run
 check` without building anything, the docs site builds and passes `check:site`, a planted type error, lint error or failing test turns the hook command, `git commit` / `git push` and the CI
 command red, a rule id used twice in the same kind of artifact or a message without its link turns the CI command red, the rule
 list and the rule page show every rule grouped by id, the package installed from git provides `lernapps` and resolves the
