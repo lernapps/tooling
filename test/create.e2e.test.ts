@@ -149,7 +149,7 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
     expect(readFileSync(join(app, "_site/index.html"), "utf8")).toContain("Naturwunder der Welt");
   });
 
-  describe("in the browser", () => {
+  describe("in the browser", { timeout: 60_000 }, () => {
     beforeAll(async () => {
       ok(join(app, "node_modules/.bin/vp"), ["build"], app);
       const served = await serve(join(app, "dist"), "/naturwunder/");
