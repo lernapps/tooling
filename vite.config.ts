@@ -11,10 +11,11 @@ const checks = Object.fromEntries(
     .map((file) => [`check/rules/${file.slice(0, -".ts".length)}`, `check/rules/${file}`]),
 );
 
-// Not code: prose, the docs site's static files, workflows and actions, files written by tools, and the built apps
-// the tests check (test/fixtures/apps/, as a build writes them).
+// Not code: prose, the docs site's static files, workflows and actions, files written by tools, the built apps
+// the tests check (test/fixtures/apps/, as a build writes them), and the clone of app-templates in CI.
 const notCode = [
   "_site/**",
+  ".app-templates/**",
   "dist/**",
   "test/fixtures/apps/**",
   "docs/**",
@@ -47,7 +48,7 @@ export default defineConfig({
     include: ["test/**/*.test.ts"],
   },
   pack: {
-    // The CLI, its checks, and what apps import at runtime: the preset, its helpers and the lint plugin.
+    // The CLI, its checks, and what apps import at runtime: the presets, their helpers and the lint plugin.
     entry: {
       cli: "src/cli.ts",
       ...checks,
@@ -56,6 +57,9 @@ export default defineConfig({
       storage: "archetypes/shared/storage.ts",
       i18n: "archetypes/shared/i18n.ts",
       a11y: "archetypes/shared/a11y.ts",
+      "quiz-preset": "archetypes/quiz/preset.ts",
+      quiz: "archetypes/quiz/engine.ts",
+      "quiz-e2e": "archetypes/quiz/e2e.ts",
       lint: "lint/plugin.ts",
     },
     format: "esm",

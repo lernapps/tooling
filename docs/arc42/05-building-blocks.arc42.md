@@ -36,6 +36,8 @@ flowchart TB
     bb-listing-validation["Listing validation (lernapps/apps)"]
     bb-generator -->|"if-archetype-templates"| bb-app-templates
     bb-generator -->|"if-plan-file"| bb-process-guidance
+    bb-app-templates -->|"if-archetype-preset"| bb-archetypes
+    bb-app-templates -->|"if-question-bank"| bb-archetypes
     bb-archetypes -->|"if-lint-plugin"| bb-lint-rules
     bb-archetypes -->|"if-check-cli"| bb-check-cli
     bb-app-check-action -->|"if-check-cli"| bb-check-cli
@@ -176,16 +178,17 @@ protocol: SKILL.md files in the harness's skill folder
 ### Generator
 
 `lernapps create --archetype <name>` writes a new app from the archetype's template at the commit pinned in the
-package: the thin files that refer to the package, `AGENTS.md`, the plan file carried over from the conversation,
-the app's workflows, LICENSE and an issue form for content errors. The assistant runs it after the creator has
-confirmed the plan.
+package (`generator/`): the thin files that refer to the package, `AGENTS.md`, the plan file carried over from the
+conversation, the app's workflows, LICENSE and an issue form for content errors. The assistant runs it after the
+creator has confirmed the plan. It fetches the template with git, so it needs the network; a local clone of the
+templates repo with the pinned commit can take its place, which keeps the generator's own tests offline.
 
 ```arc42
 :::building-block
 id: bb-generator
 title: Generator
 parent: bb-tooling-package
-technology: TypeScript CLI
+technology: TypeScript CLI, git
 requires: if-archetype-templates, if-plan-file
 implements: concept-stable-contracts
 :::
@@ -193,14 +196,16 @@ implements: concept-stable-contracts
 
 #### Generator CLI
 
-It fails if the archetype is unknown or the folder is not empty.
+It fails if the archetype is unknown or the folder holds anything but the repository and the plan file. Options name
+the templates' source (also an environment variable), the package version the app depends on, and a plan file to
+carry over.
 
 ```arc42
 :::interface
 id: if-generator-cli
 title: Generator CLI
 provider: bb-generator
-protocol: CLI `lernapps create`
+protocol: CLI `lernapps create --archetype <name> [<dir>] [--plan <file>] [--templates <repo>] [--tooling <spec>]`
 :::
 ```
 
@@ -215,6 +220,12 @@ technology, storage on the device that keeps working when the browser blocks it)
 `vite.config.ts` calls the preset, passing only its own settings, such as the pages to build; its `tsconfig.json`
 only extends the base. The configuration files of an app thus stay one line each, and a change to a rule or a hook
 reaches every app with the next version of the package.
+
+An archetype adds what its kind of app needs on that base (`archetypes/<name>/`). The quiz is the deepest: a build
+step validates the question bank and renders every question into the page, so it reads without JavaScript; an
+engine in the browser turns the page into a quiz, one question at a time in an order given by a seed in the address,
+with feedback per option and the score and solutions at the end; generic end-to-end tests run against the app's own
+bank. The app supplies only the questions.
 
 ```arc42
 :::building-block
@@ -238,7 +249,23 @@ modules.
 id: if-archetype-preset
 title: Archetype preset
 provider: bb-archetypes
-protocol: npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y) and the hooks directory
+protocol: npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y; per archetype its preset, runtime and end-to-end tests) and the hooks directory
+:::
+```
+
+#### Question bank
+
+The data a quiz is made of: questions of six types (single and multiple choice, true or false, a number with
+tolerance and unit, ordering, matching), each with feedback per option where it has options and an explanation. Its
+JSON Schema is exported by the package and published at lernapps.net; the build validates the bank against it and
+fails with a message per problem. New types extend the schema without changing the existing ones.
+
+```arc42
+:::interface
+id: if-question-bank
+title: Question bank
+provider: bb-archetypes
+protocol: JSON with published JSON Schema (https://lernapps.net/tooling/schemas/quiz.v1.schema.json)
 :::
 ```
 
@@ -405,13 +432,15 @@ implements: concept-traceability
 ## Archetype templates
 
 lernapps/app-templates, one folder per archetype: the files the generator copies, each a working app that passes
-every check. Each folder can be tried on its own; the logic stays in the package.
+every check. Each folder can be tried on its own; the logic stays in the package. A folder holds the thin files that
+refer to the archetype's preset and the app's own content, which for a quiz is an example question bank.
 
 ```arc42
 :::building-block
 id: bb-app-templates
 title: Archetype templates
 technology: lernapps/app-templates, one folder per archetype
+requires: if-archetype-preset, if-question-bank
 :::
 ```
 

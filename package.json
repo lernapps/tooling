@@ -14,6 +14,7 @@
     "dist",
     "archetypes",
     "check/validation-report.v1.schema.json",
+    "generator",
     "guidance",
     "skills"
   ],
@@ -40,6 +41,20 @@
       "types": "./archetypes/shared/a11y.ts",
       "default": "./dist/a11y.mjs"
     },
+    "./quiz/preset": {
+      "types": "./archetypes/quiz/preset.ts",
+      "default": "./dist/quiz-preset.mjs"
+    },
+    "./quiz": {
+      "types": "./archetypes/quiz/engine.ts",
+      "default": "./dist/quiz.mjs"
+    },
+    "./quiz/e2e": {
+      "types": "./archetypes/quiz/e2e.ts",
+      "default": "./dist/quiz-e2e.mjs"
+    },
+    "./quiz/style.css": "./archetypes/quiz/quiz.css",
+    "./quiz/quiz.v1.schema.json": "./archetypes/quiz/quiz.v1.schema.json",
     "./lint": {
       "default": "./dist/lint.mjs"
     },
@@ -48,7 +63,8 @@
     "./guidance/AGENTS.md": "./guidance/AGENTS.md",
     "./guidance/plan-template.md": "./guidance/plan-template.md",
     "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
-    "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md"
+    "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md",
+    "./skills/lernapps-quiz/SKILL.md": "./skills/lernapps-quiz/SKILL.md"
   },
   "scripts": {
     "prepare": "vp pack && vp config --no-agent",
@@ -61,6 +77,7 @@
   },
   "dependencies": {
     "@lernapps/site": "github:lernapps/lernapps.github.io#bd3ca7cd112220714f6a0db56d098253f913c4cc",
+    "ajv": "8.20.0",
     "axe-core": "4.13.0",
     "playwright": "1.63.0",
     "yaml": "2.9.1"
@@ -68,7 +85,6 @@
   "devDependencies": {
     "@doctc/arc42": "0.36.1",
     "@types/node": "22.20.5",
-    "ajv": "8.20.0",
     "vite-plus": "1.0.0"
   },
   "peerDependencies": {
@@ -84,5 +100,9 @@
   },
   "engines": {
     "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
+  },
+  "appTemplates": {
+    "repository": "https://github.com/lernapps/app-templates.git",
+    "commit": "b73e5a742431d7a5600b25a19cf6825ed1f49e82"
   }
 }

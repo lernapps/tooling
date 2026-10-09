@@ -10,6 +10,7 @@ describe("lernapps", () => {
     expect(result.code).toBe(0);
     expect(result.stdout).toMatch(/^Usage: lernapps <command>/);
     expect(result.stdout).toContain("check [--pre-commit] [--pre-push]");
+    expect(result.stdout).toContain("create --archetype <name> [<dir>]");
     expect(result.stderr).toBe("");
   });
 
@@ -57,5 +58,21 @@ describe("lernapps", () => {
     const result = lernapps("--version");
     expect(result.code).toBe(0);
     expect(result.stdout.trim()).toMatch(/^\d+\.\d+\.\d+/);
+  });
+
+  test("create --help names the archetypes and where the templates come from, and exits 0", () => {
+    const result = lernapps("create", "--help");
+    expect(result.code).toBe(0);
+    expect(result.stdout).toMatch(/^Usage: lernapps create --archetype <name> \[<dir>\]/);
+    expect(result.stdout).toContain("quiz");
+    for (const option of ["--plan <file>", "--templates <repo>", "--tooling <spec>", "LERNAPPS_TEMPLATES"]) {
+      expect(result.stdout).toContain(option);
+    }
+  });
+
+  test("create without --archetype is a usage error", () => {
+    const result = lernapps("create");
+    expect(result.code).toBe(2);
+    expect(result.stderr).toContain("create needs --archetype <name> (quiz)");
   });
 });
