@@ -1,0 +1,33 @@
+name: Pages
+
+# Builds the tooling's documentation into _site/ (start page and architecture, scripts/build.sh), checks it,
+# and on main publishes it to the gh-pages branch, which GitHub Pages serves at https://lernapps.net/tooling/.
+# The same as every lernapps.net site: the steps are the shared actions of this repo, used at a pinned
+# commit of main like everywhere else. Renovate bumps the pinned commits.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check: # required status check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lernapps/tooling/actions/site-check@91c4012323f8fea68de701a8e078f1bcb010a70e # main
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lernapps/tooling/actions/site-deploy@91c4012323f8fea68de701a8e078f1bcb010a70e # main
