@@ -85,7 +85,7 @@ export default lernapps(); // or lernapps({ build: { ... } }): the app's own set
 |---|---|
 | `@lernapps/tooling/preset` | `lernapps(config?)`: the vite-plus configuration. Lint with the lint plugin below, each rule's severity, `typescript/no-explicit-any`, type-aware with type check; format; unit tests in `src/` and `test/`; staged files (`vp check --fix`); `base: "./"`, so the app works under any path |
 | `@lernapps/tooling/tsconfig.json` | the strict TypeScript base (browser code, `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, ...) |
-| `@lernapps/tooling/playwright` | the Playwright configuration: `e2e/*.e2e.ts` against `vp preview`, in Chromium at desktop width and at 360 px; an app's `playwright.config.ts` is `export { default } from "@lernapps/tooling/playwright";` |
+| `@lernapps/tooling/playwright` | the Playwright configuration: `e2e/*.e2e.ts` against `vp preview` on a free port, in Chromium at desktop width and at 360 px; an app's `playwright.config.ts` is `export { default } from "@lernapps/tooling/playwright";` |
 | `@lernapps/tooling/storage` | `createStorage(app)`: `load`, `save`, `remove` of JSON values on the device, under the app's prefix (apps on lernapps.net share one origin), each wrapped in try/catch |
 | `@lernapps/tooling/i18n` | `translator(messages)`: the texts of `src/messages/de.json` by key, with `{placeholder}` values |
 | `@lernapps/tooling/a11y` | `announce(text)` through a live region, `moveFocus(element)`, `prefersReducedMotion()` |
