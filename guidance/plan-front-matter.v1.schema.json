@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Front matter of a lernapps plan file, version 1",
+  "description": "The YAML front matter of an app's plan file (.vibe/plan.md). The assistant sets archetype and phase; the pre-push hook increments prePushFailures. The review and the evals read all three. Flat: one `key: value` per line. A breaking change gets a new version of this schema.",
+  "type": "object",
+  "properties": {
+    "archetype": {
+      "description": "The kind of app, chosen in Explore from the creator's answers; null until then.",
+      "enum": ["explainer", "interactive", "quiz", null]
+    },
+    "phase": {
+      "description": "The phase the assistant works in now.",
+      "enum": ["explore", "plan", "code", "commit"]
+    },
+    "prePushFailures": {
+      "description": "Failed runs of the pre-push hook. Written by the hook, never by the assistant.",
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "required": ["archetype", "phase", "prePushFailures"],
+  "additionalProperties": false,
+  "if": {
+    "properties": { "phase": { "enum": ["plan", "code", "commit"] } },
+    "required": ["phase"]
+  },
+  "then": {
+    "properties": { "archetype": { "type": "string" } }
+  }
+}
