@@ -1,0 +1,389 @@
+{
+  "version": 1,
+  "base": {
+    "label": "3872c21e827fd0d209a7e650f029715b5ff7dc67",
+    "commit": "3872c21e827fd0d209a7e650f029715b5ff7dc67"
+  },
+  "head": {
+    "label": "eb797c85d4d474885bc6f58abf922dd3ca7ce876"
+  },
+  "acceptanceBase": "3872c21e827fd0d209a7e650f029715b5ff7dc67",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/07-deployment-view.arc42.md",
+      "line": 94,
+      "elementId": "dn-lernapps-agents",
+      "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "line": 94,
+        "elementId": "dn-lernapps-agents",
+        "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-review-procedure",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "implements",
+            "before": [
+              "concept-rule-catalog",
+              "concept-plain-language"
+            ],
+            "after": [
+              "concept-rule-catalog",
+              "concept-plain-language",
+              "concept-terse-output",
+              "concept-traceability",
+              "concept-stable-contracts"
+            ]
+          },
+          {
+            "name": "technology",
+            "before": "Markdown",
+            "after": "Markdown prompt and rubric, JSON Schema, TypeScript verdict check"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 352
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 355
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-review-procedure",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "Markdown prompt and rubric",
+            "after": "Markdown prompt and rubric files, read by an agent"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 367
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 371
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure",
+            "Review procedure interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-review-verdict",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 388
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure",
+            "Review verdict"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-listing-validated",
+        "kind": "runtime-scenario",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 107
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 109
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A listing is validated"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-lernapps-agents",
+        "kind": "deployment-node",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [
+          {
+            "term": "environment",
+            "element": "dn-lernapps-agents",
+            "source": "fact"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 88
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 94
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "Environment for lernapps agents"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-rule-catalog",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 42
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 42
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Rule catalog"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-stable-contracts",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 106
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 106
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Stable contracts"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-recorded-verdict",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 260
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "A recorded verdict tests the review procedure"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-verdict",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 176
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Verdict"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "rs-listing-validated-sequence",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "sequenceDiagram\n    participant assistant as Creator's assistant\n    participant listing as Listing validation\n    participant check as Check CLI\n    participant review as Review agent\n    participant procedure as Review procedure\n    participant owner as Owner\n    assistant->>listing: pull request with the entry\n    listing->>check: lernapps check <url> --entry <file>\n    check-->>listing: validation report\n    listing-->>assistant: comment with the report (on failure)\n    assistant->>listing: fix, push again\n    listing->>check: second run\n    check-->>listing: report: rules kept, topic links resolve, fitness values match\n    owner->>review: start the review of the pull request\n    review->>procedure: prompt and rubric\n    review-->>owner: verdict for the reviewed commit\n    owner->>listing: merge or decline",
+            "after": "sequenceDiagram\n    participant assistant as Creator's assistant\n    participant listing as Listing validation\n    participant check as Check CLI\n    participant review as Review agent\n    participant procedure as Review procedure\n    participant owner as Owner\n    assistant->>listing: pull request with the entry\n    listing->>check: lernapps check <url> --entry <file>\n    check-->>listing: validation report\n    listing-->>assistant: comment with the report (on failure)\n    assistant->>listing: fix, push again\n    listing->>check: second run\n    check-->>listing: report: rules kept, topic links resolve, fitness values match\n    owner->>review: start the review of the pull request\n    review->>procedure: prompt, rubric of the archetype, rule catalog\n    review->>check: validation report of the commit\n    review->>procedure: check the verdict against its schema and the catalog\n    review-->>owner: verdict for the reviewed commit\n    owner->>listing: verdict as a comment, merge or decline"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 116
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 118
+        }
+      }
+    ],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "concept-stable-contracts",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "concept-terse-output",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "concept-traceability",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-review-procedure",
+          "to": "if-review-verdict",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-recorded-verdict",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-recorded-verdict",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      }
+    ],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 1,
+        "modified": 2,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/06-runtime-view.arc42.md",
+        "added": 0,
+        "modified": 2,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "added": 0,
+        "modified": 2,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
+        "added": 1,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "added": 1,
+        "modified": 0,
+        "removed": 0
+      }
+    ]
+  }
+}
