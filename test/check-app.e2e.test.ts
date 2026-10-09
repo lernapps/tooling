@@ -315,7 +315,7 @@ describe.skipIf(inner)("lernapps check in an app's repo", () => {
         '  testDir: "e2e",',
         '  testMatch: "*.e2e.ts",',
         '  use: { baseURL: "http://127.0.0.1:4179/" },',
-        '  webServer: { command: "vp preview --port 4179 --strictPort", url: "http://127.0.0.1:4179/" },',
+        '  webServer: { command: "vp preview --host 127.0.0.1 --port 4179 --strictPort", url: "http://127.0.0.1:4179/" },',
         "});",
         "",
       ].join("\n"),
