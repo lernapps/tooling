@@ -77,7 +77,8 @@ also cannot be the single starting point.
 - **Decision**: The scaffold is generated for the archetype chosen in the plan. The generated app holds thin files
   that refer to versioned packages (toolchain config, our lint rules and CLIs, the site frame), installed from git and
   kept current by Renovate, as `@lernapps/site` and the site actions already are.
-- **Open**: what becomes of lernapps/app-template (archetype templates, the generator itself, or the starting point
+- **Decided** (2026-10-08): lernapps/app-templates holds the archetype templates (renamed from app-template).
+- **Was open**: what becomes of lernapps/app-template (archetype templates, the generator itself, or the starting point
   for the first archetype); how the generator is invoked (`vp create` with our templates or `npm create`).
 
 ### KD-06: vite-plus is the default toolchain, configured by the archetype
@@ -261,7 +262,7 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
   contains the arc42 diff and one comment listing the changes (`pr-preview.yml`, `scripts/review-summary.mjs`),
   as in lernapps/docs
 - [x] Ch. 1 reworked as the five-step journey; ch. 2 constraints, ch. 3 context, ch. 4 solution strategy,
-  ch. 5 building blocks (one package `@lernapps/tooling`, templates in app-template, listing validation in apps),
+  ch. 5 building blocks (one package `@lernapps/tooling`, templates in app-templates, listing validation in apps),
   ch. 6 runtime (new app, failing push, listing validation, rule change), ch. 7 deployment, ch. 8 concepts (rule
   model, promotion path, plan file, messages for agents, validation report, versioned distribution, strict
   TypeScript, i18n and a11y, third-party content, measurement), ch. 9 decisions (21, three proposed), ch. 11 risks,
@@ -296,7 +297,7 @@ defines "done" for every archetype, and the quiz needs the least from creators. 
 ## Commit
 
 ### Tasks
-- [ ] Update the READMEs of tooling and app-template and ORGANIZATION.md "Where to find what"
+- [ ] Update the READMEs of tooling and app-templates and ORGANIZATION.md "Where to find what"
 - [ ] Update lernapps/.github#12 to the agreed scope
 - [ ] Pull request per repo, previews green
 
