@@ -145,7 +145,8 @@ hosts: bb-app-templates
 ### App repo CI
 
 GitHub Actions of each app repo: the app check action runs the check command without flags, the same checks the
-hooks ran, on every pull request and push; apps on lernapps.net deploy with the site actions afterwards.
+hooks ran, on every pull request and push, and keeps the validation report as an artifact; apps on lernapps.net
+then publish the checked bundle with the site deploy action.
 
 ```arc42
 :::deployment-node

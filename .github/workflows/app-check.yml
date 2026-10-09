@@ -1,0 +1,52 @@
+name: App check
+
+# The app check action (actions/app-check) on two fixture apps (test/app-fixture.ts): a quiz from `lernapps create`
+# that passes, and the same quiz with a stylesheet from another host. Each fixture first runs its git hooks, as git
+# does (`git commit`, `git push`). Then the real action checks it: it must end like the hooks, with the same findings,
+# and keep its report as an artifact. The command inside the action is tested locally by test/app-check.e2e.test.ts
+# (in the pre-push hook and in check.yml); this workflow confirms the wrapper around it.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fixture:
+    strategy:
+      fail-fast: false
+      matrix:
+        fixture: [passing, failing]
+    runs-on: ubuntu-latest
+    env:
+      APP: .app-fixtures/${{ matrix.fixture }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Create the fixture app and run its hooks
+        run: node test/app-fixture.ts "${{ matrix.fixture }}" "$APP" "$RUNNER_TEMP/hooks.yaml"
+      - id: check
+        uses: ./actions/app-check
+        continue-on-error: ${{ matrix.fixture == 'failing' }}
+        with:
+          checkout: false
+          working-directory: ${{ env.APP }}
+          report-artifact: validation-report-${{ matrix.fixture }}
+          upload: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: validation-report-${{ matrix.fixture }}
+          path: ${{ runner.temp }}/report
+      - name: The action ended like the hooks, with the same findings
+        run: node test/app-fixture.ts compare "$RUNNER_TEMP/hooks.yaml" "$RUNNER_TEMP/report/validation-report.yaml" "${{ steps.check.outcome }}"

@@ -1,7 +1,7 @@
 # tooling
 
 Shared tooling for the lernapps.net apps and sites, so that they all behave the same: GitHub Actions for
-building, checking, deploying and previewing a site, and the Renovate preset of every lernapps repo. Later
+checking an app and for building, checking, deploying and previewing a site, and the Renovate preset of every lernapps repo. Later
 also the agent skill for building an app and the thanks and feedback component that creators can include
 in their apps.
 
@@ -34,8 +34,11 @@ nothing from the rules' scope or severity:
 | `... --site <path>` | the app is served on lernapps.net at `<path>`: also the site rules, by `lernapps-check` of the site frame |
 | `... --report <file>` | also writes the full report to `<file>`, passing or not |
 
+In a repo, every run also writes its full report to `node_modules/.cache/lernapps/validation-report.yaml`, passing
+or not: in the hooks and in CI alike, where the app check action uploads it.
+
 The checks of the built app (`check/rules/*.ts`, one rule id each) open every page reachable from the start page in
-Chromium, as a learner would, without a click: requests to other hosts (blocked and recorded), cookies and data sent,
+Chromium (a link that only changes the query string, like a quiz's "start again" with a new seed, is the same page), as a learner would, without a click: requests to other hosts (blocked and recorded), cookies and data sent,
 the page without JavaScript, the width at 360 px, axe-core (WCAG 2.1 A and AA), links below the app's address. The
 browser is installed once on the first run and cached by Playwright. A passing check prints one line; a failing one
 prints the validation report as YAML, every finding with rule id, severity, where, what was found, how to fix it and
@@ -122,12 +125,12 @@ of [lernapps/app-templates](https://github.com/lernapps/app-templates) at the co
 |---|---|
 | `package.json` | the template's, named after the folder: `@lernapps/tooling`, the runtime `@lernapps/app-templates`, `vite-plus`; `prepare` installs the hooks, `build` writes `_site/`, `check` runs `lernapps check` |
 | `AGENTS.md`, `.vibe/plan.md` | the process guidance; a plan already in the folder (from the conversation) is kept, else the template starts in Code |
-| `.github/workflows/pages.yml` | `lernapps check` and the publication with the site actions (`site-check`, `site-deploy`) |
+| `.github/workflows/pages.yml` | `lernapps check` with the app check action (`app-check`), then the publication of the checked bundle with `site-deploy` |
 | `.github/ISSUE_TEMPLATE/inhaltsfehler.yml` | the issue form for errors in the content |
 | `LICENSE`, `renovate.json` | MIT; the Renovate preset of lernapps |
 
 Fetching the template needs git and the network. To work without them, name a local clone of app-templates that has
-the pinned commit: `--templates <dir>` or the environment variable `LERNAPPS_TEMPLATES` (the tests and CI do). The
+the pinned commit: `--templates <dir>` or the environment variable `LERNAPPS_TEMPLATES` (the tests do). The
 app then installs the runtime from that clone too. `--tooling <spec>` sets the dependency on this package (the tests
 install it from a local clone), `--plan <file>` carries a plan over from elsewhere. The pin moves by hand when
 app-templates changes: set `appTemplates.commit` to its new commit on `main`.
@@ -168,7 +171,7 @@ files (`vp staged`), then runs `lernapps check --pre-commit`; pre-push runs `ler
 npm ci                                   # dependencies, build of the CLI, git hooks
 npm run lernapps -- check                # what CI runs; --pre-commit / --pre-push for one part
 npm run check                            # the same; builds nothing
-LERNAPPS_TEMPLATES=../app-templates npm run check   # also the generator's tests, from a local clone
+LERNAPPS_TEMPLATES=../app-templates npm run check   # the generator's tests from a local clone, not the cache
 npm run build && npm run check:site      # the docs site, built and checked (job `site` in pages.yml)
 ```
 
@@ -182,7 +185,10 @@ list and the rule page show every rule grouped by id, the recorded verdict of th
 and the rule of its fixture, a broken verdict fails the verdict check with a message, the package installed from git provides `lernapps` and resolves the
 guidance exports, the plan template and a filled plan validate against the front matter schema while incomplete ones
 fail with a message naming the problem, every plan has the sections the retrospective needs, and the CLI's usage and
-exit codes. `lernapps create --archetype quiz` with the fixture bank `test/fixtures/quiz/quiz.json` gives an app that
+exit codes. The app check action runs the hooks' command: on a quiz app from `lernapps create`, a passing app passes
+the hooks and the action's check, a stylesheet from another host fails the pre-push hook and the action's check with
+the same findings, and a lint error fails the pre-commit hook and the action's check with the same message
+(`test/app-check.e2e.test.ts`, fixture apps from `test/app-fixture.ts`). `lernapps create --archetype quiz` with the fixture bank `test/fixtures/quiz/quiz.json` gives an app that
 passes `lernapps check`. In Chromium:
 - each type of question accepts a right and rejects a wrong answer;
 - after the answer, every option's background shows, with the right one and the learner's choice marked, and the
@@ -191,8 +197,9 @@ passes `lernapps check`. In Chromium:
 - the page reads without JavaScript, with the same in its answer key.
 
 A broken bank fails the build with its message. The generator refuses an unknown archetype and a folder that is not
-empty. These tests take the templates and the runtime from `LERNAPPS_TEMPLATES` and are skipped without it; CI checks
-out app-templates at the pinned commit.
+empty. These tests take the templates and the runtime from a local clone of app-templates at the pinned commit: the
+one named by `LERNAPPS_TEMPLATES`, else one they fetch once into `node_modules/.cache/lernapps/app-templates/`. They
+run in the hooks as in CI and are never skipped; without the network and the cache they fail and say so.
 `lernapps check` runs on fixture apps (`test/fixtures/apps/`), one passing and one per broken rule, as a
 bundle, on a URL, with `--entry` and `--site`, and in temporary app repos: exit codes, the YAML report validated
 against its schema, the messages, the counter in the plan. There are no unit tests of internals.
@@ -269,7 +276,49 @@ for a fixture app with a planted ad (`test/fixtures/reviews/ad/`), committed wit
 commit is the same everywhere. After a change to the fixture, record it again: `node test/review-fixture.ts ad <dir>`
 creates the fixture repo, a fresh agent reviews it with the prompt, and its verdict replaces `verdict.yaml`.
 
-## Site actions
+## Actions
+
+CI runs what the hooks run, nothing more: a check passes or fails on the creator's machine the same way as in CI.
+CI only adds what the machine cannot do: publish.
+
+### App check action
+
+`actions/app-check` checks a lernapps app in CI: `lernapps check` without a flag, exactly the command of the
+pre-commit and pre-push hooks together. Around it only the environment: checkout, Node 22, `npm ci`, the Playwright
+browser from the cache. It uploads the report the check writes (`node_modules/.cache/lernapps/validation-report.yaml`)
+as the artifact `validation-report`, passing or not, and on `main` the bundle it checked (`dist/`) as the artifact
+`site` for `site-deploy`. So an app deploys what was checked, and nothing is built twice.
+
+| Input | Default | What it is |
+|---|---|---|
+| `working-directory` | `.` | the app's folder |
+| `checkout` | `true` | check out the repo first |
+| `report-artifact` | `validation-report` | the name of the report's artifact |
+| `upload` | on `main` | upload `dist/` as the artifact `site` |
+
+`pages.yml` of an app, as the generator writes it:
+
+```yaml
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: lernapps/tooling/actions/app-check@<commit> # main
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: site
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lernapps/tooling/actions/site-deploy@<commit> # main
+```
+
+The workflow `app-check.yml` of this repo runs the action on two fixture apps (`test/app-fixture.ts`), a passing
+quiz and one with a stylesheet from another host, after their hooks have run: the action must end like the hooks,
+with the same findings. The command inside is tested by `test/app-check.e2e.test.ts`.
+
+### Site actions
 
 Every site on lernapps.net is a static build in `_site/`, published on the repo's `gh-pages` branch and
 served by GitHub Pages under its path (`/`, `/apps/`, `/docs/`). Three composite actions do the work; the
@@ -315,6 +364,9 @@ jobs:
 ```
 
 `pr-preview.yml`: the same with `site-preview` and `site: /apps/`; see lernapps/apps for the full file.
+
+An app uses `app-check` in place of `site-check`: its `check` is `lernapps check`, which builds and checks the app
+itself, so `site-check` would run it again after a second build.
 
 The actions inside are pinned to full commit SHAs, and so are the callers' references to this repo;
 Renovate bumps both.

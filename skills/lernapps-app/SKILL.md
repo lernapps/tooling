@@ -141,7 +141,9 @@ severity: error
 ```
 
 Run `lernapps check` before you push; the hooks run it too. Format, lint, type check, unit tests, build, the checks of
-the built app and the end-to-end tests must pass. A failure names the step: fix it from the step's output.
+the built app and the end-to-end tests must pass. A failure names the step: fix it from the step's output. CI runs
+the same command and nothing else, so what passes on your machine passes in CI. A failed CI run has the same message
+as the hook, and its report is the artifact `validation-report`.
 
 ### `retrospective-filled`: Fill the retrospective
 

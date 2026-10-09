@@ -508,8 +508,10 @@ protocol: JSON with published JSON Schema (https://lernapps.net/tooling/schemas/
 ## App check action
 
 A composite action next to the site actions (`actions/app-check`): runs `lernapps check` without flags, exactly
-what the hooks ran, with the Playwright browser cached; uploads the report. Apps on lernapps.net deploy with the
-site actions after it.
+what the hooks ran, and nothing else. Around the command it only sets up the environment: checkout, Node, `npm ci`,
+the Playwright browser from the cache. It uploads the report the check writes in every run, passing or not, and on
+`main` the bundle it checked, which the site deploy action publishes. An app uses it in place of the site check
+action, so its check runs once and the published bundle is the checked one.
 
 ```arc42
 :::building-block
@@ -522,7 +524,9 @@ requires: if-check-cli
 
 ### App check action interface
 
-Used in the app's `pages.yml` next to the site actions, pinned to a commit and bumped by Renovate.
+Used in the app's `pages.yml` before the site deploy action, pinned to a commit and bumped by Renovate. Inputs: the
+app's folder, whether to check out, the report artifact's name, whether to upload the bundle. Outputs: the
+artifacts `validation-report` and, on `main`, `site`.
 
 ```arc42
 :::interface

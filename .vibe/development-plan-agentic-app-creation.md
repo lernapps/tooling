@@ -294,8 +294,6 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ### Tasks
 *Order of building agreed with the owner (2026-10-09). Tracking issue: [#9](https://github.com/lernapps/tooling/issues/9).
 Each step brings its rules in their artifacts and, where it touches the guidance, an eval run.*
-- [ ] 6 · Generator and the quiz archetype ([#15](https://github.com/lernapps/tooling/issues/15))
-- [ ] 7 · App check action ([#16](https://github.com/lernapps/tooling/issues/16))
 - [ ] 9 · Listing validation with the results comment ([lernapps/apps#3](https://github.com/lernapps/apps/issues/3))
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 11 · The explainer archetype, after the rendering prototype ([#19](https://github.com/lernapps/tooling/issues/19))
@@ -328,6 +326,18 @@ Each step brings its rules in their artifacts and, where it touches the guidance
   tested with a recorded verdict on a fixture with a planted ad. Follow-ups: review the quiz app of step 6; move the
   archetype rule sections into the archetype skills; severity of the archetype rules (error or hint) is the owner's
   call
+- [x] 6 · Generator and the quiz archetype ([#15](https://github.com/lernapps/tooling/issues/15), merged in #36
+  with lernapps/app-templates#4): `lernapps create --archetype <name>` copies the archetype's folder of app-templates
+  at the commit pinned in `package.json`; the app depends on the runtime `@lernapps/app-templates` of the same
+  commit. The quiz is a deep scaffold: the assistant writes only the question bank `src/quiz.json`, validated at build
+  time against its schema; the skill `lernapps-quiz` says how to write good questions
+- [x] 7 · App check action ([#16](https://github.com/lernapps/tooling/issues/16)): `actions/app-check` runs
+  `lernapps check` without a flag, exactly the hooks' command, and keeps the report every run writes
+  (`node_modules/.cache/lernapps/validation-report.yaml`) as an artifact; on `main` it hands the checked `dist/` to
+  `site-deploy`. The generated `pages.yml` uses it in place of `site-check`. CI runs what the hooks run in every repo:
+  the generator's tests fetch app-templates at the pinned commit instead of being skipped. The check treats a link
+  that only changes the query as the same page, so a quiz's random seed no longer changes the report. Tested by
+  `test/app-check.e2e.test.ts` and the workflow `app-check.yml` on a passing and a failing fixture app
 
 ## Commit
 
