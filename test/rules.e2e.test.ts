@@ -3,6 +3,7 @@
 //     rule has no implementation, when a lint rule or check has no id, or when its messages do not link to
 //     where its rule is explained;
 //   - `npm run build` writes the rule page, which lists every rule.
+//   - it also fails when a `reviewed` rule has no rubric item;
 // The fixtures are real artifacts planted into the clone: a skill section, a rubric item, a check, a lint rule.
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -111,11 +112,18 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
     expect(output(result)).toMatch(/planted-twice.*declared twice|declared twice.*planted-twice/);
   });
 
-  test("a skill rule with the id of a rubric item turns npm run check red", { timeout: SLOW }, () => {
+  test("a rule with the id of a rule in another skill turns npm run check red", { timeout: SLOW }, () => {
     plant("skills/planted/SKILL.md", skill("planted", { id: "learners-act", enforcement: "guided" }));
     const result = check_();
     expect(result.code, output(result)).not.toBe(0);
     expect(output(result)).toMatch(/learners-act.*declared twice/);
+  });
+
+  test("a reviewed rule without its rubric item turns npm run check red", { timeout: SLOW }, () => {
+    plant("skills/planted/SKILL.md", skill("planted", { id: "planted-unreviewed", enforcement: "reviewed" }));
+    const result = check_();
+    expect(result.code, output(result)).not.toBe(0);
+    expect(output(result)).toMatch(/planted-unreviewed.*no rubric item/);
   });
 
   test("two checks with the same id turn npm run check red", { timeout: SLOW }, () => {
@@ -175,11 +183,18 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
   });
 
   test("the rule page lists every rule and passes check:site", { timeout: SLOW }, () => {
-    plant("skills/planted/SKILL.md", skill("planted", { id: "planted-guided", scope: "site", enforcement: "guided" }));
+    plant(
+      "skills/planted/SKILL.md",
+      skill(
+        "planted",
+        { id: "planted-guided", scope: "site", enforcement: "guided" },
+        { id: "planted-reviewed", enforcement: "reviewed" },
+      ),
+    );
     const rubric = readFileSync(join(clone, "review/rubric.md"), "utf8");
     plant(
       "review/rubric.md",
-      `${rubric}\n## The planted item\n\n\`\`\`rule\nid: planted-reviewed\nscope: listing\nseverity: error\nenforcement: reviewed\n\`\`\`\n\nJudge the planted item.\n`,
+      `${rubric}\n## The planted item\n\n\`\`\`rubric\nid: planted-reviewed\n\`\`\`\n\nJudge it.\n`,
     );
     ok("npm", ["run", "build"], clone);
     const page = readFileSync(join(clone, "_site/rules/index.html"), "utf8");
@@ -187,11 +202,10 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
     for (const id of [
       "no-request-before-click",
       "no-tracking",
-      "no-cookies",
       "readable-without-javascript",
-      "wcag-aa",
+      "accessible",
       "usable-at-360px",
-      "legal-links",
+      "imprint-and-privacy",
       "runs-in-browser",
       "no-account",
       "free-of-charge",
@@ -203,8 +217,9 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
       expect(page, id).toContain(`id="${id}"`);
     }
     expect(page).toContain("Explains the rule planted-guided.");
-    expect(page).toContain("Judge the planted item.");
+    expect(page).toContain("Explains the rule planted-reviewed.");
     expect(page).toContain("skills/planted/SKILL.md");
+    expect(page).toContain("review/rubric.md");
     expect(readFileSync(join(clone, "_site/index.html"), "utf8")).toContain('href="rules/"');
     const site = run("npm", ["run", "check:site"], clone);
     expect(site.code, output(site)).toBe(0);

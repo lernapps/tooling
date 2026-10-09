@@ -26,22 +26,23 @@ Where the rules live, and where they take effect:
 | checked on the built app | a check of the check CLI, with its severity | `bb-check-cli` | the pre-push hook; CI; the listing validation |
 | reviewed | an item of the review rubric | `bb-review-procedure` | the environment where lernapps agents run |
 
-Each rule is declared once, in the section that explains it, by a rule block: a fenced block with the info string
-`rule` right under the section's heading, one key per line (`id`, `scope`, `severity`, `enforcement`). A rule a
-program checks is still explained in a skill, because that is what the assistant reads; its lint rule or check
-implements it and carries only the id and the link:
+Each rule is declared once, in the section of a skill that explains it, by a rule block: a fenced block with the
+info string `rule` right under the section's heading, one key per line (`id`, `scope`, `severity`, `enforcement`).
+A rule that a program checks or the review judges is still explained in a skill, because that is what the assistant
+reads; its lint rule, check or rubric item enforces it and carries only the id (and, for messages, the link):
 
-| Artifact | Declares or implements | Where |
+| Artifact | Declares or enforces | Where |
 |---|---|---|
-| section of a skill | declares a `guided` or `checked` rule with a rule block | `skills/**/*.md` |
-| item of the review rubric | declares a `reviewed` rule with a rule block | `review/**/*.md` |
-| lint rule | implements a `checked` rule: the file name is the id, `meta.docs.url` the link | `lint/rules/<id>.ts` |
-| check of the check CLI | implements a `checked` rule: its default export has `id` and `url` | `check/rules/*.ts` |
+| section of a skill | declares a rule with a rule block | `skills/**/*.md` |
+| lint rule | enforces a `checked` rule: the file name is the id, `meta.docs.url` the link | `lint/rules/<id>.ts` |
+| check of the check CLI | enforces a `checked` rule: its default export has `id` and `url` | `check/rules/*.ts` |
+| item of the review rubric | enforces a `reviewed` rule: a `rubric` block with its `id` under the item's heading | `review/**/*.md` |
 
 The severity is the one in the rule block; the preset's lint configuration and the check use the same. The link of
 every message is the rule's entry on the rule page, `https://lernapps.net/tooling/rules/#<id>`. The tooling's own
-build reads all artifacts and tests that ids are declared once, that every `checked` rule has an implementation and
-every implementation a declared `checked` rule, and that every message links to where its rule is explained
+build reads all artifacts and tests that ids are declared once, that every `checked` rule has a lint rule or check
+and every `reviewed` rule a rubric item, that each of these enforces a declared rule of its enforcement, and that
+every message links to where its rule is explained
 (`scripts/rules.ts`, run by the tests in `lernapps check`). The same reading produces the rule page of the docs
 site, which shows each rule's section. Nothing is generated from a central file.
 

@@ -2,15 +2,13 @@
 
 The rules no program decides: the review agent judges each item for an app that asks to be listed, starting from
 the validation report. This rubric is still being written; the prompt and the format of the verdict follow. Each
-item is a section headed by its rule block; the verdict names the rule id of every finding.
+item judges one `reviewed` rule, declared and explained in a skill (`skills/lernapps-app/SKILL.md`); the item's
+`rubric` block names its rule id, and the verdict names the rule id of every finding.
 
 ## Runs in the browser, without installation
 
-```rule
+```rubric
 id: runs-in-browser
-scope: listing
-severity: error
-enforcement: reviewed
 ```
 
 The app opens at its URL in a current browser and works there. Nothing needs to be installed: no app store, no
@@ -18,44 +16,32 @@ download, no browser extension.
 
 ## No account needed
 
-```rule
+```rubric
 id: no-account
-scope: listing
-severity: error
-enforcement: reviewed
 ```
 
 Learners and teachers use the whole app without signing up or logging in.
 
 ## Free of charge
 
-```rule
+```rubric
 id: free-of-charge
-scope: listing
-severity: error
-enforcement: reviewed
 ```
 
 Every part of the app is free. No payment, no paid upgrade, no trial that ends.
 
 ## No ads
 
-```rule
+```rubric
 id: no-ads
-scope: listing
-severity: error
-enforcement: reviewed
 ```
 
 The app shows no advertising, no sponsored content and no product placement.
 
 ## Learners act themselves
 
-```rule
+```rubric
 id: learners-act
-scope: listing
-severity: error
-enforcement: reviewed
 ```
 
 Learners do something in the app: they try things out, practise or decide. An app that only shows text or videos
