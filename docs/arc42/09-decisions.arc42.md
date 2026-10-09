@@ -175,9 +175,13 @@ addresses: qg-few-iterations, con-language-licence
 between hook and CI surprise. **Decision:** `lernapps check` runs every deterministic check. `--pre-commit` selects
 the fast part (format, lint, types), `--pre-push` the heavy part (unit tests, build, checks of the built app,
 end-to-end tests with Playwright); no flag or both flags run everything. The hooks run the two parts, CI runs
-everything. A failed pre-push increments `prePushFailures` in the plan's front matter. **Consequences:** failures
-reach the assistant on the creator's machine, before any CI run; CI is a safety net for skipped hooks and adds no
-checks of its own; the creator's machine needs a browser for the end-to-end tests.
+everything. A failed pre-push increments `prePushFailures` in the plan's front matter. CI runs exactly the command of the hooks, without CI-only steps or switches:
+only the environment (checkout, Node, `npm ci`, the browser cache) and keeping the report differ. This holds in every
+repo, the tooling's own included: tests that need another repo fetch it at a pinned commit instead of being skipped
+when it is missing. Every run in a repo writes its report to a fixed place, so CI keeps it without a switch.
+**Consequences:** failures reach the assistant on the creator's machine, before any CI run; CI is a safety net for
+skipped hooks and adds no checks of its own; what passes locally passes in CI; the creator's machine needs a
+browser for the end-to-end tests, and the tooling's tests need the network once.
 
 ```arc42
 :::decision
@@ -186,6 +190,25 @@ title: One check command; hooks and CI run the same
 status: accepted
 date: 2026-10-09
 addresses: qg-few-iterations, qg-any-assistant, risk-owner-bottleneck, risk-assistants-skip-guidance, risk-counter-tampering, risk-browser-at-creator
+:::
+```
+
+## Apps check with the app check action, sites with the site check action
+
+**Context:** the site check action builds a site and runs its `check` script, the site frame's check of `_site/`.
+An app's `check` is `lernapps check`, which builds the app itself and checks the build. **Decision:** an app's
+`pages.yml` runs the app check action, which uploads the bundle it checked; the site deploy action publishes it.
+The site check action stays for sites and does not call the app check. **Consequences:** an app's check runs once
+in CI, and the published bundle is the one that was checked; the app's `build` script is no longer used in CI; the
+two check actions share no steps but the environment.
+
+```arc42
+:::decision
+id: dec-app-check-action
+title: Apps check with the app check action, sites with the site check action
+status: accepted
+date: 2026-10-09
+addresses: qg-few-iterations, qg-checked-not-declared
 :::
 ```
 

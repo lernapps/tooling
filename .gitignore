@@ -6,4 +6,4 @@ dist/
 # the work directories of the review agent (review/prompt.md)
 /.reviews/
 # the fixture apps of the workflow app-check.yml (test/app-fixture.ts)
-/.app-fixtures/
+/app-fixtures/

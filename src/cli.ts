@@ -4,8 +4,8 @@
 // of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML. `create` writes a new app
 // from an archetype's template (generator/create.ts).
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { delimiter, join, relative, resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { delimiter, dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
@@ -39,6 +39,7 @@ In a repo (no <dir|url>):
                    when playwright.config.* exists, dependency licences (the pre-push hook); a failure
                    increments prePushFailures in .vibe/plan.md
   Without a flag, or with both, it runs both parts (CI): the hooks together run exactly what CI runs.
+  Every run in a repo also writes the full report to node_modules/.cache/lernapps/validation-report.yaml.
 
 On a built app, without its repo:
   <dir>            a bundle (a directory with index.html), served on 127.0.0.1
@@ -61,6 +62,8 @@ interface Step {
 }
 
 const PLAN = ".vibe/plan.md";
+/** In a repo, every run also writes its full report here, passing or not: the hooks and CI alike. */
+const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
 const CHECKS_PASS = "checks-pass";
 
 function version(): string {
@@ -276,6 +279,10 @@ async function check(args: string[]): Promise<number> {
   }
 
   const yaml = toYaml(report);
+  if (target === undefined) {
+    mkdirSync(dirname(REPORT), { recursive: true });
+    writeFileSync(REPORT, yaml);
+  }
   if (values.report !== undefined) writeFileSync(values.report, yaml);
   if (report.findings.length > 0) {
     process.stdout.write(yaml);
