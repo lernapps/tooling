@@ -1,10 +1,11 @@
 // Runs real commands in real directories: the tests check what a consumer of the tooling relies on,
 // not its internals.
 import { spawn, spawnSync } from "node:child_process";
-import { cpSync, mkdirSync, mkdtempSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { afterAll } from "vite-plus/test";
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -62,8 +63,23 @@ export function ok(command: string, args: readonly string[], cwd: string): Resul
   return result;
 }
 
+/**
+ * The temporary directories of one test file live under one root, removed when the file's tests are done: a fresh
+ * clone with node_modules is hundreds of megabytes, and a test run makes dozens.
+ */
+let tempRoot: string | undefined;
+// Also imported by scripts run outside the test runner (review-fixture.ts); they keep their directories.
+if (process.env["VITEST"]) {
+  afterAll(() => {
+    if (tempRoot !== undefined) rmSync(tempRoot, { recursive: true, force: true });
+  });
+}
+
 export function tempDir(name: string): string {
-  return mkdtempSync(join(tmpdir(), `lernapps-${name}-`));
+  if (tempRoot === undefined) {
+    tempRoot = mkdtempSync(join(tmpdir(), "lernapps-test-"));
+  }
+  return mkdtempSync(join(tempRoot, `${name}-`));
 }
 
 /**
