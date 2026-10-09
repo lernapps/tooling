@@ -107,6 +107,11 @@ class Links {
 }
 
 const withoutHash = (url: string) => url.replace(/#.*$/, "");
+/**
+ * The page a link leads to: without query and fragment. A static host serves the same file for any query, so a link
+ * that only changes it (a quiz's "start again" with a random seed) is the same page, and the report stays the same.
+ */
+const pageOf = (url: string) => url.replace(/[?#].*$/, "");
 
 /**
  * Visits the start page and every page of the app reachable from it by links below `base`, in a fixed order.
@@ -121,14 +126,14 @@ export async function visitApp(
   const axe = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
   const links = new Links();
   const queue = [withoutHash(start)];
-  const seen = new Set(queue);
+  const seen = new Set([pageOf(start)]);
   const visits: PageVisit[] = [];
   while (queue.length > 0 && visits.length < MAX_PAGES) {
     const url = queue.shift() ?? "";
     const visit = await visitPage(browser, url, base, axe, links);
     visits.push({ ...visit, page: name(url) });
     for (const link of visit.anchors) {
-      const next = withoutHash(link);
+      const next = pageOf(link);
       if (seen.has(next) || !next.startsWith(base)) continue;
       seen.add(next);
       const { status, html } = await links.get(next);
