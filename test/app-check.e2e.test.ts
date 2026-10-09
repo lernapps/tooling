@@ -9,6 +9,7 @@
 // The workflow app-check.yml runs the real action on the same fixture apps in GitHub Actions.
 import { existsSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
+import { stripVTControlCharacters } from "node:util";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import {
@@ -104,12 +105,14 @@ describe.skipIf(inner)("the app check action", () => {
     ok("git", ["add", "--all"], app);
     const commit = run("git", ["commit", "--quiet", "--message", "localStorage"], app);
     expect(commit.code, output(commit)).not.toBe(0);
-    // the lint message with its code frame, from its first line to the frame's end
-    const message = /^ *x lernapps\(storage-through-wrapper\)[^]*?`----$/m.exec(output(commit))?.[0];
-    expect(message, output(commit)).toBeDefined();
+    // the lint message with its code frame, from its first line to the frame's end: plain (`x`, `----`) on a
+    // terminal, with colours and box drawing (`×`, `╰────`) where the linter sees CI; the same in hook and action
+    const plain = (result: Result) => stripVTControlCharacters(output(result));
+    const message = /^ *[x×] lernapps\(storage-through-wrapper\)[^]*?^ *(?:`-+|╰─+)$/m.exec(plain(commit))?.[0];
+    expect(message, plain(commit)).toBeDefined();
     const result = runAction();
     expect(result.code, output(result)).toBe(1);
-    expect(output(result)).toContain(message?.trim());
+    expect(plain(result)).toContain(message?.trim());
     expect(existsSync(join(app, REPORT))).toBe(true);
     const checks = readReport(join(app, REPORT)).findings.filter((finding) => finding.rule === "checks-pass");
     expect(checks.map((finding) => finding.where)).toContain("vp check");
