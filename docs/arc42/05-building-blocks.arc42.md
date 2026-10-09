@@ -241,8 +241,9 @@ implements: concept-rule-catalog, concept-stable-contracts
 #### Archetype preset interface
 
 What an app imports and extends: the vite-plus configuration, the `tsconfig` base, the Playwright configuration,
-the runtime helpers and the hooks, by archetype. The helpers are typed by their TypeScript sources and run as built
-modules.
+the runtime helpers and the hooks, by archetype. An archetype adds its own preset, its runtime (for the quiz, the
+engine and its stylesheet) and end-to-end tests that run against the app's own content. The helpers are typed by
+their TypeScript sources and run as built modules.
 
 ```arc42
 :::interface
