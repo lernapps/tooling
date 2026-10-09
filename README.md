@@ -19,14 +19,28 @@ npm install --save-dev --save-exact "github:lernapps/tooling#<commit>"
 npx lernapps --help
 ```
 
-It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the presets that follow. Today the
-CLI has one command:
+It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the guidance below and the presets
+that follow. Today the CLI has one command:
 
 | Command | Runs |
 |---|---|
 | `lernapps check --pre-commit` | the fast part: format, lint, type check (`vp check`) |
 | `lernapps check --pre-push` | the heavy part: unit and end-to-end tests (`vp test`), build (`vp pack`) |
 | `lernapps check` | both parts, as CI does |
+
+The process guidance for building an app (EPCC: Explore, Plan, Code, Commit) is plain Markdown, exported for the
+generator and the assistant's harness:
+
+| Export | What it is |
+|---|---|
+| `@lernapps/tooling/guidance/AGENTS.md` | the app's `AGENTS.md`: keep a plan, follow its phases, stop at the checkpoints, load the skills |
+| `@lernapps/tooling/guidance/plan-template.md` | the plan file (`.vibe/plan.md` in an app): phases with tasks, the checkpoints, the Explore questions, the retrospective; comments explain each part |
+| `@lernapps/tooling/guidance/plan-front-matter.v1.schema.json` | JSON Schema of the plan's front matter: `archetype`, `phase`, `prePushFailures` (written by the pre-push hook) |
+| `@lernapps/tooling/skills/lernapps-app/SKILL.md` | the skill `lernapps-app` (agentskills.io): the workflow and the general rules, each with its id |
+
+Consumers rely on the front matter schema and on the plan's headings: `## Explore`, `## Plan`, `## Code`,
+`## Commit`, `## Retrospective` with `### Phases reached`, `### Failed checks`, `### Creator turns after the plan` and
+`### Where I had to guess`. A breaking change gets a new schema version.
 
 The package is TypeScript only and strict (`tsconfig.json`: `strict`, `noUncheckedIndexedAccess`,
 `exactOptionalPropertyTypes`, `noImplicitOverride`; lint forbids `any`; no JavaScript sources). The toolchain is
@@ -49,7 +63,9 @@ npm run build && npm run check:site      # the docs site, built and checked (job
 
 The tests (`test/`) check what a consumer relies on, end to end: a fresh clone gets green from `npm ci && npm run
 check` without building anything, the docs site builds and passes `check:site`, a planted type error, lint error or failing test turns the hook command, `git commit` / `git push` and the CI
-command red, the package installed from git provides `lernapps`, and the CLI's usage and exit codes. There are no unit
+command red, the package installed from git provides `lernapps` and resolves the guidance exports, the plan template and a filled
+plan validate against the front matter schema while incomplete ones fail with a message naming the problem, every
+plan has the sections the retrospective needs, and the CLI's usage and exit codes. There are no unit
 tests of internals.
 
 ## Site actions

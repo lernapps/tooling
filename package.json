@@ -11,11 +11,17 @@
     "lernapps": "./dist/cli.mjs"
   },
   "files": [
-    "dist"
+    "dist",
+    "guidance",
+    "skills"
   ],
   "type": "module",
   "exports": {
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./guidance/AGENTS.md": "./guidance/AGENTS.md",
+    "./guidance/plan-template.md": "./guidance/plan-template.md",
+    "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
+    "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md"
   },
   "scripts": {
     "prepare": "vp pack && vp config --no-agent",
@@ -29,7 +35,9 @@
     "@doctc/arc42": "0.36.1",
     "@lernapps/site": "github:lernapps/lernapps.github.io#bd3ca7cd112220714f6a0db56d098253f913c4cc",
     "@types/node": "22.20.5",
-    "vite-plus": "1.0.0"
+    "ajv": "8.20.0",
+    "vite-plus": "1.0.0",
+    "yaml": "2.9.1"
   },
   "overrides": {
     "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0"
