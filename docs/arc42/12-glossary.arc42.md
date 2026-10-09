@@ -140,7 +140,7 @@ Replaces the loose terms criterion, convention and guideline: their difference i
 :::glossary-term
 id: term-rule
 title: Rule
-definition: One requirement on an app, with a stable id, scope (listing, site, archetype), severity (error, warning, hint) and enforcement (guided, checked, reviewed); it lives as skill text, lint rule, check or rubric item.
+definition: One requirement on an app, with a stable id, scope (listing, site, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id.
 :::
 ```
 

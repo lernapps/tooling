@@ -195,7 +195,7 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ### KD-18: Rules live in their artifacts; the rule catalog is a concept
 - **Decision** (2026-10-09): No central rule file and no compile step. Each rule lives where it acts: skill text
   (guided), Oxlint rule with its severity in the preset (checked on source), check of the check CLI (checked on the
-  built app), rubric item (reviewed). Shared are the vocabulary (scope, severity, enforcement) and stable rule ids;
+  built app), rubric item (reviewed). Shared are the vocabulary (scope, severity) and stable rule ids (KD-22);
   the tooling's build reads the artifacts and tests the ids. Moving a rule is a pull request; it is expected to be
   rare.
 - **Rejected**: a central catalog compiled into the artifacts - skill text cannot be generated well, the substance
@@ -228,6 +228,14 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 - **Decision** (2026-10-09, owner): Commits follow Conventional Commits; the body has the sections `## Intent` (why),
   `## Key decisions` (the choices made and why) and `## Side effects (if any)` (what else changes, or "None"), then
   the attribution lines.
+
+### KD-22: Rule ids are unique per artifact kind; agreement is reviewed, not checked
+- **Decision** (2026-10-09, owner): The same rule may be told preventively in a skill and checked by a lint rule or
+  check under the same id. Ids are unique within each kind of artifact (skills, checks, lint rules, rubric); the
+  build does not cross-check the kinds, so a rule block has no `enforcement` key. `npm run rules` lists every rule
+  grouped by id as YAML; the skill `rules-review` has an agent read that list and report drift, gaps and moves.
+- **Rejected**: cross-checks between the artifacts (every implementation declared in a skill, enforcement matching
+  the implementation) - they need extra metadata in every artifact and forbid a rule told and checked at once.
 
 ## Notes
 

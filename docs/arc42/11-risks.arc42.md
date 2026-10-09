@@ -79,7 +79,7 @@ stay in its old place.
 id: risk-rule-drift
 title: Rule artifacts drift apart
 severity: low
-mitigation: Stable rule ids and the tooling's id test (unique, every checked rule implemented, every message linked); the evals show contradicting guidance
+mitigation: Stable rule ids and the tooling's id test (unique per artifact kind, every message linked); an agent reviews the rules grouped by id; the evals show contradicting guidance
 :::
 ```
 
