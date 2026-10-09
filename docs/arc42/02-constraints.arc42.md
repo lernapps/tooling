@@ -23,8 +23,8 @@ source: Platform design; listing criteria of the app overview
 
 Every page in every repo of the organisation sets no cookies, does no tracking and sends no requests to other servers
 before a click; it is readable without JavaScript, meets WCAG 2.1 AA and is usable at 360 px. Pages on lernapps.net
-link the imprint and the privacy notice. Archetypes that cannot be read without JavaScript as a whole (`interactive`)
-keep a readable start page.
+link the imprint and the privacy notice. Archetypes that cannot be read without JavaScript as a whole keep a
+readable start page.
 
 ```arc42
 :::constraint

@@ -45,8 +45,13 @@ explanation instead.
   - **`quiz`**: a deep scaffold with the whole quiz architecture built in (engine, question types, feedback,
     scoring, order, accessibility, i18n, readable without JavaScript as far as possible). The implementer supplies
     only the questions and their options, as typed and validated data.
-- **Open**: the question types of `quiz` and the order of building the three archetypes; decided in the
-  architecture.
+- **Decision** (2026-10-09): The architecture only fixes the archetype as a variation point (template, preset,
+  skills, rules in scope); the archetypes themselves and their technology are part of this plan.
+- **Proposed**: `explainer` renders its pages with Eleventy 3 from TypeScript sources (`.11ty.ts`, Node's type
+  stripping), client modules bundled by vite-plus; alternative: pre-rendering with Vite only. Prove with a prototype.
+- **Proposed**: question types of `quiz`: single choice, multiple choice, true/false, number (with tolerance and
+  unit), ordering, matching; each with feedback per option and an explanation per question. Further types are
+  engine extensions and never change the creator's data format.
 
 ### KD-03: Process guidance is EPCC in AGENTS.md, with a Markdown plan
 The agent writes a human-readable plan file with one section per phase (Explore, Plan, Code, Commit), tasks and key
@@ -96,6 +101,10 @@ Creators use different agents (Claude Code, Codex, Cursor, claude.ai without a s
 - **Decision** (2026-10-08): The hooks also measure. A failed pre-push run increments a counter in the front
   matter of the plan file, so the number of failed pre-push runs is counted deterministically, not reported by the
   agent. The counter goes into the next commit; the retrospective and the review read it (`qs-eval-iterations`).
+- **Decision** (2026-10-09): One check command, `lernapps check`: `--pre-commit` runs the fast part (format, lint,
+  types), `--pre-push` the heavy part (unit tests, build, checks of the built app, end-to-end tests with
+  Playwright); no flag or both flags run everything. The hooks run the two parts, CI runs everything, so hooks and
+  CI check the same. Playwright is part of the stack; heavy checks run at the creator, CI is only a safety net.
 
 ### KD-08: Conventions are skills, general and type-specific
 - **Decision**: Rules are split into general rules for every app (privacy, accessibility, language, licensing,
@@ -182,6 +191,31 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
   anonymous thanks service ([#8](https://github.com/lernapps/tooling/issues/8)); first a flow in the platform design
   in lernapps/docs.
 
+### KD-18: Rules live in their artifacts; the rule catalog is a concept
+- **Decision** (2026-10-09): No central rule file and no compile step. Each rule lives where it acts: skill text
+  (guided), Oxlint rule with its severity in the preset (checked on source), check of the check CLI (checked on the
+  built app), rubric item (reviewed). Shared are the vocabulary (scope, severity, enforcement) and stable rule ids;
+  the tooling's build reads the artifacts and tests the ids. Moving a rule is a pull request; it is expected to be
+  rare.
+- **Rejected**: a central catalog compiled into the artifacts - skill text cannot be generated well, the substance
+  of checked rules is code anyway, and promotion is rare.
+
+### KD-19: Discovery is a quality goal
+- **Decision** (2026-10-09): "Listings help find the right app" (high), grounded in the platform's finding step.
+  Explore asks what the entry needs to help adults find the app; the check CLI confirms with `--entry` that the app's
+  URL and topic links resolve and the fitness values match. Listing is its own step of the solution strategy.
+
+### KD-20: Review of the architecture, 2026-10-09
+- The solution strategy follows the creator's journey and does not repeat the quality goals.
+- The check CLI reports in YAML (schema as JSON Schema).
+- Deployment: an environment for agents defined by lernapps (review agent, evals; today the owner's machine) and
+  the creator's agent harness, into which `AGENTS.md` and the skills are deployed.
+- Cross-cutting concepts are only those that affect several blocks: rule catalog, plain language, terse output,
+  logging and traceability, stable contracts; the rest moved into the building blocks.
+- The architecture names no single app, describes no progress and quotes no ids of other documents; direct cross
+  references to the platform design are deep links.
+- lernapps/app-template is renamed lernapps/app-templates.
+
 ## Notes
 
 - **Existing building blocks**: site actions and Renovate preset (this repo); site frame with `lernapps-check`
@@ -213,8 +247,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ## Plan
 
 ### Tasks
-- [ ] Owner review of the proposed decisions `dec-explainer-rendering` and `dec-quiz-question-types`, and of the
-  order of building in the Code phase
+- [ ] Owner review of the proposals in KD-02 (explainer rendering, quiz question types) and of the order of building
+  in the Code phase
 - [ ] Update lernapps/.github#12 to the agreed architecture
 
 ### Completed
@@ -242,13 +276,16 @@ defines "done" for every archetype, and the quiz needs the least from creators. 
 - [ ] The tooling's own build first: package `@lernapps/tooling` at the repo root with strict TypeScript,
   vite-plus (lint, format, type check, test, staged), git hooks and a `check` workflow in CI, the CLI `lernapps`
   as an empty shell; the tooling is built with the same conventions it gives apps (owner, 2026-10-08)
-- [ ] Rule catalog with schema and the first rules (listing, site), generated rule page on the docs site
-- [ ] Check CLI: static mode, browser mode, validation report and its published schema; messages for agents
-- [ ] Shared preset: vite-plus config, strict `tsconfig`, lint rules, git hooks with the `prePushFailures` counter
+- [ ] Rule ids and the id test in the tooling's build; the first rules (listing, site) in their artifacts; rule
+  page on the docs site
+- [ ] Check CLI: `--pre-commit` / `--pre-push`, checks of the built app, Playwright end-to-end tests, `--entry`, YAML
+  report and its published schema; messages for agents
+- [ ] Shared preset: vite-plus config, strict `tsconfig`, Playwright config, lint rules, git hooks running
+  `lernapps check --pre-commit` / `--pre-push` with the `prePushFailures` counter
 - [ ] Process guidance: `AGENTS.md` text, plan template with phases, checkpoints, catalog questions, retrospective
 - [ ] Generator `lernapps create` and the `quiz` archetype (engine, question bank schema, template in
-  lernapps/app-template), with its skill
-- [ ] App check action next to the site actions
+  lernapps/app-templates), with its skill
+- [ ] App check action next to the site actions, running `lernapps check` without flags
 - [ ] Listing validation in lernapps/apps with the results comment; review procedure and rubric
 - [ ] Evals for quiz with Claude Code, Codex and Gemini CLI
 - [ ] `explainer` archetype (after the rendering prototype), then `interactive`

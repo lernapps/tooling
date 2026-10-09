@@ -1,8 +1,8 @@
 # System Scope and Context
 
-The system is the tooling for building and validating apps: process guidance, generator and archetypes, skills,
-rules and checks, the validation and its report. It lives mostly in lernapps/tooling, with the archetype templates in
-lernapps/app-template and the listing validation in lernapps/apps (chapter 5).
+The system is the tooling for building, validating and listing apps: process guidance, generator and archetype
+presets, skills, checks, the validation and its report. It lives mostly in lernapps/tooling, with the archetype templates in
+lernapps/app-templates and the listing validation in lernapps/apps (chapter 5).
 
 Outside the system: the people and assistants who use it, GitHub where it runs, and the parts of lernapps.net it
 depends on but does not own. The shared site frame (`@lernapps/site` in lernapps.github.io) gives apps on
@@ -33,14 +33,13 @@ flowchart LR
         bb-check-cli["Check CLI"]
         bb-archetypes["Archetype presets"]
         bb-review-procedure["Review procedure"]
-        bb-rule-catalog["Rule catalog"]
         bb-app-check-action["App check action"]
         bb-listing-validation["Listing validation"]
     end
     actor-creator -->|"plan file, checkpoints"| tooling
     actor-assistant -->|"AGENTS.md, skills, generator, check CLI, listing comment"| tooling
     actor-review-agent -->|"review procedure, check CLI"| tooling
-    actor-owner -->|"rule catalog, validation report"| tooling
+    actor-owner -->|"validation report, review procedure"| tooling
     actor-github -->|"app check action, package updates"| tooling
 ```
 
@@ -78,7 +77,7 @@ requires: if-agents-md, if-plan-file, if-generator-cli, if-skills, if-check-cli,
 
 ## Platform owner
 
-Decides whether an app is listed, maintains the rule catalog and runs the review and the evals (one owner,
+Decides whether an app is listed, maintains the rules and runs the review and the evals (one owner,
 `con-one-owner`). Reads the validation report and the retrospective.
 
 ```arc42
@@ -87,7 +86,7 @@ id: actor-owner
 title: Platform owner
 type: person
 description: Decides listing, maintains the rules, runs review and evals
-requires: if-rule-catalog, if-validation-report, if-review-procedure
+requires: if-validation-report, if-review-procedure
 :::
 ```
 

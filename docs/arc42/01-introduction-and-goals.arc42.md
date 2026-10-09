@@ -10,9 +10,9 @@ Renovate preset). This document covers the app-creation tooling; the site action
 
 ## 1.1 Requirements Overview
 
-A creator, typically a teacher or a parent, has an idea for a small learning app and an AI assistant that writes
+The platform's main job is that adults find the right app. A creator, typically a teacher or a parent, has an idea for a small learning app and an AI assistant that writes
 the code. The creator is usually not a professional developer. The tooling carries the rules in scope for the app
-(chapter 8, rule model) into the assistant's work, so that the creator does not need to know them, and shows before
+(chapter 8, rule catalog) into the assistant's work, so that the creator does not need to know them, and shows before
 listing that the app keeps them.
 
 The creator's journey has five steps. Process guidance runs through all of them: the assistant follows the phases of
@@ -20,19 +20,16 @@ a plan file (Explore, Plan, Code, Commit) that the creator can read, and stops a
 
 | # | Step | Phase | What the tooling does |
 |---|---|---|---|
-| UC-1 | Clarify the app | Explore | The assistant asks what the app is for, for whom and what the catalog needs to know, and chooses the archetype. No code yet |
-| UC-2 | Set up | Plan → Code | Once the creator confirms the plan, the assistant generates the scaffold of the archetype: toolchain, strict TypeScript, git hooks, i18n and a11y in place |
-| UC-3 | Build | Code | The assistant follows the skills (general, per archetype, per topic) and gets fast feedback from the git hooks and our checks of the rules in scope |
+| UC-1 | Clarify the app | Explore | The assistant asks what the app is for, for whom and what the catalog needs to know to help adults find it, and chooses the archetype. No code yet |
+| UC-2 | Set up | Plan → Code | Once the creator confirms the plan, the assistant generates the scaffold of the archetype: toolchain, strict TypeScript, git hooks, end-to-end tests, i18n and a11y in place |
+| UC-3 | Build | Code | The assistant follows the skills (general, per archetype, per topic) and gets fast feedback from one check command, run by the git hooks |
 | UC-4 | Validate | Commit | The same deterministic checks run on the built or deployed app; a review agent in a fresh context judges what they cannot decide; the report is bound to one commit |
-| UC-5 | List | Commit | The assistant fetches the entry schema of the app overview, fills it from the plan and the validation report, and opens a pull request to lernapps/apps |
+| UC-5 | List | Commit | The assistant fetches the entry schema of the app overview, fills it from the plan and the validation report, so that the entry describes the app as adults search for it, and opens a pull request to lernapps/apps |
 
-Three kinds of apps (archetypes) shape every use case from the start:
-
-- `explainer`: content-heavy apps with pages of explanation, pictures and exercises, readable without JavaScript;
-- `interactive`: apps like a ten-finger typing trainer, a classic single-page app;
-- `quiz`: a complete quiz built into the scaffold, so that the creator supplies only the questions and their options.
-
-All are written in TypeScript, strictly enforced.
+Apps come in a few kinds, called archetypes, named after their character (for example content-heavy pages, an
+interactive single-page app, a quiz). The architecture treats the archetype as a variation point: a template, a
+preset, skills and rules per archetype. Which archetypes exist, and what each one contains, is decided outside this
+document. All apps are written in TypeScript, strictly enforced.
 
 Not part of the tooling: showing a catalog entry as a fact sheet of an app deployed elsewhere, and re-validating
 listed apps over time. Both belong to the app overview; the tooling makes them possible by binding every validation
@@ -40,8 +37,8 @@ report to a commit.
 
 ## 1.2 Quality Goals
 
-Grounded in the platform design: building is simple with the guidance, and listing takes minutes; what an app
-sends is checked, not declared; nothing is collected in secret, neither by the apps nor by the tooling. Fewer
+Grounded in the platform design: building is simple with the guidance; listing takes minutes, and listings help
+adults find the right app; what an app sends is checked, not declared; nothing is collected in secret, neither by the apps nor by the tooling. Fewer
 iterations for the assistant (cost), working through any assistant, and guidance that evolves with creators'
 practices follow with medium priority.
 

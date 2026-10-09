@@ -52,6 +52,21 @@ priority: high
 :::
 ```
 
+## Listings help find the right app
+
+The platform's main job is that adults [find an app for a topic and grade](https://lernapps.net/docs/platform-design/#2-design/d5-transactions.pdt42.md:el-t-find-app), through
+[finding apps by topic and grade](https://lernapps.net/docs/platform-design/#2-design/d6-learning-engine.pdt42.md:el-s-finding). A listing helps only if it describes the app as adults search for it:
+subject, grades, topics with deep links into the app, a summary of what learners do. The tooling asks for this while
+the app is being shaped, not after it is built, and checks that what the entry promises exists in the app.
+
+```arc42
+:::quality-goal
+id: qg-findable
+title: Listings help find the right app
+priority: high
+:::
+```
+
 ## Checked, not declared
 
 Adults decide whether to use an app from its listing; what an app sends to third parties is "checked rather than
@@ -205,6 +220,21 @@ metric: Half of the listing pull requests pass validation on the first run, 7 of
 :::
 ```
 
+## An entry promises what the app has
+
+The entry is built from the creator's answers in Explore, and the listing validation compares it with the app.
+
+```arc42
+:::quality-scenario
+id: qs-entry-matches-app
+title: An entry promises what the app has
+quality: qg-findable
+stimulus: The assistant opens a listing pull request
+response: Subject, grades, topics and summary come from the plan's Explore answers; the check confirms that the app's URL and every topic link resolve
+metric: Every topic link of every listing built with the tooling resolves, and no listing needs a field corrected by the owner for discovery (source - listing reports)
+:::
+```
+
 ## An app not built with the tooling
 
 Some creators already have an app, e.g. a chat assistant's artifact, a site of their own or an app built with
@@ -306,7 +336,7 @@ id: qs-practice-contributed
 title: A creator contributes a practice
 quality: qg-guidance-evolves
 stimulus: An experienced creator proposes a practice from their own app
-response: It is added as a rule in one place, with scope and severity, and reaches the skills, checks or review rubric from there
+response: It is added where it acts - a skill section, a lint rule, a check or a rubric item - with a new rule id, scope and severity
 metric: One pull request to lernapps/tooling, touching no other repo (source - repos)
 :::
 ```
