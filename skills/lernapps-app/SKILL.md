@@ -27,108 +27,237 @@ the retrospective name rules by it.
 
 ## Rules
 
-<!--
-Rule declarations are placeholders until the convention for rule ids (lernapps/tooling#11) is merged; the ids stay.
-Format: rule id=<id> scope=<listing|site|archetype:name> severity=<error|warning|hint> enforcement=guided
--->
+Each rule is a section headed by its rule block (`id`, `scope`, `severity`, `enforcement`; lernapps/tooling, README,
+"Rules"). `guided`: follow it, nothing checks it yet. `checked`: a lint rule or check reports it. `reviewed`: the
+review judges it before listing. All rules: <https://lernapps.net/tooling/rules/>.
 
 ### `plan-file`: Keep the plan file
 
-<!-- rule id=plan-file scope=listing severity=error enforcement=guided -->
+```rule
+id: plan-file
+scope: listing
+severity: error
+enforcement: guided
+```
 
 Keep `.vibe/plan.md` from the template, with every section and front matter key. Update `phase` when you enter a
 phase. Never edit `prePushFailures`: the pre-push hook writes it.
 
 ### `explore-before-code`: No code before the plan is confirmed
 
-<!-- rule id=explore-before-code scope=listing severity=error enforcement=guided -->
+```rule
+id: explore-before-code
+scope: listing
+severity: error
+enforcement: guided
+```
 
 Write no code and generate nothing until the creator has confirmed the plan.
 
 ### `stop-at-checkpoints`: Stop at the creator's checkpoints
 
-<!-- rule id=stop-at-checkpoints scope=listing severity=error enforcement=guided -->
+```rule
+id: stop-at-checkpoints
+scope: listing
+severity: error
+enforcement: guided
+```
 
 Stop at each checkpoint (confirm the plan, publish, list) and wait for the creator's answer. Example: "Die App ist
 fertig und geprüft. Soll ich sie jetzt veröffentlichen?"
 
 ### `few-turns-after-plan`: Work on your own after the plan
 
-<!-- rule id=few-turns-after-plan scope=listing severity=hint enforcement=guided -->
+```rule
+id: few-turns-after-plan
+scope: listing
+severity: hint
+enforcement: guided
+```
 
 After the plan is confirmed, ask the creator only what you cannot decide. Otherwise choose, mark it "(guess)" under
 "Key decisions" and list it in the retrospective.
 
 ### `entry-from-schema`: Fill the entry from the published schema
 
-<!-- rule id=entry-from-schema scope=listing severity=error enforcement=guided -->
+```rule
+id: entry-from-schema
+scope: listing
+severity: error
+enforcement: guided
+```
 
 Fetch the entry schema each time you need it; never fill the entry from memory or from another app. Take every value
 from the creator's answers, the plan or the app; never invent one.
 
 ### `fix-from-message`: Fix failed checks, never bypass them
 
-<!-- rule id=fix-from-message scope=listing severity=error enforcement=guided -->
+```rule
+id: fix-from-message
+scope: listing
+severity: error
+enforcement: guided
+```
 
 Read the message of a failed check and fix the cause. Never bypass a hook (`--no-verify`), never delete a test to
 make it pass. Suppress a warning only where it occurs, with the reason next to it.
 
 ### `retrospective-filled`: Fill the retrospective
 
-<!-- rule id=retrospective-filled scope=listing severity=error enforcement=guided -->
+```rule
+id: retrospective-filled
+scope: listing
+severity: error
+enforcement: guided
+```
 
 At the end of Commit, fill every part of the retrospective with facts: phases reached, failed checks with rule ids,
 the creator's turns after the plan, where you had to guess. No names of people.
 
-### `no-tracking`: Collect nothing
+### `no-tracking`: Collect nothing, set no cookies
 
-<!-- rule id=no-tracking scope=listing severity=error enforcement=guided -->
+```rule
+id: no-tracking
+scope: [listing, site]
+severity: error
+enforcement: guided
+```
 
-The app is free. No cookies, no analytics, no ads, no accounts, no server that stores data. If the app stores anything, it stays on
-the device (`localStorage`).
+No cookies, no analytics, no tracking pixels, no server that stores data. If the app stores anything, it stays on
+the device (`localStorage`) and serves only the app.
+
+### `runs-in-browser`: Runs in the browser, without installation
+
+```rule
+id: runs-in-browser
+scope: listing
+severity: error
+enforcement: reviewed
+```
+
+The app opens at its URL in a current browser and works there. Nothing to install: no app store, no download, no
+browser extension.
+
+### `no-account`: No account
+
+```rule
+id: no-account
+scope: listing
+severity: error
+enforcement: reviewed
+```
+
+Learners and teachers use the whole app without signing up or logging in.
+
+### `free-of-charge`: Free of charge
+
+```rule
+id: free-of-charge
+scope: listing
+severity: error
+enforcement: reviewed
+```
+
+Every part of the app is free: no payment, no paid upgrade, no trial that ends.
+
+### `no-ads`: No ads
+
+```rule
+id: no-ads
+scope: listing
+severity: error
+enforcement: reviewed
+```
+
+Show no advertising, no sponsored content, no product placement.
 
 ### `learners-act`: Learners do something themselves
 
-<!-- rule id=learners-act scope=listing severity=error enforcement=guided -->
+```rule
+id: learners-act
+scope: listing
+severity: error
+enforcement: reviewed
+```
 
 Learners try, practise or decide in the app; reading alone is not enough. Each page or screen asks them to act.
 
 ### `no-request-before-click`: No request to another server before a click
 
-<!-- rule id=no-request-before-click scope=listing severity=error enforcement=guided -->
+```rule
+id: no-request-before-click
+scope: [listing, site]
+severity: error
+enforcement: guided
+```
 
 Bundle fonts, scripts and pictures at build time. Load anything from another server (a video, a map) only after the
 learner clicks for it.
 
-### `accessible`: Accessible and usable at 360 px
+### `accessible`: Accessible to WCAG 2.1 AA
 
-<!-- rule id=accessible scope=listing severity=error enforcement=guided -->
+```rule
+id: accessible
+scope: [listing, site]
+severity: error
+enforcement: guided
+```
 
-Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives. Every page works at 360 px width without
-horizontal scrolling.
+Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives.
+
+### `usable-at-360px`: Usable at 360 px
+
+```rule
+id: usable-at-360px
+scope: [listing, site]
+severity: error
+enforcement: guided
+```
+
+Every page works at 360 px width without horizontal scrolling, with every control reachable.
 
 ### `readable-without-javascript`: Readable without JavaScript
 
-<!-- rule id=readable-without-javascript scope=site severity=error enforcement=guided -->
+```rule
+id: readable-without-javascript
+scope: site
+severity: error
+enforcement: guided
+```
 
 Every page says what it is and what the app does without JavaScript. The skill of the archetype says how much more.
 
 ### `imprint-and-privacy`: Link imprint and privacy notice
 
-<!-- rule id=imprint-and-privacy scope=site severity=error enforcement=guided -->
+```rule
+id: imprint-and-privacy
+scope: site
+severity: error
+enforcement: guided
+```
 
 Every page links to <https://lernapps.net/imprint/> and <https://lernapps.net/privacy/>.
 
 ### `learner-text-german`: German, plain language for learners
 
-<!-- rule id=learner-text-german scope=listing severity=error enforcement=guided -->
+```rule
+id: learner-text-german
+scope: listing
+severity: error
+enforcement: guided
+```
 
 Write every text for learners, teachers and parents in German, in plain language: short sentences, active voice, no
 jargon. Keep the texts in message files, not in code.
 
 ### `third-party-licence`: Name source and licence of others' content
 
-<!-- rule id=third-party-licence scope=listing severity=error enforcement=guided -->
+```rule
+id: third-party-licence
+scope: listing
+severity: error
+enforcement: guided
+```
 
 Use content of others (texts, pictures, quotes) only with a licence that allows it, and name source and licence next
 to it.

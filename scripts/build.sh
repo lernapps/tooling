@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page and
-# the architecture (arc42, docs/arc42/) as the arc42 web app.
+# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, the
+# rule page (rules/, read from the artifacts by scripts/rules.ts) and the architecture (arc42, docs/arc42/) as the
+# arc42 web app.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
 set -euo pipefail
@@ -11,6 +12,7 @@ PREFIX="${SITE_PATH_PREFIX:-/tooling/}"
 rm -rf _site
 mkdir -p _site
 cp site/index.html site/stil.css site/spa.css _site/
+node scripts/rules.ts page _site/rules/index.html
 
 arc42 --dir docs/arc42 validate
 arc42 --dir docs/arc42 build --out _site/architecture --base "${PREFIX}architecture/"
