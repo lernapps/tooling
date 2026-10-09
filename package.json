@@ -1,16 +1,39 @@
 {
-  "name": "lernapps-tooling",
-  "private": true,
+  "name": "@lernapps/tooling",
+  "version": "0.0.0",
+  "description": "Shared tooling of the lernapps.net apps and sites: the CLI lernapps, site actions, Renovate preset, guidance for building apps; documentation at https://lernapps.net/tooling/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lernapps/tooling.git"
+  },
+  "bin": {
+    "lernapps": "./dist/cli.mjs"
+  },
+  "files": [
+    "dist"
+  ],
   "type": "module",
-  "description": "Shared tooling of the lernapps.net apps and sites: site actions, Renovate preset, guidance for building apps; documentation at https://lernapps.net/tooling/",
+  "exports": {
+    "./package.json": "./package.json"
+  },
   "scripts": {
+    "prepare": "vp pack && vp config --no-agent",
+    "lernapps": "node src/cli.ts",
     "build": "./scripts/build.sh",
-    "check": "lernapps-check --site /tooling/",
+    "check": "npm run --silent lernapps -- check && npm run build && lernapps-check --site /tooling/",
     "arc42": "arc42 --dir docs/arc42"
   },
   "devDependencies": {
     "@doctc/arc42": "0.36.1",
-    "@lernapps/site": "github:lernapps/lernapps.github.io#bd3ca7cd112220714f6a0db56d098253f913c4cc"
+    "@lernapps/site": "github:lernapps/lernapps.github.io#bd3ca7cd112220714f6a0db56d098253f913c4cc",
+    "@types/node": "22.20.5",
+    "vite-plus": "1.0.0"
   },
-  "license": "MIT"
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0"
+  },
+  "engines": {
+    "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
+  }
 }

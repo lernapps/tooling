@@ -1,0 +1,29 @@
+name: Check
+
+# The checks of the tooling's own code: exactly what the git hooks run together, `lernapps check` without a
+# flag (pre-commit: format, lint, type check; pre-push: unit and end-to-end tests, build). CI is the safety net
+# for skipped hooks and adds no checks of its own. The docs site is built and checked by pages.yml.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check: # required status check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lernapps -- check
