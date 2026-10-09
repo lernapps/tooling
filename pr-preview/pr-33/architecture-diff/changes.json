@@ -1,13 +1,13 @@
 {
   "version": 1,
   "base": {
-    "label": "3872c21e827fd0d209a7e650f029715b5ff7dc67",
-    "commit": "3872c21e827fd0d209a7e650f029715b5ff7dc67"
+    "label": "fc46436476ecc2730376cceb25b22b7136f07983",
+    "commit": "fc46436476ecc2730376cceb25b22b7136f07983"
   },
   "head": {
-    "label": "fd62f0ef3591116f8f53c4e550bb615c24029512"
+    "label": "a93208532adf3b8d55174ea610bdc20f0538dcef"
   },
-  "acceptanceBase": "3872c21e827fd0d209a7e650f029715b5ff7dc67",
+  "acceptanceBase": "fc46436476ecc2730376cceb25b22b7136f07983",
   "untracked": [],
   "accepted": false,
   "hasBlockingFindings": false,
@@ -48,11 +48,11 @@
         "proseChanged": true,
         "base": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 352
+          "line": 365
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 355
+          "line": 368
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -78,11 +78,11 @@
         "proseChanged": true,
         "base": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 367
+          "line": 380
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 371
+          "line": 384
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -103,7 +103,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 388
+          "line": 401
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",

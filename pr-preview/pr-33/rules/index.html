@@ -62,13 +62,17 @@
 <tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#runs-in-browser"><code>runs-in-browser</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#stop-at-checkpoints"><code>stop-at-checkpoints</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#suppression-reason"><code>suppression-reason</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#third-party-licence"><code>third-party-licence</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#usable-at-360px"><code>usable-at-360px</code></a></td><td>listing, site</td><td>error</td></tr>
 <tr><td><a href="#imprint-and-privacy"><code>imprint-and-privacy</code></a></td><td>site</td><td>error</td></tr>
 <tr><td><a href="#readable-without-javascript"><code>readable-without-javascript</code></a></td><td>site</td><td>error</td></tr>
+<tr><td><a href="#keep-the-preset"><code>keep-the-preset</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#quiz-feedback-explains"><code>quiz-feedback-explains</code></a></td><td>archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#site-check"><code>site-check</code></a></td><td></td><td></td></tr>
 <tr><td><a href="#start-page-explains"><code>start-page-explains</code></a></td><td>archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#storage-through-wrapper"><code>storage-through-wrapper</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#strict-typescript"><code>strict-typescript</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#topic-has-exercises"><code>topic-has-exercises</code></a></td><td>archetype:explainer</td><td>error</td></tr>
       </tbody>
     </table>
@@ -157,7 +161,7 @@
 <h2>Fix failed checks, never bypass them</h2>
 <p><code>fix-from-message</code> · listing · error</p>
 <div>
-<p>Read the message of a failed check and fix the cause. Never bypass a hook (<code>--no-verify</code>), never delete a test to make it pass. Suppress a warning only where it occurs, with the reason next to it.</p>
+<p>Read the message of a failed check and fix the cause. Never bypass a hook (<code>--no-verify</code>), never delete a test to make it pass.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
 </section>
@@ -175,9 +179,9 @@
 <h2>German, plain language for learners</h2>
 <p><code>learner-text-german</code> · listing · error</p>
 <div>
-<p>Write every text for learners, teachers and parents in German, in plain language: short sentences, active voice, no jargon. Keep the texts in message files, not in code.</p>
+<p>Write every text for learners, teachers and parents in German, in plain language: short sentences, active voice, no jargon. Keep the texts in message files, not in code: in an app from an archetype, in <code>src/messages/de.json</code>, shown with <code>translator</code> from <code>@lernapps/tooling/i18n</code>.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/learner-text-german.ts"><code>lint/rules/learner-text-german.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="learners-act">
@@ -229,9 +233,9 @@
 <h2>No request to another server before a click</h2>
 <p><code>no-request-before-click</code> · listing, site · error</p>
 <div>
-<p>Bundle fonts, scripts and pictures at build time. Load anything from another server (a video, a map) only after the learner clicks for it.</p>
+<p>Bundle fonts, scripts and pictures at build time. Load anything from another server (a video, a map) only after the learner clicks for it. Keep URLs of other servers out of code; where the learner clicks to load one, suppress the lint message on that line with this reason.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-request-before-click.ts"><code>check/rules/no-request-before-click.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-request-before-click.ts"><code>check/rules/no-request-before-click.ts</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/no-request-before-click.ts"><code>lint/rules/no-request-before-click.ts</code></a>.</p>
 </section>
 
 <section id="no-tracking">
@@ -279,6 +283,15 @@
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
 </section>
 
+<section id="suppression-reason">
+<h2>Suppress only in place, with the reason</h2>
+<p><code>suppression-reason</code> · listing · error</p>
+<div>
+<p>Suppress a lint message only on the line where it occurs, name the rule and write why after <code>--</code>: <code>// oxlint-disable-next-line lernapps/no-request-before-click -- the video loads after a click</code>. Suppress a type error only with <code>// @ts-expect-error -- &lt;reason&gt;</code>, never with <code>@ts-ignore</code> or <code>@ts-nocheck</code>. The review reads every suppression.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/suppression-reason.ts"><code>lint/rules/suppression-reason.ts</code></a>.</p>
+</section>
+
 <section id="third-party-licence">
 <h2>Name source and licence of others' content</h2>
 <p><code>third-party-licence</code> · listing · error</p>
@@ -315,6 +328,15 @@
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/readable-without-javascript.ts"><code>check/rules/readable-without-javascript.ts</code></a>.</p>
 </section>
 
+<section id="keep-the-preset">
+<h2>Extend the preset, change nothing of it</h2>
+<p><code>keep-the-preset</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
+<div>
+<p>An app from an archetype extends the preset of <code>@lernapps/tooling</code> and configures nothing the preset sets: <code>vite.config.ts</code> is <code>export default lernapps()</code>, <code>tsconfig.json</code> only extends <code>@lernapps/tooling/tsconfig.json</code>, the hooks come from the package (<code>prepare</code> in <code>package.json</code>). Pass only the app's own settings to <code>lernapps({ ... })</code>, such as the pages to build. Never turn a lint rule off or lower its severity, never replace a hook.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+</section>
+
 <section id="quiz-feedback-explains">
 <h2>Feedback explains the answer (quiz)</h2>
 <p><code>quiz-feedback-explains</code> · archetype:quiz · error</p>
@@ -340,6 +362,24 @@
 <p>Say on the static start page what learners train, for whom, and how to begin. In the app page's <code>&lt;noscript&gt;</code>, say that the app needs JavaScript and what it does.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md"><code>review/archetypes/interactive.md</code></a>.</p>
+</section>
+
+<section id="storage-through-wrapper">
+<h2>Store only through the preset's storage</h2>
+<p><code>storage-through-wrapper</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
+<div>
+<p>Keep what the app must remember with <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app: it stays on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. Never use <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/storage-through-wrapper.ts"><code>lint/rules/storage-through-wrapper.ts</code></a>.</p>
+</section>
+
+<section id="strict-typescript">
+<h2>TypeScript only, strict</h2>
+<p><code>strict-typescript</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
+<div>
+<p>Write every source in TypeScript; no JavaScript files. Never use <code>any</code>: use <code>unknown</code> and narrow it, or write the type. Type the data the creator supplies and validate it at build time.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
 </section>
 
 <section id="topic-has-exercises">
