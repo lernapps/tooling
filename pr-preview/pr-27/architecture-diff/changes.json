@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "base": {
+    "label": "34f67ac2e0e7bcffb38985d19192a15dcccb5cee",
+    "commit": "34f67ac2e0e7bcffb38985d19192a15dcccb5cee"
+  },
+  "head": {
+    "label": "1c128f63ed1556fa9209a67ec6fbcdee85836a00"
+  },
+  "acceptanceBase": "34f67ac2e0e7bcffb38985d19192a15dcccb5cee",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 136,
+      "elementId": "if-plan-file",
+      "message": "Section prose changed without changing block 'if-plan-file' — it names 'Evals'."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 136,
+        "elementId": "if-plan-file",
+        "message": "Section prose changed without changing block 'if-plan-file' — it names 'Evals'."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "if-plan-file",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [
+          {
+            "term": "Evals",
+            "element": "bb-evals",
+            "source": "element"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 135
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 136
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance",
+            "Plan file"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
