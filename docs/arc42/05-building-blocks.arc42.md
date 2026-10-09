@@ -383,32 +383,53 @@ protocol: YAML with published JSON Schema (https://lernapps.net/tooling/schemas/
 
 ### Review procedure
 
-The formal validation's judgment (`review/`): a prompt for an agent in a fresh context, the rubric of the
-rules no program decides, per archetype, each item with its rule id, and the format of the verdict. The agent starts from the validation
-report, reads the built bundle, the dependencies and the plan's retrospective, and judges what no check decides:
-whether learners act themselves, ads, plain language, learner-specific data in public texts.
+The formal validation's judgment (`review/`): a prompt for an agent in a fresh context, the rubric of the rules no
+program decides, and the format of the verdict. The rubric has one file for every app and one per archetype
+(`review/archetypes/<name>.md`); every item is headed by its rule id. The agent starts from the validation report,
+reads the built bundle, the dependencies and the plan's retrospective, and judges what no check decides: whether
+learners act themselves, ads, plain language, learner-specific data in public texts, and what happens after a
+click. A rule the report already decided is not judged again. A guess in the retrospective, or a problem no rule
+covers, becomes a proposed rule.
 
 ```arc42
 :::building-block
 id: bb-review-procedure
 title: Review procedure
 parent: bb-tooling-package
-technology: Markdown
+technology: Markdown prompt and rubric, JSON Schema, TypeScript verdict check
 requires: if-validation-report
-implements: concept-rule-catalog, concept-plain-language
+implements: concept-rule-catalog, concept-plain-language, concept-terse-output, concept-traceability, concept-stable-contracts
 :::
 ```
 
 #### Review procedure interface
 
-Its verdict names the reviewed commit and, per finding, the rule id, or proposes a new rule and where it would act.
+The owner gives the prompt to a fresh agent with the app's repo and the commit to review; the agent reads the rubric
+of the app's archetype and the rule catalog.
 
 ```arc42
 :::interface
 id: if-review-procedure
 title: Review procedure
 provider: bb-review-procedure
-protocol: Markdown prompt and rubric
+protocol: Markdown prompt and rubric files, read by an agent
+:::
+```
+
+#### Review verdict
+
+The result of a review as YAML: the reviewed commit, the validation report it started from, the archetype, the
+rubric items judged, and per finding the rule id with its link, or a proposed new rule and where it would act
+(skill, lint rule, check, rubric item). A finding of a known rule may name where it could move. Its schema is
+published at lernapps.net and exported by the package; a check of the verdict validates it against the schema and
+the rule catalog before the owner sees it.
+
+```arc42
+:::interface
+id: if-review-verdict
+title: Review verdict
+provider: bb-review-procedure
+protocol: YAML with published JSON Schema (https://lernapps.net/tooling/schemas/verdict.v1.schema.json)
 :::
 ```
 

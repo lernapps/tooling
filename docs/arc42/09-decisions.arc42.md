@@ -247,6 +247,25 @@ addresses: con-one-owner, risk-owner-bottleneck
 :::
 ```
 
+## A recorded verdict tests the review procedure
+
+**Context:** the review is an agent's judgment, and CI calls no model. **Decision:** the tests check what consumers
+of the procedure rely on: the verdict's schema, the rule ids of the rubric, and a verdict recorded by a fresh agent
+for a fixture app with a planted ad. The fixture's repo is committed with a fixed author and date, so its commit is
+the same everywhere; the test checks that the recorded verdict validates, names that commit and fails the app on the
+ad's rule. **Consequences:** a change to the fixture, the schema or a rule id fails the tests until the verdict is
+recorded again; whether agents judge well is measured by hand, in reviews and evals.
+
+```arc42
+:::decision
+id: dec-recorded-verdict
+title: A recorded verdict tests the review procedure
+status: accepted
+date: 2026-10-09
+addresses: qg-checked-not-declared, qg-guidance-evolves
+:::
+```
+
 ## Evals by hand with three assistants
 
 **Context:** other people's assistants cannot be observed. **Decision:** the evals run by hand with Claude Code,

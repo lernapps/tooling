@@ -12,12 +12,14 @@ const checks = Object.fromEntries(
 );
 
 // Not code: prose, the docs site's static files, workflows and actions, files written by tools, the built apps
-// the tests check (test/fixtures/apps/, as a build writes them), and the clone of app-templates in CI.
+// the tests check (test/fixtures/apps/, as a build writes them), the fixture app repos of the review, and the clone
+// of app-templates in CI.
 const notCode = [
   "_site/**",
   ".app-templates/**",
   "dist/**",
   "test/fixtures/apps/**",
+  "test/fixtures/reviews/**",
   "docs/**",
   "site/**",
   ".agents/**",
