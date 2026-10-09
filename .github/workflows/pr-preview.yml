@@ -1,0 +1,55 @@
+name: Preview
+
+# A preview of the tooling's documentation for every pull request, at
+# https://lernapps.net/tooling/pr-preview/pr-<number>/, updated on every push and removed when the pull request
+# is closed (shared action of this repo). It contains the changes of the architecture (architecture-diff/) since
+# the merge base as one page. One comment on the pull request, updated in place, links it and lists the changed
+# elements (scripts/review-summary.mjs).
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    # Pull requests from forks get a read-only token and cannot push to gh-pages.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    env:
+      ARC42_DIFF_BASE: origin/${{ github.base_ref }} # the build renders the changes since the merge base
+    steps:
+      - id: preview
+        uses: lernapps/tooling/actions/site-preview@91c4012323f8fea68de701a8e078f1bcb010a70e # main
+        with:
+          site: /tooling/
+          fetch-depth: 0 # the diff needs the base branch
+          comment: false # the comment below lists the changes
+      - if: github.event.action != 'closed'
+        run: node scripts/review-summary.mjs "origin/${{ github.base_ref }}" > summary.md
+      - name: Comment on the pull request
+        if: github.event.action != 'closed'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+        with:
+          script: |
+            const fs = require("node:fs");
+            const marker = "<!-- lernapps-tooling-architecture-review -->";
+            const { owner, repo } = context.repo;
+            const site = process.env.PREVIEW_URL;
+            const body = fs.readFileSync("summary.md", "utf8")
+              .replaceAll("{{SITE_URL}}", site)
+              + "\n<sub>The preview is ready once the GitHub Pages deployment of `gh-pages` has finished.</sub>\n";
+            await core.summary.addRaw(body).write();
+            const issue_number = context.payload.pull_request.number;
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number, per_page: 100 });
+            const existing = comments.find((c) => c.user?.type === "Bot" && c.body?.includes(marker));
+            if (existing) await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            else await github.rest.issues.createComment({ owner, repo, issue_number, body });

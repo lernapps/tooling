@@ -64,6 +64,22 @@ defaults ([mrsimpson/renovate-config](https://github.com/mrsimpson/renovate-conf
 minor after 3 days, majors by hand) plus one rule: our own building blocks (`@lernapps/site`, these actions)
 follow `main` at once, at any time of the week (not only in the Saturday window), and merge when green.
 
+## Documentation
+
+The architecture of the tooling for building apps is written with [arc42](https://github.com/doctoolchain/arc42-language)
+in `docs/arc42/` (agents: skill `arc42-language` in `.agents/skills/`); the plan of the current work is in `.vibe/`.
+It is published at <https://lernapps.net/tooling/>, like every lernapps.net site: `pages.yml` with the site actions
+above, and a preview per pull request (`pr-preview.yml`) that also contains the architecture's changes since the
+merge base (`architecture-diff/`) and one comment listing them (`scripts/review-summary.mjs`).
+
+```bash
+npm ci
+npm run build && npm run check              # scripts/build.sh validates and builds into _site/; lernapps-check
+ARC42_DIFF_BASE=origin/main npm run build   # also the review page of the changes (compares commits)
+npm run arc42 -- get                        # any arc42 command on docs/arc42/
+python3 -m http.server -d _site 8000        # preview; links assume the /tooling/ prefix
+```
+
 ## License
 
 [MIT](LICENSE)
