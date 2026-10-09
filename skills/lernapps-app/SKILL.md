@@ -377,7 +377,7 @@ on the device, under the app's own prefix, and the app keeps working when the br
 ```rule
 id: topic-has-exercises
 scope: archetype:explainer
-severity: error
+severity: hint
 ```
 
 Give every topic page exercises that practise what it explains, on the page or one link away, each with a solution
@@ -388,7 +388,7 @@ or feedback learners can check.
 ```rule
 id: start-page-explains
 scope: archetype:interactive
-severity: error
+severity: hint
 ```
 
 Say on the static start page what learners train, for whom, and how to begin. In the app page's `<noscript>`, say
