@@ -5,33 +5,15 @@
     "commit": "3872c21e827fd0d209a7e650f029715b5ff7dc67"
   },
   "head": {
-    "label": "eb797c85d4d474885bc6f58abf922dd3ca7ce876"
+    "label": "fd62f0ef3591116f8f53c4e550bb615c24029512"
   },
   "acceptanceBase": "3872c21e827fd0d209a7e650f029715b5ff7dc67",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": true,
-  "findings": [
-    {
-      "kind": "prose-without-block-change",
-      "severity": "warning",
-      "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 94,
-      "elementId": "dn-lernapps-agents",
-      "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
-    }
-  ],
+  "hasBlockingFindings": false,
+  "findings": [],
   "groups": {
-    "warnings": [
-      {
-        "kind": "prose-without-block-change",
-        "severity": "warning",
-        "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 94,
-        "elementId": "dn-lernapps-agents",
-        "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
-      }
-    ],
+    "warnings": [],
     "untouched": [],
     "updated": [],
     "uncovered": []
@@ -161,16 +143,24 @@
       {
         "id": "dn-lernapps-agents",
         "kind": "deployment-node",
-        "status": "unchanged",
-        "attributes": [],
-        "proseChanged": true,
-        "proseMentions": [
+        "status": "modified",
+        "attributes": [
           {
-            "term": "environment",
-            "element": "dn-lernapps-agents",
-            "source": "fact"
+            "name": "hosts",
+            "before": [
+              "bb-review-procedure",
+              "bb-evals",
+              "bb-check-cli"
+            ],
+            "after": [
+              "bb-tooling-package",
+              "bb-review-procedure",
+              "bb-evals",
+              "bb-check-cli"
+            ]
           }
         ],
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "line": 88
@@ -343,6 +333,14 @@
           "from": "dec-recorded-verdict",
           "to": "qg-guidance-evolves",
           "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-lernapps-agents",
+          "to": "bb-tooling-package",
+          "relation": "hosts"
         }
       }
     ],
