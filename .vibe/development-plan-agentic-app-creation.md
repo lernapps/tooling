@@ -294,10 +294,8 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ### Tasks
 *Order of building agreed with the owner (2026-10-09). Tracking issue: [#9](https://github.com/lernapps/tooling/issues/9).
 Each step brings its rules in their artifacts and, where it touches the guidance, an eval run.*
-- [ ] 4 · Shared preset and lint rules ([#13](https://github.com/lernapps/tooling/issues/13))
 - [ ] 6 · Generator and the quiz archetype ([#15](https://github.com/lernapps/tooling/issues/15))
 - [ ] 7 · App check action ([#16](https://github.com/lernapps/tooling/issues/16))
-- [ ] 8 · Review procedure and rubric ([#17](https://github.com/lernapps/tooling/issues/17))
 - [ ] 9 · Listing validation with the results comment ([lernapps/apps#3](https://github.com/lernapps/apps/issues/3))
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 11 · The explainer archetype, after the rendering prototype ([#19](https://github.com/lernapps/tooling/issues/19))
@@ -319,6 +317,17 @@ Each step brings its rules in their artifacts and, where it touches the guidance
   the built app in `check/rules/`, each with its rule id and severity; YAML validation report with its schema;
   `--entry`, `--site`, `--report`; every check runs, those without input are left out. 26 rules. Follow-ups:
   suppressions with a reason, `on-click` measured by clicking, external links, per-archetype readability, `npm audit`
+- [x] 4 · Shared preset and lint rules ([#13](https://github.com/lernapps/tooling/issues/13), merged in #34): an app
+  needs `export default lernapps()`, a `tsconfig.json` that extends the package's, and one `prepare` line for the
+  hooks; Playwright, storage, i18n and a11y helpers; lint plugin with `no-request-before-click`,
+  `storage-through-wrapper`, `learner-text-german`, `suppression-reason`. Follow-ups: a blanket disable comment
+  silences `suppression-reason`; a check that `vite.config.ts` turns no rule off; vite-plus and the package move
+  together in Renovate
+- [x] 8 · Review procedure and rubric ([#17](https://github.com/lernapps/tooling/issues/17), merged in #33):
+  `review/prompt.md` for a fresh agent, rubric for all apps and per archetype, verdict schema and `npm run verdict`;
+  tested with a recorded verdict on a fixture with a planted ad. Follow-ups: review the quiz app of step 6; move the
+  archetype rule sections into the archetype skills; severity of the archetype rules (error or hint) is the owner's
+  call
 
 ## Commit
 
