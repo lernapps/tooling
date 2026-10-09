@@ -27,6 +27,7 @@
     "prepare": "vp pack && vp config --no-agent",
     "lernapps": "node src/cli.ts",
     "check": "npm run --silent lernapps -- check",
+    "rules": "node scripts/rules.ts list",
     "build": "./scripts/build.sh",
     "check:site": "lernapps-check --site /tooling/",
     "arc42": "arc42 --dir docs/arc42"

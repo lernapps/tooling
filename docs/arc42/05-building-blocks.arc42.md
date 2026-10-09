@@ -77,8 +77,8 @@ flowchart TB
 The one package every app depends on. Its version is a commit of `main`; Renovate moves every app to the latest
 commit and merges when the app's checks are green (preset `github>lernapps/tooling`). An app holds only thin files
 that refer to it: configuration that extends a preset, the hooks installed by it, skills synced from it. The
-package's own build runs the same check command it gives apps, plus a test that the rule ids across skills, lint
-rules, checks and rubric are consistent.
+package's own build runs the same check command it gives apps, plus a test that the rule ids within skills, lint rules,
+checks and rubric are unique and every message links to its rule.
 
 ```arc42
 :::building-block
@@ -143,7 +143,7 @@ protocol: Markdown with YAML front matter
 
 ### Skills
 
-The `guided` rules and the know-how around them (`skills/`), in the agentskills.io format: `lernapps-app` (workflow
+The rules as the assistant reads them, and the know-how around them (`skills/`), in the agentskills.io format: `lernapps-app` (workflow
 and general rules), one per archetype, topic skills such as third-party content (bundle it at build time, name
 source and licence next to it, embeds only after a click, links verified, never guessed), and `lernapps-listing`
 (fetch the entry schema, fill it from plan and report, open the pull request). Each skill names the rule ids it
@@ -253,7 +253,7 @@ implements: concept-terse-output, concept-traceability
 
 ### Lint rules
 
-The `checked` rules that can be decided on source code (`lint/`), as an Oxlint JS plugin written against the
+The rules that can be decided on source code (`lint/`), as an Oxlint JS plugin written against the
 ESLint-compatible API: no URLs to other hosts in code, storage only through the preset's wrapper, learner texts only
 from the i18n files, no `any`. Each rule carries its rule id; its severity is set in the preset's configuration; a
 suppression needs a reason.
@@ -339,8 +339,8 @@ protocol: YAML with published JSON Schema
 
 ### Review procedure
 
-The formal validation's judgment (`review/`): a prompt for an agent in a fresh context, the rubric of `reviewed`
-rules per archetype, each item with its rule id, and the format of the verdict. The agent starts from the validation
+The formal validation's judgment (`review/`): a prompt for an agent in a fresh context, the rubric of the
+rules no program decides, per archetype, each item with its rule id, and the format of the verdict. The agent starts from the validation
 report, reads the built bundle, the dependencies and the plan's retrospective, and judges what no check decides:
 whether learners act themselves, ads, plain language, learner-specific data in public texts.
 

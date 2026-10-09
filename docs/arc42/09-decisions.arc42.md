@@ -177,11 +177,13 @@ addresses: qg-any-assistant, qg-guidance-evolves
 
 **Context:** a central rule file compiled into skills, lint configuration, checks and rubric would duplicate what
 the artifacts already say, and skill text cannot be generated well; rules move between layers rarely.
-**Decision:** each rule lives where it acts, as skill text, lint rule, check or rubric item, with a stable id and the
-shared vocabulary of scope, severity and enforcement (`concept-rule-catalog`). The tooling's build only reads the
-artifacts and tests the ids. **Rejected:** a central catalog with a compile step. **Consequences:** moving a rule is
-a pull request that writes the new artifact and removes the old text; the artifacts can drift in wording, which the
-evals and the id test catch.
+**Decision:** each rule lives where it acts, as skill text, lint rule, check or rubric item, often in several of
+them, with a stable id and the shared vocabulary of scope and severity (`concept-rule-catalog`). Each kind of
+artifact is tested on its own; the tooling's build only reads the artifacts, tests the ids per kind and lists the
+rules by id. **Rejected:** a central catalog with a compile step; cross-checks between the artifacts, which would
+need each artifact to declare how the rule is enforced elsewhere. **Consequences:** moving a rule is a pull request
+that writes the new artifact and removes the old text; a rule can be told preventively and checked at the same
+time; the artifacts can drift in wording, which an agent reading the list by id and the evals catch.
 
 ```arc42
 :::decision

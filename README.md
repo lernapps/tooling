@@ -63,8 +63,8 @@ npm run build && npm run check:site      # the docs site, built and checked (job
 
 The tests (`test/`) check what a consumer relies on, end to end: a fresh clone gets green from `npm ci && npm run
 check` without building anything, the docs site builds and passes `check:site`, a planted type error, lint error or failing test turns the hook command, `git commit` / `git push` and the CI
-command red, a duplicate rule id, a `checked` rule without implementation or a message without its link turns the CI
-command red, the rule page lists every rule, the package installed from git provides `lernapps` and resolves the
+command red, a rule id used twice in the same kind of artifact or a message without its link turns the CI command red, the rule
+list and the rule page show every rule grouped by id, the package installed from git provides `lernapps` and resolves the
 guidance exports, the plan template and a filled plan validate against the front matter schema while incomplete ones
 fail with a message naming the problem, every plan has the sections the retrospective needs, and the CLI's usage and
 exit codes. There are no unit
@@ -73,7 +73,9 @@ tests of internals.
 ### Rules
 
 Every rule an app follows lives in the artifact where it acts, with a stable id (architecture, chapter 8, "Rule
-catalog"). A rule is declared once, by a rule block under the heading of the skill section that explains it:
+catalog"). The same id in several artifacts is one rule: a skill section tells it so that the assistant prevents a
+problem, and a lint rule or check may report the same problem under the same id. No artifact needs to know the
+others. A skill section is headed by its rule block:
 
 ````markdown
 ### Load nothing from other servers before a click
@@ -82,27 +84,32 @@ catalog"). A rule is declared once, by a rule block under the heading of the ski
 id: no-request-before-click
 scope: [listing, site]
 severity: error
-enforcement: guided
 ```
 
 Bundle scripts, styles, fonts ... with the app at build time.
 ````
 
-| Artifact | Declares or enforces | Where |
+| Artifact | Carries a rule as | Where |
 |---|---|---|
-| section of a skill | declares a rule, by its rule block | `skills/**/*.md` |
-| lint rule | enforces a `checked` rule: file name = id, `meta.docs.url` = link | `lint/rules/<id>.ts` |
-| check of the built app | enforces a `checked` rule: `export default { id, url, ... }` | `check/rules/*.ts` |
-| item of the review rubric | enforces a `reviewed` rule: a fenced `rubric` block with `id: <rule id>` | `review/**/*.md` |
+| section of a skill | a rule block with `id`, `scope`, `severity` | `skills/**/*.md` |
+| lint rule | file name = id, `meta.docs.url` = link | `lint/rules/<id>.ts` |
+| check of the built app | `export default { id, url, ... }` | `check/rules/*.ts` |
+| item of the review rubric | a fenced `rubric` block with `id: <rule id>` | `review/**/*.md` |
 
-The link is always `https://lernapps.net/tooling/rules/#<id>`. `node scripts/rules.ts test` reads all artifacts and
-fails on an id declared twice, a `checked` rule without lint rule or check, a `reviewed` rule without rubric item,
-a lint rule, check or rubric item without a declared id of its enforcement, or a link that does not point to its
-rule; `test/rules.test.ts` runs it, so `lernapps check` (pre-push hook and CI) fails too. `node scripts/rules.ts page <file>` writes the rule page of the docs site from the same reading. The
-rules of scope `listing` (the listing criteria of lernapps/apps) and `site` (ORGANIZATION.md, "Every page, in every
-repo") are in `skills/lernapps-app/SKILL.md`, with the workflow rules; the reviewed ones have their items in
-`review/rubric.md`, a placeholder the review step fills. Rules that a check or lint rule will enforce are `guided` until
-that check or lint rule exists.
+The link is always `https://lernapps.net/tooling/rules/#<id>`.
+
+```sh
+node scripts/rules.ts test         # ids valid and unique within each kind of artifact, every message linked
+npm run --silent rules             # every rule of every artifact, grouped by id, as YAML
+node scripts/rules.ts page <file>  # the rule page of the docs site, from the same reading
+```
+
+`test/rules.test.ts` runs the test, so `lernapps check` (pre-push hook and CI) fails too. Whether the artifacts of
+one id still say the same is not decided by a program: the skill `rules-review` (`.agents/skills/`) has an agent
+read the list and report drift, gaps and rules that could move to a lint rule or check. The rules of scope `listing`
+(the listing criteria of lernapps/apps) and `site` (ORGANIZATION.md, "Every page, in every repo") are in
+`skills/lernapps-app/SKILL.md`, with the workflow rules; `review/rubric.md` holds the first rubric items, a
+placeholder the review step fills.
 
 ## Site actions
 

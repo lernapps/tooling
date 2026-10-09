@@ -72,14 +72,15 @@ mitigation: The preset installs Playwright's browser once and caches it; the che
 ## Rule artifacts drift apart
 
 Without a central rule file, the same rule can be worded differently in a skill and a check, or a moved rule can
-stay in its old place.
+stay in its old place. No program compares the artifacts of one id; the rule list grouped by id makes the
+differences visible to the agent that reviews it.
 
 ```arc42
 :::risk
 id: risk-rule-drift
 title: Rule artifacts drift apart
 severity: low
-mitigation: Stable rule ids and the tooling's id test (unique, every checked rule implemented, every message linked); the evals show contradicting guidance
+mitigation: Stable rule ids and the tooling's id test (unique per artifact kind, every message linked); an agent reviews the rules grouped by id; the evals show contradicting guidance
 :::
 ```
 

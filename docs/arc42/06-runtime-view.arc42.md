@@ -182,7 +182,7 @@ sequenceDiagram
     package->>lint: read rule ids
     package->>check: read rule ids
     package->>procedure: read rule ids
-    package-->>owner: ids unique, every checked rule implemented
+    package-->>owner: ids unique per artifact kind, every message linked
     owner->>evals: run by hand with three assistants
     evals-->>owner: scores per archetype
     owner->>github: merge to main

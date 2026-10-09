@@ -3,7 +3,7 @@
 ## Rule catalog
 
 A **rule** is one requirement on an app. The rule catalog is not a file or a block: it is the set of all rules,
-each living in the artifact where it acts. What makes it one catalog is a shared vocabulary and stable ids.
+each living in the artifacts where it acts. What makes it one catalog is a shared vocabulary and stable ids.
 
 Every rule has:
 
@@ -12,39 +12,27 @@ Every rule has:
 | id | stable name, e.g. `no-request-before-click` | the same id in every artifact, message and report; it never changes when the rule moves |
 | scope | one or more of `listing`, `site`, `archetype:<name>` | which apps it applies to: every listed app wherever it is hosted; every page served on lernapps.net; apps of that archetype |
 | severity | `error`, `warning`, `hint` | error: must not be broken, the check or review fails. Warning: may be broken deliberately with a reason recorded in place; the review sees every suppression. Hint: a recommendation, never fails |
-| enforcement | `guided`, `checked`, `reviewed` | told in a skill; decided by a lint rule or a check; judged by the review agent |
 
 A `listing` rule is never a `warning`: a creator cannot argue their way past the fitness signal. The rules in scope
 for an app are those of scope `listing`, of its archetype and, when it is served on lernapps.net, of scope `site`.
 
-Where the rules live, and where they take effect:
+A rule can live in several artifacts at once, each a different deployment unit; the shared id makes them one rule.
+A skill tells it, so that the assistant prevents the problem; a lint rule or check reports it, so that a slip is
+caught; the review judges what no program decides. No artifact refers to the others:
 
-| Enforcement | Artifact | Building block | Takes effect in |
+| Artifact | Carries a rule as | Building block | Takes effect in |
 |---|---|---|---|
-| guided | a section of a skill; "must" for errors, "should" or "may" for hints | `bb-skills` | the creator's agent harness |
-| checked on source | a rule of the lint plugin; severity in the preset's configuration | `bb-lint-rules`, `bb-archetypes` | the editor and the pre-commit hook, on the creator's machine; CI |
-| checked on the built app | a check of the check CLI, with its severity | `bb-check-cli` | the pre-push hook; CI; the listing validation |
-| reviewed | an item of the review rubric | `bb-review-procedure` | the environment where lernapps agents run |
+| section of a skill (`skills/**/*.md`) | a `rule` block with id, scope and severity under the section's heading; "must" for errors, "should" or "may" for hints | `bb-skills` | the creator's agent harness |
+| lint rule (`lint/rules/<id>.ts`) | its file name; `meta.docs.url` links the rule; severity in the preset's configuration | `bb-lint-rules`, `bb-archetypes` | the editor and the pre-commit hook; CI |
+| check of the check CLI (`check/rules/*.ts`) | `id` and `url` in its default export | `bb-check-cli` | the pre-push hook; CI; the listing validation |
+| item of the review rubric (`review/**/*.md`) | a `rubric` block with its id under the item's heading | `bb-review-procedure` | the environment where lernapps agents run |
 
-Each rule is declared once, in the section of a skill that explains it, by a rule block: a fenced block with the
-info string `rule` right under the section's heading, one key per line (`id`, `scope`, `severity`, `enforcement`).
-A rule that a program checks or the review judges is still explained in a skill, because that is what the assistant
-reads; its lint rule, check or rubric item enforces it and carries only the id (and, for messages, the link):
-
-| Artifact | Declares or enforces | Where |
-|---|---|---|
-| section of a skill | declares a rule with a rule block | `skills/**/*.md` |
-| lint rule | enforces a `checked` rule: the file name is the id, `meta.docs.url` the link | `lint/rules/<id>.ts` |
-| check of the check CLI | enforces a `checked` rule: its default export has `id` and `url` | `check/rules/*.ts` |
-| item of the review rubric | enforces a `reviewed` rule: a `rubric` block with its `id` under the item's heading | `review/**/*.md` |
-
-The severity is the one in the rule block; the preset's lint configuration and the check use the same. The link of
-every message is the rule's entry on the rule page, `https://lernapps.net/tooling/rules/#<id>`. The tooling's own
-build reads all artifacts and tests that ids are declared once, that every `checked` rule has a lint rule or check
-and every `reviewed` rule a rubric item, that each of these enforces a declared rule of its enforcement, and that
-every message links to where its rule is explained
-(`scripts/rules.ts`, run by the tests in `lernapps check`). The same reading produces the rule page of the docs
-site, which shows each rule's section. Nothing is generated from a central file.
+The link of every message is the rule's entry on the rule page, `https://lernapps.net/tooling/rules/#<id>`. The
+tooling's own build reads all artifacts and tests each kind on its own: ids are valid and unique within the kind,
+and every message links to its rule (`scripts/rules.ts`, run by the tests in `lernapps check`). The same reading
+lists every rule grouped by id, as YAML for agents and as the rule page of the docs site. Whether the artifacts of
+one id still agree, which rules lack a skill or a check, and which could move, is judged by an agent that reads
+that list; it reports and changes nothing. Nothing is generated from a central file.
 
 A rule moves when experience shows it can: a review finding that recurs becomes a lint rule or a check, a step that
 assistants keep forgetting becomes a question in the plan template. The move is a pull request that adds the new
