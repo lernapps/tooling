@@ -10,7 +10,7 @@
 //   - a broken bank fails the build with a message naming the question and the problem.
 // The templates come from a local clone of lernapps/app-templates with the pinned commit, named by LERNAPPS_TEMPLATES
 // (CI checks it out); without it, the tests that need the templates are skipped. The package is installed from git.
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { chromium, type Browser, type Page } from "playwright";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
@@ -27,26 +27,16 @@ const BANK = join(repoRoot, "test/fixtures/quiz/quiz.json");
 const output = (result: Result) => `${result.stdout}\n${result.stderr}`;
 const lernapps = (args: readonly string[], cwd: string) => run("node", [cli, ...args], cwd);
 
-const made: string[] = [];
-const temporary = (name: string) => {
-  const dir = tempDir(name);
-  made.push(dir);
-  return dir;
-};
-afterAll(() => {
-  for (const dir of made) rmSync(dir, { recursive: true, force: true });
-});
-
 describe.skipIf(inner)("lernapps create refuses", () => {
   test("an unknown archetype, naming the known ones", () => {
-    const dir = temporary("create-unknown");
+    const dir = tempDir("create-unknown");
     const result = lernapps(["create", "--archetype", "essay", dir], repoRoot);
     expect(result.code, output(result)).toBe(2);
     expect(result.stderr).toContain("unknown archetype: essay (known: quiz)");
   });
 
   test("a folder that is not empty, naming what is there", () => {
-    const dir = temporary("create-full");
+    const dir = tempDir("create-full");
     writeFileSync(join(dir, "README.md"), "# Mein Quiz\n");
     const result = lernapps(["create", "--archetype", "quiz", dir], repoRoot);
     expect(result.code, output(result)).toBe(1);
@@ -55,7 +45,7 @@ describe.skipIf(inner)("lernapps create refuses", () => {
   });
 
   test("an app-templates it cannot fetch, saying how to name a local clone", () => {
-    const dir = temporary("create-offline");
+    const dir = tempDir("create-offline");
     const result = lernapps(["create", "--archetype", "quiz", dir, "--templates", join(dir, "nowhere")], repoRoot);
     expect(result.code, output(result)).toBe(1);
     expect(result.stderr).toContain("cannot fetch app-templates");
@@ -72,8 +62,7 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
 
   beforeAll(async () => {
     tooling = freshClone();
-    made.push(tooling);
-    app = join(temporary("quiz"), "laengen-quiz");
+    app = join(tempDir("quiz"), "laengen-quiz");
     const created = lernapps(["create", "--archetype", "quiz", app, "--tooling", `git+file://${tooling}`], repoRoot);
     if (created.code !== 0) throw new Error(output(created));
     ok("git", ["init", "--quiet", "--initial-branch=main"], app);
@@ -127,7 +116,7 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
   });
 
   test("it keeps the plan from the conversation", { timeout: SLOW }, () => {
-    const dir = join(temporary("plan"), "app");
+    const dir = join(tempDir("plan"), "app");
     mkdirSync(join(dir, ".vibe"), { recursive: true });
     ok("git", ["init", "--quiet"], dir);
     const plan = readFileSync(join(repoRoot, "test/fixtures/plans/filled.md"), "utf8");
