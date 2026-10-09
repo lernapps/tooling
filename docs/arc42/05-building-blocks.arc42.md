@@ -255,7 +255,7 @@ run fails, the check CLI increments `prePushFailures` in the plan file's front m
 id: bb-git-hooks
 title: Git hooks
 parent: bb-archetypes
-technology: vite-plus hooks, shell
+technology: shell scripts in the package, vite-plus hook dispatcher
 requires: if-check-cli, if-plan-file
 implements: concept-terse-output, concept-traceability
 :::
@@ -276,7 +276,7 @@ built page makes) the check CLI finds on the built app under the same rule id.
 id: bb-lint-rules
 title: Lint rules
 parent: bb-tooling-package
-technology: TypeScript, Oxlint JS plugin
+technology: TypeScript, Oxlint JS plugin on the ESLint-compatible API, syntax only
 implements: concept-rule-catalog, concept-terse-output
 :::
 ```
