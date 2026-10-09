@@ -129,7 +129,8 @@ hosts: bb-tooling-package, bb-app-check-action
 
 ### lernapps/app-templates
 
-The archetype templates, one folder each, read by the generator at the commit pinned in the package.
+The archetype templates, one folder each, read by the generator at the commit pinned in the package, and the
+runtime package at the root, which every app installs from here at a commit.
 
 ```arc42
 :::deployment-node

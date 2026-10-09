@@ -3,7 +3,7 @@
 The tooling is one package, `@lernapps/tooling`, at the root of lernapps/tooling, installed by apps from git at a
 commit of `main` and kept current by Renovate, like the site frame `@lernapps/site` (decision `dec-one-package`).
 Its parts are subpath exports and commands of one CLI, `lernapps`. Two blocks live in other repos: the archetype
-templates in lernapps/app-templates and the listing validation in lernapps/apps. Folders inside the package are
+templates and runtimes in lernapps/app-templates and the listing validation in lernapps/apps. Folders inside the package are
 named in the prose.
 
 Rules have no block of their own: each rule lives in the block where it acts, as skill text, lint rule, check or
@@ -31,13 +31,12 @@ flowchart TB
         bb-review-procedure["Review procedure"]
         bb-evals["Evals"]
     end
-    bb-app-templates["Archetype templates (lernapps/app-templates)"]
+    bb-app-templates["Archetype templates and runtimes (lernapps/app-templates)"]
     bb-app-check-action["App check action"]
     bb-listing-validation["Listing validation (lernapps/apps)"]
     bb-generator -->|"if-archetype-templates"| bb-app-templates
     bb-generator -->|"if-plan-file"| bb-process-guidance
     bb-app-templates -->|"if-archetype-preset"| bb-archetypes
-    bb-app-templates -->|"if-question-bank"| bb-archetypes
     bb-archetypes -->|"if-lint-plugin"| bb-lint-rules
     bb-archetypes -->|"if-check-cli"| bb-check-cli
     bb-app-check-action -->|"if-check-cli"| bb-check-cli
@@ -221,11 +220,8 @@ technology, storage on the device that keeps working when the browser blocks it)
 only extends the base. The configuration files of an app thus stay one line each, and a change to a rule or a hook
 reaches every app with the next version of the package.
 
-An archetype adds what its kind of app needs on that base (`archetypes/<name>/`). The quiz is the deepest: a build
-step validates the question bank and renders every question into the page, so it reads without JavaScript; an
-engine in the browser turns the page into a quiz, one question at a time in an order given by a seed in the address,
-with feedback per option and the score and solutions at the end; generic end-to-end tests run against the app's own
-bank. The app supplies only the questions.
+What runs in the app beyond these helpers, an archetype's runtime, is not part of the presets: it lives with the
+templates, and the app composes its build step with the preset (decision `dec-runtime-package`).
 
 ```arc42
 :::building-block
@@ -241,32 +237,15 @@ implements: concept-rule-catalog, concept-stable-contracts
 #### Archetype preset interface
 
 What an app imports and extends: the vite-plus configuration, the `tsconfig` base, the Playwright configuration,
-the runtime helpers and the hooks, by archetype. An archetype adds its own preset, its runtime (for the quiz, the
-engine and its stylesheet) and end-to-end tests that run against the app's own content. The helpers are typed by
-their TypeScript sources and run as built modules.
+the runtime helpers and the hooks, by archetype. The helpers are typed by their TypeScript sources and run as built
+modules.
 
 ```arc42
 :::interface
 id: if-archetype-preset
 title: Archetype preset
 provider: bb-archetypes
-protocol: npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y; per archetype its preset, runtime and end-to-end tests) and the hooks directory
-:::
-```
-
-#### Question bank
-
-The data a quiz is made of: questions of six types (single and multiple choice, true or false, a number with
-tolerance and unit, ordering, matching), each with feedback per option where it has options and an explanation. Its
-JSON Schema is exported by the package and published at lernapps.net; the build validates the bank against it and
-fails with a message per problem. New types extend the schema without changing the existing ones.
-
-```arc42
-:::interface
-id: if-question-bank
-title: Question bank
-provider: bb-archetypes
-protocol: JSON with published JSON Schema (https://lernapps.net/tooling/schemas/quiz.v1.schema.json)
+protocol: npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y) and the hooks directory
 :::
 ```
 
@@ -451,24 +430,37 @@ implements: concept-traceability
 :::
 ```
 
-## Archetype templates
+## Archetype templates and runtimes
 
 lernapps/app-templates, one folder per archetype: the files the generator copies, each a working app that passes
-every check. Each folder can be tried on its own; the logic stays in the package. A folder holds the thin files that
-refer to the archetype's preset and the app's own content, which for a quiz is an example question bank.
+every check. Each folder can be tried on its own. A folder holds only thin files and the app's own content:
+- the configuration that composes the shared preset with the archetype's runtime;
+- the start of the runtime and its end-to-end tests;
+- for a quiz, an example question bank.
+
+At the repo's root, the runtime of the archetypes is one package. For the quiz it has:
+- a build step that validates the question bank and renders every question into the page, so the page reads without
+  JavaScript;
+- an engine in the browser: one question at a time, in an order given by a seed in the address; after each answer
+  the background of every option, the explanation and links for further reading; the score and the solutions at
+  the end;
+- generic end-to-end tests that run against the app's own bank.
+
+Its own tests and the template's checks run in that repo.
 
 ```arc42
 :::building-block
 id: bb-app-templates
-title: Archetype templates
-technology: lernapps/app-templates, one folder per archetype
-requires: if-archetype-preset, if-question-bank
+title: Archetype templates and runtimes
+technology: lernapps/app-templates, one folder per archetype, the runtime package @lernapps/app-templates (TypeScript, Vite plugin, Playwright)
+requires: if-archetype-preset
 :::
 ```
 
 ### Archetype templates interface
 
-The generator copies one folder at the commit pinned in the package, so templates and presets change together.
+The generator copies one folder at the commit pinned in the package, so templates, runtimes and presets change
+together.
 
 ```arc42
 :::interface
@@ -476,6 +468,40 @@ id: if-archetype-templates
 title: Archetype templates
 provider: bb-app-templates
 protocol: Files at a pinned commit of lernapps/app-templates
+:::
+```
+
+### Archetype runtime
+
+What an app depends on at runtime: the package `@lernapps/app-templates`, installed from git at the commit its
+template came from and moved forward by Renovate. It has subpath exports per archetype (for the quiz: engine, build
+step, stylesheet, end-to-end tests, the schema of the question bank) and ships no template folders.
+
+```arc42
+:::interface
+id: if-archetype-runtime
+title: Archetype runtime
+provider: bb-app-templates
+protocol: npm package from git (github:lernapps/app-templates#<commit>), subpath exports per archetype
+:::
+```
+
+### Question bank
+
+The data a quiz is made of: a quiz about things to know. It has questions of six types:
+- single and multiple choice, where every option carries background knowledge of its own;
+- true or false, a number with tolerance and unit, ordering, matching.
+
+Each question has an explanation and links for further reading. The JSON Schema lives with the runtime and is
+published at lernapps.net. The build validates the bank against it and fails with a message per problem. New types
+extend the schema without changing the existing ones.
+
+```arc42
+:::interface
+id: if-question-bank
+title: Question bank
+provider: bb-app-templates
+protocol: JSON with published JSON Schema (https://lernapps.net/tooling/schemas/quiz.v1.schema.json)
 :::
 ```
 

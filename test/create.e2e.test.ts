@@ -1,17 +1,19 @@
 // The contract of the generator and the quiz archetype, end to end: `lernapps create --archetype quiz` in a
 // temporary folder, then a question bank, gives an app that passes `lernapps check` without further code.
 //   - the generator fails on an unknown archetype and on a folder that is not empty;
-//   - it writes the template of app-templates at the pinned commit, AGENTS.md, the plan, the workflows, LICENSE, the
-//     issue form for content errors; it keeps a plan that is already there;
+//   - it writes the template of app-templates at the pinned commit, with the runtime of that commit as dependency,
+//     AGENTS.md, the plan, the workflows, LICENSE, the issue form for content errors; it keeps a plan already there;
 //   - the app with the fixture bank (test/fixtures/quiz/quiz.json, every type of question) passes `lernapps check`;
-//   - in the browser, each type accepts a right answer and rejects a wrong one, with the feedback of the chosen
-//     option; a deep link opens its question; the seed in the address gives the order; the page reads without
-//     JavaScript, answers at the end;
+//   - in the browser, each type accepts a right answer and rejects a wrong one; then every option's background
+//     shows, the right one and the learner's choice marked, with the explanation and links for further reading; a
+//     deep link opens its question; the seed in the address gives the order; the page reads without JavaScript,
+//     with the same in the answer key at the end;
 //   - a broken bank fails the build with a message naming the question and the problem.
-// The templates come from a local clone of lernapps/app-templates with the pinned commit, named by LERNAPPS_TEMPLATES
-// (CI checks it out); without it, the tests that need the templates are skipped. The package is installed from git.
+// The templates and the runtime come from a local clone of lernapps/app-templates with the pinned commit, named by
+// LERNAPPS_TEMPLATES (CI checks it out); without it, the tests that need them are skipped. The packages are installed
+// from git.
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { chromium, type Browser, type Page } from "playwright";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { serve } from "../check/visit.ts";
@@ -62,7 +64,7 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
 
   beforeAll(async () => {
     tooling = freshClone();
-    app = join(tempDir("quiz"), "laengen-quiz");
+    app = join(tempDir("quiz"), "naturwunder");
     const created = lernapps(["create", "--archetype", "quiz", app, "--tooling", `git+file://${tooling}`], repoRoot);
     if (created.code !== 0) throw new Error(output(created));
     ok("git", ["init", "--quiet", "--initial-branch=main"], app);
@@ -97,12 +99,21 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
       name: string;
       devDependencies: Record<string, string>;
     };
-    expect(manifest.name).toBe("laengen-quiz");
+    expect(manifest.name).toBe("naturwunder");
     expect(manifest.devDependencies["@lernapps/tooling"]).toBe(`git+file://${tooling}`);
+    // the runtime of the commit the template was copied from, installed from the same clone
+    const pin = (
+      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
+    ).appTemplates.commit;
+    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(`git+file://${resolve(templates ?? "")}#${pin}`);
+    expect(existsSync(join(app, ".npmrc"))).toBe(false);
     expect(readFileSync(join(app, "AGENTS.md"), "utf8")).toBe(
       readFileSync(join(repoRoot, "guidance/AGENTS.md"), "utf8"),
     );
-    expect(readFileSync(join(app, "vite.config.ts"), "utf8")).toContain("@lernapps/tooling/quiz/preset");
+    const config = readFileSync(join(app, "vite.config.ts"), "utf8");
+    expect(config).toContain('from "@lernapps/tooling/preset"');
+    expect(config).toContain('from "@lernapps/app-templates/quiz/plugin"');
+    expect(config).toContain("lernapps({ plugins: [quiz()] })");
     expect(readFileSync(join(app, "LICENSE"), "utf8")).toContain(`Copyright (c) ${new Date().getFullYear()}`);
     const pages = readFileSync(join(app, ".github/workflows/pages.yml"), "utf8");
     expect(pages).toMatch(/uses: lernapps\/tooling\/actions\/site-check@[0-9a-f]{40} # main/);
@@ -135,13 +146,13 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
 
   test("npm run build writes the site for the site actions", { timeout: SLOW }, () => {
     ok("npm", ["run", "build"], app);
-    expect(readFileSync(join(app, "_site/index.html"), "utf8")).toContain("Quiz: Längen und Zeit");
+    expect(readFileSync(join(app, "_site/index.html"), "utf8")).toContain("Naturwunder der Welt");
   });
 
   describe("in the browser", () => {
     beforeAll(async () => {
       ok(join(app, "node_modules/.bin/vp"), ["build"], app);
-      const served = await serve(join(app, "dist"), "/laengen-quiz/");
+      const served = await serve(join(app, "dist"), "/naturwunder/");
       base = served.base;
       close = () => served.server.close();
     }, SLOW);
@@ -153,9 +164,13 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
       return page;
     };
     const question = (page: Page, id: string) => page.locator(`#frage-${id}`);
+    /** Text as one line: the layout's line breaks do not matter here. */
+    const flat = (text: string) => text.replace(/\s+/g, " ").trim();
+    /** Checks the answer; returns what the learner reads then: right or wrong, and what the question reveals. */
     const check = async (page: Page, id: string) => {
       await question(page, id).getByRole("button", { name: "Prüfen" }).click();
-      return (await question(page, id).locator(".quiz-feedback").innerText()).trim();
+      const feedback = (await question(page, id).locator(".quiz-feedback").innerText()).trim();
+      return flat(`${feedback} ${await question(page, id).locator(".quiz-reveal").innerText()}`);
     };
     const choose = async (page: Page, id: string, values: readonly string[]) => {
       for (const value of values) await question(page, id).locator(`input[value="${value}"]`).check();
@@ -172,68 +187,81 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
       return check(page, id);
     };
 
-    /** Per question of the fixture bank: a right and a wrong answer, and what the feedback says to each. */
+    const colorado = "Der Colorado ist der größte Fluss im Südwesten Nordamerikas. Er ist gut 2300 km lang.";
+    /** Per question of the fixture bank: a right and a wrong answer, and what the learner reads after each. */
     const answers: {
       id: string;
       give: (page: Page, right: boolean) => Promise<string>;
-      onRight: string;
-      onWrong: string;
+      onRight: readonly string[];
+      onWrong: readonly string[];
     }[] = [
       {
-        id: "meter",
-        give: (page, right) => choose(page, "meter", [right ? "1" : "0"]),
-        onRight: "Genau: Zenti heißt ein Hundertstel.",
-        onWrong: "10 Zentimeter sind ein Dezimeter.",
+        id: "grand-canyon",
+        give: (page, right) => choose(page, "grand-canyon", [right ? "0" : "1"]),
+        onRight: [`Colorado richtige Antwort deine Wahl ${colorado}`, "Mit rund 6650 km gilt er als längster Fluss"],
+        onWrong: ["Nil deine Wahl", `Colorado richtige Antwort ${colorado}`],
       },
       {
-        id: "laengen",
-        give: (page, right) => choose(page, "laengen", right ? ["0", "2"] : ["0", "1"]),
-        onRight: "Richtig: 1 mm ist ein Tausendstel Meter.",
-        onWrong: "Eine Sekunde misst eine Zeit.",
+        id: "weltnaturerbe",
+        give: (page, right) => choose(page, "weltnaturerbe", right ? ["0", "1", "2"] : ["0", "3"]),
+        onRight: ["Victoriafälle richtige Antwort deine Wahl", "nur auf der Liste der Vorschläge"],
+        onWrong: ["Mont Blanc deine Wahl", "Kilimandscharo richtige Antwort Der Kilimandscharo"],
       },
       {
-        id: "stunde",
-        give: (page, right) => choose(page, "stunde", [right ? "false" : "true"]),
-        onRight: "Genau: Eine Stunde hat 60 Minuten.",
-        onWrong: "Bei der Zeit rechnet man nicht mit 100",
+        id: "totes-meer",
+        give: (page, right) => choose(page, "totes-meer", [right ? "true" : "false"]),
+        onRight: ["Richtige Antwort: Die Aussage stimmt.", "mehr als 440 m unter dem Meeresspiegel"],
+        onWrong: ["Richtige Antwort: Die Aussage stimmt."],
       },
       {
-        id: "schritt",
-        give: (page, right) => type(page, "schritt", right ? "3,04" : "3,1"),
-        onRight: "",
-        onWrong: "",
+        id: "everest-hoehe",
+        give: (page, right) => type(page, "everest-hoehe", right ? "8900" : "8700"),
+        onRight: ["Richtige Antwort: 8.848 m (erlaubte Abweichung: 100 m)"],
+        onWrong: ["Edmund Hillary und Tenzing Norgay"],
       },
       {
-        id: "zeiten",
-        give: (page, right) => place(page, "zeiten", "item", right ? [0, 1, 2, 3] : [1, 0, 2, 3]),
-        onRight: "",
-        onWrong: "",
+        id: "berge-ordnen",
+        give: (page, right) => place(page, "berge-ordnen", "item", right ? [0, 1, 2, 3] : [1, 0, 2, 3]),
+        onRight: ["1. Zugspitze, 2. Mont Blanc, 3. Kilimandscharo, 4. Mount Everest"],
+        onWrong: ["Die Zugspitze ist mit 2962 m der höchste Berg Deutschlands."],
       },
       {
-        id: "abkuerzungen",
-        give: (page, right) => place(page, "abkuerzungen", "left", right ? [0, 1, 2] : [1, 2, 0]),
-        onRight: "",
-        onWrong: "",
+        id: "wasserfaelle-laender",
+        give: (page, right) => place(page, "wasserfaelle-laender", "left", right ? [0, 1, 2] : [1, 2, 0]),
+        onRight: ["Niagarafälle – USA und Kanada"],
+        onWrong: ["Iguazú-Wasserfälle – Brasilien und Argentinien"],
+      },
+      {
+        id: "galapagos",
+        give: (page, right) => choose(page, "galapagos", [right ? "0" : "2"]),
+        onRight: ["Galapagosinseln richtige Antwort deine Wahl"],
+        onWrong: ["Great Barrier Reef deine Wahl", "Galapagosinseln richtige Antwort"],
+      },
+      {
+        id: "uluru",
+        give: (page, right) => choose(page, "uluru", [right ? "false" : "true"]),
+        onRight: ["Richtige Antwort: Die Aussage stimmt nicht.", "Seit Oktober 2019"],
+        onWrong: ["Richtige Antwort: Die Aussage stimmt nicht."],
       },
     ];
 
     test.each(answers)(
-      "$id accepts the right answer and rejects a wrong one",
+      "$id accepts the right answer, rejects a wrong one, and then shows what there is to know",
       async ({ id, give, onRight, onWrong }) => {
         const right = await open(`./#frage-${id}`);
         const accepted = await give(right, true);
-        expect(accepted).toContain("Richtig!");
-        expect(accepted).toContain(onRight);
+        expect(accepted).toMatch(/^Richtig!/);
+        for (const text of onRight) expect(accepted).toContain(text);
         const wrong = await open(`./#frage-${id}`);
         const rejected = await give(wrong, false);
-        expect(rejected).toContain("Leider nicht richtig.");
-        expect(rejected).toContain(onWrong);
+        expect(rejected).toMatch(/^Leider nicht richtig\./);
+        for (const text of onWrong) expect(rejected).toContain(text);
       },
     );
 
     test("a deep link opens its question, and only it", async () => {
-      const page = await open("./?seed=7#frage-zeiten");
-      await expect.poll(() => question(page, "zeiten").isVisible()).toBe(true);
+      const page = await open("./?seed=7#frage-berge-ordnen");
+      await expect.poll(() => question(page, "berge-ordnen").isVisible()).toBe(true);
       expect(await page.locator(".quiz-question:visible").count()).toBe(1);
     });
 
@@ -261,9 +289,9 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
         await answer.give(page, true);
         await question(page, answer.id).locator(".quiz-next").click();
       }
-      expect(await page.locator(".quiz-score").innerText()).toBe("Du hast 6 von 6 Fragen richtig beantwortet.");
+      expect(await page.locator(".quiz-score").innerText()).toBe("Du hast 8 von 8 Fragen richtig beantwortet.");
       expect(await page.locator("#loesungen").isVisible()).toBe(true);
-      expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(["lernapps:laengen-quiz:last-result"]);
+      expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(["lernapps:naturwunder:last-result"]);
     });
 
     test("without JavaScript, every question reads, with the answers at the end", async () => {
@@ -274,11 +302,16 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
         expect(await question(page, id).locator("legend").innerText()).toBe(asked);
         expect(text.indexOf(asked)).toBeLessThan(text.search(/^Lösungen$/m));
       }
-      const solutions = await page.locator("#loesungen").innerText();
-      expect(solutions).toContain("Richtige Antwort: 100");
-      expect(solutions).toContain("3 m (erlaubte Abweichung: 0,05 m)");
-      expect(solutions).toContain("1. 1 Minute, 2. 1 Stunde, 3. 1 Tag, 4. 1 Woche");
-      expect(solutions).toContain("Kilometer – km");
+      const solutions = flat(await page.locator("#loesungen").innerText());
+      expect(solutions).toContain(`Colorado richtige Antwort ${colorado}`);
+      expect(solutions).toContain("Richtige Antwort: 8.848 m (erlaubte Abweichung: 100 m)");
+      expect(solutions).toContain("1. Zugspitze, 2. Mont Blanc, 3. Kilimandscharo, 4. Mount Everest");
+      expect(solutions).toContain("Niagarafälle – USA und Kanada");
+      expect(solutions).toContain("Mehr dazu:");
+      const reading = page.locator('#loesungen a[href="https://de.wikipedia.org/wiki/Grand_Canyon"]');
+      expect(await reading.innerText()).toBe("Grand Canyon (Wikipedia)");
+      expect(await reading.getAttribute("rel")).toBe("noopener");
+      expect(await page.locator("#quellen").innerText()).toContain("Wikipedia, die freie Enzyklopädie");
       expect(await page.locator('a[href="https://lernapps.net/imprint/"]').count()).toBe(1);
       expect(await page.locator('a[href="https://lernapps.net/privacy/"]').count()).toBe(1);
     });
@@ -303,7 +336,7 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
       expect(result.code).not.toBe(0);
       expect(output(result)).toContain("src/quiz.json is not a valid question bank");
       expect(output(result)).toContain(
-        'questions[0] (question "meter"): a single-choice question needs exactly one correct option; it has 3',
+        'questions[0] (question "grand-canyon"): a single-choice question needs exactly one correct option; it has 4',
       );
       expect(output(result)).toContain("https://lernapps.net/tooling/schemas/quiz.v1.schema.json");
     });
@@ -321,11 +354,11 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
         third["type"] = "essay";
         const result = build(JSON.stringify(broken));
         expect(result.code).not.toBe(0);
-        expect(output(result)).toContain('questions[1] (question "laengen"): options is missing');
-        expect(output(result)).toContain('questions[2].type (question "stunde"): must be one of single-choice');
+        expect(output(result)).toContain('questions[1] (question "weltnaturerbe"): options is missing');
+        expect(output(result)).toContain('questions[2].type (question "totes-meer"): must be one of single-choice');
         const twice = bank();
-        if (twice.questions[1]) twice.questions[1]["id"] = "meter";
-        expect(output(build(JSON.stringify(twice)))).toContain('the id "meter" appears twice');
+        if (twice.questions[1]) twice.questions[1]["id"] = "grand-canyon";
+        expect(output(build(JSON.stringify(twice)))).toContain('the id "grand-canyon" appears twice');
       },
     );
 

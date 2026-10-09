@@ -1,7 +1,8 @@
 // The generator, `lernapps create --archetype <name> [<dir>]`: writes a new app into an empty folder. It copies the
 // archetype's folder from lernapps/app-templates at the commit pinned in this package (package.json, appTemplates),
-// so templates and presets change together, then writes what every app has: AGENTS.md, the plan file, the
-// workflows, LICENSE, an issue form for content errors and the Renovate configuration (generator/app/).
+// and makes the app depend on the runtime of that same commit (the package @lernapps/app-templates at the root of
+// that repo), so template and runtime always match. Then it writes what every app has: AGENTS.md, the plan file,
+// the workflows, LICENSE, an issue form for content errors and the Renovate configuration (generator/app/).
 import { spawnSync } from "node:child_process";
 import {
   cpSync,
@@ -24,7 +25,8 @@ export const CREATE_USAGE = `Usage: lernapps create --archetype <name> [<dir>] [
 
 Writes a new app from the archetype's template into <dir> (default: the current folder), which must be empty
 except for .git and the plan file .vibe/plan.md. The template is the folder <name>/ of lernapps/app-templates at
-the commit pinned in @lernapps/tooling; fetching it needs git and the network.
+the commit pinned in @lernapps/tooling; the app depends on the runtime @lernapps/app-templates of the same commit.
+Fetching the template needs git and the network.
 
 Then: npm install (installs the git hooks; run git init first if <dir> is not a repository yet).
 
@@ -47,19 +49,16 @@ const fromPackage = (...path: string[]) => join(packageRoot, ...path);
 interface Manifest {
   name?: string;
   devDependencies?: Record<string, string>;
-  appTemplates?: { repository: string; commit: string };
+  appTemplates?: { repository: string; commit: string; archetypes: string[] };
   [key: string]: unknown;
 }
 
 const readJson = (file: string): Manifest => JSON.parse(readFileSync(file, "utf8")) as Manifest;
 const writeJson = (file: string, value: unknown) => writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
-/** The archetypes this version of the package has a preset for. */
+/** The archetypes this version of the package has templates for: the folders of app-templates at the pin. */
 export function archetypes(): string[] {
-  return readdirSync(fromPackage("archetypes"), { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && entry.name !== "shared")
-    .map((entry) => entry.name)
-    .sort();
+  return [...(readJson(fromPackage("package.json")).appTemplates?.archetypes ?? [])].sort();
 }
 
 /** What is in the folder besides .git and the plan file. */
@@ -113,6 +112,17 @@ const packageName = (dir: string) =>
     .replace(/^-+|-+$/g, "") || "app";
 
 const commitOf = (spec: string | undefined) => /#([0-9a-f]{40})$/.exec(spec ?? "")?.[1];
+
+/** The runtime package at the root of app-templates. */
+const RUNTIME = "@lernapps/app-templates";
+
+/** The npm spec of the runtime at `commit` of `repository`: GitHub, another git URL, or a local clone. */
+function runtimeSpec(repository: string, commit: string): string {
+  const github = /^(?:https:\/\/|git@)github\.com[/:]([^/]+)\/([^/]+?)(?:\.git)?\/?$/.exec(repository);
+  if (github) return `github:${github[1]}/${github[2]}#${commit}`;
+  if (existsSync(repository)) return `git+file://${resolve(repository)}#${commit}`;
+  return `git+${repository}#${commit}`;
+}
 
 /** The plan: the one given, the one in the folder, or a new one from the template, for this archetype. */
 function writePlan(dir: string, archetype: string, plan: string | undefined): void {
@@ -198,6 +208,12 @@ export function create(args: string[]): number {
   const templateTooling = app.devDependencies?.["@lernapps/tooling"];
   const name = packageName(dir);
   app.name = name;
+  // the template uses the runtime of its own checkout (file:.., installed as a copy through .npmrc); the app the
+  // runtime of the commit it was copied from
+  if (app.devDependencies?.[RUNTIME] !== undefined) {
+    app.devDependencies = { ...app.devDependencies, [RUNTIME]: runtimeSpec(repository, pin.commit) };
+    rmSync(join(dir, ".npmrc"), { force: true });
+  }
   if (values.tooling !== undefined) {
     app.devDependencies = { ...app.devDependencies, "@lernapps/tooling": values.tooling };
     rmSync(join(dir, "package-lock.json"), { force: true }); // locks the template's tooling, not this one
