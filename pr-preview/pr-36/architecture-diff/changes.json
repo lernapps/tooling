@@ -5,7 +5,7 @@
     "commit": "d3cc3cf59fa684449af09edd77c053b33e36f08e"
   },
   "head": {
-    "label": "d21bcbdfe23c86367428ff3a30d81f3ca884bf48"
+    "label": "10260968642cbd834ad27b95c3697387644eaa04"
   },
   "acceptanceBase": "d3cc3cf59fa684449af09edd77c053b33e36f08e",
   "untracked": [],
@@ -38,7 +38,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 187
+          "line": 186
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -68,7 +68,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 204
+          "line": 203
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -94,7 +94,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 231
+          "line": 227
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -102,58 +102,6 @@
             "Building Blocks",
             "@lernapps/tooling",
             "Archetype presets"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "if-archetype-preset",
-        "kind": "interface",
-        "status": "modified",
-        "attributes": [
-          {
-            "name": "protocol",
-            "before": "npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y) and the hooks directory",
-            "after": "npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y; per archetype its preset, runtime and end-to-end tests) and the hooks directory"
-          }
-        ],
-        "proseChanged": true,
-        "base": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 237
-        },
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 249
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Archetype presets",
-            "Archetype preset interface"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "if-question-bank",
-        "kind": "interface",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 265
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "@lernapps/tooling",
-            "Archetype presets",
-            "Question bank"
           ],
           "occurrence": 1
         }
@@ -167,9 +115,18 @@
             "name": "requires",
             "before": [],
             "after": [
-              "if-archetype-preset",
-              "if-question-bank"
+              "if-archetype-preset"
             ]
+          },
+          {
+            "name": "technology",
+            "before": "lernapps/app-templates, one folder per archetype",
+            "after": "lernapps/app-templates, one folder per archetype, the runtime package @lernapps/app-templates (TypeScript, Vite plugin, Playwright)"
+          },
+          {
+            "name": "title",
+            "before": "Archetype templates",
+            "after": "Archetype templates and runtimes"
           }
         ],
         "proseChanged": true,
@@ -179,13 +136,180 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 461
+          "line": 452
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "headingPath": [
             "Building Blocks",
-            "Archetype templates"
+            "Archetype templates and runtimes"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-archetype-templates",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 444
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 466
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes",
+            "Archetype templates interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-archetype-runtime",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 481
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes",
+            "Archetype runtime"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-question-bank",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 500
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes",
+            "Question bank"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-templates-repo",
+        "kind": "deployment-node",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 135
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 136
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "lernapps/app-templates"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-archetypes",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 31
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 35
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Archetypes as the variation point"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-templates-repo",
+        "kind": "decision",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "date",
+            "before": "2026-10-08",
+            "after": "2026-10-09"
+          },
+          {
+            "name": "title",
+            "before": "Templates in lernapps/app-templates, logic in the package",
+            "after": "Templates and runtimes in lernapps/app-templates, tooling in the package"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 99
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 104
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Templates and runtimes in lernapps/app-templates, tooling in the package"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-runtime-package",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 131
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "The runtime is a package the app depends on"
           ],
           "occurrence": 1
         }
@@ -199,7 +323,7 @@
           {
             "name": "source",
             "before": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli",
-            "after": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-app-templates -->|\"if-question-bank\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli"
+            "after": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli"
           }
         ],
         "base": {
@@ -217,8 +341,8 @@
         "status": "added",
         "edge": {
           "from": "bb-app-templates",
-          "to": "if-archetype-preset",
-          "relation": "requires"
+          "to": "if-archetype-runtime",
+          "relation": "provides"
         }
       },
       {
@@ -226,24 +350,71 @@
         "edge": {
           "from": "bb-app-templates",
           "to": "if-question-bank",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-app-templates",
+          "to": "if-archetype-preset",
           "relation": "requires"
         }
       },
       {
         "status": "added",
         "edge": {
-          "from": "bb-archetypes",
-          "to": "if-question-bank",
-          "relation": "provides"
+          "from": "dec-runtime-package",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-runtime-package",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
         }
       }
     ],
-    "proseSections": [],
+    "proseSections": [
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1
+        }
+      }
+    ],
     "documents": [
       {
         "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 2,
+        "modified": 7,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
         "added": 1,
-        "modified": 6,
+        "modified": 2,
         "removed": 0
       }
     ]

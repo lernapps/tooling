@@ -73,8 +73,10 @@
 <tr><td><a href="#quiz-clear-question"><code>quiz-clear-question</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
 <tr><td><a href="#quiz-feedback-explains"><code>quiz-feedback-explains</code></a></td><td>archetype:quiz</td><td>hint</td></tr>
 <tr><td><a href="#quiz-fitting-type"><code>quiz-fitting-type</code></a></td><td>archetype:quiz</td><td>hint</td></tr>
+<tr><td><a href="#quiz-further-reading"><code>quiz-further-reading</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
 <tr><td><a href="#quiz-number-precision"><code>quiz-number-precision</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
 <tr><td><a href="#quiz-only-data"><code>quiz-only-data</code></a></td><td>archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#quiz-own-words"><code>quiz-own-words</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
 <tr><td><a href="#quiz-plausible-options"><code>quiz-plausible-options</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
 <tr><td><a href="#quiz-stable-ids"><code>quiz-stable-ids</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
 <tr><td><a href="#site-check"><code>site-check</code></a></td><td></td><td></td></tr>
@@ -340,16 +342,16 @@
 <h2>Extend the preset, change nothing of it</h2>
 <p><code>keep-the-preset</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
 <div>
-<p>An app from an archetype extends the preset of <code>@lernapps/tooling</code> and configures nothing the preset sets: <code>vite.config.ts</code> is <code>export default lernapps()</code>, <code>tsconfig.json</code> only extends <code>@lernapps/tooling/tsconfig.json</code>, the hooks come from the package (<code>prepare</code> in <code>package.json</code>). Pass only the app's own settings to <code>lernapps({ ... })</code>, such as the pages to build. Never turn a lint rule off or lower its severity, never replace a hook.</p>
+<p>An app from an archetype extends the preset of <code>@lernapps/tooling</code> and configures nothing the preset sets: <code>vite.config.ts</code> is <code>export default lernapps()</code>, <code>tsconfig.json</code> only extends <code>@lernapps/tooling/tsconfig.json</code>, the hooks come from the package (<code>prepare</code> in <code>package.json</code>). Pass only the app's own settings to <code>lernapps({ ... })</code>, such as the pages to build or the build step of its archetype's runtime, as generated: <code>lernapps({ plugins: [quiz()] })</code>. Never turn a lint rule off or lower its severity, never replace a hook.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
 </section>
 
 <section id="quiz-answers-checked">
-<h2>Check every answer</h2>
+<h2>Check every fact</h2>
 <p><code>quiz-answers-checked</code> · archetype:quiz · hint</p>
 <div>
-<p>Compute every number and check every marked option before you commit; for facts, note the source in the plan (<code>third-party-licence</code> when you take content from others). Learners report errors through the issue form the generator wrote (<code>.github/ISSUE_TEMPLATE/inhaltsfehler.yml</code>).</p>
+<p>Check every marked option, every number and every <code>info</code> against the linked article before you commit. Where you cannot open a source, say so in the plan and mark the fact as not checked; never fill a gap from memory. Learners report errors through the issue form the generator wrote (<code>.github/ISSUE_TEMPLATE/inhaltsfehler.yml</code>).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>
@@ -358,7 +360,8 @@
 <h2>The question bank validates</h2>
 <p><code>quiz-bank-valid</code> · archetype:quiz · error</p>
 <div>
-<p>The bank validates against its schema, and the build checks what the schema cannot: exactly one correct option in a single choice, at least one in a multiple choice, ids and options that appear only once. A broken bank fails the build with one line per problem, naming the question by its position and id. Fix each one in <code>src/quiz.json</code>.</p>
+<p>The bank validates against its schema. The build also checks what the schema cannot say: - exactly one correct option in a single choice, at least one in a multiple choice; - ids and options that appear only once.</p>
+<p>A broken bank fails the build with one line per problem, naming the question by its position and id. Fix each one in <code>src/quiz.json</code>.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>
@@ -367,16 +370,16 @@
 <h2>One clear question at a time</h2>
 <p><code>quiz-clear-question</code> · archetype:quiz · warning</p>
 <div>
-<p>Ask one thing per question, complete in itself: the learner knows what to answer before reading the options. Ask positively; avoid &quot;nicht&quot; in the question, and never two negations. No trick questions: test what the app teaches, not careful reading. Plain German, short sentences (<code>learner-text-german</code>).</p>
+<p>Ask one thing per question, complete in itself: the learner knows what to answer before reading the options. Ask positively; avoid &quot;nicht&quot; in the question, and never two negations. No trick questions: ask what is worth knowing, not whether the learner reads carefully. Plain German, short sentences (<code>learner-text-german</code>).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>
 
 <section id="quiz-feedback-explains">
-<h2>Feedback says why</h2>
+<h2>Background and explanation say why</h2>
 <p><code>quiz-feedback-explains</code> · archetype:quiz · hint</p>
 <div>
-<p>Every option's feedback says why the option is right or wrong; &quot;Falsch&quot; alone is not feedback. For a wrong option, name the mistake behind it and point the way, e.g. &quot;Du hast nur den Nenner geteilt. Beim Kürzen teilst du Zähler und Nenner durch dieselbe Zahl.&quot; or &quot;Nein: 3/4 ist größer, weil 3/4 = 6/8 und 6/8 &gt; 5/8.&quot; The <code>explanation</code> shows how to reach the right answer, in one to three sentences.</p>
+<p>Give every option an <code>info</code> of one to three sentences about the option itself. It must be true whether or not the option is the right answer, so that a learner who chose it learns something real. Example: &quot;Der Nil fließt durch mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer.&quot; The <code>explanation</code> says in one to three sentences why the right answer is right. For true/false, number, ordering and matching it also carries the background.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md"><code>review/archetypes/quiz.md</code></a>.</p>
 </section>
@@ -385,7 +388,18 @@
 <h2>The type that fits the question</h2>
 <p><code>quiz-fitting-type</code> · archetype:quiz · hint</p>
 <div>
-<p>Choose the type from what the learner should do: compute (<code>number</code>, not options to guess from), put steps or sizes in order (<code>ordering</code>), connect terms (<code>matching</code>), decide about a statement (<code>true-false</code>). Mix types across the quiz.</p>
+<p>Choose the type from what the learner should do: - recall one fact out of several things of the same kind: <code>single-choice</code>; - several facts: <code>multiple-choice</code>; - estimate a size: <code>number</code>; - compare sizes or dates: <code>ordering</code>; - connect things that belong together: <code>matching</code>; - judge a statement: <code>true-false</code>.</p>
+<p>Mix types across the quiz.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-further-reading">
+<h2>Every question links to further reading</h2>
+<p><code>quiz-further-reading</code> · archetype:quiz · warning</p>
+<div>
+<p>Link every question to at least one page where learners read on, best the article in the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>). Open every link before you commit: - it answers without an error; - it is the article you mean, not a disambiguation page (&quot;Begriffsklärung&quot;); - it says what your question and options say.</p>
+<p>Name the page in the link's <code>title</code>, e.g. &quot;Uluru (Wikipedia)&quot;. Never guess an address.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>
@@ -394,7 +408,7 @@
 <h2>Numbers with unit and rounding</h2>
 <p><code>quiz-number-precision</code> · archetype:quiz · warning</p>
 <div>
-<p>A <code>number</code> question says in its text how exactly to answer (&quot;Runde auf eine Stelle nach dem Komma&quot;) and names the unit in <code>unit</code>, not in the learner's answer. Match <code>tolerance</code> to that rounding: half of the last place asked for (0.05 for one decimal place), 0 for whole numbers that must be exact.</p>
+<p>A <code>number</code> question says in its text how exactly to answer, e.g. &quot;Bis zu 100 m daneben zählt noch als richtig&quot;. It names the unit in <code>unit</code>, not in the learner's answer. Match <code>tolerance</code> to what the text says. Where sources differ (the height of a mountain), choose a tolerance that covers them.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>
@@ -403,16 +417,25 @@
 <h2>Write only the question bank</h2>
 <p><code>quiz-only-data</code> · archetype:quiz · error</p>
 <div>
-<p>Change <code>src/quiz.json</code> and nothing of the quiz's code: keep <code>index.html</code>, <code>src/main.ts</code>, <code>e2e/quiz.e2e.ts</code> and the configuration as generated (<code>keep-the-preset</code>). If the quiz needs something the bank cannot say, write it under &quot;Where I had to guess&quot; in the retrospective instead of coding around the engine.</p>
+<p>Change <code>src/quiz.json</code> and nothing of the quiz's code. Keep <code>index.html</code>, <code>src/main.ts</code>, <code>e2e/quiz.e2e.ts</code> and the configuration as generated (<code>keep-the-preset</code>). If the quiz needs something the bank cannot say, write it under &quot;Where I had to guess&quot; in the retrospective instead of coding around the runtime.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-own-words">
+<h2>Write in your own words</h2>
+<p><code>quiz-own-words</code> · archetype:quiz · warning</p>
+<div>
+<p>Take facts from your sources, never their sentences. Wikipedia's texts are under CC BY-SA, so a copied sentence needs attribution and puts the app's texts under the same licence. Write each <code>info</code> and <code>explanation</code> new, shorter and plainer than the source, for learners of the school year the app is for. Facts themselves are free to use; name where they come from in <code>sources</code> (<code>third-party-licence</code>).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>
 
 <section id="quiz-plausible-options">
-<h2>Wrong options a learner could believe</h2>
+<h2>Options a learner could believe</h2>
 <p><code>quiz-plausible-options</code> · archetype:quiz · warning</p>
 <div>
-<p>Take every wrong option from a real mistake: a typical misconception, a common slip in calculating, a confusion of terms. Make all options alike in length, form and detail, so that the right one does not stand out. No &quot;Alle genannten&quot; or &quot;Keine davon&quot;, no joke options. Three or four options are enough.</p>
+<p>Make every wrong option a real thing of the same kind as the right one: a river for a river, a mountain for a mountain. A learner could mix it up, and it has true background of its own. Make all options alike in length and form, so that the right one does not stand out. No &quot;Alle genannten&quot; or &quot;Keine davon&quot;, no joke options. Three or four options are enough.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>
@@ -421,7 +444,7 @@
 <h2>Keep the ids</h2>
 <p><code>quiz-stable-ids</code> · archetype:quiz · warning</p>
 <div>
-<p>Give each question a short, telling <code>id</code> (&quot;brueche-kuerzen&quot;) and keep it when you change the text: teachers share links to single questions (<code>#frage-&lt;id&gt;</code>). Give a new question a new id; never reuse the id of a removed one.</p>
+<p>Give each question a short, telling <code>id</code> (&quot;grand-canyon&quot;) and keep it when you change the text: teachers share links to single questions (<code>#frage-&lt;id&gt;</code>). Give a new question a new id; never reuse the id of a removed one.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>

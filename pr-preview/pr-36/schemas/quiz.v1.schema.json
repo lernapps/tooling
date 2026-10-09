@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://lernapps.net/tooling/schemas/quiz.v1.schema.json",
   "title": "Question bank of a lernapps quiz",
-  "description": "The questions of a quiz built from the archetype quiz of @lernapps/tooling, in src/quiz.json. The build validates the bank against this schema and fails with a message naming each problem. Every text is for learners: German, plain language.",
+  "description": "The questions of a quiz built from the archetype quiz (runtime @lernapps/app-templates), in src/quiz.json: a quiz about things to know. Each option carries short background knowledge, each question links to further reading. The build validates the bank against this schema and fails with a message naming each problem. Every text is for learners: German, plain language, in your own words.",
   "type": "object",
   "additionalProperties": false,
   "required": ["title", "intro", "questions"],
@@ -31,6 +31,14 @@
       "items": {
         "$ref": "#/$defs/question"
       }
+    },
+    "sources": {
+      "description": "Where the facts of the quiz come from, listed at the end of the page.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
     }
   },
   "$defs": {
@@ -41,7 +49,7 @@
     },
     "question": {
       "type": "object",
-      "required": ["id", "type", "text", "explanation"],
+      "required": ["id", "type", "text", "explanation", "links"],
       "properties": {
         "id": {
           "description": "Stable name of the question, used in its address (#frage-<id>): lower-case letters, digits and hyphens. Keep it when the text changes, so links to the question keep working.",
@@ -57,8 +65,16 @@
           "$ref": "#/$defs/text"
         },
         "explanation": {
-          "description": "Why the right answer is right, shown with the solutions at the end.",
+          "description": "Why the right answer is right, in one to three sentences. For number, ordering and matching questions also the background knowledge, as their options carry none.",
           "$ref": "#/$defs/text"
+        },
+        "links": {
+          "description": "Further reading on the question, at least one link, e.g. to the article in the German Wikipedia.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/link"
+          }
         }
       },
       "allOf": [
@@ -161,7 +177,7 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["text", "correct", "feedback"],
+            "required": ["text", "correct", "info"],
             "properties": {
               "text": {
                 "description": "The option as the learner reads it.",
@@ -171,9 +187,13 @@
                 "description": "Whether this option is correct.",
                 "type": "boolean"
               },
-              "feedback": {
-                "description": "Shown when the learner chose this option: for a wrong option, why it is wrong (the misconception behind it); for a correct one, why it is right.",
+              "info": {
+                "description": "One to three sentences of background on this option itself, true whether or not it is the right answer, e.g. \"Der Uluru ist ein Inselberg in der Wüste Zentralaustraliens ...\". Shown for every option after the answer.",
                 "$ref": "#/$defs/text"
+              },
+              "link": {
+                "description": "Further reading on this option.",
+                "$ref": "#/$defs/link"
               }
             }
           }
@@ -182,32 +202,18 @@
     },
     "trueFalse": {
       "type": "object",
-      "description": "A statement the learner judges as true or false.",
-      "required": ["answer", "feedback"],
+      "description": "A statement the learner judges as true or false; the background goes into the explanation.",
+      "required": ["answer"],
       "properties": {
         "answer": {
           "description": "Whether the statement is true.",
           "type": "boolean"
-        },
-        "feedback": {
-          "description": "Shown for the learner's choice: for the true and for the false choice.",
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["true", "false"],
-          "properties": {
-            "true": {
-              "$ref": "#/$defs/text"
-            },
-            "false": {
-              "$ref": "#/$defs/text"
-            }
-          }
         }
       }
     },
     "number": {
       "type": "object",
-      "description": "The learner types a number; it counts when it is within the tolerance of the answer. A comma or a point both work as the decimal sign.",
+      "description": "The learner types a number; it counts when it is within the tolerance of the answer. A comma or a point both work as the decimal sign. The background goes into the explanation.",
       "required": ["answer", "tolerance"],
       "properties": {
         "answer": {
@@ -227,7 +233,7 @@
     },
     "ordering": {
       "type": "object",
-      "description": "The learner puts the items in order. Write them in the right order: the page shows them mixed.",
+      "description": "The learner puts the items in order, e.g. by height. Write them in the right order: the page shows them mixed. The background goes into the explanation.",
       "required": ["items"],
       "properties": {
         "items": {
@@ -242,7 +248,7 @@
     },
     "matching": {
       "type": "object",
-      "description": "The learner matches each left entry with its right entry. Write the pairs as they belong together: the page shows the right entries mixed.",
+      "description": "The learner matches each left entry with its right entry. Write the pairs as they belong together: the page shows the right entries mixed. The background goes into the explanation.",
       "required": ["pairs"],
       "properties": {
         "pairs": {
@@ -262,6 +268,38 @@
               }
             }
           }
+        }
+      }
+    },
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "url"],
+      "properties": {
+        "title": {
+          "description": "The link's text: what the learner finds there, e.g. \"Uluru (Wikipedia)\".",
+          "$ref": "#/$defs/text"
+        },
+        "url": {
+          "description": "The address, https only. Check that it opens the page you mean.",
+          "type": "string",
+          "pattern": "^https://[^\\s]+$"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title"],
+      "properties": {
+        "title": {
+          "description": "The source, e.g. the article or book.",
+          "$ref": "#/$defs/text"
+        },
+        "url": {
+          "description": "Its address, if it is on the web; https only.",
+          "type": "string",
+          "pattern": "^https://[^\\s]+$"
         }
       }
     }
