@@ -72,7 +72,8 @@ mitigation: The preset installs Playwright's browser once and caches it; the che
 ## Rule artifacts drift apart
 
 Without a central rule file, the same rule can be worded differently in a skill and a check, or a moved rule can
-stay in its old place.
+stay in its old place. No program compares the artifacts of one id; the rule list grouped by id makes the
+differences visible to the agent that reviews it.
 
 ```arc42
 :::risk

@@ -134,7 +134,7 @@ definition: The last section of the plan file, filled by the assistant at the en
 
 ## Rule
 
-Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. All rules together are the rule catalog (chapter 8).
+Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. One rule can be told in a skill and checked by a program at the same time, under one id. All rules together are the rule catalog (chapter 8).
 
 ```arc42
 :::glossary-term
