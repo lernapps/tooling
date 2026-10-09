@@ -19,14 +19,28 @@ npm install --save-dev --save-exact "github:lernapps/tooling#<commit>"
 npx lernapps --help
 ```
 
-It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the presets that follow. Today the
-CLI has one command:
+It has one CLI, `lernapps`, and subpath exports (`exports` in `package.json`) for the guidance below and the presets
+that follow. Today the CLI has one command:
 
 | Command | Runs |
 |---|---|
 | `lernapps check --pre-commit` | the fast part: format, lint, type check (`vp check`) |
 | `lernapps check --pre-push` | the heavy part: unit and end-to-end tests (`vp test`), build (`vp pack`) |
 | `lernapps check` | both parts, as CI does |
+
+The process guidance for building an app (EPCC: Explore, Plan, Code, Commit) is plain Markdown, exported for the
+generator and the assistant's harness:
+
+| Export | What it is |
+|---|---|
+| `@lernapps/tooling/guidance/AGENTS.md` | the app's `AGENTS.md`: keep a plan, follow its phases, stop at the checkpoints, load the skills |
+| `@lernapps/tooling/guidance/plan-template.md` | the plan file (`.vibe/plan.md` in an app): phases with tasks, the checkpoints, the Explore questions, the retrospective; comments explain each part |
+| `@lernapps/tooling/guidance/plan-front-matter.v1.schema.json` | JSON Schema of the plan's front matter: `archetype`, `phase`, `prePushFailures` (written by the pre-push hook) |
+| `@lernapps/tooling/skills/lernapps-app/SKILL.md` | the skill `lernapps-app` (agentskills.io): the workflow and the general rules, each with its id |
+
+Consumers rely on the front matter schema and on the plan's headings: `## Explore`, `## Plan`, `## Code`,
+`## Commit`, `## Retrospective` with `### Phases reached`, `### Failed checks`, `### Creator turns after the plan` and
+`### Where I had to guess`. A breaking change gets a new schema version.
 
 The package is TypeScript only and strict (`tsconfig.json`: `strict`, `noUncheckedIndexedAccess`,
 `exactOptionalPropertyTypes`, `noImplicitOverride`; lint forbids `any`; no JavaScript sources). The toolchain is
@@ -50,14 +64,16 @@ npm run build && npm run check:site      # the docs site, built and checked (job
 The tests (`test/`) check what a consumer relies on, end to end: a fresh clone gets green from `npm ci && npm run
 check` without building anything, the docs site builds and passes `check:site`, a planted type error, lint error or failing test turns the hook command, `git commit` / `git push` and the CI
 command red, a duplicate rule id, a `checked` rule without implementation or a message without its link turns the CI
-command red, the rule page lists every rule, the package installed from git provides `lernapps`, and the CLI's usage
-and exit codes. There are no unit
+command red, the rule page lists every rule, the package installed from git provides `lernapps` and resolves the
+guidance exports, the plan template and a filled plan validate against the front matter schema while incomplete ones
+fail with a message naming the problem, every plan has the sections the retrospective needs, and the CLI's usage and
+exit codes. There are no unit
 tests of internals.
 
 ### Rules
 
 Every rule an app follows lives in the artifact where it acts, with a stable id (architecture, chapter 8, "Rule
-catalog"). A rule is declared once, by a rule block under the heading of the section that explains it:
+catalog"). A rule is declared once, by a rule block under the heading of the skill section that explains it:
 
 ````markdown
 ### Load nothing from other servers before a click
@@ -72,25 +88,27 @@ enforcement: guided
 Bundle scripts, styles, fonts ... with the app at build time.
 ````
 
-| Artifact | Declares or implements | Where |
+| Artifact | Declares or enforces | Where |
 |---|---|---|
-| section of a skill | a `guided` or `checked` rule, by its rule block | `skills/**/*.md` |
-| item of the review rubric | a `reviewed` rule, by its rule block | `review/**/*.md` |
-| lint rule | a `checked` rule: file name = id, `meta.docs.url` = link | `lint/rules/<id>.ts` |
-| check of the built app | a `checked` rule: `export default { id, url, ... }` | `check/rules/*.ts` |
+| section of a skill | declares a rule, by its rule block | `skills/**/*.md` |
+| lint rule | enforces a `checked` rule: file name = id, `meta.docs.url` = link | `lint/rules/<id>.ts` |
+| check of the built app | enforces a `checked` rule: `export default { id, url, ... }` | `check/rules/*.ts` |
+| item of the review rubric | enforces a `reviewed` rule: a fenced `rubric` block with `id: <rule id>` | `review/**/*.md` |
 
 The link is always `https://lernapps.net/tooling/rules/#<id>`. `node scripts/rules.ts test` reads all artifacts and
-fails on an id declared twice, a `checked` rule without lint rule or check, a lint rule or check without a declared
-id, or a link that does not point to its rule; `test/rules.test.ts` runs it, so `lernapps check` (pre-push hook and
-CI) fails too. `node scripts/rules.ts page <file>` writes the rule page of the docs site from the same reading. The
-first rules, of scope `listing` (the listing criteria of lernapps/apps) and `site` (ORGANIZATION.md, "Every page, in
-every repo"), are in `skills/lernapps-app/SKILL.md` and `review/rubric.md`; both are placeholders the next steps fill.
+fails on an id declared twice, a `checked` rule without lint rule or check, a `reviewed` rule without rubric item,
+a lint rule, check or rubric item without a declared id of its enforcement, or a link that does not point to its
+rule; `test/rules.test.ts` runs it, so `lernapps check` (pre-push hook and CI) fails too. `node scripts/rules.ts page <file>` writes the rule page of the docs site from the same reading. The
+rules of scope `listing` (the listing criteria of lernapps/apps) and `site` (ORGANIZATION.md, "Every page, in every
+repo") are in `skills/lernapps-app/SKILL.md`, with the workflow rules; the reviewed ones have their items in
+`review/rubric.md`, a placeholder the review step fills. Rules that a check or lint rule will enforce are `guided` until
+that check or lint rule exists.
 
 ## Site actions
 
 Every site on lernapps.net is a static build in `_site/`, published on the repo's `gh-pages` branch and
 served by GitHub Pages under its path (`/`, `/apps/`, `/docs/`). Three composite actions do the work; the
-repos only hold two thin workflows that call them, with the same job names everywhere (`check`, `deploy`,
+repos only hold two thin workflows that call them, with the same job names everywhere (`site`, `deploy`,
 `preview`). The contract with a repo: `npm ci`, then `npm run build` writes `_site/`, then `npm run check`
 checks it (`lernapps-check` from the shared site frame in lernapps.github.io). A repo whose `check` checks its
 code names the site check with the input `check-script`; this repo does (`check:site`, job `site`), and its own
@@ -117,13 +135,13 @@ concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  check:
+  site:
     runs-on: ubuntu-latest
     steps:
       - uses: lernapps/tooling/actions/site-check@<commit> # main
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: check
+    needs: site
     runs-on: ubuntu-latest
     permissions:
       contents: write
