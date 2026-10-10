@@ -1,0 +1,63 @@
+name: lernapps app check
+description: >-
+  Checks an app the same way its git hooks did: `lernapps check` without a flag, the command of the pre-commit and
+  the pre-push hook together, nothing more. Around it only the environment: checkout, Node 22, npm ci, the Playwright
+  browser from the cache. Uploads the validation report the check writes (node_modules/.cache/lernapps/), passing or
+  not, as the artifact "validation-report". On main it also uploads the bundle it checked (dist/) as the artifact
+  "site" for site-deploy.
+inputs:
+  working-directory:
+    description: The app's folder in the workspace
+    default: "."
+  checkout:
+    description: Check out the repo first (false when an earlier step put the app in place)
+    default: "true"
+  report-artifact:
+    description: The name of the report's artifact (unique per workflow run)
+    default: validation-report
+  upload:
+    description: Upload the checked bundle dist/ as the artifact "site" (default on main)
+    default: ${{ github.ref == 'refs/heads/main' }}
+runs:
+  using: composite
+  steps:
+    - if: inputs.checkout == 'true'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: 22
+        cache: npm
+        cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+    - run: npm ci
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+    # The browser of the checks and the end-to-end tests: `lernapps check` installs it when it is missing.
+    - id: browser
+      uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ hashFiles(format('{0}/package-lock.json', inputs.working-directory)) }}
+        restore-keys: playwright-${{ runner.os }}-
+    # The check: exactly the command of the hooks (test/app-check.e2e.test.ts runs this line on the fixture apps).
+    - id: check
+      run: npx --no -- lernapps check
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+    - if: always() && steps.browser.outcome == 'success' && steps.browser.outputs.cache-hit != 'true'
+      uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ steps.browser.outputs.cache-primary-key }}
+    - if: always() && steps.check.outcome != 'skipped'
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: ${{ inputs.report-artifact }}
+        path: ${{ inputs.working-directory }}/node_modules/.cache/lernapps/validation-report.yaml
+        include-hidden-files: true # the report is below node_modules/.cache/
+        if-no-files-found: warn # the check stopped before its report; its log says why
+    - if: inputs.upload == 'true'
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: site
+        path: ${{ inputs.working-directory }}/dist
+        include-hidden-files: true
