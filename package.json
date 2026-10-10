@@ -66,7 +66,7 @@
   },
   "dependencies": {
     "@lernapps/site": "github:lernapps/lernapps.github.io#bd3ca7cd112220714f6a0db56d098253f913c4cc",
-    "axe-core": "4.13.0",
+    "axe-core": "4.14.0",
     "playwright": "1.63.0",
     "yaml": "2.9.1"
   },
