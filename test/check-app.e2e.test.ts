@@ -136,6 +136,18 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
     expect(second.stdout).toBe(first.stdout);
   });
 
+  test(
+    "a link that only changes the query is the same page: the report does not depend on it",
+    { timeout: SLOW },
+    () => {
+      // the start page links to itself with a random ?seed=, as a quiz does to start again
+      const first = check(app("query-link"));
+      expect(first.code, output(first)).toBe(1);
+      expect(findingsOf(first, "no-request-before-click").map((finding) => finding.where)).toEqual(["index.html"]);
+      expect(check(app("query-link")).stdout).toBe(first.stdout);
+    },
+  );
+
   test("an app that stores on the device is measured as storage: device", { timeout: SLOW }, () => {
     const file = join(tempDir("report"), "report.yaml");
     const result = check(app("local-storage"), "--report", file);

@@ -1,7 +1,7 @@
 // Runs real commands in real directories: the tests check what a consumer of the tooling relies on,
 // not its internals.
 import { spawn, spawnSync } from "node:child_process";
-import { cpSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -105,5 +105,44 @@ export function freshClone(): string {
   ok("git", ["init", "--quiet", "--initial-branch=main"], dir);
   ok("git", ["add", "--all"], dir);
   ok("git", ["commit", "--quiet", "--no-verify", "--message", "fresh clone"], dir);
+  return dir;
+}
+
+/**
+ * A local clone of lernapps/app-templates with the commit pinned in package.json (appTemplates), for the generator's
+ * tests: the one named by LERNAPPS_TEMPLATES, else one fetched once into node_modules/.cache/lernapps/. The commit is
+ * pinned, so the clone is the same everywhere, and the hooks run these tests as CI does. Without the network and
+ * without a cached clone, it fails and says what to do.
+ */
+export function appTemplates(): string {
+  const named = process.env["LERNAPPS_TEMPLATES"];
+  if (named !== undefined && named !== "") return resolve(named);
+  const manifest = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as {
+    appTemplates: { repository: string; commit: string };
+  };
+  const { repository, commit } = manifest.appTemplates;
+  const cache = join(repoRoot, "node_modules/.cache/lernapps/app-templates");
+  const dir = join(cache, commit);
+  if (existsSync(join(dir, ".git"))) return dir;
+  mkdirSync(cache, { recursive: true });
+  const work = mkdtempSync(join(cache, "fetch-"));
+  const git = (...args: string[]) => run("git", ["-c", "advice.detachedHead=false", ...args], work);
+  // the full history of the commit, on a branch: npm installs the runtime from this clone at the commit
+  const fetched = git("init", "--quiet").code === 0 ? git("fetch", "--quiet", repository, commit) : undefined;
+  if (fetched === undefined || fetched.code !== 0 || git("checkout", "--quiet", "-B", "pinned", "FETCH_HEAD").code) {
+    rmSync(work, { recursive: true, force: true });
+    throw new Error(
+      `cannot fetch lernapps/app-templates at ${commit} from ${repository}: ${fetched?.stderr.trim() ?? "git init failed"}. ` +
+        "The generator's tests need it once (then it is cached in node_modules/.cache/lernapps/); connect to the " +
+        "network, or set LERNAPPS_TEMPLATES to a local clone that has this commit",
+    );
+  }
+  try {
+    renameSync(work, dir);
+  } catch (error) {
+    // another test file fetched it at the same time
+    rmSync(work, { recursive: true, force: true });
+    if (!existsSync(join(dir, ".git"))) throw error;
+  }
   return dir;
 }

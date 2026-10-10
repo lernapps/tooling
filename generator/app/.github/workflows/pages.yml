@@ -1,9 +1,9 @@
 name: Pages
 
-# Checks the app and publishes it. The job `site` runs the shared site check of lernapps/tooling: npm ci,
-# npm run build (the app into _site/), npm run check (`lernapps check`: format, lint, type check, unit tests, build,
-# the checks of the built app and the end-to-end tests, exactly what the git hooks ran). On main, the job `deploy`
-# publishes _site/ to the gh-pages branch, which GitHub Pages serves.
+# Checks the app and publishes it. The job `site` runs the app check of lernapps/tooling: `lernapps check`, the same
+# command the git hooks ran (format, lint, type check, unit tests, build, the checks of the built app, the end-to-end
+# tests), and keeps its validation report as the artifact "validation-report". On main, the job `deploy` publishes
+# the bundle it checked to the gh-pages branch, which GitHub Pages serves.
 on:
   push:
     branches: [main]
@@ -21,7 +21,7 @@ jobs:
   site:
     runs-on: ubuntu-latest
     steps:
-      - uses: lernapps/tooling/actions/site-check@{{tooling}} # main
+      - uses: lernapps/tooling/actions/app-check@{{tooling}} # main
   deploy:
     if: github.ref == 'refs/heads/main'
     needs: site

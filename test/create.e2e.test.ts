@@ -9,19 +9,18 @@
 //     deep link opens its question; the seed in the address gives the order; the page reads without JavaScript,
 //     with the same in the answer key at the end;
 //   - a broken bank fails the build with a message naming the question and the problem.
-// The templates and the runtime come from a local clone of lernapps/app-templates with the pinned commit, named by
-// LERNAPPS_TEMPLATES (CI checks it out); without it, the tests that need them are skipped. The packages are installed
-// from git.
+// The templates and the runtime come from a local clone of lernapps/app-templates with the pinned commit: the one named
+// by LERNAPPS_TEMPLATES, else one fetched once into a cache (support.ts, appTemplates), so the hooks run these tests as
+// CI does. The packages are installed from git.
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium, type Browser, type Page } from "playwright";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { serve } from "../check/visit.ts";
 import { frontMatter, frontMatterErrors } from "./plan.ts";
-import { freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import { appTemplates, freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
-const templates = process.env["LERNAPPS_TEMPLATES"];
 const SLOW = 15 * 60 * 1000;
 const cli = join(repoRoot, "src/cli.ts");
 const BANK = join(repoRoot, "test/fixtures/quiz/quiz.json");
@@ -55,7 +54,8 @@ describe.skipIf(inner)("lernapps create refuses", () => {
   });
 });
 
-describe.skipIf(inner || templates === undefined)("a quiz app from lernapps create", () => {
+describe.skipIf(inner)("a quiz app from lernapps create", () => {
+  let templates = "";
   let app = "";
   let tooling = "";
   let browser: Browser;
@@ -63,9 +63,13 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
   let close = () => {};
 
   beforeAll(async () => {
+    templates = appTemplates();
     tooling = freshClone();
     app = join(tempDir("quiz"), "naturwunder");
-    const created = lernapps(["create", "--archetype", "quiz", app, "--tooling", `git+file://${tooling}`], repoRoot);
+    const created = lernapps(
+      ["create", "--archetype", "quiz", app, "--tooling", `git+file://${tooling}`, "--templates", templates],
+      repoRoot,
+    );
     if (created.code !== 0) throw new Error(output(created));
     ok("git", ["init", "--quiet", "--initial-branch=main"], app);
     ok("npm", ["install", "--no-audit", "--no-fund"], app);
@@ -105,7 +109,7 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
     const pin = (
       JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
     ).appTemplates.commit;
-    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(`git+file://${resolve(templates ?? "")}#${pin}`);
+    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(`git+file://${resolve(templates)}#${pin}`);
     expect(existsSync(join(app, ".npmrc"))).toBe(false);
     expect(readFileSync(join(app, "AGENTS.md"), "utf8")).toBe(
       readFileSync(join(repoRoot, "guidance/AGENTS.md"), "utf8"),
@@ -116,8 +120,14 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
     expect(config).toContain("lernapps({ plugins: [quiz()] })");
     expect(readFileSync(join(app, "LICENSE"), "utf8")).toContain(`Copyright (c) ${new Date().getFullYear()}`);
     const pages = readFileSync(join(app, ".github/workflows/pages.yml"), "utf8");
-    expect(pages).toMatch(/uses: lernapps\/tooling\/actions\/site-check@[0-9a-f]{40} # main/);
-    expect(pages).toMatch(/uses: lernapps\/tooling\/actions\/site-deploy@[0-9a-f]{40} # main/);
+    // the app check action (the same check as the hooks), then the deploy of the bundle it checked
+    const [check, deploy] = [
+      /uses: lernapps\/tooling\/actions\/app-check@[0-9a-f]{40} # main/,
+      /uses: lernapps\/tooling\/actions\/site-deploy@[0-9a-f]{40} # main/,
+    ].map((step) => pages.search(step));
+    expect(check, pages).toBeGreaterThan(-1);
+    expect(deploy, pages).toBeGreaterThan(check ?? Infinity);
+    expect(pages).not.toContain("site-check");
   });
 
   test("it starts the plan in Code, for the archetype quiz", () => {
@@ -132,7 +142,7 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
     ok("git", ["init", "--quiet"], dir);
     const plan = readFileSync(join(repoRoot, "test/fixtures/plans/filled.md"), "utf8");
     writeFileSync(join(dir, ".vibe/plan.md"), plan);
-    const result = lernapps(["create", "--archetype", "quiz", dir], repoRoot);
+    const result = lernapps(["create", "--archetype", "quiz", dir, "--templates", templates], repoRoot);
     expect(result.code, output(result)).toBe(0);
     expect(readFileSync(join(dir, ".vibe/plan.md"), "utf8")).toBe(plan);
     expect(existsSync(join(dir, "src/quiz.json"))).toBe(true);
@@ -144,9 +154,8 @@ describe.skipIf(inner || templates === undefined)("a quiz app from lernapps crea
     expect(result.stdout).toMatch(/^lernapps check: ok/);
   });
 
-  test("npm run build writes the site for the site actions", { timeout: SLOW }, () => {
-    ok("npm", ["run", "build"], app);
-    expect(readFileSync(join(app, "_site/index.html"), "utf8")).toContain("Naturwunder der Welt");
+  test("the check leaves the bundle it checked in dist/, which the app check action deploys", () => {
+    expect(readFileSync(join(app, "dist/index.html"), "utf8")).toContain("Naturwunder der Welt");
   });
 
   describe("in the browser", { timeout: 60_000 }, () => {
