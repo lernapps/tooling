@@ -5,61 +5,17 @@
     "commit": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd"
   },
   "head": {
-    "label": "7ed0f5dc83b71320176ec17fbab987423ecc8b88"
+    "label": "5481a0590543562265181886c7bb3c471c866978"
   },
   "acceptanceBase": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd",
   "untracked": [],
   "accepted": false,
   "hasBlockingFindings": false,
-  "findings": [
-    {
-      "kind": "implementation-path",
-      "severity": "hint",
-      "file": "actions/site-check/action.yml",
-      "line": 0,
-      "elementId": "if-site-check",
-      "message": "actions/site-check/action.yml changed; review architecture element 'if-site-check' (actions/site-check)."
-    },
-    {
-      "kind": "implementation-path",
-      "severity": "hint",
-      "file": "actions/site-deploy/action.yml",
-      "line": 0,
-      "elementId": "if-site-deploy",
-      "message": "actions/site-deploy/action.yml changed; review architecture element 'if-site-deploy' (actions/site-deploy)."
-    },
-    {
-      "kind": "implementation-path",
-      "severity": "hint",
-      "file": "actions/site-preview/action.yml",
-      "line": 0,
-      "elementId": "if-site-preview",
-      "message": "actions/site-preview/action.yml changed; review architecture element 'if-site-preview' (actions/site-preview)."
-    }
-  ],
+  "findings": [],
   "groups": {
     "warnings": [],
     "untouched": [],
-    "updated": [
-      {
-        "elementId": "if-site-check",
-        "files": [
-          "actions/site-check/action.yml"
-        ]
-      },
-      {
-        "elementId": "if-site-deploy",
-        "files": [
-          "actions/site-deploy/action.yml"
-        ]
-      },
-      {
-        "elementId": "if-site-preview",
-        "files": [
-          "actions/site-preview/action.yml"
-        ]
-      }
-    ],
+    "updated": [],
     "uncovered": []
   },
   "architecture": {
@@ -1022,14 +978,14 @@
         }
       },
       {
-        "id": "if-site-check",
-        "kind": "interface",
+        "id": "bb-site-check",
+        "kind": "building-block",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 541
+          "line": 540
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1042,14 +998,35 @@
         }
       },
       {
-        "id": "if-site-deploy",
+        "id": "if-site-check",
         "kind": "interface",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 556
+          "line": 555
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Site actions",
+            "Site check",
+            "Site check interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-site-deploy",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 568
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1062,14 +1039,35 @@
         }
       },
       {
-        "id": "if-site-preview",
+        "id": "if-site-deploy",
         "kind": "interface",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 570
+          "line": 583
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Site actions",
+            "Site deploy",
+            "Site deploy interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-site-preview",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 596
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1077,6 +1075,27 @@
             "Building Blocks",
             "Site actions",
             "Site preview"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-site-preview",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 610
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Site actions",
+            "Site preview",
+            "Site preview interface"
           ],
           "occurrence": 1
         }
@@ -1099,7 +1118,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 586
+          "line": 625
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1128,7 +1147,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 601
+          "line": 640
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1393,7 +1412,9 @@
               "bb-tooling-package",
               "bb-app-check-action",
               "bb-app-publish",
-              "bb-site-actions"
+              "bb-site-check",
+              "bb-site-deploy",
+              "bb-site-preview"
             ]
           }
         ],
@@ -2307,7 +2328,15 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-site-actions",
+          "from": "bb-site-check",
+          "to": "bb-site-actions",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-site-check",
           "to": "if-site-check",
           "relation": "provides"
         }
@@ -2315,7 +2344,15 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-site-actions",
+          "from": "bb-site-deploy",
+          "to": "bb-site-actions",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-site-deploy",
           "to": "if-site-deploy",
           "relation": "provides"
         }
@@ -2323,7 +2360,15 @@
       {
         "status": "added",
         "edge": {
-          "from": "bb-site-actions",
+          "from": "bb-site-preview",
+          "to": "bb-site-actions",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-site-preview",
           "to": "if-site-preview",
           "relation": "provides"
         }
@@ -2412,7 +2457,23 @@
         "status": "added",
         "edge": {
           "from": "dn-tooling-repo",
-          "to": "bb-site-actions",
+          "to": "bb-site-check",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-tooling-repo",
+          "to": "bb-site-deploy",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-tooling-repo",
+          "to": "bb-site-preview",
           "relation": "hosts"
         }
       },
@@ -2704,7 +2765,7 @@
       },
       {
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "added": 6,
+        "added": 9,
         "modified": 30,
         "removed": 0
       },
