@@ -161,7 +161,7 @@ async function before(e: Env, dir: string | undefined): Promise<void> {
   if (dir !== undefined) {
     if (!existsSync(join(dir, "index.html"))) {
       throw new Failure(
-        `${PREFIX}: ${dir} has no index.html: the artifact "site" of the app check action is missing or empty`,
+        `${PREFIX}: ${dir} has no index.html: the artifact "app" of the app check action is missing or empty`,
       );
     }
     writeFileSync(join(dir, MARKER), `${e.sha}\n`);

@@ -45,7 +45,7 @@ function handle(request: IncomingMessage, response: ServerResponse): void {
     response.writeHead(status, { "content-type": "application/json" });
     response.end(body === undefined ? "" : JSON.stringify(body));
   };
-  const site = { html_url: `${base}/site/`, ...world.pages };
+  const pagesSite = { html_url: `${base}/naturwunder/`, ...world.pages };
   let body = "";
   request.on("data", (chunk: Buffer) => (body += chunk.toString()));
   request.on("end", () => {
@@ -55,14 +55,14 @@ function handle(request: IncomingMessage, response: ServerResponse): void {
     if (url.pathname === `/api/repos/${REPO}/pages`) {
       if (request.method === "GET") {
         if (world.read !== 200) return json(world.read, { message: "Resource not accessible by integration" });
-        return world.pages === undefined ? json(404, { message: "Not Found" }) : json(200, site);
+        return world.pages === undefined ? json(404, { message: "Not Found" }) : json(200, pagesSite);
       }
       if (world.write >= 400) return json(world.write, { message: "Resource not accessible by integration" });
       const wanted = JSON.parse(body) as NonNullable<World["pages"]>;
       world.pages = wanted;
-      return request.method === "POST" ? json(201, { html_url: `${base}/site/`, ...wanted }) : json(204);
+      return request.method === "POST" ? json(201, { html_url: `${base}/naturwunder/`, ...wanted }) : json(204);
     }
-    if (url.pathname === "/site/lernapps-publish.txt") {
+    if (url.pathname === "/naturwunder/lernapps-publish.txt") {
       response.writeHead(200);
       if (world.delay > 0) {
         world.delay--;
@@ -70,7 +70,7 @@ function handle(request: IncomingMessage, response: ServerResponse): void {
       }
       return response.end(`${world.served}\n`);
     }
-    if (url.pathname === "/site/") {
+    if (url.pathname === "/naturwunder/") {
       response.writeHead(200, { "content-type": "text/html" });
       return response.end("<!doctype html><title>Bruch-Trainer</title>");
     }
@@ -199,13 +199,11 @@ describe("before the deploy", () => {
 
   test("it writes the marker of the commit into the bundle, and refuses a bundle without index.html", async () => {
     setWorld({});
-    const bundle = join(tempDir("bundle"), "_site");
+    const bundle = join(tempDir("bundle"), "_app");
     mkdirSync(bundle);
     const empty = await publish(["before", "--dir", bundle]);
     expect(empty.code).toBe(1);
-    expect(empty.stderr).toContain(
-      'has no index.html: the artifact "site" of the app check action is missing or empty',
-    );
+    expect(empty.stderr).toContain('has no index.html: the artifact "app" of the app check action is missing or empty');
     writeFileSync(join(bundle, "index.html"), "<!doctype html>");
     const result = await publish(["before", "--dir", bundle]);
     expect(result.code, result.stderr).toBe(0);
@@ -218,9 +216,9 @@ describe("after the deploy", () => {
     setWorld({ delay: 3 });
     const result = await publish(["after"]);
     expect(result.code, result.stderr).toBe(0);
-    expect(result.stdout).toContain(`lernapps app-publish: published at ${base}/site/`);
-    expect(result.outputs).toBe(`url=${base}/site/\n`);
-    expect(requests.filter((line) => line === "GET /site/lernapps-publish.txt")).toHaveLength(4);
+    expect(result.stdout).toContain(`lernapps app-publish: published at ${base}/naturwunder/`);
+    expect(result.outputs).toBe(`url=${base}/naturwunder/\n`);
+    expect(requests.filter((line) => line === "GET /naturwunder/lernapps-publish.txt")).toHaveLength(4);
   });
 
   test("after a first deploy, it checks the Pages settings too", async () => {
