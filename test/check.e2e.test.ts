@@ -10,14 +10,13 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
 import { frontMatterErrors } from "./plan.ts";
-import { freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import { freshClone, installedClone, ok, repoRoot, run, sharedInstall, tempDir, type Result } from "./support.ts";
 
 // A check run inside a test copy runs the tests too; it must not start these tests again.
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
 
 const hookFast = ["run", "--silent", "lernapps", "--", "check", "--pre-commit"];
-const hookHeavy = ["run", "--silent", "lernapps", "--", "check", "--pre-push"];
 const ciCheck = ["run", "--silent", "lernapps", "--", "check"];
 
 const output = (result: Result) => `${result.stdout}\n${result.stderr}`;
@@ -27,8 +26,7 @@ describe.skipIf(inner)("a fresh clone", () => {
   let head = "";
 
   beforeAll(() => {
-    clone = freshClone();
-    ok("npm", ["ci", "--no-audit", "--no-fund"], clone);
+    clone = installedClone();
     head = ok("git", ["rev-parse", "HEAD"], clone).stdout.trim();
   }, SLOW);
 
@@ -39,13 +37,13 @@ describe.skipIf(inner)("a fresh clone", () => {
 
   const plant = (file: string, content: string) => writeFileSync(join(clone, file), content);
 
-  test("npm run check is green", { timeout: SLOW }, () => {
+  test("npm run check is the CI command; it is green and builds nothing", { timeout: SLOW }, () => {
+    const scripts = (
+      JSON.parse(readFileSync(join(clone, "package.json"), "utf8")) as { scripts: Record<string, string> }
+    ).scripts;
+    expect(scripts["check"]).toBe("npm run --silent lernapps -- check");
     const result = run("npm", ["run", "check"], clone);
     expect(result.code, output(result)).toBe(0);
-  });
-
-  test("npm run check builds nothing", { timeout: SLOW }, () => {
-    ok("npm", ["run", "check"], clone);
     expect(run("test", ["-e", "_site"], clone).code).not.toBe(0);
   });
 
@@ -63,6 +61,8 @@ describe.skipIf(inner)("a fresh clone", () => {
   });
 
   test("npm ci installs the git hooks", () => {
+    // the clone that ran a real npm ci, and this copy, which ran its prepare script
+    expect(ok("git", ["config", "core.hooksPath"], sharedInstall()).stdout.trim()).toBe(".vite-hooks/_");
     expect(ok("git", ["config", "core.hooksPath"], clone).stdout.trim()).toBe(".vite-hooks/_");
   });
 
@@ -70,20 +70,14 @@ describe.skipIf(inner)("a fresh clone", () => {
     ["a type error", "src/planted.ts", 'export const count: number = "three";\n'],
     ["a lint error (explicit any)", "src/planted.ts", "export const value: any = 1;\n"],
   ])("%s", (_name, file, content) => {
-    test("turns the pre-commit hook command and the CI command red", { timeout: SLOW }, () => {
+    test("turns the pre-commit hook command and the CI command (npm run check) red", { timeout: SLOW }, () => {
       plant(file, content);
       const fast = run("npm", hookFast, clone);
       expect(fast.code, output(fast)).not.toBe(0);
       expect(output(fast)).toContain("planted.ts");
-      const ci = run("npm", ciCheck, clone);
+      const ci = run("npm", ["run", "check"], clone);
       expect(ci.code, output(ci)).not.toBe(0);
       expect(output(ci)).toContain("planted.ts");
-    });
-
-    test("turns npm run check red", { timeout: SLOW }, () => {
-      plant(file, content);
-      const result = run("npm", ["run", "check"], clone);
-      expect(result.code, output(result)).not.toBe(0);
     });
 
     test("stops git commit", { timeout: SLOW }, () => {
@@ -100,30 +94,29 @@ describe.skipIf(inner)("a fresh clone", () => {
     const failing =
       'import { expect, test } from "vite-plus/test";\n\ntest("planted", () => {\n  expect(1).toBe(2);\n});\n';
 
-    test("passes the fast part, turns the heavy part and the CI command red", { timeout: SLOW }, () => {
-      plant("test/planted.test.ts", failing);
-      const fast = run("npm", hookFast, clone);
-      expect(fast.code, output(fast)).toBe(0);
-      const heavy = run("npm", hookHeavy, clone);
-      expect(heavy.code, output(heavy)).not.toBe(0);
-      expect(output(heavy)).toContain("planted");
-      const ci = run("npm", ciCheck, clone);
-      expect(ci.code, output(ci)).not.toBe(0);
-    });
-
-    test("can be committed, but stops git push", { timeout: SLOW }, () => {
-      const remote = tempDir("remote");
-      ok("git", ["init", "--quiet", "--bare", remote], clone);
-      ok("git", ["remote", "add", "origin", remote], clone);
-      plant("test/planted.test.ts", failing);
-      ok("git", ["add", "test/planted.test.ts"], clone);
-      ok("git", ["commit", "--quiet", "--message", "planted"], clone);
-      const result = run("git", ["push", "origin", "main"], clone);
-      ok("git", ["remote", "remove", "origin"], clone);
-      expect(result.code, output(result)).not.toBe(0);
-      expect(output(result)).toContain("planted");
-      expect(run("git", ["rev-parse", "--verify", "--quiet", "main"], remote).code).not.toBe(0);
-    });
+    test(
+      "passes the fast part and git commit, stops git push (the heavy part) and turns the CI command red",
+      { timeout: SLOW },
+      () => {
+        const remote = tempDir("remote");
+        ok("git", ["init", "--quiet", "--bare", remote], clone);
+        ok("git", ["remote", "add", "origin", remote], clone);
+        plant("test/planted.test.ts", failing);
+        const fast = run("npm", hookFast, clone);
+        expect(fast.code, output(fast)).toBe(0);
+        ok("git", ["add", "test/planted.test.ts"], clone);
+        ok("git", ["commit", "--quiet", "--message", "planted"], clone);
+        // the pre-push hook runs the heavy part: `lernapps check --pre-push`
+        const push = run("git", ["push", "origin", "main"], clone);
+        ok("git", ["remote", "remove", "origin"], clone);
+        expect(push.code, output(push)).not.toBe(0);
+        expect(output(push)).toContain("planted");
+        expect(run("git", ["rev-parse", "--verify", "--quiet", "main"], remote).code).not.toBe(0);
+        const ci = run("npm", ciCheck, clone);
+        expect(ci.code, output(ci)).not.toBe(0);
+        expect(output(ci)).toContain("planted");
+      },
+    );
   });
 });
 
