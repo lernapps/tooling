@@ -3,6 +3,8 @@
 // and makes the app depend on the runtime of that same commit (the package @lernapps/app-templates at the root of
 // that repo), so template and runtime always match. Then it writes what every app has: AGENTS.md, the plan file,
 // the workflows, LICENSE, an issue form for content errors and the Renovate configuration (generator/app/).
+// To move the pin when app-templates changes: set appTemplates.commit in package.json to the new commit on its main
+// (and appTemplates.archetypes to its archetype folders); the generator's tests then run on that commit.
 import { spawnSync } from "node:child_process";
 import {
   cpSync,
@@ -18,17 +20,37 @@ import {
 import { tmpdir } from "node:os";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseArgs } from "node:util";
+import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
+
+/** The options of `lernapps create`, as node:util parseArgs takes them. */
+export const CREATE_OPTIONS = {
+  archetype: { type: "string" },
+  plan: { type: "string" },
+  templates: { type: "string" },
+  tooling: { type: "string" },
+  help: { type: "boolean", short: "h", default: false },
+} as const satisfies ParseArgsOptionsConfig;
 
 export const CREATE_USAGE = `Usage: lernapps create --archetype <name> [<dir>] [--plan <file>] [--templates <repo>] [--tooling <spec>]
 
 Writes a new app from the archetype's template into <dir> (default: the current folder), which must be empty
 except for .git and the plan file .vibe/plan.md. The template is the folder <name>/ of lernapps/app-templates at
 the commit pinned in @lernapps/tooling; the app depends on the runtime @lernapps/app-templates of the same commit.
-Fetching the template needs git and the network.
 
-Then: npm install (installs the git hooks; run git init first if <dir> is not a repository yet).
+Run it before anything is installed, with npx from git (the package is not on npm):
+  npx --yes github:lernapps/tooling#main create --archetype <name> [<dir>]
+It needs git and access to github.com, codeload.github.com and the npm registry. The app then depends on the
+commit of @lernapps/tooling that npx installed, and its workflows use the actions of that commit.
+
+It writes, besides the template: package.json named after the folder, AGENTS.md, the plan .vibe/plan.md (the one
+already there is kept), the workflow .github/workflows/pages.yml (the app check action on every pull request
+and push to main; on main, then the app publish action to the repo's GitHub Pages), an issue form for content errors, LICENSE
+(MIT) and renovate.json (the Renovate preset of lernapps).
+
+Then: git init (if <dir> is not a repository yet), npm install (installs the git hooks), and the first commit.
+
+Exit codes: 0 when the app is written, 1 when it cannot be (the message says why), 2 on a usage error.
 
 Options:
   --archetype <name>  the archetype chosen in the plan: ${"{archetypes}"}
@@ -187,13 +209,7 @@ function writeAppFiles(dir: string, values: Record<string, string>): void {
 export function create(args: string[]): number {
   const { values, positionals } = parseArgs({
     args,
-    options: {
-      archetype: { type: "string" },
-      plan: { type: "string" },
-      templates: { type: "string" },
-      tooling: { type: "string" },
-      help: { type: "boolean", short: "h", default: false },
-    },
+    options: CREATE_OPTIONS,
     strict: true,
     allowPositionals: true,
   });

@@ -5,6 +5,11 @@
 # pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
+#
+#   npm run build && npm run check:site         the site, built and checked (the job `site` in pages.yml)
+#   ARC42_DIFF_BASE=origin/main npm run build   also the review page of the architecture's changes
+#   npm run arc42 -- <command>                  any arc42 command on docs/arc42/ (validate, get, diff, ...)
+#   python3 -m http.server -d _site 8000        a local look; links assume the /tooling/ prefix
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export PATH="$PWD/node_modules/.bin:$PATH"
