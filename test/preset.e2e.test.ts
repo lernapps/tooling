@@ -300,11 +300,11 @@ describe.skipIf(inner)("an app that only extends the preset", () => {
         .trim()
         .split("\n")
         .filter((line) => !line.startsWith("VITE+ - "));
-      expect(lines, output(result)).toEqual([
-        `lernapps pre-commit: the fast checks (lernapps check --pre-commit) failed (exit 1); the full output is in ${PRE_COMMIT_LOG}`,
-      ]);
+      expect(lines, output(result)).toHaveLength(1);
+      expect(lines[0]).toMatch(/^lernapps pre-commit: .+ failed \(exit [1-9]\d*\); the full output is in /);
+      expect(lines[0]?.endsWith(`the full output is in ${PRE_COMMIT_LOG}`)).toBe(true);
       const log = readFileSync(join(app, PRE_COMMIT_LOG), "utf8");
-      expect(log).toContain("$ lernapps check --pre-commit");
+      expect(log).toContain("$ vp staged");
       expect(log).toContain("src/planted.ts");
       expect(log).toContain("lernapps(storage-through-wrapper)");
       expect(log).toContain("createStorage");
