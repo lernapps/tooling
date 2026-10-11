@@ -5,37 +5,13 @@
     "commit": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd"
   },
   "head": {
-    "label": "93b4a523b367657739972129af3b242265ee17cd"
+    "label": "4d2062ebcd4483bfff18ef20696538e16342bdd1"
   },
   "acceptanceBase": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd",
   "untracked": [],
   "accepted": false,
   "hasBlockingFindings": true,
   "findings": [
-    {
-      "kind": "prose-without-block-change",
-      "severity": "warning",
-      "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 191,
-      "elementId": "bb-generator",
-      "message": "Section prose changed without changing block 'bb-generator' — it names 'git', 'GitHub'."
-    },
-    {
-      "kind": "prose-without-block-change",
-      "severity": "warning",
-      "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 523,
-      "elementId": "bb-app-check-action",
-      "message": "Section prose changed without changing block 'bb-app-check-action' — it names 'App publish'."
-    },
-    {
-      "kind": "block-without-prose-change",
-      "severity": "warning",
-      "file": "docs/arc42/06-runtime-view.arc42.md",
-      "line": 14,
-      "elementId": "rs-new-app",
-      "message": "Block 'rs-new-app' changed without changing its section prose."
-    },
     {
       "kind": "prose-without-block-change",
       "severity": "warning",
@@ -59,34 +35,31 @@
       "line": 115,
       "elementId": "dn-lernapps-agents",
       "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
+    },
+    {
+      "kind": "new-building-block-hint",
+      "severity": "hint",
+      "file": "actions/site-check",
+      "line": 0,
+      "message": "'actions/site-check' is not covered by any building block — consider adding a building-block element."
+    },
+    {
+      "kind": "new-building-block-hint",
+      "severity": "hint",
+      "file": "actions/site-deploy",
+      "line": 0,
+      "message": "'actions/site-deploy' is not covered by any building block — consider adding a building-block element."
+    },
+    {
+      "kind": "new-building-block-hint",
+      "severity": "hint",
+      "file": "actions/site-preview",
+      "line": 0,
+      "message": "'actions/site-preview' is not covered by any building block — consider adding a building-block element."
     }
   ],
   "groups": {
     "warnings": [
-      {
-        "kind": "prose-without-block-change",
-        "severity": "warning",
-        "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 191,
-        "elementId": "bb-generator",
-        "message": "Section prose changed without changing block 'bb-generator' — it names 'git', 'GitHub'."
-      },
-      {
-        "kind": "prose-without-block-change",
-        "severity": "warning",
-        "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 523,
-        "elementId": "bb-app-check-action",
-        "message": "Section prose changed without changing block 'bb-app-check-action' — it names 'App publish'."
-      },
-      {
-        "kind": "block-without-prose-change",
-        "severity": "warning",
-        "file": "docs/arc42/06-runtime-view.arc42.md",
-        "line": 14,
-        "elementId": "rs-new-app",
-        "message": "Block 'rs-new-app' changed without changing its section prose."
-      },
       {
         "kind": "prose-without-block-change",
         "severity": "warning",
@@ -114,7 +87,11 @@
     ],
     "untouched": [],
     "updated": [],
-    "uncovered": []
+    "uncovered": [
+      "actions/site-check",
+      "actions/site-deploy",
+      "actions/site-preview"
+    ]
   },
   "architecture": {
     "elements": [
@@ -187,21 +164,15 @@
       {
         "id": "bb-generator",
         "kind": "building-block",
-        "status": "unchanged",
-        "attributes": [],
-        "proseChanged": true,
-        "proseMentions": [
+        "status": "modified",
+        "attributes": [
           {
-            "term": "git",
-            "element": "bb-generator",
-            "source": "fact"
-          },
-          {
-            "term": "GitHub",
-            "element": "dn-github",
-            "source": "element"
+            "name": "technology",
+            "before": "TypeScript CLI, git",
+            "after": "TypeScript CLI, git; run with npx from GitHub"
           }
         ],
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "line": 186
@@ -223,16 +194,14 @@
       {
         "id": "bb-app-check-action",
         "kind": "building-block",
-        "status": "unchanged",
-        "attributes": [],
-        "proseChanged": true,
-        "proseMentions": [
+        "status": "modified",
+        "attributes": [
           {
-            "term": "App publish",
-            "element": "if-app-publish",
-            "source": "element"
+            "name": "path",
+            "after": "actions/app-check"
           }
         ],
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "line": 517
@@ -263,7 +232,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 538
+          "line": 539
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -283,7 +252,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 562
+          "line": 563
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -302,7 +271,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 577
+          "line": 579
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -348,14 +317,14 @@
             ]
           }
         ],
-        "proseChanged": false,
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
           "line": 14
         },
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 14
+          "line": 15
         },
         "section": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
@@ -758,7 +727,7 @@
         },
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
-          "line": 23
+          "line": 24
         }
       },
       {
