@@ -2,8 +2,8 @@
 
 The tooling is one package, `@lernapps/tooling`, at the root of lernapps/tooling, installed by apps from git at a
 commit of `main` and kept current by Renovate, like the site frame `@lernapps/site` (decision `dec-one-package`).
-Its parts are subpath exports and commands of one CLI, `lernapps`. Next to the package, the repo holds GitHub actions:
-the app check action and the publishing actions. Two blocks live in other repos: the archetype templates and runtimes
+Its parts are subpath exports and commands of one CLI, `lernapps`. Next to the package, the repo holds two GitHub
+actions for apps: the app check action and the app publish action. Two blocks live in other repos: the archetype templates and runtimes
 in lernapps/app-templates and the listing validation in lernapps/apps. Folders inside the package are named in the
 prose.
 
@@ -34,7 +34,7 @@ flowchart TB
     end
     bb-app-templates["Archetype templates and runtimes (lernapps/app-templates)"]
     bb-app-check-action["App check action"]
-    bb-publishing-actions["Publishing actions"]
+    bb-app-publish["App publish"]
     bb-listing-validation["Listing validation (lernapps/apps)"]
     bb-generator -->|"if-archetype-templates"| bb-app-templates
     bb-generator -->|"if-plan-file"| bb-process-guidance
@@ -515,9 +515,9 @@ protocol: JSON with published JSON Schema (https://lernapps.net/tooling/schemas/
 A composite action (`actions/app-check`) that runs in an app's CI exactly what the app's git hooks ran:
 `lernapps check` without flags. Around the command it only sets up the environment: checkout, Node, `npm ci`, the
 Playwright browser from the cache. It keeps the report as the artifact `validation-report`, passing or not. On
-`main` it also keeps the bundle it checked as the artifact `site`, which the site deploy action publishes (block
-"Publishing actions", `bb-publishing-actions`). So an app publishes the bundle that was checked, built once
-(decision `dec-app-check-action`).
+`main` it also keeps the bundle it checked as the artifact `site`, which the app publish action publishes (block
+"App publish", `bb-app-publish`). So an app publishes the bundle that was checked, built once (decision
+`dec-app-own-hosting`).
 
 ```arc42
 :::building-block
@@ -530,7 +530,7 @@ requires: if-check-cli
 
 ### App check action interface
 
-Used in the app's `pages.yml`, before the site deploy action, pinned to a commit and bumped by Renovate. Inputs: the
+Used in the job `site` of the app's `pages.yml`, pinned to a commit and bumped by Renovate. Inputs: the
 app's folder, whether to check out, the report artifact's name, whether to upload the bundle. Outputs: the
 artifacts `validation-report` and, on `main`, `site`.
 
@@ -543,58 +543,42 @@ protocol: GitHub Actions `uses:` at a pinned commit
 :::
 ```
 
-## Publishing actions
+## App publish
 
-Three composite actions (`actions/site-*`) that put a built folder on lernapps.net. GitHub Pages serves the
-`gh-pages` branch of a lernapps repo named `x` at lernapps.net/x/ (`con-github`). So each repo publishes itself:
-- an app repo publishes its bundle, at lernapps.net/<repo>/;
-- lernapps/apps publishes the catalog, at lernapps.net/apps/;
-- lernapps/docs, lernapps/tooling and lernapps.github.io publish their sites, at /docs/, /tooling/ and the root.
-
-The three actions:
-- `site-deploy` pushes the artifact `site` of the same workflow run to the root of the `gh-pages` branch of the
-  repo it runs in. It leaves the previews alone. Apps and sites use it.
-- `site-check` builds and checks a site: `npm ci`, `npm run build` writes `_site/`, `npm run check` checks it with
-  `lernapps-check` of the site frame. On `main` it keeps `_site/` as the artifact `site`. The sites use it; an app
-  uses the app check action instead.
-- `site-preview` builds a pull request like `site-check` and puts it on the same `gh-pages` branch, below
-  `pr-preview/pr-<number>/`. It removes the preview when the pull request closes. The sites use it.
+A composite action (`actions/app-publish`) that publishes an app's checked bundle, the artifact `site` of the app
+check action, to the app repo's GitHub Pages: the branch `gh-pages`, served from its root (`/`). It is the simple
+default; the app lives at its developer's hosting, and lernapps.net only links to it (decision
+`dec-app-own-hosting`). Its logic is a script with no dependencies (`publish/publish.ts`); the action only sets up
+Node, downloads the artifact, runs the script before and after, and pushes the branch.
+- Before the deploy, it checks that the branch `gh-pages` exists and that Pages serves it from the root. Previews
+  of pull requests below `pr-preview/` will need exactly this setup. On the first deploy the branch does not exist
+  yet: the deploy creates it, and the check of Pages follows.
+- Where Pages is off or serves something else, it tries to set it through the API. The default token of a workflow
+  may read the Pages settings but not change them. Then it fails with a message for the creator's assistant: what
+  is wrong, the clicks in the settings, why, and the rule link (`pages-from-gh-pages`).
+- After the deploy, it waits until the app's address serves the marker file of this commit, and prints the address.
 
 ```arc42
 :::building-block
-id: bb-publishing-actions
-title: Publishing actions
-technology: GitHub composite actions, the gh-pages branch, GitHub Pages
+id: bb-app-publish
+title: App publish
+technology: GitHub composite action, Node script, GitHub Pages REST API
 :::
 ```
 
-### Site deploy interface
+### App publish interface
 
-Used in the job `deploy` of a repo's `pages.yml`, on `main`, after the job that made the artifact `site` (the app
-check action or `site-check`). The job needs the permission `contents: write`. Pinned to a commit and bumped by
-Renovate.
-
-```arc42
-:::interface
-id: if-site-deploy
-title: Site deploy
-provider: bb-publishing-actions
-protocol: GitHub Actions `uses:` at a pinned commit; input the artifact `site`, output the root of the gh-pages branch
-:::
-```
-
-### Site check and preview interface
-
-Used by the lernapps.net sites in the jobs `site` and `preview`. The contract with a repo: `npm run build` writes
-`_site/`, and `npm run check` (or the script named by the input `check-script`) checks it. `site-preview` also needs
-the input `site`, the path where the repo is served, such as `/docs/`.
+Used in the job `deploy` of the app's `pages.yml`, on `main`, after the app check action, at the commit the
+generator pinned; Renovate moves it. The job needs the permissions `contents: write` (the branch) and
+`pages: write` (the settings). The input `token` may name a token that also may change the Pages settings. The
+output `url` is the app's address.
 
 ```arc42
 :::interface
-id: if-site-check
-title: Site check and preview
-provider: bb-publishing-actions
-protocol: GitHub Actions `uses:` at a pinned commit; npm scripts `build` (writes _site/) and `check`
+id: if-app-publish
+title: App publish
+provider: bb-app-publish
+protocol: GitHub Actions `uses:` at a pinned commit; input the artifact `site`, output the gh-pages branch and the app's address
 :::
 ```
 

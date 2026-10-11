@@ -3,7 +3,9 @@ name: Pages
 # Checks the app and publishes it. The job `site` runs the app check of lernapps/tooling: `lernapps check`, the same
 # command the git hooks ran (format, lint, type check, unit tests, build, the checks of the built app, the end-to-end
 # tests), and keeps its validation report as the artifact "validation-report". On main, the job `deploy` publishes
-# the bundle it checked to the gh-pages branch, which GitHub Pages serves.
+# the bundle it checked with the app publish action: to the gh-pages branch, which GitHub Pages serves from its root
+# (Settings → Pages → Deploy from a branch → gh-pages, / (root)). It checks that setting, waits until the app's
+# address serves the new bundle, and prints the address; on a failure, its message says what to do.
 on:
   push:
     branches: [main]
@@ -28,5 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
     steps:
-      - uses: lernapps/tooling/actions/site-deploy@{{tooling}} # main
+      - uses: lernapps/tooling/actions/app-publish@{{tooling}} # main

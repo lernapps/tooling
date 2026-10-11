@@ -3,20 +3,23 @@
 The tooling has no server of its own. Its parts are files in git repos on GitHub. They reach the places where they
 run as git commits: npm installs them from git, the generator fetches them with git, a workflow names an action by
 its commit. Renovate moves those commits forward. This chapter says, per node, what arrives there, from where and how,
-and where the app goes in the end. What each part does is in chapter 5.
+and where the app goes in the end. What each part does is in chapter 5. lernapps.net hosts nothing of an app: the app
+lives at its developer's hosting, by default its repo's GitHub Pages, and the catalog links to it
+(`dec-app-own-hosting`).
 
 ## Deployment overview
 
 The arrows show where the parts go: from the repos on GitHub to the creator's machine and its harness, to the CI of
-the repos and to the environment for lernapps agents. The app goes from its repo's CI to lernapps.net, and a listing
-from the catalog's CI to the review.
+the repos and to the environment for lernapps agents. The developer's GitHub Actions run the app check action and the
+app publish action, which puts the app on the app repo's GitHub Pages. A listing goes from the catalog's CI to the
+review.
 
 ```arc42
 :::diagram
 id: deployment-overview
 view: deployment
 notation: mermaid-architecture
-aliases: creator=dn-creator-machine, agents=dn-lernapps-agents, toolingrepo=dn-tooling-repo, templaterepo=dn-templates-repo, appci=dn-app-ci, appsci=dn-apps-ci, generator=bb-generator, hooks=bb-git-hooks, checklocal=bb-check-cli, skills=bb-skills, guidance=bb-process-guidance, package=bb-tooling-package, templates=bb-app-templates, appcheck=bb-app-check-action, publish=bb-publishing-actions, listing=bb-listing-validation, review=bb-review-procedure, evals=bb-evals
+aliases: creator=dn-creator-machine, agents=dn-lernapps-agents, toolingrepo=dn-tooling-repo, templaterepo=dn-templates-repo, appci=dn-app-ci, appsci=dn-apps-ci, generator=bb-generator, hooks=bb-git-hooks, checklocal=bb-check-cli, skills=bb-skills, guidance=bb-process-guidance, package=bb-tooling-package, templates=bb-app-templates, appcheck=bb-app-check-action, publish=bb-app-publish, listing=bb-listing-validation, review=bb-review-procedure, evals=bb-evals
 :::
 ```
 
@@ -25,7 +28,7 @@ architecture-beta
     group creator(server)[Creator machine]
     group toolingrepo(disk)[GitHub lernapps tooling]
     group templaterepo(disk)[GitHub lernapps app templates]
-    group appci(server)[GitHub app repo CI]
+    group appci(server)[Developer GitHub Actions]
     group appsci(server)[GitHub lernapps apps CI]
     group agents(server)[lernapps agents]
     service guidance(server)[AGENTS md in the harness] in creator
@@ -36,7 +39,7 @@ architecture-beta
     service package(disk)[Package actions skills] in toolingrepo
     service templates(disk)[Templates and runtime] in templaterepo
     service appcheck(server)[App check] in appci
-    service publish(internet)[Site deploy to gh pages and lernapps net] in appci
+    service publish(internet)[App publish to the app repo gh pages] in appci
     service listing(server)[Listing] in appsci
     service review(server)[Review] in agents
     service evals(server)[Evals] in agents
@@ -134,10 +137,12 @@ type: cloud-region
 
 The source of the package, the actions and the skills. Each consumer takes them at a commit:
 - npx and npm install the package from git;
-- a workflow names an action by its commit (`uses: lernapps/tooling/actions/<name>@<commit>`);
+- an app's workflow names the app check and app publish actions by a commit
+  (`uses: lernapps/tooling/actions/<name>@<commit>`);
 - `npx skills add` copies the skills.
 
-The repo's own site, at lernapps.net/tooling/, publishes the documentation, the rule catalog and the schemas.
+The repo's own site, at lernapps.net/tooling/, publishes the documentation, the rule catalog and the schemas, with
+the site actions of the lernapps.net sites; they are not app tooling.
 
 ```arc42
 :::deployment-node
@@ -145,7 +150,7 @@ id: dn-tooling-repo
 title: lernapps/tooling repository
 type: environment
 parent: dn-github
-hosts: bb-tooling-package, bb-app-check-action, bb-publishing-actions
+hosts: bb-tooling-package, bb-app-check-action, bb-app-publish
 :::
 ```
 
@@ -164,20 +169,25 @@ hosts: bb-app-templates
 :::
 ```
 
-### App repo CI
+### Developer's GitHub Actions
 
-GitHub Actions of each app repo, with the workflow `pages.yml` the generator wrote. It names the app check action
-and the site deploy action at the commit of the package the app was created with. The app check action installs the
-app's dependencies with `npm ci`, as on the creator's machine, and runs the same check as the hooks. On `main`, the
-site deploy action pushes the checked bundle to the app repo's `gh-pages` branch.
+The GitHub Actions of the app repo, which belongs to the developer: the deployment node of the app check action and
+the app publish action. Both arrive through the workflow `pages.yml` the generator wrote, which names them at the
+commit the generator pinned, the commit of the package the app was created with; Renovate moves it. The runner
+fetches each action at that commit.
+- On every pull request and push, the app check action installs the app's dependencies with `npm ci`, as on the
+  creator's machine, and runs the same check as the hooks.
+- On `main`, the app publish action checks the Pages settings of the app repo, pushes the checked bundle to its
+  `gh-pages` branch, waits until the app's address serves it, and prints the address. It needs the permissions
+  `contents: write` and `pages: write`.
 
 ```arc42
 :::deployment-node
 id: dn-app-ci
-title: App repo CI (GitHub Actions)
+title: Developer's GitHub Actions (app repo CI)
 type: container
 parent: dn-github
-hosts: bb-app-check-action, bb-publishing-actions, bb-check-cli
+hosts: bb-app-check-action, bb-app-publish, bb-check-cli
 :::
 ```
 
@@ -197,19 +207,18 @@ hosts: bb-listing-validation, bb-check-cli
 :::
 ```
 
-### lernapps.net
+### The app's hosting
 
-GitHub Pages serves the `gh-pages` branch of each lernapps repo at lernapps.net/<repo>/. The site deploy action
-writes that branch from the repo's own workflow. So an app's bundle goes from its repo's CI to the app repo's
-`gh-pages` branch and is served at lernapps.net/<repo>/; the catalog entry in lernapps/apps links there. An app
-hosted elsewhere is published by its creator; its entry links to that address.
+Where the app is served: the developer's choice. By default it is the app repo's GitHub Pages, which serves the
+branch `gh-pages` from its root; the app publish action writes that branch. An app repo of the lernapps organisation
+is served at lernapps.net/<repo>/, the organisation's Pages domain; a repo elsewhere at its owner's Pages address.
+The catalog entry in lernapps/apps links to the address. Nothing of the tooling runs here.
 
 ```arc42
 :::deployment-node
-id: dn-lernapps-net
-title: lernapps.net (GitHub Pages)
+id: dn-app-hosting
+title: The app's hosting (default the app repo's GitHub Pages)
 type: environment
-parent: dn-github
 :::
 ```
 

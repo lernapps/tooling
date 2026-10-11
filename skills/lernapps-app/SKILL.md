@@ -345,6 +345,20 @@ hooks come from the package (`prepare` in `package.json`). Pass only the app's o
 such as the pages to build or the build step of its archetype's runtime, as generated: `lernapps({ plugins: [quiz()]
 })`. Never turn a lint rule off or lower its severity, never replace a hook.
 
+### `pages-from-gh-pages`: Publish from `gh-pages`, served from its root
+
+```rule
+id: pages-from-gh-pages
+scope: [archetype:explainer, archetype:interactive, archetype:quiz]
+severity: error
+```
+
+An app from the generator publishes with the app publish action: GitHub Pages of the app repo serves the branch
+`gh-pages` from its root (`/`). Previews of pull requests will go below `pr-preview/` on the same branch, so leave
+that setting as it is. When the publish run fails, read its message: fix what you can, and tell the creator the exact
+clicks it names for what only a repository admin may change. The creator may host the app elsewhere; then the entry's
+`url` points there.
+
 ### `strict-typescript`: TypeScript only, strict
 
 ```rule

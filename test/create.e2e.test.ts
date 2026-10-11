@@ -140,15 +140,16 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
     expect(config).toContain("lernapps({ plugins: [quiz()] })");
     expect(readFileSync(join(app, "LICENSE"), "utf8")).toContain(`Copyright (c) ${new Date().getFullYear()}`);
     const pages = readFileSync(join(app, ".github/workflows/pages.yml"), "utf8");
-    // the app check action (the same check as the hooks), then the deploy of the bundle it checked
+    // the app check action (the same check as the hooks), then the app publish action with the bundle it checked
     // the actions of the commit the app depends on
     const commit = tooling.slice(tooling.indexOf("#") + 1);
     const [check, deploy] = [
       `uses: lernapps/tooling/actions/app-check@${commit} # main`,
-      `uses: lernapps/tooling/actions/site-deploy@${commit} # main`,
+      `uses: lernapps/tooling/actions/app-publish@${commit} # main`,
     ].map((step) => pages.indexOf(step));
     expect(check, pages).toBeGreaterThan(-1);
     expect(deploy, pages).toBeGreaterThan(check ?? Infinity);
+    expect(pages).toContain("pages: write"); // the app publish action reads the Pages settings
     expect(pages).not.toContain("site-check");
   });
 
