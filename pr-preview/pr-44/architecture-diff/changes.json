@@ -5,21 +5,156 @@
     "commit": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd"
   },
   "head": {
-    "label": "1d644c1797ed1c68ab5edd88dd35d3fe49152a5e"
+    "label": "7ed0f5dc83b71320176ec17fbab987423ecc8b88"
   },
   "acceptanceBase": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd",
   "untracked": [],
   "accepted": false,
   "hasBlockingFindings": false,
-  "findings": [],
+  "findings": [
+    {
+      "kind": "implementation-path",
+      "severity": "hint",
+      "file": "actions/site-check/action.yml",
+      "line": 0,
+      "elementId": "if-site-check",
+      "message": "actions/site-check/action.yml changed; review architecture element 'if-site-check' (actions/site-check)."
+    },
+    {
+      "kind": "implementation-path",
+      "severity": "hint",
+      "file": "actions/site-deploy/action.yml",
+      "line": 0,
+      "elementId": "if-site-deploy",
+      "message": "actions/site-deploy/action.yml changed; review architecture element 'if-site-deploy' (actions/site-deploy)."
+    },
+    {
+      "kind": "implementation-path",
+      "severity": "hint",
+      "file": "actions/site-preview/action.yml",
+      "line": 0,
+      "elementId": "if-site-preview",
+      "message": "actions/site-preview/action.yml changed; review architecture element 'if-site-preview' (actions/site-preview)."
+    }
+  ],
   "groups": {
     "warnings": [],
     "untouched": [],
-    "updated": [],
+    "updated": [
+      {
+        "elementId": "if-site-check",
+        "files": [
+          "actions/site-check/action.yml"
+        ]
+      },
+      {
+        "elementId": "if-site-deploy",
+        "files": [
+          "actions/site-deploy/action.yml"
+        ]
+      },
+      {
+        "elementId": "if-site-preview",
+        "files": [
+          "actions/site-preview/action.yml"
+        ]
+      }
+    ],
     "uncovered": []
   },
   "architecture": {
     "elements": [
+      {
+        "id": "con-github",
+        "kind": "constraint",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 45
+        },
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 45
+        },
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints",
+            "GitHub is the means of production"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "con-strict-typescript",
+        "kind": "constraint",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "line": 103
+        },
+        "section": {
+          "file": "docs/arc42/02-constraints.arc42.md",
+          "headingPath": [
+            "Architecture Constraints",
+            "Apps are written in strict TypeScript"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "actor-creator",
+        "kind": "actor",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 53
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 58
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "Creator"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "actor-assistant",
+        "kind": "actor",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 69
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 74
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "Creator's AI assistant"
+          ],
+          "occurrence": 1
+        }
+      },
       {
         "id": "actor-github",
         "kind": "actor",
@@ -50,13 +185,124 @@
         },
         "head": {
           "file": "docs/arc42/03-system-context.arc42.md",
-          "line": 116
+          "line": 119
         },
         "section": {
           "file": "docs/arc42/03-system-context.arc42.md",
           "headingPath": [
             "System Scope and Context",
             "GitHub"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-tooling-package",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "TypeScript, Node, npm package installed from git",
+            "after": "TypeScript, npm package from git"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 85
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 86
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-process-guidance",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 107
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 106
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-agents-md",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 122
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 121
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance",
+            "AGENTS.md"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-plan-file",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "Markdown with YAML front matter",
+            "after": "Markdown with YAML front matter and a versioned JSON Schema"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 137
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 137
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance",
+            "Plan file"
           ],
           "occurrence": 1
         }
@@ -74,7 +320,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 158
+          "line": 152
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -87,6 +333,37 @@
         }
       },
       {
+        "id": "if-skills",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "SKILL.md files in the harness's skill folder",
+            "after": "Agent skills (agentskills.io)"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 169
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 167
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Skills interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
         "id": "bb-generator",
         "kind": "building-block",
         "status": "modified",
@@ -94,7 +371,7 @@
           {
             "name": "technology",
             "before": "TypeScript CLI, git",
-            "after": "TypeScript CLI, git; run with npx from GitHub"
+            "after": "TypeScript CLI"
           }
         ],
         "proseChanged": true,
@@ -104,7 +381,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 192
+          "line": 182
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -112,6 +389,518 @@
             "Building Blocks",
             "@lernapps/tooling",
             "Generator"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-generator-cli",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "CLI `lernapps create --archetype <name> [<dir>] [--plan <file>] [--templates <repo>] [--tooling <spec>]`",
+            "after": "Command line, documented by its own help"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 203
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 199
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Generator",
+            "Generator CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-archetypes",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "TypeScript, vite-plus, Playwright",
+            "after": "vite-plus, Playwright"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 227
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 218
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-archetype-preset",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "npm subpath exports (preset, tsconfig.json, playwright, storage, i18n, a11y) and the hooks directory",
+            "after": "npm subpath exports"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 244
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 234
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "Archetype preset interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-git-hooks",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "shell scripts in the package, vite-plus hook dispatcher",
+            "after": "git hooks"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 261
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 249
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "Git hooks"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-lint-rules",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "TypeScript, Oxlint JS plugin on the ESLint-compatible API, syntax only",
+            "after": "Oxlint JS plugin"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 282
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 267
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Lint rules"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-lint-plugin",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 296
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 282
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Lint rules",
+            "Lint plugin"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-check-cli",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "TypeScript CLI, vite-plus, Playwright, axe-core",
+            "after": "TypeScript CLI, Playwright, axe-core"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 324
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 299
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-check-cli",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "CLI `lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--site <path>] [--report <file>]`",
+            "after": "Command line, documented by its own help"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 340
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 315
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI",
+            "Check CLI interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-validation-report",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "YAML with published JSON Schema (https://lernapps.net/tooling/schemas/validation-report.v1.schema.json)",
+            "after": "YAML with a published JSON Schema"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 356
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 330
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI",
+            "Validation report"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-review-procedure",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "Markdown prompt and rubric, JSON Schema, TypeScript verdict check",
+            "after": "Markdown, JSON Schema"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 375
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 347
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-review-procedure",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "Markdown prompt and rubric files, read by an agent",
+            "after": "Prompt and rubric, read by an agent"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 391
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 363
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure",
+            "Review procedure interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-review-verdict",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "YAML with published JSON Schema (https://lernapps.net/tooling/schemas/verdict.v1.schema.json)",
+            "after": "YAML with a published JSON Schema"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 408
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 378
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure",
+            "Review verdict"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-evals",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "Markdown prompts, scoring script",
+            "after": "Markdown prompts"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 423
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 393
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Evals"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-app-templates",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "lernapps/app-templates, one folder per archetype, the runtime package @lernapps/app-templates (TypeScript, Vite plugin, Playwright)",
+            "after": "TypeScript, Vite plugin, Playwright"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 452
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 411
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-archetype-templates",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "Files at a pinned commit of lernapps/app-templates",
+            "after": "Files at a pinned commit"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 466
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 425
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes",
+            "Archetype templates interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-archetype-runtime",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "npm package from git (github:lernapps/app-templates#<commit>), subpath exports per archetype",
+            "after": "npm package from git, subpath exports per archetype"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 481
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 439
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes",
+            "Archetype runtime"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-question-bank",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "JSON with published JSON Schema (https://lernapps.net/tooling/schemas/quiz.v1.schema.json)",
+            "after": "JSON with a published JSON Schema"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 500
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 454
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes",
+            "Question bank"
           ],
           "occurrence": 1
         }
@@ -133,7 +922,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 524
+          "line": 469
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -147,17 +936,22 @@
       {
         "id": "if-app-check-action",
         "kind": "interface",
-        "status": "unchanged",
-        "attributes": [],
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "GitHub Actions `uses:` at a pinned commit",
+            "after": "GitHub Actions, pinned to a commit"
+          }
+        ],
         "proseChanged": true,
-        "proseMentions": [],
         "base": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "line": 532
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 540
+          "line": 484
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -177,7 +971,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 564
+          "line": 500
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -196,7 +990,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 580
+          "line": 514
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -216,7 +1010,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 596
+          "line": 528
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -235,7 +1029,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 609
+          "line": 541
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -255,7 +1049,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 624
+          "line": 556
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -275,7 +1069,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 638
+          "line": 570
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -283,6 +1077,65 @@
             "Building Blocks",
             "Site actions",
             "Site preview"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-listing-validation",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "GitHub Actions workflow in lernapps/apps",
+            "after": "GitHub Actions workflow"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 548
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 586
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Listing validation"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-listing-comment",
+        "kind": "interface",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "protocol",
+            "before": "GitHub pull request comment",
+            "after": "Pull request comment"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 562
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 601
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Listing validation",
+            "Listing results comment"
           ],
           "occurrence": 1
         }
@@ -340,6 +1193,54 @@
         }
       },
       {
+        "id": "rs-push-fails",
+        "kind": "runtime-scenario",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 66
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 73
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A push fails"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-rule-changes",
+        "kind": "runtime-scenario",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 156
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 163
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A rule changes"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
         "id": "dn-creator-machine",
         "kind": "deployment-node",
         "status": "modified",
@@ -372,7 +1273,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 79
+          "line": 68
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -401,7 +1302,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 98
+          "line": 84
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -442,7 +1343,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 115
+          "line": 100
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -466,7 +1367,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 129
+          "line": 114
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -503,7 +1404,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 148
+          "line": 128
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -528,7 +1429,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 163
+          "line": 143
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -570,7 +1471,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 185
+          "line": 159
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -595,7 +1496,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 201
+          "line": 174
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -615,7 +1516,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 218
+          "line": 190
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -623,6 +1524,126 @@
             "Deployment View",
             "GitHub",
             "The app's hosting"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-rule-catalog",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 42
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 41
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Rule catalog"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-plain-language",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 57
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 56
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Plain language"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-terse-output",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 75
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 75
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Terse output"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-traceability",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 91
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 91
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Logging and traceability"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-stable-contracts",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 106
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 108
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Stable contracts"
           ],
           "occurrence": 1
         }
@@ -657,6 +1678,114 @@
         }
       },
       {
+        "id": "dec-one-package",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 86
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 87
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "One package from git"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-runtime-package",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 131
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 131
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "The runtime is a package the app depends on"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-strict-typescript",
+        "kind": "decision",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "addresses",
+            "before": [
+              "qg-few-iterations",
+              "con-language-licence"
+            ],
+            "after": [
+              "qg-few-iterations",
+              "con-language-licence",
+              "con-strict-typescript"
+            ]
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 163
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 164
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Strict TypeScript everywhere"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-one-check-command",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 187
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 187
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "One check command; hooks and CI run the same"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
         "id": "dec-app-check-action",
         "kind": "decision",
         "status": "removed",
@@ -683,13 +1812,331 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 212
+          "line": 210
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
             "Each app lives at its developer's hosting"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-check-cli",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 262
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 266
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "A standalone check CLI with YAML output"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-correctness-suggested",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 347
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 351
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Content correctness is suggested"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qg-any-assistant",
+        "kind": "quality-goal",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 119
+        },
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 119
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "Works through any assistant"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-eval-iterations",
+        "kind": "quality-scenario",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "metric",
+            "before": "p90 of failed pre-push runs per app below 5 (source - evals, counter in the plan's front matter)",
+            "after": "p90 of failed pushes per app below 5 (source - evals, counter in the plan)"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 182
+        },
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 182
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "An archetype in the evals"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-external-request",
+        "kind": "quality-scenario",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "response",
+            "before": "The pre-push hook and the validation both fail and name the page, the host and the element",
+            "after": "The check before the push and the validation both fail and name the page, the host and the element"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 274
+        },
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 275
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "An external request slips in"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "qs-other-assistant",
+        "kind": "quality-scenario",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "response",
+            "before": "The assistant reads the workflow from AGENTS.md, writes the plan file, loads the skills, and the git hooks run the same checks",
+            "after": "The assistant reads the workflow from the agent instructions, writes the plan file, loads the skills, and the git hooks run the same checks"
+          },
+          {
+            "name": "stimulus",
+            "before": "A creator builds an app with an assistant other than Claude Code, without an MCP server",
+            "after": "A creator builds an app with an assistant other than Claude Code, without an agent protocol"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 304
+        },
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 306
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "A creator uses another assistant"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-assistants-skip-guidance",
+        "kind": "risk",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 11
+        },
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 11
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Assistants skip the guidance"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-browser-at-creator",
+        "kind": "risk",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "mitigation",
+            "before": "The preset installs Playwright's browser once and caches it; the check says clearly when no browser can run and which part was skipped; CI runs the same checks, and the listing validation runs them against the deployed app",
+            "after": "The check fetches a browser once and keeps it; the check says clearly when no browser can run and which part was skipped; CI runs the same checks, and the listing validation runs them against the deployed app"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 64
+        },
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 64
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "A browser at the creator"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "risk-counter-tampering",
+        "kind": "risk",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 131
+        },
+        "head": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "line": 131
+        },
+        "section": {
+          "file": "docs/arc42/11-risks.arc42.md",
+          "headingPath": [
+            "Risks and Technical Debt",
+            "Counters can be changed by hand"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-epcc",
+        "kind": "glossary-term",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 56
+        },
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 56
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "EPCC"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-plan-file",
+        "kind": "glossary-term",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "definition",
+            "before": "The assistant's Markdown plan in the app repo with phases, checkpoints, front matter counters and a closing retrospective.",
+            "after": "The assistant's plan in the app repo with phases, checkpoints, counters and a closing retrospective."
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 104
+        },
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 105
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Plan file"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-retrospective",
+        "kind": "glossary-term",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 128
+        },
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 129
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Retrospective"
           ],
           "occurrence": 1
         }
@@ -703,7 +2150,7 @@
           {
             "name": "source",
             "before": "flowchart LR\n    actor-creator[\"Creator\"]\n    actor-assistant[\"Creator's AI assistant\"]\n    actor-owner[\"Platform owner\"]\n    actor-review-agent[\"Review agent\"]\n    actor-github[\"GitHub (Actions, Renovate)\"]\n    subgraph tooling[\"Tooling for agentic app creation\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-generator[\"Generator\"]\n        bb-skills[\"Skills\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-app-check-action[\"App check action\"]\n        bb-listing-validation[\"Listing validation\"]\n    end\n    actor-creator -->|\"plan file, checkpoints\"| tooling\n    actor-assistant -->|\"AGENTS.md, skills, generator, check CLI, listing comment\"| tooling\n    actor-review-agent -->|\"review procedure, check CLI\"| tooling\n    actor-owner -->|\"validation report, review procedure\"| tooling\n    actor-github -->|\"app check action, package updates\"| tooling",
-            "after": "flowchart LR\n    actor-creator[\"Creator\"]\n    actor-assistant[\"Creator's AI assistant\"]\n    actor-owner[\"Platform owner\"]\n    actor-review-agent[\"Review agent\"]\n    actor-github[\"GitHub (Actions, Renovate)\"]\n    subgraph tooling[\"Tooling for agentic app creation\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-generator[\"Generator\"]\n        bb-skills[\"Skills\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-app-check-action[\"App check action\"]\n        bb-app-publish[\"App publish\"]\n        bb-listing-validation[\"Listing validation\"]\n    end\n    actor-creator -->|\"plan file, checkpoints\"| tooling\n    actor-assistant -->|\"AGENTS.md, skills, generator, check CLI, listing comment\"| tooling\n    actor-review-agent -->|\"review procedure, check CLI\"| tooling\n    actor-owner -->|\"validation report, review procedure\"| tooling\n    actor-github -->|\"app check action, app publish, package updates\"| tooling"
+            "after": "flowchart LR\n    actor-creator[\"Creator\"]\n    actor-assistant[\"Creator's AI assistant\"]\n    actor-owner[\"Platform owner\"]\n    actor-review-agent[\"Review agent\"]\n    actor-github[\"GitHub (Actions, Renovate)\"]\n    subgraph tooling[\"Tooling for agentic app creation\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-generator[\"Generator\"]\n        bb-skills[\"Skills\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-app-check-action[\"App check action\"]\n        bb-app-publish[\"App publish\"]\n        bb-listing-validation[\"Listing validation\"]\n    end\n    actor-creator -->|\"plan file, checkpoints\"| tooling\n    actor-assistant -->|\"agent instructions, plan, skills, generator, check, listing comment\"| tooling\n    actor-review-agent -->|\"review procedure, check CLI\"| tooling\n    actor-owner -->|\"validation report, review procedure\"| tooling\n    actor-github -->|\"app check action, app publish, package updates\"| tooling"
           }
         ],
         "base": {
@@ -712,7 +2159,7 @@
         },
         "head": {
           "file": "docs/arc42/03-system-context.arc42.md",
-          "line": 15
+          "line": 19
         }
       },
       {
@@ -731,7 +2178,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 16
+          "line": 15
         }
       },
       {
@@ -746,7 +2193,7 @@
           {
             "name": "source",
             "before": "sequenceDiagram\n    participant creator as Creator\n    participant assistant as Assistant\n    participant guidance as AGENTS.md and plan\n    participant generator as Generator\n    participant templates as Templates\n    participant skills as Skills\n    participant hooks as Git hooks\n    participant check as Check CLI\n    participant ci as App check action\n    participant listing as Listing validation\n    assistant->>guidance: read AGENTS.md, start the plan file\n    assistant->>creator: Explore: purpose, learners, what the entry needs\n    creator->>assistant: answers, confirms the plan\n    assistant->>generator: lernapps create --archetype <name>\n    generator->>templates: copy the archetype folder\n    assistant->>skills: load the skills of the archetype and topic\n    assistant->>hooks: commit\n    hooks->>check: lernapps check --pre-commit\n    assistant->>hooks: push\n    hooks->>check: lernapps check --pre-push (incl. end-to-end tests)\n    check-->>assistant: messages, or ok\n    assistant->>ci: pull request in the app repo\n    ci->>check: lernapps check (the same checks)\n    assistant->>creator: checkpoint: publish\n    assistant->>listing: entry from plan and report, pull request to lernapps/apps",
-            "after": "sequenceDiagram\n    participant creator as Creator\n    participant assistant as Assistant\n    participant guidance as AGENTS.md and plan\n    participant generator as Generator\n    participant templates as Templates\n    participant skills as Skills\n    participant hooks as Git hooks\n    participant check as Check CLI\n    participant ci as App check action\n    participant publish as App publish\n    participant listing as Listing validation\n    assistant->>guidance: read AGENTS.md, start the plan file\n    assistant->>creator: Explore: purpose, learners, what the entry needs\n    creator->>assistant: answers, confirms the plan\n    assistant->>generator: npx --yes github:lernapps/tooling#main create --archetype <name>\n    generator->>templates: copy the archetype folder\n    assistant->>skills: load the skills of the archetype and topic\n    assistant->>hooks: commit\n    hooks->>check: lernapps check --pre-commit\n    assistant->>hooks: push\n    hooks->>check: lernapps check --pre-push (incl. end-to-end tests)\n    check-->>assistant: messages, or ok\n    assistant->>ci: pull request in the app repo\n    ci->>check: lernapps check (the same checks)\n    assistant->>creator: checkpoint: publish\n    assistant->>ci: merge to main\n    ci->>publish: the checked bundle (artifact site)\n    publish->>publish: check the Pages setup, deploy to gh-pages, wait for the address\n    publish-->>assistant: published at <address>, or what to fix\n    assistant->>creator: the address, then checkpoint: list\n    assistant->>listing: entry from plan and report, pull request to lernapps/apps"
+            "after": "sequenceDiagram\n    participant creator as Creator\n    participant assistant as Assistant\n    participant guidance as Agent instructions and plan\n    participant generator as Generator\n    participant templates as Templates\n    participant skills as Skills\n    participant hooks as Git hooks\n    participant check as Check CLI\n    participant ci as App check action\n    participant publish as App publish\n    participant listing as Listing validation\n    assistant->>guidance: read the agent instructions, start the plan\n    assistant->>creator: Explore: purpose, learners, what the entry needs\n    creator->>assistant: answers, confirms the plan\n    assistant->>generator: create the app from the archetype\n    generator->>templates: copy the archetype folder\n    assistant->>skills: load the skills of the archetype and topic\n    assistant->>hooks: commit\n    hooks->>check: fast part of the check\n    assistant->>hooks: push\n    hooks->>check: heavy part of the check, with end-to-end tests\n    check-->>assistant: messages, or ok\n    assistant->>ci: pull request in the app repo\n    ci->>check: the same check, both parts\n    assistant->>creator: checkpoint: publish\n    assistant->>ci: merge to the main line\n    ci->>publish: the checked bundle\n    publish->>publish: check the hosting setup, deploy, wait for the address\n    publish-->>assistant: the address, or what to fix\n    assistant->>creator: the address, then checkpoint: list\n    assistant->>listing: entry from plan and report, pull request to lernapps/apps"
           }
         ],
         "base": {
@@ -756,6 +2203,63 @@
         "head": {
           "file": "docs/arc42/06-runtime-view.arc42.md",
           "line": 24
+        }
+      },
+      {
+        "id": "rs-push-fails-sequence",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "sequenceDiagram\n    participant assistant as Assistant\n    participant hooks as Pre-push hook\n    participant check as Check CLI\n    participant plan as Plan file\n    assistant->>hooks: git push\n    hooks->>check: lernapps check --pre-push\n    check-->>hooks: error no-request-before-click, page, element, fix\n    hooks->>plan: prePushFailures + 1\n    hooks-->>assistant: push refused, message\n    assistant->>assistant: fix, commit (with the counter)\n    assistant->>hooks: git push\n    hooks->>check: lernapps check --pre-push\n    check-->>hooks: ok",
+            "after": "sequenceDiagram\n    participant assistant as Assistant\n    participant hooks as Pre-push hook\n    participant check as Check CLI\n    participant plan as Plan file\n    assistant->>hooks: push\n    hooks->>check: heavy part of the check\n    check-->>hooks: error with rule id, page, element, fix\n    hooks->>plan: count the failed push\n    hooks-->>assistant: push refused, message\n    assistant->>assistant: fix, commit (with the counter)\n    assistant->>hooks: push\n    hooks->>check: heavy part of the check\n    check-->>hooks: ok"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 75
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 82
+        }
+      },
+      {
+        "id": "rs-listing-validated-sequence",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "sequenceDiagram\n    participant assistant as Creator's assistant\n    participant listing as Listing validation\n    participant check as Check CLI\n    participant review as Review agent\n    participant procedure as Review procedure\n    participant owner as Owner\n    assistant->>listing: pull request with the entry\n    listing->>check: lernapps check <url> --entry <file>\n    check-->>listing: validation report\n    listing-->>assistant: comment with the report (on failure)\n    assistant->>listing: fix, push again\n    listing->>check: second run\n    check-->>listing: report: rules kept, topic links resolve, fitness values match\n    owner->>review: start the review of the pull request\n    review->>procedure: prompt, rubric of the archetype, rule catalog\n    review->>check: validation report of the commit\n    review->>procedure: check the verdict against its schema and the catalog\n    review-->>owner: verdict for the reviewed commit\n    owner->>listing: verdict as a comment, merge or decline",
+            "after": "sequenceDiagram\n    participant assistant as Creator's assistant\n    participant listing as Listing validation\n    participant check as Check CLI\n    participant review as Review agent\n    participant procedure as Review procedure\n    participant owner as Owner\n    assistant->>listing: pull request with the entry\n    listing->>check: check the app at the entry's address, with the entry\n    check-->>listing: validation report\n    listing-->>assistant: comment with the report (on failure)\n    assistant->>listing: fix, push again\n    listing->>check: second run\n    check-->>listing: report: rules kept, topic links resolve, fitness values match\n    owner->>review: start the review of the pull request\n    review->>procedure: prompt, rubric of the archetype, rule catalog\n    review->>check: validation report of the commit\n    review->>procedure: check the verdict against its schema and the catalog\n    review-->>owner: verdict for the reviewed commit\n    owner->>listing: verdict as a comment, merge or decline"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 118
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 125
+        }
+      },
+      {
+        "id": "rs-rule-changes-sequence",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "sequenceDiagram\n    participant owner as Owner\n    participant skills as Skills\n    participant lint as Lint rules\n    participant check as Check CLI\n    participant procedure as Review rubric\n    participant package as Package build\n    participant evals as Evals\n    participant github as GitHub (Renovate)\n    owner->>check: pull request: new check for a recurring finding (same rule id)\n    owner->>procedure: remove the rubric item of that rule\n    package->>skills: read rule ids\n    package->>lint: read rule ids\n    package->>check: read rule ids\n    package->>procedure: read rule ids\n    package-->>owner: ids unique per artifact kind, every message linked\n    owner->>evals: run by hand with three assistants\n    evals-->>owner: scores per archetype\n    owner->>github: merge to main\n    github->>github: Renovate bumps the package in every app, merges when green",
+            "after": "sequenceDiagram\n    participant owner as Owner\n    participant skills as Skills\n    participant lint as Lint rules\n    participant check as Check CLI\n    participant procedure as Review rubric\n    participant package as Package build\n    participant evals as Evals\n    participant github as GitHub\n    owner->>check: pull request: new check for a recurring finding (same rule id)\n    owner->>procedure: remove the rubric item of that rule\n    package->>skills: read rule ids\n    package->>lint: read rule ids\n    package->>check: read rule ids\n    package->>procedure: read rule ids\n    package-->>owner: ids unique per artifact kind, every message linked\n    owner->>evals: run by hand with three assistants\n    evals-->>owner: scores per archetype\n    owner->>github: merge to the main line\n    github->>github: update pull request in every app, merged when green"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 165
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 172
         }
       },
       {
@@ -770,7 +2274,7 @@
           {
             "name": "source",
             "before": "architecture-beta\n    group creator(server)[Creator]\n    group harness(server)[Harness] in creator\n    group agents(server)[Agents]\n    group github(cloud)[GitHub]\n    group toolingrepo(disk)[tooling] in github\n    group templaterepo(disk)[templates] in github\n    group appci(server)[AppCI] in github\n    group appsci(server)[AppsCI] in github\n    service guidance(server)[Guidance] in harness\n    service skills(server)[Skills] in harness\n    service generator(server)[Generator] in creator\n    service hooks(server)[Hooks] in creator\n    service checklocal(server)[Check] in creator\n    service review(server)[Review] in agents\n    service evals(server)[Evals] in agents\n    service package(disk)[Package] in toolingrepo\n    service templates(disk)[Templates] in templaterepo\n    service appcheck(server)[AppCheck] in appci\n    service listing(server)[Listing] in appsci\n    generator:R --> L:package\n    generator:B --> T:templates\n    hooks:R --> L:checklocal\n    appcheck:L --> R:package\n    listing:T --> B:package\n    review:R --> L:listing",
-            "after": "architecture-beta\n    group creator(server)[Creator machine]\n    group toolingrepo(disk)[GitHub lernapps tooling]\n    group templaterepo(disk)[GitHub lernapps app templates]\n    group appci(server)[Developer GitHub Actions]\n    group appsci(server)[GitHub lernapps apps CI]\n    group agents(server)[lernapps agents]\n    service guidance(server)[AGENTS md in the harness] in creator\n    service skills(server)[Skills in the harness] in creator\n    service generator(server)[Generator] in creator\n    service checklocal(server)[Check] in creator\n    service hooks(server)[Hooks] in creator\n    service package(disk)[Package actions skills] in toolingrepo\n    service templates(disk)[Templates and runtime] in templaterepo\n    service appcheck(server)[App check] in appci\n    service publish(internet)[App publish to the app repo gh pages] in appci\n    service listing(server)[Listing] in appsci\n    service review(server)[Review] in agents\n    service evals(server)[Evals] in agents\n    package:L --> R:generator\n    templates:T --> B:generator\n    generator:L --> R:guidance\n    generator:B --> T:checklocal\n    checklocal:L --> R:hooks\n    package:T --> B:skills\n    package:B --> T:appcheck\n    appcheck:R --> L:publish\n    package:R --> L:listing\n    listing:T --> B:review\n    review:R --> L:evals"
+            "after": "architecture-beta\n    group creator(server)[Creator machine]\n    group toolingrepo(disk)[GitHub lernapps tooling]\n    group templaterepo(disk)[GitHub lernapps app templates]\n    group appci(server)[Developer GitHub Actions]\n    group appsci(server)[GitHub lernapps apps CI]\n    group agents(server)[lernapps agents]\n    service guidance(server)[Agent instructions] in creator\n    service skills(server)[Skills in the harness] in creator\n    service generator(server)[Generator] in creator\n    service checklocal(server)[Check] in creator\n    service hooks(server)[Hooks] in creator\n    service package(disk)[Package actions skills] in toolingrepo\n    service templates(disk)[Templates and runtime] in templaterepo\n    service appcheck(server)[App check] in appci\n    service publish(internet)[App publish to the app hosting] in appci\n    service listing(server)[Listing] in appsci\n    service review(server)[Review] in agents\n    service evals(server)[Evals] in agents\n    package:L --> R:generator\n    templates:T --> B:generator\n    generator:L --> R:guidance\n    generator:B --> T:checklocal\n    checklocal:L --> R:hooks\n    package:T --> B:skills\n    package:B --> T:appcheck\n    appcheck:R --> L:publish\n    package:R --> L:listing\n    listing:T --> B:review\n    review:R --> L:evals"
           }
         ],
         "base": {
@@ -779,7 +2283,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 18
+          "line": 15
         }
       }
     ],
@@ -867,6 +2371,14 @@
       {
         "status": "added",
         "edge": {
+          "from": "dec-strict-typescript",
+          "to": "con-strict-typescript",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
           "from": "dn-app-ci",
           "to": "bb-app-publish",
           "relation": "hosts"
@@ -935,6 +2447,149 @@
       {
         "status": "modified",
         "section": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "headingPath": [
+            "Introduction and Goals",
+            "1.1 Requirements Overview"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 11
+        },
+        "head": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 11
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "headingPath": [
+            "Introduction and Goals",
+            "1.2 Quality Goals"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 38
+        },
+        "head": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 25
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "headingPath": [
+            "Introduction and Goals",
+            "1.3 Stakeholders"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 48
+        },
+        "head": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 35
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "Set up: start from a working app"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 22
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 22
+        }
+      },
+      {
+        "status": "removed",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "Build: one check command, run by the hooks"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 29
+        }
+      },
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "Build: one check, run before every commit and push"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 32
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "headingPath": [
+            "Solution Strategy",
+            "Across the journey"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 49
+        },
+        "head": {
+          "file": "docs/arc42/04-solution-strategy.arc42.md",
+          "line": 51
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "headingPath": [
             "Building Blocks"
@@ -984,7 +2639,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 10
+          "line": 8
         }
       },
       {
@@ -999,7 +2654,26 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 225
+          "line": 197
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "How the scenarios are measured"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 10
+        },
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 10
         }
       }
     ],
@@ -1007,25 +2681,37 @@
       {
         "file": "docs/arc42/01-introduction-and-goals.arc42.md",
         "added": 0,
+        "modified": 4,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/02-constraints.arc42.md",
+        "added": 1,
         "modified": 1,
         "removed": 0
       },
       {
         "file": "docs/arc42/03-system-context.arc42.md",
         "added": 0,
-        "modified": 2,
+        "modified": 5,
         "removed": 0
+      },
+      {
+        "file": "docs/arc42/04-solution-strategy.arc42.md",
+        "added": 1,
+        "modified": 2,
+        "removed": 1
       },
       {
         "file": "docs/arc42/05-building-blocks.arc42.md",
         "added": 6,
-        "modified": 6,
+        "modified": 30,
         "removed": 0
       },
       {
         "file": "docs/arc42/06-runtime-view.arc42.md",
         "added": 0,
-        "modified": 2,
+        "modified": 7,
         "removed": 0
       },
       {
@@ -1035,10 +2721,34 @@
         "removed": 0
       },
       {
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "added": 0,
+        "modified": 5,
+        "removed": 0
+      },
+      {
         "file": "docs/arc42/09-decisions.arc42.md",
         "added": 1,
-        "modified": 1,
+        "modified": 7,
         "removed": 1
+      },
+      {
+        "file": "docs/arc42/10-quality-requirements.arc42.md",
+        "added": 0,
+        "modified": 5,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/11-risks.arc42.md",
+        "added": 0,
+        "modified": 3,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "added": 0,
+        "modified": 3,
+        "removed": 0
       }
     ]
   }
