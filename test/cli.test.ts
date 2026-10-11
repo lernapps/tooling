@@ -70,12 +70,12 @@ describe("lernapps", () => {
     expect(files.length).toBeGreaterThan(0);
     for (const file of files) {
       const module = (await import(pathToFileURL(join(dir, file)).href)) as {
-        default: { id: string; severity: string; description: string };
+        default?: { id?: string; severity?: string; description?: string };
       };
-      const { id, severity, description } = module.default;
-      expect(result.stdout).toMatch(
-        new RegExp(`^  ${id} +${severity} +${description.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "m"),
-      );
+      const { id, severity = "error", description = "" } = module.default ?? {};
+      if (id === undefined) continue; // not a check; the id test of the rule catalog reports it
+      const escaped = description.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      expect(result.stdout).toMatch(new RegExp(`^  ${id} +${severity} +${escaped}$`, "m"));
     }
     expect(result.stdout).toContain("https://lernapps.net/tooling/rules/#<id>");
   });
