@@ -1,15 +1,17 @@
-// The contract of the shared preset, end to end: an app that only extends it (vite.config.ts, tsconfig.json and the
-// hooks of @lernapps/tooling, nothing configured of its own) gets every lint rule and both git hooks.
-//   - `npm install` installs the hooks: pre-commit runs `lernapps check --pre-commit`, pre-push `--pre-push`;
-//   - a lint violation stops `git commit` with the rule's message and its link;
-//   - a request to another host stops `git push`, and the failed push increments prePushFailures in the plan;
-//   - each lint rule gives its verdict on a source snippet, through the preset's configuration;
-//   - the helpers (storage, i18n, a11y) and the Playwright configuration work in the app as they are.
-// The app is installed from git, as a consumer installs the package.
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { basename, dirname, join } from "node:path";
-import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
-import { freshClone, ok, PRE_COMMIT_LOG, repoRoot, run, tempDir, type Result } from "./support.ts";
+// The contract of the shared preset, end to end, on the quiz app from `lernapps create` (test/app-fixture.ts,
+// shared by the test files and copied here): the app only extends the preset (vite.config.ts, tsconfig.json and the
+// hooks of @lernapps/tooling, nothing configured of its own), and gets every lint rule and both git hooks.
+//   - `npm install` installs the hooks of the package;
+//   - each lint rule gives its verdict on a source snippet, through the preset's configuration: every snippet is its
+//     own file, and one `vp lint` run reports on all of them.
+// That the hooks stop a commit with a lint error and a push with a request to another host, and that the helpers
+// (storage, i18n, a11y) and the Playwright configuration work in the app, is tested once, with the app check action
+// that must find the same: app-check.e2e.test.ts.
+import { mkdirSync, readdirSync, writeFileSync } from "node:fs";
+import { basename, join } from "node:path";
+import { beforeAll, describe, expect, test } from "vite-plus/test";
+import { quizApp } from "./app-fixture.ts";
+import { ok, repoRoot, run, type Result } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
@@ -18,94 +20,8 @@ const HOOKS = "node_modules/@lernapps/tooling/archetypes/shared/hooks";
 
 const output = (result: Result) => `${result.stdout}\n${result.stderr}`;
 
-/** The app as the generator would write it: thin files that refer to the package, its pages and sources. */
-const appFiles = (tooling: string): Record<string, string> => ({
-  "package.json": `${JSON.stringify(
-    {
-      name: "brueche",
-      private: true,
-      type: "module",
-      scripts: { prepare: `vp config --no-agent --hooks-dir ${HOOKS}` },
-      devDependencies: { "@lernapps/tooling": `git+file://${tooling}`, "vite-plus": "1.0.0" },
-      overrides: { vite: "npm:@voidzero-dev/vite-plus-core@1.0.0" },
-    },
-    null,
-    2,
-  )}\n`,
-  ".gitignore": "node_modules/\ndist/\ntest-results/\nplaywright-report/\n",
-  "vite.config.ts": 'import { lernapps } from "@lernapps/tooling/preset";\n\nexport default lernapps();\n',
-  "tsconfig.json": '{ "extends": "@lernapps/tooling/tsconfig.json" }\n',
-  "playwright.config.ts": 'export { default } from "@lernapps/tooling/playwright";\n',
-  ".vibe/plan.md": "---\narchetype: quiz\nphase: code\nprePushFailures: 0\n---\n\n# Plan\n",
-  "index.html": [
-    "<!doctype html>",
-    '<html lang="de">',
-    "  <head>",
-    '    <meta charset="utf-8" />',
-    '    <meta name="viewport" content="width=device-width, initial-scale=1" />',
-    "    <title>Brüche üben</title>",
-    '    <script type="module" src="/src/main.ts"></script>',
-    "  </head>",
-    "  <body>",
-    "    <main>",
-    "      <h1>Brüche üben</h1>",
-    "      <p>Hier übst du, Brüche zu kürzen. Du bekommst Aufgaben und siehst sofort, ob du richtig liegst.</p>",
-    '      <button type="button">Nächste Aufgabe</button>',
-    "      <output></output>",
-    "    </main>",
-    "  </body>",
-    "</html>",
-    "",
-  ].join("\n"),
-  "src/messages/de.json": `${JSON.stringify({ next: "Nächste Aufgabe", solved: "Du hast {count} Aufgaben gelöst." }, null, 2)}\n`,
-  "src/main.ts": [
-    'import { announce } from "@lernapps/tooling/a11y";',
-    'import { translator } from "@lernapps/tooling/i18n";',
-    'import { createStorage } from "@lernapps/tooling/storage";',
-    'import de from "./messages/de.json";',
-    "",
-    "const t = translator(de);",
-    'const storage = createStorage("brueche");',
-    'const isCount = (value: unknown): value is number => typeof value === "number";',
-    "",
-    'const button = document.querySelector("button");',
-    'const result = document.querySelector("output");',
-    "if (button && result) {",
-    '  let count = storage.load("count", isCount) ?? 0;',
-    '  button.textContent = t("next");',
-    '  button.addEventListener("click", () => {',
-    "    count += 1;",
-    '    storage.save("count", count);',
-    '    result.textContent = t("solved", { count });',
-    "    announce(result.textContent);",
-    "  });",
-    "}",
-    "",
-  ].join("\n"),
-  "src/count.test.ts": [
-    'import { expect, test } from "vite-plus/test";',
-    'import { translator } from "@lernapps/tooling/i18n";',
-    "",
-    'test("the solved message names the count", () => {',
-    '  const t = translator({ solved: "Du hast {count} Aufgaben gelöst." });',
-    '  expect(t("solved", { count: 3 })).toBe("Du hast 3 Aufgaben gelöst.");',
-    "});",
-    "",
-  ].join("\n"),
-  "e2e/start.e2e.ts": [
-    'import { expect, test } from "playwright/test";',
-    "",
-    'test("a click on the button counts a solved task", async ({ page }) => {',
-    '  await page.goto("./");',
-    '  await page.getByRole("button").click();',
-    '  await expect(page.locator("output")).toHaveText("Du hast 1 Aufgaben gelöst.");',
-    "});",
-    "",
-  ].join("\n"),
-});
-
 /**
- * Snippets with the verdict of each lint rule, as `src/snippet.ts` of the app. `rule` is the rule as Oxlint names
+ * Snippets with the verdict of each lint rule, each its own file in the app. `rule` is the rule as Oxlint names
  * it in its output; every lint rule of the package (lint/rules/<id>.ts) has cases here.
  */
 const verdicts: { rule: string; name: string; snippet: string; reported: boolean }[] = [
@@ -226,125 +142,56 @@ const verdicts: { rule: string; name: string; snippet: string; reported: boolean
   },
 ];
 
+interface Diagnostic {
+  code: string;
+  filename: string;
+  message: string;
+  url?: string;
+  help?: string;
+}
+
 describe.skipIf(inner)("an app that only extends the preset", () => {
   let app = "";
-  let head = "";
+  /** The diagnostics of one `vp lint` run over every snippet, each in its own file. */
+  let diagnostics: Diagnostic[] = [];
+  let lint: Result;
+  const file = (index: number) => `src/verdicts/snippet-${String(index).padStart(2, "0")}.ts`;
 
   beforeAll(() => {
-    const tooling = freshClone();
-    app = tempDir("preset-app");
-    ok("git", ["init", "--quiet", "--initial-branch=main"], app);
-    for (const [file, content] of Object.entries(appFiles(tooling))) {
-      mkdirSync(dirname(join(app, file)), { recursive: true });
-      writeFileSync(join(app, file), content);
-    }
-    ok("npm", ["install", "--no-audit", "--no-fund"], app);
-    ok(join(app, "node_modules/.bin/vp"), ["fmt"], app); // the generator writes formatted files
-    ok("git", ["add", "--all"], app);
-    ok("git", ["commit", "--quiet", "--no-verify", "--message", "app"], app);
-    head = ok("git", ["rev-parse", "HEAD"], app).stdout.trim();
+    app = quizApp();
+    mkdirSync(join(app, "src/verdicts/messages"), { recursive: true });
+    // the app's message file, as the snippets that show learner texts import it
+    writeFileSync(
+      join(app, "src/verdicts/messages/de.json"),
+      `${JSON.stringify({ next: "Nächste Aufgabe", solved: "Du hast {count} Aufgaben gelöst." }, null, 2)}\n`,
+    );
+    for (const [index, verdict] of verdicts.entries()) writeFileSync(join(app, file(index)), verdict.snippet);
+    lint = run(join(app, "node_modules/.bin/vp"), ["lint", "--format", "json", "src/verdicts"], app);
+    diagnostics = (JSON.parse(lint.stdout) as { diagnostics: Diagnostic[] }).diagnostics;
   }, SLOW);
-
-  afterEach(() => {
-    ok("git", ["reset", "--quiet", "--hard", head], app);
-    ok("git", ["clean", "--quiet", "-fd"], app);
-  });
-
-  const plant = (file: string, content: string) => {
-    mkdirSync(dirname(join(app, file)), { recursive: true });
-    writeFileSync(join(app, file), content);
-  };
-  const failures = () => /prePushFailures: (\d+)/.exec(readFileSync(join(app, ".vibe/plan.md"), "utf8"))?.[1];
-  /** A bare repo as the app's remote; returns the push and whether the remote got the branch. */
-  const push = () => {
-    const remote = tempDir("remote");
-    ok("git", ["init", "--quiet", "--bare", remote], app);
-    const result = run("git", ["push", remote, "main"], app);
-    const arrived = run("git", ["rev-parse", "--verify", "--quiet", "main"], remote).code === 0;
-    return { result, arrived };
-  };
 
   test("npm install installs the hooks of the preset", () => {
     expect(ok("git", ["config", "core.hooksPath"], app).stdout.trim()).toBe(`${HOOKS}/_`);
   });
 
-  test("the app passes both hooks: its commit and its push go through", { timeout: SLOW }, () => {
-    plant(
-      "src/messages/de.json",
-      `${JSON.stringify({ next: "Weiter", solved: "Du hast {count} Aufgaben gelöst." }, null, 2)}\n`,
-    );
-    plant("index.html", readFileSync(join(app, "index.html"), "utf8").replace(">Nächste Aufgabe<", ">Weiter<"));
-    ok("git", ["add", "--all"], app);
-    const commit = run("git", ["commit", "--quiet", "--message", "shorter button"], app);
-    expect(commit.code, output(commit)).toBe(0);
-    // quiet: a passing pre-commit hook prints nothing
-    expect(output(commit).trim(), output(commit)).toBe("");
-    const { result, arrived } = push();
-    expect(result.code, output(result)).toBe(0);
-    expect(arrived).toBe(true);
-    expect(failures()).toBe("0");
-  });
-
-  test(
-    "a lint violation stops git commit with one line naming the log, which holds the rule's message and link",
-    {
-      timeout: SLOW,
-    },
-    () => {
-      plant("src/planted.ts", 'export const remember = () => localStorage.setItem("count", "1");\n');
-      ok("git", ["add", "src/planted.ts"], app);
-      const result = run("git", ["commit", "--message", "planted"], app);
-      expect(result.code, output(result)).not.toBe(0);
-      // the hook's one line: the step, its exit code and the log; vite-plus's hook runner adds its own line
-      const lines = output(result)
-        .trim()
-        .split("\n")
-        .filter((line) => !line.startsWith("VITE+ - "));
-      expect(lines, output(result)).toHaveLength(1);
-      expect(lines[0]).toMatch(/^lernapps pre-commit: .+ failed \(exit [1-9]\d*\); the full output is in /);
-      expect(lines[0]?.endsWith(`the full output is in ${PRE_COMMIT_LOG}`)).toBe(true);
-      const log = readFileSync(join(app, PRE_COMMIT_LOG), "utf8");
-      expect(log).toContain("$ vp staged");
-      expect(log).toContain("src/planted.ts");
-      expect(log).toContain("lernapps(storage-through-wrapper)");
-      expect(log).toContain("createStorage");
-      expect(log).toContain(`${RULES}storage-through-wrapper`);
-      expect(ok("git", ["rev-parse", "HEAD"], app).stdout.trim()).toBe(head);
+  test.each(verdicts.map((verdict, index) => ({ ...verdict, index })))(
+    "$rule on $name: reported $reported",
+    ({ rule, reported, index }) => {
+      const found = diagnostics.filter((diagnostic) => diagnostic.filename === file(index) && diagnostic.code === rule);
+      if (reported) {
+        expect(found, output(lint)).not.toEqual([]);
+        const id = /^lernapps\((.+)\)$/.exec(rule)?.[1];
+        if (id !== undefined) expect(JSON.stringify(found)).toContain(`${RULES}${id}`);
+      } else {
+        expect(found, output(lint)).toEqual([]);
+      }
     },
   );
 
-  test("a request to another host stops git push and counts the failed push", { timeout: SLOW }, () => {
-    const page = readFileSync(join(app, "index.html"), "utf8");
-    plant(
-      "index.html",
-      page.replace(
-        "    <main>\n",
-        '    <main>\n      <img src="https://bilder.example.org/bruch.png" alt="Ein Bruch" />\n',
-      ),
-    );
-    ok("git", ["add", "index.html"], app);
-    const commit = run("git", ["commit", "--message", "a picture from another host"], app);
-    expect(commit.code, output(commit)).toBe(0);
-    const { result, arrived } = push();
-    expect(result.code, output(result)).not.toBe(0);
-    expect(output(result)).toContain("rule: no-request-before-click");
-    expect(output(result)).toContain("bilder.example.org");
-    expect(arrived).toBe(false);
-    expect(failures()).toBe("1");
-  });
-
-  test.each(verdicts)("$rule on $name: reported $reported", { timeout: SLOW }, ({ rule, snippet, reported }) => {
-    plant("src/snippet.ts", snippet);
-    const result = run(join(app, "node_modules/.bin/vp"), ["lint", "src/snippet.ts"], app);
-    if (reported) {
-      expect(result.code, output(result)).not.toBe(0);
-      expect(output(result)).toContain(rule);
-      const id = /^lernapps\((.+)\)$/.exec(rule)?.[1];
-      if (id !== undefined) expect(output(result)).toContain(`${RULES}${id}`);
-    } else {
-      expect(output(result)).not.toContain(rule);
-      expect(result.code, output(result)).toBe(0);
-    }
+  test("the snippets that report nothing pass the lint", () => {
+    const clean = verdicts.flatMap((verdict, index) => (verdict.reported ? [] : [file(index)]));
+    const dirty = diagnostics.filter((diagnostic) => clean.includes(diagnostic.filename));
+    expect(dirty, JSON.stringify(dirty)).toEqual([]);
   });
 });
 
