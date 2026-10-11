@@ -4,8 +4,17 @@
 > `lernapps` (create and check an app), the plan template that holds the workflow, the skills with the rules, the
 > rule catalog, the schemas and the review procedure. It is installed from git; it is not on npm.
 
-Start with the plan template. It holds the whole workflow, from the first question to the listing, and names each
-command when it is needed. The skills add the rules. Everything here is also in the package `@lernapps/tooling`.
+## Quick path
+
+- [Skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): install it with `npx skills add lernapps/tooling`. Load it, then follow the [plan template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): it holds the whole workflow, from the first question to the listing, and names each command when it is needed.
+
+Everything here is also in the package `@lernapps/tooling`.
+
+## Other llms.txt of lernapps.net
+
+- [lernapps.net](https://lernapps.net/llms.txt): the vision and the overall picture.
+- [Docs](https://lernapps.net/docs/llms.txt): the platform and organisation docs, and how to read them (biz42, pdt42 and their CLIs).
+- [Apps](https://lernapps.net/apps/llms.txt): listing an app in the catalog.
 
 ## Commands
 
@@ -54,5 +63,3 @@ An archetype is a kind of app: a template, a runtime, skills and the rules in sc
 
 - [Architecture](https://lernapps.net/tooling/architecture/): how the tooling is built (arc42).
 - [Source and README](https://github.com/lernapps/tooling): the package, the actions and the Renovate preset.
-- [List an app in the catalog](https://lernapps.net/apps/llms.txt): the listing guide of lernapps.net/apps.
-- [lernapps.net for AI assistants](https://lernapps.net/llms.txt)

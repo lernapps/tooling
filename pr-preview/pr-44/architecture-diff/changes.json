@@ -5,93 +5,18 @@
     "commit": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd"
   },
   "head": {
-    "label": "4d2062ebcd4483bfff18ef20696538e16342bdd1"
+    "label": "1d644c1797ed1c68ab5edd88dd35d3fe49152a5e"
   },
   "acceptanceBase": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": true,
-  "findings": [
-    {
-      "kind": "prose-without-block-change",
-      "severity": "warning",
-      "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 79,
-      "elementId": "dn-creator-machine",
-      "message": "Section prose changed without changing block 'dn-creator-machine' — it names 'GitHub'."
-    },
-    {
-      "kind": "prose-without-block-change",
-      "severity": "warning",
-      "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 98,
-      "elementId": "dn-agent-harness",
-      "message": "Section prose changed without changing block 'dn-agent-harness' — it names 'GitHub'."
-    },
-    {
-      "kind": "prose-without-block-change",
-      "severity": "warning",
-      "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 115,
-      "elementId": "dn-lernapps-agents",
-      "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
-    },
-    {
-      "kind": "new-building-block-hint",
-      "severity": "hint",
-      "file": "actions/site-check",
-      "line": 0,
-      "message": "'actions/site-check' is not covered by any building block — consider adding a building-block element."
-    },
-    {
-      "kind": "new-building-block-hint",
-      "severity": "hint",
-      "file": "actions/site-deploy",
-      "line": 0,
-      "message": "'actions/site-deploy' is not covered by any building block — consider adding a building-block element."
-    },
-    {
-      "kind": "new-building-block-hint",
-      "severity": "hint",
-      "file": "actions/site-preview",
-      "line": 0,
-      "message": "'actions/site-preview' is not covered by any building block — consider adding a building-block element."
-    }
-  ],
+  "hasBlockingFindings": false,
+  "findings": [],
   "groups": {
-    "warnings": [
-      {
-        "kind": "prose-without-block-change",
-        "severity": "warning",
-        "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 79,
-        "elementId": "dn-creator-machine",
-        "message": "Section prose changed without changing block 'dn-creator-machine' — it names 'GitHub'."
-      },
-      {
-        "kind": "prose-without-block-change",
-        "severity": "warning",
-        "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 98,
-        "elementId": "dn-agent-harness",
-        "message": "Section prose changed without changing block 'dn-agent-harness' — it names 'GitHub'."
-      },
-      {
-        "kind": "prose-without-block-change",
-        "severity": "warning",
-        "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 115,
-        "elementId": "dn-lernapps-agents",
-        "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
-      }
-    ],
+    "warnings": [],
     "untouched": [],
     "updated": [],
-    "uncovered": [
-      "actions/site-check",
-      "actions/site-deploy",
-      "actions/site-preview"
-    ]
+    "uncovered": []
   },
   "architecture": {
     "elements": [
@@ -149,7 +74,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 157
+          "line": 158
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -179,7 +104,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 191
+          "line": 192
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -208,7 +133,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 523
+          "line": 524
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -232,7 +157,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 539
+          "line": 540
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -252,7 +177,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 563
+          "line": 564
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -271,7 +196,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 579
+          "line": 580
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -279,6 +204,85 @@
             "Building Blocks",
             "App publish",
             "App publish interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-site-actions",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 596
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Site actions"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-site-check",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 609
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Site actions",
+            "Site check"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-site-deploy",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 624
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Site actions",
+            "Site deploy"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-site-preview",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 638
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Site actions",
+            "Site preview"
           ],
           "occurrence": 1
         }
@@ -338,16 +342,30 @@
       {
         "id": "dn-creator-machine",
         "kind": "deployment-node",
-        "status": "unchanged",
-        "attributes": [],
-        "proseChanged": true,
-        "proseMentions": [
+        "status": "modified",
+        "attributes": [
           {
-            "term": "GitHub",
-            "element": "dn-github",
-            "source": "element"
+            "name": "hosts",
+            "before": [
+              "bb-tooling-package",
+              "bb-generator",
+              "bb-archetypes",
+              "bb-git-hooks",
+              "bb-lint-rules",
+              "bb-check-cli"
+            ],
+            "after": [
+              "bb-tooling-package",
+              "bb-generator",
+              "bb-archetypes",
+              "bb-git-hooks",
+              "bb-lint-rules",
+              "bb-check-cli",
+              "bb-app-templates"
+            ]
           }
         ],
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "line": 56
@@ -368,16 +386,15 @@
       {
         "id": "dn-agent-harness",
         "kind": "deployment-node",
-        "status": "unchanged",
-        "attributes": [],
-        "proseChanged": true,
-        "proseMentions": [
+        "status": "modified",
+        "attributes": [
           {
-            "term": "GitHub",
-            "element": "dn-github",
-            "source": "element"
+            "name": "title",
+            "before": "Creator's agent harness",
+            "after": "Creator's agent harness, with AGENTS.md and the skill folder"
           }
         ],
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "line": 72
@@ -399,16 +416,26 @@
       {
         "id": "dn-lernapps-agents",
         "kind": "deployment-node",
-        "status": "unchanged",
-        "attributes": [],
-        "proseChanged": true,
-        "proseMentions": [
+        "status": "modified",
+        "attributes": [
           {
-            "term": "environment",
-            "element": "dn-lernapps-agents",
-            "source": "fact"
+            "name": "hosts",
+            "before": [
+              "bb-tooling-package",
+              "bb-review-procedure",
+              "bb-evals",
+              "bb-check-cli"
+            ],
+            "after": [
+              "bb-tooling-package",
+              "bb-generator",
+              "bb-review-procedure",
+              "bb-evals",
+              "bb-check-cli"
+            ]
           }
         ],
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "line": 94
@@ -464,7 +491,8 @@
             "after": [
               "bb-tooling-package",
               "bb-app-check-action",
-              "bb-app-publish"
+              "bb-app-publish",
+              "bb-site-actions"
             ]
           }
         ],
@@ -694,7 +722,7 @@
           {
             "name": "source",
             "before": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli",
-            "after": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-app-publish[\"App publish\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli"
+            "after": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-app-publish[\"App publish\"]\n    bb-site-actions[\"Site actions (lernapps.net sites, not apps)\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli"
           }
         ],
         "base": {
@@ -773,6 +801,30 @@
         }
       },
       {
+        "status": "added",
+        "edge": {
+          "from": "bb-site-actions",
+          "to": "if-site-check",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-site-actions",
+          "to": "if-site-deploy",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-site-actions",
+          "to": "if-site-preview",
+          "relation": "provides"
+        }
+      },
+      {
         "status": "removed",
         "edge": {
           "from": "dec-app-check-action",
@@ -823,8 +875,32 @@
       {
         "status": "added",
         "edge": {
+          "from": "dn-creator-machine",
+          "to": "bb-app-templates",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-lernapps-agents",
+          "to": "bb-generator",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
           "from": "dn-tooling-repo",
           "to": "bb-app-publish",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-tooling-repo",
+          "to": "bb-site-actions",
           "relation": "hosts"
         }
       },
@@ -942,7 +1018,7 @@
       },
       {
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "added": 2,
+        "added": 6,
         "modified": 6,
         "removed": 0
       },
