@@ -6,8 +6,11 @@ lernapps/app-templates and the listing validation in lernapps/apps (chapter 5).
 
 Outside the system: the people and assistants who use it, GitHub where it runs, and the parts of lernapps.net it
 depends on but does not own. The shared site frame (`@lernapps/site` in lernapps.github.io) gives apps on
-lernapps.net their header, footer and the site check; the entry schema belongs to lernapps/apps; apps are hosted on
-lernapps.net's GitHub Pages or anywhere else.
+lernapps.net their header, footer and the site check; the entry schema belongs to lernapps/apps; apps are hosted
+where their developers choose, by default on the GitHub Pages of their own repo.
+
+The repo of the tooling also holds two things for the lernapps.net sites, which are not app tooling: the site actions
+(chapter 5, "Site actions") and the Renovate preset of every lernapps repo.
 
 ## Context overview
 
