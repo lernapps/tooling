@@ -27,6 +27,10 @@ const base: PlaywrightTestConfig = {
   testDir: "e2e",
   testMatch: "*.e2e.ts",
   forbidOnly: true,
+  // Every test opens its own page and depends on no other: they run in parallel, not one file after another, on
+  // three quarters of the machine's cores; the rest serves the app (vp preview).
+  fullyParallel: true,
+  workers: "75%",
   reporter: [["line"]],
   use: { baseURL: URL },
   projects: [
