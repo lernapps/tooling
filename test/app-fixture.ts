@@ -107,6 +107,27 @@ export function quizApp(): string {
   return dir;
 }
 
+/** A step of the app check action, as its action.yml names it. */
+export interface ActionStep {
+  id?: string;
+  run?: string;
+  uses?: string;
+  with?: Record<string, string>;
+}
+/** The steps of the app check action (actions/app-check/action.yml). */
+export const actionSteps = (
+  parse(readFileSync(join(repoRoot, "actions/app-check/action.yml"), "utf8")) as { runs: { steps: ActionStep[] } }
+).runs.steps;
+/** The action's check step. */
+export const checkStep = actionSteps.find((step) => step.id === "check");
+
+/** The action's check step, run in the app as the action runs it. */
+export const runActionCheck = (dir: string): Result => run("bash", ["-c", checkStep?.run ?? "false"], dir);
+
+/** The failed pushes the pre-push hook counted in the app's plan. */
+export const prePushFailures = (dir: string) =>
+  /prePushFailures: (\d+)/.exec(readFileSync(join(dir, ".vibe/plan.md"), "utf8"))?.[1];
+
 /** A mistake the pre-push hook catches: a stylesheet from another host, loaded before any click. */
 export function plantRequest(dir: string): void {
   const page = join(dir, "index.html");
