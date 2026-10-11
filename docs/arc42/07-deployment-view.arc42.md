@@ -1,18 +1,15 @@
 # Deployment View
 
-The tooling has no server of its own. Its parts are files in git repos on GitHub. They reach the places where they
-run as git commits: npm installs them from git, the generator fetches them with git, a workflow names an action by
-its commit. Renovate moves those commits forward. This chapter says, per node, what arrives there, from where and how,
-and where the app goes in the end. What each part does is in chapter 5. lernapps.net hosts nothing of an app: the app
-lives at its developer's hosting, by default its repo's GitHub Pages, and the catalog links to it
-(`dec-app-own-hosting`).
+The tooling has no server of its own. Its parts are files in git repos on GitHub, and they reach the places where
+they run as git commits. Update pull requests move those commits forward. This chapter says, per node, what it
+receives and what it hosts; what each part does is in chapter 5. lernapps.net hosts nothing of an app: the app lives
+at its developer's hosting, and the catalog links to it (decision `dec-app-own-hosting`).
 
 ## Deployment overview
 
-The arrows show where the parts go: from the repos on GitHub to the creator's machine and its harness, to the CI of
-the repos and to the environment for lernapps agents. The developer's GitHub Actions run the app check action and the
-app publish action, which puts the app on the app repo's GitHub Pages. A listing goes from the catalog's CI to the
-review.
+The arrows show where the parts go: from the repos on GitHub to the creator's machine, to the CI of the repos and to
+the environment for lernapps agents. The app's CI checks the app and publishes it to the app's hosting. A listing goes
+from the catalog's CI to the review.
 
 ```arc42
 :::diagram
@@ -31,7 +28,7 @@ architecture-beta
     group appci(server)[Developer GitHub Actions]
     group appsci(server)[GitHub lernapps apps CI]
     group agents(server)[lernapps agents]
-    service guidance(server)[AGENTS md in the harness] in creator
+    service guidance(server)[Agent instructions] in creator
     service skills(server)[Skills in the harness] in creator
     service generator(server)[Generator] in creator
     service checklocal(server)[Check] in creator
@@ -39,7 +36,7 @@ architecture-beta
     service package(disk)[Package actions skills] in toolingrepo
     service templates(disk)[Templates and runtime] in templaterepo
     service appcheck(server)[App check] in appci
-    service publish(internet)[App publish to the app repo gh pages] in appci
+    service publish(internet)[App publish to the app hosting] in appci
     service listing(server)[Listing] in appsci
     service review(server)[Review] in agents
     service evals(server)[Evals] in agents
@@ -59,21 +56,13 @@ architecture-beta
 ## Creator's machine
 
 The creator's computer or their assistant's sandbox. Nothing of the tooling is installed there at first, and
-nothing is installed globally. The parts arrive in this order:
-- **The generator**, once: `npx --yes github:lernapps/tooling#main create --archetype <archetype>`, the command in
-  the plan template's Code tasks (block "Generator"). npm resolves `main` to a commit, fetches the package from
-  GitHub and runs its `prepare`, which builds the CLI.
-- **The template:** the generator fetches the archetype's folder with git from lernapps/app-templates, at the commit
-  pinned in the package.
-- **The package and the runtime:** `npm install` in the new app installs `@lernapps/tooling` from git at the commit the
-  generator came from, and the runtime `@lernapps/app-templates` from git at the template's commit. The other
-  dependencies come from the npm registry. The app's `prepare` installs the git hooks from the package.
-- **The browser:** the first check that needs one downloads Playwright's browser and caches it. The check says
-  clearly when a sandbox cannot run one.
+nothing globally. It receives, in this order: the generator (block "Generator"), the archetype's template, then the
+package and the runtime as the app's dependencies, with the git hooks. The first check that needs a browser fetches
+one and keeps it.
 
-From then on, everything runs from the app's own `node_modules`: `npx lernapps check` and the hooks. The machine
-needs git, Node and access to github.com, codeload.github.com and the npm registry. If the sandbox blocks them, the
-creator allows them; the assistant does not write the app by hand.
+From then on, the check, the lint rules and the hooks run from the app's own dependencies. The machine needs git, Node
+and network access to GitHub and the npm registry. If a sandbox blocks them, the creator allows them; the assistant
+does not write the app by hand.
 
 ```arc42
 :::deployment-node
@@ -86,13 +75,10 @@ hosts: bb-tooling-package, bb-generator, bb-archetypes, bb-git-hooks, bb-lint-ru
 
 ### Creator's agent harness
 
-The runtime of the creator's assistant: Claude Code, Codex, Gemini CLI or another agent. Two things arrive here:
-- `AGENTS.md`, written by the generator at the app's root, which every harness reads. Before the app exists, the
-  assistant starts the plan from the template on GitHub; <https://lernapps.net/llms.txt> points to it.
-- the skills: `npx skills add lernapps/tooling` copies them from GitHub into the harness's skill folder (e.g.
-  `.agents/skills/`, `.claude/skills/`). Running it again brings newer skills.
-
-The harness decides when to load a skill. Hooks of the harness itself may add convenience but enforce nothing.
+The runtime of the creator's assistant, whichever it is. It receives the agent instructions, which the generator
+writes into the app, and the skills, copied from GitHub into the harness and refreshed the same way. Before the app
+exists, the assistant starts the plan from the published template. The harness decides when to load a skill; its own
+hooks may add convenience but enforce nothing.
 
 ```arc42
 :::deployment-node
@@ -106,10 +92,9 @@ hosts: bb-process-guidance, bb-skills
 
 ## Environment for lernapps agents
 
-Where agents defined by lernapps run: the review agent on a listing pull request, and the eval runs. Today it is the
-owner's machine. It receives a checkout of lernapps/tooling at `main`, with `npm ci`. For a review, the agent clones
-the app at the commit to review into a directory of its own (`.reviews/`, ignored by git). Only the verdict leaves the
-environment: the owner posts it on the listing pull request.
+Where agents defined by lernapps run: the review agent on a listing, and the evals. Today it is the owner's machine.
+It receives a checkout of the tooling at its main line. For a review, it receives the app at the commit to review.
+Only the verdict leaves this environment: the owner posts it on the listing.
 
 ```arc42
 :::deployment-node
@@ -123,7 +108,7 @@ hosts: bb-tooling-package, bb-generator, bb-review-procedure, bb-evals, bb-check
 ## GitHub
 
 The means of production (`con-github`): every part comes from a repo here, and every app and site is served from
-here.
+here by default.
 
 ```arc42
 :::deployment-node
@@ -135,14 +120,9 @@ type: cloud-region
 
 ### lernapps/tooling
 
-The source of the package, the actions and the skills. Each consumer takes them at a commit:
-- npx and npm install the package from git;
-- an app's workflow names the app check and app publish actions by a commit
-  (`uses: lernapps/tooling/actions/<name>@<commit>`);
-- `npx skills add` copies the skills.
-
-The repo's own site, at lernapps.net/tooling/, publishes the documentation, the rule catalog and the schemas, with
-the site actions of the lernapps.net sites (block "Site actions"); they are not app tooling.
+The source of the package, the actions and the skills. Every consumer takes them at a commit: the package as a
+dependency, the actions by name in a workflow, the skills by copying them. The repo's own site on lernapps.net
+publishes the documentation, the rule catalog and the schemas, with the site actions (block "Site actions").
 
 ```arc42
 :::deployment-node
@@ -156,8 +136,8 @@ hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-site-actions
 
 ### lernapps/app-templates
 
-The template folders, which the generator fetches at the commit pinned in the package, and the runtime package at
-the root, which every app installs from git at the commit of its template.
+Hosts the templates, which the generator fetches at the commit the package pins, and the runtime, which every app
+installs at the commit of its template.
 
 ```arc42
 :::deployment-node
@@ -171,15 +151,9 @@ hosts: bb-app-templates
 
 ### Developer's GitHub Actions
 
-The GitHub Actions of the app repo, which belongs to the developer: the deployment node of the app check action and
-the app publish action. Both arrive through the workflow `pages.yml` the generator wrote, which names them at the
-commit the generator pinned, the commit of the package the app was created with; Renovate moves it. The runner
-fetches each action at that commit.
-- On every pull request and push, the app check action installs the app's dependencies with `npm ci`, as on the
-  creator's machine, and runs the same check as the hooks.
-- On `main`, the app publish action checks the Pages settings of the app repo, pushes the checked bundle to its
-  `gh-pages` branch, waits until the app's address serves it, and prints the address. It needs the permissions
-  `contents: write` and `pages: write`.
+The CI of the app repo, which belongs to the developer. It receives the app check action and the app publish action,
+named in the workflow the generator wrote, at the commit of the package the app was created with. On every change it
+runs the same check as the hooks. On the main line it publishes the checked bundle to the app's hosting.
 
 ```arc42
 :::deployment-node
@@ -193,9 +167,8 @@ hosts: bb-app-check-action, bb-app-publish, bb-check-cli
 
 ### lernapps/apps CI
 
-GitHub Actions of the catalog: the listing validation on pull requests that add or change an entry. It installs the
-package from git at a commit. When the owner merges the listing, the catalog's own workflow publishes it at
-lernapps.net/apps/, and the entry links to the app.
+The CI of the catalog. It receives the package at a commit and runs the listing validation on every pull request that
+adds or changes an entry. When the owner merges a listing, the catalog publishes it, and the entry links to the app.
 
 ```arc42
 :::deployment-node
@@ -209,10 +182,9 @@ hosts: bb-listing-validation, bb-check-cli
 
 ### The app's hosting
 
-Where the app is served: the developer's choice. By default it is the app repo's GitHub Pages, which serves the
-branch `gh-pages` from its root; the app publish action writes that branch. An app repo of the lernapps organisation
-is served at lernapps.net/<repo>/, the organisation's Pages domain; a repo elsewhere at its owner's Pages address.
-The catalog entry in lernapps/apps links to the address. Nothing of the tooling runs here.
+Where the app is served: the developer's choice. By default it is the app repo's own GitHub Pages, which receives
+the checked bundle from the app publish action. An app repo of the lernapps organisation is served below
+lernapps.net; a repo elsewhere at its owner's address. Nothing of the tooling runs here.
 
 ```arc42
 :::deployment-node
@@ -224,12 +196,7 @@ type: environment
 
 ## How updates arrive
 
-Every app repo has the Renovate preset of lernapps (`renovate.json`, written by the generator). Renovate proposes a
-pull request when a newer commit exists:
-- of `@lernapps/tooling`, which brings new rules, checks, hooks and guidance;
-- of `@lernapps/app-templates`, which brings new features of the archetype's runtime;
-- of the actions named in `pages.yml`.
-
-The app check action runs on that pull request, and the preset says when it merges (README, "Renovate preset"). The
-generator's pin of app-templates moves by hand in lernapps/tooling; an app created before keeps its template files
-and gets the runtime by Renovate. The skills in the harness update when `npx skills add` runs again.
+Every app repo receives the organisation's update policy from the generator. An update pull request arrives when the
+package, the runtime or the actions have a newer commit. The app check action runs on it, and the policy decides when
+it merges. The template an app was created from does not change afterwards; new features reach the app through the
+runtime. The skills in the harness change when they are copied again.

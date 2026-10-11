@@ -18,10 +18,13 @@ Everything here is also in the package `@lernapps/tooling`.
 
 ## Commands
 
-- [Create an app](https://github.com/lernapps/tooling#the-generator): `npx --yes github:lernapps/tooling#main create --archetype <archetype> [<dir>]`, then `git init` if needed and `npm install`. Needs git, github.com, codeload.github.com and the npm registry.
-- [Check an app](https://github.com/lernapps/tooling#the-package-lernappstooling): `npx lernapps check` in an app from the generator, the same as its git hooks and CI. Without a flag it runs everything; `--pre-commit` and `--pre-push` run one part.
-- [Check a built app or an app on the web](https://github.com/lernapps/tooling#the-package-lernappstooling): `npx --yes github:lernapps/tooling#main check <dir|url>`, for an app built any other way. Add `--entry <file>` to check a catalog entry against the app.
-- [Publish an app](https://github.com/lernapps/tooling#app-publish): a push to `main` runs the generated workflow `Pages`; its job `deploy` publishes the checked bundle to the app repo's GitHub Pages (branch `gh-pages`, served from its root) and prints the address. If it fails, its message says what to fix.
+Every command lists its options with `--help`: `npx lernapps check --help` in an app, or
+`npx --yes github:lernapps/tooling#main create --help` before the app exists.
+
+- Create an app: `npx --yes github:lernapps/tooling#main create --archetype <archetype> [<dir>]`, then `git init` if needed and `npm install`. Needs git, github.com, codeload.github.com and the npm registry.
+- Check an app: `npx lernapps check` in an app from the generator, the same as its git hooks and CI. Without a flag it runs everything; `--pre-commit` and `--pre-push` run one part.
+- Check a built app or an app on the web: `npx --yes github:lernapps/tooling#main check <dir|url>`, for an app built any other way. Add `--entry <file>` to check a catalog entry against the app.
+- [Publish an app](https://github.com/lernapps/tooling/blob/main/actions/app-publish/action.yml): a push to `main` runs the generated workflow `Pages`; its job `deploy` publishes the checked bundle to the app repo's GitHub Pages (branch `gh-pages`, served from its root) and prints the address. If it fails, its message says what to fix.
 
 ## Guidance
 
@@ -62,4 +65,4 @@ An archetype is a kind of app: a template, a runtime, skills and the rules in sc
 ## Optional
 
 - [Architecture](https://lernapps.net/tooling/architecture/): how the tooling is built (arc42).
-- [Source and README](https://github.com/lernapps/tooling): the package, the actions and the Renovate preset.
+- [Source](https://github.com/lernapps/tooling): the package, the actions and the Renovate preset.

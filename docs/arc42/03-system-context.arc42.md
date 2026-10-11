@@ -1,13 +1,17 @@
 # System Scope and Context
 
 The system is the tooling for building, validating and listing apps: process guidance, generator and archetype
-presets, skills, checks, the validation and its report. It lives mostly in lernapps/tooling, with the archetype templates in
-lernapps/app-templates and the listing validation in lernapps/apps (chapter 5).
+presets, skills, checks, the review and the validation report. Most of it is one package in lernapps/tooling. The
+archetype templates live in lernapps/app-templates and the listing validation in lernapps/apps (chapter 5).
 
-Outside the system: the people and assistants who use it, GitHub where it runs, and the parts of lernapps.net it
-depends on but does not own. The shared site frame (`@lernapps/site` in lernapps.github.io) gives apps on
-lernapps.net their header, footer and the site check; the entry schema belongs to lernapps/apps; apps are hosted on
-lernapps.net's GitHub Pages or anywhere else.
+Outside the system are the people and assistants who use it, GitHub where it runs, and the parts of lernapps.net it
+depends on but does not own. The shared site frame gives pages on lernapps.net their header, footer and site check.
+The entry schema belongs to lernapps/apps. Apps are hosted where their developers choose, by default on the GitHub
+Pages of their own repo.
+
+The tooling's repo also serves the lernapps.net sites, which are not apps: it holds the actions that check, publish
+and preview a site (chapter 5, "Site actions") and the shared update policy of every lernapps repo. Neither is part of
+the app path.
 
 ## Context overview
 
@@ -38,7 +42,7 @@ flowchart LR
         bb-listing-validation["Listing validation"]
     end
     actor-creator -->|"plan file, checkpoints"| tooling
-    actor-assistant -->|"AGENTS.md, skills, generator, check CLI, listing comment"| tooling
+    actor-assistant -->|"agent instructions, plan, skills, generator, check, listing comment"| tooling
     actor-review-agent -->|"review procedure, check CLI"| tooling
     actor-owner -->|"validation report, review procedure"| tooling
     actor-github -->|"app check action, app publish, package updates"| tooling
@@ -47,8 +51,8 @@ flowchart LR
 ## Creator
 
 A teacher, parent or student who builds an app for a gap they noticed ([app creators](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-creators)). They talk to their assistant,
-read the plan file and confirm it; after that, they are asked only at the checkpoints. They never need to know the
-rules or the toolchain.
+read the plan and confirm it. After that, they are asked only at the checkpoints. They never need to know the rules
+or the toolchain.
 
 ```arc42
 :::actor
@@ -62,9 +66,9 @@ requires: if-plan-file
 
 ## Creator's AI assistant
 
-Claude Code, Codex, Gemini CLI or another agent, chosen by the creator ([AI assistants](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-ai-assistants)). It reads `AGENTS.md`,
-writes the plan, runs the generator, follows the skills, reacts to the checks and fills the entry. It is a partner the
-platform designs for, not part of the system.
+Claude Code, Codex, Gemini CLI or another agent, chosen by the creator ([AI assistants](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-ai-assistants)). It reads the agent
+instructions, writes the plan, creates the app, follows the skills, reacts to the checks and fills the entry. It is a
+partner the platform designs for, not part of the system.
 
 ```arc42
 :::actor
@@ -108,9 +112,8 @@ requires: if-review-procedure, if-check-cli, if-validation-report
 
 ## GitHub
 
-Runs the app repo's workflows and the listing validation in lernapps/apps (GitHub Actions), serves an app from its
-repo's `gh-pages` branch by default (Pages), and keeps every app's tooling current (Renovate with the organisation's
-preset).
+Runs the checks of every app repo and the listing validation in lernapps/apps, serves an app from its own repo by
+default, and proposes every update of the tooling to every app.
 
 ```arc42
 :::actor
