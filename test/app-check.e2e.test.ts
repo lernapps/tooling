@@ -22,7 +22,7 @@ import {
   runHooks,
   type HookRun,
 } from "./app-fixture.ts";
-import { ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import { ok, PRE_COMMIT_LOG, repoRoot, run, tempDir, type Result } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
@@ -58,7 +58,7 @@ describe.skipIf(inner)("the app check action", () => {
     expect(checkStep?.run).toBe("npx --no -- lernapps check");
     const hooks = (name: string) =>
       readFileSync(join(app, "node_modules/@lernapps/tooling/archetypes/shared/hooks", name), "utf8");
-    expect(hooks("pre-commit")).toMatch(/^lernapps check --pre-commit$/m);
+    expect(hooks("pre-commit")).toMatch(/ lernapps check --pre-commit$/m);
     expect(hooks("pre-push")).toMatch(/^lernapps check --pre-push$/m);
     const uploads = steps.filter((step) => step.uses?.startsWith("actions/upload-artifact@"));
     expect(uploads.map((step) => step.with?.["path"])).toContain(`\${{ inputs.working-directory }}/${REPORT}`);
@@ -105,11 +105,14 @@ describe.skipIf(inner)("the app check action", () => {
     ok("git", ["add", "--all"], app);
     const commit = run("git", ["commit", "--quiet", "--message", "localStorage"], app);
     expect(commit.code, output(commit)).not.toBe(0);
+    // the quiet hook names its log; the log holds what the hook's steps printed
+    expect(output(commit)).toContain(`the full output is in ${PRE_COMMIT_LOG}`);
+    const logged = { code: commit.code, stdout: readFileSync(join(app, PRE_COMMIT_LOG), "utf8"), stderr: "" };
     // the lint message with its code frame, from its first line to the frame's end: plain (`x`, `----`) on a
     // terminal, with colours and box drawing (`×`, `╰────`) where the linter sees CI; the same in hook and action
     const plain = (result: Result) => stripVTControlCharacters(output(result));
-    const message = /^ *[x×] lernapps\(storage-through-wrapper\)[^]*?^ *(?:`-+|╰─+)$/m.exec(plain(commit))?.[0];
-    expect(message, plain(commit)).toBeDefined();
+    const message = /^ *[x×] lernapps\(storage-through-wrapper\)[^]*?^ *(?:`-+|╰─+)$/m.exec(plain(logged))?.[0];
+    expect(message, plain(logged)).toBeDefined();
     const result = runAction();
     expect(result.code, output(result)).toBe(1);
     expect(plain(result)).toContain(message?.trim());

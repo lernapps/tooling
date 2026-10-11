@@ -10,7 +10,17 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
 import { frontMatterErrors } from "./plan.ts";
-import { freshClone, installedClone, ok, repoRoot, run, sharedInstall, tempDir, type Result } from "./support.ts";
+import {
+  freshClone,
+  installedClone,
+  ok,
+  PRE_COMMIT_LOG,
+  repoRoot,
+  run,
+  sharedInstall,
+  tempDir,
+  type Result,
+} from "./support.ts";
 
 // A check run inside a test copy runs the tests too; it must not start these tests again.
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
@@ -85,7 +95,9 @@ describe.skipIf(inner)("a fresh clone", () => {
       ok("git", ["add", file], clone);
       const result = run("git", ["commit", "--message", "planted"], clone);
       expect(result.code, output(result)).not.toBe(0);
-      expect(output(result)).toContain("planted.ts");
+      // the hook prints one line naming its log; the log holds the message
+      expect(output(result)).toContain(`the full output is in ${PRE_COMMIT_LOG}`);
+      expect(readFileSync(join(clone, PRE_COMMIT_LOG), "utf8")).toContain("planted.ts");
       expect(ok("git", ["rev-parse", "HEAD"], clone).stdout.trim()).toBe(head);
     });
   });

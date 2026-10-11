@@ -98,8 +98,9 @@ creator's turns from here to the listing are counted in the retrospective (targe
 
 <!--
 Generate the app, then build it task by task. Load the skill lernapps-app and the skill of the archetype before you
-write code. Commit after each task: the git hooks run the checks. Fix every failed check from its message; never
-bypass a hook. When you cannot decide something, choose, mark it "(guess)" under "Key decisions" and go on.
+write code. Commit after each task: the git hooks run the checks. The pre-commit hook is quiet: when it fails, it
+prints one line naming the step and its log, `node_modules/.cache/lernapps/pre-commit.log`; read that log for the
+messages. Fix every failed check from its message; never bypass a hook. When you cannot decide something, choose, mark it "(guess)" under "Key decisions" and go on.
 
 The generator needs git, Node 22.18 or later and the network: github.com and codeload.github.com for the tooling, the
 template and the runtime, and the npm registry (registry.npmjs.org) for the other dependencies. If the sandbox blocks

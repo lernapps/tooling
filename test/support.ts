@@ -19,6 +19,9 @@ import { copyRepo, repoRoot, testEnv } from "./repo-copy.ts";
 
 export { repoRoot, testEnv } from "./repo-copy.ts";
 
+/** Where the quiet pre-commit hook writes what its steps print, in an app and in this repo. */
+export const PRE_COMMIT_LOG = "node_modules/.cache/lernapps/pre-commit.log";
+
 export interface Result {
   code: number;
   stdout: string;

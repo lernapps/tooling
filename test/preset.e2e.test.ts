@@ -9,7 +9,7 @@
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
-import { freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import { freshClone, ok, PRE_COMMIT_LOG, repoRoot, run, tempDir, type Result } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
@@ -275,25 +275,43 @@ describe.skipIf(inner)("an app that only extends the preset", () => {
     );
     plant("index.html", readFileSync(join(app, "index.html"), "utf8").replace(">Nächste Aufgabe<", ">Weiter<"));
     ok("git", ["add", "--all"], app);
-    const commit = run("git", ["commit", "--message", "shorter button"], app);
+    const commit = run("git", ["commit", "--quiet", "--message", "shorter button"], app);
     expect(commit.code, output(commit)).toBe(0);
+    // quiet: a passing pre-commit hook prints nothing
+    expect(output(commit).trim(), output(commit)).toBe("");
     const { result, arrived } = push();
     expect(result.code, output(result)).toBe(0);
     expect(arrived).toBe(true);
     expect(failures()).toBe("0");
   });
 
-  test("a lint violation stops git commit with the rule's message and link", { timeout: SLOW }, () => {
-    plant("src/planted.ts", 'export const remember = () => localStorage.setItem("count", "1");\n');
-    ok("git", ["add", "src/planted.ts"], app);
-    const result = run("git", ["commit", "--message", "planted"], app);
-    expect(result.code, output(result)).not.toBe(0);
-    expect(output(result)).toContain("src/planted.ts");
-    expect(output(result)).toContain("lernapps(storage-through-wrapper)");
-    expect(output(result)).toContain("createStorage");
-    expect(output(result)).toContain(`${RULES}storage-through-wrapper`);
-    expect(ok("git", ["rev-parse", "HEAD"], app).stdout.trim()).toBe(head);
-  });
+  test(
+    "a lint violation stops git commit with one line naming the log, which holds the rule's message and link",
+    {
+      timeout: SLOW,
+    },
+    () => {
+      plant("src/planted.ts", 'export const remember = () => localStorage.setItem("count", "1");\n');
+      ok("git", ["add", "src/planted.ts"], app);
+      const result = run("git", ["commit", "--message", "planted"], app);
+      expect(result.code, output(result)).not.toBe(0);
+      // the hook's one line: the step, its exit code and the log; vite-plus's hook runner adds its own line
+      const lines = output(result)
+        .trim()
+        .split("\n")
+        .filter((line) => !line.startsWith("VITE+ - "));
+      expect(lines, output(result)).toEqual([
+        `lernapps pre-commit: the fast checks (lernapps check --pre-commit) failed (exit 1); the full output is in ${PRE_COMMIT_LOG}`,
+      ]);
+      const log = readFileSync(join(app, PRE_COMMIT_LOG), "utf8");
+      expect(log).toContain("$ lernapps check --pre-commit");
+      expect(log).toContain("src/planted.ts");
+      expect(log).toContain("lernapps(storage-through-wrapper)");
+      expect(log).toContain("createStorage");
+      expect(log).toContain(`${RULES}storage-through-wrapper`);
+      expect(ok("git", ["rev-parse", "HEAD"], app).stdout.trim()).toBe(head);
+    },
+  );
 
   test("a request to another host stops git push and counts the failed push", { timeout: SLOW }, () => {
     const page = readFileSync(join(app, "index.html"), "utf8");
