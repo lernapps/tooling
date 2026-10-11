@@ -100,12 +100,20 @@ creator's turns from here to the listing are counted in the retrospective (targe
 Generate the app, then build it task by task. Load the skill lernapps-app and the skill of the archetype before you
 write code. Commit after each task: the git hooks run the checks. Fix every failed check from its message; never
 bypass a hook. When you cannot decide something, choose, mark it "(guess)" under "Key decisions" and go on.
+
+The generator needs git, Node 22.18 or later and the network: github.com and codeload.github.com for the tooling, the
+template and the runtime, and the npm registry (registry.npmjs.org) for the other dependencies. If the sandbox blocks
+one of them, stop and ask the creator to allow it, then run the command again. Never write the app by hand.
 -->
 
 ### Tasks
 
-- [ ] Generate the app from the archetype: `lernapps create --archetype <archetype>`. Keep this plan at
-      `.vibe/plan.md` in the new app.
+- [ ] Generate the app in the folder that holds this plan: `npx --yes github:lernapps/tooling#main create --archetype
+      <archetype>`. Nothing needs to be installed first. The generator keeps this plan at `.vibe/plan.md`.
+- [ ] Run `git init` if the folder is not a git repository yet. Then run `npm install`: it installs the dependencies
+      and the git hooks. From now on, everything runs from the app's own `node_modules`: `npx lernapps check`, the
+      hooks.
+- [ ] Commit what the generator wrote, with this plan: the first commit.
 - [ ] Load the skill `lernapps-app` and the skill of the archetype.
 - [ ] <the tasks written in Plan>
 - [ ] `npx lernapps check` passes.

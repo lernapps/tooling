@@ -34,13 +34,14 @@ flowchart LR
         bb-archetypes["Archetype presets"]
         bb-review-procedure["Review procedure"]
         bb-app-check-action["App check action"]
+        bb-publishing-actions["Publishing actions"]
         bb-listing-validation["Listing validation"]
     end
     actor-creator -->|"plan file, checkpoints"| tooling
     actor-assistant -->|"AGENTS.md, skills, generator, check CLI, listing comment"| tooling
     actor-review-agent -->|"review procedure, check CLI"| tooling
     actor-owner -->|"validation report, review procedure"| tooling
-    actor-github -->|"app check action, package updates"| tooling
+    actor-github -->|"app check action, publishing actions, package updates"| tooling
 ```
 
 ## Creator
@@ -107,15 +108,16 @@ requires: if-review-procedure, if-check-cli, if-validation-report
 
 ## GitHub
 
-Runs the app repo's workflows and the listing validation in lernapps/apps (GitHub Actions), serves Pages, and keeps
-every app's tooling current (Renovate with the organisation's preset).
+Runs the app repo's workflows and the listing validation in lernapps/apps (GitHub Actions), serves each repo's
+`gh-pages` branch on lernapps.net (Pages), and keeps every app's tooling current (Renovate with the organisation's
+preset).
 
 ```arc42
 :::actor
 id: actor-github
 title: GitHub (Actions, Pages, Renovate)
 type: system
-description: Runs CI and the listing validation; Renovate bumps the tooling package in every app
-requires: if-app-check-action, if-archetype-preset
+description: Runs CI and the listing validation, serves the published apps and sites; Renovate bumps the tooling package in every app
+requires: if-app-check-action, if-site-deploy, if-site-check, if-archetype-preset
 :::
 ```

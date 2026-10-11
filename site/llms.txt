@@ -1,0 +1,57 @@
+# lernapps.net tooling
+
+> The tooling for building, checking and listing learning apps for lernapps.net with an AI assistant: the CLI
+> `lernapps` (create and check an app), the plan template that holds the workflow, the skills with the rules, the
+> rule catalog, the schemas and the review procedure. It is installed from git; it is not on npm.
+
+Start with the plan template. It holds the whole workflow, from the first question to the listing, and names each
+command when it is needed. The skills add the rules. Everything here is also in the package `@lernapps/tooling`.
+
+## Commands
+
+- [Create an app](https://github.com/lernapps/tooling#the-generator): `npx --yes github:lernapps/tooling#main create --archetype <archetype> [<dir>]`, then `git init` if needed and `npm install`. Needs git, github.com, codeload.github.com and the npm registry.
+- [Check an app](https://github.com/lernapps/tooling#the-package-lernappstooling): `npx lernapps check` in an app from the generator, the same as its git hooks and CI. Without a flag it runs everything; `--pre-commit` and `--pre-push` run one part.
+- [Check a built app or an app on the web](https://github.com/lernapps/tooling#the-package-lernappstooling): `npx --yes github:lernapps/tooling#main check <dir|url>`, for an app built any other way. Add `--entry <file>` to check a catalog entry against the app.
+
+## Guidance
+
+- [Plan template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): the workflow (Explore, Plan, Code, Commit), with the creator's checkpoints and the retrospective. Keep it as `.vibe/plan.md` and follow it exactly.
+- [AGENTS.md](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/AGENTS.md): what always holds in an app repo. The generator writes it into the app.
+- [Plan front matter schema](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-front-matter.v1.schema.json): `archetype`, `phase`, `prePushFailures`.
+
+## Skills
+
+Install them into your harness with `npx skills add lernapps/tooling`.
+
+- [lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): the rules every app follows, each with its id.
+- [lernapps-quiz](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-quiz/SKILL.md): how the quiz works and how to write its questions.
+
+## Rules and schemas
+
+- [Rule catalog](https://lernapps.net/tooling/rules/): every rule by id, with scope, severity and where it is told and checked. Check messages link to `https://lernapps.net/tooling/rules/#<id>`.
+- [Validation report](https://lernapps.net/tooling/schemas/validation-report.v1.schema.json): what `lernapps check` reports, in YAML.
+- [Question bank of a quiz](https://lernapps.net/tooling/schemas/quiz.v1.schema.json): `src/quiz.json` of an app from the archetype quiz.
+- [Review verdict](https://lernapps.net/tooling/schemas/verdict.v1.schema.json): what the review agent judged, in YAML.
+- [Catalog entry](https://lernapps.net/apps/schemas/entry.v1.schema.json): the entry of an app in the catalog, owned by lernapps/apps.
+
+## Review procedure
+
+Before an app is listed, the owner has an agent in a fresh context review it.
+
+- [Prompt](https://github.com/lernapps/tooling/blob/main/review/prompt.md): what the review agent does, step by step.
+- [Rubric](https://github.com/lernapps/tooling/blob/main/review/rubric.md): the items for every app, each headed by its rule id.
+
+## Archetypes
+
+An archetype is a kind of app: a template, a runtime, skills and the rules in scope.
+
+- quiz: questions with options and feedback; the assistant writes only the question bank. [Template](https://github.com/lernapps/app-templates/tree/main/quiz), skill lernapps-quiz, [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md).
+- explainer: many pages of explanation and exercises. Rules and [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md); no template yet.
+- interactive: one app page plus a static start page. Rules and [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md); no template yet.
+
+## Optional
+
+- [Architecture](https://lernapps.net/tooling/architecture/): how the tooling is built (arc42).
+- [Source and README](https://github.com/lernapps/tooling): the package, the actions and the Renovate preset.
+- [List an app in the catalog](https://lernapps.net/apps/llms.txt): the listing guide of lernapps.net/apps.
+- [lernapps.net for AI assistants](https://lernapps.net/llms.txt)

@@ -3,10 +3,10 @@
 //   - hook commands: `npm run lernapps -- check --pre-commit` (pre-commit), `... --pre-push` (pre-push)
 //   - CI command:    `npm run lernapps -- check` (job `check` in .github/workflows/check.yml)
 //   - `npm run check`: the CI command; it builds nothing
-//   - `npm run build && npm run check:site`: the docs site, built and checked (site actions, job `site`)
+//   - `npm run build && npm run check:site`: the docs site, built and checked (site actions, job `site`), with llms.txt
 //   - installed from git: the CLI, its checks of a built app, and the subpath exports (guidance, skills, the schemas
 //     of the validation report and of the review verdict) a consumer relies on
-import { existsSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
 import { frontMatterErrors } from "./plan.ts";
@@ -58,6 +58,8 @@ describe.skipIf(inner)("a fresh clone", () => {
     for (const schema of ["validation-report.v1.schema.json", "verdict.v1.schema.json"]) {
       expect(existsSync(join(clone, "_site/schemas", schema)), schema).toBe(true);
     }
+    // the guide for AI assistants, at https://lernapps.net/tooling/llms.txt
+    expect(readFileSync(join(clone, "_site/llms.txt"), "utf8")).toMatch(/^# lernapps.net tooling\n/);
   });
 
   test("npm ci installs the git hooks", () => {

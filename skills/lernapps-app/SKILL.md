@@ -1,6 +1,6 @@
 ---
 name: lernapps-app
-description: Use when you build or change a learning app for lernapps.net. The workflow with the plan file (Explore, Plan, Code, Commit, checkpoints, retrospective) and the rules every app follows. Load it before you write code in an app repo.
+description: Use when you build or change a learning app for lernapps.net. The rules every app follows, each with its id; the workflow itself is in the plan file (.vibe/plan.md, from the plan template). Load it when you start work on an app.
 license: MIT
 ---
 
@@ -12,18 +12,11 @@ the retrospective name rules by it.
 
 ## Workflow
 
-1. **Plan file.** Keep the plan in `.vibe/plan.md`, started from the template of `@lernapps/tooling`
-   (`guidance/plan-template.md`). Its front matter holds `archetype`, `phase` and `prePushFailures`; its comments say
-   what each part needs.
-2. **Explore.** Ask what the app is for, for whom, and where the content comes from. Fetch the entry schema of the
-   app overview (<https://lernapps.net/apps/schemas/entry.v1.schema.json>), ask what it needs to help adults find the
-   app, and write the entry draft into the plan. Choose the archetype; set `archetype` and `phase: plan`.
-3. **Plan.** Write the tasks of Code. Show the creator the goal, archetype, entry draft and tasks. Checkpoint:
-   confirm the plan.
-4. **Code.** `lernapps create --archetype <archetype>`, then load the skill of the archetype. Build task by task;
-   commit after each one. Fix each failed check from its message.
-5. **Commit.** Push. Checkpoint: publish. Complete the entry draft. Checkpoint: list. Fill the retrospective, then
-   open the listing pull request (skill `lernapps-listing`).
+Follow the plan in `.vibe/plan.md` exactly. The plan is the one source of the workflow: its phases, tasks and
+checkpoints, and the command that creates the app. If the plan does not exist, start it from the template:
+`node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists,
+<https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. This skill adds the rules
+below: what every app and every step must meet.
 
 ## Rules
 

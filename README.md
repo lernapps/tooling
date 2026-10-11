@@ -1,7 +1,7 @@
 # tooling
 
 Shared tooling for the lernapps.net apps and sites, so that they all behave the same: GitHub Actions for
-checking an app and for building, checking, deploying and previewing a site, and the Renovate preset of every lernapps repo. Later
+checking an app and for checking, publishing and previewing a site, and the Renovate preset of every lernapps repo. Later
 also the agent skill for building an app and the thanks and feedback component that creators can include
 in their apps.
 
@@ -51,10 +51,10 @@ generator and the assistant's harness:
 
 | Export | What it is |
 |---|---|
-| `@lernapps/tooling/guidance/AGENTS.md` | the app's `AGENTS.md`: keep a plan, follow its phases, stop at the checkpoints, load the skills |
-| `@lernapps/tooling/guidance/plan-template.md` | the plan file (`.vibe/plan.md` in an app): phases with tasks, the checkpoints, the Explore questions, the retrospective; comments explain each part |
+| `@lernapps/tooling/guidance/AGENTS.md` | the app's `AGENTS.md`: start the plan from the template and follow it, load the skill, never bypass a hook |
+| `@lernapps/tooling/guidance/plan-template.md` | the plan file (`.vibe/plan.md` in an app), the one source of the workflow: phases with tasks, the checkpoints, the Explore questions, the command that creates the app, the retrospective; comments explain each part |
 | `@lernapps/tooling/guidance/plan-front-matter.v1.schema.json` | JSON Schema of the plan's front matter: `archetype`, `phase`, `prePushFailures` (written by the pre-push hook) |
-| `@lernapps/tooling/skills/lernapps-app/SKILL.md` | the skill `lernapps-app` (agentskills.io): the workflow and the general rules, each with its id |
+| `@lernapps/tooling/skills/lernapps-app/SKILL.md` | the skill `lernapps-app` (agentskills.io): the general rules, each with its id; for the workflow it points to the plan |
 
 Consumers rely on the front matter schema and on the plan's headings: `## Explore`, `## Plan`, `## Code`,
 `## Commit`, `## Retrospective` with `### Phases reached`, `### Failed checks`, `### Creator turns after the plan` and
@@ -114,6 +114,19 @@ source directly with Node's type stripping (`npm run lernapps -- <command>`, Nod
 
 ### The generator
 
+An app is created with npx from git, without installing anything first (the package is not on npm):
+
+```bash
+npx --yes github:lernapps/tooling#main create --archetype <archetype> [<dir>]
+git init            # if the folder is not a git repository yet
+npm install         # the dependencies and the git hooks
+```
+
+After that, everything runs from the app's own `node_modules`: `npx lernapps check`, the hooks. npm resolves `main` to
+a commit and runs `prepare`, which builds the CLI. The new app depends on that commit of `@lernapps/tooling`, and its
+`pages.yml` uses the actions of that commit. It needs git and access to github.com, codeload.github.com and the npm
+registry. The plan template's Code tasks hold the same steps for the assistant.
+
 `lernapps create --archetype <name> [<dir>]` writes a new app into an empty folder. Only `.git` and the plan file
 `.vibe/plan.md` may be there; it fails on anything else, and on an unknown archetype. It copies the folder `<name>/`
 of [lernapps/app-templates](https://github.com/lernapps/app-templates) at the commit pinned in this package
@@ -131,8 +144,8 @@ of [lernapps/app-templates](https://github.com/lernapps/app-templates) at the co
 
 Fetching the template needs git and the network. To work without them, name a local clone of app-templates that has
 the pinned commit: `--templates <dir>` or the environment variable `LERNAPPS_TEMPLATES` (the tests do). The
-app then installs the runtime from that clone too. `--tooling <spec>` sets the dependency on this package (the tests
-install it from a local clone), `--plan <file>` carries a plan over from elsewhere. The pin moves by hand when
+app then installs the runtime from that clone too. `--tooling <spec>` sets the dependency on this package (default: the commit npx
+installed it from, else the template's), `--plan <file>` carries a plan over from elsewhere. The pin moves by hand when
 app-templates changes: set `appTemplates.commit` to its new commit on `main`.
 
 ### The archetypes
@@ -188,8 +201,9 @@ fail with a message naming the problem, every plan has the sections the retrospe
 exit codes. The app check action runs the hooks' command: on a quiz app from `lernapps create`, a passing app passes
 the hooks and the action's check, a stylesheet from another host fails the pre-push hook and the action's check with
 the same findings, and a lint error fails the pre-commit hook and the action's check with the same message
-(`test/app-check.e2e.test.ts`, fixture apps from `test/app-fixture.ts`). `lernapps create --archetype quiz` with the fixture bank `test/fixtures/quiz/quiz.json` gives an app that
-passes `lernapps check`. In Chromium:
+(`test/app-check.e2e.test.ts`, fixture apps from `test/app-fixture.ts`). `lernapps create --archetype quiz`, run as an assistant runs it, with `npx --yes git+file://<clone>#<commit>` from a
+fresh clone and nothing installed, gives an app that depends on that commit, uses the actions of that commit and gets
+the hooks on `npm install`; with the fixture bank `test/fixtures/quiz/quiz.json` it passes `lernapps check`. In Chromium:
 - each type of question accepts a right and rejects a wrong answer;
 - after the answer, every option's background shows, with the right one and the learner's choice marked, and the
   explanation and links;
@@ -278,18 +292,34 @@ creates the fixture repo, a fresh agent reviews it with the prompt, and its verd
 
 ## Actions
 
-CI runs what the hooks run, nothing more: a check passes or fails on the creator's machine the same way as in CI.
-CI only adds what the machine cannot do: publish.
+Four composite actions in `actions/`. A repo's workflow names each one at a commit
+(`uses: lernapps/tooling/actions/<name>@<commit>`), and Renovate moves that commit forward.
 
-### App check action
+| Action | Used by | Does |
+|---|---|---|
+| `app-check` | every app | runs `lernapps check`, the command of the git hooks; keeps the report; on `main` keeps the bundle it checked as the artifact `site` |
+| `site-deploy` | every app and site | puts the artifact `site` on the `gh-pages` branch of the repo it runs in |
+| `site-check` | the sites | builds and checks a site; on `main` keeps `_site/` as the artifact `site` |
+| `site-preview` | the sites | puts a pull request's build at `https://lernapps.net/<site>pr-preview/pr-<number>/`, and removes it when the pull request closes |
 
-`actions/app-check` checks a lernapps app in CI: `lernapps check` without a flag, exactly the command of the
-pre-commit and pre-push hooks together. Around it only the environment: checkout, Node 22, `npm ci`, the Playwright
-browser from the cache. It uploads the report the check writes (`node_modules/.cache/lernapps/validation-report.yaml`)
-as the artifact `validation-report`, passing or not, and on `main` the bundle it checked (`dist/`) as the artifact
-`site` for `site-deploy`. So an app deploys what was checked, and nothing is built twice.
+Each repo publishes itself. GitHub Pages serves the `gh-pages` branch of a lernapps repo named `x` at
+`lernapps.net/x/`. So an app repo publishes its bundle at `lernapps.net/<repo>/`, lernapps/apps the catalog at
+`lernapps.net/apps/`, and lernapps/docs, this repo and lernapps.github.io their sites.
 
-| Input | Default | What it is |
+CI runs what the hooks run, nothing more: a check passes or fails on the creator's machine the same way as in CI. CI
+only adds what the machine cannot do: publish. The actions inside are pinned to full commit SHAs, and so are the
+callers' references to this repo; Renovate bumps both.
+
+### An app: `app-check`, then `site-deploy`
+
+`app-check` runs `lernapps check` without a flag: exactly what the pre-commit and pre-push hooks ran together. Around
+it, it only sets up the environment: checkout, Node 22, `npm ci`, the Playwright browser from the cache. It keeps
+the report the check writes (`node_modules/.cache/lernapps/validation-report.yaml`) as the artifact
+`validation-report`, passing or not. On `main` it also keeps the bundle it checked (`dist/`) as the artifact `site`.
+`site-deploy` publishes that artifact. So an app publishes the bundle that was checked, and nothing is built twice.
+An app does not use `site-check`: its `check` already builds the app.
+
+| Input of `app-check` | Default | What it is |
 |---|---|---|
 | `working-directory` | `.` | the app's folder |
 | `checkout` | `true` | check out the repo first |
@@ -318,23 +348,16 @@ The workflow `app-check.yml` of this repo runs the action on two fixture apps (`
 quiz and one with a stylesheet from another host, after their hooks have run: the action must end like the hooks,
 with the same findings. The command inside is tested by `test/app-check.e2e.test.ts`.
 
-### Site actions
+### A site: `site-check`, `site-deploy`, `site-preview`
 
-Every site on lernapps.net is a static build in `_site/`, published on the repo's `gh-pages` branch and
-served by GitHub Pages under its path (`/`, `/apps/`, `/docs/`). Three composite actions do the work; the
-repos only hold two thin workflows that call them, with the same job names everywhere (`site`, `deploy`,
-`preview`). The contract with a repo: `npm ci`, then `npm run build` writes `_site/`, then `npm run check`
-checks it (`lernapps-check` from the shared site frame in lernapps.github.io). A repo whose `check` checks its
-code names the site check with the input `check-script`; this repo does (`check:site`, job `site`), and its own
-workflows use the actions from the checkout, so a change to an action is exercised by its pull request.
+Every site on lernapps.net is a static build in `_site/`. The contract with a site's repo: `npm ci`, then
+`npm run build` writes `_site/`, then `npm run check` checks it (`lernapps-check` from the shared site frame in
+lernapps.github.io). A repo whose `check` checks its code names the site check with the input `check-script`. This
+repo does (`check:site`, job `site`). Its own workflows use the actions from the checkout, so a pull request that
+changes an action runs the changed action.
 
-| Action | Does |
-|---|---|
-| `actions/site-check` | checkout, Node 22, `npm ci`, `npm run build`, `npm run check` (input `check-script`); on `main` uploads `_site/` |
-| `actions/site-deploy` | publishes that artifact to the root of `gh-pages` (previews stay) |
-| `actions/site-preview` | a preview per pull request at `https://lernapps.net/<site>pr-preview/pr-<n>/`, removed on close |
-
-`pages.yml` of a site:
+A site's repo holds two thin workflows with the same job names everywhere (`site`, `deploy`, `preview`).
+`pages.yml`:
 
 ```yaml
 name: Pages
@@ -363,13 +386,8 @@ jobs:
       - uses: lernapps/tooling/actions/site-deploy@<commit> # main
 ```
 
-`pr-preview.yml`: the same with `site-preview` and `site: /apps/`; see lernapps/apps for the full file.
-
-An app uses `app-check` in place of `site-check`: its `check` is `lernapps check`, which builds and checks the app
-itself, so `site-check` would run it again after a second build.
-
-The actions inside are pinned to full commit SHAs, and so are the callers' references to this repo;
-Renovate bumps both.
+`pr-preview.yml` is the same with `site-preview` and the input `site`, the path where the repo is served (such as
+`site: /apps/`); see lernapps/apps for the full file.
 
 ## Renovate preset
 
@@ -384,7 +402,7 @@ rule groups `vite-plus` with `@voidzero-dev/vite-plus-core`, which `package.json
 
 The architecture of the tooling for building apps is written with [arc42](https://github.com/doctoolchain/arc42-language)
 in `docs/arc42/` (agents: skill `arc42-language` in `.agents/skills/`); the plan of the current work is in `.vibe/`.
-It is published at <https://lernapps.net/tooling/>, with the rule page at <https://lernapps.net/tooling/rules/>, like every lernapps.net site: `pages.yml` with the site actions
+It is published at <https://lernapps.net/tooling/>, with the rule page at <https://lernapps.net/tooling/rules/>, like every lernapps.net site: `pages.yml` with the publishing actions
 above, and a preview per pull request (`pr-preview.yml`) that also contains the architecture's changes since the
 merge base (`architecture-diff/`) and one comment listing them (`scripts/review-summary.ts`).
 
