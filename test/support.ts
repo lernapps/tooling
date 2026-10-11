@@ -95,32 +95,51 @@ export function freshClone(): string {
 const sleep = (ms: number) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 
 /**
- * The one fresh clone of the test run installed with a real `npm ci`, read only. The first test file to ask installs
- * it; the others wait until it is done (test/global-setup.ts reserves its directory).
+ * Something the test files of one run share, read only, made once: the first test file to ask makes it with `make`;
+ * the others wait until it is done (test/global-setup.ts reserves the directory of the run).
  */
-export function sharedInstall(): string {
-  const root = inject("installRoot");
-  const clone = join(root, "clone");
+export function shared(name: string, make: (dir: string) => void, leaf = "dir"): string {
+  const root = join(inject("installRoot"), name);
+  mkdirSync(root, { recursive: true });
+  const dir = join(root, leaf);
   const done = join(root, "done");
   const failed = join(root, "failed");
   try {
     mkdirSync(join(root, "lock"));
   } catch {
-    // another test file installs it
+    // another test file makes it
     for (;;) {
-      if (existsSync(done)) return clone;
+      if (existsSync(done)) return dir;
       if (existsSync(failed)) throw new Error(readFileSync(failed, "utf8"));
       sleep(500);
     }
   }
   try {
-    copyRepo(clone);
-    ok("npm", ["ci", "--no-audit", "--no-fund"], clone);
+    make(dir);
     writeFileSync(done, "");
-    return clone;
+    return dir;
   } catch (error) {
     writeFileSync(failed, String(error));
     throw error;
+  }
+}
+
+/** The one fresh clone of the test run installed with a real `npm ci`, read only. */
+export const sharedInstall = (): string =>
+  shared("installed-clone", (dir) => {
+    copyRepo(dir);
+    ok("npm", ["ci", "--no-audit", "--no-fund"], dir);
+  });
+
+/**
+ * Links `target`'s node_modules, entry by entry, to `installed`'s, leaving out caches, so that what a run writes
+ * there (reports, logs, build caches) stays in `target`.
+ */
+export function linkNodeModules(installed: string, target: string): void {
+  mkdirSync(join(target, "node_modules"));
+  for (const name of readdirSync(join(installed, "node_modules"))) {
+    if (name === ".cache" || name.startsWith(".vite")) continue;
+    symlinkSync(join(installed, "node_modules", name), join(target, "node_modules", name));
   }
 }
 
@@ -131,13 +150,8 @@ export function sharedInstall(): string {
  * copies at the same time share none.
  */
 export function installedClone(): string {
-  const installed = sharedInstall();
   const dir = freshClone();
-  mkdirSync(join(dir, "node_modules"));
-  for (const name of readdirSync(join(installed, "node_modules"))) {
-    if (name === ".cache" || name.startsWith(".vite")) continue;
-    symlinkSync(join(installed, "node_modules", name), join(dir, "node_modules", name));
-  }
+  linkNodeModules(sharedInstall(), dir);
   ok("npm", ["run", "prepare"], dir);
   return dir;
 }

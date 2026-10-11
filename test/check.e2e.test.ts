@@ -76,28 +76,38 @@ describe.skipIf(inner)("a fresh clone", () => {
     expect(ok("git", ["config", "core.hooksPath"], clone).stdout.trim()).toBe(".vite-hooks/_");
   });
 
-  describe.each([
-    ["a type error", "src/planted.ts", 'export const count: number = "three";\n'],
-    ["a lint error (explicit any)", "src/planted.ts", "export const value: any = 1;\n"],
-  ])("%s", (_name, file, content) => {
-    test("turns the pre-commit hook command and the CI command (npm run check) red", { timeout: SLOW }, () => {
-      plant(file, content);
+  describe("a type error and a lint error (explicit any), each in its own file", () => {
+    const mistakes = {
+      "src/planted-type.ts": 'export const count: number = "three";\n',
+      "src/planted-lint.ts": "export const value: any = 1;\n",
+    };
+    const plantBoth = () => {
+      for (const [file, content] of Object.entries(mistakes)) plant(file, content);
+    };
+    /** Both mistakes named: the file of each, and the lint rule. */
+    const expectBoth = (text: string) => {
+      for (const file of Object.keys(mistakes)) expect(text).toContain(file.slice("src/".length));
+      expect(text).toContain("no-explicit-any");
+    };
+
+    test("turn the pre-commit hook command and the CI command (npm run check) red", { timeout: SLOW }, () => {
+      plantBoth();
       const fast = run("npm", hookFast, clone);
       expect(fast.code, output(fast)).not.toBe(0);
-      expect(output(fast)).toContain("planted.ts");
+      expectBoth(output(fast));
       const ci = run("npm", ["run", "check"], clone);
       expect(ci.code, output(ci)).not.toBe(0);
-      expect(output(ci)).toContain("planted.ts");
+      expectBoth(output(ci));
     });
 
-    test("stops git commit", { timeout: SLOW }, () => {
-      plant(file, content);
-      ok("git", ["add", file], clone);
+    test("stop git commit", { timeout: SLOW }, () => {
+      plantBoth();
+      ok("git", ["add", ...Object.keys(mistakes)], clone);
       const result = run("git", ["commit", "--message", "planted"], clone);
       expect(result.code, output(result)).not.toBe(0);
-      // the hook prints one line naming its log; the log holds the message
+      // the hook prints one line naming its log; the log holds the messages
       expect(output(result)).toContain(`the full output is in ${PRE_COMMIT_LOG}`);
-      expect(readFileSync(join(clone, PRE_COMMIT_LOG), "utf8")).toContain("planted.ts");
+      expectBoth(readFileSync(join(clone, PRE_COMMIT_LOG), "utf8"));
       expect(ok("git", ["rev-parse", "HEAD"], clone).stdout.trim()).toBe(head);
     });
   });
