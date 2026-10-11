@@ -80,7 +80,7 @@ creator allows them; the assistant does not write the app by hand.
 id: dn-creator-machine
 title: Creator's machine or assistant sandbox
 type: device
-hosts: bb-tooling-package, bb-generator, bb-archetypes, bb-git-hooks, bb-lint-rules, bb-check-cli
+hosts: bb-tooling-package, bb-generator, bb-archetypes, bb-git-hooks, bb-lint-rules, bb-check-cli, bb-app-templates
 :::
 ```
 
@@ -97,7 +97,7 @@ The harness decides when to load a skill. Hooks of the harness itself may add co
 ```arc42
 :::deployment-node
 id: dn-agent-harness
-title: Creator's agent harness
+title: Creator's agent harness, with AGENTS.md and the skill folder
 type: environment
 parent: dn-creator-machine
 hosts: bb-process-guidance, bb-skills
@@ -116,7 +116,7 @@ environment: the owner posts it on the listing pull request.
 id: dn-lernapps-agents
 title: Environment for lernapps agents
 type: environment
-hosts: bb-tooling-package, bb-review-procedure, bb-evals, bb-check-cli
+hosts: bb-tooling-package, bb-generator, bb-review-procedure, bb-evals, bb-check-cli
 :::
 ```
 
@@ -142,7 +142,7 @@ The source of the package, the actions and the skills. Each consumer takes them 
 - `npx skills add` copies the skills.
 
 The repo's own site, at lernapps.net/tooling/, publishes the documentation, the rule catalog and the schemas, with
-the site actions of the lernapps.net sites; they are not app tooling.
+the site actions of the lernapps.net sites (block "Site actions"); they are not app tooling.
 
 ```arc42
 :::deployment-node
@@ -150,7 +150,7 @@ id: dn-tooling-repo
 title: lernapps/tooling repository
 type: environment
 parent: dn-github
-hosts: bb-tooling-package, bb-app-check-action, bb-app-publish
+hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-site-actions
 :::
 ```
 
