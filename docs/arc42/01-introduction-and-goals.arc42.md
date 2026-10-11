@@ -6,7 +6,8 @@ realises the platform's [guidance for building apps](https://lernapps.net/docs/p
 of the [platform](https://lernapps.net/docs/platform-design/#2-design/d1-ecosystem.pdt42.md:el-platform-lernapps).
 
 The tooling also holds what this repo provides for the lernapps.net sites: the site actions and the Renovate preset.
-They are not app tooling, and this document leaves them out. An app is checked and published by actions of its own.
+They are not app tooling: chapter 5 gives the site actions one small block of their own, apart from the app path.
+An app is checked and published by actions of its own.
 
 ## 1.1 Requirements Overview
 

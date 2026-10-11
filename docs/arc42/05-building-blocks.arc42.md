@@ -35,6 +35,7 @@ flowchart TB
     bb-app-templates["Archetype templates and runtimes (lernapps/app-templates)"]
     bb-app-check-action["App check action"]
     bb-app-publish["App publish"]
+    bb-site-actions["Site actions (lernapps.net sites, not apps)"]
     bb-listing-validation["Listing validation (lernapps/apps)"]
     bb-generator -->|"if-archetype-templates"| bb-app-templates
     bb-generator -->|"if-plan-file"| bb-process-guidance
@@ -581,6 +582,65 @@ id: if-app-publish
 title: App publish
 provider: bb-app-publish
 protocol: GitHub Actions `uses:` at a pinned commit; input the artifact `site`, output the gh-pages branch and the app's address
+:::
+```
+
+## Site actions
+
+Three composite actions for the sites of lernapps.net (the home page, apps, docs, tooling), not for apps:
+`site-check` builds a site and checks it with `lernapps-check` of the site frame, `site-deploy` pushes the build to
+the repo's `gh-pages` branch, and `site-preview` puts a pull request's build below `pr-preview/` on that branch. The
+app path does not use them.
+
+```arc42
+:::building-block
+id: bb-site-actions
+title: Site actions
+technology: GitHub composite actions
+:::
+```
+
+### Site check
+
+Used in the job `site` of a site's `pages.yml`. The contract with the repo: `npm run build` writes `_site/`, and
+`npm run check` (or the script named by the input `check-script`) checks it.
+
+```arc42
+:::interface
+id: if-site-check
+title: Site check
+provider: bb-site-actions
+protocol: GitHub Actions `uses:` at a pinned commit; npm scripts `build` (writes _site/) and `check`
+path: actions/site-check
+:::
+```
+
+### Site deploy
+
+Used in the job `deploy` of a site's `pages.yml`, on `main`: the artifact `site` goes to the root of the repo's
+`gh-pages` branch.
+
+```arc42
+:::interface
+id: if-site-deploy
+title: Site deploy
+provider: bb-site-actions
+protocol: GitHub Actions `uses:` at a pinned commit; input the artifact `site`
+path: actions/site-deploy
+:::
+```
+
+### Site preview
+
+Used in a site's `pr-preview.yml`: a pull request's build below `pr-preview/pr-<number>/`, removed when it closes.
+
+```arc42
+:::interface
+id: if-site-preview
+title: Site preview
+provider: bb-site-actions
+protocol: GitHub Actions `uses:` at a pinned commit; input `site`, the path where the repo is served
+path: actions/site-preview
 :::
 ```
 
