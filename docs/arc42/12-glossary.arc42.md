@@ -50,7 +50,7 @@ definition: The person who builds an app with their assistant, typically a teach
 
 ## EPCC
 
-Written out in `AGENTS.md` as plain instructions; the MCP server of codemcp/workflows is optional.
+Written out in the plan template as plain instructions; the workflow server of codemcp/workflows is optional.
 
 ```arc42
 :::glossary-term
@@ -98,13 +98,14 @@ definition: An app's entry in lernapps/apps, added by a pull request, validated,
 
 ## Plan file
 
-Lives in the app repo and is readable by the creator; it reaches the platform only with a listing.
+Lives in the app repo and is readable by the creator; it reaches the platform only with a listing. Its format is
+fixed by the plan template.
 
 ```arc42
 :::glossary-term
 id: term-plan-file
 title: Plan file
-definition: The assistant's Markdown plan in the app repo with phases, checkpoints, front matter counters and a closing retrospective.
+definition: The assistant's plan in the app repo with phases, checkpoints, counters and a closing retrospective.
 :::
 ```
 
@@ -122,7 +123,7 @@ definition: How a rule moves to the layer where it works best - a recurring revi
 
 ## Retrospective
 
-Explained in comments of the plan template; the counters in the front matter are written by the hooks, not by the assistant.
+Explained in comments of the plan template; the counters are written by the hooks, not by the assistant.
 
 ```arc42
 :::glossary-term

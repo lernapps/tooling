@@ -4,7 +4,7 @@ Ordered by severity.
 
 ## Assistants skip the guidance
 
-An assistant may ignore `AGENTS.md`, run through all phases at once or skip the checkpoints. The process guidance
+An assistant may ignore the agent instructions, run through all phases at once or skip the checkpoints. The process guidance
 is text; nothing forces an assistant to read it.
 
 ```arc42
@@ -57,7 +57,7 @@ mitigation: Write the rules against the ESLint-compatible API, so they can run a
 
 ## A browser at the creator
 
-The end-to-end tests and the checks of the built app run pre-push and need a browser. Downloading it costs time once,
+The end-to-end tests and the checks of the built app run before every push and need a browser. Downloading it costs time once,
 and some assistant sandboxes cannot run one.
 
 ```arc42
@@ -65,7 +65,7 @@ and some assistant sandboxes cannot run one.
 id: risk-browser-at-creator
 title: A browser at the creator
 severity: medium
-mitigation: The preset installs Playwright's browser once and caches it; the check says clearly when no browser can run and which part was skipped; CI runs the same checks, and the listing validation runs them against the deployed app
+mitigation: The check fetches a browser once and keeps it; the check says clearly when no browser can run and which part was skipped; CI runs the same checks, and the listing validation runs them against the deployed app
 :::
 ```
 
@@ -125,7 +125,7 @@ mitigation: The guidance never repeats the schema's fields; the listing skill fe
 
 ## Counters can be changed by hand
 
-An assistant could reset `prePushFailures` in the plan's front matter.
+An assistant could reset the counter of failed pushes in the plan.
 
 ```arc42
 :::risk

@@ -1,6 +1,20 @@
 // The contract of the CLI `lernapps`: usage, exit codes, the command structure.
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
+import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
+import { CREATE_OPTIONS } from "../generator/create.ts";
+import { CHECK_OPTIONS } from "../src/usage.ts";
 import { repoRoot, run } from "./support.ts";
+
+/** The help must name every option the parser accepts: the help is where the options are documented. */
+function expectEveryOption(help: string, options: ParseArgsOptionsConfig): void {
+  for (const [name, option] of Object.entries(options)) {
+    expect(help, `--${name}`).toMatch(new RegExp(`(^|[\\s\\[,])--${name}\\b`, "m"));
+    if (option.short !== undefined) expect(help, `-${option.short}`).toContain(`-${option.short}, --${name}`);
+  }
+}
 
 const lernapps = (...args: string[]) => run("node", ["src/cli.ts", ...args], repoRoot);
 
@@ -42,6 +56,30 @@ describe("lernapps", () => {
     }
   });
 
+  test("check --help names every option it accepts, and the exit codes", () => {
+    const result = lernapps("check", "--help");
+    expect(result.code).toBe(0);
+    expectEveryOption(result.stdout, CHECK_OPTIONS);
+    expect(result.stdout).toContain("0 when no rule of severity error fails, 1 when one does, 2 on a usage error");
+  });
+
+  test("check --help lists every check with its rule id, severity and what it checks", async () => {
+    const result = lernapps("check", "--help");
+    const dir = join(repoRoot, "check", "rules");
+    const files = readdirSync(dir).filter((file) => file.endsWith(".ts"));
+    expect(files.length).toBeGreaterThan(0);
+    for (const file of files) {
+      const module = (await import(pathToFileURL(join(dir, file)).href)) as {
+        default?: { id?: string; severity?: string; description?: string };
+      };
+      const { id, severity = "error", description = "" } = module.default ?? {};
+      if (id === undefined) continue; // not a check; the id test of the rule catalog reports it
+      const escaped = description.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      expect(result.stdout).toMatch(new RegExp(`^  ${id} +${severity} +${escaped}$`, "m"));
+    }
+    expect(result.stdout).toContain("https://lernapps.net/tooling/rules/#<id>");
+  });
+
   test("check with a built app and --pre-push is a usage error", () => {
     const result = lernapps("check", "--pre-push", "https://lernapps.net/");
     expect(result.code).toBe(2);
@@ -68,6 +106,21 @@ describe("lernapps", () => {
     for (const option of ["--plan <file>", "--templates <repo>", "--tooling <spec>", "LERNAPPS_TEMPLATES"]) {
       expect(result.stdout).toContain(option);
     }
+  });
+
+  test("create --help names every option it accepts, how to run it before installing, and the exit codes", () => {
+    const result = lernapps("create", "--help");
+    expect(result.code).toBe(0);
+    expectEveryOption(result.stdout, CREATE_OPTIONS);
+    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main create --archetype <name>");
+    expect(result.stdout).toContain("github.com, codeload.github.com and the npm registry");
+    expect(result.stdout).toContain("2 on a usage error");
+  });
+
+  test("--help says how to run the CLI before it is installed, and the exit codes", () => {
+    const result = lernapps("--help");
+    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main <command>");
+    expect(result.stdout).toContain("2 on a usage error");
   });
 
   test("create without --archetype is a usage error", () => {

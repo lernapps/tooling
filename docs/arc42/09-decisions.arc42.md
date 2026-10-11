@@ -45,9 +45,9 @@ addresses: qg-simple-to-build, qg-few-iterations
 
 **Context:** assistants run through all steps at once unless guided; the guidance must work with any assistant.
 **Decision:** the EPCC workflow as plain text in one place, the plan file started from the template: phases, tasks,
-checkpoints, the creator's answers for the entry, front matter counters and a retrospective. `AGENTS.md` and the
-skill `lernapps-app` only point to it; `@codemcp/workflows` stays optional.
-**Consequences:** no MCP server needed; the plan is readable by the creator, carries what the entry needs, and is the
+checkpoints, the creator's answers for the entry, counters and a retrospective. The agent instructions and the
+general skill only point to it; a workflow server stays optional.
+**Consequences:** no agent protocol needed; the plan is readable by the creator, carries what the entry needs, and is the
 source for measurement.
 
 ```arc42
@@ -78,10 +78,10 @@ addresses: qg-list-in-minutes, qg-findable, con-entry-schema, risk-entry-schema-
 
 ## One package from git
 
-**Context:** a template copied once drifts; npm installs from git only a repo root. **Decision:** one package
-`@lernapps/tooling` at the root of lernapps/tooling with subpath exports and one CLI, installed from git at a commit
-of `main`, kept current by Renovate, as `@lernapps/site` is. **Consequences:** no publishing pipeline; every app gets
-changes without edits; publishing to npm stays possible.
+**Context:** a template copied once drifts, and npm installs from git only a whole repo. **Decision:** one package
+at the root of lernapps/tooling, with named entry points and one CLI, installed from git at a commit of the main
+line and kept current by update pull requests, as the shared site frame is. **Consequences:** no publishing pipeline;
+every app gets changes without edits; publishing to npm stays possible.
 
 ```arc42
 :::decision
@@ -116,15 +116,14 @@ addresses: qg-simple-to-build, qg-guidance-evolves
 **Context:** a deep archetype such as the quiz brings code that runs in the app: an engine, a build step, generic
 end-to-end tests. Copied into the app, it would drift like a template. Shipped with the tooling, the tooling would
 be part of the app instead of a tool for building it. **Decision:**
-- the runtimes are one package, `@lernapps/app-templates`, at the root of lernapps/app-templates, installed from git
-  at a commit;
-- it has subpath exports per archetype and ships no template folders;
+- the runtimes are one package at the root of lernapps/app-templates, installed from git at a commit;
+- it has one entry point per archetype and ships no templates;
 - the generator makes a new app depend on the commit it copied the template from;
 - the app composes the runtime's build step with the shared preset;
 - the tooling stays a development dependency and never depends on the runtime.
 
 **Consequences:**
-- a new feature of an archetype reaches every app with a dependency bump, which Renovate proposes;
+- a new feature of an archetype reaches every app with a dependency update, proposed by an update pull request;
 - the runtime's own tests and the template's checks run in app-templates;
 - the tooling's generator tests install the runtime from a local clone at the pinned commit.
 
@@ -156,9 +155,10 @@ addresses: qg-simple-to-build, qg-few-iterations, risk-vite-plus-young
 
 ## Strict TypeScript everywhere
 
-**Context:** types give assistants the fastest feedback. **Decision:** every app is TypeScript only: `strict` and the
-stricter compiler options, no `any`, no JavaScript sources; data the creator supplies is typed and validated at
-build time. **Consequences:** every archetype's toolchain must support TypeScript sources end to end.
+**Context:** types give assistants the fastest feedback (constraint `con-strict-typescript`). **Decision:** every app
+is TypeScript only, with the strictest compiler settings, no untyped values and no JavaScript sources. Data the
+creator supplies is typed and validated at build time. **Consequences:** every archetype's toolchain must support
+TypeScript sources end to end.
 
 ```arc42
 :::decision
@@ -166,20 +166,19 @@ id: dec-strict-typescript
 title: Strict TypeScript everywhere
 status: accepted
 date: 2026-10-08
-addresses: qg-few-iterations, con-language-licence
+addresses: qg-few-iterations, con-language-licence, con-strict-typescript
 :::
 ```
 
 ## One check command; hooks and CI run the same
 
 **Context:** checks that only CI runs reach the assistant late and cost the owner's attention; checks that differ
-between hook and CI surprise. **Decision:** `lernapps check` runs every deterministic check. `--pre-commit` selects
-the fast part (format, lint, types), `--pre-push` the heavy part (unit tests, build, checks of the built app,
-end-to-end tests with Playwright); no flag or both flags run everything. The hooks run the two parts, CI runs
-everything. A failed pre-push increments `prePushFailures` in the plan's front matter. CI runs exactly the command of the hooks, without CI-only steps or switches:
-only the environment (checkout, Node, `npm ci`, the browser cache) and keeping the report differ. This holds in every
-repo, the tooling's own included: tests that need another repo fetch it at a pinned commit instead of being skipped
-when it is missing. Every run in a repo writes its report to a fixed place, so CI keeps it without a switch.
+between hook and CI surprise. **Decision:** one check command runs every deterministic check, in two parts: a fast
+part (format, lint, types) before a commit and a heavy part (unit tests, build, checks of the built app, end-to-end
+tests in a browser) before a push. CI runs both. A failed push is counted in the plan. CI runs exactly the command
+of the hooks, with no steps or switches of its own; only the environment and keeping the report differ. This holds
+in every repo, the tooling's own included: tests that need another repo fetch it at a pinned commit instead of being
+skipped. Every run in a repo keeps its report in a fixed place, so CI keeps it without a switch.
 **Consequences:** failures reach the assistant on the creator's machine, before any CI run; CI is a safety net for
 skipped hooks and adds no checks of its own; what passes locally passes in CI; the creator's machine needs a
 browser for the end-to-end tests, and the tooling's tests need the network once.
@@ -197,16 +196,15 @@ addresses: qg-few-iterations, qg-any-assistant, risk-owner-bottleneck, risk-assi
 ## Each app lives at its developer's hosting
 
 **Context:** an app belongs to its developer, and the catalog lists apps hosted anywhere. Still, most creators need a
-simple place to publish. An app's check, `lernapps check`, builds the bundle it checks. **Decision:** each app lives
-at its developer's own hosting; lernapps.net hosts nothing of an app and only links to it from the catalog entry. As
-the simple default, the generated workflow publishes the bundle the app check action checked with the app publish
-action, to the app repo's GitHub Pages: the branch `gh-pages`, served from its root. The action checks that setup
-before and after it deploys, because previews of pull requests below `pr-preview/` will need the same. The sites of
-lernapps.net keep their own site actions. **Consequences:** an app is built and checked once in CI, and the
-published bundle is the checked one; the app's address is the developer's (for an app repo of the lernapps
-organisation, lernapps.net/<repo>/, the organisation's Pages domain); a creator who hosts elsewhere changes the
-workflow and the entry's `url`; the default token cannot change the Pages settings, so a repository admin may have to
-set them once.
+simple place to publish. An app's check builds the bundle it checks. **Decision:** each app lives at its developer's
+own hosting; lernapps.net hosts nothing of an app and only links to it from the catalog entry. As the simple
+default, the generated workflow publishes the bundle the app check action checked to the app repo's own GitHub
+Pages. The publish action checks that setup before and after it deploys, because previews of pull requests will
+need the same setup. The sites of lernapps.net keep their own site actions. **Consequences:** an app is built and
+checked once in CI, and the published bundle is the checked one. The app's address is the developer's; an app repo
+of the lernapps organisation is served below lernapps.net. A creator who hosts elsewhere changes the workflow and the
+entry's address. A workflow's default token cannot change the Pages settings, so a repository admin may have to set
+them once.
 
 ```arc42
 :::decision
@@ -259,9 +257,9 @@ addresses: qg-guidance-evolves, qg-checked-not-declared, risk-oxlint-plugins, ri
 ## A standalone check CLI with YAML output
 
 **Context:** the same rules must be checked on scaffolded apps and on apps built otherwise, and people and agents
-read the result. **Decision:** one CLI that works on a repo, a bundle or a URL, without needing the source repo for
-the checks of the built app; it checks an entry against the app with `--entry`; it reports in YAML; for scope
-`site` it calls `lernapps-check` of the site frame, which stays there. **Consequences:** the same check in hook, CI
+read the result. **Decision:** one CLI that works on a repo, a bundle or an address, without needing the source repo
+for the checks of the built app. It can check an entry against the app, and it reports in YAML. For the site rules it
+calls the check of the shared site frame, which stays there. **Consequences:** the same check in hook, CI
 and listing; the report is the fitness signal and is readable without a viewer.
 
 ```arc42
@@ -346,7 +344,7 @@ addresses: qg-any-assistant, qg-few-iterations
 ## Content correctness is suggested
 
 **Context:** correctness is checkable only where answers are computable. **Decision:** generator and checker tests,
-cited sources and verified links are `hint` rules, never a listing condition. **Consequences:** the review notes, but
+cited sources and verified links are hints, never a listing condition. **Consequences:** the review notes, but
 does not block, missing correctness support.
 
 ```arc42

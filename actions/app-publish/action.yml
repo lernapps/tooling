@@ -3,8 +3,11 @@ description: >-
   Publishes an app's checked bundle, the artifact "site" of the app check action, to the app repo's GitHub Pages: the
   branch gh-pages, served from its root (/). Before the deploy it checks that setup and sets it through the API when
   the token may; on the first deploy the deploy creates the branch and the check follows. After the deploy it waits
-  until the app's address serves the new bundle, and prints the address. The logic is publish/publish.ts, tested by
-  test/app-publish.e2e.test.ts. The job needs permissions: contents: write, pages: write.
+  until the app's address serves the new bundle, and prints the address. Previews below pr-preview/ on the branch
+  stay. Where the token may not change the Pages settings, it fails with what is wrong and the clicks a repository
+  admin makes once. The logic is publish/publish.ts, tested by test/app-publish.e2e.test.ts. Use it in the job
+  "deploy" of the app's pages.yml, on main, after the job "site" (needs: site), pinned to a commit. The job needs
+  permissions: contents: write, pages: write.
 inputs:
   token:
     description: >-
