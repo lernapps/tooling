@@ -12,7 +12,7 @@ import { appendFileSync, cpSync, existsSync, readFileSync, rmSync, writeFileSync
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse, stringify } from "yaml";
-import { appTemplates, freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import { appTemplates, freshClone, ok, PRE_COMMIT_LOG, repoRoot, run, tempDir, type Result } from "./support.ts";
 
 /** Where `lernapps check` writes its full report in a repo, in the hooks and in CI. */
 export const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
@@ -98,7 +98,11 @@ export function runHooks(dir: string, message: string): HookRun[] {
   const hook = (name: HookRun["hook"], args: string[]): HookRun => {
     rmSync(report, { force: true });
     const result = run("git", args, dir);
-    return { hook: name, passed: result.code === 0, output: output(result), findings: readReport(report).findings };
+    // the pre-commit hook is quiet: what its steps printed is in its log
+    const log = join(dir, PRE_COMMIT_LOG);
+    const printed =
+      name === "pre-commit" && existsSync(log) ? `${output(result)}\n${readFileSync(log, "utf8")}` : output(result);
+    return { hook: name, passed: result.code === 0, output: printed, findings: readReport(report).findings };
   };
   ok("git", ["add", "--all"], dir);
   const commit = hook("pre-commit", ["commit", "--quiet", "--message", message]);
