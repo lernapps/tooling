@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, the
+# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, llms.txt, the
 # rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of
 # the review verdict and of the question bank of a quiz (schemas/; the last from lernapps/app-templates at the
 # pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
@@ -12,7 +12,7 @@ PREFIX="${SITE_PATH_PREFIX:-/tooling/}"
 
 rm -rf _site
 mkdir -p _site
-cp site/index.html site/stil.css site/spa.css _site/
+cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
 mkdir -p _site/schemas
 cp check/validation-report.v1.schema.json review/verdict.v1.schema.json _site/schemas/
 # The schema of a quiz's question bank lives with the quiz's runtime in lernapps/app-templates: published from the

@@ -41,18 +41,19 @@ addresses: qg-simple-to-build, qg-few-iterations
 :::
 ```
 
-## EPCC in AGENTS.md with a plan file
+## EPCC in a plan file, pointed to by AGENTS.md
 
 **Context:** assistants run through all steps at once unless guided; the guidance must work with any assistant.
-**Decision:** the EPCC workflow as plain text in `AGENTS.md` and a plan file with phases, checkpoints, the creator's
-answers for the entry, front matter counters and a retrospective; `@codemcp/workflows` stays optional.
+**Decision:** the EPCC workflow as plain text in one place, the plan file started from the template: phases, tasks,
+checkpoints, the creator's answers for the entry, front matter counters and a retrospective. `AGENTS.md` and the
+skill `lernapps-app` only point to it; `@codemcp/workflows` stays optional.
 **Consequences:** no MCP server needed; the plan is readable by the creator, carries what the entry needs, and is the
 source for measurement.
 
 ```arc42
 :::decision
 id: dec-epcc-plan-file
-title: EPCC in AGENTS.md with a plan file
+title: EPCC in a plan file, pointed to by AGENTS.md
 status: accepted
 date: 2026-10-08
 addresses: qg-any-assistant, qg-simple-to-build, qg-findable, risk-assistants-skip-guidance
@@ -193,19 +194,18 @@ addresses: qg-few-iterations, qg-any-assistant, risk-owner-bottleneck, risk-assi
 :::
 ```
 
-## Apps check with the app check action, sites with the site check action
+## An app publishes the bundle it checked
 
-**Context:** the site check action builds a site and runs its `check` script, the site frame's check of `_site/`.
-An app's `check` is `lernapps check`, which builds the app itself and checks the build. **Decision:** an app's
-`pages.yml` runs the app check action, which uploads the bundle it checked; the site deploy action publishes it.
-The site check action stays for sites and does not call the app check. **Consequences:** an app's check runs once
-in CI, and the published bundle is the one that was checked; the app's `build` script is no longer used in CI; the
-two check actions share no steps but the environment.
+**Context:** an app's check, `lernapps check`, builds the app itself. The site check action would build it a second
+time, and the bundle it published would not be the one that was checked. **Decision:** an app's workflow runs the
+app check action, which keeps the bundle it checked as the artifact `site`; the site deploy action publishes that
+artifact. The sites keep the site check action. **Consequences:** an app is built and checked once in CI, and the
+published bundle is the checked one; the two check actions share only the environment.
 
 ```arc42
 :::decision
 id: dec-app-check-action
-title: Apps check with the app check action, sites with the site check action
+title: An app publishes the bundle it checked
 status: accepted
 date: 2026-10-09
 addresses: qg-few-iterations, qg-checked-not-declared

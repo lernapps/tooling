@@ -15,7 +15,7 @@ the app from the plan and the validation report.
 id: rs-new-app
 title: A new app, from first prompt to listing
 trigger: A creator asks their AI assistant for a learning app
-involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-archetypes, bb-lint-rules, bb-git-hooks, bb-check-cli, bb-app-check-action, bb-listing-validation
+involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-archetypes, bb-lint-rules, bb-git-hooks, bb-check-cli, bb-app-check-action, bb-publishing-actions, bb-listing-validation
 :::
 ```
 
@@ -24,7 +24,7 @@ involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-arc
 id: rs-new-app-sequence
 scenario: rs-new-app
 notation: mermaid-sequence
-aliases: creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, listing=bb-listing-validation
+aliases: creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, publish=bb-publishing-actions, listing=bb-listing-validation
 :::
 ```
 
@@ -39,11 +39,12 @@ sequenceDiagram
     participant hooks as Git hooks
     participant check as Check CLI
     participant ci as App check action
+    participant publish as Site deploy action
     participant listing as Listing validation
     assistant->>guidance: read AGENTS.md, start the plan file
     assistant->>creator: Explore: purpose, learners, what the entry needs
     creator->>assistant: answers, confirms the plan
-    assistant->>generator: lernapps create --archetype <name>
+    assistant->>generator: npx --yes github:lernapps/tooling#main create --archetype <name>
     generator->>templates: copy the archetype folder
     assistant->>skills: load the skills of the archetype and topic
     assistant->>hooks: commit
@@ -54,6 +55,9 @@ sequenceDiagram
     assistant->>ci: pull request in the app repo
     ci->>check: lernapps check (the same checks)
     assistant->>creator: checkpoint: publish
+    assistant->>ci: merge to main
+    ci->>publish: the checked bundle (artifact site)
+    publish-->>creator: the app at lernapps.net/<repo>/
     assistant->>listing: entry from plan and report, pull request to lernapps/apps
 ```
 

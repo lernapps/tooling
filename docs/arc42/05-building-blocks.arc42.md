@@ -2,9 +2,10 @@
 
 The tooling is one package, `@lernapps/tooling`, at the root of lernapps/tooling, installed by apps from git at a
 commit of `main` and kept current by Renovate, like the site frame `@lernapps/site` (decision `dec-one-package`).
-Its parts are subpath exports and commands of one CLI, `lernapps`. Two blocks live in other repos: the archetype
-templates and runtimes in lernapps/app-templates and the listing validation in lernapps/apps. Folders inside the package are
-named in the prose.
+Its parts are subpath exports and commands of one CLI, `lernapps`. Next to the package, the repo holds GitHub actions:
+the app check action and the publishing actions. Two blocks live in other repos: the archetype templates and runtimes
+in lernapps/app-templates and the listing validation in lernapps/apps. Folders inside the package are named in the
+prose.
 
 Rules have no block of their own: each rule lives in the block where it acts, as skill text, lint rule, check or
 rubric item (concept `concept-rule-catalog`).
@@ -33,6 +34,7 @@ flowchart TB
     end
     bb-app-templates["Archetype templates and runtimes (lernapps/app-templates)"]
     bb-app-check-action["App check action"]
+    bb-publishing-actions["Publishing actions"]
     bb-listing-validation["Listing validation (lernapps/apps)"]
     bb-generator -->|"if-archetype-templates"| bb-app-templates
     bb-generator -->|"if-plan-file"| bb-process-guidance
@@ -144,12 +146,12 @@ protocol: Markdown with YAML front matter
 
 ### Skills
 
-The rules as the assistant reads them, and the know-how around them (`skills/`), in the agentskills.io format: `lernapps-app` (workflow
-and general rules), one per archetype, topic skills such as third-party content (bundle it at build time, name
+The rules as the assistant reads them, and the know-how around them (`skills/`), in the agentskills.io format: `lernapps-app` (the
+general rules; it points to the plan for the workflow), one per archetype, topic skills such as third-party content (bundle it at build time, name
 source and licence next to it, embeds only after a click, links verified, never guessed), and `lernapps-listing`
 (fetch the entry schema, fill it from plan and report, open the pull request). Each skill names the rule ids it
-carries. They are synced from the package into the creator's agent harness (chapter 7) and can be installed alone
-with `npx skills add lernapps/tooling` for apps built otherwise.
+carries. `npx skills add lernapps/tooling` adds them to the creator's agent harness (chapter 7), for an app from the
+generator as for one built otherwise.
 
 ```arc42
 :::building-block
@@ -179,8 +181,11 @@ protocol: SKILL.md files in the harness's skill folder
 `lernapps create --archetype <name>` writes a new app from the archetype's template at the commit pinned in the
 package (`generator/`): the thin files that refer to the package, `AGENTS.md`, the plan file carried over from the
 conversation, the app's workflows, LICENSE and an issue form for content errors. The assistant runs it after the
-creator has confirmed the plan. It fetches the template with git, so it needs the network; a local clone of the
-templates repo with the pinned commit can take its place, which keeps the generator's own tests offline.
+creator has confirmed the plan. Nothing is installed at that point, so it runs with npx from git, as the plan
+template says: `npx --yes github:lernapps/tooling#main create --archetype <name>`. The app then depends on the
+commit of the package the generator came from, and its workflows use the actions of that commit. The generator
+fetches the template with git, so it needs the network; a local clone of the templates repo with the pinned commit
+can take its place, which keeps the generator's own tests offline.
 
 ```arc42
 :::building-block
@@ -507,11 +512,12 @@ protocol: JSON with published JSON Schema (https://lernapps.net/tooling/schemas/
 
 ## App check action
 
-A composite action next to the site actions (`actions/app-check`): runs `lernapps check` without flags, exactly
-what the hooks ran, and nothing else. Around the command it only sets up the environment: checkout, Node, `npm ci`,
-the Playwright browser from the cache. It uploads the report the check writes in every run, passing or not, and on
-`main` the bundle it checked, which the site deploy action publishes. An app uses it in place of the site check
-action, so its check runs once and the published bundle is the checked one.
+A composite action (`actions/app-check`) that runs in an app's CI exactly what the app's git hooks ran:
+`lernapps check` without flags. Around the command it only sets up the environment: checkout, Node, `npm ci`, the
+Playwright browser from the cache. It keeps the report as the artifact `validation-report`, passing or not. On
+`main` it also keeps the bundle it checked as the artifact `site`, which the site deploy action publishes (block
+"Publishing actions", `bb-publishing-actions`). So an app publishes the bundle that was checked, built once
+(decision `dec-app-check-action`).
 
 ```arc42
 :::building-block
@@ -524,7 +530,7 @@ requires: if-check-cli
 
 ### App check action interface
 
-Used in the app's `pages.yml` before the site deploy action, pinned to a commit and bumped by Renovate. Inputs: the
+Used in the app's `pages.yml`, before the site deploy action, pinned to a commit and bumped by Renovate. Inputs: the
 app's folder, whether to check out, the report artifact's name, whether to upload the bundle. Outputs: the
 artifacts `validation-report` and, on `main`, `site`.
 
@@ -534,6 +540,61 @@ id: if-app-check-action
 title: App check action
 provider: bb-app-check-action
 protocol: GitHub Actions `uses:` at a pinned commit
+:::
+```
+
+## Publishing actions
+
+Three composite actions (`actions/site-*`) that put a built folder on lernapps.net. GitHub Pages serves the
+`gh-pages` branch of a lernapps repo named `x` at lernapps.net/x/ (`con-github`). So each repo publishes itself:
+- an app repo publishes its bundle, at lernapps.net/<repo>/;
+- lernapps/apps publishes the catalog, at lernapps.net/apps/;
+- lernapps/docs, lernapps/tooling and lernapps.github.io publish their sites, at /docs/, /tooling/ and the root.
+
+The three actions:
+- `site-deploy` pushes the artifact `site` of the same workflow run to the root of the `gh-pages` branch of the
+  repo it runs in. It leaves the previews alone. Apps and sites use it.
+- `site-check` builds and checks a site: `npm ci`, `npm run build` writes `_site/`, `npm run check` checks it with
+  `lernapps-check` of the site frame. On `main` it keeps `_site/` as the artifact `site`. The sites use it; an app
+  uses the app check action instead.
+- `site-preview` builds a pull request like `site-check` and puts it on the same `gh-pages` branch, below
+  `pr-preview/pr-<number>/`. It removes the preview when the pull request closes. The sites use it.
+
+```arc42
+:::building-block
+id: bb-publishing-actions
+title: Publishing actions
+technology: GitHub composite actions, the gh-pages branch, GitHub Pages
+:::
+```
+
+### Site deploy interface
+
+Used in the job `deploy` of a repo's `pages.yml`, on `main`, after the job that made the artifact `site` (the app
+check action or `site-check`). The job needs the permission `contents: write`. Pinned to a commit and bumped by
+Renovate.
+
+```arc42
+:::interface
+id: if-site-deploy
+title: Site deploy
+provider: bb-publishing-actions
+protocol: GitHub Actions `uses:` at a pinned commit; input the artifact `site`, output the root of the gh-pages branch
+:::
+```
+
+### Site check and preview interface
+
+Used by the lernapps.net sites in the jobs `site` and `preview`. The contract with a repo: `npm run build` writes
+`_site/`, and `npm run check` (or the script named by the input `check-script`) checks it. `site-preview` also needs
+the input `site`, the path where the repo is served, such as `/docs/`.
+
+```arc42
+:::interface
+id: if-site-check
+title: Site check and preview
+provider: bb-publishing-actions
+protocol: GitHub Actions `uses:` at a pinned commit; npm scripts `build` (writes _site/) and `check`
 :::
 ```
 

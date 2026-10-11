@@ -16,7 +16,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { basename, dirname, join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { UsageError } from "../src/usage.ts";
@@ -36,7 +36,8 @@ Options:
                       one from the plan template)
   --templates <repo>  where to fetch app-templates from: a git URL or a local clone with the pinned commit
                       (default: the environment variable LERNAPPS_TEMPLATES, else GitHub)
-  --tooling <spec>    the npm spec of @lernapps/tooling the app depends on (default: the template's)
+  --tooling <spec>    the npm spec of @lernapps/tooling the app depends on (default: the commit this
+                      @lernapps/tooling was installed from, else the template's)
   -h, --help          print this help
 `;
 
@@ -112,6 +113,32 @@ const packageName = (dir: string) =>
     .replace(/^-+|-+$/g, "") || "app";
 
 const commitOf = (spec: string | undefined) => /#([0-9a-f]{40})$/.exec(spec ?? "")?.[1];
+
+/**
+ * The npm spec this package was installed from, at its commit, read from the lock npm keeps next to it
+ * (node_modules/.package-lock.json): `npx github:lernapps/tooling#main create ...` resolves `main` to a commit and
+ * installs the package from git. The app then depends on the same commit, and its workflows use the actions of that
+ * commit. Undefined when the package was not installed by npm (a clone of this repo).
+ */
+function installedSpec(): string | undefined {
+  const parts = resolve(packageRoot).split(sep);
+  const at = parts.lastIndexOf("node_modules");
+  if (at < 0) return undefined;
+  const modules = parts.slice(0, at + 1).join(sep);
+  const key = parts.slice(at).join("/");
+  try {
+    const lock = JSON.parse(readFileSync(join(modules, ".package-lock.json"), "utf8")) as {
+      packages?: Record<string, { resolved?: string }>;
+    };
+    const resolved = lock.packages?.[key]?.resolved;
+    const commit = commitOf(resolved);
+    if (resolved === undefined || commit === undefined) return undefined;
+    const github = /^git\+(?:ssh:\/\/git@|https:\/\/)github\.com[/:]([^/]+)\/([^/#]+?)(?:\.git)?#/.exec(resolved);
+    return github ? `github:${github[1]}/${github[2]}#${commit}` : resolved;
+  } catch {
+    return undefined;
+  }
+}
 
 /** The runtime package at the root of app-templates. */
 const RUNTIME = "@lernapps/app-templates";
@@ -214,8 +241,11 @@ export function create(args: string[]): number {
     app.devDependencies = { ...app.devDependencies, [RUNTIME]: runtimeSpec(repository, pin.commit) };
     rmSync(join(dir, ".npmrc"), { force: true });
   }
-  if (values.tooling !== undefined) {
-    app.devDependencies = { ...app.devDependencies, "@lernapps/tooling": values.tooling };
+  // the tooling the app depends on: the one named, else the commit this generator was installed from, else the
+  // template's
+  const tooling = values.tooling ?? installedSpec();
+  if (tooling !== undefined) {
+    app.devDependencies = { ...app.devDependencies, "@lernapps/tooling": tooling };
     rmSync(join(dir, "package-lock.json"), { force: true }); // locks the template's tooling, not this one
   } else if (existsSync(join(dir, "package-lock.json"))) {
     const lock = readJson(join(dir, "package-lock.json"));
@@ -229,7 +259,7 @@ export function create(args: string[]): number {
   const holder = git(["config", "user.name"], existsSync(dir) ? dir : process.cwd());
   writePlan(dir, archetype, values.plan);
   writeAppFiles(dir, {
-    tooling: commitOf(values.tooling) ?? commitOf(templateTooling) ?? "main",
+    tooling: commitOf(tooling) ?? commitOf(templateTooling) ?? "main",
     year: String(new Date().getFullYear()),
     holder: holder.ok && holder.out !== "" ? holder.out : "the creator of this app",
   });
