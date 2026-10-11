@@ -173,7 +173,7 @@ involves: bb-tooling-package, bb-skills, bb-lint-rules, bb-check-cli, bb-review-
 id: rs-rule-changes-sequence
 scenario: rs-rule-changes
 notation: mermaid-sequence
-aliases: owner=actor-owner, package=bb-tooling-package, skills=bb-skills, lint=bb-lint-rules, check=bb-check-cli, procedure=bb-review-procedure, evals=bb-evals, github=actor-github
+aliases: owner=actor-owner, package=bb-tooling-package, skills=bb-skills, lint=bb-lint-rules, check=bb-check-cli, procedure=bb-review-procedure, evals=bb-evals, github=actor-renovate
 :::
 ```
 
@@ -186,7 +186,7 @@ sequenceDiagram
     participant procedure as Review rubric
     participant package as Package build
     participant evals as Evals
-    participant github as GitHub
+    participant github as Renovate
     owner->>check: pull request: new check for a recurring finding (same rule id)
     owner->>procedure: remove the rubric item of that rule
     package->>skills: read rule ids
@@ -196,6 +196,7 @@ sequenceDiagram
     package-->>owner: ids unique per artifact kind, every message linked
     owner->>evals: run by hand with three assistants
     evals-->>owner: scores per archetype
-    owner->>github: merge to the main line
-    github->>github: update pull request in every app, merged when green
+    owner->>package: merge to the main line
+    package-->>github: a new commit of the package
+    github->>github: update pull request in every app, merged when green by the policy
 ```
