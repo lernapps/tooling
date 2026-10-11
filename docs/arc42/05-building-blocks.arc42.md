@@ -192,7 +192,7 @@ can take its place, which keeps the generator's own tests offline.
 id: bb-generator
 title: Generator
 parent: bb-tooling-package
-technology: TypeScript CLI, git
+technology: TypeScript CLI, git; run with npx from GitHub
 requires: if-archetype-templates, if-plan-file
 implements: concept-stable-contracts
 :::
@@ -524,6 +524,7 @@ Playwright browser from the cache. It keeps the report as the artifact `validati
 id: bb-app-check-action
 title: App check action
 technology: GitHub composite action
+path: actions/app-check
 requires: if-check-cli
 :::
 ```
@@ -563,6 +564,7 @@ Node, downloads the artifact, runs the script before and after, and pushes the b
 id: bb-app-publish
 title: App publish
 technology: GitHub composite action, Node script, GitHub Pages REST API
+path: actions/app-publish
 :::
 ```
 
