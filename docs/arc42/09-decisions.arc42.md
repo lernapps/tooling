@@ -198,12 +198,13 @@ addresses: qg-few-iterations, qg-any-assistant, risk-owner-bottleneck, risk-assi
 **Context:** an app belongs to its developer, and the catalog lists apps hosted anywhere. Still, most creators need a
 simple place to publish. An app's check builds the bundle it checks. **Decision:** each app lives at its developer's
 own hosting; lernapps.net hosts nothing of an app and only links to it from the catalog entry. As the simple
-default, the generated workflow publishes the bundle the app check action checked to the app repo's own GitHub
-Pages. The publish action checks that setup before and after it deploys, because previews of pull requests will
-need the same setup. The sites of lernapps.net keep their own site actions. **Consequences:** an app is built and
-checked once in CI, and the published bundle is the checked one. The app's address is the developer's; an app repo
-of the lernapps organisation is served below lernapps.net. A creator who hosts elsewhere changes the workflow and the
-entry's address. A workflow's default token cannot change the Pages settings, so a repository admin may have to set
+default, the generated workflow publishes the bundle the app check action checked to the GitHub Pages of the app's
+repo, at the developer's own address. The publish action checks that setup before and after it deploys, because
+previews of pull requests will need the same setup. lernapps.net's own websites keep their own platform site
+actions. **Consequences:** an app is built and checked once in CI, and the published bundle is the checked one. The
+app's address is the developer's: usually their own github.io address, or any other host they choose. Only an app
+repo in the lernapps organisation is served below lernapps.net. A creator who hosts elsewhere changes the workflow
+and the entry's address. A workflow's default token cannot change the Pages settings, so a repository admin may have to set
 them once.
 
 ```arc42
@@ -258,8 +259,9 @@ addresses: qg-guidance-evolves, qg-checked-not-declared, risk-oxlint-plugins, ri
 
 **Context:** the same rules must be checked on scaffolded apps and on apps built otherwise, and people and agents
 read the result. **Decision:** one CLI that works on a repo, a bundle or an address, without needing the source repo
-for the checks of the built app. It can check an entry against the app, and it reports in YAML. For the site rules it
-calls the check of the shared site frame, which stays there. **Consequences:** the same check in hook, CI
+for the checks of the built app. It can check an entry against the app, and it reports in YAML. For the rules of
+lernapps.net's websites, which an app meets when it is served there, it calls the check of the shared site frame,
+which stays there. **Consequences:** the same check in hook, CI
 and listing; the report is the fitness signal and is readable without a viewer.
 
 ```arc42

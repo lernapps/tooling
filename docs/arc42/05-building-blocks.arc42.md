@@ -3,8 +3,11 @@
 The tooling is one package, installed by apps from git at a commit and kept current by update pull requests, like
 the shared site frame (decision `dec-one-package`). Next to the package, the repo holds two actions for an app's CI:
 one checks the app, one publishes it. Two blocks live in other repos: the archetype templates and runtimes, and the
-listing validation in the catalog. The repo also holds the site actions for the lernapps.net sites, which are not part
-of the app path.
+listing validation in the catalog. All of these make up the creator's path.
+
+The repo also holds "Platform upkeep", which no creator uses: it builds and documents the tooling itself, checks and
+publishes lernapps.net's own websites, and sets the update policy of every lernapps repo. A site, in this document,
+is always one of lernapps.net's own websites, never an app.
 
 Rules have no block of their own: each rule lives in the block where it acts, as skill text, lint rule, check or
 rubric item (concept `concept-rule-catalog`).
@@ -34,7 +37,13 @@ flowchart TB
     bb-app-templates["Archetype templates and runtimes (lernapps/app-templates)"]
     bb-app-check-action["App check action"]
     bb-app-publish["App publish"]
-    bb-site-actions["Site actions (lernapps.net sites, not apps)"]
+    subgraph bb-platform-upkeep["Platform upkeep (not used by creators)"]
+        bb-tooling-build["Tooling build and docs"]
+        bb-site-check["Platform site check"]
+        bb-site-deploy["Platform site deploy"]
+        bb-site-preview["Platform site preview"]
+        bb-renovate-preset["Renovate preset"]
+    end
     bb-listing-validation["Listing validation (lernapps/apps)"]
     bb-generator -->|"if-archetype-templates"| bb-app-templates
     bb-generator -->|"if-plan-file"| bb-process-guidance
@@ -47,6 +56,9 @@ flowchart TB
     bb-review-procedure -->|"if-validation-report"| bb-check-cli
     bb-evals -->|"if-generator-cli"| bb-generator
     bb-evals -->|"if-validation-report"| bb-check-cli
+    bb-tooling-build -->|"if-site-check"| bb-site-check
+    bb-tooling-build -->|"if-site-deploy"| bb-site-deploy
+    bb-tooling-build -->|"if-site-preview"| bb-site-preview
 ```
 
 ## Level 2: archetype presets
@@ -491,8 +503,9 @@ protocol: GitHub Actions, pinned to a commit
 
 ## App publish
 
-Publishes an app's checked bundle to the app repo's own GitHub Pages. It is the simple default: the app lives at its
-developer's hosting, and lernapps.net only links to it (decision `dec-app-own-hosting`). It is accountable for a
+Publishes an app's checked bundle to the GitHub Pages of the app's repo, at the developer's own address. It is the
+simple default: the app lives at its developer's hosting, which may be any other host, and lernapps.net only links to
+it (decision `dec-app-own-hosting`). It is accountable for a
 setup that later previews of pull requests can share. Before the deploy it checks that setup and fixes it where it
 may; where it may not, it fails with a message for the creator's assistant that says what to change and why.
 
@@ -515,102 +528,6 @@ the address. Its inputs, outputs and the permissions it needs are described in t
 id: if-app-publish
 title: App publish
 provider: bb-app-publish
-protocol: GitHub Actions, pinned to a commit
-:::
-```
-
-## Site actions
-
-Three actions for the sites of lernapps.net, not for apps: one builds and checks a site, one publishes it, one
-previews a pull request. They make every site behave the same. The app path does not use them.
-
-```arc42
-:::building-block
-id: bb-site-actions
-title: Site actions
-technology: GitHub composite actions
-:::
-```
-
-### Site check
-
-Builds a site and checks the build, the same way for every site. On the main line it keeps the build for the deploy.
-
-```arc42
-:::building-block
-id: bb-site-check
-title: Site check
-parent: bb-site-actions
-technology: GitHub composite action
-path: actions/site-check
-:::
-```
-
-#### Site check interface
-
-A consumer can rely on one contract with the site's repo: an install, a build that writes the static site, and a
-check of it.
-
-```arc42
-:::interface
-id: if-site-check
-title: Site check
-provider: bb-site-check
-protocol: GitHub Actions, pinned to a commit
-:::
-```
-
-### Site deploy
-
-Publishes the checked build of a site to the repo's own GitHub Pages.
-
-```arc42
-:::building-block
-id: bb-site-deploy
-title: Site deploy
-parent: bb-site-actions
-technology: GitHub composite action
-path: actions/site-deploy
-:::
-```
-
-#### Site deploy interface
-
-A consumer can rely on the checked build being served as the repo's site on lernapps.net, with previews left in
-place.
-
-```arc42
-:::interface
-id: if-site-deploy
-title: Site deploy
-provider: bb-site-deploy
-protocol: GitHub Actions, pinned to a commit
-:::
-```
-
-### Site preview
-
-Builds a pull request like the site check and publishes it next to the site, for review.
-
-```arc42
-:::building-block
-id: bb-site-preview
-title: Site preview
-parent: bb-site-actions
-technology: GitHub composite action
-path: actions/site-preview
-:::
-```
-
-#### Site preview interface
-
-A consumer can rely on a preview of each pull request's build on lernapps.net, removed when the pull request closes.
-
-```arc42
-:::interface
-id: if-site-preview
-title: Site preview
-provider: bb-site-preview
 protocol: GitHub Actions, pinned to a commit
 :::
 ```
@@ -642,5 +559,159 @@ id: if-listing-comment
 title: Listing results comment
 provider: bb-listing-validation
 protocol: Pull request comment
+:::
+```
+
+## Platform upkeep
+
+What keeps lernapps.net's own websites and repos in shape. No creator uses it, and nothing on the creator's path
+depends on it. It is accountable for the tooling's own documentation and for every website of lernapps.net behaving the
+same. Its platform site actions, used only for lernapps.net's own websites and never for an app, build and check a
+site, publish it, and preview a pull request.
+
+```arc42
+:::building-block
+id: bb-platform-upkeep
+title: Platform upkeep (not used by creators)
+:::
+```
+
+### Tooling build and docs
+
+Builds and checks the tooling itself and publishes its documentation: the architecture, the rule catalog, read from
+the artifacts where the rules live, and the published schemas.
+
+```arc42
+:::building-block
+id: bb-tooling-build
+title: Tooling build and docs
+parent: bb-platform-upkeep
+technology: shell script, arc42
+requires: if-site-check, if-site-deploy, if-site-preview
+:::
+```
+
+#### Tooling documentation
+
+A consumer can rely on the tooling's documentation, rule catalog and schemas at stable addresses on lernapps.net.
+Every check message links its rule there.
+
+```arc42
+:::interface
+id: if-tooling-docs
+title: Tooling documentation
+provider: bb-tooling-build
+protocol: Website on lernapps.net
+:::
+```
+
+### Platform site check
+
+Builds a site and checks the build, the same way for every site. On the main line it keeps the build for the deploy.
+
+```arc42
+:::building-block
+id: bb-site-check
+title: Platform site check
+parent: bb-platform-upkeep
+technology: GitHub composite action
+path: actions/site-check
+:::
+```
+
+#### Platform site check interface
+
+A consumer can rely on one contract with the site's repo: an install, a build that writes the static site, and a
+check of it.
+
+```arc42
+:::interface
+id: if-site-check
+title: Platform site check
+provider: bb-site-check
+protocol: GitHub Actions, pinned to a commit
+:::
+```
+
+### Platform site deploy
+
+Publishes the checked build of a site to the GitHub Pages of its repo in the lernapps organisation, below
+lernapps.net.
+
+```arc42
+:::building-block
+id: bb-site-deploy
+title: Platform site deploy
+parent: bb-platform-upkeep
+technology: GitHub composite action
+path: actions/site-deploy
+:::
+```
+
+#### Platform site deploy interface
+
+A consumer can rely on the checked build being served as the repo's website on lernapps.net, with previews left in
+place.
+
+```arc42
+:::interface
+id: if-site-deploy
+title: Platform site deploy
+provider: bb-site-deploy
+protocol: GitHub Actions, pinned to a commit
+:::
+```
+
+### Platform site preview
+
+Builds a pull request like the site check and publishes it next to the site, for review.
+
+```arc42
+:::building-block
+id: bb-site-preview
+title: Platform site preview
+parent: bb-platform-upkeep
+technology: GitHub composite action
+path: actions/site-preview
+:::
+```
+
+#### Platform site preview interface
+
+A consumer can rely on a preview of each pull request's build on lernapps.net, removed when the pull request closes.
+
+```arc42
+:::interface
+id: if-site-preview
+title: Platform site preview
+provider: bb-site-preview
+protocol: GitHub Actions, pinned to a commit
+:::
+```
+
+### Renovate preset
+
+The update policy of every lernapps repo, apps from the generator included: which updates merge on their own and
+when. The platform's own building blocks follow their main line at once.
+
+```arc42
+:::building-block
+id: bb-renovate-preset
+title: Renovate preset
+parent: bb-platform-upkeep
+technology: Renovate preset
+:::
+```
+
+#### Update policy
+
+A consumer can rely on one shared policy: a repo extends it and needs no policy of its own.
+
+```arc42
+:::interface
+id: if-update-policy
+title: Update policy
+provider: bb-renovate-preset
+protocol: Renovate shareable preset
 :::
 ```

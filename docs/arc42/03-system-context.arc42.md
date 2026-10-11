@@ -6,11 +6,12 @@ archetype templates live in lernapps/app-templates and the listing validation in
 
 Outside the system are the people and assistants who use it, GitHub where it runs, and the parts of lernapps.net it
 depends on but does not own. The shared site frame gives pages on lernapps.net their header, footer and site check.
-The entry schema belongs to lernapps/apps. Apps are hosted where their developers choose, by default on the GitHub
-Pages of their own repo.
+The entry schema belongs to lernapps/apps. Apps are hosted where their developers choose: by default on the GitHub
+Pages of the developer's own repo, at the developer's address, or on any other host. Only an app whose repo belongs to
+the lernapps organisation is served below lernapps.net.
 
-The tooling's repo also serves the lernapps.net sites, which are not apps: it holds the actions that check, publish
-and preview a site (chapter 5, "Site actions") and the shared update policy of every lernapps repo. Neither is part of
+The tooling's repo also holds "Platform upkeep" (chapter 5): the build of the tooling's own docs, the actions for
+lernapps.net's own websites and the update policy of every lernapps repo. No creator uses it, and it is not part of
 the app path.
 
 ## Context overview

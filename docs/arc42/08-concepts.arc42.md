@@ -10,7 +10,7 @@ Every rule has:
 | Attribute | Values | Meaning |
 |---|---|---|
 | id | a stable name, such as no-request-before-click | the same in every artifact, message and report; it never changes when the rule moves |
-| scope | one or more of listing, site, or one archetype | which apps it applies to: every listed app wherever it is hosted; every page served on lernapps.net; the apps of that archetype |
+| scope | one or more of listing, site, or one archetype | which apps it applies to: every listed app wherever it is hosted; every page of lernapps.net's own websites, and an app only while it is served on lernapps.net; the apps of that archetype |
 | severity | error, warning, hint | error: must not be broken; the check or review fails. Warning: may be broken on purpose, with a reason recorded in place; the review sees every exception. Hint: a recommendation that never fails |
 
 A listing rule is never a warning: a creator cannot argue their way past the fitness signal. The rules in scope for an

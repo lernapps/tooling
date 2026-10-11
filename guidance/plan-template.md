@@ -126,7 +126,8 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 <!--
 Publish the app and list it, each only after the creator says yes. Then fill the retrospective.
 A push to `main` publishes the app: the workflow `Pages` checks it and, in its job `deploy`, publishes the checked
-bundle to the repo's GitHub Pages. So work on another branch until the creator says yes.
+bundle to the repo's GitHub Pages, at the repo's own address (usually https://<owner>.github.io/<repo>/). So work on
+another branch until the creator says yes.
 -->
 
 ### Tasks

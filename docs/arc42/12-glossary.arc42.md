@@ -157,6 +157,19 @@ definition: The rules that apply to one app - scope listing, its archetype, and 
 :::
 ```
 
+## Site
+
+The rule scope "site" keeps its name: it holds the rules every page of lernapps.net's websites meets, and an app
+meets them too while it is served on lernapps.net. The app is still not a site.
+
+```arc42
+:::glossary-term
+id: term-site
+title: Site
+definition: One of lernapps.net's own websites (the start page, the docs, the app catalog, the tooling docs); an app is never called a site.
+:::
+```
+
 ## Validation report
 
 Bound to the commit it checked, so a fact sheet can trace the deployed app to it.

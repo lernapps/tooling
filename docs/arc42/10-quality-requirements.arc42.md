@@ -237,7 +237,7 @@ metric: Every topic link of every listing built with the tooling resolves, and n
 
 ## An app not built with the tooling
 
-Some creators already have an app, e.g. a chat assistant's artifact, a site of their own or an app built with
+Some creators already have an app, e.g. a chat assistant's artifact, a page on their own website or an app built with
 another toolchain.
 
 ```arc42

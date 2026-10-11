@@ -38,8 +38,8 @@ source: ORGANIZATION.md "Every page, in every repo"
 ## GitHub is the means of production
 
 The platform runs on GitHub: repositories, pull requests, GitHub Actions, GitHub Pages and Renovate
-([platform](https://lernapps.net/docs/platform-design/#2-design/d1-ecosystem.pdt42.md:el-platform-lernapps)). Only the owner creates repositories in the organisation; a repo of the organisation with Pages is served below
-lernapps.net, under its own name. Actions are pinned to full commit SHAs and updated by Renovate.
+([platform](https://lernapps.net/docs/platform-design/#2-design/d1-ecosystem.pdt42.md:el-platform-lernapps)). Only the owner creates repositories in the organisation. A repo of the organisation with Pages is served below
+lernapps.net, under its own name; this holds for the platform's own repos, not for an app in its developer's repo. Actions are pinned to full commit SHAs and updated by Renovate.
 
 ```arc42
 :::constraint
