@@ -130,7 +130,7 @@ id: dn-tooling-repo
 title: lernapps/tooling repository
 type: environment
 parent: dn-github
-hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-site-actions
+hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-site-check, bb-site-deploy, bb-site-preview
 :::
 ```
 

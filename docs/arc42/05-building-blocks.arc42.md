@@ -534,20 +534,47 @@ technology: GitHub composite actions
 
 ### Site check
 
+Builds a site and checks the build, the same way for every site. On the main line it keeps the build for the deploy.
+
+```arc42
+:::building-block
+id: bb-site-check
+title: Site check
+parent: bb-site-actions
+technology: GitHub composite action
+path: actions/site-check
+:::
+```
+
+#### Site check interface
+
 A consumer can rely on one contract with the site's repo: an install, a build that writes the static site, and a
-check of it. On the main line it keeps the build for the deploy.
+check of it.
 
 ```arc42
 :::interface
 id: if-site-check
 title: Site check
-provider: bb-site-actions
+provider: bb-site-check
 protocol: GitHub Actions, pinned to a commit
-path: actions/site-check
 :::
 ```
 
 ### Site deploy
+
+Publishes the checked build of a site to the repo's own GitHub Pages.
+
+```arc42
+:::building-block
+id: bb-site-deploy
+title: Site deploy
+parent: bb-site-actions
+technology: GitHub composite action
+path: actions/site-deploy
+:::
+```
+
+#### Site deploy interface
 
 A consumer can rely on the checked build being served as the repo's site on lernapps.net, with previews left in
 place.
@@ -556,13 +583,26 @@ place.
 :::interface
 id: if-site-deploy
 title: Site deploy
-provider: bb-site-actions
+provider: bb-site-deploy
 protocol: GitHub Actions, pinned to a commit
-path: actions/site-deploy
 :::
 ```
 
 ### Site preview
+
+Builds a pull request like the site check and publishes it next to the site, for review.
+
+```arc42
+:::building-block
+id: bb-site-preview
+title: Site preview
+parent: bb-site-actions
+technology: GitHub composite action
+path: actions/site-preview
+:::
+```
+
+#### Site preview interface
 
 A consumer can rely on a preview of each pull request's build on lernapps.net, removed when the pull request closes.
 
@@ -570,9 +610,8 @@ A consumer can rely on a preview of each pull request's build on lernapps.net, r
 :::interface
 id: if-site-preview
 title: Site preview
-provider: bb-site-actions
+provider: bb-site-preview
 protocol: GitHub Actions, pinned to a commit
-path: actions/site-preview
 :::
 ```
 
