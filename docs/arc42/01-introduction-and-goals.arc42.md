@@ -5,9 +5,8 @@ so that it comes out static, frontend-only, collecting nothing, accessible and r
 realises the platform's [guidance for building apps](https://lernapps.net/docs/platform-design/#2-design/d6-learning-engine.pdt42.md:el-s-building-guidance), the "agent guidance and starter templates"
 of the [platform](https://lernapps.net/docs/platform-design/#2-design/d1-ecosystem.pdt42.md:el-platform-lernapps).
 
-The tooling also holds what this repo provides for every lernapps.net site: the publishing actions and the Renovate
-preset. This document covers the app-creation tooling. The publishing actions appear as one building block, because
-apps publish with them too.
+The tooling also holds what this repo provides for the lernapps.net sites: the site actions and the Renovate preset.
+They are not app tooling, and this document leaves them out. An app is checked and published by actions of its own.
 
 ## 1.1 Requirements Overview
 

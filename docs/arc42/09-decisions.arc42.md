@@ -194,21 +194,27 @@ addresses: qg-few-iterations, qg-any-assistant, risk-owner-bottleneck, risk-assi
 :::
 ```
 
-## An app publishes the bundle it checked
+## Each app lives at its developer's hosting
 
-**Context:** an app's check, `lernapps check`, builds the app itself. The site check action would build it a second
-time, and the bundle it published would not be the one that was checked. **Decision:** an app's workflow runs the
-app check action, which keeps the bundle it checked as the artifact `site`; the site deploy action publishes that
-artifact. The sites keep the site check action. **Consequences:** an app is built and checked once in CI, and the
-published bundle is the checked one; the two check actions share only the environment.
+**Context:** an app belongs to its developer, and the catalog lists apps hosted anywhere. Still, most creators need a
+simple place to publish. An app's check, `lernapps check`, builds the bundle it checks. **Decision:** each app lives
+at its developer's own hosting; lernapps.net hosts nothing of an app and only links to it from the catalog entry. As
+the simple default, the generated workflow publishes the bundle the app check action checked with the app publish
+action, to the app repo's GitHub Pages: the branch `gh-pages`, served from its root. The action checks that setup
+before and after it deploys, because previews of pull requests below `pr-preview/` will need the same. The sites of
+lernapps.net keep their own site actions. **Consequences:** an app is built and checked once in CI, and the
+published bundle is the checked one; the app's address is the developer's (for an app repo of the lernapps
+organisation, lernapps.net/<repo>/, the organisation's Pages domain); a creator who hosts elsewhere changes the
+workflow and the entry's `url`; the default token cannot change the Pages settings, so a repository admin may have to
+set them once.
 
 ```arc42
 :::decision
-id: dec-app-check-action
-title: An app publishes the bundle it checked
+id: dec-app-own-hosting
+title: Each app lives at its developer's hosting
 status: accepted
-date: 2026-10-09
-addresses: qg-few-iterations, qg-checked-not-declared
+date: 2026-10-11
+addresses: qg-few-iterations, qg-checked-not-declared, qg-simple-to-build
 :::
 ```
 

@@ -15,7 +15,7 @@ the app from the plan and the validation report.
 id: rs-new-app
 title: A new app, from first prompt to listing
 trigger: A creator asks their AI assistant for a learning app
-involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-archetypes, bb-lint-rules, bb-git-hooks, bb-check-cli, bb-app-check-action, bb-publishing-actions, bb-listing-validation
+involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-archetypes, bb-lint-rules, bb-git-hooks, bb-check-cli, bb-app-check-action, bb-app-publish, bb-listing-validation
 :::
 ```
 
@@ -24,7 +24,7 @@ involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-arc
 id: rs-new-app-sequence
 scenario: rs-new-app
 notation: mermaid-sequence
-aliases: creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, publish=bb-publishing-actions, listing=bb-listing-validation
+aliases: creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, publish=bb-app-publish, listing=bb-listing-validation
 :::
 ```
 
@@ -39,7 +39,7 @@ sequenceDiagram
     participant hooks as Git hooks
     participant check as Check CLI
     participant ci as App check action
-    participant publish as Site deploy action
+    participant publish as App publish
     participant listing as Listing validation
     assistant->>guidance: read AGENTS.md, start the plan file
     assistant->>creator: Explore: purpose, learners, what the entry needs
@@ -57,7 +57,9 @@ sequenceDiagram
     assistant->>creator: checkpoint: publish
     assistant->>ci: merge to main
     ci->>publish: the checked bundle (artifact site)
-    publish-->>creator: the app at lernapps.net/<repo>/
+    publish->>publish: check the Pages setup, deploy to gh-pages, wait for the address
+    publish-->>assistant: published at <address>, or what to fix
+    assistant->>creator: the address, then checkpoint: list
     assistant->>listing: entry from plan and report, pull request to lernapps/apps
 ```
 

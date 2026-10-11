@@ -42,9 +42,14 @@ export function run(command: string, args: readonly string[], cwd: string): Resu
 }
 
 /** Runs a command without blocking the test's own process, e.g. while the test serves an app the command checks. */
-export function runAsync(command: string, args: readonly string[], cwd: string): Promise<Result> {
+export function runAsync(
+  command: string,
+  args: readonly string[],
+  cwd: string,
+  env: NodeJS.ProcessEnv = {},
+): Promise<Result> {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { cwd, env: testEnv });
+    const child = spawn(command, args, { cwd, env: { ...testEnv, ...env } });
     let stdout = "";
     let stderr = "";
     child.stdout.on("data", (chunk: Buffer) => (stdout += chunk.toString()));

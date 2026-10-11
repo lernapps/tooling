@@ -138,7 +138,7 @@ of [lernapps/app-templates](https://github.com/lernapps/app-templates) at the co
 |---|---|
 | `package.json` | the template's, named after the folder: `@lernapps/tooling`, the runtime `@lernapps/app-templates`, `vite-plus`; `prepare` installs the hooks, `build` writes `_site/`, `check` runs `lernapps check` |
 | `AGENTS.md`, `.vibe/plan.md` | the process guidance; a plan already in the folder (from the conversation) is kept, else the template starts in Code |
-| `.github/workflows/pages.yml` | `lernapps check` with the app check action (`app-check`), then the publication of the checked bundle with `site-deploy` |
+| `.github/workflows/pages.yml` | `lernapps check` with the app check action (`app-check`), then, on `main`, the checked bundle to the repo's GitHub Pages with the app publish action (`app-publish`) |
 | `.github/ISSUE_TEMPLATE/inhaltsfehler.yml` | the issue form for errors in the content |
 | `LICENSE`, `renovate.json` | MIT; the Renovate preset of lernapps |
 
@@ -292,39 +292,63 @@ creates the fixture repo, a fresh agent reviews it with the prompt, and its verd
 
 ## Actions
 
-Four composite actions in `actions/`. A repo's workflow names each one at a commit
-(`uses: lernapps/tooling/actions/<name>@<commit>`), and Renovate moves that commit forward.
+A repo's workflow names each action in `actions/` at a commit (`uses: lernapps/tooling/actions/<name>@<commit>`),
+and Renovate moves that commit forward. The actions inside are pinned to full commit SHAs too. CI runs what the hooks
+run, nothing more: a check passes or fails on the creator's machine the same way as in CI. CI only adds what the
+machine cannot do: publish.
 
-| Action | Used by | Does |
-|---|---|---|
-| `app-check` | every app | runs `lernapps check`, the command of the git hooks; keeps the report; on `main` keeps the bundle it checked as the artifact `site` |
-| `site-deploy` | every app and site | puts the artifact `site` on the `gh-pages` branch of the repo it runs in |
-| `site-check` | the sites | builds and checks a site; on `main` keeps `_site/` as the artifact `site` |
-| `site-preview` | the sites | puts a pull request's build at `https://lernapps.net/<site>pr-preview/pr-<number>/`, and removes it when the pull request closes |
+An app uses two actions:
 
-Each repo publishes itself. GitHub Pages serves the `gh-pages` branch of a lernapps repo named `x` at
-`lernapps.net/x/`. So an app repo publishes its bundle at `lernapps.net/<repo>/`, lernapps/apps the catalog at
-`lernapps.net/apps/`, and lernapps/docs, this repo and lernapps.github.io their sites.
+| Action | Does |
+|---|---|
+| `app-check` | runs `lernapps check`, the command of the git hooks; keeps the report; on `main` keeps the bundle it checked as the artifact `site` |
+| `app-publish` | publishes the artifact `site` to the app repo's GitHub Pages (`gh-pages`, served from its root), after checking that setup; waits until the app's address serves it and prints the address |
 
-CI runs what the hooks run, nothing more: a check passes or fails on the creator's machine the same way as in CI. CI
-only adds what the machine cannot do: publish. The actions inside are pinned to full commit SHAs, and so are the
-callers' references to this repo; Renovate bumps both.
+An app lives at its developer's hosting; lernapps.net only links to it from the catalog entry. `app-publish` is the
+simple default (architecture, decision `dec-app-own-hosting`). The sites of lernapps.net use other actions, below.
 
-### An app: `app-check`, then `site-deploy`
+### `app-check`
 
 `app-check` runs `lernapps check` without a flag: exactly what the pre-commit and pre-push hooks ran together. Around
 it, it only sets up the environment: checkout, Node 22, `npm ci`, the Playwright browser from the cache. It keeps
 the report the check writes (`node_modules/.cache/lernapps/validation-report.yaml`) as the artifact
-`validation-report`, passing or not. On `main` it also keeps the bundle it checked (`dist/`) as the artifact `site`.
-`site-deploy` publishes that artifact. So an app publishes the bundle that was checked, and nothing is built twice.
-An app does not use `site-check`: its `check` already builds the app.
+`validation-report`, passing or not. On `main` it also keeps the bundle it checked (`dist/`) as the artifact `site`,
+so the app publishes the bundle that was checked, and nothing is built twice.
 
-| Input of `app-check` | Default | What it is |
+| Input | Default | What it is |
 |---|---|---|
 | `working-directory` | `.` | the app's folder |
 | `checkout` | `true` | check out the repo first |
 | `report-artifact` | `validation-report` | the name of the report's artifact |
 | `upload` | on `main` | upload `dist/` as the artifact `site` |
+
+The workflow `app-check.yml` of this repo runs the action on two fixture apps (`test/app-fixture.ts`), a passing
+quiz and one with a stylesheet from another host, after their hooks have run: the action must end like the hooks,
+with the same findings. The command inside is tested by `test/app-check.e2e.test.ts`.
+
+### `app-publish`
+
+`app-publish` publishes the artifact `site` to the branch `gh-pages` of the app repo, which GitHub Pages serves from
+its root (`/`). Previews of pull requests will go below `pr-preview/` on the same branch, so the action insists on
+exactly this setup. Its logic is `publish/publish.ts` (Node, no dependencies); the action is a thin wrapper:
+1. `before`: if the branch `gh-pages` exists, Pages must serve it from its root. If Pages is off or serves something
+   else, the script sets it through the API when the token may (`POST` or `PUT /repos/{owner}/{repo}/pages`), else it
+   fails with what is wrong, the clicks, why, and the link to the rule `pages-from-gh-pages`. If the branch does not
+   exist yet, this is the first deploy: it goes ahead. It also writes `lernapps-publish.txt` (the commit) into the
+   bundle.
+2. The deploy pushes the bundle to `gh-pages` (previews below `pr-preview/` stay).
+3. `after`: the same check of Pages (it may be the first deploy), then it waits until the app's address serves
+   `lernapps-publish.txt` of this commit (input `timeout`, default 600 s), and prints `published at <address>`.
+
+The default `GITHUB_TOKEN` may read the Pages settings (`pages: read`, part of `pages: write`) but not change them:
+that needs Pages: write and Administration: write, which a workflow token cannot have. So a repository admin sets
+Pages once (Settings → Pages → Deploy from a branch → `gh-pages`, `/ (root)`), or the input `token` names a
+fine-grained token with both permissions. The job needs `contents: write` and `pages: write`.
+
+`test/app-publish.e2e.test.ts` runs the script against a local server that answers like the GitHub API and Pages:
+the branch missing, Pages off, another source, a workflow build, a token that may or may not change the settings,
+an address that serves the new bundle late or never. The workflow `app-publish.yml` runs `before` against the real
+API of this repo (read only; it never deploys, because this repo's `gh-pages` is the docs site).
 
 `pages.yml` of an app, as the generator writes it:
 
@@ -340,15 +364,20 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
     steps:
-      - uses: lernapps/tooling/actions/site-deploy@<commit> # main
+      - uses: lernapps/tooling/actions/app-publish@<commit> # main
 ```
 
-The workflow `app-check.yml` of this repo runs the action on two fixture apps (`test/app-fixture.ts`), a passing
-quiz and one with a stylesheet from another host, after their hooks have run: the action must end like the hooks,
-with the same findings. The command inside is tested by `test/app-check.e2e.test.ts`.
+## Site actions
 
-### A site: `site-check`, `site-deploy`, `site-preview`
+The sites of lernapps.net (the home page, apps, docs, this repo) use three other actions. They are not app tooling.
+
+| Action | Does |
+|---|---|
+| `site-check` | builds and checks a site; on `main` keeps `_site/` as the artifact `site` |
+| `site-deploy` | puts the artifact `site` on the `gh-pages` branch of the repo it runs in, which GitHub Pages serves at `lernapps.net/<repo>/` |
+| `site-preview` | puts a pull request's build at `https://lernapps.net/<site>pr-preview/pr-<number>/`, and removes it when the pull request closes |
 
 Every site on lernapps.net is a static build in `_site/`. The contract with a site's repo: `npm ci`, then
 `npm run build` writes `_site/`, then `npm run check` checks it (`lernapps-check` from the shared site frame in
@@ -402,7 +431,7 @@ rule groups `vite-plus` with `@voidzero-dev/vite-plus-core`, which `package.json
 
 The architecture of the tooling for building apps is written with [arc42](https://github.com/doctoolchain/arc42-language)
 in `docs/arc42/` (agents: skill `arc42-language` in `.agents/skills/`); the plan of the current work is in `.vibe/`.
-It is published at <https://lernapps.net/tooling/>, with the rule page at <https://lernapps.net/tooling/rules/>, like every lernapps.net site: `pages.yml` with the publishing actions
+It is published at <https://lernapps.net/tooling/>, with the rule page at <https://lernapps.net/tooling/rules/>, like every lernapps.net site: `pages.yml` with the site actions
 above, and a preview per pull request (`pr-preview.yml`) that also contains the architecture's changes since the
 merge base (`architecture-diff/`) and one comment listing them (`scripts/review-summary.ts`).
 

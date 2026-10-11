@@ -125,12 +125,19 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 
 <!--
 Publish the app and list it, each only after the creator says yes. Then fill the retrospective.
+A push to `main` publishes the app: the workflow `Pages` checks it and, in its job `deploy`, publishes the checked
+bundle to the repo's GitHub Pages. So work on another branch until the creator says yes.
 -->
 
 ### Tasks
 
-- [ ] Push. The pre-push hook runs the heavy checks; fix what fails.
+- [ ] Push your branch (not `main`). The pre-push hook runs the heavy checks; fix what fails.
 - [ ] **Checkpoint:** publish. Ask the creator before the app goes online, and wait for their yes.
+- [ ] Merge your branch into `main` and push `main`. Watch the run of the workflow `Pages` on `main` until it ends
+      (for example `gh run watch`, or the Actions tab of the repo). If it fails, read the message of the failed step:
+      fix what you can and push again; for a setting only a repository admin may change, tell the creator the exact
+      clicks the message names, and run the workflow again when they are done.
+- [ ] Open the address the job `deploy` printed ("published at ...") and confirm that it shows the app.
 - [ ] Complete the entry draft with what is known now, such as the app's address.
 - [ ] **Checkpoint:** list. Ask the creator before you open the listing pull request, and wait for their yes.
 - [ ] Fill the retrospective.
