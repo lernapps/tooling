@@ -1,39 +1,29 @@
 // Runs real commands in real directories: the tests check what a consumer of the tooling relies on,
 // not its internals.
 import { spawn, spawnSync } from "node:child_process";
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  renameSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import { afterAll } from "vite-plus/test";
+import { join, resolve } from "node:path";
+import { afterAll, inject } from "vite-plus/test";
+import { copyRepo, repoRoot, testEnv } from "./repo-copy.ts";
 
-export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+export { repoRoot, testEnv } from "./repo-copy.ts";
 
 export interface Result {
   code: number;
   stdout: string;
   stderr: string;
 }
-
-/**
- * The environment of every command a test starts: a git identity for commits, and LERNAPPS_E2E_INNER so
- * that a check run inside a test copy does not start the end-to-end tests again (they would recurse).
- * Without the settings of a preview build (pr-preview.yml): a test copy has no base branch to compare with.
- */
-const { ARC42_DIFF_BASE: _base, SITE_PATH_PREFIX: _prefix, SITE_PREVIEW: _preview, ...inherited } = process.env;
-/**
- * Without the variables git sets for a hook (GIT_DIR, GIT_INDEX_FILE, ...): a test started by the pre-push hook would
- * otherwise run `git init`, `git add` and `git reset` of its temporary repos against the repo being pushed.
- */
-const outsideGit = Object.fromEntries(Object.entries(inherited).filter(([name]) => !name.startsWith("GIT_")));
-export const testEnv: NodeJS.ProcessEnv = {
-  ...outsideGit,
-  LERNAPPS_E2E_INNER: "1",
-  GIT_AUTHOR_NAME: "lernapps test",
-  GIT_AUTHOR_EMAIL: "test@lernapps.invalid",
-  GIT_COMMITTER_NAME: "lernapps test",
-  GIT_COMMITTER_EMAIL: "test@lernapps.invalid",
-};
 
 export function run(command: string, args: readonly string[], cwd: string): Result {
   const result = spawnSync(command, args, { cwd, env: testEnv, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
@@ -94,22 +84,58 @@ export function tempDir(name: string): string {
  */
 export function freshClone(): string {
   const dir = tempDir("clone");
-  const files = ok("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], repoRoot)
-    .stdout.split("\0")
-    .filter((file) => file !== "");
-  for (const file of files) {
-    const target = join(dir, file);
-    mkdirSync(dirname(target), { recursive: true });
-    try {
-      cpSync(join(repoRoot, file), target);
-    } catch (error) {
-      // a file deleted in the working tree but not yet in the index
-      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  copyRepo(dir);
+  return dir;
+}
+
+/** Waits without busy looping. */
+const sleep = (ms: number) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+
+/**
+ * The one fresh clone of the test run installed with a real `npm ci`, read only. The first test file to ask installs
+ * it; the others wait until it is done (test/global-setup.ts reserves its directory).
+ */
+export function sharedInstall(): string {
+  const root = inject("installRoot");
+  const clone = join(root, "clone");
+  const done = join(root, "done");
+  const failed = join(root, "failed");
+  try {
+    mkdirSync(join(root, "lock"));
+  } catch {
+    // another test file installs it
+    for (;;) {
+      if (existsSync(done)) return clone;
+      if (existsSync(failed)) throw new Error(readFileSync(failed, "utf8"));
+      sleep(500);
     }
   }
-  ok("git", ["init", "--quiet", "--initial-branch=main"], dir);
-  ok("git", ["add", "--all"], dir);
-  ok("git", ["commit", "--quiet", "--no-verify", "--message", "fresh clone"], dir);
+  try {
+    copyRepo(clone);
+    ok("npm", ["ci", "--no-audit", "--no-fund"], clone);
+    writeFileSync(done, "");
+    return clone;
+  } catch (error) {
+    writeFileSync(failed, String(error));
+    throw error;
+  }
+}
+
+/**
+ * A fresh clone of the repo as it is now, installed: its node_modules links, entry by entry, to the shared clone
+ * installed with `npm ci` (sharedInstall), and `npm run prepare` builds the CLI and installs the git hooks, as
+ * `npm ci` does after the install. Caches stay in the copy's own node_modules, so test files that work in their own
+ * copies at the same time share none.
+ */
+export function installedClone(): string {
+  const installed = sharedInstall();
+  const dir = freshClone();
+  mkdirSync(join(dir, "node_modules"));
+  for (const name of readdirSync(join(installed, "node_modules"))) {
+    if (name === ".cache" || name.startsWith(".vite")) continue;
+    symlinkSync(join(installed, "node_modules", name), join(dir, "node_modules", name));
+  }
+  ok("npm", ["run", "prepare"], dir);
   return dir;
 }
 

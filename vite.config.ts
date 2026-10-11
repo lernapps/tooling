@@ -48,6 +48,8 @@ export default defineConfig({
   },
   test: {
     include: ["test/**/*.test.ts"],
+    // One fresh clone with `npm ci`, shared by the test files that need an installed clone.
+    globalSetup: ["test/global-setup.ts"],
   },
   pack: {
     // The CLI, its checks, and what apps import at runtime: the preset, its helpers and the lint plugin.
