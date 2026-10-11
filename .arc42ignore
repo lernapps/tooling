@@ -1,0 +1,4 @@
+# The site actions of the lernapps.net sites: not app tooling, outside this architecture (chapter 1)
+actions/site-check
+actions/site-deploy
+actions/site-preview

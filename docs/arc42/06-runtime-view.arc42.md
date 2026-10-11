@@ -7,8 +7,9 @@ failing push, the validation of a listing, and a rule that changes.
 
 The creator asks their assistant for an app. The assistant reads `AGENTS.md`, explores the idea with the creator in
 the plan file, including what the entry needs to help adults find the app, and confirms the plan with them. Then it
-works on its own: it generates the scaffold, builds with the skills and the hooks' feedback, publishes, and lists
-the app from the plan and the validation report.
+works on its own: it generates the scaffold with npx from GitHub, builds with the skills and the hooks' feedback, and
+publishes: after the merge to `main`, the app publish action puts the checked bundle on the app repo's GitHub Pages
+and prints the address. Then it lists the app from the plan and the validation report.
 
 ```arc42
 :::runtime-scenario
