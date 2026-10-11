@@ -2,8 +2,9 @@
 
 The tooling with which a creator and their AI assistant build a learning app for
 [lernapps.net](https://lernapps.net/): an app that runs in the browser, collects nothing, is accessible, and is
-listed in the app overview within minutes. It also holds what every lernapps.net site and repo shares: the actions
-that check, publish and preview a site, and the update policy for dependencies.
+listed in the app overview within minutes. The app lives at its creator's own hosting, by default their own GitHub
+Pages. The repo also holds the platform's upkeep, which creators don't use: the actions that check, publish and
+preview lernapps.net's own websites, and the update policy for dependencies.
 
 ## Who it is for
 

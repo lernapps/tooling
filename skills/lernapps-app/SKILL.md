@@ -24,6 +24,11 @@ Each rule is a section headed by its rule block (`id`, `scope`, `severity`). Fol
 or not a lint rule, check or the review also enforces it under the same id; their messages link to the rule.
 All rules: <https://lernapps.net/tooling/rules/>.
 
+The scopes: `listing` applies to every listed app, wherever it is hosted. `site` holds the rules of lernapps.net's own
+websites; your app meets them only while it is served on lernapps.net, which happens only for a repo of the lernapps
+organisation. `archetype:<name>` applies to apps of that archetype. Your app lives at its own address, by default the
+GitHub Pages of its repo (usually `https://<owner>.github.io/<repo>/`), and the catalog links to it.
+
 ### `plan-file`: Keep the plan file
 
 ```rule
@@ -354,7 +359,8 @@ severity: error
 ```
 
 An app from the generator publishes with the app publish action: GitHub Pages of the app repo serves the branch
-`gh-pages` from its root (`/`). Previews of pull requests will go below `pr-preview/` on the same branch, so leave
+`gh-pages` from its root (`/`), at the repo's Pages address (usually `https://<owner>.github.io/<repo>/`; only a repo
+of the lernapps organisation is served at `https://lernapps.net/<repo>/`). Previews of pull requests will go below `pr-preview/` on the same branch, so leave
 that setting as it is. When the publish run fails, read its message: fix what you can, and tell the creator the exact
 clicks it names for what only a repository admin may change. The creator may host the app elsewhere; then the entry's
 `url` points there.

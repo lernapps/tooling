@@ -3,12 +3,13 @@
 The tooling has no server of its own. Its parts are files in git repos on GitHub, and they reach the places where
 they run as git commits. Update pull requests move those commits forward. This chapter says, per node, what it
 receives and what it hosts; what each part does is in chapter 5. lernapps.net hosts nothing of an app: the app lives
-at its developer's hosting, and the catalog links to it (decision `dec-app-own-hosting`).
+at its developer's hosting, by default the developer's own GitHub Pages, and the catalog links to it (decision
+`dec-app-own-hosting`).
 
 ## Deployment overview
 
 The arrows show where the parts go: from the repos on GitHub to the creator's machine, to the CI of the repos and to
-the environment for lernapps agents. The app's CI checks the app and publishes it to the app's hosting. A listing goes
+the environment for lernapps agents. The developer's GitHub Actions check the app and publish it to GitHub Pages or leave it for any other hosting. A listing goes
 from the catalog's CI to the review.
 
 ```arc42
@@ -36,7 +37,7 @@ architecture-beta
     service package(disk)[Package actions skills] in toolingrepo
     service templates(disk)[Templates and runtime] in templaterepo
     service appcheck(server)[App check] in appci
-    service publish(internet)[App publish to the app hosting] in appci
+    service publish(internet)[App publish to GitHub Pages] in appci
     service listing(server)[Listing] in appsci
     service review(server)[Review] in agents
     service evals(server)[Evals] in agents
@@ -107,8 +108,8 @@ hosts: bb-tooling-package, bb-generator, bb-review-procedure, bb-evals, bb-check
 
 ## GitHub
 
-The means of production (`con-github`): every part comes from a repo here, and every app and site is served from
-here by default.
+The means of production (`con-github`): every part of the tooling comes from a repo here. Its Pages serve
+lernapps.net's own websites and, by default, the apps, each at its developer's address.
 
 ```arc42
 :::deployment-node
@@ -121,8 +122,9 @@ type: cloud-region
 ### lernapps/tooling
 
 The source of the package, the actions and the skills. Every consumer takes them at a commit: the package as a
-dependency, the actions by name in a workflow, the skills by copying them. The repo's own site on lernapps.net
-publishes the documentation, the rule catalog and the schemas, with the site actions (block "Site actions").
+dependency, the actions by name in a workflow, the skills by copying them. It also hosts Platform upkeep: the
+tooling's own build publishes its documentation, rule catalog and schemas on lernapps.net with the platform site
+actions, and the Renovate preset is read from here by every lernapps repo.
 
 ```arc42
 :::deployment-node
@@ -130,7 +132,7 @@ id: dn-tooling-repo
 title: lernapps/tooling repository
 type: environment
 parent: dn-github
-hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-site-check, bb-site-deploy, bb-site-preview
+hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-tooling-build, bb-site-check, bb-site-deploy, bb-site-preview, bb-renovate-preset
 :::
 ```
 
@@ -151,14 +153,16 @@ hosts: bb-app-templates
 
 ### Developer's GitHub Actions
 
-The CI of the app repo, which belongs to the developer. It receives the app check action and the app publish action,
+The GitHub Actions of the app repo, which belongs to the developer: the node where the app check and the app publish
+action run. It receives both,
 named in the workflow the generator wrote, at the commit of the package the app was created with. On every change it
-runs the same check as the hooks. On the main line it publishes the checked bundle to the app's hosting.
+runs the same check as the hooks. On the main line it publishes the checked bundle to the GitHub Pages of the app's
+repo.
 
 ```arc42
 :::deployment-node
 id: dn-app-ci
-title: Developer's GitHub Actions (app repo CI)
+title: Developer's GitHub Actions
 type: container
 parent: dn-github
 hosts: bb-app-check-action, bb-app-publish, bb-check-cli
@@ -182,21 +186,49 @@ hosts: bb-listing-validation, bb-check-cli
 
 ### The app's hosting
 
-Where the app is served: the developer's choice. By default it is the app repo's own GitHub Pages, which receives
-the checked bundle from the app publish action. An app repo of the lernapps organisation is served below
-lernapps.net; a repo elsewhere at its owner's address. Nothing of the tooling runs here.
+Where the app is served: the developer's choice. lernapps.net hosts nothing of an app; the catalog entry links to its
+address. Nothing of the tooling runs here.
 
 ```arc42
 :::deployment-node
 id: dn-app-hosting
-title: The app's hosting (default the app repo's GitHub Pages)
+title: The app's hosting (the developer's choice)
 type: environment
+:::
+```
+
+#### GitHub Pages
+
+The default. The GitHub Pages of the app's repo receive the checked bundle from the app publish action and serve it
+at the developer's address, usually their own github.io address. Only an app repo of the lernapps organisation is
+served below lernapps.net. The same service serves lernapps.net's own websites.
+
+```arc42
+:::deployment-node
+id: dn-github-pages
+title: GitHub Pages (default)
+type: environment
+parent: dn-app-hosting
+:::
+```
+
+#### Any other hosting
+
+Any static host the developer chooses. The developer publishes the bundle there and points the catalog entry at its
+address; the checks work on that address the same way.
+
+```arc42
+:::deployment-node
+id: dn-other-hosting
+title: Any other hosting
+type: environment
+parent: dn-app-hosting
 :::
 ```
 
 ## How updates arrive
 
-Every app repo receives the organisation's update policy from the generator. An update pull request arrives when the
+Every app repo receives the organisation's update policy (block "Renovate preset") from the generator. An update pull request arrives when the
 package, the runtime or the actions have a newer commit. The app check action runs on it, and the policy decides when
 it merges. The template an app was created from does not change afterwards; new features reach the app through the
 runtime. The skills in the harness change when they are copied again.

@@ -5,7 +5,8 @@ do not know the platform's rules, and the platform's one owner cannot read every
 
 The tooling closes this gap. With it, a creator without development skills and their assistant build an app that
 keeps the promises of lernapps.net: it runs in the browser, collects nothing and is accessible. The app is listed
-quickly, and the owner trusts it without reading the code. The tooling is the platform's
+quickly, and the owner trusts it without reading the code. The app stays the creator's: it lives at their own
+hosting, by default their own GitHub Pages, and lernapps.net only lists and links it. The tooling is the platform's
 [guidance for building apps](https://lernapps.net/docs/platform-design/#2-design/d6-learning-engine.pdt42.md:el-s-building-guidance).
 
 ## 1.1 Requirements Overview
@@ -21,6 +22,9 @@ The creator decides at a few points; the assistant does the rest.
 | UC-5 | List | The creator lists the app in minutes, with an entry that adults find |
 
 Showing an entry as a fact sheet and checking listed apps again belong to the app overview, not to the tooling.
+
+The same repo also keeps lernapps.net's own websites and repos in shape; that part, "Platform upkeep" in chapter 5,
+is not used by creators.
 
 ## 1.2 Quality Goals
 
