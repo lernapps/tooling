@@ -5,7 +5,7 @@
     "commit": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd"
   },
   "head": {
-    "label": "c2fc22fdbcc7df4fa347b6f9148f5a54c2293131"
+    "label": "93b4a523b367657739972129af3b242265ee17cd"
   },
   "acceptanceBase": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd",
   "untracked": [],
@@ -21,6 +21,14 @@
       "message": "Section prose changed without changing block 'bb-generator' — it names 'git', 'GitHub'."
     },
     {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 523,
+      "elementId": "bb-app-check-action",
+      "message": "Section prose changed without changing block 'bb-app-check-action' — it names 'App publish'."
+    },
+    {
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/06-runtime-view.arc42.md",
@@ -32,7 +40,7 @@
       "kind": "prose-without-block-change",
       "severity": "warning",
       "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 76,
+      "line": 79,
       "elementId": "dn-creator-machine",
       "message": "Section prose changed without changing block 'dn-creator-machine' — it names 'GitHub'."
     },
@@ -40,7 +48,7 @@
       "kind": "prose-without-block-change",
       "severity": "warning",
       "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 95,
+      "line": 98,
       "elementId": "dn-agent-harness",
       "message": "Section prose changed without changing block 'dn-agent-harness' — it names 'GitHub'."
     },
@@ -48,7 +56,7 @@
       "kind": "prose-without-block-change",
       "severity": "warning",
       "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 112,
+      "line": 115,
       "elementId": "dn-lernapps-agents",
       "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
     }
@@ -64,6 +72,14 @@
         "message": "Section prose changed without changing block 'bb-generator' — it names 'git', 'GitHub'."
       },
       {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 523,
+        "elementId": "bb-app-check-action",
+        "message": "Section prose changed without changing block 'bb-app-check-action' — it names 'App publish'."
+      },
+      {
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/06-runtime-view.arc42.md",
@@ -75,7 +91,7 @@
         "kind": "prose-without-block-change",
         "severity": "warning",
         "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 76,
+        "line": 79,
         "elementId": "dn-creator-machine",
         "message": "Section prose changed without changing block 'dn-creator-machine' — it names 'GitHub'."
       },
@@ -83,7 +99,7 @@
         "kind": "prose-without-block-change",
         "severity": "warning",
         "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 95,
+        "line": 98,
         "elementId": "dn-agent-harness",
         "message": "Section prose changed without changing block 'dn-agent-harness' — it names 'GitHub'."
       },
@@ -91,7 +107,7 @@
         "kind": "prose-without-block-change",
         "severity": "warning",
         "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 112,
+        "line": 115,
         "elementId": "dn-lernapps-agents",
         "message": "Section prose changed without changing block 'dn-lernapps-agents' — it names 'environment'."
       }
@@ -110,7 +126,7 @@
           {
             "name": "description",
             "before": "Runs CI and the listing validation; Renovate bumps the tooling package in every app",
-            "after": "Runs CI and the listing validation, serves the published apps and sites; Renovate bumps the tooling package in every app"
+            "after": "Runs CI and the listing validation, serves an app from its repo's Pages by default; Renovate bumps the tooling package in every app"
           },
           {
             "name": "requires",
@@ -120,8 +136,7 @@
             ],
             "after": [
               "if-app-check-action",
-              "if-site-deploy",
-              "if-site-check",
+              "if-app-publish",
               "if-archetype-preset"
             ]
           }
@@ -211,7 +226,13 @@
         "status": "unchanged",
         "attributes": [],
         "proseChanged": true,
-        "proseMentions": [],
+        "proseMentions": [
+          {
+            "term": "App publish",
+            "element": "if-app-publish",
+            "source": "element"
+          }
+        ],
         "base": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "line": 517
@@ -255,60 +276,40 @@
         }
       },
       {
-        "id": "bb-publishing-actions",
+        "id": "bb-app-publish",
         "kind": "building-block",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 564
+          "line": 562
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "headingPath": [
             "Building Blocks",
-            "Publishing actions"
+            "App publish"
           ],
           "occurrence": 1
         }
       },
       {
-        "id": "if-site-deploy",
+        "id": "if-app-publish",
         "kind": "interface",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 578
+          "line": 577
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
           "headingPath": [
             "Building Blocks",
-            "Publishing actions",
-            "Site deploy interface"
-          ],
-          "occurrence": 1
-        }
-      },
-      {
-        "id": "if-site-check",
-        "kind": "interface",
-        "status": "added",
-        "attributes": [],
-        "proseChanged": true,
-        "head": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 593
-        },
-        "section": {
-          "file": "docs/arc42/05-building-blocks.arc42.md",
-          "headingPath": [
-            "Building Blocks",
-            "Publishing actions",
-            "Site check and preview interface"
+            "App publish",
+            "App publish interface"
           ],
           "occurrence": 1
         }
@@ -342,7 +343,7 @@
               "bb-git-hooks",
               "bb-check-cli",
               "bb-app-check-action",
-              "bb-publishing-actions",
+              "bb-app-publish",
               "bb-listing-validation"
             ]
           }
@@ -384,7 +385,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 76
+          "line": 79
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -414,7 +415,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 95
+          "line": 98
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -445,7 +446,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 112
+          "line": 115
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -469,7 +470,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 126
+          "line": 129
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -494,7 +495,7 @@
             "after": [
               "bb-tooling-package",
               "bb-app-check-action",
-              "bb-publishing-actions"
+              "bb-app-publish"
             ]
           }
         ],
@@ -505,7 +506,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 143
+          "line": 148
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -530,7 +531,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 158
+          "line": 163
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -555,9 +556,14 @@
             ],
             "after": [
               "bb-app-check-action",
-              "bb-publishing-actions",
+              "bb-app-publish",
               "bb-check-cli"
             ]
+          },
+          {
+            "name": "title",
+            "before": "App repo CI (GitHub Actions)",
+            "after": "Developer's GitHub Actions (app repo CI)"
           }
         ],
         "proseChanged": true,
@@ -567,14 +573,14 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 175
+          "line": 185
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "headingPath": [
             "Deployment View",
             "GitHub",
-            "App repo CI"
+            "Developer's GitHub Actions"
           ],
           "occurrence": 1
         }
@@ -592,7 +598,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 191
+          "line": 201
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
@@ -605,21 +611,21 @@
         }
       },
       {
-        "id": "dn-lernapps-net",
+        "id": "dn-app-hosting",
         "kind": "deployment-node",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 208
+          "line": 218
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "headingPath": [
             "Deployment View",
             "GitHub",
-            "lernapps.net"
+            "The app's hosting"
           ],
           "occurrence": 1
         }
@@ -656,20 +662,10 @@
       {
         "id": "dec-app-check-action",
         "kind": "decision",
-        "status": "modified",
-        "attributes": [
-          {
-            "name": "title",
-            "before": "Apps check with the app check action, sites with the site check action",
-            "after": "An app publishes the bundle it checked"
-          }
-        ],
+        "status": "removed",
+        "attributes": [],
         "proseChanged": true,
         "base": {
-          "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 206
-        },
-        "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "line": 206
         },
@@ -677,7 +673,26 @@
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "An app publishes the bundle it checked"
+            "Apps check with the app check action, sites with the site check action"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-app-own-hosting",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 212
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Each app lives at its developer's hosting"
           ],
           "occurrence": 1
         }
@@ -691,7 +706,7 @@
           {
             "name": "source",
             "before": "flowchart LR\n    actor-creator[\"Creator\"]\n    actor-assistant[\"Creator's AI assistant\"]\n    actor-owner[\"Platform owner\"]\n    actor-review-agent[\"Review agent\"]\n    actor-github[\"GitHub (Actions, Renovate)\"]\n    subgraph tooling[\"Tooling for agentic app creation\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-generator[\"Generator\"]\n        bb-skills[\"Skills\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-app-check-action[\"App check action\"]\n        bb-listing-validation[\"Listing validation\"]\n    end\n    actor-creator -->|\"plan file, checkpoints\"| tooling\n    actor-assistant -->|\"AGENTS.md, skills, generator, check CLI, listing comment\"| tooling\n    actor-review-agent -->|\"review procedure, check CLI\"| tooling\n    actor-owner -->|\"validation report, review procedure\"| tooling\n    actor-github -->|\"app check action, package updates\"| tooling",
-            "after": "flowchart LR\n    actor-creator[\"Creator\"]\n    actor-assistant[\"Creator's AI assistant\"]\n    actor-owner[\"Platform owner\"]\n    actor-review-agent[\"Review agent\"]\n    actor-github[\"GitHub (Actions, Renovate)\"]\n    subgraph tooling[\"Tooling for agentic app creation\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-generator[\"Generator\"]\n        bb-skills[\"Skills\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-app-check-action[\"App check action\"]\n        bb-publishing-actions[\"Publishing actions\"]\n        bb-listing-validation[\"Listing validation\"]\n    end\n    actor-creator -->|\"plan file, checkpoints\"| tooling\n    actor-assistant -->|\"AGENTS.md, skills, generator, check CLI, listing comment\"| tooling\n    actor-review-agent -->|\"review procedure, check CLI\"| tooling\n    actor-owner -->|\"validation report, review procedure\"| tooling\n    actor-github -->|\"app check action, publishing actions, package updates\"| tooling"
+            "after": "flowchart LR\n    actor-creator[\"Creator\"]\n    actor-assistant[\"Creator's AI assistant\"]\n    actor-owner[\"Platform owner\"]\n    actor-review-agent[\"Review agent\"]\n    actor-github[\"GitHub (Actions, Renovate)\"]\n    subgraph tooling[\"Tooling for agentic app creation\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-generator[\"Generator\"]\n        bb-skills[\"Skills\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-app-check-action[\"App check action\"]\n        bb-app-publish[\"App publish\"]\n        bb-listing-validation[\"Listing validation\"]\n    end\n    actor-creator -->|\"plan file, checkpoints\"| tooling\n    actor-assistant -->|\"AGENTS.md, skills, generator, check CLI, listing comment\"| tooling\n    actor-review-agent -->|\"review procedure, check CLI\"| tooling\n    actor-owner -->|\"validation report, review procedure\"| tooling\n    actor-github -->|\"app check action, app publish, package updates\"| tooling"
           }
         ],
         "base": {
@@ -710,7 +725,7 @@
           {
             "name": "source",
             "before": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli",
-            "after": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-publishing-actions[\"Publishing actions\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli"
+            "after": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-app-publish[\"App publish\"]\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli"
           }
         ],
         "base": {
@@ -729,12 +744,12 @@
           {
             "name": "aliases",
             "before": "creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, listing=bb-listing-validation",
-            "after": "creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, publish=bb-publishing-actions, listing=bb-listing-validation"
+            "after": "creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, publish=bb-app-publish, listing=bb-listing-validation"
           },
           {
             "name": "source",
             "before": "sequenceDiagram\n    participant creator as Creator\n    participant assistant as Assistant\n    participant guidance as AGENTS.md and plan\n    participant generator as Generator\n    participant templates as Templates\n    participant skills as Skills\n    participant hooks as Git hooks\n    participant check as Check CLI\n    participant ci as App check action\n    participant listing as Listing validation\n    assistant->>guidance: read AGENTS.md, start the plan file\n    assistant->>creator: Explore: purpose, learners, what the entry needs\n    creator->>assistant: answers, confirms the plan\n    assistant->>generator: lernapps create --archetype <name>\n    generator->>templates: copy the archetype folder\n    assistant->>skills: load the skills of the archetype and topic\n    assistant->>hooks: commit\n    hooks->>check: lernapps check --pre-commit\n    assistant->>hooks: push\n    hooks->>check: lernapps check --pre-push (incl. end-to-end tests)\n    check-->>assistant: messages, or ok\n    assistant->>ci: pull request in the app repo\n    ci->>check: lernapps check (the same checks)\n    assistant->>creator: checkpoint: publish\n    assistant->>listing: entry from plan and report, pull request to lernapps/apps",
-            "after": "sequenceDiagram\n    participant creator as Creator\n    participant assistant as Assistant\n    participant guidance as AGENTS.md and plan\n    participant generator as Generator\n    participant templates as Templates\n    participant skills as Skills\n    participant hooks as Git hooks\n    participant check as Check CLI\n    participant ci as App check action\n    participant publish as Site deploy action\n    participant listing as Listing validation\n    assistant->>guidance: read AGENTS.md, start the plan file\n    assistant->>creator: Explore: purpose, learners, what the entry needs\n    creator->>assistant: answers, confirms the plan\n    assistant->>generator: npx --yes github:lernapps/tooling#main create --archetype <name>\n    generator->>templates: copy the archetype folder\n    assistant->>skills: load the skills of the archetype and topic\n    assistant->>hooks: commit\n    hooks->>check: lernapps check --pre-commit\n    assistant->>hooks: push\n    hooks->>check: lernapps check --pre-push (incl. end-to-end tests)\n    check-->>assistant: messages, or ok\n    assistant->>ci: pull request in the app repo\n    ci->>check: lernapps check (the same checks)\n    assistant->>creator: checkpoint: publish\n    assistant->>ci: merge to main\n    ci->>publish: the checked bundle (artifact site)\n    publish-->>creator: the app at lernapps.net/<repo>/\n    assistant->>listing: entry from plan and report, pull request to lernapps/apps"
+            "after": "sequenceDiagram\n    participant creator as Creator\n    participant assistant as Assistant\n    participant guidance as AGENTS.md and plan\n    participant generator as Generator\n    participant templates as Templates\n    participant skills as Skills\n    participant hooks as Git hooks\n    participant check as Check CLI\n    participant ci as App check action\n    participant publish as App publish\n    participant listing as Listing validation\n    assistant->>guidance: read AGENTS.md, start the plan file\n    assistant->>creator: Explore: purpose, learners, what the entry needs\n    creator->>assistant: answers, confirms the plan\n    assistant->>generator: npx --yes github:lernapps/tooling#main create --archetype <name>\n    generator->>templates: copy the archetype folder\n    assistant->>skills: load the skills of the archetype and topic\n    assistant->>hooks: commit\n    hooks->>check: lernapps check --pre-commit\n    assistant->>hooks: push\n    hooks->>check: lernapps check --pre-push (incl. end-to-end tests)\n    check-->>assistant: messages, or ok\n    assistant->>ci: pull request in the app repo\n    ci->>check: lernapps check (the same checks)\n    assistant->>creator: checkpoint: publish\n    assistant->>ci: merge to main\n    ci->>publish: the checked bundle (artifact site)\n    publish->>publish: check the Pages setup, deploy to gh-pages, wait for the address\n    publish-->>assistant: published at <address>, or what to fix\n    assistant->>creator: the address, then checkpoint: list\n    assistant->>listing: entry from plan and report, pull request to lernapps/apps"
           }
         ],
         "base": {
@@ -753,12 +768,12 @@
           {
             "name": "aliases",
             "before": "creator=dn-creator-machine, harness=dn-agent-harness, agents=dn-lernapps-agents, github=dn-github, toolingrepo=dn-tooling-repo, templaterepo=dn-templates-repo, appci=dn-app-ci, appsci=dn-apps-ci, generator=bb-generator, hooks=bb-git-hooks, checklocal=bb-check-cli, skills=bb-skills, guidance=bb-process-guidance, package=bb-tooling-package, templates=bb-app-templates, appcheck=bb-app-check-action, listing=bb-listing-validation, review=bb-review-procedure, evals=bb-evals",
-            "after": "creator=dn-creator-machine, agents=dn-lernapps-agents, toolingrepo=dn-tooling-repo, templaterepo=dn-templates-repo, appci=dn-app-ci, appsci=dn-apps-ci, generator=bb-generator, hooks=bb-git-hooks, checklocal=bb-check-cli, skills=bb-skills, guidance=bb-process-guidance, package=bb-tooling-package, templates=bb-app-templates, appcheck=bb-app-check-action, publish=bb-publishing-actions, listing=bb-listing-validation, review=bb-review-procedure, evals=bb-evals"
+            "after": "creator=dn-creator-machine, agents=dn-lernapps-agents, toolingrepo=dn-tooling-repo, templaterepo=dn-templates-repo, appci=dn-app-ci, appsci=dn-apps-ci, generator=bb-generator, hooks=bb-git-hooks, checklocal=bb-check-cli, skills=bb-skills, guidance=bb-process-guidance, package=bb-tooling-package, templates=bb-app-templates, appcheck=bb-app-check-action, publish=bb-app-publish, listing=bb-listing-validation, review=bb-review-procedure, evals=bb-evals"
           },
           {
             "name": "source",
             "before": "architecture-beta\n    group creator(server)[Creator]\n    group harness(server)[Harness] in creator\n    group agents(server)[Agents]\n    group github(cloud)[GitHub]\n    group toolingrepo(disk)[tooling] in github\n    group templaterepo(disk)[templates] in github\n    group appci(server)[AppCI] in github\n    group appsci(server)[AppsCI] in github\n    service guidance(server)[Guidance] in harness\n    service skills(server)[Skills] in harness\n    service generator(server)[Generator] in creator\n    service hooks(server)[Hooks] in creator\n    service checklocal(server)[Check] in creator\n    service review(server)[Review] in agents\n    service evals(server)[Evals] in agents\n    service package(disk)[Package] in toolingrepo\n    service templates(disk)[Templates] in templaterepo\n    service appcheck(server)[AppCheck] in appci\n    service listing(server)[Listing] in appsci\n    generator:R --> L:package\n    generator:B --> T:templates\n    hooks:R --> L:checklocal\n    appcheck:L --> R:package\n    listing:T --> B:package\n    review:R --> L:listing",
-            "after": "architecture-beta\n    group creator(server)[Creator machine]\n    group toolingrepo(disk)[GitHub lernapps tooling]\n    group templaterepo(disk)[GitHub lernapps app templates]\n    group appci(server)[GitHub app repo CI]\n    group appsci(server)[GitHub lernapps apps CI]\n    group agents(server)[lernapps agents]\n    service guidance(server)[AGENTS md in the harness] in creator\n    service skills(server)[Skills in the harness] in creator\n    service generator(server)[Generator] in creator\n    service checklocal(server)[Check] in creator\n    service hooks(server)[Hooks] in creator\n    service package(disk)[Package actions skills] in toolingrepo\n    service templates(disk)[Templates and runtime] in templaterepo\n    service appcheck(server)[App check] in appci\n    service publish(internet)[Site deploy to gh pages and lernapps net] in appci\n    service listing(server)[Listing] in appsci\n    service review(server)[Review] in agents\n    service evals(server)[Evals] in agents\n    package:L --> R:generator\n    templates:T --> B:generator\n    generator:L --> R:guidance\n    generator:B --> T:checklocal\n    checklocal:L --> R:hooks\n    package:T --> B:skills\n    package:B --> T:appcheck\n    appcheck:R --> L:publish\n    package:R --> L:listing\n    listing:T --> B:review\n    review:R --> L:evals"
+            "after": "architecture-beta\n    group creator(server)[Creator machine]\n    group toolingrepo(disk)[GitHub lernapps tooling]\n    group templaterepo(disk)[GitHub lernapps app templates]\n    group appci(server)[Developer GitHub Actions]\n    group appsci(server)[GitHub lernapps apps CI]\n    group agents(server)[lernapps agents]\n    service guidance(server)[AGENTS md in the harness] in creator\n    service skills(server)[Skills in the harness] in creator\n    service generator(server)[Generator] in creator\n    service checklocal(server)[Check] in creator\n    service hooks(server)[Hooks] in creator\n    service package(disk)[Package actions skills] in toolingrepo\n    service templates(disk)[Templates and runtime] in templaterepo\n    service appcheck(server)[App check] in appci\n    service publish(internet)[App publish to the app repo gh pages] in appci\n    service listing(server)[Listing] in appsci\n    service review(server)[Review] in agents\n    service evals(server)[Evals] in agents\n    package:L --> R:generator\n    templates:T --> B:generator\n    generator:L --> R:guidance\n    generator:B --> T:checklocal\n    checklocal:L --> R:hooks\n    package:T --> B:skills\n    package:B --> T:appcheck\n    appcheck:R --> L:publish\n    package:R --> L:listing\n    listing:T --> B:review\n    review:R --> L:evals"
           }
         ],
         "base": {
@@ -767,7 +782,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 15
+          "line": 18
         }
       }
     ],
@@ -776,55 +791,71 @@
         "status": "added",
         "edge": {
           "from": "actor-github",
-          "to": "if-site-check",
+          "to": "if-app-publish",
           "relation": "requires"
         }
       },
       {
         "status": "added",
         "edge": {
-          "from": "actor-github",
-          "to": "if-site-deploy",
-          "relation": "requires"
+          "from": "bb-app-publish",
+          "to": "if-app-publish",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "removed",
+        "edge": {
+          "from": "dec-app-check-action",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "removed",
+        "edge": {
+          "from": "dec-app-check-action",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
         }
       },
       {
         "status": "added",
         "edge": {
-          "from": "bb-publishing-actions",
-          "to": "if-site-check",
-          "relation": "provides"
+          "from": "dec-app-own-hosting",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
         }
       },
       {
         "status": "added",
         "edge": {
-          "from": "bb-publishing-actions",
-          "to": "if-site-deploy",
-          "relation": "provides"
+          "from": "dec-app-own-hosting",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-app-own-hosting",
+          "to": "qg-simple-to-build",
+          "relation": "addresses"
         }
       },
       {
         "status": "added",
         "edge": {
           "from": "dn-app-ci",
-          "to": "bb-publishing-actions",
+          "to": "bb-app-publish",
           "relation": "hosts"
         }
       },
       {
         "status": "added",
         "edge": {
-          "from": "dn-lernapps-net",
-          "to": "dn-github",
-          "relation": "parent"
-        }
-      },
-      {
-        "status": "added",
-        "edge": {
           "from": "dn-tooling-repo",
-          "to": "bb-publishing-actions",
+          "to": "bb-app-publish",
           "relation": "hosts"
         }
       },
@@ -832,7 +863,7 @@
         "status": "added",
         "edge": {
           "from": "rs-new-app",
-          "to": "bb-publishing-actions",
+          "to": "bb-app-publish",
           "relation": "involves"
         }
       }
@@ -908,7 +939,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 8
+          "line": 10
         }
       },
       {
@@ -923,7 +954,7 @@
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 216
+          "line": 225
         }
       }
     ],
@@ -942,7 +973,7 @@
       },
       {
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "added": 3,
+        "added": 2,
         "modified": 6,
         "removed": 0
       },
@@ -960,9 +991,9 @@
       },
       {
         "file": "docs/arc42/09-decisions.arc42.md",
-        "added": 0,
-        "modified": 2,
-        "removed": 0
+        "added": 1,
+        "modified": 1,
+        "removed": 1
       }
     ]
   }
