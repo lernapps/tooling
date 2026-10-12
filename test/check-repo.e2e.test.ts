@@ -1,7 +1,8 @@
 // The contract of `lernapps check` in an app's repo, end to end: `--pre-push` builds, checks the built app, runs the
 // Playwright tests and the dependency licences, and counts a failed run in the plan's front matter; the fast part
-// does not build and does not count.
-import { cpSync, mkdirSync, readFileSync, readdirSync, symlinkSync, writeFileSync } from "node:fs";
+// does not build and does not count. A failing test of the archetype's runtime (@lernapps/app-templates, its generic
+// tests) is named as a test of the template, with where to report it; a failing test of the app's own is not.
+import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
 import { app, findingsOf, lernapps, output, report } from "./check-report.ts";
@@ -45,6 +46,14 @@ function project(files: Record<string, string>, source = app("passing")): string
   ok("git", ["commit", "--quiet", "--no-verify", "--message", "app"], dir);
   return dir;
 }
+
+/** A Playwright configuration for the planted tests, which open no page: no server needed. */
+const PLAYWRIGHT_CONFIG = [
+  'import { defineConfig } from "playwright/test";',
+  "",
+  'export default defineConfig({ testDir: "e2e", testMatch: "*.e2e.ts" });',
+  "",
+].join("\n");
 
 const failures = (dir: string) => /prePushFailures: (\d+)/.exec(readFileSync(join(dir, ".vibe/plan.md"), "utf8"))?.[1];
 
@@ -106,7 +115,10 @@ describe.skipIf(inner)("lernapps check in an app's repo", () => {
       const first = lernapps(["check", "--pre-push"], dir);
       expect(first.code, output(first)).toBe(1);
       expect(findingsOf(first, "no-request-before-click").length).toBeGreaterThan(0);
-      expect(findingsOf(first, "checks-pass").map((finding) => finding.where)).toContain("playwright test");
+      const e2e = findingsOf(first, "checks-pass").filter((finding) => finding.where === "playwright test");
+      expect(e2e, output(first)).toHaveLength(1);
+      // the app's own test: not a test of the template
+      expect(e2e[0]?.found).not.toContain("@lernapps/app-templates");
       expect(first.stderr).toContain("Brüche erweitern");
       expect(report(first).checked["commit"]).toMatch(/^[0-9a-f]{40}$/);
       expect(failures(dir)).toBe("1");
@@ -127,6 +139,49 @@ describe.skipIf(inner)("lernapps check in an app's repo", () => {
       expect(`${found[0]?.where} ${found[0]?.found}`).toContain("copyleft-lib");
       expect(found[0]?.found).toContain("GPL-3.0-only");
       expect(failures(dir)).toBe("2");
+    },
+  );
+
+  test(
+    "a failing generic test of the runtime @lernapps/app-templates is named as a test of the template, with where to report it",
+    { timeout: SLOW },
+    () => {
+      const dir = project({
+        "playwright.config.ts": PLAYWRIGHT_CONFIG,
+        "e2e/quiz.e2e.ts": 'import { quizTests } from "@lernapps/app-templates/quiz/e2e";\n\nquizTests();\n',
+      });
+      // the runtime, with a bug in one of its generic tests, as an app installs it: in node_modules/@lernapps/
+      rmSync(join(dir, "node_modules/@lernapps"));
+      const runtime = join(dir, "node_modules/@lernapps/app-templates");
+      mkdirSync(join(runtime, "dist"), { recursive: true });
+      writeFileSync(
+        join(runtime, "package.json"),
+        `${JSON.stringify({ name: "@lernapps/app-templates", type: "module", exports: { "./quiz/e2e": "./dist/quiz-e2e.mjs" } })}\n`,
+      );
+      writeFileSync(
+        join(runtime, "dist/quiz-e2e.mjs"),
+        [
+          'import { expect, test } from "playwright/test";',
+          "export function quizTests() {",
+          '  test.describe("quiz", () => {',
+          '    test("every question opens by its link", () => expect(true).toBe(true));',
+          '    test("all right answers give the full score", () => expect("a bug").toBe("fixed"));',
+          "  });",
+          "}",
+          "",
+        ].join("\n"),
+      );
+      const result = lernapps(["check", "--pre-push"], dir);
+      expect(result.code, output(result)).toBe(1);
+      const e2e = findingsOf(result, "checks-pass").filter((finding) => finding.where === "playwright test");
+      expect(e2e, output(result)).toHaveLength(1);
+      expect(e2e[0]?.found).toContain("generic test of the template's runtime @lernapps/app-templates");
+      expect(e2e[0]?.found).toContain("quiz › all right answers give the full score");
+      expect(e2e[0]?.found).not.toContain("every question opens by its link");
+      expect(e2e[0]?.fix).toContain("bug in the template");
+      expect(e2e[0]?.fix).toContain("https://github.com/lernapps/app-templates/issues");
+      expect(e2e[0]?.fix).toContain("Never change the tests or the configuration");
+      expect(e2e[0]?.fix).toContain("lernapps update");
     },
   );
 });

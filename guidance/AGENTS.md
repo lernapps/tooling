@@ -13,6 +13,11 @@ checkpoints.
 2. Load the skill `lernapps-app` before you start: it holds the rules every app follows. Load the skills it names
    when a task needs them. Not installed: `npx skills add lernapps/tooling`.
 3. Never bypass a git hook (`--no-verify`). Never edit `prePushFailures`.
+4. Work on the branch `work`. `main` is created by the first publish, in the plan's Commit phase: a push to `main`
+   publishes the app. If your environment asks you to push, push `work` only; while a check fails, tell the creator
+   instead of pushing.
+5. The repo's default branch must be `main`, or update pull requests miss what is published. Once `main` is pushed,
+   set it: `gh repo edit --default-branch main`, or a repository admin clicks Settings → General → Default branch.
 
 ## Language
 

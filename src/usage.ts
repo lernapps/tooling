@@ -12,6 +12,7 @@ Commands:
   check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
   create --archetype <name> [<dir>]               write a new app from the archetype's template
   hooks                                           install the app's git hooks (the app's prepare script)
+  update                                          move the app to the runtime and tooling this tooling pins
 
 Options:
   -h, --help      print this help
@@ -47,7 +48,8 @@ In a repo (no <dir|url>):
   --pre-push       the heavy part: unit tests, build (vp build for an app with index.html, else vp pack),
                    checks of the built app in dist/, the Playwright tests when playwright.config.* exists,
                    dependency licences (the pre-push hook); a failure increments prePushFailures in the front
-                   matter of .vibe/plan.md
+                   matter of .vibe/plan.md. A failing generic test of the archetype's runtime
+                   (@lernapps/app-templates) is named as a test of the template, with where to report it
   Without a flag, or with both, it runs both parts (CI): the hooks together run exactly what CI runs.
   Every run in a repo also writes the full report to node_modules/.cache/lernapps/validation-report.yaml,
   passing or not; the app check action keeps it.
@@ -59,6 +61,8 @@ On a built app, without its repo:
 The checks of a built app open every page reachable from the start page in Chromium, as a learner would, without
 a click; a link that only changes the query string is the same page. Requests to other hosts are blocked and
 recorded. Chromium is downloaded on the first run and cached; where no browser can run, the report says so.
+A link whose server answers 429 (rate limited) is asked again after a short wait, at most a few seconds; still
+limited, it is a finding of severity hint that names the link: not checked, nothing failed.
 
 Options:
   --entry <file>   check a catalog entry (YAML) against the app: its URL and topic links resolve, the fitness

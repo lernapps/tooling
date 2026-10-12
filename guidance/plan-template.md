@@ -17,6 +17,9 @@ This file guides you, the assistant, and shows the creator where you are.
 - Work through one phase at a time: Explore, Plan, Code, Commit. Do the tasks of the current phase in order.
 - Tick a task when it is done and move it to "Completed" of its phase. Add tasks as you find them.
 - A task marked as a checkpoint means: stop, show the creator what they need to decide, and wait for their answer.
+- Work on the branch `work`, from the first commit on. `main` is created by the first publish, in Commit: a push to
+  `main` publishes the app. If your environment asks you to push, push `work` only; while a check fails, tell the
+  creator instead of pushing.
 - Write the plan in the language you talk to the creator in. Keep the headings and the front matter keys as they
   are: the review reads them.
 - Delete these comments only where you have filled the part they explain.
@@ -111,8 +114,8 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 
 - [ ] Generate the app in the folder that holds this plan: `npx --yes github:lernapps/tooling#main create --archetype
       <archetype>`. Nothing needs to be installed first. The generator keeps this plan at `.vibe/plan.md`.
-- [ ] Run `git init` if the folder is not a git repository yet. Then run `npm install`: it installs the dependencies
-      and the git hooks. From now on, everything runs from the app's own `node_modules`: `npx lernapps check`, the
+- [ ] Run `git init --initial-branch=work` if the folder is not a git repository yet; in one, `git switch -c work` if
+      you are not on `work` yet. Then run `npm install`: it installs the dependencies and the git hooks. From now on, everything runs from the app's own `node_modules`: `npx lernapps check`, the
       hooks.
 - [ ] Commit what the generator wrote, with this plan: the first commit.
 - [ ] Load the skill `lernapps-app` and the skill of the archetype.
@@ -128,23 +131,43 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 Publish the app and list it, each only after the creator says yes. Then fill the retrospective.
 A push to `main` publishes the app: the workflow `Pages` checks it and, in its job `deploy`, publishes the checked
 bundle to the repo's GitHub Pages, at the repo's own address (usually https://<owner>.github.io/<repo>/). So work on
-another branch until the creator says yes.
+the branch `work` until the creator says yes; the first publish creates `main`.
+The repo's default branch must be `main`: only `main` publishes, and update pull requests (Renovate) and new pull
+requests target the default branch. A repo whose first push was `work` has `work` as its default branch until it is
+changed.
 -->
 
 ### Tasks
 
-- [ ] Push your branch (not `main`). The pre-push hook runs the heavy checks; fix what fails.
-- [ ] **Checkpoint:** publish. Ask the creator before the app goes online, and wait for their yes.
-- [ ] Merge your branch into `main` and push `main`. Watch the run of the workflow `Pages` on `main` until it ends
-      (for example `gh run watch`, or the Actions tab of the repo). If it fails, read the message of the failed step:
-      fix what you can and push again; for a setting only a repository admin may change, tell the creator the exact
-      clicks the message names, and run the workflow again when they are done.
+- [ ] Push the branch `work` (not `main`): `git push -u origin work`. The pre-push hook runs the heavy checks; fix
+      what fails.
+- [ ] Check the repo's settings on GitHub: the default branch (`gh repo view --json defaultBranchRef`) and GitHub
+      Pages (`gh api repos/<owner>/<repo>/pages`; "Not Found" means it is off). For each one that is not right and
+      that you may not change, note the clicks of a repository admin:
+      - Pages, once the first run has created the branch `gh-pages`: Settings → Pages → Build and deployment →
+        Source: Deploy from a branch → Branch: gh-pages, folder: / (root) → Save.
+      - The default branch, once `main` is pushed: Settings → General → Default branch → ⇄ (Switch to another
+        branch) → main → Update.
+- [ ] **Checkpoint:** publish. Ask the creator before the app goes online, and wait for their yes. Put the clicks you
+      noted into the same question, to make after the first run, so that they cost no extra turn.
+- [ ] Create `main` from `work` and push it: `git switch -c main`, `git push -u origin main`. Watch the run of the
+      workflow `Pages` on `main` until it ends (for example `gh run watch`, or the Actions tab of the repo). If it
+      fails, read the message of the failed step: fix what you can and push again. For a setting only a repository
+      admin may change: if the creator agreed to the clicks at the checkpoint, wait until the setting is made (for
+      example `gh api repos/<owner>/<repo>/pages` names `gh-pages`) and run the failed jobs again (`gh run rerun
+      <id> --failed`); otherwise tell the creator the exact clicks the message names, and run them again when they
+      are done.
+- [ ] Set the default branch to `main`: `gh repo edit --default-branch main`, or the creator's clicks from the
+      checkpoint. The run of `Pages` warns while it is another branch.
 - [ ] Open the address the job `deploy` printed ("published at ...") and confirm that it shows the app.
 - [ ] Load the skill `lernapps-listing`.
 - [ ] Complete the entry draft with what is known now, such as the app's address.
 - [ ] **Checkpoint:** list. Ask the creator before you open the listing pull request, and wait for their yes.
 - [ ] Fill the retrospective.
-- [ ] Open the listing pull request as the skill says, and see it through to "bestanden".
+- [ ] Open the listing pull request as the skill says, and see it through to "bestanden": when the check passes, the
+      results comment on the pull request says "bestanden" (not "nicht bestanden").
+- [ ] Commit the changes of this plan since publishing on `main`, and push them once, at the end. A push that changes
+      only `.vibe/` publishes nothing again.
 
 ### Completed
 

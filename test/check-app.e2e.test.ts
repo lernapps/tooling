@@ -4,6 +4,8 @@
 //   - a passing check prints one line; otherwise the validation report in YAML, valid against its JSON Schema;
 //   - every finding: rule id, severity, where, what was found, how to fix it, the link to the rule;
 //   - `--entry <file>`: the app's URL and every topic link resolve, the fitness values match;
+//   - a link whose server answers 429 (rate limited) fails nothing: after a short, bounded backoff it is a finding of
+//     severity hint that names the link and why it could not be checked;
 //   - no site rules: an app's pages need not be readable without JavaScript.
 // In an app's repo: check-repo.e2e.test.ts.
 import { readFileSync, writeFileSync } from "node:fs";
@@ -20,10 +22,22 @@ const SLOW = 5 * 60 * 1000;
 
 const TYPES: Record<string, string> = { ".html": "text/html; charset=utf-8", ".svg": "image/svg+xml" };
 
-/** Serves a fixture app at http://127.0.0.1:<port>/, as a host would. */
-async function serve(dir: string): Promise<{ server: Server; url: string }> {
+/**
+ * Serves a fixture app at http://127.0.0.1:<port>/, as a host would. The paths in `limited` answer 429 Too Many
+ * Requests with a Retry-After of an hour, as a rate-limited host does; each request for them is counted in `asked`.
+ */
+async function serve(
+  dir: string,
+  limited: readonly string[] = [],
+  asked: string[] = [],
+): Promise<{ server: Server; url: string }> {
   const server = createServer((request, response) => {
     const path = decodeURIComponent(new URL(request.url ?? "/", "http://localhost").pathname);
+    if (limited.includes(path)) {
+      asked.push(path);
+      response.writeHead(429, { "retry-after": "3600", "content-type": "text/plain" }).end("too many requests");
+      return;
+    }
     const file = join(dir, path.endsWith("/") ? `${path}index.html` : path);
     try {
       const body = readFileSync(file);
@@ -161,14 +175,19 @@ describe.skipIf(inner)("lernapps check on a URL, with --entry", () => {
   let url = "";
   let storing: Server | undefined;
   let storingUrl = "";
+  let limited: Server | undefined;
+  let limitedUrl = "";
+  const limitedAsked: string[] = [];
 
   beforeAll(async () => {
     ({ server, url } = await serve(app("passing")));
     ({ server: storing, url: storingUrl } = await serve(app("local-storage")));
+    ({ server: limited, url: limitedUrl } = await serve(app("passing"), ["/kuerzen/"], limitedAsked));
   });
   afterAll(() => {
     server?.close();
     storing?.close();
+    limited?.close();
   });
 
   const entry = (fields: { url: string; topics: string[]; storage: string }) => {
@@ -221,6 +240,30 @@ describe.skipIf(inner)("lernapps check on a URL, with --entry", () => {
       expect(result.code, output(result)).toBe(1);
       const found = findingsOf(result, "entry-fitness-matches");
       expect(found[0]?.found).toContain("storage");
+    },
+  );
+
+  test(
+    "a link whose server answers 429 is not checked, says so as a hint, and fails nothing, without waiting long",
+    { timeout: SLOW, concurrent: true },
+    async () => {
+      const start = Date.now();
+      const result = await checkAsync("--entry", entry({ url: limitedUrl, topics: ["kuerzen/"], storage: "none" }));
+      // the server asks to come back in an hour; the check backs off briefly, a bounded number of times
+      expect(Date.now() - start).toBeLessThan(60_000);
+      expect(limitedAsked.length).toBeGreaterThanOrEqual(4);
+      expect(limitedAsked.length).toBeLessThanOrEqual(8);
+      expect(result.code, output(result)).toBe(0);
+      for (const rule of ["links-resolve", "entry-links-resolve"]) {
+        const found = findingsOf(result, rule);
+        expect(found, `${rule}\n${output(result)}`).toHaveLength(1);
+        expect(found[0]?.severity).toBe("hint");
+        expect(found[0]?.found).toContain("kuerzen/");
+        expect(found[0]?.found).toContain("could not be checked");
+        expect(found[0]?.found).toContain("429");
+        expect(found[0]?.fix).toContain("again later");
+      }
+      expect(report(result).findings.every((finding) => finding.severity === "hint")).toBe(true);
     },
   );
 });
