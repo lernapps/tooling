@@ -28,9 +28,10 @@ const base: PlaywrightTestConfig = {
   testMatch: "*.e2e.ts",
   forbidOnly: true,
   // Every test opens its own page and depends on no other: they run in parallel, not one file after another, on
-  // three quarters of the machine's cores; the rest serves the app (vp preview).
+  // three quarters of the machine's cores; the rest serves the app (vp preview). LERNAPPS_PLAYWRIGHT_WORKERS sets
+  // another number of workers: the tooling's own tests set 1, because they run many apps' checks at the same time.
   fullyParallel: true,
-  workers: "75%",
+  workers: Number(process.env["LERNAPPS_PLAYWRIGHT_WORKERS"]) || "75%",
   reporter: [["line"]],
   use: { baseURL: URL },
   projects: [
