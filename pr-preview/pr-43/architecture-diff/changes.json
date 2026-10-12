@@ -1,13 +1,13 @@
 {
   "version": 1,
   "base": {
-    "label": "ce3edae9c505d390c52efab6dd5985081f8ac405",
-    "commit": "ce3edae9c505d390c52efab6dd5985081f8ac405"
+    "label": "6c8760b7cb7efbc871c3e58c29366ccd5b7c9766",
+    "commit": "6c8760b7cb7efbc871c3e58c29366ccd5b7c9766"
   },
   "head": {
-    "label": "635dd8f54cd3643cf201e23144e90ce3d74f188c"
+    "label": "974a31e34581858435876fa5afdd4899fe8c5ca8"
   },
-  "acceptanceBase": "ce3edae9c505d390c52efab6dd5985081f8ac405",
+  "acceptanceBase": "6c8760b7cb7efbc871c3e58c29366ccd5b7c9766",
   "untracked": [],
   "accepted": false,
   "hasBlockingFindings": false,
