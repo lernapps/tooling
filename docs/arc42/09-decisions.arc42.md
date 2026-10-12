@@ -170,26 +170,46 @@ addresses: qg-few-iterations, con-language-licence, con-strict-typescript
 :::
 ```
 
-## One check command; hooks and CI run the same
+## One check command for apps; hooks and CI run the same
 
 **Context:** checks that only CI runs reach the assistant late and cost the owner's attention; checks that differ
-between hook and CI surprise. **Decision:** one check command runs every deterministic check, in two parts: a fast
-part (format, lint, types) before a commit and a heavy part (unit tests, build, checks of the built app, end-to-end
-tests in a browser) before a push. CI runs both. A failed push is counted in the plan. CI runs exactly the command
-of the hooks, with no steps or switches of its own; only the environment and keeping the report differ. This holds
-in every repo, the tooling's own included: tests that need another repo fetch it at a pinned commit instead of being
-skipped. Every run in a repo keeps its report in a fixed place, so CI keeps it without a switch.
-**Consequences:** failures reach the assistant on the creator's machine, before any CI run; CI is a safety net for
-skipped hooks and adds no checks of its own; what passes locally passes in CI; the creator's machine needs a
-browser for the end-to-end tests, and the tooling's tests need the network once.
+between hook and CI surprise. **Decision:** for every app, one check command runs every deterministic check, in two
+parts: a fast part (format, lint, types) before a commit and a heavy part (unit tests, build, checks of the built
+app, end-to-end tests in a browser) before a push. CI runs both. A failed push is counted in the plan. CI runs
+exactly the command of the hooks, with no steps or switches of its own; only the environment and keeping the report
+differ. Every run keeps its report in a fixed place, so CI keeps it without a switch. The tooling's own repo is the
+one exception (decision `dec-tooling-pre-push`). **Consequences:** failures reach the assistant on the creator's
+machine, before any CI run; CI is a safety net for skipped hooks and adds no checks of its own; what passes locally
+passes in CI; the creator's machine needs a browser for the end-to-end tests.
 
 ```arc42
 :::decision
 id: dec-one-check-command
-title: One check command; hooks and CI run the same
+title: One check command for apps; hooks and CI run the same
 status: accepted
 date: 2026-10-09
 addresses: qg-few-iterations, qg-any-assistant, risk-owner-bottleneck, risk-assistants-skip-guidance, risk-counter-tampering, risk-browser-at-creator
+:::
+```
+
+## The tooling's own push checks a fast subset; CI checks everything
+
+**Context:** the tooling's own end-to-end tests generate, install and check whole apps. Before every push they take
+minutes, also for a change to the docs that cannot affect them. **Decision:** before a push, the tooling's repo runs
+its fast checks every time: format, lint, types, the unit tests, the generator on files, the checks of prepared
+sample apps, and the build. It runs the heavy end-to-end tests only when the push changes a path on a positive list
+of what they exercise. CI runs everything on every push and is the superset. Tests that need another repo fetch it
+at a pinned commit instead of being skipped. **Consequences:** a push of docs or guidance texts is quick; a path
+missing from the list is still caught by CI, and the list is maintained then; the tooling's maintainers, not
+creators, accept that a heavy failure may first show in CI.
+
+```arc42
+:::decision
+id: dec-tooling-pre-push
+title: The tooling's own push checks a fast subset; CI checks everything
+status: accepted
+date: 2026-10-12
+addresses: qg-guidance-evolves, con-one-owner
 :::
 ```
 

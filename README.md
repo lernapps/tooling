@@ -29,7 +29,7 @@ action in [`actions/`](actions/), the error messages, and the comments in the co
 
 ## Contributing
 
-`npm ci`, then `npm run check` runs exactly what CI runs; the git hooks run it too.
+`npm ci`, then `npm run check` runs exactly what CI runs. The pre-push hook runs a fast subset when a push changes no code.
 
 ## Links
 
