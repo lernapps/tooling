@@ -3,6 +3,8 @@
 //   - it runs as an assistant starts it, with npx from git and nothing installed (`npx --yes github:lernapps/tooling#main
 //     create ...`, here from a local clone at its commit): npm prepares the package from git, the app depends on that
 //     commit and its workflows use the actions of that commit, `npm install` installs the hooks;
+//   - the hooks go into the app's own repository only: in a folder inside another repository (as a template folder
+//     sits in lernapps/app-templates), `npm install` leaves that repository's hooks alone;
 //   - what it writes, and what it refuses, is tested on files alone in create.test.ts, on every push;
 //   - the app with the fixture bank (test/fixtures/quiz/quiz.json, every type of question) passes `lernapps check`,
 //     which runs the quiz's generic end-to-end tests (quizTests of @lernapps/app-templates) on that bank in a browser.
@@ -12,7 +14,7 @@
 // by LERNAPPS_TEMPLATES, else one fetched once into a cache (support.ts, appTemplates), so the hooks run these tests as
 // CI does. The packages are installed from git.
 import { cpSync, existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { appTemplates, freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
 
@@ -80,5 +82,16 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
 
   test("the check leaves the bundle it checked in dist/, which the app check action deploys", () => {
     expect(readFileSync(join(app, "dist/index.html"), "utf8")).toContain("Naturwunder der Welt");
+  });
+
+  // Last: it turns the app's folder into a folder of another repository.
+  test("npm install in a folder inside another repository leaves that repository's hooks alone", () => {
+    rmSync(join(app, ".git"), { recursive: true, force: true });
+    const outer = dirname(app);
+    ok("git", ["init", "--quiet", "--initial-branch=main"], outer);
+    const installed = ok("npm", ["install", "--no-audit", "--no-fund"], app);
+    expect(output(installed)).toContain("lernapps hooks: this folder is naturwunder/ inside another git repository");
+    expect(run("git", ["config", "core.hooksPath"], outer).stdout).toBe("");
+    expect(run("git", ["config", "core.hooksPath"], app).stdout).toBe("");
   });
 });

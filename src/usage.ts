@@ -11,6 +11,7 @@ export const USAGE = `Usage: lernapps <command> [options]
 Commands:
   check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
   create --archetype <name> [<dir>]               write a new app from the archetype's template
+  hooks                                           install the app's git hooks (the app's prepare script)
 
 Options:
   -h, --help      print this help
@@ -69,4 +70,24 @@ Options:
   --report <file>  also write the full report to <file>, passing or not
   -h, --help       print this help
 
+`;
+/** The options of `lernapps hooks`, as node:util parseArgs takes them. */
+export const HOOKS_OPTIONS = {
+  help: { type: "boolean", short: "h", default: false },
+} as const satisfies ParseArgsOptionsConfig;
+
+export const HOOKS_USAGE = `Usage: lernapps hooks
+
+Installs the git hooks of @lernapps/tooling (the fast part of lernapps check before a commit, the heavy part
+before a push) into the repository of the app in the current folder. Every app runs it as its prepare script, so
+npm install installs the hooks.
+
+It installs them only where the current folder is the root of its git repository. In a folder inside another
+repository, such as a template folder of lernapps/app-templates, it changes nothing and says so: that
+repository keeps its own hooks. Outside a repository it says so too: git init, then npm install again.
+
+Exit codes: 0 when the hooks are installed or deliberately not, 1 when they cannot be, 2 on a usage error.
+
+Options:
+  -h, --help   print this help
 `;
