@@ -314,8 +314,9 @@ addresses: qg-checked-not-declared, qg-list-in-minutes, risk-owner-bottleneck
 
 **Context:** a review agent in CI needs an API key and costs money per run. **Decision:** the listing workflow runs
 the deterministic checks; the owner starts the review agent in the environment for lernapps agents on a pull request
-that passed them. **Consequences:** no secret in lernapps/apps; the environment can change without changing the
-procedure.
+that passed them, on the owner's machine or by commenting `/review` on the pull request. **Consequences:** the
+secret of `/review` lies in lernapps/apps, used only by a job that a maintainer starts, that builds and runs nothing of
+the app and can write nothing; the environment can change without changing the procedure.
 
 ```arc42
 :::decision
