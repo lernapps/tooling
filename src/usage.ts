@@ -29,17 +29,15 @@ export const CHECK_OPTIONS = {
   "pre-commit": { type: "boolean", default: false },
   "pre-push": { type: "boolean", default: false },
   entry: { type: "string" },
-  site: { type: "string" },
   report: { type: "string" },
   help: { type: "boolean", short: "h", default: false },
 } as const satisfies ParseArgsOptionsConfig;
 
-export const CHECK_USAGE = `Usage: lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--site <path>] [--report <file>]
+export const CHECK_USAGE = `Usage: lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--report <file>]
 
-Runs every check that has something to check, and decides nothing from a rule's scope. Passing, it prints one
-line; otherwise the validation report in YAML (schema:
-https://lernapps.net/tooling/schemas/validation-report.v1.schema.json). Every finding names its rule id and
-severity, where, what was found and how to fix it, and links its rule.
+Runs every check that has something to check. Passing, it prints one line; otherwise the validation report in
+YAML (schema: https://lernapps.net/tooling/schemas/validation-report.v1.schema.json). Every finding names its
+rule id and severity, where, what was found and how to fix it, and links its rule.
 
 Exit codes: 0 when no rule of severity error fails, 1 when one does, 2 on a usage error.
 
@@ -64,8 +62,6 @@ recorded. Chromium is downloaded on the first run and cached; where no browser c
 Options:
   --entry <file>   check a catalog entry (YAML) against the app: its URL and topic links resolve, the fitness
                    values match; without <dir|url> the app at the entry's url is checked
-  --site <path>    the app is served on lernapps.net at <path> (e.g. /brueche/): also the site rules
-                   (lernapps-check of the site frame); needs a bundle
   --report <file>  also write the full report to <file>, passing or not
   -h, --help       print this help
 

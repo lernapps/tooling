@@ -55,9 +55,9 @@ from earlier answers. Write each answer under "Answers".
 - [ ] Fetch the entry schema of the app overview: https://lernapps.net/apps/schemas/entry.v1.schema.json. Read the
       description of every property. Ask the creator what it needs to help adults (teachers, parents) find the app.
       Fill the "Entry draft" from the answers.
-- [ ] Choose the archetype from the answers: `explainer` (many pages of explanation and exercises, every page readable
-      without JavaScript), `interactive` (one app page in the browser, plus a static start page) or `quiz`
-      (questions with options and feedback). Write it under "Key decisions" with the reason; set `archetype`.
+- [ ] Choose the archetype from the answers: `explainer` (many pages of explanation and exercises), `interactive`
+      (one app page in the browser, plus a static start page) or `quiz` (questions with options and feedback).
+      Write it under "Key decisions" with the reason; set `archetype`.
 - [ ] Set `phase: plan`.
 
 ### Answers

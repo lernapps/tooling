@@ -51,9 +51,21 @@ describe("lernapps", () => {
   test("check --help describes the checks of a built app and the report", () => {
     const result = lernapps("check", "--help");
     expect(result.code).toBe(0);
-    for (const option of ["<dir|url>", "--entry <file>", "--site <path>", "--report <file>"]) {
+    for (const option of ["<dir|url>", "--entry <file>", "--report <file>"]) {
       expect(result.stdout).toContain(option);
     }
+  });
+
+  test("check --help names no site rules: the check has no option for them", () => {
+    const result = lernapps("check", "--help");
+    expect(result.code).toBe(0);
+    expect(result.stdout).not.toMatch(/--site|site rules|scope/);
+  });
+
+  test("check --site is a usage error", () => {
+    const result = lernapps("check", "--site", "/brueche/", "test/fixtures/apps/passing");
+    expect(result.code).toBe(2);
+    expect(result.stderr).toContain("--site");
   });
 
   test("check --help names every option it accepts, and the exit codes", () => {
