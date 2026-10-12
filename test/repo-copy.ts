@@ -21,6 +21,9 @@ const outsideGit = Object.fromEntries(Object.entries(inherited).filter(([name]) 
 export const testEnv: NodeJS.ProcessEnv = {
   ...outsideGit,
   LERNAPPS_E2E_INNER: "1",
+  // the generated apps' end-to-end tests with one worker each: many apps are checked at the same time here, and their
+  // browsers compete for the cores (archetypes/shared/playwright.ts)
+  LERNAPPS_PLAYWRIGHT_WORKERS: "1",
   GIT_AUTHOR_NAME: "lernapps test",
   GIT_AUTHOR_EMAIL: "test@lernapps.invalid",
   GIT_COMMITTER_NAME: "lernapps test",
