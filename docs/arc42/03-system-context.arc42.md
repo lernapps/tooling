@@ -8,7 +8,7 @@ Outside the system are the parties who use it, the external systems it runs on, 
 depends on but does not own. The parties have intentions: the creator, their assistant, the owner and the review
 agent. The external systems only do what they are configured to do: GitHub Actions, GitHub Pages and Renovate. The
 DSL models both as actors; the external systems have the type system. The shared site frame gives pages on lernapps.net their header, footer and site check.
-The entry schema belongs to lernapps/apps. Apps are hosted where their developers choose: by default on the GitHub
+The app overview in lernapps/apps explains building and listing and provides the apps; the entry schema belongs to it. Apps are hosted where their developers choose: by default on the GitHub
 Pages of the developer's own repo, at the developer's address, or on any other host. Only an app whose repo belongs to
 the lernapps organisation is served below lernapps.net.
 
