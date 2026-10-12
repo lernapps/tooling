@@ -5,49 +5,15 @@
     "commit": "ce3edae9c505d390c52efab6dd5985081f8ac405"
   },
   "head": {
-    "label": "92e3983fe65e98e24d987afba38fe7e310ae010e"
+    "label": "7fafa4076e55252971e7a2f7f891967281054c31"
   },
   "acceptanceBase": "ce3edae9c505d390c52efab6dd5985081f8ac405",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": true,
-  "findings": [
-    {
-      "kind": "block-without-prose-change",
-      "severity": "warning",
-      "file": "docs/arc42/12-glossary.arc42.md",
-      "line": 141,
-      "elementId": "term-rule",
-      "message": "Block 'term-rule' changed without changing its section prose."
-    },
-    {
-      "kind": "block-without-prose-change",
-      "severity": "warning",
-      "file": "docs/arc42/12-glossary.arc42.md",
-      "line": 153,
-      "elementId": "term-rules-in-scope",
-      "message": "Block 'term-rules-in-scope' changed without changing its section prose."
-    }
-  ],
+  "hasBlockingFindings": false,
+  "findings": [],
   "groups": {
-    "warnings": [
-      {
-        "kind": "block-without-prose-change",
-        "severity": "warning",
-        "file": "docs/arc42/12-glossary.arc42.md",
-        "line": 141,
-        "elementId": "term-rule",
-        "message": "Block 'term-rule' changed without changing its section prose."
-      },
-      {
-        "kind": "block-without-prose-change",
-        "severity": "warning",
-        "file": "docs/arc42/12-glossary.arc42.md",
-        "line": 153,
-        "elementId": "term-rules-in-scope",
-        "message": "Block 'term-rules-in-scope' changed without changing its section prose."
-      }
-    ],
+    "warnings": [],
     "untouched": [],
     "updated": [],
     "uncovered": []
@@ -162,7 +128,7 @@
             "after": "One requirement on an app, with a stable id, scope (listing, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id."
           }
         ],
-        "proseChanged": false,
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/12-glossary.arc42.md",
           "line": 141
@@ -191,7 +157,7 @@
             "after": "The rules that apply to one app - scope listing and its archetype."
           }
         ],
-        "proseChanged": false,
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/12-glossary.arc42.md",
           "line": 153
