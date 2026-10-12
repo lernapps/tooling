@@ -52,6 +52,7 @@
     "./guidance/plan-template.md": "./guidance/plan-template.md",
     "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
     "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md",
+    "./skills/lernapps-listing/SKILL.md": "./skills/lernapps-listing/SKILL.md",
     "./skills/lernapps-quiz/SKILL.md": "./skills/lernapps-quiz/SKILL.md"
   },
   "scripts": {
