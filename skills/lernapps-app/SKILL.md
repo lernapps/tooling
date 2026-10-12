@@ -387,5 +387,4 @@ scope: archetype:interactive
 severity: hint
 ```
 
-Say on the static start page what learners train, for whom, and how to begin. In the app page's `<noscript>`, say
-that the app needs JavaScript and what it does.
+Say on the static start page what learners train, for whom, and how to begin.
