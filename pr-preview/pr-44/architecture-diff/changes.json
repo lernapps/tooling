@@ -5,7 +5,7 @@
     "commit": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd"
   },
   "head": {
-    "label": "3b89fe38a4d773e0f53caa30b92de94eff7978c3"
+    "label": "89ba915bb3bbf9a46834688ba6c48839822419f9"
   },
   "acceptanceBase": "f1a5a5ec08e57f8a94ab80949deaecd0cf0ff2dd",
   "untracked": [],
@@ -1946,23 +1946,28 @@
       {
         "id": "dec-one-check-command",
         "kind": "decision",
-        "status": "unchanged",
-        "attributes": [],
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "title",
+            "before": "One check command; hooks and CI run the same",
+            "after": "One check command for apps; hooks and CI run the same"
+          }
+        ],
         "proseChanged": true,
-        "proseMentions": [],
         "base": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "line": 187
         },
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 187
+          "line": 186
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "One check command; hooks and CI run the same"
+            "One check command for apps; hooks and CI run the same"
           ],
           "occurrence": 1
         }
@@ -1987,6 +1992,25 @@
         }
       },
       {
+        "id": "dec-tooling-pre-push",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 207
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "The tooling's own push checks a fast subset; CI checks everything"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
         "id": "dec-app-own-hosting",
         "kind": "decision",
         "status": "added",
@@ -1994,7 +2018,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 211
+          "line": 231
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -2018,7 +2042,7 @@
         },
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 268
+          "line": 288
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -2042,7 +2066,7 @@
         },
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 353
+          "line": 373
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
@@ -2745,6 +2769,22 @@
       {
         "status": "added",
         "edge": {
+          "from": "dec-tooling-pre-push",
+          "to": "con-one-owner",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-tooling-pre-push",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
           "from": "dn-app-ci",
           "to": "bb-app-publish",
           "relation": "hosts"
@@ -3142,7 +3182,7 @@
       },
       {
         "file": "docs/arc42/09-decisions.arc42.md",
-        "added": 1,
+        "added": 2,
         "modified": 7,
         "removed": 1
       },
