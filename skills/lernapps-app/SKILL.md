@@ -1,6 +1,6 @@
 ---
 name: lernapps-app
-description: Use when you build or change a learning app for lernapps.net. The workflow with the plan file (Explore, Plan, Code, Commit, checkpoints, retrospective) and the rules every app follows. Load it before you write code in an app repo.
+description: Use when you build or change a learning app for lernapps.net. The rules every app follows, each with its id; the workflow itself is in the plan file (.vibe/plan.md, from the plan template). Load it when you start work on an app.
 license: MIT
 ---
 
@@ -12,24 +12,22 @@ the retrospective name rules by it.
 
 ## Workflow
 
-1. **Plan file.** Keep the plan in `.vibe/plan.md`, started from the template of `@lernapps/tooling`
-   (`guidance/plan-template.md`). Its front matter holds `archetype`, `phase` and `prePushFailures`; its comments say
-   what each part needs.
-2. **Explore.** Ask what the app is for, for whom, and where the content comes from. Fetch the entry schema of the
-   app overview (<https://lernapps.net/apps/schemas/entry.v1.schema.json>), ask what it needs to help adults find the
-   app, and write the entry draft into the plan. Choose the archetype; set `archetype` and `phase: plan`.
-3. **Plan.** Write the tasks of Code. Show the creator the goal, archetype, entry draft and tasks. Checkpoint:
-   confirm the plan.
-4. **Code.** `lernapps create --archetype <archetype>`, then load the skill of the archetype. Build task by task;
-   commit after each one. Fix each failed check from its message.
-5. **Commit.** Push. Checkpoint: publish. Complete the entry draft. Checkpoint: list. Fill the retrospective, then
-   open the listing pull request (skill `lernapps-listing`).
+Follow the plan in `.vibe/plan.md` exactly. The plan is the one source of the workflow: its phases, tasks and
+checkpoints, and the command that creates the app. If the plan does not exist, start it from the template:
+`node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists,
+<https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. This skill adds the rules
+below: what every app and every step must meet.
 
 ## Rules
 
 Each rule is a section headed by its rule block (`id`, `scope`, `severity`). Follow every rule in scope, whether
 or not a lint rule, check or the review also enforces it under the same id; their messages link to the rule.
 All rules: <https://lernapps.net/tooling/rules/>.
+
+The scopes: `listing` applies to every listed app, wherever it is hosted. `site` holds the rules of lernapps.net's own
+websites; your app meets them only while it is served on lernapps.net, which happens only for a repo of the lernapps
+organisation. `archetype:<name>` applies to apps of that archetype. Your app lives at its own address, by default the
+GitHub Pages of its repo (usually `https://<owner>.github.io/<repo>/`), and the catalog links to it.
 
 ### `plan-file`: Keep the plan file
 
@@ -116,7 +114,8 @@ scope: listing
 severity: error
 ```
 
-Read the message of a failed check and fix the cause. Never bypass a hook (`--no-verify`), never delete a test to
+Read the message of a failed check and fix the cause. A failed commit prints one line with the step and the log
+`node_modules/.cache/lernapps/pre-commit.log`: the messages are in that log. Never bypass a hook (`--no-verify`), never delete a test to
 make it pass.
 
 ### `suppression-reason`: Suppress only in place, with the reason
@@ -351,6 +350,21 @@ An app from an archetype extends the preset of `@lernapps/tooling` and configure
 hooks come from the package (`prepare` in `package.json`). Pass only the app's own settings to `lernapps({ ... })`,
 such as the pages to build or the build step of its archetype's runtime, as generated: `lernapps({ plugins: [quiz()]
 })`. Never turn a lint rule off or lower its severity, never replace a hook.
+
+### `pages-from-gh-pages`: Publish from `gh-pages`, served from its root
+
+```rule
+id: pages-from-gh-pages
+scope: [archetype:explainer, archetype:interactive, archetype:quiz]
+severity: error
+```
+
+An app from the generator publishes with the app publish action: GitHub Pages of the app repo serves the branch
+`gh-pages` from its root (`/`), at the repo's Pages address (usually `https://<owner>.github.io/<repo>/`; only a repo
+of the lernapps organisation is served at `https://lernapps.net/<repo>/`). Previews of pull requests will go below `pr-preview/` on the same branch, so leave
+that setting as it is. When the publish run fails, read its message: fix what you can, and tell the creator the exact
+clicks it names for what only a repository admin may change. The creator may host the app elsewhere; then the entry's
+`url` points there.
 
 ### `strict-typescript`: TypeScript only, strict
 

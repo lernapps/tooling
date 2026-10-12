@@ -1,0 +1,52 @@
+name: lernapps app publish
+description: >-
+  Publishes an app's checked bundle, the artifact "app" of the app check action, to the app repo's GitHub Pages: the
+  branch gh-pages, served from its root (/), at the repo's Pages address (usually https://<owner>.github.io/<repo>/;
+  only a repo of the lernapps organisation is served at https://lernapps.net/<repo>/). Before the deploy it checks that setup and sets it through the API when
+  the token may; on the first deploy the deploy creates the branch and the check follows. After the deploy it waits
+  until the app's address serves the new bundle, and prints the address. Previews below pr-preview/ on the branch
+  stay. Where the token may not change the Pages settings, it fails with what is wrong and the clicks a repository
+  admin makes once. The logic is publish/publish.ts, tested by test/app-publish.e2e.test.ts. Use it in the job
+  "deploy" of the app's pages.yml, on main, after the job "app" (needs: app), pinned to a commit. The job needs
+  permissions: contents: write, pages: write.
+inputs:
+  token:
+    description: >-
+      The token for the Pages settings. The default GITHUB_TOKEN may read them but not change them; a fine-grained
+      token with Administration: write and Pages: write may also turn Pages on or change its source.
+    default: ${{ github.token }}
+  timeout:
+    description: Seconds to wait until the app's address serves the new bundle
+    default: "600"
+outputs:
+  url:
+    description: The app's address
+    value: ${{ steps.after.outputs.url }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: 22
+    - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+      with:
+        name: app
+        path: _app
+    - id: before
+      shell: bash
+      run: node "$GITHUB_ACTION_PATH/../../publish/publish.ts" before --dir _app
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+    - uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
+      with:
+        branch: gh-pages
+        folder: _app
+        clean-exclude: pr-preview/
+        force: false
+    - id: after
+      shell: bash
+      run: node "$GITHUB_ACTION_PATH/../../publish/publish.ts" after
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        LERNAPPS_PUBLISH_TIMEOUT: ${{ inputs.timeout }}

@@ -4,7 +4,9 @@ description: >-
   the pre-push hook together, nothing more. Around it only the environment: checkout, Node 22, npm ci, the Playwright
   browser from the cache. Uploads the validation report the check writes (node_modules/.cache/lernapps/), passing or
   not, as the artifact "validation-report". On main it also uploads the bundle it checked (dist/) as the artifact
-  "site" for site-deploy.
+  "app" for app-publish, so the app publishes what was checked and builds it once. Use it as the only step of the job
+  "app" in the app's workflow pages.yml, which lernapps create writes:
+  `uses: lernapps/tooling/actions/app-check@<commit>`, pinned to a commit that Renovate moves forward.
 inputs:
   working-directory:
     description: The app's folder in the workspace
@@ -16,7 +18,7 @@ inputs:
     description: The name of the report's artifact (unique per workflow run)
     default: validation-report
   upload:
-    description: Upload the checked bundle dist/ as the artifact "site" (default on main)
+    description: Upload the checked bundle dist/ as the artifact "app" for app-publish (default on main)
     default: ${{ github.ref == 'refs/heads/main' }}
 runs:
   using: composite
@@ -58,6 +60,6 @@ runs:
     - if: inputs.upload == 'true'
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
-        name: site
+        name: app
         path: ${{ inputs.working-directory }}/dist
         include-hidden-files: true

@@ -3,7 +3,9 @@ description: >-
   A preview of a pull request at https://lernapps.net/<site>pr-preview/pr-<number>/, on the gh-pages branch
   next to the published site; removed when the pull request closes. Builds like site-check, with
   SITE_PATH_PREFIX (links stay inside the preview) and SITE_PREVIEW (banner, noindex) set.
-  The job needs permissions: contents: write, pull-requests: write.
+  Use it in the job "preview" of the site's pr-preview.yml, on pull_request (opened, reopened, synchronize,
+  closed), with the input site; see lernapps/apps for a full file. The job needs permissions: contents: write,
+  pull-requests: write.
 inputs:
   check-script:
     description: The npm script that checks the built site (a repo whose `check` checks its code names another one)
