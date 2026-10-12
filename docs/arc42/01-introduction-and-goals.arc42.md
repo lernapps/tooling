@@ -21,7 +21,9 @@ The creator decides at a few points; the assistant does the rest.
 | UC-4 | Validate | The owner has a result to trust: measured where possible, judged by an independent review otherwise |
 | UC-5 | List | The creator lists the app in minutes, with an entry that adults find |
 
-Showing an entry as a fact sheet and checking listed apps again belong to the app overview, not to the tooling.
+The tooling is responsible for helping builders get their apps out. The app overview (lernapps/apps) explains
+building and listing, and provides the apps themselves: the catalog. Showing an entry as a fact sheet and checking
+listed apps again belong to it, not to the tooling.
 
 The same repo also keeps lernapps.net's own websites and repos in shape; that part, "Platform upkeep" in chapter 5,
 is not used by creators.
