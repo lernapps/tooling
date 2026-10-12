@@ -3,8 +3,13 @@
 The tooling with which a creator and their AI assistant build a learning app for
 [lernapps.net](https://lernapps.net/): an app that runs in the browser, collects nothing, is accessible, and is
 listed in the app overview within minutes. The app lives at its creator's own hosting, by default their own GitHub
-Pages. The repo also holds the platform's upkeep, which creators don't use: the actions that check, publish and
-preview lernapps.net's own websites, and the update policy for dependencies.
+Pages.
+
+The tooling is responsible for helping builders get their apps out. The [app overview](https://github.com/lernapps/apps)
+explains building and listing, and provides the apps themselves: the catalog.
+
+The repo also holds the platform's upkeep, which creators don't use: the actions that check, publish and preview
+lernapps.net's own websites, and the update policy for dependencies.
 
 ## Who it is for
 
@@ -15,7 +20,7 @@ preview lernapps.net's own websites, and the update policy for dependencies.
 
 ## Where to start
 
-- **Creators:** [lernapps.net/apps/eintragen/](https://lernapps.net/apps/eintragen/) says what to tell your assistant.
+- **Creators:** [lernapps.net/apps/build/](https://lernapps.net/apps/build/) says what to tell your assistant.
 - **Assistants:** read [lernapps.net/tooling/llms.txt](https://lernapps.net/tooling/llms.txt). It names the skill,
   the plan template and every link you need.
 - **The skill [`lernapps-app`](skills/lernapps-app/SKILL.md):** the quick path and the rules every app follows.
