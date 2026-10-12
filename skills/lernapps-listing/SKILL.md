@@ -24,9 +24,10 @@ Only after the creator said yes at the checkpoint "list".
 
 ## Read the results comment
 
-On every push to the pull request, the listing validation checks the entry against the app at its address. When it
-fails, it comments on the pull request; the comment starts with `<!-- lernapps-listing -->`, and each new run
-updates the same comment.
+On every push to the pull request, the listing validation checks the entry against the app at its address and
+comments its result on the pull request: "bestanden" when the check passes, else "nicht bestanden" with its
+findings. The comment starts
+with `<!-- lernapps-listing -->`, and each new run updates the same comment.
 
 - Each finding names its rule, where it is, what was found, the fix and a link to the rule. Fix the cause, in the app
   or in the entry (`fix-from-message`). The full reports are the artifact `listing` of the run.

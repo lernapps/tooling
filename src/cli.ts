@@ -2,10 +2,10 @@
 // The CLI `lernapps`: one entry for the tooling's commands. `check` runs every deterministic check: in a repo the
 // toolchain (format, lint, types; unit tests, build, end-to-end tests) and the checks of the built app, or the checks
 // of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML. `create` writes a new app
-// from an archetype's template (generator/create.ts); `hooks` installs an app's git hooks
-// (archetypes/shared/install-hooks.ts).
+// from an archetype's template (generator/create.ts); `update` moves an app to this tooling's pins
+// (generator/update.ts); `hooks` installs an app's git hooks (archetypes/shared/install-hooks.ts).
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { delimiter, dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { parse } from "yaml";
@@ -14,6 +14,7 @@ import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type 
 import { BrowserError, launch, serve, visitApp } from "../check/visit.ts";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
 import { create, CreateError } from "../generator/create.ts";
+import { update, UpdateError } from "../generator/update.ts";
 import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
 
 /** A step of a part: a command of the project's toolchain and what it checks. */
@@ -21,12 +22,21 @@ interface Step {
   name: string;
   command: string;
   args: readonly string[];
+  /** How the messages name the step, when not by its command line. */
+  where?: string;
+  /** Environment variables for the step only. */
+  env?: Record<string, string>;
 }
 
 const PLAN = ".vibe/plan.md";
 /** In a repo, every run also writes its full report here, passing or not: the hooks and CI alike. */
 const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
 const CHECKS_PASS = "checks-pass";
+/** The Playwright tests' results, as its JSON reporter writes them, to tell the runtime's tests from the app's. */
+const E2E_RESULTS = "node_modules/.cache/lernapps/playwright-results.json";
+/** The runtime of the archetypes, whose generic end-to-end tests an app runs (the quiz's e2e/quiz.e2e.ts). */
+const RUNTIME = "@lernapps/app-templates";
+const RUNTIME_ISSUES = "https://github.com/lernapps/app-templates/issues";
 
 function version(): string {
   const manifest: unknown = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
@@ -45,11 +55,11 @@ const projectEnv = (): NodeJS.ProcessEnv => ({
 /** Runs a step; its output is shown only when it fails. */
 function runStep(step: Step): Finding | undefined {
   const result = spawnSync(step.command, step.args, {
-    env: projectEnv(),
+    env: { ...projectEnv(), ...step.env },
     encoding: "utf8",
     maxBuffer: 256 * 1024 * 1024,
   });
-  const where = [step.command, ...step.args].join(" ");
+  const where = step.where ?? [step.command, ...step.args].join(" ");
   if (result.error) {
     return finding(CHECKS_PASS, "error", {
       where,
@@ -72,6 +82,60 @@ const browserFinding = (error: BrowserError) =>
     found: error.message,
     fix: "Install Chromium and its system libraries: npx playwright install --with-deps chromium. Where no browser can run, push and let CI check",
   });
+
+interface Suite {
+  title?: string;
+  specs?: { title: string; file: string; ok: boolean }[];
+  suites?: Suite[];
+}
+
+/**
+ * The failing tests that are defined in the runtime (a file below node_modules/@lernapps/app-templates/), by their
+ * titles: the suites' titles below the file, then the test's. Empty when the results cannot be read.
+ */
+function failingRuntimeTests(): string[] {
+  let results: { suites?: Suite[] };
+  try {
+    results = JSON.parse(readFileSync(E2E_RESULTS, "utf8")) as { suites?: Suite[] };
+  } catch {
+    return [];
+  }
+  const found = new Set<string>();
+  const walk = (suite: Suite, titles: string[]) => {
+    for (const spec of suite.specs ?? []) {
+      if (!spec.ok && spec.file.split(/[\\/]/).join("/").includes(`node_modules/${RUNTIME}/`)) {
+        found.add([...titles, spec.title].join(" › "));
+      }
+    }
+    for (const child of suite.suites ?? []) walk(child, child.title ? [...titles, child.title] : titles);
+  };
+  // the top suites are files: their titles are file names, not part of a test's title
+  for (const file of results.suites ?? []) walk(file, []);
+  return [...found].sort();
+}
+
+/** Runs the Playwright tests; a failing test of the runtime is named as a test of the template, with what to do. */
+function runEndToEndTests(): Finding | undefined {
+  rmSync(E2E_RESULTS, { force: true });
+  mkdirSync(dirname(E2E_RESULTS), { recursive: true });
+  const failure = runStep({
+    name: "end-to-end tests",
+    command: "playwright",
+    args: ["test", "--reporter=line,json"],
+    where: "playwright test",
+    env: { PLAYWRIGHT_JSON_OUTPUT_FILE: resolve(E2E_RESULTS) },
+  });
+  if (failure === undefined) return undefined;
+  const runtime = failingRuntimeTests();
+  if (runtime.length === 0) return failure;
+  const shown = runtime.slice(0, 5).map((title) => `"${title}"`);
+  const more = runtime.length > shown.length ? ` and ${runtime.length - shown.length} more` : "";
+  return {
+    ...failure,
+    found: `end-to-end tests failed (their output is above): ${runtime.length === 1 ? "a generic test" : "generic tests"} of the template's runtime ${RUNTIME}, not of this app: ${shown.join(", ")}${more}`,
+    fix: `If the content validates (the build passed), this is a bug in the template: tell the creator and open an issue at ${RUNTIME_ISSUES} with this validation report (or ask the creator to). Never change the tests or the configuration to get around it. Once it is fixed, lernapps update moves the app to the fixed runtime: npx --yes github:lernapps/tooling#main update`,
+  };
+}
 
 /** Serves a bundle (or opens a URL), visits its pages and measures its fitness. */
 async function visit(target: { bundle: string } | { url: string }): Promise<App> {
@@ -162,7 +226,7 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
     if (config !== undefined) {
       const failure =
         runStep({ name: "browser for the end-to-end tests", command: "playwright", args: ["install", "chromium"] }) ??
-        runStep({ name: "end-to-end tests", command: "playwright", args: ["test"] });
+        runEndToEndTests();
       if (failure) findings.push(failure);
     }
   }
@@ -261,6 +325,8 @@ async function main(argv: string[]): Promise<number> {
       return create(rest);
     case "hooks":
       return installHooks(rest);
+    case "update":
+      return update(rest);
     case "-h":
     case "--help":
       process.stdout.write(USAGE);
@@ -286,6 +352,9 @@ try {
     process.exitCode = 2;
   } else if (error instanceof CreateError) {
     process.stderr.write(`lernapps create: ${error.message}\n`);
+    process.exitCode = 1;
+  } else if (error instanceof UpdateError) {
+    process.stderr.write(`lernapps update: ${error.message}\n`);
     process.exitCode = 1;
   } else {
     throw error;

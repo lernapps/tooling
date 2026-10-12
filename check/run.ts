@@ -64,7 +64,10 @@ export async function describeChecks(): Promise<string> {
   return `Checks (rule id, severity, what it checks; each rule at ${RULE_PAGE}<id>):\n${lines.join("\n")}\n`;
 }
 
-/** Runs every check; a check that returns undefined found nothing to check and is left out of the rules. */
+/**
+ * Runs every check; a check that returns undefined found nothing to check and is left out of the rules. A problem
+ * has its check's severity, or the lower one it names.
+ */
 export async function runChecks(context: Context): Promise<{ rules: string[]; findings: Finding[] }> {
   const rules: string[] = [];
   const findings: Finding[] = [];
@@ -72,7 +75,7 @@ export async function runChecks(context: Context): Promise<{ rules: string[]; fi
     const problems = (await check.run(context)) as Problem[] | undefined;
     if (problems === undefined) continue;
     rules.push(check.id);
-    findings.push(...problems.map((problem) => finding(check.id, check.severity, problem)));
+    findings.push(...problems.map((problem) => finding(check.id, problem.severity ?? check.severity, problem)));
   }
   return { rules, findings };
 }

@@ -11,6 +11,7 @@ import type { AddressInfo } from "node:net";
 import { dirname, extname, join, resolve, sep } from "node:path";
 import { chromium, type Browser, type BrowserContext } from "playwright";
 import type { PageVisit } from "./check.ts";
+import { linkStatus } from "./status.ts";
 
 const require = createRequire(import.meta.url);
 const MAX_PAGES = 100;
@@ -88,18 +89,13 @@ function cannotRun(error: unknown): BrowserError {
   return new BrowserError(`no browser can run here: ${first.trim()}`);
 }
 
-/** The status of every link, fetched once per URL. */
+/** The status of every link, fetched once per URL (a rate-limited one with a short, bounded backoff). */
 class Links {
   private readonly known = new Map<string, Promise<{ status: number; html: boolean }>>();
   get(url: string): Promise<{ status: number; html: boolean }> {
     let result = this.known.get(url);
     if (result === undefined) {
-      result = fetch(url, { redirect: "follow" })
-        .then(async (response) => {
-          await response.body?.cancel();
-          return { status: response.status, html: (response.headers.get("content-type") ?? "").includes("html") };
-        })
-        .catch(() => ({ status: 0, html: false }));
+      result = linkStatus(url);
       this.known.set(url, result);
     }
     return result;

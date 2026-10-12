@@ -4,7 +4,8 @@
 //   before  checks the setup before the deploy: the branch gh-pages exists and Pages serves it from its root; where
 //           Pages is off or serves something else, it sets it through the API if the token may. On the first deploy
 //           the branch does not exist yet: the deploy creates it, and `after` checks Pages. It also writes the marker
-//           file lernapps-publish.txt (the commit) into the bundle.
+//           file lernapps-publish.txt (the commit) into the bundle, and warns when the repo's default branch is not
+//           main (the token may not change it; the deploy goes on).
 //   after   checks Pages again (it may be the first deploy), then waits until the app's address serves the marker of
 //           this commit, and prints the address.
 // Only Node's own modules: the action runs it without installing anything. Every failure says what is wrong, how to
@@ -120,6 +121,29 @@ function wrongSource(pages: unknown): string | undefined {
 
 const WANTED = { build_type: "legacy", source: { branch: BRANCH, path: "/" } };
 
+const MAIN = "main";
+const DEFAULT_BRANCH_CLICKS =
+  "Settings → General → Default branch → ⇄ (Switch to another branch) → main → Update → I understand, update the default branch";
+
+/**
+ * Warns when the repo's default branch is not main, with the clicks that set it: the app is published only from main,
+ * but update pull requests (Renovate) and new pull requests target the default branch. A token that may not read the
+ * repo changes nothing: the deploy goes on either way.
+ */
+async function checkDefaultBranch(e: Env): Promise<void> {
+  const repo = await request(e, "GET", `/repos/${e.repo}`);
+  const branch = field(repo.body, "default_branch");
+  if (repo.status !== 200 || typeof branch !== "string" || branch === MAIN) return;
+  console.log(
+    [
+      `::warning::${PREFIX}: the default branch of ${e.repo} is ${branch}, not ${MAIN}.`,
+      `  fix: a repository admin sets it once: ${DEFAULT_BRANCH_CLICKS}. Or, with the GitHub CLI and admin rights: gh repo edit ${e.repo} --default-branch ${MAIN}. Branch ${branch} stays.`,
+      `  why: the app is published only from ${MAIN}; update pull requests (Renovate) and new pull requests target the default branch, so what they change would not be published`,
+      `  link: ${RULE}`,
+    ].join("\n"),
+  );
+}
+
 /** Checks that Pages serves gh-pages from its root; sets it if the token may. Returns the Pages site. */
 async function ensurePages(e: Env): Promise<unknown> {
   const got = await request(e, "GET", `/repos/${e.repo}/pages`);
@@ -166,6 +190,7 @@ async function before(e: Env, dir: string | undefined): Promise<void> {
     }
     writeFileSync(join(dir, MARKER), `${e.sha}\n`);
   }
+  await checkDefaultBranch(e);
   const branch = await request(e, "GET", `/repos/${e.repo}/branches/${BRANCH}`);
   if (branch.status === 404) {
     console.log(

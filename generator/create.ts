@@ -68,9 +68,9 @@ Options:
 export class CreateError extends Error {}
 
 const packageRoot = fileURLToPath(new URL("..", import.meta.url));
-const fromPackage = (...path: string[]) => join(packageRoot, ...path);
+export const fromPackage = (...path: string[]) => join(packageRoot, ...path);
 
-interface Manifest {
+export interface Manifest {
   name?: string;
   devDependencies?: Record<string, string>;
   scripts?: Record<string, string>;
@@ -78,8 +78,8 @@ interface Manifest {
   [key: string]: unknown;
 }
 
-const readJson = (file: string): Manifest => JSON.parse(readFileSync(file, "utf8")) as Manifest;
-const writeJson = (file: string, value: unknown) => writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+export const readJson = (file: string): Manifest => JSON.parse(readFileSync(file, "utf8")) as Manifest;
+export const writeJson = (file: string, value: unknown) => writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
 /** The archetypes this version of the package has templates for: the folders of app-templates at the pin. */
 export function archetypes(): string[] {
@@ -136,7 +136,7 @@ const packageName = (dir: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "") || "app";
 
-const commitOf = (spec: string | undefined) => /#([0-9a-f]{40})$/.exec(spec ?? "")?.[1];
+export const commitOf = (spec: string | undefined) => /#([0-9a-f]{40})$/.exec(spec ?? "")?.[1];
 
 /**
  * The npm spec this package was installed from, at its commit, read from the lock npm keeps next to it
@@ -144,7 +144,7 @@ const commitOf = (spec: string | undefined) => /#([0-9a-f]{40})$/.exec(spec ?? "
  * installs the package from git. The app then depends on the same commit, and its workflows use the actions of that
  * commit. Undefined when the package was not installed by npm (a clone of this repo).
  */
-function installedSpec(): string | undefined {
+export function installedSpec(): string | undefined {
   const parts = resolve(packageRoot).split(sep);
   const at = parts.lastIndexOf("node_modules");
   if (at < 0) return undefined;
@@ -165,10 +165,10 @@ function installedSpec(): string | undefined {
 }
 
 /** The runtime package at the root of app-templates. */
-const RUNTIME = "@lernapps/app-templates";
+export const RUNTIME = "@lernapps/app-templates";
 
 /** The npm spec of the runtime at `commit` of `repository`: GitHub, another git URL, or a local clone. */
-function runtimeSpec(repository: string, commit: string): string {
+export function runtimeSpec(repository: string, commit: string): string {
   const github = /^(?:https:\/\/|git@)github\.com[/:]([^/]+)\/([^/]+?)(?:\.git)?\/?$/.exec(repository);
   if (github) return `github:${github[1]}/${github[2]}#${commit}`;
   if (existsSync(repository)) return `git+file://${resolve(repository)}#${commit}`;

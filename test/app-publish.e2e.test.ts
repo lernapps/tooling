@@ -3,6 +3,7 @@
 //   - before the deploy: the branch gh-pages missing (the first deploy goes ahead), Pages off, Pages serving another
 //     branch or folder, Pages built by a workflow, and a token that may not read the settings; where the token may,
 //     it sets Pages itself; where not, it fails with what is wrong, the clicks, why, and the rule link;
+//   - before the deploy: a default branch other than main is a warning with the clicks that set it; the deploy goes on;
 //   - after the deploy: it waits until the app's address serves the marker of this commit, then prints the address;
 //     when the address keeps serving an older bundle, it fails with a message;
 //   - it writes the marker file into the bundle and refuses a bundle without index.html.
@@ -23,6 +24,8 @@ const RULE = "https://lernapps.net/tooling/rules/#pages-from-gh-pages";
 /** What the fake GitHub answers, per scenario; each test sets it. */
 interface World {
   branch: boolean;
+  /** the repo's default branch */
+  defaultBranch: string;
   pages: { build_type: string; source: { branch: string; path: string } } | undefined;
   /** the status of a write to the Pages settings: 201/204 when the token may, 403 when not */
   write: number;
@@ -49,6 +52,9 @@ function handle(request: IncomingMessage, response: ServerResponse): void {
   let body = "";
   request.on("data", (chunk: Buffer) => (body += chunk.toString()));
   request.on("end", () => {
+    if (url.pathname === `/api/repos/${REPO}`) {
+      return json(200, { full_name: REPO, default_branch: world.defaultBranch });
+    }
     if (url.pathname === `/api/repos/${REPO}/branches/gh-pages`) {
       return world.branch ? json(200, { name: "gh-pages" }) : json(404, { message: "Branch not found" });
     }
@@ -110,7 +116,16 @@ function publish(args: string[], extra: Record<string, string> = {}): Promise<Re
 }
 
 const setWorld = (changes: Partial<World>) => {
-  world = { branch: true, pages: RIGHT, write: 403, read: 200, delay: 0, served: SHA, ...changes };
+  world = {
+    branch: true,
+    defaultBranch: "main",
+    pages: RIGHT,
+    write: 403,
+    read: 200,
+    delay: 0,
+    served: SHA,
+    ...changes,
+  };
 };
 
 describe("before the deploy", () => {
@@ -121,7 +136,29 @@ describe("before the deploy", () => {
     expect(result.stdout).toContain("GitHub Pages serves the branch gh-pages from its root: ready to deploy");
     expect(result.outputs).toBe("first=false\n");
     expect(requests.filter((line) => !line.startsWith("GET"))).toEqual([]);
+    expect(`${result.stdout}${result.stderr}`).not.toContain("::warning::");
   });
+
+  test.each([
+    ["the right setup", true],
+    ["the first deploy", false],
+  ])(
+    "with %s, a default branch other than main is a warning with the clicks; the deploy goes on",
+    async (_name, branch) => {
+      setWorld({ branch, defaultBranch: "plan", ...(branch ? {} : { pages: undefined }) });
+      const result = await publish(["before"]);
+      expect(result.code, result.stderr).toBe(0);
+      const printed = `${result.stdout}${result.stderr}`;
+      expect(printed).toContain(`::warning::lernapps app-publish: the default branch of ${REPO} is plan, not main.`);
+      expect(printed).toContain(
+        "Settings → General → Default branch → ⇄ (Switch to another branch) → main → Update → I understand, update the default branch",
+      );
+      expect(printed).toContain(`gh repo edit ${REPO} --default-branch main`);
+      expect(printed).toContain("the app is published only from main");
+      expect(printed).toContain(`  link: ${RULE}`);
+      expect(result.outputs).toBe(`first=${String(!branch)}\n`);
+    },
+  );
 
   test("without the branch, the first deploy goes ahead and creates it", async () => {
     setWorld({ branch: false, pages: undefined });
