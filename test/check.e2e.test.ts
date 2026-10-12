@@ -132,7 +132,9 @@ describe.skipIf(inner)("a fresh clone", () => {
         const push = run("git", ["push", "origin", "main"], clone);
         ok("git", ["remote", "remove", "origin"], clone);
         expect(push.code, output(push)).not.toBe(0);
-        expect(output(push)).toContain("planted");
+        // quiet: one line names the hook's log, which holds the failing test
+        expect(output(push)).toContain("the full output is in node_modules/.cache/lernapps/pre-push.log");
+        expect(readFileSync(join(clone, "node_modules/.cache/lernapps/pre-push.log"), "utf8")).toContain("planted");
         expect(run("git", ["rev-parse", "--verify", "--quiet", "main"], remote).code).not.toBe(0);
         const ci = run("npm", ciCheck, clone);
         expect(ci.code, output(ci)).not.toBe(0);
