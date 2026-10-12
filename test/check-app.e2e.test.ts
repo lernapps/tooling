@@ -4,7 +4,7 @@
 //   - a passing check prints one line; otherwise the validation report in YAML, valid against its JSON Schema;
 //   - every finding: rule id, severity, where, what was found, how to fix it, the link to the rule;
 //   - `--entry <file>`: the app's URL and every topic link resolve, the fitness values match;
-//   - `--site <path>`: the site rules, by lernapps-check of the site frame.
+//   - no site rules: an app's pages need not be readable without JavaScript.
 // In an app's repo: check-repo.e2e.test.ts.
 import { readFileSync, writeFileSync } from "node:fs";
 import { createServer, type Server } from "node:http";
@@ -54,7 +54,6 @@ async function pooled<T>(jobs: (() => Promise<T>)[], limit = 4): Promise<T[]> {
 const BROKEN = [
   ["request-before-click", "no-request-before-click", "fonts.example.org"],
   ["cookie", "no-tracking", "besuch"],
-  ["no-javascript", "readable-without-javascript", "index.html"],
   ["overflow", "usable-at-360px", "index.html"],
   ["inaccessible", "accessible", "img"],
   ["broken-link", "links-resolve", "erweitern/"],
@@ -80,8 +79,7 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
       ["query-link", [app("query-link")]],
       ["query-link again", [app("query-link")]],
       ["local-storage", [app("local-storage"), "--report", reports.storing]],
-      ["passing --site", [app("passing"), "--site", "/brueche/"]],
-      ["on-lernapps --site", [app("on-lernapps"), "--site", "/brueche/"]],
+      ["no-javascript", [app("no-javascript")]],
     ];
     const results = await pooled(
       jobs.map(
@@ -105,12 +103,13 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
       expect.arrayContaining([
         "no-request-before-click",
         "no-tracking",
-        "readable-without-javascript",
         "usable-at-360px",
         "accessible",
         "links-resolve",
       ]),
     );
+    expect(written.rules).not.toContain("readable-without-javascript");
+    expect(written.rules).not.toContain("site-check");
     expect(written.fitness).toEqual({ storage: "none", thirdParty: "none" });
   });
 
@@ -144,16 +143,10 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
     expect(written.fitness).toEqual({ storage: "device", thirdParty: "none" });
   });
 
-  test("--site runs lernapps-check of the site frame: a page without imprint and privacy links fails", () => {
-    const result = ran("passing --site");
-    expect(result.code, output(result)).toBe(1);
-    const found = findingsOf(result, "site-check");
-    expect(found.map((finding) => finding.found).join("\n")).toContain("/imprint/");
-  });
-
-  test("--site with a page that links imprint and privacy passes", () => {
-    const result = ran("on-lernapps --site");
+  test("an app whose page shows nothing without JavaScript passes: that is a rule of the site, not of apps", () => {
+    const result = ran("no-javascript");
     expect(result.code, output(result)).toBe(0);
+    expect(result.stdout.trim().split("\n")).toHaveLength(1);
   });
 
   test("a directory without index.html is a usage error", () => {

@@ -167,7 +167,7 @@ describe.skipIf(inner)("installed from git", () => {
       consumer,
     );
     expect(passing.code, output(passing)).toBe(0);
-    expect(passing.stdout).toMatch(/^lernapps check: ok, 6 rules, no findings/);
+    expect(passing.stdout).toMatch(/^lernapps check: ok, 5 rules, no findings/);
     const broken = run(
       "npx",
       ["--no", "--", "lernapps", "check", join(repoRoot, "test/fixtures/apps/broken-link")],

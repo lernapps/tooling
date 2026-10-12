@@ -24,10 +24,9 @@ Each rule is a section headed by its rule block (`id`, `scope`, `severity`). Fol
 or not a lint rule, check or the review also enforces it under the same id; their messages link to the rule.
 All rules: <https://lernapps.net/tooling/rules/>.
 
-The scopes: `listing` applies to every listed app, wherever it is hosted. `site` holds the rules of lernapps.net's own
-websites; your app meets them only while it is served on lernapps.net, which happens only for a repo of the lernapps
-organisation. `archetype:<name>` applies to apps of that archetype. Your app lives at its own address, by default the
-GitHub Pages of its repo (usually `https://<owner>.github.io/<repo>/`), and the catalog links to it.
+The scopes: `listing` applies to every listed app, wherever it is hosted. `archetype:<name>` applies to apps of that
+archetype. Your app lives at its own address, by default the GitHub Pages of its repo (usually
+`https://<owner>.github.io/<repo>/`), and the catalog links to it.
 
 ### `plan-file`: Keep the plan file
 
@@ -159,7 +158,7 @@ the creator's turns after the plan, where you had to guess. No names of people.
 
 ```rule
 id: no-tracking
-scope: [listing, site]
+scope: listing
 severity: error
 ```
 
@@ -243,7 +242,7 @@ teachers can follow for facts. This should be done where it fits; it is never a 
 
 ```rule
 id: no-request-before-click
-scope: [listing, site]
+scope: listing
 severity: error
 ```
 
@@ -255,7 +254,7 @@ message on that line with this reason.
 
 ```rule
 id: accessible
-scope: [listing, site]
+scope: listing
 severity: error
 ```
 
@@ -265,31 +264,11 @@ Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives.
 
 ```rule
 id: usable-at-360px
-scope: [listing, site]
+scope: listing
 severity: error
 ```
 
 Every page works at 360 px width without horizontal scrolling, with every control reachable.
-
-### `readable-without-javascript`: Readable without JavaScript
-
-```rule
-id: readable-without-javascript
-scope: site
-severity: error
-```
-
-Every page says what it is and what the app does without JavaScript. The skill of the archetype says how much more.
-
-### `imprint-and-privacy`: Link imprint and privacy notice
-
-```rule
-id: imprint-and-privacy
-scope: site
-severity: error
-```
-
-Every page links to <https://lernapps.net/imprint/> and <https://lernapps.net/privacy/>.
 
 ### `learner-text-german`: German, plain language for learners
 
@@ -318,7 +297,7 @@ to it.
 
 ```rule
 id: links-resolve
-scope: [listing, site]
+scope: listing
 severity: error
 ```
 
