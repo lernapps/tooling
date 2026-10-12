@@ -135,7 +135,7 @@ definition: The last section of the plan file, filled by the assistant at the en
 
 ## Rule
 
-Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. One rule can be told in a skill and checked by a program at the same time, under one id. All rules together are the rule catalog (chapter 8).
+Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. One rule can be told in a skill and checked by a program at the same time, under one id. All rules together are the rule catalog (chapter 8); the rules of lernapps.net's own websites are not part of it.
 
 ```arc42
 :::glossary-term
@@ -147,7 +147,7 @@ definition: One requirement on an app, with a stable id, scope (listing, archety
 
 ## Rules in scope
 
-Skills, checks and rubric work on the rules in scope of the app at hand.
+Skills, checks and rubric work on the rules in scope of the app at hand, wherever the app is hosted.
 
 ```arc42
 :::glossary-term
