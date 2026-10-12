@@ -293,8 +293,13 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 
 ### Tasks
 *Order of building agreed with the owner (2026-10-09). Tracking issue: [#9](https://github.com/lernapps/tooling/issues/9).
-Each step brings its rules in their artifacts and, where it touches the guidance, an eval run.*
-- [ ] 9 · Listing validation with the results comment ([lernapps/apps#3](https://github.com/lernapps/apps/issues/3))
+Each step brings its rules in their artifacts and, where it touches the guidance, an eval run. To close the circle
+with the quiz archetype first (owner, 2026-10-12): 9 → 13 → a first full run → 10, then 11 and 12.*
+- [ ] 9 · Listing validation with the results comment ([lernapps/apps#3](https://github.com/lernapps/apps/issues/3));
+  the skill `lernapps-listing` points the assistant to it
+- [ ] 13 · Documentation across repos and the creator's entry point, incl. lernapps/.github#12
+  ([#21](https://github.com/lernapps/tooling/issues/21))
+- [ ] First full run, from the first prompt to the listing, in lernapps/naturwunder-quiz
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 11 · The explainer archetype, after the rendering prototype ([#19](https://github.com/lernapps/tooling/issues/19))
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
@@ -338,12 +343,14 @@ Each step brings its rules in their artifacts and, where it touches the guidance
   the generator's tests fetch app-templates at the pinned commit instead of being skipped. The check treats a link
   that only changes the query as the same page, so a quiz's random seed no longer changes the report. Tested by
   `test/app-check.e2e.test.ts` and the workflow `app-check.yml` on a passing and a failing fixture app
+- [x] Review follow-ups (merged in #44): the tooling's own pre-push hook runs the heavy end-to-end tests only for
+  the paths they exercise, CI runs everything (`dec-tooling-pre-push`, the one exception to `dec-one-check-command`);
+  the CLI's help and the actions' descriptions hold the details, the architecture states responsibilities and the
+  README orients; scaffolding is `npx --yes github:lernapps/tooling#main create`, then `npx lernapps check`
 
 ## Commit
 
 ### Tasks
-- [ ] 13 · Documentation across repos and the creator's entry point, incl. lernapps/.github#12
-  ([#21](https://github.com/lernapps/tooling/issues/21))
 - [ ] Pull request per repo, previews green
 
 ### Completed

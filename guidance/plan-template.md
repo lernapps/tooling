@@ -140,10 +140,11 @@ another branch until the creator says yes.
       fix what you can and push again; for a setting only a repository admin may change, tell the creator the exact
       clicks the message names, and run the workflow again when they are done.
 - [ ] Open the address the job `deploy` printed ("published at ...") and confirm that it shows the app.
+- [ ] Load the skill `lernapps-listing`.
 - [ ] Complete the entry draft with what is known now, such as the app's address.
 - [ ] **Checkpoint:** list. Ask the creator before you open the listing pull request, and wait for their yes.
 - [ ] Fill the retrospective.
-- [ ] Open the listing pull request (skill `lernapps-listing`).
+- [ ] Open the listing pull request as the skill says, and see it through to "bestanden".
 
 ### Completed
 

@@ -3,7 +3,7 @@
 //   - the review and the evals read the retrospective; its sections are in every plan started from the template;
 //   - the generator copies AGENTS.md and the template; what AGENTS.md points to exists in the package.
 // How an assistant behaves with these files is checked by hand (the evals), not here.
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
 import { frontMatter, frontMatterErrors, headings } from "./plan.ts";
@@ -96,5 +96,30 @@ describe("AGENTS.md", () => {
     expect(agents).toContain("@lernapps/tooling/guidance/plan-template.md");
     expect(agents).toContain("lernapps-app");
     expect(read(SKILL)).toMatch(/^---\nname: lernapps-app\n/);
+  });
+});
+
+describe("the skills", () => {
+  // Names in backticks after "skill": `lernapps-app`; the "Not installed" hint names a repo, not a skill.
+  const named = (text: string) => [...text.matchAll(/skills? `([a-z][a-z0-9-]*)`/g)].map((match) => match[1]);
+  const skills = readdirSync(file("skills"));
+
+  test.each([TEMPLATE, AGENTS, ...skills.map((name) => `skills/${name}/SKILL.md`)])(
+    "every skill %s names exists, with its name, and a consumer can resolve it",
+    (path) => {
+      const exports = (JSON.parse(read("package.json")) as { exports: Record<string, string> }).exports;
+      for (const name of named(read(path))) {
+        expect(skills, `${path} names the skill ${name}`).toContain(name);
+        expect(read(`skills/${name}/SKILL.md`)).toMatch(new RegExp(`^---\\nname: ${name}\\n`));
+        expect(exports, `package.json exports ${name}`).toHaveProperty(`./skills/${name}/SKILL.md`);
+      }
+    },
+  );
+
+  test("the listing skill points to the entry schema and the catalog's listing guide instead of repeating them", () => {
+    const skill = read("skills/lernapps-listing/SKILL.md");
+    expect(skill).toContain("https://lernapps.net/apps/schemas/entry.v1.schema.json");
+    expect(skill).toContain("https://lernapps.net/apps/llms.txt");
+    for (const field of ["grades", "thirdParty", "keywords", "topics"]) expect(skill).not.toContain(field);
   });
 });
