@@ -1,13 +1,13 @@
 {
   "version": 1,
   "base": {
-    "label": "ce3edae9c505d390c52efab6dd5985081f8ac405",
-    "commit": "ce3edae9c505d390c52efab6dd5985081f8ac405"
+    "label": "6c8760b7cb7efbc871c3e58c29366ccd5b7c9766",
+    "commit": "6c8760b7cb7efbc871c3e58c29366ccd5b7c9766"
   },
   "head": {
-    "label": "40a2f196d633ce271a8b3eae130c2073401c99ac"
+    "label": "546eddb87ac066ebe014bc2e2d0c2cb6f5600fc6"
   },
-  "acceptanceBase": "ce3edae9c505d390c52efab6dd5985081f8ac405",
+  "acceptanceBase": "6c8760b7cb7efbc871c3e58c29366ccd5b7c9766",
   "untracked": [],
   "accepted": false,
   "hasBlockingFindings": false,
@@ -22,7 +22,58 @@
     "elements": [],
     "diagrams": [],
     "edges": [],
-    "proseSections": [],
-    "documents": []
+    "proseSections": [
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "headingPath": [
+            "Introduction and Goals",
+            "1.1 Requirements Overview"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 12
+        },
+        "head": {
+          "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+          "line": 12
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        }
+      }
+    ],
+    "documents": [
+      {
+        "file": "docs/arc42/01-introduction-and-goals.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/03-system-context.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
   }
 }

@@ -66,7 +66,7 @@
               "text": { "type": "string", "minLength": 1, "description": "The rule, as a skill would tell it" },
               "scope": {
                 "type": "array",
-                "items": { "type": "string", "pattern": "^(listing|site|archetype:[a-z][a-z0-9-]*)$" },
+                "items": { "type": "string", "pattern": "^(listing|archetype:[a-z][a-z0-9-]*)$" },
                 "minItems": 1,
                 "uniqueItems": true
               },
