@@ -29,8 +29,6 @@ export interface PageVisit {
   overflow: { width: number; elements: string[] };
   /** Violations of WCAG 2.1 A and AA found by axe-core. */
   axe: { id: string; help: string; helpUrl: string; targets: string[] }[];
-  /** The page with JavaScript off: its title and visible text. */
-  withoutJavaScript: { title: string; heading: string; text: string };
   /** Links and resources of the app (below its base URL), with the HTTP status each one answers with. */
   links: { url: string; status: number }[];
 }
@@ -64,8 +62,6 @@ export interface Context {
   app?: App;
   /** The app's repo (`lernapps check` without a target), with its node_modules. */
   project?: string;
-  /** `--site <path>`: the app is served on lernapps.net at this path. */
-  site?: string;
   /** `--entry <file>`: the catalog entry to check against the app. */
   entry?: { file: string; value: Entry };
 }

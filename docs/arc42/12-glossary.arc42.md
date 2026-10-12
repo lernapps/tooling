@@ -141,7 +141,7 @@ Replaces the loose terms criterion, convention and guideline: their difference i
 :::glossary-term
 id: term-rule
 title: Rule
-definition: One requirement on an app, with a stable id, scope (listing, site, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id.
+definition: One requirement on an app, with a stable id, scope (listing, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id.
 :::
 ```
 
@@ -153,14 +153,13 @@ Skills, checks and rubric work on the rules in scope of the app at hand.
 :::glossary-term
 id: term-rules-in-scope
 title: Rules in scope
-definition: The rules that apply to one app - scope listing, its archetype, and scope site when it is served on lernapps.net.
+definition: The rules that apply to one app - scope listing and its archetype.
 :::
 ```
 
 ## Site
 
-The rule scope "site" keeps its name: it holds the rules every page of lernapps.net's websites meets, and an app
-meets them too while it is served on lernapps.net. The app is still not a site.
+A site's own rules belong to the shared site frame; no rule of the catalog has a site scope.
 
 ```arc42
 :::glossary-term

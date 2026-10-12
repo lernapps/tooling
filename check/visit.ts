@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 // Opens the built app in a browser, as a learner would, and records what each page does before any click: requests,
-// cookies and storage, width at 360 px, axe-core's findings, the page without JavaScript, its links. A bundle is
+// cookies and storage, width at 360 px, axe-core's findings, its links. A bundle is
 // served on 127.0.0.1 under its base path; an app on a URL is opened there. Requests to other hosts are recorded
 // and blocked, so a check never depends on another server. The checks in check/rules/ read the visits.
 import { spawnSync } from "node:child_process";
@@ -143,13 +143,8 @@ export async function visitApp(
   return visits.sort((a, b) => a.page.localeCompare(b.page));
 }
 
-async function newContext(
-  browser: Browser,
-  origin: string,
-  javaScriptEnabled: boolean,
-  requests: PageVisit["requests"],
-) {
-  const context = await browser.newContext({ viewport: { width: WIDTH, height: 800 }, javaScriptEnabled });
+async function newContext(browser: Browser, origin: string, requests: PageVisit["requests"]) {
+  const context = await browser.newContext({ viewport: { width: WIDTH, height: 800 } });
   await context.route("**/*", async (route) => {
     const request = route.request();
     requests.push({ url: request.url(), method: request.method() });
@@ -175,7 +170,7 @@ async function visitPage(
 ): Promise<Omit<PageVisit, "page"> & { anchors: string[] }> {
   const origin = new URL(base).origin;
   const requests: PageVisit["requests"] = [];
-  const context = await newContext(browser, origin, true, requests);
+  const context = await newContext(browser, origin, requests);
   try {
     const page = await settle(context, url);
     const loaded = [...requests];
@@ -239,24 +234,9 @@ async function visitPage(
       storage,
       overflow,
       axe: violations.sort((a, b) => a.id.localeCompare(b.id)),
-      withoutJavaScript: await readWithoutJavaScript(browser, url, origin),
       links: statuses,
       anchors,
     };
-  } finally {
-    await context.close();
-  }
-}
-
-async function readWithoutJavaScript(browser: Browser, url: string, origin: string) {
-  const context = await newContext(browser, origin, false, []);
-  try {
-    const page = await settle(context, url);
-    return await page.evaluate(() => ({
-      title: document.title.trim(),
-      heading: document.querySelector("h1")?.textContent?.trim() ?? "",
-      text: document.body.innerText.replace(/\s+/g, " ").trim(),
-    }));
   } finally {
     await context.close();
   }

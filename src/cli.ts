@@ -72,7 +72,7 @@ const browserFinding = (error: BrowserError) =>
   });
 
 /** Serves a bundle (or opens a URL), visits its pages and measures its fitness. */
-async function visit(target: { bundle: string } | { url: string }, site: string | undefined): Promise<App> {
+async function visit(target: { bundle: string } | { url: string }): Promise<App> {
   const browser = await launch();
   try {
     if ("url" in target) {
@@ -80,7 +80,7 @@ async function visit(target: { bundle: string } | { url: string }, site: string 
       const pages = await visitApp(browser, base, (url) => url, target.url);
       return { base, pages, fitness: measure(pages, base) };
     }
-    const { server, base } = await serve(target.bundle, site ?? "/");
+    const { server, base } = await serve(target.bundle, "/");
     try {
       const name = (url: string) => {
         const path = decodeURIComponent(url.slice(base.length));
@@ -147,7 +147,7 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
     context.project = process.cwd();
     if (existsSync(join("dist", "index.html"))) {
       try {
-        context.app = await visit({ bundle: "dist" }, context.site);
+        context.app = await visit({ bundle: "dist" });
       } catch (error) {
         if (!(error instanceof BrowserError)) throw error;
         findings.push(browserFinding(error));
@@ -180,11 +180,10 @@ async function checkApp(target: string, context: Context): Promise<Report> {
   if (!isUrl && !(existsSync(target) && statSync(target).isDirectory() && existsSync(join(target, "index.html")))) {
     throw new UsageError(`${target}: not a URL, nor a directory with index.html (build the app first)`);
   }
-  if (isUrl && context.site !== undefined) throw new UsageError("--site needs a bundle directory, not a URL");
   const at = new Date().toISOString();
   const findings: Finding[] = [];
   try {
-    context.app = await visit(isUrl ? { url: target } : { bundle: target }, context.site);
+    context.app = await visit(isUrl ? { url: target } : { bundle: target });
   } catch (error) {
     if (!(error instanceof BrowserError)) throw error;
     findings.push(browserFinding(error));
@@ -212,10 +211,6 @@ async function check(args: string[]): Promise<number> {
   }
   if (positionals.length > 1) throw new UsageError(`one <dir|url> at most, not ${positionals.join(" ")}`);
   const context: Context = {};
-  if (values.site !== undefined) {
-    if (!/^\/([^/]+\/)*$/.test(values.site)) throw new UsageError(`--site ${values.site}: a path like /brueche/`);
-    context.site = values.site;
-  }
   if (values.entry !== undefined) context.entry = readEntry(values.entry);
   const target = positionals[0] ?? context.entry?.value.url;
 

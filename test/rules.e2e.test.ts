@@ -182,8 +182,18 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
     expect(output(result)).toMatch(/planted-rule.*severity/);
   });
 
+  test("a rule block with scope site fails the rule-id test: apps have no site rules", { timeout: SLOW }, () => {
+    plant("skills/planted/SKILL.md", skill("planted", { id: "planted-rule", scope: "site" }));
+    const result = ruleTest();
+    expect(result.code, output(result)).not.toBe(0);
+    expect(output(result)).toMatch(/planted-rule.*scope "site"/);
+  });
+
   test("the rule page lists every rule and passes check:site", { timeout: SLOW }, () => {
-    plant("skills/planted/SKILL.md", skill("planted", { id: "planted-site", scope: "site" }, { id: "planted-judged" }));
+    plant(
+      "skills/planted/SKILL.md",
+      skill("planted", { id: "planted-archetype", scope: "archetype:quiz" }, { id: "planted-judged" }),
+    );
     const rubric = readFileSync(join(clone, "review/rubric.md"), "utf8");
     plant(
       "review/rubric.md",
@@ -191,25 +201,26 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
     );
     ok("npm", ["run", "build"], clone);
     const page = readFileSync(join(clone, "_site/rules/index.html"), "utf8");
-    // the first rules of scope listing and site, and the planted ones
+    // the first rules of scope listing, and the planted ones
     for (const id of [
       "no-request-before-click",
       "no-tracking",
-      "readable-without-javascript",
       "accessible",
       "usable-at-360px",
-      "imprint-and-privacy",
       "runs-in-browser",
       "no-account",
       "free-of-charge",
       "no-ads",
       "learners-act",
-      "planted-site",
+      "planted-archetype",
       "planted-judged",
     ]) {
       expect(page, id).toContain(`id="${id}"`);
     }
-    expect(page).toContain("Explains the rule planted-site.");
+    for (const id of ["readable-without-javascript", "imprint-and-privacy", "site-check"]) {
+      expect(page, id).not.toContain(`id="${id}"`);
+    }
+    expect(page).toContain("Explains the rule planted-archetype.");
     expect(page).toContain("Explains the rule planted-judged.");
     expect(page).toContain("skills/planted/SKILL.md");
     expect(page).toContain("review/rubric.md");

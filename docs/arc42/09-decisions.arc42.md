@@ -279,10 +279,9 @@ addresses: qg-guidance-evolves, qg-checked-not-declared, risk-oxlint-plugins, ri
 
 **Context:** the same rules must be checked on scaffolded apps and on apps built otherwise, and people and agents
 read the result. **Decision:** one CLI that works on a repo, a bundle or an address, without needing the source repo
-for the checks of the built app. It can check an entry against the app, and it reports in YAML. For the rules of
-lernapps.net's websites, which an app meets when it is served there, it calls the check of the shared site frame,
-which stays there. **Consequences:** the same check in hook, CI
-and listing; the report is the fitness signal and is readable without a viewer.
+for the checks of the built app. It can check an entry against the app, and it reports in YAML. It checks only rules for apps; the rules of
+lernapps.net's own websites stay with the shared site frame and its check. **Consequences:** the same check in hook,
+CI and listing; the report is the fitness signal and is readable without a viewer.
 
 ```arc42
 :::decision
