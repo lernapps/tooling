@@ -1,7 +1,10 @@
 name: lernapps site check
 description: >-
   Builds a lernapps.net site and checks the output, the same way for every site: checkout, Node 22,
-  npm ci, npm run build, npm run check (or the script named by check-script). On main it uploads _site/ as the artifact "site" for site-deploy.
+  npm ci, npm run build, npm run check (or the script named by check-script). The contract with the repo: npm run
+  build writes the static site into _site/, and the check script checks it (lernapps-check of the shared site frame).
+  On main it uploads _site/ as the artifact "site" for site-deploy. Use it in the job "site" of the site's pages.yml
+  (on push to main, pull_request and workflow_dispatch), pinned to a commit.
 inputs:
   check-script:
     description: The npm script that checks the built site (a repo whose `check` checks its code names another one)

@@ -16,8 +16,8 @@ We cannot observe other people's AI assistants, and the platform collects nothin
   sample creator prompts, one set per archetype. The only source for iterations and for comparing assistants.
 - **Listing reports**: the validation report of every listing pull request (first-pass rate, findings per rule).
 - **Retrospective**: the section the agent writes at the end of its plan file (phases, failed checks, the
-  creator's turns after the plan, where it had to guess), and the counters the git hooks keep in the plan's front
-  matter (failed pre-push runs). It stays in the creator's repo and reaches the platform only with a
+  creator's turns after the plan, where it had to guess), and the counters the git hooks keep in the plan (failed
+  pushes). It stays in the creator's repo and reaches the platform only with a
   listing.
 - **Conversations**: the owner talks to each creator after listing ([creators contribute without payment](https://lernapps.net/docs/platform-design/#2-design/d8-mvp.pdt42.md:el-a-creators-unpaid)).
 
@@ -113,7 +113,7 @@ priority: medium
 ## Works through any assistant
 
 "Whatever lernapps.net offers creators has to work through their AI assistants" ([AI assistants](https://lernapps.net/docs/platform-design/#1-exploration/e2-scan.pdt42.md:el-e-ai-assistants)), and the
-providers compete. Guidance and enforcement must not depend on one vendor, an MCP server or agent-specific hooks.
+providers compete. Guidance and enforcement must not depend on one vendor, an agent protocol or agent-specific hooks.
 
 ```arc42
 :::quality-goal
@@ -174,8 +174,8 @@ metric: Most of the first 5 to 10 creators name the guidance as a reason it went
 
 ## An archetype in the evals
 
-Iterations are compared in the evals, where we run the assistants ourselves. The pre-push hook counts its failed
-runs in the front matter of the plan file, so the same number arrives with every listing, without the assistant
+Iterations are compared in the evals, where we run the assistants ourselves. The git hooks count failed pushes in
+the plan, so the same number arrives with every listing, without the assistant
 reporting it.
 
 ```arc42
@@ -185,7 +185,7 @@ title: An archetype in the evals
 quality: qg-few-iterations
 stimulus: The evals run a sample creator prompt for an archetype
 response: The assistant reaches an app that passes validation
-metric: p90 of failed pre-push runs per app below 5 (source - evals, counter in the plan's front matter)
+metric: p90 of failed pushes per app below 5 (source - evals, counter in the plan)
 :::
 ```
 
@@ -237,7 +237,7 @@ metric: Every topic link of every listing built with the tooling resolves, and n
 
 ## An app not built with the tooling
 
-Some creators already have an app, e.g. a chat assistant's artifact, a site of their own or an app built with
+Some creators already have an app, e.g. a chat assistant's artifact, a page on their own website or an app built with
 another toolchain.
 
 ```arc42
@@ -268,7 +268,8 @@ metric: Identical deterministic results for the same commit; every entry's fitne
 
 ## An external request slips in
 
-A web font, a CDN script or a video thumbnail sends the learner's IP address to another server before any click.
+A web font, a script from a CDN or a video thumbnail sends the learner's IP address to another server before any
+click. The checks must catch it before the app leaves the creator's machine.
 
 ```arc42
 :::quality-scenario
@@ -276,7 +277,7 @@ id: qs-external-request
 title: An external request slips in
 quality: qg-nothing-collected
 stimulus: An assistant adds a resource that loads from another server on page load
-response: The pre-push hook and the validation both fail and name the page, the host and the element
+response: The check before the push and the validation both fail and name the page, the host and the element
 metric: 0 requests to other hosts before a click in any app that passes validation (source - listing reports)
 :::
 ```
@@ -298,15 +299,16 @@ metric: No request from the tooling carries data about the creator, the app or t
 
 ## A creator uses another assistant
 
-The guidance is written for any assistant; Claude Code is only the one the owner uses.
+The guidance is written for any assistant; Claude Code is only the one the owner uses. Nothing may depend on a
+protocol or hook that only one assistant offers.
 
 ```arc42
 :::quality-scenario
 id: qs-other-assistant
 title: A creator uses another assistant
 quality: qg-any-assistant
-stimulus: A creator builds an app with an assistant other than Claude Code, without an MCP server
-response: The assistant reads the workflow from AGENTS.md, writes the plan file, loads the skills, and the git hooks run the same checks
+stimulus: A creator builds an app with an assistant other than Claude Code, without an agent protocol
+response: The assistant reads the workflow from the agent instructions, writes the plan file, loads the skills, and the git hooks run the same checks
 metric: The evals pass with Claude Code, Codex and Gemini CLI, each with its provider's latest model at the time of the run (source - evals)
 :::
 ```

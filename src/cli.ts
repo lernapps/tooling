@@ -9,50 +9,10 @@ import { delimiter, dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
-import { failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
+import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
 import { BrowserError, launch, serve, visitApp } from "../check/visit.ts";
 import { create, CreateError } from "../generator/create.ts";
-import { UsageError } from "./usage.ts";
-
-const USAGE = `Usage: lernapps <command> [options]
-
-Commands:
-  check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
-  create --archetype <name> [<dir>]               write a new app from the archetype's template
-
-Options:
-  -h, --help      print this help
-  -v, --version   print the version
-
-Run "lernapps <command> --help" for the options of a command.
-`;
-
-const CHECK_USAGE = `Usage: lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--site <path>] [--report <file>]
-
-Runs every check that has something to check. Exits 0 when no rule of severity error fails, 1 when one does.
-Passing, it prints one line; otherwise the validation report in YAML (schema:
-https://lernapps.net/tooling/schemas/validation-report.v1.schema.json).
-
-In a repo (no <dir|url>):
-  --pre-commit     the fast part: format, lint, type check (the pre-commit hook)
-  --pre-push       the heavy part: unit tests, build, checks of the built app in dist/, the Playwright tests
-                   when playwright.config.* exists, dependency licences (the pre-push hook); a failure
-                   increments prePushFailures in .vibe/plan.md
-  Without a flag, or with both, it runs both parts (CI): the hooks together run exactly what CI runs.
-  Every run in a repo also writes the full report to node_modules/.cache/lernapps/validation-report.yaml.
-
-On a built app, without its repo:
-  <dir>            a bundle (a directory with index.html), served on 127.0.0.1
-  <url>            an app on the web
-
-Options:
-  --entry <file>   check a catalog entry (YAML) against the app: its URL and topic links resolve, the fitness
-                   values match; without <dir|url> the app at the entry's url is checked
-  --site <path>    the app is served on lernapps.net at <path> (e.g. /brueche/): also the site rules
-                   (lernapps-check of the site frame); needs a bundle
-  --report <file>  also write the full report to <file>, passing or not
-  -h, --help       print this help
-`;
+import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
 
 /** A step of a part: a command of the project's toolchain and what it checks. */
 interface Step {
@@ -242,19 +202,12 @@ async function checkApp(target: string, context: Context): Promise<Report> {
 async function check(args: string[]): Promise<number> {
   const { values, positionals } = parseArgs({
     args,
-    options: {
-      "pre-commit": { type: "boolean", default: false },
-      "pre-push": { type: "boolean", default: false },
-      entry: { type: "string" },
-      site: { type: "string" },
-      report: { type: "string" },
-      help: { type: "boolean", short: "h", default: false },
-    },
+    options: CHECK_OPTIONS,
     strict: true,
     allowPositionals: true,
   });
   if (values.help) {
-    process.stdout.write(CHECK_USAGE);
+    process.stdout.write(`${CHECK_USAGE}${await describeChecks()}`);
     return 0;
   }
   if (positionals.length > 1) throw new UsageError(`one <dir|url> at most, not ${positionals.join(" ")}`);

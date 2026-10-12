@@ -98,14 +98,23 @@ creator's turns from here to the listing are counted in the retrospective (targe
 
 <!--
 Generate the app, then build it task by task. Load the skill lernapps-app and the skill of the archetype before you
-write code. Commit after each task: the git hooks run the checks. Fix every failed check from its message; never
-bypass a hook. When you cannot decide something, choose, mark it "(guess)" under "Key decisions" and go on.
+write code. Commit after each task: the git hooks run the checks. The pre-commit hook is quiet: when it fails, it
+prints one line naming the step and its log, `node_modules/.cache/lernapps/pre-commit.log`; read that log for the
+messages. Fix every failed check from its message; never bypass a hook. When you cannot decide something, choose, mark it "(guess)" under "Key decisions" and go on.
+
+The generator needs git, Node 22.18 or later and the network: github.com and codeload.github.com for the tooling, the
+template and the runtime, and the npm registry (registry.npmjs.org) for the other dependencies. If the sandbox blocks
+one of them, stop and ask the creator to allow it, then run the command again. Never write the app by hand.
 -->
 
 ### Tasks
 
-- [ ] Generate the app from the archetype: `lernapps create --archetype <archetype>`. Keep this plan at
-      `.vibe/plan.md` in the new app.
+- [ ] Generate the app in the folder that holds this plan: `npx --yes github:lernapps/tooling#main create --archetype
+      <archetype>`. Nothing needs to be installed first. The generator keeps this plan at `.vibe/plan.md`.
+- [ ] Run `git init` if the folder is not a git repository yet. Then run `npm install`: it installs the dependencies
+      and the git hooks. From now on, everything runs from the app's own `node_modules`: `npx lernapps check`, the
+      hooks.
+- [ ] Commit what the generator wrote, with this plan: the first commit.
 - [ ] Load the skill `lernapps-app` and the skill of the archetype.
 - [ ] <the tasks written in Plan>
 - [ ] `npx lernapps check` passes.
@@ -117,12 +126,20 @@ bypass a hook. When you cannot decide something, choose, mark it "(guess)" under
 
 <!--
 Publish the app and list it, each only after the creator says yes. Then fill the retrospective.
+A push to `main` publishes the app: the workflow `Pages` checks it and, in its job `deploy`, publishes the checked
+bundle to the repo's GitHub Pages, at the repo's own address (usually https://<owner>.github.io/<repo>/). So work on
+another branch until the creator says yes.
 -->
 
 ### Tasks
 
-- [ ] Push. The pre-push hook runs the heavy checks; fix what fails.
+- [ ] Push your branch (not `main`). The pre-push hook runs the heavy checks; fix what fails.
 - [ ] **Checkpoint:** publish. Ask the creator before the app goes online, and wait for their yes.
+- [ ] Merge your branch into `main` and push `main`. Watch the run of the workflow `Pages` on `main` until it ends
+      (for example `gh run watch`, or the Actions tab of the repo). If it fails, read the message of the failed step:
+      fix what you can and push again; for a setting only a repository admin may change, tell the creator the exact
+      clicks the message names, and run the workflow again when they are done.
+- [ ] Open the address the job `deploy` printed ("published at ...") and confirm that it shows the app.
 - [ ] Complete the entry draft with what is known now, such as the app's address.
 - [ ] **Checkpoint:** list. Ask the creator before you open the listing pull request, and wait for their yes.
 - [ ] Fill the retrospective.

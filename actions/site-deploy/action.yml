@@ -1,8 +1,9 @@
 name: lernapps site deploy
 description: >-
   Publishes the artifact "site" (from site-check) to the root of the gh-pages branch, which GitHub Pages
-  serves (Settings → Pages → Deploy from a branch → gh-pages, / (root)). Leaves the previews alone.
-  The job needs permissions: contents: write.
+  serves (Settings → Pages → Deploy from a branch → gh-pages, / (root)), at lernapps.net/<repo>/. Leaves the previews
+  alone. Use it in the job "deploy" of the site's pages.yml, on main, after the job "site" (needs: site), pinned to
+  a commit. The job needs permissions: contents: write.
 runs:
   using: composite
   steps:

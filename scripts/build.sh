@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
-# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, the
+# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, llms.txt, the
 # rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of
 # the review verdict and of the question bank of a quiz (schemas/; the last from lernapps/app-templates at the
 # pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
+#
+#   npm run build && npm run check:site         the site, built and checked (the job `site` in pages.yml)
+#   ARC42_DIFF_BASE=origin/main npm run build   also the review page of the architecture's changes
+#   npm run arc42 -- <command>                  any arc42 command on docs/arc42/ (validate, get, diff, ...)
+#   python3 -m http.server -d _site 8000        a local look; links assume the /tooling/ prefix
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export PATH="$PWD/node_modules/.bin:$PATH"
@@ -12,7 +17,7 @@ PREFIX="${SITE_PATH_PREFIX:-/tooling/}"
 
 rm -rf _site
 mkdir -p _site
-cp site/index.html site/stil.css site/spa.css _site/
+cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
 mkdir -p _site/schemas
 cp check/validation-report.v1.schema.json review/verdict.v1.schema.json _site/schemas/
 # The schema of a quiz's question bank lives with the quiz's runtime in lernapps/app-templates: published from the

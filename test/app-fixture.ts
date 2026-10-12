@@ -12,7 +12,18 @@ import { appendFileSync, cpSync, existsSync, readFileSync, rmSync, writeFileSync
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse, stringify } from "yaml";
-import { appTemplates, freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import {
+  appTemplates,
+  freshClone,
+  linkNodeModules,
+  ok,
+  PRE_COMMIT_LOG,
+  repoRoot,
+  run,
+  shared,
+  tempDir,
+  type Result,
+} from "./support.ts";
 
 /** Where `lernapps check` writes its full report in a repo, in the hooks and in CI. */
 export const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
@@ -31,6 +42,9 @@ export interface Finding {
 export interface HookRun {
   hook: "pre-commit" | "pre-push";
   passed: boolean;
+  /** What git printed, the hook's output included. */
+  printed: string;
+  /** What the hook printed, and for the quiet pre-commit hook what its steps wrote to its log. */
   output: string;
   findings: Finding[];
 }
@@ -72,6 +86,48 @@ export function createApp(dir: string): string {
   return dir;
 }
 
+/**
+ * The quiz app of `createApp`, made once per test run and shared read only (support.ts, shared): generated from a
+ * fresh clone of this repo, installed, with the fixture bank, nothing committed. Use a copy (quizApp).
+ */
+const sharedQuizApp = (): string => shared("quiz-app", (dir) => createApp(dir), "naturwunder");
+
+/**
+ * A copy of the shared quiz app to work in: its files and git repository, its own bare remote `origin`, and its
+ * node_modules linked to the shared app's, with the git hooks of the package installed as `npm install` set them.
+ */
+export function quizApp(): string {
+  const source = sharedQuizApp();
+  const dir = join(tempDir("quiz-app"), "naturwunder");
+  cpSync(source, dir, { recursive: true, filter: (path) => path !== join(source, "node_modules") });
+  linkNodeModules(source, dir);
+  const remote = tempDir("remote");
+  ok("git", ["init", "--quiet", "--bare", "--initial-branch=main"], remote);
+  ok("git", ["remote", "set-url", "origin", remote], dir);
+  return dir;
+}
+
+/** A step of the app check action, as its action.yml names it. */
+export interface ActionStep {
+  id?: string;
+  run?: string;
+  uses?: string;
+  with?: Record<string, string>;
+}
+/** The steps of the app check action (actions/app-check/action.yml). */
+export const actionSteps = (
+  parse(readFileSync(join(repoRoot, "actions/app-check/action.yml"), "utf8")) as { runs: { steps: ActionStep[] } }
+).runs.steps;
+/** The action's check step. */
+export const checkStep = actionSteps.find((step) => step.id === "check");
+
+/** The action's check step, run in the app as the action runs it. */
+export const runActionCheck = (dir: string): Result => run("bash", ["-c", checkStep?.run ?? "false"], dir);
+
+/** The failed pushes the pre-push hook counted in the app's plan. */
+export const prePushFailures = (dir: string) =>
+  /prePushFailures: (\d+)/.exec(readFileSync(join(dir, ".vibe/plan.md"), "utf8"))?.[1];
+
 /** A mistake the pre-push hook catches: a stylesheet from another host, loaded before any click. */
 export function plantRequest(dir: string): void {
   const page = join(dir, "index.html");
@@ -98,7 +154,14 @@ export function runHooks(dir: string, message: string): HookRun[] {
   const hook = (name: HookRun["hook"], args: string[]): HookRun => {
     rmSync(report, { force: true });
     const result = run("git", args, dir);
-    return { hook: name, passed: result.code === 0, output: output(result), findings: readReport(report).findings };
+    // the pre-commit hook is quiet: what its steps printed is in its log
+    const log = join(dir, PRE_COMMIT_LOG);
+    const printed =
+      name === "pre-commit" && existsSync(log) ? `${output(result)}\n${readFileSync(log, "utf8")}` : output(result);
+    // a pre-commit hook that stops before its check (vp staged lints first) writes no report
+    const findings =
+      name === "pre-commit" && result.code !== 0 && !existsSync(report) ? [] : readReport(report).findings;
+    return { hook: name, passed: result.code === 0, printed: output(result), output: printed, findings };
   };
   ok("git", ["add", "--all"], dir);
   const commit = hook("pre-commit", ["commit", "--quiet", "--message", message]);

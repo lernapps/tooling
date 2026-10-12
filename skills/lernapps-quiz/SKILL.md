@@ -13,9 +13,9 @@ You write the questions as data in `src/quiz.json`, and no code. The rules of `l
 
 ## How the quiz works
 
-- `lernapps create --archetype quiz` writes the app with an example bank, "Naturwunder der Welt". Replace the
-  example in `src/quiz.json` with the creator's questions. The schema (`"$schema"` in the file) describes every
-  field: <https://lernapps.net/tooling/schemas/quiz.v1.schema.json>.
+- The generator writes the app with an example bank, "Naturwunder der Welt" (the plan's Code tasks name the
+  command). Replace the example in `src/quiz.json` with the creator's questions. The schema (`"$schema"` in the
+  file) describes every field: <https://lernapps.net/tooling/schemas/quiz.v1.schema.json>.
 - The build reads the bank, validates it and renders every question into `index.html`.
   - Without JavaScript, the page is a worksheet: all questions, then the solutions with the same background and links.
   - With JavaScript, the learner answers one question at a time and sees whether the answer is right. After each

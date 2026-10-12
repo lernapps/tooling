@@ -1,0 +1,30 @@
+name: App publish
+
+# The app publish action (actions/app-publish) against the real GitHub API, where it is safe: its check before the
+# deploy (publish/publish.ts before) on this repo, whose GitHub Pages serves the branch gh-pages from its root, as an
+# app repo's must. With the GITHUB_TOKEN of a job that may only read, it confirms that the token reads the settings
+# and that the answers have the shape the script expects. It never deploys: this repo's gh-pages is the docs site.
+# The rest (the deploy, turning Pages on, the wait for the address) is tested locally against a fake GitHub by
+# test/app-publish.e2e.test.ts, in the pre-push hook and in check.yml.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: read
+
+jobs:
+  before:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      - name: Check the Pages setup of this repo, as the action does before a deploy
+        run: node publish/publish.ts before
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
