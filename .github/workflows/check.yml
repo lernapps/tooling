@@ -1,8 +1,9 @@
 name: Check
 
-# The checks of the tooling's own code: exactly what the git hooks run together, `lernapps check` without a
-# flag (pre-commit: format, lint, type check; pre-push: unit and end-to-end tests, build, checks). CI is the safety net
-# for skipped hooks and adds no checks of its own. The docs site is built and checked by pages.yml.
+# The checks of the tooling's own code: `lernapps check` without a flag, with every test. The pre-push hook runs the
+# same command, with the heavy end-to-end tests only when a push changes a path they exercise (scripts/pre-push.ts);
+# CI runs everything, always, and so catches what the hook's positive list misses. The docs site is built and checked
+# by pages.yml.
 on:
   push:
     branches: [main]
@@ -26,6 +27,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # Exactly the command of the hooks, nothing more. The generator's tests fetch lernapps/app-templates at the commit
+      # The command of the hooks, with every test (no LERNAPPS_TESTS). The generator's tests fetch lernapps/app-templates at the commit
       # pinned in package.json (appTemplates) themselves, as they do in the hooks (test/support.ts, appTemplates).
       - run: npm run lernapps -- check

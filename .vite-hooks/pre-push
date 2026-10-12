@@ -1,3 +1,4 @@
-# The heavy part of the checks (unit tests, build, checks of the built app, end-to-end tests): the same command as
-# the second half of the CI job `check`. A failure increments prePushFailures in the plan file, when there is one.
-npm run --silent lernapps -- check --pre-push
+# The pre-push hook of this repo: `lernapps check`, with the heavy end-to-end tests only when the push changes a path
+# they exercise (scripts/pre-push.ts, the positive list); CI runs everything. Quiet: on a failure one line names the
+# log in node_modules/.cache/lernapps/.
+node scripts/pre-push.ts "$@"
