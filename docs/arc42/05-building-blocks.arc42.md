@@ -253,7 +253,8 @@ protocol: npm subpath exports
 
 #### Git hooks
 
-Part of the preset, installed when the app's dependencies are installed; the app holds no hook of its own. The
+Part of the preset, installed when the app's dependencies are installed, and only where the app is the root of its
+repository, never into a repository the app's folder sits in; the app holds no hook of its own. The
 hooks are accountable for feedback before code leaves the creator's machine: the fast part of the check before a
 commit, the heavy part before a push. Together they run exactly what CI runs. A failed push is counted in the plan.
 

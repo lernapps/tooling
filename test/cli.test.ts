@@ -5,7 +5,7 @@ import { pathToFileURL } from "node:url";
 import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS } from "../generator/create.ts";
-import { CHECK_OPTIONS } from "../src/usage.ts";
+import { CHECK_OPTIONS, HOOKS_OPTIONS } from "../src/usage.ts";
 import { repoRoot, run } from "./support.ts";
 
 /** The help must name every option the parser accepts: the help is where the options are documented. */
@@ -25,7 +25,16 @@ describe("lernapps", () => {
     expect(result.stdout).toMatch(/^Usage: lernapps <command>/);
     expect(result.stdout).toContain("check [--pre-commit] [--pre-push]");
     expect(result.stdout).toContain("create --archetype <name> [<dir>]");
+    expect(result.stdout).toMatch(/^  hooks +/m);
     expect(result.stderr).toBe("");
+  });
+
+  test("hooks --help names every option it accepts, and the exit codes", () => {
+    const result = lernapps("hooks", "--help");
+    expect(result.code).toBe(0);
+    expect(result.stdout).toMatch(/^Usage: lernapps hooks$/m);
+    expectEveryOption(result.stdout, HOOKS_OPTIONS);
+    expect(result.stdout).toContain("0 when the hooks are installed or deliberately not, 1 when they cannot be");
   });
 
   test("without a command it prints the usage and exits non-zero", () => {
