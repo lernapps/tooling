@@ -2,7 +2,8 @@
 // The CLI `lernapps`: one entry for the tooling's commands. `check` runs every deterministic check: in a repo the
 // toolchain (format, lint, types; unit tests, build, end-to-end tests) and the checks of the built app, or the checks
 // of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML. `create` writes a new app
-// from an archetype's template (generator/create.ts).
+// from an archetype's template (generator/create.ts); `hooks` installs an app's git hooks
+// (archetypes/shared/install-hooks.ts).
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { delimiter, dirname, join, relative, resolve } from "node:path";
@@ -11,6 +12,7 @@ import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
 import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
 import { BrowserError, launch, serve, visitApp } from "../check/visit.ts";
+import { installHooks } from "../archetypes/shared/install-hooks.ts";
 import { create, CreateError } from "../generator/create.ts";
 import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
 
@@ -262,6 +264,8 @@ async function main(argv: string[]): Promise<number> {
       return check(rest);
     case "create":
       return create(rest);
+    case "hooks":
+      return installHooks(rest);
     case "-h":
     case "--help":
       process.stdout.write(USAGE);

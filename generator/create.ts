@@ -43,10 +43,11 @@ Run it before anything is installed, with npx from git (the package is not on np
 It needs git and access to github.com, codeload.github.com and the npm registry. The app then depends on the
 commit of @lernapps/tooling that npx installed, and its workflows use the actions of that commit.
 
-It writes, besides the template: package.json named after the folder, AGENTS.md, the plan .vibe/plan.md (the one
-already there is kept), the workflow .github/workflows/pages.yml (the app check action on every pull request
-and push to main; on main, then the app publish action to the repo's GitHub Pages), an issue form for content errors, LICENSE
-(MIT) and renovate.json (the Renovate preset of lernapps).
+It writes, besides the template: package.json named after the folder (its prepare script, lernapps hooks,
+installs the git hooks), AGENTS.md, the plan .vibe/plan.md (the one already there is kept), the workflow
+.github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
+publish action to the repo's GitHub Pages), an issue form for content errors, LICENSE (MIT) and renovate.json (the
+Renovate preset of lernapps).
 
 Then: git init (if <dir> is not a repository yet), npm install (installs the git hooks), and the first commit.
 
@@ -72,6 +73,7 @@ const fromPackage = (...path: string[]) => join(packageRoot, ...path);
 interface Manifest {
   name?: string;
   devDependencies?: Record<string, string>;
+  scripts?: Record<string, string>;
   appTemplates?: { repository: string; commit: string; archetypes: string[] };
   [key: string]: unknown;
 }
@@ -251,6 +253,9 @@ export function create(args: string[]): number {
   const templateTooling = app.devDependencies?.["@lernapps/tooling"];
   const name = packageName(dir);
   app.name = name;
+  // npm install installs the hooks of this package, in the app's own repository only (lernapps hooks); the
+  // template needs no prepare script of its own, which would install them in app-templates
+  app.scripts = { ...app.scripts, prepare: "lernapps hooks" };
   // the template uses the runtime of its own checkout (file:.., installed as a copy through .npmrc); the app the
   // runtime of the commit it was copied from
   if (app.devDependencies?.[RUNTIME] !== undefined) {
