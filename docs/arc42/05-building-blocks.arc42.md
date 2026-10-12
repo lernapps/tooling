@@ -302,8 +302,8 @@ protocol: Oxlint / ESLint plugin API
 ### Check CLI
 
 Runs every deterministic check, from format and types to the checks of the built app in a browser. It is the same
-command in the hooks, in CI and in the listing validation. It runs every check that finds something to check and
-decides nothing from a rule's scope. The checks of the built app need no source repo: they work on a bundle or on a
+command in the hooks, in CI and in the listing validation. It runs every check that finds something to check. The
+checks of the built app need no source repo: they work on a bundle or on a
 deployed address, so apps built any other way are checked the same. It can also check a catalog entry against the
 app. Its output is the validation report.
 
