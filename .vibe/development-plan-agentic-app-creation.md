@@ -52,6 +52,10 @@ explanation instead.
 - **Decision** (2026-10-09, accepted by the owner): question types of `quiz`: single choice, multiple choice, true/false, number (with tolerance and
   unit), ordering, matching; each with feedback per option and an explanation per question. Further types are
   engine extensions and never change the creator's data format.
+- **Decision** (2026-10-13, owner): for the `explainer` MVP, exercises beyond the quiz's types are `generated`, a
+  native property-based notation, in place of `calculation`; components start with Vue, as the block type
+  `vue-component`, rendered at build and hydrated as islands, with required property tests of their exercise logic,
+  and are in the MVP; chapters are mandatory. Details and open points: the sketch under Code, step 11.
 
 ### KD-03: Process guidance is EPCC in AGENTS.md, with a Markdown plan
 The agent writes a human-readable plan file with one section per phase (Explore, Plan, Code, Commit), tasks and key
@@ -308,12 +312,25 @@ principles hold there (11, sketch below), before the evals (10); then 10 and 12.
 
 ### Sketch: the explainer MVP (step 11, for the owner's review)
 
-*Proposal of 2026-10-13, revised the same day after the owner's review: subject-neutral blocks, the quiz's question
-types as exercises, four levels of structure, a second fixture that is not maths. Sources: KD-02, KD-06, KD-09,
-KD-11, KD-21; issue #19; the Mathe-Karte (lernapps/mathe-karte: `src/prozent/`, `src/kern/`,
+*Proposal of 2026-10-13, revised twice the same day after the owner's reviews: subject-neutral blocks, the quiz's
+question types as exercises, a structure of four levels, a second fixture that is not maths; then generated exercises
+in a property-based notation, Vue components, several languages and mandatory chapters. Sources: KD-02, KD-06,
+KD-09, KD-11, KD-21; issue #19; the Mathe-Karte (lernapps/mathe-karte: `src/prozent/`, `src/kern/`,
 `src/_includes/kompetenz.njk`, `lib/bild.js`, `lib/pruefungen.js`, `e2e/`, `test/apps/vertrag.test.js`,
 `werkzeuge/skill/lern-app/`, `werkzeuge/review/ki-review.md`); the quiz archetype (app-templates `quiz/`,
 `runtime/quiz/`; tooling `generator/`, `archetypes/shared/`, skills, `review/`).*
+
+**Decided** (owner, 2026-10-13):
+- generated exercises in a native property-based notation (`generated`), in place of `calculation`;
+- components, starting with Vue, as the block type `vue-component`; other frameworks later under their own names
+  (`<framework>-component`);
+- components render at build and hydrate as islands;
+- property tests of a component's exercise logic are required;
+- components are in the MVP;
+- chapters are mandatory.
+
+Recommended and mostly agreed, to confirm (Q7, Q8): language maps with German required; the chapter kept in the URL
+when it is hidden.
 
 **What the Mathe-Karte is.** Eleventy 3 over plain JavaScript, one shared kern, ~20 apps. Per app a config (`APP`,
 `KOMPETENZEN`), per topic ("Kompetenz") a Markdown file with front matter only: `warum`, `regel`, `beispiel` as
@@ -338,15 +355,18 @@ numbers, files under 500 lines, no external resources, dead links, the tutor lin
   Prozentwert, Prozentsatz and Grundwert; each page has the sections Warum, Regel, Beispiel and Übung.
 - Blocks: the closed set of 2., all rendered at build. Data-drawn figure kinds in the MVP: `hundred-grid`
   (Hunderterfeld) and `bar` (Prozentstreifen).
-- Exercises: the quiz's six question types, embedded as blocks, and `calculation` (seeded numbers, mistakes, steps).
+- Exercises: the quiz's six question types, embedded as blocks, and `generated` (2.).
+- Components: `vue-component`, with one component in the history fixture: a figure where the learner assigns the
+  labels.
+- Languages: German, plus any further languages the app declares; the fixtures use German and English.
 - Generated navigation (3.) and `llms.txt` with the pages and deep links.
 - Left out: test page, self-assessment, videos and other embeds after a click, the tutor prompt and its allowlist,
-  clickable or redrawn figures beyond `calculation`, variables as URL parameters (only `seed`), the curriculum map
-  across apps, several apps in one repo, a search.
+  component types other than Vue, variables as URL parameters (only `seed`), the curriculum map across apps, several
+  apps in one repo, a search.
 
 #### 2. The authoring model
-The creator's assistant writes content as data and no code, as in the quiz. A page is an ordered list of blocks
-from a closed set; a schema validates it at build.
+The creator's assistant writes content as data. Code only comes in as a `vue-component`, under the contract in 2.,
+"Components". A page is an ordered list of blocks from a closed set; a schema validates it at build.
 
 | | A: YAML, a page as blocks, schema at build | B: Markdown with front matter and directives | C: Eleventy templates in TypeScript (`.11ty.ts`, KD-02) |
 |---|---|---|---|
@@ -374,7 +394,8 @@ Blocks (`type` and its fields):
 | `code` | language from a fixed list, the code | highlighted HTML (Shiki or Prism at build, no script in the page) |
 | `example`, `note` | a title and blocks | a box with a heading |
 | `section` | `id`, `title`, blocks | a heading and its blocks (3.) |
-| exercises | 2., "Exercises" | the exercise without JS, enhanced with JS (4.) |
+| exercises | the quiz's question types, `generated` | the exercise without JS, enhanced with JS (4.) |
+| `vue-component` | `component` (a file in `src/components/`), `props` | its server-side render; hydrated as an island (4.) |
 
 - **Formulas:** one notation, a LaTeX subset with a command list (`\frac`, `\cdot`, `\%`, `\text`, `^`, `_`,
   `\sqrt`, `\approx`, `\pm`, parentheses, `\ce`, `\pu`). A command outside the list or a parse error fails the build
@@ -385,6 +406,9 @@ Blocks (`type` and its fields):
   MathML. The extension registers itself on a global `temml`, so the plugin loads it once at build.
 - **"Warum / Regel / Beispiel"** is a recommended page structure in the skill (for maths and the sciences), not
   schema. The skill gives other recommendations per subject, e.g. for history: Quelle, Einordnung, Zeitleiste, Übung.
+- **Data:** `src/data/<name>.yaml` holds lists of records (events with year and title, elements with their
+  properties, organs with their function), validated against their schema at build. Blocks and `generated`
+  exercises draw from them.
 
 Exercises, as blocks:
 - **The quiz's question types**: `single-choice`, `multiple-choice`, `true-false` (a statement), `ordering`,
@@ -393,41 +417,137 @@ Exercises, as blocks:
   checker (`isCorrect`, `rightAnswer`, `wrongAnswer`) and the same feedback (`info` per option, `explanation`, links).
   The difference is the no-JS form: the solution sits under the exercise in a `<details>` "Lösung", not at the end
   of the page.
-- **`calculation`** (maths, physics, chemistry): `variants` (text template, unit, ranges or lists per variable),
-  `require` (conditions for "nice" numbers), `answer` (an expression and the number format: `number` or `money`,
-  decimals), `mistakes` (expression and message each), `hint`, `steps` (formulas with placeholders), an optional
-  `figure` of a data-drawn kind bound to variables. Expressions are a small arithmetic language on exact fractions
-  (`+ - * /`, parentheses, numbers, declared variables, `round(x, n)`), parsed by the runtime: no eval, no app code.
-  The Mathe-Karte's `prozentwert.js` becomes about 25 lines of YAML.
+- **`generated`**: a property-based notation in the style of fast-check, declared in YAML, for any subject:
+  - `given`: arbitraries. Integers and decimals in ranges with a step (`int`, `decimal`); a pick from a list
+    (`oneOf`); picks of records from a list or a data file (`pick`, `from`), several and `distinct`; strings from a
+    list; a shuffle of a list (`shuffle`);
+  - `where`: preconditions, as fast-check's `pre`;
+  - `task`: a text template using the values (`{G}`, `{e.name}`; placeholders are replaced before a formula is
+    rendered), and an optional figure of a data-drawn kind bound to them;
+  - `answer`: an expression or a selection, and a comparator from a fixed set: `number` (format, decimals,
+    tolerance), `choice` (exact), `order`, `set`, `pairs`. The comparator decides the learner's controls, and it is
+    the quiz's answer kind of the same name (`number`, `single-choice`, `ordering`, `multiple-choice`, `matching`), so
+    controls, checker and feedback come from the quiz runtime;
+  - `mistakes`: an expression and a message each;
+  - `hint` and `steps`.
 
-Why: a schema and a parser decide everything the creator writes, and the runtime renders it. Readable without
-JavaScript, accessible markup and working deep links then hold by construction and are tested once, in the runtime.
-What the Mathe-Karte proves with per-topic tests becomes generic checks on the data: deterministic, the solution
-passes, nonsense fails, the figure does not give the answer away. The cost: what the blocks cannot say needs a new
-block or exercise type in the runtime, not code in the app (Q3).
+  The expressions are a small language, parsed by the runtime, with no eval:
+  - arithmetic on exact fractions (`+ - * /`, parentheses), `round(x, n)`, `abs`;
+  - comparisons, `and`, `or`, `not`;
+  - record fields (`e.year`), list index (`xs[0]`);
+  - list functions `len`, `map(xs, field)`, `sortBy(xs, field)`, `reverse`, `minBy` and `maxBy`, `contains`,
+    `distinct`;
+  - `decimals(x)`.
+
+  Three examples:
+
+  ```yaml
+  # Maths: percentage
+  - type: generated
+    id: prozentwert-ueben
+    given:
+      G: { int: [150, 1500], step: 5 }
+      p: { oneOf: [5, 10, 12, 15, 20, 25, 30, 40, 50] }
+    where: ["decimals(G * p / 100) <= 2"]
+    task:
+      text: "Ein Fahrrad kostet {G} €. Im Angebot gibt es {p} % Rabatt. Wie viel Euro sparst du?"
+      figure: { kind: hundred-grid, filled: p }
+    answer: { value: "G * p / 100", compare: { number: { format: money } } }
+    mistakes:
+      - { value: "G * p", message: "Du hast vergessen, durch 100 zu teilen." }
+      - { value: "G - G * p / 100", message: "Das ist der neue Preis, nicht der Rabatt." }
+    hint: "Rechne erst 1 % aus: G geteilt durch 100."
+    steps: ["$W = \\frac{G \\cdot p}{100}$", "$W = {G} \\cdot {p} : 100 = {answer}$"]
+  ```
+
+  ```yaml
+  # History: order three events picked from a list of records
+  - type: generated
+    id: ereignisse-ordnen
+    given:
+      events: { pick: 3, distinct: true, from: { data: ereignisse } } # records: year, title
+    where: ["distinct(map(events, year))"]
+    task: { text: "Bringe die Ereignisse in die richtige Reihenfolge, das früheste zuerst." }
+    answer: { value: "map(sortBy(events, year), title)", compare: order }
+    mistakes:
+      - { value: "map(reverse(sortBy(events, year)), title)", message: "Umgekehrt: Das früheste Ereignis kommt zuerst." }
+  ```
+
+  ```yaml
+  # Chemistry: element to main group, from a list of records
+  - type: generated
+    id: hauptgruppe
+    given:
+      e: { pick: 1, from: { data: elemente } } # records: symbol, name, group, period
+    where: ["e.group != e.period"]
+    task: { text: "In welcher Hauptgruppe steht {e.name} ({e.symbol})?" }
+    answer: { value: "e.group", compare: { choice: [1, 2, 3, 4, 5, 6, 7, 8] } }
+    mistakes:
+      - { value: "e.period", message: "Das ist die Periode, also die Zeile. Die Hauptgruppe ist die Spalte." }
+  ```
+
+  The build treats every `generated` block as a property test over 200 fixed seeds:
+  - `where` holds often enough: at least one draw in ten passes, so the exercise does not starve;
+  - the answer is defined and in its format, and it passes its own comparator;
+  - no mistake equals the answer under the comparator;
+  - the task is the same for the same seed, and no placeholder is left;
+  - the unsolved figure does not show the answer.
+
+  The Mathe-Karte's `prozentwert.js` becomes about 20 lines of YAML; the same notation carries the history and
+  chemistry exercises above.
+
+Components (`vue-component`):
+- **Files:** single-file components in `src/components/<Name>.vue`, with `<script setup lang="ts">`, strict
+  TypeScript and typed props (`defineProps<…>()`), and next to each a test file `<Name>.test.ts`.
+- **Props:** the build reads each component's prop types (`vue-component-meta`) and validates every block's `props`
+  against them.
+- **Rendering:** server-side rendering at build (`vue/server-renderer`) gives the static form without JS. Only
+  components hydrate, as islands, so a page without components ships no client JS beyond what its other exercises
+  need. The static form must be meaningful: not empty, and with an accessible name.
+- **Exercise contract:** a component that emits `answered { correct }` is an exercise. Its logic sits in a pure
+  TypeScript module next to it, `<Name>.ts`, with `generate(seed)` and `check(task, answer)`, plus `solution(task)`
+  and `wrong(task)`, which the property test needs. The build runs property tests on it with fixed seeds: the task is
+  deterministic, the solution passes, the wrong answer fails, and nothing throws. This is required (error) for
+  interactive components.
+- **What a component may do:** no network; storage only through the wrapper; no `eval`, `innerHTML` or `v-html`;
+  imports only from `vue`, our runtime and `@lernapps/tooling` (`storage`, `i18n`, `a11y`); browser globals only in
+  `onMounted`; a size budget per component (Q3). The build checks these on the SFC compiler's output, script and
+  template alike; the lint plugin reports the same in the editor where oxlint reaches the `<script setup>`.
+  Type-checking `.vue` files needs `vue-tsc` in the check's type step.
+- **The skill says:** prefer a built-in block or `generated` exercise when one fits; a component is for what they
+  cannot express.
+- **Step 12:** the interactive archetype (#20) gets cheaper, because it can use the same component model, rules and
+  checks.
+
+Why: a schema and a parser decide all the content, and the runtime renders it. Readable without JavaScript,
+accessible markup and working deep links then hold by construction and are tested once, in the runtime. What the
+Mathe-Karte proves with per-topic tests becomes generic property tests: on the data for `generated`, on the logic
+module for components. Code is allowed in exactly one place, under a contract the build checks.
 
 #### 3. Structure
 Four levels, no deeper:
-- **App:** `src/app.yaml`: title, intro, sources, and the order of the chapters.
+- **App:** `src/app.yaml`: title, intro, sources, `languages`, and the order of the chapters.
 - **Chapter:** a folder `src/<chapter>/` with `chapter.yaml`: title, summary, and the order of the pages.
 - **Page:** `src/<chapter>/<page>.yaml`: title, blocks.
 - **Sections:** `section` blocks inside a page (`id`, `title`, blocks), with at most one nested section level.
 
 How it behaves:
+- Chapters are mandatory. An app with one chapter hides it in the navigation: the breadcrumbs and contents skip the
+  level, and the start page lists the pages. The URL keeps the chapter (`/<chapter>/<page>/`), so a second chapter
+  added later breaks no deep link.
 - Heading levels come from nesting: page h1, section h2, subsection h3. A deeper nesting is a build error; blocks
   carry no heading levels of their own (the boxes of `example` and `note` take the next level).
 - The order lists are explicit and complete: every file listed exactly once, else a build error. Nothing is sorted
   by file name.
 - Ids are paths, unique per level, lowercase letters, digits and hyphens, and stable, because the entry's topics
   link to them: `/<chapter>/<page>/#<section>`.
-- Small apps may omit chapters: `app.yaml` then lists the pages directly (`src/<page>.yaml`). These are the only two
-  allowed shapes.
 - The navigation is generated and works without JS:
   - tables of contents on the start page and on each chapter page;
   - breadcrumbs;
   - previous and next across chapters, in the order of the lists;
   - contents at the top of a page with 3 or more sections;
-  - the glossary page, from the `definition` blocks, linked from each term.
+  - the glossary page, from the `definition` blocks, linked from each term;
+  - the language switch (5.).
 
 Checked:
 - **Build:** the schema, the order lists complete, the depth.
@@ -445,24 +565,41 @@ Checked:
 - Exercises without JS:
   - a quiz-type exercise shows its question and options, and a `<details>` "Lösung" with the right answer, the
     background of every option, the explanation and the links (the quiz's worksheet form, per exercise);
-  - a `calculation` shows three worked tasks from fixed seeds: task text, figure, and a `<details>` "Lösung" with
-    the steps and the answer.
+  - a `generated` exercise shows three worked tasks from fixed seeds: task text, figure, and a `<details>` "Lösung"
+    with the steps and the answer;
+  - a `vue-component` shows its server-side render: the static form, not empty, with an accessible name.
 
-  Native `<details>` needs no script. With JS, the exercise becomes live: input, "Prüfen", feedback in view with the
-  focus (app-templates#10), and for `calculation` also "Neue Aufgabe" and the deep link
-  `/<chapter>/<page>/?seed=<n>#<exercise>`. No `<noscript>` saying that JavaScript is needed.
+  Native `<details>` needs no script. With JS, the exercise becomes live: controls, "Prüfen", feedback in view with
+  the focus (app-templates#10). A `generated` exercise also gets "Neue Aufgabe" and the deep link
+  `/<chapter>/<page>/?seed=<n>#<exercise>`; a component hydrates in place. No `<noscript>` saying that JavaScript is
+  needed.
 - Checked deterministically:
   - by construction: the runtime renders everything the content says;
-  - by `explainerTests()` with JavaScript off, for every page of the content: each section heading is visible, the
-    number of `<math>` elements equals the formulas in the data, every figure is visible with its name, and every
-    "Lösung" opens and shows the answer the checker accepts. This runs in `lernapps check --pre-push`, in the hooks and
-    in CI;
+  - by `explainerTests()` with JavaScript off, for every page in every language: each section heading is visible, the
+    number of `<math>` elements equals the formulas in the data, every figure and component's static form is visible
+    with its name, and every "Lösung" opens and shows the answer the checker accepts. This runs in
+    `lernapps check --pre-push`, in the hooks and in CI;
   - at the gate (Q4): a check of `lernapps check`, scoped to pages the runtime marks as explainer pages
     (`<meta name="lernapps-archetype" content="explainer">`). It visits them without JavaScript and finds the
     headings, formulas, figures and solutions. It works on a deployed URL, so the listing validation and `/review`
     run it too.
 
-#### 5. Rules
+#### 5. Languages
+- Every learner-facing text field is either a string or a language map `{ de: …, en: … }`. This covers text, titles,
+  captions, alt texts, `\text{}` in formulas, record fields in data files, exercise texts, messages and component
+  props of text type.
+- `app.yaml` declares `languages`, German first and required. A plain string is German, and valid only while German
+  is the only language.
+- The build fails on a missing translation for a declared language, and on a language that is not declared.
+- Ids, paths, numbers, formulas and data-drawn figures are language-neutral.
+- Output is one page tree per language: German at the root, others below `/<lang>/` (`/en/…`). Each page has `lang`
+  and `hreflang` alternates, and a language switch that is a plain link, so it works without JS.
+- The generic tests run per language.
+- `learner-text-german` becomes "German always present; every other declared language complete". The build enforces
+  it for the explainer.
+- The quiz's schema can take the same text shape later, without changing banks already written (Q5).
+
+#### 6. Rules
 The owner removed the site rules and readable-without-JavaScript for apps in general (#47, #49). For the explainer it
 comes back as an **archetype rule** (`archetype:explainer`), because it is what the archetype promises (KD-02). Apps
 of other archetypes stay unbound.
@@ -471,45 +608,66 @@ Generic, for every block and page:
 
 | Id | Severity | Enforced by |
 |---|---|---|
-| `explainer-only-data`: write only the YAML of app, chapters and pages, and bundled image files | error | build (no other files in `src/`), skill, rubric; with `keep-the-preset` |
+| `explainer-only-content`: write only the YAML of app, chapters, pages and data, bundled image files, and components with their logic and tests in `src/components/` | error | build (no other files in `src/`), skill, rubric; with `keep-the-preset` |
 | `explainer-content-valid`: every block and exercise validates (schema, unique ids, every reference and placeholder declared, formulas in the command list) | error | build, one line per problem with file and block path |
-| `explainer-structure-complete`: every file listed exactly once in its order list, one of the two shapes | error | build |
+| `explainer-structure-complete`: chapters present, every file listed exactly once in its order list | error | build |
 | `explainer-structure-depth`: app, chapter, page, two section levels; heading levels from the nesting | error | build; `explainerTests()` |
 | `explainer-stable-ids`: ids are lowercase paths, unique per level, kept once published | warning | build (form, uniqueness); skill, rubric (kept) |
 | `explainer-navigation`: tables of contents, breadcrumbs, previous and next in one chain, every page reachable | error | `explainerTests()`; `lernapps check` (reachable, section anchors of the entry) |
-| `explainer-readable-without-js`: every page, block and exercise solution reads without JavaScript | error | `explainerTests()`; `lernapps check` (Q4); rubric |
+| `explainer-languages`: German first, every declared language complete, no undeclared one; one page tree per language with `lang`, `hreflang` and a switch | error | build; `explainerTests()` |
+| `explainer-readable-without-js`: every page, block, exercise solution and component's static form reads without JavaScript | error | `explainerTests()`; `lernapps check` (Q4); rubric |
 | `explainer-formulas-static`: formulas only in `formula` blocks or `$…$`, rendered at build | error | build; rubric for formulas left as plain text |
 
 Type-specific, only for their block or exercise type:
 
 | Id | Applies to | Severity | Enforced by |
 |---|---|---|---|
-| `explainer-exercises-sound`: for 200 seeds the conditions hold, the answer is finite with the declared decimals, no mistake gives the right answer | `calculation` | error | build (sampling with fixed seeds); `explainerTests()` in the browser |
-| `explainer-figure-hides-answer`: the task's figure shows the answer only after a right answer | `calculation` | error | build (the answer is not in the unsolved figure, sampled seeds) |
-| `explainer-plausible-numbers`: ranges fit the thing in the text, no 90.91 people | `calculation` | warning | skill, rubric; the format part by the build |
-| `explainer-mistakes-diagnosed`: name the typical mistakes, and say in each message what went wrong | `calculation` | hint | skill, rubric |
+| `explainer-generated-sound`: over 200 seeds `where` does not starve, the answer is defined, in format and passes its comparator, no mistake equals it, the task is deterministic | `generated` | error | build (property test with fixed seeds); `explainerTests()` in the browser |
+| `explainer-figure-hides-answer`: the task's figure shows the answer only after a right answer | `generated` | error | build (the answer is not in the unsolved figure, sampled seeds) |
+| `explainer-plausible-numbers`: ranges fit the thing in the text, no 90.91 people | `generated` with numbers | warning | skill, rubric; the format part by the build |
+| `explainer-mistakes-diagnosed`: name the typical mistakes, and say in each message what went wrong | `generated` | hint | skill, rubric |
 | `quiz-bank-valid`, `quiz-clear-question`, `quiz-plausible-options`, `quiz-feedback-explains`, `quiz-fitting-type`, `quiz-number-precision` | quiz-type exercises | as in the quiz | as in the quiz; their scope widens to `[archetype:quiz, archetype:explainer]` |
 | `explainer-figure-explains`: the figure shows what the text says, the caption says what to see | `figure`, `labelled-figure` | hint | skill, rubric |
 | `explainer-quote-sourced`: a quote names its origin and is quoted exactly | `quote` | warning | schema (origin required); rubric (exact) |
 
+Components, scope `archetype:explainer` now and `archetype:interactive` with step 12:
+
+| Id | Severity | Enforced by |
+|---|---|---|
+| `vue-component-props-valid`: every block's `props` match the component's prop types | error | build (`vue-component-meta`, schema) |
+| `vue-component-static-form`: the server-side render is not empty and has an accessible name | error | build; `explainerTests()` without JS |
+| `vue-component-exercise-contract`: a component that emits `answered` has its logic module with `generate`, `check`, `solution` and `wrong`, and the property tests pass | error | build (property test with fixed seeds) |
+| `vue-component-tested`: a test file per component, and it passes | error | build (file exists); `lernapps check` (unit tests) |
+| `vue-component-no-network`: no `fetch`, XHR, WebSocket, EventSource, beacon, no import from a URL | error | build on the SFC compiler's output; lint |
+| `vue-component-no-html-injection`: no `eval`, `new Function`, `innerHTML`, `v-html` | error | build; lint |
+| `vue-component-imports`: imports only from `vue`, our runtime, `@lernapps/tooling` and the component's own folder | error | build; lint |
+| `vue-component-browser-globals`: `window`, `document`, `localStorage` and the like only inside `onMounted` | error | build; lint; server-side rendering fails otherwise |
+| `vue-component-size`: the component's own code within the budget (Q3) | error | build |
+| `prefer-built-in-block`: a component only where no built-in block or `generated` exercise fits | hint | skill, rubric |
+
+Storage in components is `storage-through-wrapper`, unchanged.
+
 Reused unchanged: `keep-the-preset`, `strict-typescript`, `storage-through-wrapper`, `pages-from-gh-pages`,
 `learners-act`, `accessible` (the schema requires `alt` and `caption`), `usable-at-360px`, `links-resolve`,
 `entry-links-resolve`, `no-request-before-click`, `no-tracking`, `third-party-licence` (the schema requires `source`
-and `licence` for every bundled image and for quotes under copyright), `learner-text-german`,
-`correct-content-support`. `topic-has-exercises` stays, from hint to **error**, per page: the schema requires an
+and `licence` for every bundled image and for quotes under copyright), `correct-content-support`. Changed:
+`learner-text-german` (5.). `topic-has-exercises` stays, from hint to **error**, per page: the schema requires an
 exercise block on every page, except the glossary and the tables of contents. The rubric still judges whether the
 exercise practises what the page explains.
 
-#### 6. Instructions
+#### 7. Instructions
 - **Skill `lernapps-explainer`**, shaped like `lernapps-quiz`:
   - how the explainer works: what is built in, what you write, what the build checks, the page without and with JS,
     the deep links;
-  - the structure: the two shapes, the order lists, ids as paths, when to split an app instead of nesting deeper;
+  - the structure: chapters (one is hidden), the order lists, ids as paths, when to split an app instead of nesting
+    deeper;
   - the blocks, each with a short example; the formula command list, with `\ce` and `\pu` for chemistry;
   - recommended page structures per subject, e.g. Warum, Regel, Beispiel, Übung for maths and the sciences, and
     Quelle, Einordnung, Zeitleiste, Übung for history;
-  - exercises: the quiz's types, pointing to `lernapps-quiz` for writing good questions, and `calculation` (choosing
-    ranges and `require`, mistakes, steps);
+  - exercises: the quiz's types, pointing to `lernapps-quiz` for writing good questions; `generated` with the three
+    examples (arbitraries, `where`, comparators, mistakes, the property test's messages);
+  - components: prefer a built-in block; the files, the exercise contract, what a component may do, the test file;
+  - languages: language maps, German first;
   - that each page's or section's path is a `topics` entry of the entry draft (`entry-links-resolve`);
   - for a failing runtime test, a pointer to `lernapps-app`;
   - the rules above.
@@ -518,95 +676,126 @@ exercise practises what the page explains.
 - **Review rubric** `review/archetypes/explainer.md`: `topic-has-exercises` judged for fit, not presence; new items
   `explainer-mistakes-diagnosed`, `explainer-plausible-numbers`, `explainer-figure-explains`,
   `explainer-quote-sourced`, `explainer-formulas-static` (formulas as plain text), `explainer-readable-without-js`
-  (meaning only inside an exercise) and `explainer-stable-ids` (against the last listed version). The quiz's rubric
-  item `quiz-feedback-explains` also applies to quiz-type exercises.
+  (meaning only inside an exercise or a component), `explainer-stable-ids` (against the last listed version) and
+  `prefer-built-in-block`. The quiz's rubric item `quiz-feedback-explains` also applies to quiz-type exercises.
 
-#### 7. Tests and validation
+#### 8. Tests and validation
 Test first, end to end, on fixtures (KD-21, issue #19):
 - app-templates: the template `explainer/` passes `lernapps check` in the CI matrix next to `quiz`.
 - **Many pages:** a job `explainer-many-pages`, like `quiz-many-questions`, swaps in a fixture of 60 pages in several
-  chapters, with two section levels, every block type and every exercise type. It runs `lernapps check --pre-push`
-  within the default timeouts.
-- **Not maths:** a second fixture, a short history app without chapters, with `timeline`, `quote`, `definition` and
-  an `ordering` exercise. It must pass the same checks; a maths bias of the runtime or the checks shows there.
+  chapters, with two section levels, every block type and every exercise type, in German and English. It runs
+  `lernapps check --pre-push` within the default timeouts.
+- **Not maths:** a second fixture, a short history app with one hidden chapter. It has `timeline`, `quote`,
+  `definition`, an `ordering` exercise, the `generated` events exercise, and one `vue-component`: a figure where the
+  learner assigns the labels. It must pass the same checks; a maths bias of the runtime or the checks shows there.
 - **Broken fixtures**, each failing the build with its one line:
   - unknown LaTeX command, raw HTML, undeclared variable;
-  - a mistake equal to the answer, `require` never met;
+  - a mistake equal to the answer, a `where` that starves;
   - an image without licence, a quote without origin;
   - a file missing from an order list or listed twice, a third section level;
+  - a missing translation, an undeclared language;
+  - props that do not match the component's types, an empty server-side render, a missing component test file, an
+    interactive component without its logic module;
+  - a component that fetches, imports another package or touches `window` outside `onMounted`;
   - an extra file in `src/`.
-- `explainerTests()`, for every page of the content:
+- `explainerTests()`, for every page in every language:
   - without JS: as in 3. and 4.;
-  - with JS: each quiz-type exercise accepts its right answer and rejects a wrong one, and shows the feedback in view
-    with the focus. Each `calculation` deep link with a seed shows the task the generator gives for that seed; the
-    right answer counts, each declared mistake shows its message, any other wrong answer is wrong, and "Neue
-    Aufgabe" changes the task;
+  - with JS:
+    - each quiz-type exercise accepts its right answer and rejects a wrong one, and shows the feedback in view with
+      the focus;
+    - each `generated` deep link with a seed shows the task the notation gives for that seed. The right answer
+      counts, each declared mistake shows its message, the comparator's wrong answer is wrong, and "Neue Aufgabe"
+      changes the task;
+    - each component hydrates without a console error;
   - nothing is stored. The tests run with reduced motion and in parallel.
 - tooling: `create.e2e` generates an explainer app, installs it and runs `lernapps check` (passes). A fixture page
   that is empty without JS fails the new check (Q4), and a content page the start page does not reach is a finding.
   lernapps/apps' entry-point test covers the explainer by itself, because it runs every archetype the tooling names.
 
-#### 8. Reuse map
+#### 9. Reuse map
 - **Shared with the quiz, unchanged:** generator (`create`, `update`, the pin, the generated workflows, issue form,
   LICENSE, Renovate), preset and `tsconfig`, `lernapps hooks`, `lernapps check` and its checks, the Playwright preset,
   storage, i18n and a11y helpers, the app check and publish actions, the listing validation, `/review`, the plan
   template and `AGENTS.md`, the skills `lernapps-app` and `lernapps-listing`.
-- **Shared with the quiz runtime, by import:** the six question types, the schema's `$defs/question`, the question
-  validation, the checker, the rendering of controls and of the solution with background and links, the per-question
-  feedback and focus of the engine, their messages, the e2e helpers `answerQuestion`, `expectBackground` and
-  `expectFeedbackInView`, and the skill `lernapps-quiz` for writing questions. To share them, the quiz runtime exports
-  them per question: today `parseBank`, `renderQuiz` and `startQuiz` work on a whole bank.
+- **Shared with the quiz runtime, by import:**
+  - the six question types, the schema's `$defs/question`, the question validation and the checker;
+  - the rendering of controls and of the solution with background and links;
+  - the per-question feedback and focus of the engine, and their messages;
+  - the e2e helpers `answerQuestion`, `expectBackground` and `expectFeedbackInView`;
+  - the skill `lernapps-quiz` for writing questions.
+
+  `generated` uses the same controls, checker and feedback through its comparators. To share them, the quiz runtime
+  exports them per question: today `parseBank`, `renderQuiz` and `startQuiz` work on a whole bank.
+- **Shared with the interactive archetype (step 12):** the `vue-component` model: server-side rendering, islands,
+  props validation, the exercise contract with its property tests, the component rules and checks.
 - **Same pattern, new code in `runtime/explainer/`:** the Vite plugin with build-time validation, a published schema,
   rendering into a shell with a marker, generic e2e from the app's data, messages, styles, a many-items CI job.
-- **New:** the structure (levels, order lists, navigation, glossary), multi-page rendering, the blocks and their
-  rendering (restricted Markdown, Temml with mhchem, figure kinds, labelled figures, tables, timelines, quotes, code
-  highlighting), `calculation` (expression language on fractions, seeded generator, number format rule, checker,
-  mistakes, worked tasks), `llms.txt`, the skill `lernapps-explainer`, the explainer rules, the check of Q4.
+- **New:**
+  - the structure: levels, order lists, navigation, glossary;
+  - multi-page rendering, one page tree per language;
+  - the blocks and their rendering: restricted Markdown, Temml with mhchem, figure kinds, labelled figures, tables,
+    timelines, quotes, code highlighting;
+  - data files of records;
+  - `generated`: arbitraries, the expression language, the property test at build, worked tasks;
+  - `vue-component`: server-side rendering at build with `vue/server-renderer`, the island loader, props from
+    `vue-component-meta`, the build checks on the SFC compiler's output, `vue-tsc` in the type step;
+  - `llms.txt`, the skill `lernapps-explainer`, the explainer and component rules, the check of Q4.
 
-#### 9. Steps and pull requests
+#### 10. Steps and pull requests
 1. **app-templates: the quiz's questions per question.** The runtime exports validation, rendering, checking and
    feedback per question; the quiz uses the same exports. *Done when* the quiz's tests and `quiz-many-questions` pass
    unchanged.
-2. **app-templates: explainer structure and blocks.** The first commit is the spike: the plugin emits many pages and
-   one hashed client module with `vp build` (KD-02's "Vite only"); the result goes into this plan. Then the schema,
-   the structure and navigation, the blocks without exercises, the template with the Prozent chapter, and
-   `explainerTests()` without JS. *Done when* `lernapps check` passes in `explainer/`, on the 60-page fixture and on
-   the history fixture, and every broken fixture fails the build with its line.
-3. **app-templates: exercises.** Quiz-type exercise blocks and `calculation` (shared pure modules, build-time
-   sampling, worked tasks without JS, the client widget), and the JS part of `explainerTests()`. *Done when* the e2e
-   tests check every exercise of the template and both fixtures, and a fixture whose mistake equals the answer fails
-   the build.
-4. **tooling: the archetype `explainer`.** Pin bump and `appTemplates.archetypes`, the schema on the docs site, the
-   skill `lernapps-explainer` with its rules, the quiz rules' wider scope, `topic-has-exercises` to error, the
-   rubric, `create.e2e`; arc42 where it names only the quiz's runtime, and KD-02's rendering decision. *Done when*
-   `lernapps create --archetype explainer`, `npm install` and `npx lernapps check` pass in the test and in CI,
-   `npm run rules` lists the new ids, and lernapps/apps' entry-point test passes for both archetypes.
-5. **tooling: the check `explainer-readable-without-js`** (if Q4 is yes), unreached pages as a finding, and section
-   anchors in `entry-links-resolve`.
-   It brings back the page visit without JS that #47 removed, only for marked pages. *Done when* the
-   empty-without-JS fixture fails it, and quiz and other bundles are unaffected.
-6. **A first full explainer run**, from a creator prompt to the listing, as with naturwunder-quiz; the lessons go
+2. **app-templates: explainer structure, blocks and languages.** The first commit is the spike: the plugin emits many
+   pages and one hashed client module with `vp build` (KD-02's "Vite only"); the result goes into this plan. Then
+   the schema, chapters and navigation, the blocks without exercises, data files, language maps and page trees, the
+   template with the Prozent chapter, and `explainerTests()` without JS. *Done when* `lernapps check` passes in
+   `explainer/`, on the 60-page fixture and on the history fixture without its exercises and component, and every
+   broken fixture of these parts fails the build with its line.
+3. **app-templates: exercises.** Quiz-type exercise blocks and `generated`: arbitraries, expression language,
+   comparators through the quiz's checker, the property test at build, worked tasks without JS, and the JS part of
+   `explainerTests()`. *Done when* the e2e tests check every exercise of the template and both fixtures, and the
+   fixtures with a mistake equal to the answer and with a starving `where` fail the build.
+4. **app-templates: `vue-component`.** Server-side rendering at build, islands, props validation, the exercise
+   contract and its property tests, the build checks on the SFC, the size budget, and the labelling component of the
+   history fixture with its logic module and test. *Done when* the history fixture passes `lernapps check`, a page
+   without components ships no component JS, and each broken component fixture fails the build with its line.
+5. **tooling: the archetype `explainer`.**
+   - pin bump and `appTemplates.archetypes`, the schema on the docs site;
+   - `vue-tsc` in the check's type step for apps with `.vue` files, and the component lint rules in the lint plugin;
+   - the skill `lernapps-explainer` with its rules, the quiz rules' wider scope, `learner-text-german` reworded,
+     `topic-has-exercises` to error, the rubric, `create.e2e`;
+   - arc42 where it names only the quiz's runtime, KD-02's rendering decision, and the component model.
+
+   *Done when* `lernapps create --archetype explainer`, `npm install` and `npx lernapps check` pass in the test and
+   in CI, `npm run rules` lists the new ids, and lernapps/apps' entry-point test passes for both archetypes.
+6. **tooling: the check `explainer-readable-without-js`** (if Q4 is yes), unreached pages as a finding, and section
+   anchors in `entry-links-resolve`. It brings back the page visit without JS that #47 removed, only for marked pages.
+   *Done when* the empty-without-JS fixture fails it, and quiz and other bundles are unaffected.
+7. **A first full explainer run**, from a creator prompt to the listing, as with naturwunder-quiz; the lessons go
    into this plan. *Done when* the app is listed or each lesson is an issue. Then 10, with both archetypes.
 
-#### 10. Open questions for the owner
+#### 11. Open questions for the owner
 - **Q1 Rendering:** KD-02 accepted Eleventy 3 with `.11ty.ts`, to be proven by a prototype. With content as data
-  there are no templates for the creator to write, and the quiz already renders with a Vite plugin. *Recommendation:*
-  render with a Vite plugin, KD-02's alternative, with one toolchain as for the quiz. The spike in PR 2 decides; if it
-  fails, Eleventy as accepted.
+  there are no templates for the creator to write, the quiz already renders with a Vite plugin, and Vue's server-side
+  rendering and islands are first-class in Vite. *Recommendation:* render with a Vite plugin, KD-02's alternative,
+  with one toolchain as for the quiz. The spike in PR 2 decides; if it fails, Eleventy as accepted.
 - **Q2 Authoring format:** YAML with pages as blocks (A) or Markdown with directives (B)? *Recommendation:* A, because
   the schema then covers everything.
-- **Q3 Exercises only as data:** the creator writes no generator code, and what the blocks and exercise types cannot
-  say becomes a new type in the runtime. *Recommendation:* yes for the MVP; review it after the first full explainer
-  run.
+- **Q3 Data or code:** answered on 2026-10-13: content and `generated` exercises are data, and code comes in only as
+  a `vue-component` under its contract. Still open is the size budget per component. *Recommendation:* 20 kB gzip of
+  the component's own code, with Vue loaded once per page; a component that needs more is split, or becomes a new
+  built-in block.
 - **Q4 No-JS at the gate:** bring back a page visit without JS in `lernapps check`, only for pages marked as explainer
   pages, so the listing and `/review` check the promise too, and not only the app's own e2e. *Recommendation:* yes.
-- **Q5 Left out:** test page, self-assessment, videos, tutor prompt, further figure kinds. All are later additions
-  to the runtime that change no content already written. *Recommendation:* add them after the evals (10), each with
-  its own issue.
+- **Q5 Left out:** test page, self-assessment, videos, tutor prompt, further figure kinds, other component types,
+  language maps in the quiz's schema. All are later additions to the runtime that change no content already
+  written. *Recommendation:* add them after the evals (10), each with its own issue.
 - **Q6 Depth:** is chapter, page and two section levels enough? *Recommendation:* yes; content that needs more
   is split into two apps.
-- **Q7 Small apps:** allow the shape without chapters for small apps? *Recommendation:* yes, as the only
-  alternative to chapters.
+- **Q7 Confirm: language maps, German required.** Every text is a string or a language map, German first and
+  required, and the build fails on a gap. *Recommendation:* confirm.
+- **Q8 Confirm: the chapter stays in the URL when it is hidden.** `/<chapter>/<page>/` also with one chapter, so a
+  second chapter breaks no deep link. *Recommendation:* confirm.
 
 ### Completed
 - [x] 1 · The tooling's own build: package, strict TypeScript, vite-plus, hooks, `check` in CI
