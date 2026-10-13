@@ -307,15 +307,15 @@ with the quiz archetype first (owner, 2026-10-12): 9 → 13 → a first full run
 first run. Next (owner, 2026-10-13): an MVP of the explainer archetype based on the Mathe-Karte, to see that the
 principles hold there (11, sketch below), before the evals (10); then 10 and 12.*
 - [ ] 11 · The explainer archetype ([#19](https://github.com/lernapps/tooling/issues/19)): first an MVP based on the
-  Mathe-Karte, sketched below for the owner's review before anything is built. The issue's "prototype first" (Eleventy
+  Mathe-Karte, sketched below and decided by the owner (2026-10-13). The issue's "prototype first" (Eleventy
   or Vite only) becomes the spike that opens the structure-and-blocks pull request (sketch, step 2 and Q1)
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
 
-### Sketch: the explainer MVP (step 11, for the owner's review)
+### Sketch: the explainer MVP (step 11, decided by the owner)
 
-*Proposal of 2026-10-13, revised twice the same day after the owner's reviews: subject-neutral blocks, the quiz's
+*Proposal of 2026-10-13, revised the same day after three reviews by the owner, who then decided it: subject-neutral blocks, the quiz's
 question types as exercises, a structure of four levels, a second fixture that is not maths; then generated exercises
 in a property-based notation, Vue components, several languages and mandatory chapters. Sources: KD-02, KD-06,
 KD-09, KD-11, KD-21; issue #19; the Mathe-Karte (lernapps/mathe-karte: `src/prozent/`, `src/kern/`,
@@ -585,8 +585,7 @@ Checked:
   - by `explainerTests()` with JavaScript off, for every page in every language: each section heading is visible, the
     number of `<math>` elements equals the formulas in the data, every figure is visible with its name, each
     component's `nojs` text is visible and not empty, and every "Lösung" opens and shows the answer the checker
-    accepts. This runs in
-    `lernapps check --pre-push`, in the hooks and in CI;
+    accepts. This runs in `lernapps check --pre-push`, in the hooks and in CI;
   - at the gate (Q4, decided): a check of `lernapps check`, scoped to pages the runtime marks as explainer pages
     (`<meta name="lernapps-archetype" content="explainer">`). It visits them without JavaScript and finds the
     headings, formulas, figures, solutions and each component's `nojs` text, visible and not empty. It works on a
@@ -686,8 +685,7 @@ exercise practises what the page explains.
   `explainer-mistakes-diagnosed`, `explainer-plausible-numbers`, `explainer-figure-explains`,
   `explainer-quote-sourced`, `explainer-formulas-static` (formulas as plain text), `explainer-readable-without-js`
   (meaning only inside an exercise, or a component's `nojs` text that does not carry the meaning),
-  `explainer-stable-ids` (against the last listed version) and
-  `prefer-built-in-block`. The quiz's rubric item `quiz-feedback-explains` also applies to quiz-type exercises.
+  `explainer-stable-ids` (against the last listed version) and `prefer-built-in-block`. The quiz's rubric item `quiz-feedback-explains` also applies to quiz-type exercises.
 
 #### 8. Tests and validation
 Test first, end to end, on fixtures (KD-21, issue #19):
@@ -758,8 +756,7 @@ Test first, end to end, on fixtures (KD-21, issue #19):
 2. **app-templates: explainer structure, blocks and languages.** The first commit is the spike: the plugin emits many
    pages and one hashed client module with `vp build` (KD-02's "Vite only"); the result goes into this plan. Then
    the schema, chapters and navigation, the blocks without exercises, headings in text rejected, data files, language
-   maps and page trees, the
-   template with the Prozent chapter, and `explainerTests()` without JS. *Done when* `lernapps check` passes in
+   maps and page trees, the template with the Prozent chapter, and `explainerTests()` without JS. *Done when* `lernapps check` passes in
    `explainer/`, on the 60-page fixture and on the history fixture without its exercises and component, and every
    broken fixture of these parts fails the build with its line.
 3. **app-templates: exercises.** Quiz-type exercise blocks and `generated`: arbitraries, expression language,
@@ -768,8 +765,9 @@ Test first, end to end, on fixtures (KD-21, issue #19):
    fixtures with a mistake equal to the answer and with a starving `where` fail the build.
 4. **app-templates: `vue-component`.** The `nojs` text, server-side rendering at build, islands, props validation,
    the exercise contract and its property tests, the build checks on the SFC, the size budget, and the labelling
-   component of the history fixture with its logic module and test. *Done when* the history fixture passes `lernapps check`, a page
-   without components ships no component JS, and each broken component fixture fails the build with its line.
+   component of the history fixture with its logic module and test. *Done when* the history fixture passes
+   `lernapps check`, a page without components ships no component JS, and each broken component fixture fails the
+   build with its line.
 5. **tooling: the archetype `explainer`.**
    - pin bump and `appTemplates.archetypes`, the schema on the docs site;
    - `vue-tsc` in the check's type step for apps with `.vue` files, and the component lint rules in the lint plugin;
