@@ -188,7 +188,9 @@ protocol: Agent skills (agentskills.io)
 
 Writes a new app from the archetype's template, once the creator has confirmed the plan. It is accountable for an
 app that passes every check from the first commit and that depends on the exact version of the tooling it came from.
-It runs before anything is installed. It does not build content; the assistant does.
+It runs before anything is installed. It does not build content; the assistant does. On request it also moves an
+existing app to the runtime and tooling that a newer tooling pins, so that a fix reaches the app without waiting for
+an update pull request.
 
 ```arc42
 :::building-block
@@ -205,7 +207,8 @@ implements: concept-stable-contracts
 
 A consumer can rely on this: given an archetype and an empty folder, it writes a complete app and keeps a plan that
 is already there. It refuses an unknown archetype and a folder that holds anything else, and says why. It can work
-offline from a local copy of the templates. The command's own help lists its options.
+offline from a local copy of the templates. Given an existing app, it moves the app's pins to its own and installs
+them. The commands' own help lists their options.
 
 ```arc42
 :::interface

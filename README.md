@@ -35,7 +35,7 @@ lernapps.net's own websites, and the update policy for dependencies.
 - **The package `@lernapps/tooling`**, installed from git, not from npm: the guidance, the skills, the shared preset
   and lint rules of every app, and the CLI.
 - **The CLI `lernapps`:** `create` writes a new app for an archetype, `check` checks an app the same way in its git
-  hooks and in CI. `npx --yes github:lernapps/tooling#main --help` before an app exists, `npx lernapps --help` in one.
+  hooks and in CI, `update` moves an app to the runtime and tooling the latest tooling pins. `npx --yes github:lernapps/tooling#main --help` before an app exists, `npx lernapps --help` in one.
 - **The actions in [`actions/`](actions/):** the app check and app publish actions of every app, and the site
   actions with which lernapps.net's own websites are checked, published and previewed. Each says what it does in its
   `action.yml`.

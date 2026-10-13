@@ -5,8 +5,9 @@ import { pathToFileURL } from "node:url";
 import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS } from "../generator/create.ts";
+import { UPDATE_OPTIONS } from "../generator/update.ts";
 import { CHECK_OPTIONS, HOOKS_OPTIONS } from "../src/usage.ts";
-import { repoRoot, run } from "./support.ts";
+import { repoRoot, run, tempDir } from "./support.ts";
 
 /** The help must name every option the parser accepts: the help is where the options are documented. */
 function expectEveryOption(help: string, options: ParseArgsOptionsConfig): void {
@@ -26,6 +27,7 @@ describe("lernapps", () => {
     expect(result.stdout).toContain("check [--pre-commit] [--pre-push]");
     expect(result.stdout).toContain("create --archetype <name> [<dir>]");
     expect(result.stdout).toMatch(/^  hooks +/m);
+    expect(result.stdout).toMatch(/^  update +/m);
     expect(result.stderr).toBe("");
   });
 
@@ -35,6 +37,22 @@ describe("lernapps", () => {
     expect(result.stdout).toMatch(/^Usage: lernapps hooks$/m);
     expectEveryOption(result.stdout, HOOKS_OPTIONS);
     expect(result.stdout).toContain("0 when the hooks are installed or deliberately not, 1 when they cannot be");
+  });
+
+  test("update --help says what it moves, how to run it from the latest tooling, and the exit codes", () => {
+    const result = lernapps("update", "--help");
+    expect(result.code).toBe(0);
+    expect(result.stdout).toMatch(/^Usage: lernapps update$/m);
+    expectEveryOption(result.stdout, UPDATE_OPTIONS);
+    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main update");
+    expect(result.stdout).toContain("@lernapps/app-templates");
+    expect(result.stdout).toContain("2 on a usage");
+  });
+
+  test("update outside an app fails and says where to run it", () => {
+    const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], tempDir("not-an-app"));
+    expect(result.code).toBe(1);
+    expect(result.stderr).toContain("lernapps update: no package.json here: run it in the app's folder");
   });
 
   test("without a command it prints the usage and exits non-zero", () => {

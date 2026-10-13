@@ -13,6 +13,11 @@ export interface Problem {
   found: string;
   /** How to fix it. */
   fix: string;
+  /**
+   * Lower than the check's severity, for what the check could not decide: a link the server would not answer
+   * because of a rate limit is a hint, not an error.
+   */
+  severity?: Severity;
 }
 
 /** What one page of the built app did when a browser opened it, without a click. */

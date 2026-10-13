@@ -35,7 +35,21 @@ You write the questions as data in `src/quiz.json`, and no code. The rules of `l
   - that every option's background, the explanation and the links show.
 
   They also check the full score and the page without JavaScript. `lernapps check` runs them.
-- A new feature of the quiz reaches the app with a newer `@lernapps/app-templates`; Renovate proposes it.
+- A new feature or a fix of the quiz reaches the app with a newer `@lernapps/app-templates`. The app pins it to a
+  commit, so `npm update` changes nothing. To move it now, run `npx --yes github:lernapps/tooling#main update` in the
+  app's folder: it moves the runtime to the commit the latest tooling pins and installs it. Then run
+  `npx lernapps check` and commit.
+
+## When a test of the runtime fails
+
+The end-to-end tests come from the runtime, not from your app. If one of them fails while your bank validates (the
+build passes), the bug is in the template, not in your questions. `lernapps check` then names the test as a test of
+the template.
+1. Tell the creator what failed.
+2. Open an issue at <https://github.com/lernapps/app-templates/issues> with the validation report
+   (`node_modules/.cache/lernapps/validation-report.yaml`), or ask the creator to.
+3. Never change the tests, the configuration or the runtime in `node_modules` to get around it (`quiz-only-data`).
+   Go on with the questions; once the fix is in, `lernapps update` picks it up (see above).
 
 ## Types of questions
 
@@ -152,10 +166,14 @@ severity: warning
 ```
 
 Link every question to at least one page where learners read on, best the article in the German Wikipedia
-(`https://de.wikipedia.org/wiki/...`). Open every link before you commit:
-- it answers without an error;
+(`https://de.wikipedia.org/wiki/...`). Read every linked page before you commit:
 - it is the article you mean, not a disambiguation page ("Begriffsklärung");
 - it says what your question and options say.
+
+Leave resolving links to `lernapps check`: it checks the app's own links and the entry's, and reading an article shows
+that its link resolves. Write no scraper, script or API loop that fetches pages for you. When a site limits your
+requests (HTTP 429), tell the creator which links you could not read, mark those facts as not checked in the plan,
+and go on.
 
 Name the page in the link's `title`, e.g. "Uluru (Wikipedia)". Never guess an address.
 

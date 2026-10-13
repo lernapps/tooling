@@ -7,7 +7,9 @@
 //     sits in lernapps/app-templates), `npm install` leaves that repository's hooks alone;
 //   - what it writes, and what it refuses, is tested on files alone in create.test.ts, on every push;
 //   - the app with the fixture bank (test/fixtures/quiz/quiz.json, every type of question) passes `lernapps check`,
-//     which runs the quiz's generic end-to-end tests (quizTests of @lernapps/app-templates) on that bank in a browser.
+//     which runs the quiz's generic end-to-end tests (quizTests of @lernapps/app-templates) on that bank in a browser;
+//   - its publish workflow publishes on a push to main, but not for a push that changes only the plan (.vibe/);
+//   - `lernapps update` moves an app on an older runtime to the commit the tooling pins, installs it and says so.
 // The quiz runtime itself (the browser behaviour, the page without JavaScript, the messages for a broken bank) is
 // tested in lernapps/app-templates, where it lives: its unit tests and quizTests.
 // The templates and the runtime come from a local clone of lernapps/app-templates with the pinned commit: the one named
@@ -16,6 +18,7 @@
 import { cpSync, existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
+import { parse } from "yaml";
 import { appTemplates, freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
@@ -74,6 +77,14 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
     expect(pages).toContain(`uses: lernapps/tooling/actions/app-publish@${commit} # main`);
   });
 
+  test("the publish workflow runs on a push to main, except for one that changes only the plan", () => {
+    const pages = parse(readFileSync(join(app, ".github/workflows/pages.yml"), "utf8")) as {
+      on: { push: { branches: string[]; "paths-ignore": string[] }; pull_request: unknown };
+    };
+    expect(pages.on.push).toEqual({ branches: ["main"], "paths-ignore": [".vibe/**"] });
+    expect(pages.on).toHaveProperty("pull_request");
+  });
+
   test("with the fixture bank, the app passes lernapps check", { timeout: SLOW }, () => {
     const result = run("npx", ["--no", "--", "lernapps", "check"], app);
     expect(result.code, output(result)).toBe(0);
@@ -83,6 +94,40 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
   test("the check leaves the bundle it checked in dist/, which the app check action deploys", () => {
     expect(readFileSync(join(app, "dist/index.html"), "utf8")).toContain("Naturwunder der Welt");
   });
+
+  test(
+    "lernapps update moves an older runtime to the commit the tooling pins, and installs it",
+    { timeout: SLOW },
+    () => {
+      const pinned = (
+        JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
+      ).appTemplates.commit;
+      const older = ok("git", ["rev-parse", `${pinned}~1`], templates).stdout.trim();
+      const manifest = () =>
+        JSON.parse(readFileSync(join(app, "package.json"), "utf8")) as { devDependencies: Record<string, string> };
+      const resolved = () =>
+        (
+          JSON.parse(readFileSync(join(app, "package-lock.json"), "utf8")) as {
+            packages: Record<string, { resolved?: string }>;
+          }
+        ).packages["node_modules/@lernapps/app-templates"]?.resolved ?? "";
+      // the app on the runtime of an older commit, installed
+      const runtime = manifest().devDependencies["@lernapps/app-templates"] ?? "";
+      expect(runtime).toMatch(new RegExp(`#${pinned}$`));
+      const olderSpec = runtime.replace(new RegExp(`#${pinned}$`), `#${older}`);
+      ok("npm", ["install", "--no-audit", "--no-fund", "--save-dev", `@lernapps/app-templates@${olderSpec}`], app);
+      expect(resolved()).toContain(`#${older}`);
+
+      const result = run("npx", ["--no", "--", "lernapps", "update"], app);
+      expect(result.code, output(result)).toBe(0);
+      expect(result.stdout).toContain(`@lernapps/app-templates: ${older.slice(0, 7)} → ${pinned.slice(0, 7)}`);
+      expect(result.stdout).toContain("@lernapps/tooling: unchanged");
+      expect(manifest().devDependencies["@lernapps/app-templates"]).toBe(runtime);
+      expect(manifest().devDependencies["@lernapps/tooling"]).toBe(tooling);
+      expect(resolved()).toContain(`#${pinned}`);
+      expect(result.stdout).toContain("npx lernapps check");
+    },
+  );
 
   // Last: it turns the app's folder into a folder of another repository.
   test("npm install in a folder inside another repository leaves that repository's hooks alone", () => {
