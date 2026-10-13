@@ -294,16 +294,224 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 ### Tasks
 *Order of building agreed with the owner (2026-10-09). Tracking issue: [#9](https://github.com/lernapps/tooling/issues/9).
 Each step brings its rules in their artifacts and, where it touches the guidance, an eval run. To close the circle
-with the quiz archetype first (owner, 2026-10-12): 9 → 13 → a first full run → 10, then 11 and 12.*
-- [ ] 9 · Listing validation with the results comment ([lernapps/apps#3](https://github.com/lernapps/apps/issues/3));
-  the skill `lernapps-listing` points the assistant to it
-- [ ] 13 · Documentation across repos and the creator's entry point, incl. lernapps/.github#12
-  ([#21](https://github.com/lernapps/tooling/issues/21))
-- [ ] First full run, from the first prompt to the listing, in lernapps/naturwunder-quiz
+with the quiz archetype first (owner, 2026-10-12): 9 → 13 → a first full run → 10, then 11 and 12. Done up to the
+first run. Next (owner, 2026-10-13): an MVP of the explainer archetype based on the Mathe-Karte, to see that the
+principles hold there (11, sketch below), before the evals (10); then 10 and 12.*
+- [ ] 11 · The explainer archetype ([#19](https://github.com/lernapps/tooling/issues/19)): first an MVP based on the
+  Mathe-Karte, sketched below for the owner's review before anything is built. The issue's "prototype first" (Eleventy
+  or Vite only) becomes the spike of the MVP's first pull request (sketch, Q1)
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
-- [ ] 11 · The explainer archetype, after the rendering prototype ([#19](https://github.com/lernapps/tooling/issues/19))
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
+
+### Sketch: the explainer MVP (step 11, for the owner's review)
+
+*Proposal of 2026-10-13. Sources: KD-02, KD-06, KD-09, KD-11, KD-21; issue #19; the Mathe-Karte (lernapps/mathe-karte:
+`src/prozent/`, `src/kern/`, `src/_includes/kompetenz.njk`, `lib/bild.js`, `lib/pruefungen.js`, `e2e/`,
+`test/apps/vertrag.test.js`, `werkzeuge/skill/lern-app/`, `werkzeuge/review/ki-review.md`); the quiz archetype
+(app-templates `quiz/`, `runtime/quiz/`; tooling `generator/`, `archetypes/shared/`, skills, `review/`).*
+
+**What the Mathe-Karte is.** Eleventy 3 over plain JavaScript, one shared kern, ~20 apps. Per app a config (`APP`,
+`KOMPETENZEN`), per topic ("Kompetenz") a Markdown file with front matter only: `warum`, `regel`, `beispiel` as
+free HTML, `bild`, `video`, `serlo`. One layout renders Warum, Regel, Beispiel, Bild, Video, Übung. Per topic a
+generator and checker in free JS (`erzeugeAufgabe(zufall, vorgaben)`, `pruefeAntwort`): seeded "nice" numbers,
+several contexts with text templates, typical mistakes diagnosed with their own message, a Rechenweg. Pictures: one
+drawing function per topic renders static SVG at build (a mini DOM) and redraws it in the browser. Formulas: plain
+text in `<code>` (`W = G · p / 100`), no renderer. Per app also a start page with self-assessment, a test page,
+`llms.txt` and a tutor prompt. Its rules come from tests and build checks: generator contract for every topic
+(deterministic per seed, the solution passes, nonsense fails), the picture does not give the answer away, plausible
+numbers, files under 500 lines, no external resources, dead links, the tutor link allowlist; Playwright for no-JS,
+360 px, axe, external requests.
+- **Explainer** (static): Warum, Regel, Beispiel, the formulas, the picture of the example, sources.
+- **Interactive**: the exercise (generator, input, checker, feedback, Rechenweg, picture of the task), self-assessment,
+  test page, video embed after a click.
+- Without JavaScript its exercises show only "Für die Übungsaufgaben brauchst du JavaScript". The MVP does better.
+
+#### 1. Scope of the MVP
+- One topic family: **Prozent** (Klasse 7/8), three topics: Prozentwert, Prozentsatz, Grundwert. Each page: Warum,
+  Regel (with formulas), Beispiel, a figure, an exercise; a start page lists the topics in order.
+- One interactive exercise type, `calculation`: generated numbers, one numeric answer, feedback with diagnosed
+  mistakes, hint, Rechenweg, a figure of the task.
+- Two figure kinds drawn from data: `hundred-grid` (Hunderterfeld) and `bar` (Prozentstreifen); plus `image`, a
+  bundled SVG or PNG with alt text, source and licence.
+- `llms.txt` generated from the content (pages, deep links), because it is derived data and costs little.
+- Left out: test page, self-assessment, videos and other embeds after a click, the tutor prompt and its allowlist,
+  further exercise types (terms, fractions, choice, clickable figures), variables as URL parameters (only `seed`),
+  the curriculum map across apps, several apps in one repo.
+
+#### 2. The authoring model
+The creator's assistant writes content as data and no code, as in the quiz. Options:
+
+| | A: YAML per topic, schema at build | B: Markdown with front matter | C: Eleventy templates in TypeScript (`.11ty.ts`, KD-02) |
+|---|---|---|---|
+| Prose | restricted Markdown in fields | Markdown body | free templates |
+| What a schema covers | everything | front matter only; the body needs a parser with rules | types only |
+| Free HTML or code | none | needs HTML off and directives for figures and exercises | anything |
+| Deterministic validation | high | medium | low |
+
+**Recommended: A.** `src/app.yaml` (title, intro, order of topics, sources) and `src/topics/<id>.yaml`, both
+validated against `explainer.v1.schema.json` at build (published at lernapps.net/tooling/schemas/, as the quiz's).
+YAML rather than JSON, because the content is long German prose (block scalars, no escaping); the schema is the same
+kind as the quiz's and the editor finds it by a `yaml-language-server` comment. The fields are fixed: `id`, `title`,
+`summary`, `why`, `rule`, `example`, `figure`, `exercise`, `links`. Prose fields are restricted Markdown: paragraphs,
+bold, lists, tables, links, `$…$` for formulas; raw HTML is a build error.
+- **Formulas:** one notation, a LaTeX subset in `$…$` (`\frac`, `\cdot`, `\%`, `\text`, `^`, `_`, `\sqrt`,
+  `\approx`, `\pm`, parentheses), rendered at build to MathML (Temml, MIT, MathML only, no fonts, no script). A
+  command outside the list or a parse error fails the build with file, field and formula. MathML Core shows in
+  current Chromium, Firefox and Safari, and screen readers read it.
+- **Figures:** declared kinds with parameters, rendered at build to inline SVG with `role="img"` and an accessible
+  name from the required `caption`. The same pure function (SVG as a string, no DOM) draws the task's figure in the
+  browser. `image` requires `alt`, `source` and `licence`.
+- **Exercises:** declared widget types configured as data. A `calculation` has `variants` (text template, unit,
+  value ranges or lists per variable), `require` (conditions for "nice" numbers), `answer` (an expression and the
+  number format: `number` or `money`, decimals), `mistakes` (expression and message each), `hint`, `steps`
+  (formulas with placeholders) and `figure`. Expressions are a small arithmetic language on exact fractions
+  (`+ - * /`, parentheses, numbers, declared variables, `round(x, n)`), parsed by the runtime; there is no eval and no
+  app code. A Mathe-Karte generator like `prozentwert.js` becomes about 25 lines of YAML.
+
+Why: a schema and a parser decide everything the creator writes, and the runtime renders it, so readable without
+JavaScript, accessible markup and working deep links hold by construction and are tested once in the runtime. What
+the Mathe-Karte proves with per-topic tests (deterministic, the solution passes, nonsense fails, the figure does not
+give the answer away) becomes generic checks on the data. The cost: what the data model cannot say needs a new widget
+type in the runtime, not code in the app (Q3).
+
+#### 3. What the runtime provides
+In `@lernapps/app-templates`, next to the quiz, under `runtime/explainer/`, with the same exports:
+- `explainer/plugin`: the Vite plugin `explainer()`. It reads and validates the content, renders the start page and
+  one page per topic (`<id>/index.html`) into the shell `index.html` (marker `<!-- explainer -->`), plus `llms.txt`;
+  it renders formulas, figures and the no-JS form of each exercise; it injects the one client module and stylesheet
+  into every page. It fails the build on any file in `src/` outside the content and `main.ts`.
+- `explainer`: `startExplainer()`, which enhances each exercise in place. It uses the same pure modules as the build
+  for generator, checker, number format and figures, moves the focus to the feedback (lesson of app-templates#10), and
+  stores nothing.
+- `explainer/style.css` and `messages/de.json`: the layout. Header with the app's title, back to the start page,
+  previous and next topic, footer with sources and licences; mobile-first, 360 px.
+- `explainer/e2e`: `explainerTests()`, the generic end-to-end tests, read from the app's content (7.).
+- `explainer/explainer.v1.schema.json`.
+
+The template `explainer/` holds only thin files and example content, as `quiz/` does: `vite.config.ts` is
+`lernapps({ plugins: [explainer()] })`, `src/main.ts` two lines, `e2e/explainer.e2e.ts` two lines, the shared
+`playwright.config.ts`, and the three Prozent topics as the example.
+
+#### 4. The no-JS contract
+- Every page is complete static HTML: all text, every formula as MathML, every figure as inline SVG, links, sources.
+  The script only adds; it hides and replaces nothing that is there without it.
+- Each exercise renders, without JS, three worked tasks from fixed seeds: task text, figure, and a `<details>`
+  "Lösung" with the Rechenweg and the answer. Native `<details>` needs no script. With JS, the live exercise appears
+  above them: input, "Prüfen", feedback, "Neue Aufgabe", deep link `<id>/?seed=<n>#uebung`. No `<noscript>` saying
+  that JavaScript is needed.
+- Checked deterministically:
+  - by construction: the runtime renders everything the content says;
+  - by `explainerTests()` with JavaScript off, for every page of the content: the heading and every section are
+    visible, the number of `<math>` elements equals the formulas in the data, every figure is visible with its name,
+    and every worked task's solution opens and shows the answer that the checker accepts. This runs in
+    `lernapps check --pre-push`, in the hooks and in CI;
+  - at the gate (Q4): a check of `lernapps check`, scoped to pages the runtime marks as explainer pages
+    (`<meta name="lernapps-archetype" content="explainer">`). It visits them without JavaScript and finds
+    sections, formulas and figures. It works on a deployed URL, so the listing validation and `/review` run it too.
+
+#### 5. Rules
+The owner removed the site rules and readable-without-JavaScript for apps in general (#47, #49). For the explainer it
+comes back as an **archetype rule** (`archetype:explainer`), because it is what the archetype promises (KD-02). Apps
+of other archetypes stay unbound.
+
+| Id | Severity | Enforced by |
+|---|---|---|
+| `explainer-only-data`: write only `src/app.yaml`, `src/topics/*.yaml` and bundled figure files | error | build (no other files in `src/`), skill, rubric; with `keep-the-preset` |
+| `explainer-content-valid`: the content validates (schema, unique ids, every reference and placeholder declared) | error | build, one line per problem with file and path |
+| `explainer-formulas-static`: formulas only in `$…$`, in the one notation, rendered at build | error | build (parse, command list); rubric for formulas left as plain text |
+| `explainer-readable-without-js`: every page, formula, figure and worked task reads without JavaScript | error | `explainerTests()`; `lernapps check` (Q4); rubric |
+| `explainer-exercises-sound`: for 200 seeds per exercise the conditions hold, the answer is finite with the declared decimals, no mistake gives the right answer, the task's figure does not show the answer | error | build (sampling with fixed seeds); `explainerTests()` checks right, wrong and each mistake in the browser |
+| `explainer-stable-ids`: keep topic ids, they are paths and deep links | warning | skill, rubric |
+| `explainer-plausible-numbers`: ranges fit the thing in the text, no 90.91 people | warning | skill, rubric; the format part by the build |
+| `explainer-mistakes-diagnosed`: name the typical mistakes, and say in each message what went wrong | hint | skill, rubric |
+| `explainer-figure-explains`: the figure shows what the text says, the caption says what to see | hint | skill, rubric |
+
+Reused unchanged: `keep-the-preset`, `strict-typescript`, `storage-through-wrapper`, `pages-from-gh-pages`,
+`learners-act`, `accessible`, `usable-at-360px`, `links-resolve`, `no-request-before-click`, `no-tracking`,
+`third-party-licence` (`image` figures need `source` and `licence` in the schema), `learner-text-german`,
+`correct-content-support` (met by construction). `topic-has-exercises` stays, from hint to **error**: the schema
+requires an exercise per topic; the rubric still judges whether it practises what the page explains.
+
+#### 6. Instructions
+- **Skill `lernapps-explainer`**, shaped like `lernapps-quiz`:
+  - how the explainer works: what is built in, what you write, what the build checks, the page without and with JS,
+    the deep links;
+  - the content model, with the topic Prozentwert as the example;
+  - formulas (the command list), figures (the kinds), exercises (fields, choosing ranges and `require`, mistakes);
+  - that every topic's path is a `topics` entry of the entry draft (`entry-links-resolve`);
+  - for a failing runtime test, a pointer to `lernapps-app`;
+  - the rules above.
+- **Plan template:** no change. Its archetype choice already names `explainer`, and the skill carries the rest, so the
+  template stays archetype-neutral.
+- **Review rubric** `review/archetypes/explainer.md`: `topic-has-exercises` judged for fit, not presence; new items
+  `explainer-mistakes-diagnosed`, `explainer-plausible-numbers`, `explainer-figure-explains`,
+  `explainer-formulas-static` (formulas as plain text), and `explainer-readable-without-js` (meaning only inside a
+  widget). The review also compares the rule's formula with the exercise's answer expression.
+
+#### 7. Tests and validation
+Test first, end to end, on fixtures (KD-21, issue #19):
+- app-templates: the template `explainer/` passes `lernapps check` in the CI matrix next to `quiz`. A job
+  `explainer-many-pages`, like `quiz-many-questions`, swaps in a fixture of 60 topics (every figure kind, mistakes,
+  long prose) and runs `lernapps check --pre-push` within the default timeouts. Broken fixtures each fail the build
+  with their one line: unknown LaTeX command, raw HTML, undeclared variable, a mistake equal to the answer,
+  `require` never met, `image` without licence, an extra file in `src/`.
+- `explainerTests()`, for every topic of the content: without JS as in 4.; with JS, the deep link with a seed shows
+  the task the generator gives for that seed. The right answer counts, and its feedback is in view and has the focus.
+  Each declared mistake shows its message; any other wrong answer is wrong. "Neue Aufgabe" changes the task, and
+  nothing is stored. The start page lists every topic in order, and previous and next link up. The tests run with
+  reduced motion and in parallel.
+- tooling: `create.e2e` generates an explainer app, installs it and runs `lernapps check` (passes); the fixture with
+  a page empty without JS fails the new check (Q4). lernapps/apps' entry-point test covers it on its own, because it
+  runs every archetype the tooling names.
+
+#### 8. Reuse map
+- **Shared with the quiz, unchanged:** generator (`create`, `update`, the pin, the generated workflows, issue form,
+  LICENSE, Renovate), preset and `tsconfig`, `lernapps hooks`, `lernapps check` and its checks, the Playwright preset,
+  storage, i18n and a11y helpers, the app check and publish actions, the listing validation, `/review`, the plan
+  template and `AGENTS.md`, the skills `lernapps-app` and `lernapps-listing`.
+- **Same pattern, new code in `runtime/explainer/`:** Vite plugin with build-time validation, data with a published
+  schema, rendering into a shell with a marker, generic e2e from the app's data, messages, styles, a many-items CI
+  job.
+- **New:** multi-page rendering, restricted Markdown, formulas to MathML, figure kinds, the `calculation` widget
+  (expression language on fractions, seeded generator, number format rule, checker, mistakes), worked tasks without
+  JS, `llms.txt`, the skill `lernapps-explainer`, the explainer rules, the check of Q4.
+
+#### 9. Steps and pull requests
+1. **app-templates: explainer pages.** The first commit is the spike: the plugin emits many pages and one hashed
+   client module with `vp build` (KD-02's "Vite only"); the result goes into this plan. Then schema, validation,
+   restricted Markdown, formulas, the figure kinds, the template with three topics, and `explainerTests()` without JS.
+   CI matrix and `explainer-many-pages`. *Done when* `lernapps check` passes in `explainer/` and on the 60-topic
+   fixture, and every broken fixture fails the build with its line.
+2. **app-templates: the `calculation` exercise.** Shared pure modules, build-time sampling, worked tasks without JS,
+   the client widget, the JS part of `explainerTests()`. *Done when* the e2e tests check right, wrong, each mistake
+   and the deep link for every topic of the template and the fixture, and a fixture whose mistake equals the answer
+   fails the build.
+3. **tooling: the archetype `explainer`.** Pin bump and `appTemplates.archetypes`, the schema on the docs site, the
+   skill `lernapps-explainer` with its rules, `topic-has-exercises` to error, the rubric, `create.e2e`; arc42 where it
+   names only the quiz's runtime, and KD-02's rendering decision. *Done when* `lernapps create --archetype explainer`,
+   `npm install` and `npx lernapps check` pass in the test and in CI, `npm run rules` lists the new ids, and
+   lernapps/apps' entry-point test passes for both archetypes.
+4. **tooling: the check `explainer-readable-without-js`** (if Q4 is yes). It brings back the page visit without JS
+   that #47 removed, only for marked pages. *Done when* the empty-without-JS fixture fails it, and quiz and other
+   bundles are unaffected.
+5. **A first full explainer run**, from a creator prompt to the listing, as with naturwunder-quiz; the lessons go
+   into this plan. *Done when* the app is listed or each lesson is an issue. Then 10, with both archetypes.
+
+#### 10. Open questions for the owner
+- **Q1 Rendering:** KD-02 accepted Eleventy 3 with `.11ty.ts`, to be proven by a prototype. With content as data
+  there are no templates for the creator to write, and the quiz already renders with a Vite plugin. *Recommendation:*
+  render with a Vite plugin, KD-02's alternative, with one toolchain as for the quiz. The spike in PR 1 decides; if it
+  fails, Eleventy as accepted.
+- **Q2 Authoring format:** YAML per topic (A) or Markdown with front matter (B)? *Recommendation:* A, because the
+  schema then covers everything.
+- **Q3 Exercises only as data:** the creator writes no generator code, and what the data model cannot say becomes a
+  new widget type in the runtime. *Recommendation:* yes for the MVP; review it after the first full explainer run.
+- **Q4 No-JS at the gate:** bring back a page visit without JS in `lernapps check`, only for pages marked as explainer
+  pages, so the listing and `/review` check the promise too, and not only the app's own e2e. *Recommendation:* yes.
+- **Q5 Left out:** test page, self-assessment, videos, tutor prompt, further exercise types. All are later additions
+  to the runtime that change no content already written. *Recommendation:* add them after the evals (10), each with
+  its own issue.
 
 ### Completed
 - [x] 1 · The tooling's own build: package, strict TypeScript, vite-plus, hooks, `check` in CI
@@ -347,6 +555,39 @@ with the quiz archetype first (owner, 2026-10-12): 9 → 13 → a first full run
   the paths they exercise, CI runs everything (`dec-tooling-pre-push`, the one exception to `dec-one-check-command`);
   the CLI's help and the actions' descriptions hold the details, the architecture states responsibilities and the
   README orients; scaffolding is `npx --yes github:lernapps/tooling#main create`, then `npx lernapps check`
+- [x] 9 · Listing validation ([lernapps/apps#3](https://github.com/lernapps/apps/issues/3), merged in #45
+  with lernapps/apps#8, #11, #14): `npm run listing -- entries/<id>.yaml` in lernapps/apps runs
+  `lernapps check --entry` on the deployed app, plus the catalog's rule `entry-fitness-matches` (`checked: true` only
+  while the check passes). `listing.yml` runs it on the entries a pull request changes, read-only and without
+  secrets; `listing-comment.yml`, from `main`, keeps one results comment per pull request: every finding as a task
+  grouped by rule, cut off only past GitHub's size limit with a link to the full report, and "bestanden" on a pass
+  too. The skill `lernapps-listing` says how to open the pull request and act on the comment; it names no entry field
+  (KD-04)
+- [x] 13 · Documentation and the creator's entry point ([#21](https://github.com/lernapps/tooling/issues/21), merged
+  in #46 with lernapps/apps#10, #12, lernapps/lernapps.github.io#25, lernapps/app-templates#6, lernapps/.github#42):
+  building and listing have a page each, `/apps/build/` (a prompt to copy, the `create` command, the skill
+  `lernapps-app`) and `/apps/enter/` (the skill `lernapps-listing` first, then the form, one e-mail fallback);
+  `/apps/eintragen/` is gone without a redirect, and the navigation links both. The entry-point test runs the page's
+  command for every archetype the tooling names. The READMEs only orient: the tooling helps builders get their apps
+  out; lernapps/apps explains building and listing and holds the catalog
+- [x] First full run, from the first prompt to the listing, in lernapps/naturwunder-quiz (25 questions, listed in
+  lernapps/apps#13). Lessons and the fixes they led to:
+  - The quiz's generic e2e tests timed out from about 15–25 questions: every focus move scrolled smoothly. They run
+    with reduced motion, a CI job checks a 64-question bank (`quiz-many-questions`), and after an answer the focus
+    moves to the feedback, which stays in view (lernapps/app-templates#9, #10; pin in #50)
+  - Where the guidance, the check or the publish action said nothing, the agent guessed (#52, #53). A failing
+    runtime test while the content validates is a template bug: reported, never worked around. `lernapps update`
+    moves an app to the tooling's pins and never downgrades. The agent works on `work` until the first publish
+    creates `main`. It checks the default branch and Pages before the publish checkpoint and puts any admin clicks
+    into that question; a first run that did not start is dispatched. HTTP 429 on a link is a hint, "not checked",
+    never scraped. The check names a failing test of the runtime as the template's. Plan-only pushes deploy nothing,
+    and the plan with its retrospective is pushed before the listing
+  - A maintainer starts the review agent with `/review` on a listing pull request (lernapps/apps#15, #51). A job
+    without secrets builds the app in a container and runs the checks; a separate job runs the agent with read-only
+    tools on those prepared inputs. The result is one verdict comment; the review decides nothing
+- [x] Other merged work: no site scope and no site rules in the tooling. Readable without JavaScript applies only to
+  lernapps.net's own site, not to apps (owner; #47, #49). Git hooks are installed only where the app is the root of
+  its repository: `prepare` is `lernapps hooks`, and templates install none (#48, lernapps/app-templates#7)
 
 ## Commit
 
