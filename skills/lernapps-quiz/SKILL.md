@@ -35,21 +35,15 @@ You write the questions as data in `src/quiz.json`, and no code. The rules of `l
   - that every option's background, the explanation and the links show.
 
   They also check the full score and the page without JavaScript. `lernapps check` runs them.
-- A new feature or a fix of the quiz reaches the app with a newer `@lernapps/app-templates`. The app pins it to a
-  commit, so `npm update` changes nothing. To move it now, run `npx --yes github:lernapps/tooling#main update` in the
-  app's folder: it moves the runtime to the commit the latest tooling pins and installs it. Then run
-  `npx lernapps check` and commit.
+- A new feature or a fix of the quiz reaches the app with a newer `@lernapps/app-templates`; `lernapps update` moves
+  the app to it, as the skill `lernapps-app` says.
 
 ## When a test of the runtime fails
 
 The end-to-end tests come from the runtime, not from your app. If one of them fails while your bank validates (the
-build passes), the bug is in the template, not in your questions. `lernapps check` then names the test as a test of
-the template.
-1. Tell the creator what failed.
-2. Open an issue at <https://github.com/lernapps/app-templates/issues> with the validation report
-   (`node_modules/.cache/lernapps/validation-report.yaml`), or ask the creator to.
-3. Never change the tests, the configuration or the runtime in `node_modules` to get around it (`quiz-only-data`).
-   Go on with the questions; once the fix is in, `lernapps update` picks it up (see above).
+build passes), the bug is in the template, not in your questions: do what the skill `lernapps-app` says for a
+failing test of the runtime. Never change the runtime in `node_modules` either (`quiz-only-data`); go on with the
+questions.
 
 ## Types of questions
 

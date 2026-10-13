@@ -1,5 +1,5 @@
 // The contract of the CLI `lernapps`: usage, exit codes, the command structure.
-import { readdirSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { ParseArgsOptionsConfig } from "node:util";
@@ -53,6 +53,39 @@ describe("lernapps", () => {
     const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], tempDir("not-an-app"));
     expect(result.code).toBe(1);
     expect(result.stderr).toContain("lernapps update: no package.json here: run it in the app's folder");
+  });
+
+  test("update from a clone of the tooling says what it did not move and why, and exits 1", () => {
+    // run from this repo: not installed by npm from a git commit, so there is no commit to move the tooling to
+    const { commit } = (
+      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
+    ).appTemplates;
+    const toolingCommit = "0123456789abcdef0123456789abcdef01234567";
+    const dir = tempDir("app");
+    const workflow = `jobs:\n  app:\n    steps:\n      - uses: lernapps/tooling/actions/app-check@${toolingCommit} # main\n`;
+    mkdirSync(join(dir, ".github/workflows"), { recursive: true });
+    writeFileSync(join(dir, ".github/workflows/pages.yml"), workflow);
+    const devDependencies = {
+      "@lernapps/app-templates": `github:lernapps/app-templates#${commit}`,
+      "@lernapps/tooling": `github:lernapps/tooling#${toolingCommit}`,
+    };
+    writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "app", devDependencies }));
+    const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
+    expect(result.code, result.stderr).toBe(1);
+    expect(result.stdout).toContain(`lernapps update: @lernapps/app-templates: unchanged (${commit.slice(0, 7)})`);
+    expect(result.stdout).toContain(
+      `lernapps update: @lernapps/tooling: not moved (still ${toolingCommit.slice(0, 7)}): this tooling (`,
+    );
+    expect(result.stdout).toContain("was not installed by npm from a git commit, so there is no commit to move to");
+    expect(result.stdout).toContain(
+      `lernapps update: the actions of lernapps/tooling in ${join(".github", "workflows", "pages.yml")}: not moved, for the same reason`,
+    );
+    expect(result.stdout).not.toContain("Next:");
+    expect(result.stderr).toContain(
+      "lernapps update: partly updated: @lernapps/tooling and the actions of lernapps/tooling not moved (see above). Run it from the latest tooling, installed by npx: npx --yes github:lernapps/tooling#main update",
+    );
+    expect(readFileSync(join(dir, ".github/workflows/pages.yml"), "utf8")).toBe(workflow);
+    expect(JSON.parse(readFileSync(join(dir, "package.json"), "utf8"))).toEqual({ name: "app", devDependencies });
   });
 
   test("without a command it prints the usage and exits non-zero", () => {

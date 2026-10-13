@@ -5,7 +5,7 @@
 //           Pages is off or serves something else, it sets it through the API if the token may. On the first deploy
 //           the branch does not exist yet: the deploy creates it, and `after` checks Pages. It also writes the marker
 //           file lernapps-publish.txt (the commit) into the bundle, and warns when the repo's default branch is not
-//           main (the token may not change it; the deploy goes on).
+//           main (the token may not change it; the deploy goes on, also when it cannot be read).
 //   after   checks Pages again (it may be the first deploy), then waits until the app's address serves the marker of
 //           this commit, and prints the address.
 // Only Node's own modules: the action runs it without installing anything. Every failure says what is wrong, how to
@@ -127,13 +127,23 @@ const DEFAULT_BRANCH_CLICKS =
 
 /**
  * Warns when the repo's default branch is not main, with the clicks that set it: the app is published only from main,
- * but update pull requests (Renovate) and new pull requests target the default branch. A token that may not read the
- * repo changes nothing: the deploy goes on either way.
+ * but update pull requests (Renovate) and new pull requests target the default branch. Best-effort: a request that
+ * fails or a token that may not read the repo is a notice, and the deploy goes on either way.
  */
 async function checkDefaultBranch(e: Env): Promise<void> {
-  const repo = await request(e, "GET", `/repos/${e.repo}`);
+  let repo: Response;
+  try {
+    repo = await request(e, "GET", `/repos/${e.repo}`);
+  } catch (error) {
+    repo = { status: 0, body: undefined, text: String(error) };
+  }
   const branch = field(repo.body, "default_branch");
-  if (repo.status !== 200 || typeof branch !== "string" || branch === MAIN) return;
+  if (repo.status !== 200 || typeof branch !== "string") {
+    const why = repo.status === 0 ? repo.text : apiMessage(repo);
+    console.log(`::notice::${PREFIX}: could not read the default branch of ${e.repo} (${why}); the deploy goes on`);
+    return;
+  }
+  if (branch === MAIN) return;
   console.log(
     [
       `::warning::${PREFIX}: the default branch of ${e.repo} is ${branch}, not ${MAIN}.`,

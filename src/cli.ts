@@ -13,7 +13,7 @@ import { measure, type App, type Context, type Entry } from "../check/check.ts";
 import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
 import { BrowserError, launch, serve, visitApp } from "../check/visit.ts";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
-import { create, CreateError } from "../generator/create.ts";
+import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { update, UpdateError } from "../generator/update.ts";
 import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
 
@@ -34,8 +34,6 @@ const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
 const CHECKS_PASS = "checks-pass";
 /** The Playwright tests' results, as its JSON reporter writes them, to tell the runtime's tests from the app's. */
 const E2E_RESULTS = "node_modules/.cache/lernapps/playwright-results.json";
-/** The runtime of the archetypes, whose generic end-to-end tests an app runs (the quiz's e2e/quiz.e2e.ts). */
-const RUNTIME = "@lernapps/app-templates";
 const RUNTIME_ISSUES = "https://github.com/lernapps/app-templates/issues";
 
 function version(): string {
@@ -91,7 +89,9 @@ interface Suite {
 
 /**
  * The failing tests that are defined in the runtime (a file below node_modules/@lernapps/app-templates/), by their
- * titles: the suites' titles below the file, then the test's. Empty when the results cannot be read.
+ * titles: the suites' titles below the file, then the test's. Playwright names a spec's file relative to the test
+ * folder, e.g. ../node_modules/@lernapps/app-templates/dist/quiz-e2e.mjs for the quiz's e2e/quiz.e2e.ts, which only
+ * calls quizTests(). Empty when the results cannot be read.
  */
 function failingRuntimeTests(): string[] {
   let results: { suites?: Suite[] };
