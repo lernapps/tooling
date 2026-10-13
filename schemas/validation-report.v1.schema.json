@@ -56,7 +56,10 @@
         "type": "object",
         "properties": {
           "rule": { "$ref": "#/$defs/id" },
-          "severity": { "enum": ["error", "warning", "hint"] },
+          "severity": {
+            "enum": ["error", "warning", "hint"],
+            "description": "The rule's severity; hint also for what a check could not decide, such as a link whose server is rate limited (429). Only error fails"
+          },
           "where": {
             "type": "string",
             "minLength": 1,
