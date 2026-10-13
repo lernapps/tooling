@@ -166,6 +166,15 @@ export function installedSpec(): string | undefined {
 
 /** The runtime package at the root of app-templates. */
 export const RUNTIME = "@lernapps/app-templates";
+/** This package, as an app depends on it. */
+export const TOOLING = "@lernapps/tooling";
+
+/** The commit of app-templates this @lernapps/tooling pins (appTemplates in package.json); `fail` when it pins none. */
+export function pinnedTemplates(fail: (message: string) => Error): NonNullable<Manifest["appTemplates"]> {
+  const pin = readJson(fromPackage("package.json")).appTemplates;
+  if (pin === undefined) throw fail("this @lernapps/tooling pins no app-templates (appTemplates in package.json)");
+  return pin;
+}
 
 /** The npm spec of the runtime at `commit` of `repository`: GitHub, another git URL, or a local clone. */
 export function runtimeSpec(repository: string, commit: string): string {
@@ -236,10 +245,7 @@ export function create(args: string[]): number {
   if (values.plan !== undefined && !existsSync(values.plan))
     throw new CreateError(`the plan ${values.plan} does not exist`);
 
-  const manifest = readJson(fromPackage("package.json"));
-  const pin = manifest.appTemplates;
-  if (pin === undefined)
-    throw new CreateError("this @lernapps/tooling pins no app-templates (appTemplates in package.json)");
+  const pin = pinnedTemplates((message) => new CreateError(message));
   const repository = values.templates ?? process.env["LERNAPPS_TEMPLATES"] ?? pin.repository;
   const template = fetchTemplate(archetype, repository, pin.commit);
   try {
@@ -250,7 +256,7 @@ export function create(args: string[]): number {
   }
 
   const app = readJson(join(dir, "package.json"));
-  const templateTooling = app.devDependencies?.["@lernapps/tooling"];
+  const templateTooling = app.devDependencies?.[TOOLING];
   const name = packageName(dir);
   app.name = name;
   // npm install installs the hooks of this package, in the app's own repository only (lernapps hooks); the
@@ -266,7 +272,7 @@ export function create(args: string[]): number {
   // template's
   const tooling = values.tooling ?? installedSpec();
   if (tooling !== undefined) {
-    app.devDependencies = { ...app.devDependencies, "@lernapps/tooling": tooling };
+    app.devDependencies = { ...app.devDependencies, [TOOLING]: tooling };
     rmSync(join(dir, "package-lock.json"), { force: true }); // locks the template's tooling, not this one
   } else if (existsSync(join(dir, "package-lock.json"))) {
     const lock = readJson(join(dir, "package-lock.json"));

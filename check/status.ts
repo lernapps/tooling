@@ -2,9 +2,10 @@
 // server that answers 429 Too Many Requests is asked again after a short wait, a bounded number of times: it may
 // ask for an hour (Retry-After), but a check never waits longer than a few seconds per link. A link still rate
 // limited then keeps the status 429, and its check reports it as not checked, at severity hint: it fails nothing.
+import type { Problem } from "./check.ts";
 
 /** The status a rate-limited server answers with. */
-export const RATE_LIMITED = 429;
+const RATE_LIMITED = 429;
 const RETRIES = 2;
 /** The longest wait before one retry, whatever the server's Retry-After says. */
 const MAX_WAIT = 2000;
@@ -35,19 +36,24 @@ export async function linkStatus(url: string): Promise<{ status: number; html: b
   }
 }
 
-/** What a check says about a link that answered `status`: undefined when it resolves. */
-export function linkProblem(status: number): { found: string; hint: boolean } | undefined {
+/** The fix of a link that could not be checked. */
+const CHECK_AGAIN_LATER =
+  "Nothing to fix for this: the server limits how often it may be asked. Check again later (lernapps check); the other links were checked";
+
+/**
+ * The problem a check reports for `link` at `where` that answered `status`, undefined when it resolves. A broken link
+ * gets the check's `fix`; a rate-limited one is not checked: severity hint, with nothing to fix.
+ */
+export function linkProblem(where: string, link: string, status: number, fix: string): Problem | undefined {
   if (status === RATE_LIMITED) {
     return {
-      found: `could not be checked: the server answers 429 Too Many Requests (rate limited), also after ${RETRIES} retries`,
-      hint: true,
+      where,
+      found: `${link} could not be checked: the server answers 429 Too Many Requests (rate limited), also after ${RETRIES} retries`,
+      fix: CHECK_AGAIN_LATER,
+      severity: "hint",
     };
   }
-  if (status === 0) return { found: "cannot be fetched", hint: false };
-  if (status >= 400) return { found: `answers ${status}`, hint: false };
+  if (status === 0) return { where, found: `${link} cannot be fetched`, fix };
+  if (status >= 400) return { where, found: `${link} answers ${status}`, fix };
   return undefined;
 }
-
-/** The fix of a link that could not be checked. */
-export const CHECK_AGAIN_LATER =
-  "Nothing to fix for this: the server limits how often it may be asked. Check again later (lernapps check); the other links were checked";
