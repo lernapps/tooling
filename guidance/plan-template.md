@@ -17,9 +17,9 @@ This file guides you, the assistant, and shows the creator where you are.
 - Work through one phase at a time: Explore, Plan, Code, Commit. Do the tasks of the current phase in order.
 - Tick a task when it is done and move it to "Completed" of its phase. Add tasks as you find them.
 - A task marked as a checkpoint means: stop, show the creator what they need to decide, and wait for their answer.
-- Work on the branch `work`, from the first commit on. `main` is created by the first publish, in Commit: a push to
-  `main` publishes the app. If your environment asks you to push, push `work` only; while a check fails, tell the
-  creator instead of pushing.
+- Work on the branch `work`, from the first commit on, until the first publish: before it, if your environment asks
+  you to push, push `work` only. The first publish, in Commit, creates `main`; from then on, push `main` as the Commit
+  tasks say. While a check fails, tell the creator instead of pushing.
 - Write the plan in the language you talk to the creator in. Keep the headings and the front matter keys as they
   are: the review reads them.
 - Delete these comments only where you have filled the part they explain.
@@ -115,8 +115,8 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 - [ ] Generate the app in the folder that holds this plan: `npx --yes github:lernapps/tooling#main create --archetype
       <archetype>`. Nothing needs to be installed first. The generator keeps this plan at `.vibe/plan.md`.
 - [ ] Run `git init --initial-branch=work` if the folder is not a git repository yet; in one, `git switch -c work` if
-      you are not on `work` yet. Then run `npm install`: it installs the dependencies and the git hooks. From now on, everything runs from the app's own `node_modules`: `npx lernapps check`, the
-      hooks.
+      you are not on `work` yet. Then run `npm install`: it installs the dependencies and the git hooks. From now on,
+      everything runs from the app's own `node_modules`: `npx lernapps check`, the hooks.
 - [ ] Commit what the generator wrote, with this plan: the first commit.
 - [ ] Load the skill `lernapps-app` and the skill of the archetype.
 - [ ] <the tasks written in Plan>
@@ -135,6 +135,10 @@ the branch `work` until the creator says yes; the first publish creates `main`.
 The repo's default branch must be `main`: only `main` publishes, and update pull requests (Renovate) and new pull
 requests target the default branch. A repo whose first push was `work` has `work` as its default branch until it is
 changed.
+A push to `main` that changes only the plan (`.vibe/`) starts no run and publishes nothing: push the plan whenever a
+task says so. A push to `main` that changes anything else must start a run of `Pages`. If none has started a minute
+after the push (`gh run list --workflow Pages --branch main --commit <commit>` lists none), start it:
+`gh workflow run Pages --ref main`.
 -->
 
 ### Tasks
@@ -150,13 +154,16 @@ changed.
         branch) → main → Update.
 - [ ] **Checkpoint:** publish. Ask the creator before the app goes online, and wait for their yes. Put the clicks you
       noted into the same question, to make after the first run, so that they cost no extra turn.
-- [ ] Create `main` from `work` and push it: `git switch -c main`, `git push -u origin main`. Watch the run of the
-      workflow `Pages` on `main` until it ends (for example `gh run watch`, or the Actions tab of the repo). If it
-      fails, read the message of the failed step: fix what you can and push again. For a setting only a repository
-      admin may change: if the creator agreed to the clicks at the checkpoint, wait until the setting is made (for
-      example `gh api repos/<owner>/<repo>/pages` names `gh-pages`) and run the failed jobs again (`gh run rerun
-      <id> --failed`); otherwise tell the creator the exact clicks the message names, and run them again when they
-      are done.
+- [ ] Create `main` from `work` and push it: `git switch -c main`, `git push -u origin main`. Check that a run of
+      the workflow `Pages` started for this commit:
+      `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`. GitHub may start none for a
+      push that creates a branch from commits it already has. If none is listed a minute after the push, start it:
+      `gh workflow run Pages --ref main`. Watch the run until it ends (for example `gh run watch`, or the Actions
+      tab of the repo). If it fails, read the message of the failed step: fix what you can and push again. For a
+      setting only a repository admin may change: if the creator agreed to the clicks at the checkpoint, wait until
+      the setting is made (for example `gh api repos/<owner>/<repo>/pages` names `gh-pages`) and run the failed jobs
+      again (`gh run rerun <id> --failed`); otherwise tell the creator the exact clicks the message names, and run
+      them again when they are done.
 - [ ] Set the default branch to `main`: `gh repo edit --default-branch main`, or the creator's clicks from the
       checkpoint. The run of `Pages` warns while it is another branch.
 - [ ] Open the address the job `deploy` printed ("published at ...") and confirm that it shows the app.
@@ -164,10 +171,11 @@ changed.
 - [ ] Complete the entry draft with what is known now, such as the app's address.
 - [ ] **Checkpoint:** list. Ask the creator before you open the listing pull request, and wait for their yes.
 - [ ] Fill the retrospective.
+- [ ] Commit this plan on `main` and push it: the listing check and the review read it, with the filled
+      retrospective, in the repo. A push that changes only `.vibe/` publishes nothing again.
 - [ ] Open the listing pull request as the skill says, and see it through to "bestanden": when the check passes, the
       results comment on the pull request says "bestanden" (not "nicht bestanden").
-- [ ] Commit the changes of this plan since publishing on `main`, and push them once, at the end. A push that changes
-      only `.vibe/` publishes nothing again.
+- [ ] If this plan changed since its last push, commit it on `main` and push it again.
 
 ### Completed
 

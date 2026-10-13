@@ -9,23 +9,25 @@
 //   - the app with the fixture bank (test/fixtures/quiz/quiz.json, every type of question) passes `lernapps check`,
 //     which runs the quiz's generic end-to-end tests (quizTests of @lernapps/app-templates) on that bank in a browser;
 //   - its publish workflow publishes on a push to main, but not for a push that changes only the plan (.vibe/);
-//   - `lernapps update` moves an app on an older runtime to the commit the tooling pins, installs it and says so.
+//   - a failing generic test of the runtime (quizTests, patched in the installed copy) is named as a test of the
+//     template: Playwright's report locates it below node_modules/@lernapps/app-templates/;
+//   - `lernapps update` moves an app on an older runtime to the commit the tooling pins, installs it and says so; a
+//     runtime newer than the pin, or one whose order it cannot tell, it keeps, and says so.
 // The quiz runtime itself (the browser behaviour, the page without JavaScript, the messages for a broken bank) is
 // tested in lernapps/app-templates, where it lives: its unit tests and quizTests.
 // The templates and the runtime come from a local clone of lernapps/app-templates with the pinned commit: the one named
 // by LERNAPPS_TEMPLATES, else one fetched once into a cache (support.ts, appTemplates), so the hooks run these tests as
 // CI does. The packages are installed from git.
-import { cpSync, existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { cpSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
-import { appTemplates, freshClone, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import { findingsOf, output } from "./check-report.ts";
+import { appTemplates, freshClone, ok, repoRoot, run, tempDir } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
 const BANK = join(repoRoot, "test/fixtures/quiz/quiz.json");
-
-const output = (result: Result) => `${result.stdout}\n${result.stderr}`;
 
 describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git", () => {
   let templates = "";
@@ -96,21 +98,45 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
   });
 
   test(
-    "lernapps update moves an older runtime to the commit the tooling pins, and installs it",
+    "a failing generic test of the runtime, in the real app, is named as a test of the template",
     { timeout: SLOW },
     () => {
-      const pinned = (
-        JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
-      ).appTemplates.commit;
+      // the runtime as installed, with a bug in its full run: a copy patched for this test only
+      const e2e = join(app, "node_modules/@lernapps/app-templates/dist/quiz-e2e.mjs");
+      const original = readFileSync(e2e, "utf8");
+      const title = "all right answers give the full score, then the solutions show";
+      const opening = `test(${JSON.stringify(title)}, async ({ page }) => {`;
+      expect(original).toContain(opening);
+      writeFileSync(e2e, original.replace(opening, `${opening} expect("a bug").toBe("fixed");`));
+      try {
+        const result = run("npx", ["--no", "--", "lernapps", "check", "--pre-push"], app);
+        expect(result.code, output(result)).toBe(1);
+        const failed = findingsOf(result, "checks-pass").filter((finding) => finding.where === "playwright test");
+        expect(failed, output(result)).toHaveLength(1);
+        expect(failed[0]?.found).toContain(`a generic test of the template's runtime @lernapps/app-templates`);
+        expect(failed[0]?.found).toContain(`"quiz › ${title}"`);
+        expect(failed[0]?.fix).toContain("https://github.com/lernapps/app-templates/issues");
+      } finally {
+        writeFileSync(e2e, original);
+      }
+    },
+  );
+
+  describe("lernapps update", () => {
+    const pinned = (
+      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
+    ).appTemplates.commit;
+    const manifest = () =>
+      JSON.parse(readFileSync(join(app, "package.json"), "utf8")) as { devDependencies: Record<string, string> };
+    const resolved = () =>
+      (
+        JSON.parse(readFileSync(join(app, "package-lock.json"), "utf8")) as {
+          packages: Record<string, { resolved?: string }>;
+        }
+      ).packages["node_modules/@lernapps/app-templates"]?.resolved ?? "";
+
+    test("moves an older runtime to the commit the tooling pins, and installs it", { timeout: SLOW }, () => {
       const older = ok("git", ["rev-parse", `${pinned}~1`], templates).stdout.trim();
-      const manifest = () =>
-        JSON.parse(readFileSync(join(app, "package.json"), "utf8")) as { devDependencies: Record<string, string> };
-      const resolved = () =>
-        (
-          JSON.parse(readFileSync(join(app, "package-lock.json"), "utf8")) as {
-            packages: Record<string, { resolved?: string }>;
-          }
-        ).packages["node_modules/@lernapps/app-templates"]?.resolved ?? "";
       // the app on the runtime of an older commit, installed
       const runtime = manifest().devDependencies["@lernapps/app-templates"] ?? "";
       expect(runtime).toMatch(new RegExp(`#${pinned}$`));
@@ -126,8 +152,39 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
       expect(manifest().devDependencies["@lernapps/tooling"]).toBe(tooling);
       expect(resolved()).toContain(`#${pinned}`);
       expect(result.stdout).toContain("npx lernapps check");
-    },
-  );
+    });
+
+    // The app's runtime stays at the pin; the tooling's pin moves (in the installed copy, for this test only).
+    test.each([
+      [
+        "newer than the pin (as after Renovate)",
+        () => ok("git", ["rev-parse", `${pinned}~1`], templates).stdout.trim(),
+        "it is newer",
+      ],
+      [
+        "at a commit git cannot fetch, so the order is unknown",
+        () => "0123456789abcdef0123456789abcdef01234567",
+        "cannot tell whether it is older: git cannot fetch both commits",
+      ],
+    ])("keeps a runtime %s, and says so", { timeout: SLOW }, (_name, pinOfTooling, why) => {
+      const toolingManifest = join(app, "node_modules/@lernapps/tooling/package.json");
+      const original = readFileSync(toolingManifest, "utf8");
+      const pin = pinOfTooling();
+      writeFileSync(toolingManifest, original.replace(pinned, pin));
+      try {
+        const runtime = manifest().devDependencies["@lernapps/app-templates"];
+        const result = run("npx", ["--no", "--", "lernapps", "update"], app);
+        expect(result.code, output(result)).toBe(0);
+        expect(result.stdout).toContain(
+          `@lernapps/app-templates: kept ${pinned.slice(0, 7)}, not moved to ${pin.slice(0, 7)}, the commit this tooling pins: ${why}`,
+        );
+        expect(manifest().devDependencies["@lernapps/app-templates"]).toBe(runtime);
+        expect(resolved()).toContain(`#${pinned}`);
+      } finally {
+        writeFileSync(toolingManifest, original);
+      }
+    });
+  });
 
   // Last: it turns the app's folder into a folder of another repository.
   test("npm install in a folder inside another repository leaves that repository's hooks alone", () => {
