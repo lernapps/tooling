@@ -1,7 +1,7 @@
 # lernapps.net tooling
 
 > The tooling for building, checking and listing learning apps for lernapps.net with an AI assistant: the CLI
-> `lernapps` (create and check an app), the plan template that holds the workflow, the skills with the rules, the
+> `lernapps` (create, check and update an app), the plan template that holds the workflow, the skills with the rules, the
 > rule catalog, the schemas and the review procedure. It is installed from git; it is not on npm.
 
 ## Quick path
@@ -37,6 +37,7 @@ Every command lists its options with `--help`: `npx lernapps check --help` in an
 Install them into your harness with `npx skills add lernapps/tooling`.
 
 - [lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): the rules every app follows, each with its id.
+- [lernapps-listing](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-listing/SKILL.md): how to open the listing pull request and act on its results comment.
 - [lernapps-quiz](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-quiz/SKILL.md): how the quiz works and how to write its questions.
 
 ## Rules and schemas
