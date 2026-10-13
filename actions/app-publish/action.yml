@@ -7,9 +7,10 @@ description: >-
   until the app's address serves the new bundle, and prints the address. Previews below pr-preview/ on the branch
   stay. Where the token may not change the Pages settings, it fails with what is wrong and the clicks a repository
   admin makes once. It warns, with the clicks, when the repo's default branch is not main, the only branch it
-  publishes from. The logic is publish/publish.ts, tested by test/app-publish.e2e.test.ts. Use it in the job
-  "deploy" of the app's pages.yml, on main, after the job "app" (needs: app), pinned to a commit. The job needs
-  permissions: contents: write, pages: write.
+  publishes from; when it cannot read the default branch, a notice says so and the deploy goes on. The logic is
+  publish/publish.ts, tested by test/app-publish.e2e.test.ts. Use it in the job "deploy" of the app's pages.yml, on
+  main, after the job "app" (needs: app), pinned to a commit. The job needs permissions: contents: write, pages:
+  write.
 inputs:
   token:
     description: >-

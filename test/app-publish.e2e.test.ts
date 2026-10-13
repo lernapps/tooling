@@ -4,6 +4,7 @@
 //     branch or folder, Pages built by a workflow, and a token that may not read the settings; where the token may,
 //     it sets Pages itself; where not, it fails with what is wrong, the clicks, why, and the rule link;
 //   - before the deploy: a default branch other than main is a warning with the clicks that set it; the deploy goes on;
+//     the default branch is best-effort: a request for it that fails (no answer) is a notice, never a failure;
 //   - after the deploy: it waits until the app's address serves the marker of this commit, then prints the address;
 //     when the address keeps serving an older bundle, it fails with a message;
 //   - it writes the marker file into the bundle and refuses a bundle without index.html.
@@ -24,7 +25,7 @@ const RULE = "https://lernapps.net/tooling/rules/#pages-from-gh-pages";
 /** What the fake GitHub answers, per scenario; each test sets it. */
 interface World {
   branch: boolean;
-  /** the repo's default branch */
+  /** the repo's default branch; "unreachable" drops the connection of that request, as a network error would */
   defaultBranch: string;
   pages: { build_type: string; source: { branch: string; path: string } } | undefined;
   /** the status of a write to the Pages settings: 201/204 when the token may, 403 when not */
@@ -53,6 +54,7 @@ function handle(request: IncomingMessage, response: ServerResponse): void {
   request.on("data", (chunk: Buffer) => (body += chunk.toString()));
   request.on("end", () => {
     if (url.pathname === `/api/repos/${REPO}`) {
+      if (world.defaultBranch === "unreachable") return request.socket.destroy();
       return json(200, { full_name: REPO, default_branch: world.defaultBranch });
     }
     if (url.pathname === `/api/repos/${REPO}/branches/gh-pages`) {
@@ -156,6 +158,22 @@ describe("before the deploy", () => {
       expect(printed).toContain(`gh repo edit ${REPO} --default-branch main`);
       expect(printed).toContain("the app is published only from main");
       expect(printed).toContain(`  link: ${RULE}`);
+      expect(result.outputs).toBe(`first=${String(!branch)}\n`);
+    },
+  );
+
+  test.each([
+    ["the right setup", true],
+    ["the first deploy", false],
+  ])(
+    "with %s, a request for the default branch that gets no answer is a notice; the deploy goes on",
+    async (_name, branch) => {
+      setWorld({ branch, defaultBranch: "unreachable", ...(branch ? {} : { pages: undefined }) });
+      const result = await publish(["before"]);
+      expect(result.code, result.stderr).toBe(0);
+      const printed = `${result.stdout}${result.stderr}`;
+      expect(printed).toContain(`::notice::lernapps app-publish: could not read the default branch of ${REPO}`);
+      expect(printed).not.toContain("::error::");
       expect(result.outputs).toBe(`first=${String(!branch)}\n`);
     },
   );

@@ -145,9 +145,10 @@ as the hook, and its report is the artifact `validation-report`.
 
 A test that comes with the archetype's runtime (`@lernapps/app-templates`) and fails while your content validates is a
 bug in the template; the message names it as a test of the template. Tell the creator, and open an issue at
-<https://github.com/lernapps/app-templates/issues> with the validation report, or ask the creator to. Never change
-the tests or the configuration to get around it. The app pins the runtime to a commit, so `npm update` changes
-nothing; once the fix is in, `npx --yes github:lernapps/tooling#main update` moves the app to it.
+<https://github.com/lernapps/app-templates/issues> with the validation report
+(`node_modules/.cache/lernapps/validation-report.yaml`), or ask the creator to. Never change the tests or the
+configuration to get around it. The app pins the runtime to a commit, so `npm update` changes nothing; once the fix
+is in, `npx --yes github:lernapps/tooling#main update` moves the app to it. Then run `npx lernapps check` and commit.
 
 A link whose server limits requests (HTTP 429) is reported as not checked, at severity hint: it fails nothing. Tell
 the creator which links could not be checked, and go on.
