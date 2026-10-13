@@ -1,7 +1,7 @@
 # lernapps.net tooling
 
 > The tooling for building, checking and listing learning apps for lernapps.net with an AI assistant: the CLI
-> `lernapps` (create and check an app), the plan template that holds the workflow, the skills with the rules, the
+> `lernapps` (create, check and update an app), the plan template that holds the workflow, the skills with the rules, the
 > rule catalog, the schemas and the review procedure. It is installed from git; it is not on npm.
 
 ## Quick path
