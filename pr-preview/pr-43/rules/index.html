@@ -97,6 +97,8 @@
 <p><code>checks-pass</code> · listing · error</p>
 <div>
 <p>Run <code>lernapps check</code> before you push; the hooks run it too. Format, lint, type check, unit tests, build, the checks of the built app and the end-to-end tests must pass. A failure names the step: fix it from the step's output. CI runs the same command and nothing else, so what passes on your machine passes in CI. A failed CI run has the same message as the hook, and its report is the artifact <code>validation-report</code>.</p>
+<p>A test that comes with the archetype's runtime (<code>@lernapps/app-templates</code>) and fails while your content validates is a bug in the template; the message names it as a test of the template. Tell the creator, and open an issue at <a href="https://github.com/lernapps/app-templates/issues">https://github.com/lernapps/app-templates/issues</a> with the validation report, or ask the creator to. Never change the tests or the configuration to get around it. The app pins the runtime to a commit, so <code>npm update</code> changes nothing; once the fix is in, <code>npx --yes github:lernapps/tooling#main update</code> moves the app to it.</p>
+<p>A link whose server limits requests (HTTP 429) is reported as not checked, at severity hint: it fails nothing. Tell the creator which links could not be checked, and go on.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
 </section>
@@ -386,7 +388,8 @@
 <h2>Every question links to further reading</h2>
 <p><code>quiz-further-reading</code> · archetype:quiz · warning</p>
 <div>
-<p>Link every question to at least one page where learners read on, best the article in the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>). Open every link before you commit: - it answers without an error; - it is the article you mean, not a disambiguation page (&quot;Begriffsklärung&quot;); - it says what your question and options say.</p>
+<p>Link every question to at least one page where learners read on, best the article in the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>). Read every linked page before you commit: - it is the article you mean, not a disambiguation page (&quot;Begriffsklärung&quot;); - it says what your question and options say.</p>
+<p>Leave resolving links to <code>lernapps check</code>: it checks the app's own links and the entry's, and reading an article shows that its link resolves. Write no scraper, script or API loop that fetches pages for you. When a site limits your requests (HTTP 429), tell the creator which links you could not read, mark those facts as not checked in the plan, and go on.</p>
 <p>Name the page in the link's <code>title</code>, e.g. &quot;Uluru (Wikipedia)&quot;. Never guess an address.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
