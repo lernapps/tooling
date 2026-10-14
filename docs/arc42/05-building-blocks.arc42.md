@@ -719,10 +719,11 @@ protocol: GitHub Actions, pinned to a commit
 
 ### Renovate preset
 
-The update policy of every lernapps repo, apps from the generator included: which updates merge on their own and
-when. The platform's own building blocks follow their main line at once, in one pull request per repo: the commit of
-lernapps/tooling that a repo pins in several places (the actions, `changes.yml@` and its input `tooling-ref`, the
-`TOOLING_REF` of the pre-push hook, the package) moves everywhere together, and custom managers find the plain strings.
+The update policy of every lernapps repo, apps from the generator included: which updates merge on their own and when.
+The platform's own building blocks follow their main line, batched every three hours, in one pull request per repo: the
+commit of lernapps/tooling that a repo pins in several places (the actions, `changes.yml@` and its input `tooling-ref`,
+the `TOOLING_REF` of the pre-push hook, the package) moves everywhere together, and custom managers find the plain
+strings.
 
 ```arc42
 :::building-block

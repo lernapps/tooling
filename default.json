@@ -26,10 +26,10 @@
   ],
   "packageRules": [
     {
-      "description": "Our own building blocks (the packages @lernapps/site, @lernapps/tooling and @lernapps/app-templates, the actions and the reusable workflows in tooling, and the commit of tooling as tooling-ref and TOOLING_REF of the custom managers above) follow main at once, at any time of the week, and merge when green: they are git commits without a release date, and a change to them is meant to reach every site and app. One group, so that one pull request per repo moves every pin of the tooling commit together: each repo's tests check that they are the same commit",
+      "description": "Our own building blocks (the packages @lernapps/site, @lernapps/tooling and @lernapps/app-templates, the actions and the reusable workflows in tooling, and the commit of tooling as tooling-ref and TOOLING_REF of the custom managers above) follow main and merge when green: they are git commits, and a change to them is meant to reach every site and app. One group, so that one pull request per repo moves every pin of the tooling commit together: each repo's tests check that they are the same commit. The grace period is a schedule, not minimumReleaseAge: the npm git pin and the git-refs managers have no release timestamp, and Renovate (timestamp-required, internalChecksFilter strict) would hold them back for good while the actions moved on alone; minimumReleaseAge stays 0 so that every pin moves. The group opens its pull request only in the hours 0, 3, 6, ... 21 (the preset's timezone), so the tooling commits merged in between arrive together, on average about an hour later (at most about two hours), instead of minutes after each merge",
       "matchDepNames": ["@lernapps/*", "lernapps/**"],
       "minimumReleaseAge": "0 days",
-      "schedule": ["at any time"],
+      "schedule": ["* */3 * * *"],
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true,

@@ -20,6 +20,10 @@ interface CustomManager {
 interface PackageRule {
   matchDepNames?: string[];
   groupName?: string;
+  minimumReleaseAge?: string;
+  schedule?: string[];
+  automerge?: boolean;
+  automergeSchedule?: string[];
 }
 interface Preset {
   customManagers: CustomManager[];
@@ -139,4 +143,12 @@ test("one group moves every pin of the tooling commit: actions, changes.yml@, th
     expect(groupOf(depName), depName).toEqual(["lernapps building blocks"]);
   }
   expect(groupOf("vite-plus")).toEqual([]);
+});
+
+test("the group waits for a window of its schedule, not for a release age, and still merges on its own", () => {
+  const group = preset.packageRules.find((rule) => rule.groupName === "lernapps building blocks");
+  // The npm git pin and the git-refs managers have no release timestamp: a minimumReleaseAge above 0 would hold them
+  // back for good (timestamp-required) while the timestamped actions moved alone. The grace is the schedule instead.
+  expect(group).toMatchObject({ minimumReleaseAge: "0 days", schedule: ["* */3 * * *"], automerge: true });
+  expect(group?.automergeSchedule).toBeUndefined();
 });
