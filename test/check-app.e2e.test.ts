@@ -6,7 +6,10 @@
 //   - `--entry <file>`: the app's URL and every topic link resolve, the fitness values match;
 //   - a link whose server answers 429 (rate limited) fails nothing: after a short, bounded backoff it is a finding of
 //     severity hint that names the link and why it could not be checked;
-//   - no site rules: an app's pages need not be readable without JavaScript.
+//   - no site rules: an app's pages need not be readable without JavaScript, except the pages the explainer runtime
+//     marks as its own (<meta name="lernapps-archetype" content="explainer">): only those are visited a second time,
+//     without JavaScript, by explainer-readable-without-js; an app without the marker pays no extra visit;
+//   - an entry's topic `<page>#<section>` must name an element id of that page.
 // In an app's repo: check-repo.e2e.test.ts. How far it visits (the limit on a URL): check-pages.e2e.test.ts.
 import { readFileSync, writeFileSync } from "node:fs";
 import { createServer, type Server } from "node:http";
@@ -25,14 +28,18 @@ const TYPES: Record<string, string> = { ".html": "text/html; charset=utf-8", ".s
 /**
  * Serves a fixture app at http://127.0.0.1:<port>/, as a host would. The paths in `limited` answer 429 Too Many
  * Requests with a Retry-After of an hour, as a rate-limited host does; each request for them is counted in `asked`.
+ * What the browser of the check asks for is listed in `browsed`.
  */
 async function serve(
   dir: string,
   limited: readonly string[] = [],
   asked: string[] = [],
+  /** Every request a browser made (not the check's own fetch of a link's status), by path. */
+  browsed: string[] = [],
 ): Promise<{ server: Server; url: string }> {
   const server = createServer((request, response) => {
     const path = decodeURIComponent(new URL(request.url ?? "/", "http://localhost").pathname);
+    if ((request.headers["user-agent"] ?? "").includes("Chrome")) browsed.push(path);
     if (limited.includes(path)) {
       asked.push(path);
       response.writeHead(429, { "retry-after": "3600", "content-type": "text/plain" }).end("too many requests");
@@ -76,7 +83,7 @@ const BROKEN = [
 describe.skipIf(inner)("lernapps check on a built app", () => {
   // Every check of a bundle is independent of the others: they run at the same time, once each, before the tests.
   const runs = new Map<string, Result>();
-  const reports = { passing: "", storing: "" };
+  const reports = { passing: "", storing: "", explainer: "" };
   const ran = (key: string): Result => {
     const result = runs.get(key);
     if (result === undefined) throw new Error(`no run ${key}`);
@@ -86,6 +93,7 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
   beforeAll(async () => {
     reports.passing = join(tempDir("report"), "report.yaml");
     reports.storing = join(tempDir("report"), "report.yaml");
+    reports.explainer = join(tempDir("report"), "report.yaml");
     const jobs: [string, string[]][] = [
       ["passing", [app("passing"), "--report", reports.passing]],
       ...BROKEN.map(([name]): [string, string[]] => [name, [app(name)]]),
@@ -94,6 +102,8 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
       ["query-link again", [app("query-link")]],
       ["local-storage", [app("local-storage"), "--report", reports.storing]],
       ["no-javascript", [app("no-javascript")]],
+      ["explainer", [app("explainer"), "--report", reports.explainer]],
+      ["explainer-broken", [app("explainer-broken")]],
     ];
     const results = await pooled(
       jobs.map(
@@ -123,6 +133,8 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
       ]),
     );
     expect(written.rules).not.toContain("readable-without-javascript");
+    // no page carries the explainer's marker: the check without JavaScript has nothing to check
+    expect(written.rules).not.toContain("explainer-readable-without-js");
     expect(written.rules).not.toContain("site-check");
     expect(written.fitness).toEqual({ storage: "none", thirdParty: "none" });
   });
@@ -163,6 +175,40 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
     expect(result.stdout.trim().split("\n")).toHaveLength(1);
   });
 
+  test("an explainer bundle passes: two language trees, chapter pages and the glossary are reachable, and each page reads without JavaScript", () => {
+    const result = ran("explainer");
+    expect(result.code, output(result)).toBe(0);
+    const written = report({ code: 0, stdout: readFileSync(reports.explainer, "utf8"), stderr: "" });
+    expect(written.findings).toEqual([]);
+    expect(written.rules).toEqual(expect.arrayContaining(["explainer-readable-without-js", "pages-reachable"]));
+  });
+
+  // explainer-broken: its start page is empty without JavaScript; its content page has an empty nojs text and Lösung
+  const broken = () => findingsOf(ran("explainer-broken"), "explainer-readable-without-js");
+
+  test("an explainer page that is empty without JavaScript fails explainer-readable-without-js", () => {
+    const result = ran("explainer-broken");
+    expect(result.code, output(result)).toBe(1);
+    const page = broken().filter((finding) => finding.where === "index.html");
+    expect(page, output(result)).toHaveLength(1);
+    expect(page[0]?.severity).toBe("error");
+    expect(page[0]?.found).toContain("no h1 heading");
+    // the only rule it breaks
+    expect(new Set(report(result).findings.map((finding) => finding.rule))).toEqual(
+      new Set(["explainer-readable-without-js"]),
+    );
+  });
+
+  test("an empty nojs text of a component and an empty Lösung fail explainer-readable-without-js", () => {
+    const found = broken()
+      .filter((finding) => finding.where !== "index.html")
+      .map((finding) => `${finding.where}: ${finding.found}`);
+    expect(found).toEqual([
+      "bruch/kuerzen/index.html component FarbStreifen in #uebung: the component's nojs text is empty, or hidden, without JavaScript",
+      "bruch/kuerzen/index.html exercise #kuerzen-4-8: the Lösung is empty without JavaScript",
+    ]);
+  });
+
   test("a directory without index.html is a usage error", () => {
     const result = check(tempDir("empty"));
     expect(result.code).toBe(2);
@@ -178,16 +224,32 @@ describe.skipIf(inner)("lernapps check on a URL, with --entry", () => {
   let limited: Server | undefined;
   let limitedUrl = "";
   const limitedAsked: string[] = [];
+  // the explainer fixture and an app without the marker, each on a server that lists what the browser asks for
+  const counted: { servers: Server[]; explainer: string; plain: string; browsed: Record<string, string[]> } = {
+    servers: [],
+    explainer: "",
+    plain: "",
+    browsed: { explainer: [], plain: [] },
+  };
 
   beforeAll(async () => {
     ({ server, url } = await serve(app("passing")));
     ({ server: storing, url: storingUrl } = await serve(app("local-storage")));
     ({ server: limited, url: limitedUrl } = await serve(app("passing"), ["/kuerzen/"], limitedAsked));
+    for (const [key, name] of [
+      ["explainer", "explainer"],
+      ["plain", "passing"],
+    ] as const) {
+      const served = await serve(app(name), [], [], counted.browsed[key]);
+      counted.servers.push(served.server);
+      counted[key] = served.url;
+    }
   });
   afterAll(() => {
     server?.close();
     storing?.close();
     limited?.close();
+    for (const served of counted.servers) served.close();
   });
 
   const entry = (fields: { url: string; topics: string[]; storage: string }) => {
@@ -202,15 +264,34 @@ describe.skipIf(inner)("lernapps check on a URL, with --entry", () => {
     return file;
   };
 
+  // One check of the explainer fixture on a URL, with an entry whose topics name sections, present and missing, and one
+  // of an app without the marker (also the check of a URL like a bundle); each on its own server, whose list of what the browser asked for shows the visits.
+  let explainerRuns: Promise<{ marked: Result; plain: Result; plainReport: string }> | undefined;
+  const explainerRun = () =>
+    (explainerRuns ??= (async () => {
+      const topics = [
+        "bruch/kuerzen/#regel",
+        "bruch/kuerzen/#regel/beispiel",
+        "en/bruch/kuerzen/#uebung",
+        "glossar/",
+        "bruch/kuerzen/#fehlt",
+      ];
+      const plainReport = join(tempDir("report"), "report.yaml");
+      const [marked, plain] = await Promise.all([
+        checkAsync("--entry", entry({ url: counted.explainer, topics, storage: "none" })),
+        checkAsync(counted.plain, "--report", plainReport),
+      ]);
+      return { marked, plain, plainReport };
+    })());
+
   test(
     "a URL is checked like a bundle; the report names the URL and the time",
     { timeout: SLOW, concurrent: true },
     async () => {
-      const file = join(tempDir("report"), "report.yaml");
-      const result = await checkAsync(url, "--report", file);
-      expect(result.code, output(result)).toBe(0);
-      const written = parse(readFileSync(file, "utf8")) as Report;
-      expect(written.checked["url"]).toBe(url);
+      const { plain, plainReport } = await explainerRun();
+      expect(plain.code, output(plain)).toBe(0);
+      const written = parse(readFileSync(plainReport, "utf8")) as Report;
+      expect(written.checked["url"]).toBe(counted.plain);
       expect(written.checked["at"]).toMatch(/^\d{4}-\d\d-\d\dT/);
     },
   );
@@ -231,6 +312,41 @@ describe.skipIf(inner)("lernapps check on a URL, with --entry", () => {
     expect(found).toHaveLength(1);
     expect(`${found[0]?.where} ${found[0]?.found}`).toContain("erweitern/");
   });
+
+  test(
+    "on a URL, each explainer page is visited once more, without JavaScript; an app without the marker is not",
+    { timeout: SLOW, concurrent: true },
+    async () => {
+      const { marked } = await explainerRun();
+      expect(report(marked).rules).toContain("explainer-readable-without-js");
+      expect(findingsOf(marked, "explainer-readable-without-js")).toEqual([]);
+      // how often the browser opened each page (a folder's index.html): twice when marked, else once
+      const visits = (paths: string[]) => {
+        const count: Record<string, number> = {};
+        for (const path of paths.filter((path) => path.endsWith("/"))) count[path] = (count[path] ?? 0) + 1;
+        return count;
+      };
+      const pages = ["/", "/bruch/", "/bruch/kuerzen/", "/glossar/"].flatMap((path) => [path, `/en${path}`]);
+      expect(visits(counted.browsed["explainer"] ?? [])).toEqual(Object.fromEntries(pages.map((path) => [path, 2])));
+      expect(visits(counted.browsed["plain"] ?? [])).toEqual({ "/": 1, "/kuerzen/": 1 });
+    },
+  );
+
+  test(
+    "an entry's topic #<section> or #<section>/<sub> must be an element id of its page: a missing one fails and is named",
+    { timeout: SLOW, concurrent: true },
+    async () => {
+      const { marked } = await explainerRun();
+      expect(marked.code, output(marked)).toBe(1);
+      // the four topics whose page and section exist pass; only the missing section is a finding
+      expect(report(marked).findings, output(marked)).toHaveLength(1);
+      const found = findingsOf(marked, "entry-links-resolve");
+      expect(found).toHaveLength(1);
+      expect(found[0]?.where).toContain("topics[4]");
+      expect(found[0]?.found).toContain("#fehlt");
+      expect(found[0]?.found).toContain('no element with the id "fehlt"');
+    },
+  );
 
   test(
     "an entry that says storage: none for an app that stores on the device fails",
