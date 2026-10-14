@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brüche kürzen – Brüche verstehen</title>
+  <meta name="lernapps-archetype" content="explainer">
+  <link rel="alternate" hreflang="de" href="../../bruch/kuerzen/">
+  <link rel="alternate" hreflang="en" href="../../en/bruch/kuerzen/">
+  <style>body{font-family:sans-serif;margin:0 1rem;max-width:40rem}svg{max-width:100%;height:auto}</style>
+</head>
+<body>
+  <header><p><a href="../../">Brüche verstehen</a></p><nav aria-label="Sprache"><ul><li><a href="../../bruch/kuerzen/" hreflang="de" lang="de" aria-current="page">Deutsch</a></li><li><a href="../../en/bruch/kuerzen/" hreflang="en" lang="en">English</a></li></ul></nav></header>
+  <main>
+    <nav aria-label="Du bist hier"><ol><li><a href="../../">Start</a></li><li><a href="../">Brüche</a></li><li aria-current="page">Brüche kürzen</li></ol></nav>
+    <h1>Brüche kürzen</h1>
+    <nav aria-label="Auf dieser Seite"><ol><li><a href="#regel">Die Regel</a></li><li><a href="#uebung">Übung</a></li></ol></nav>
+    <section>
+      <h2 id="regel">Die Regel</h2>
+      <p>Du kürzt einen Bruch, indem du Zähler und Nenner durch dieselbe Zahl teilst. Der Wert bleibt gleich.</p>
+      <math display="block"><mfrac><mi>a</mi><mi>b</mi></mfrac><mo>=</mo><mfrac><mrow><mi>a</mi><mo>:</mo><mi>k</mi></mrow><mrow><mi>b</mi><mo>:</mo><mi>k</mi></mrow></mfrac></math>
+      <section>
+        <h3 id="regel/beispiel">Ein Beispiel</h3>
+        <p>Teile beide durch 4: <math><mfrac><mn>4</mn><mn>8</mn></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></math></p>
+        <figure><svg role="img" aria-label="Ein Rechteck aus acht Teilen, vier davon sind gefärbt." viewBox="0 0 162 32" width="162" height="32" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="18" height="30" fill="#1d4ed8" stroke="#1a1a1a"/><rect x="21" y="1" width="18" height="30" fill="#1d4ed8" stroke="#1a1a1a"/><rect x="41" y="1" width="18" height="30" fill="#1d4ed8" stroke="#1a1a1a"/><rect x="61" y="1" width="18" height="30" fill="#1d4ed8" stroke="#1a1a1a"/><rect x="81" y="1" width="18" height="30" fill="#ffffff" stroke="#1a1a1a"/><rect x="101" y="1" width="18" height="30" fill="#ffffff" stroke="#1a1a1a"/><rect x="121" y="1" width="18" height="30" fill="#ffffff" stroke="#1a1a1a"/><rect x="141" y="1" width="18" height="30" fill="#ffffff" stroke="#1a1a1a"/></svg><figcaption>Vier von acht Teilen sind die Hälfte.</figcaption></figure>
+      </section>
+    </section>
+    <section>
+      <h2 id="uebung">Übung</h2>
+      <div class="explainer-exercise explainer-question" id="kuerzen-4-8">
+        <p>Was ist 4/8 gekürzt?</p>
+        <div class="quiz-reveal" hidden><h3>Richtige Antwort:</h3><p>1/2</p></div>
+        <details class="explainer-solution"><summary>Lösung</summary><p><strong>Richtige Antwort:</strong> 1/2, die Hälfte</p></details>
+      </div>
+      <div class="explainer-component" data-component="FarbStreifen">
+        <div class="explainer-island" hidden><h3>Übung</h3><svg role="img" aria-label="Ein Rechteck aus acht Teilen, vier davon sind gefärbt." viewBox="0 0 10 10" width="10" height="10"><rect width="10" height="10"/></svg></div>
+        <div class="explainer-nojs">Ein Bruchstreifen aus acht Teilen, vier davon gefärbt: Das ist dieselbe Fläche wie einer von zwei Teilen. Mit JavaScript färbst du hier selbst.</div>
+      </div>
+    </section>
+    <nav aria-label="Weiter"><a rel="prev" href="../">Brüche</a></nav>
+  </main>
+  <script>for (const c of document.querySelectorAll('.explainer-component')) { c.querySelector('.explainer-island').hidden = false; c.querySelector('.explainer-nojs').hidden = true; }</script>
+</body>
+</html>

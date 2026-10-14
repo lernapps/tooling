@@ -38,7 +38,8 @@ component where no block can say what the page needs. The rules of `lernapps-app
   every page in every language. Without JavaScript they check the headings against the nesting, the sections,
   formulas, figures and anchors, the navigation chain, the languages, every exercise's solution and each component's
   `nojs` text. With JavaScript (German, 360 px) one exercise per type and page takes its right answer and rejects a
-  wrong one, and each component hydrates without an error. `lernapps check` runs them.
+  wrong one, and each component hydrates without an error. `lernapps check` runs them, and on its own opens every
+  page once more without JavaScript (`explainer-readable-without-js`), on the bundle and on the deployed app.
 
 ## When a test of the runtime fails
 
@@ -299,8 +300,8 @@ Recommended, not required; choose the sections that fit the topic and keep them 
 ## The entry's topics
 
 Each topic of the entry draft is the path of a page or a section, relative to the app's `url`: `prozent/prozentwert/`
-or `prozent/prozentwert/#regel` (`entry-links-resolve`). Take the paths from the ids, which stay
-(`explainer-stable-ids`).
+or `prozent/prozentwert/#regel` (`entry-links-resolve`; `lernapps check --entry` checks that the page has the section).
+Take the paths from the ids, which stay (`explainer-stable-ids`).
 
 ## Rules
 
@@ -390,6 +391,8 @@ severity: error
 
 Leave the navigation to the runtime: contents, breadcrumbs and previous and next follow from the order lists, so every
 page is in one chain and reachable from the start page. Link from prose with paths that start at the app's root.
+`lernapps check` finds a page no link from the start page reaches (`pages-reachable`), and a topic of the entry whose
+`#<section>` is no section of its page (`entry-links-resolve`).
 
 ### `explainer-languages`: German first, every language complete
 
@@ -411,7 +414,10 @@ severity: error
 ```
 
 Put every fact into a block, where it is on the page without JavaScript. Keep no meaning only inside an exercise or a
-component: give every component a `nojs` text that says what it shows and gives its content.
+component: give every component a `nojs` text that says what it shows and gives its content. `lernapps check` opens
+every page the runtime marks as an explainer page a second time, with JavaScript off, on the bundle and on the
+deployed app alike (so the listing and the review check it too): each heading, formula and figure must be visible, a
+figure with its name, every exercise's "Lösung" and every component's `nojs` text not empty.
 
 ### `explainer-formulas-static`: Formulas as formulas
 
@@ -521,7 +527,8 @@ severity: error
 ```
 
 Give every `vue-component` block a `nojs` text in every language: what the component shows and does, with its
-content, so that the page means the same without JavaScript.
+content, so that the page means the same without JavaScript. The schema requires it; `lernapps check` finds one that
+is empty or hidden without JavaScript (`explainer-readable-without-js`).
 
 ### `vue-component-exercise-contract`: An exercise component has its logic module
 

@@ -36,6 +36,30 @@ export interface PageVisit {
   axe: { id: string; help: string; helpUrl: string; targets: string[] }[];
   /** Links and resources of the app (below its base URL), with the HTTP status each one answers with. */
   links: { url: string; status: number }[];
+  /**
+   * Only of a page the explainer runtime marks as its own (`<meta name="lernapps-archetype" content="explainer">`):
+   * what it shows with JavaScript off, from a second visit (check/visit.ts). Other pages get no such visit.
+   */
+  withoutJavaScript?: WithoutJavaScript;
+}
+
+/**
+ * An explainer page with JavaScript off, every "Lösung" opened. Left out: the parts the runtime fills only with
+ * JavaScript, which stay hidden without it (a component's island, a generated exercise's live task, a question's
+ * controls and reveal).
+ */
+export interface WithoutJavaScript {
+  /** The visible text of the page's first visible h1, "" when it has none. */
+  h1: string;
+  /**
+   * Its headings, formulas (`<math>`) and figures (`<figure>`, `<img>`, `role="img"`), each with where it is, whether
+   * it is visible, and its text: of a heading or a formula what it shows, of a figure its accessible name.
+   */
+  parts: { kind: "heading" | "formula" | "figure"; where: string; visible: boolean; text: string }[];
+  /** Each exercise (`.explainer-exercise`): the visible text of each of its "Lösung", none when it has none. */
+  exercises: { where: string; solutions: string[] }[];
+  /** Each component (`.explainer-component`): the visible text of its `nojs` text, undefined when it has none. */
+  components: { where: string; nojs?: string }[];
 }
 
 /** The fields of a catalog entry (entry.v1.schema.json of lernapps/apps) that the checks compare with the app. */

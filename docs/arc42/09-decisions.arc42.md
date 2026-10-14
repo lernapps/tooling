@@ -143,9 +143,9 @@ addresses: qg-guidance-evolves, qg-simple-to-build
 code only for its exercises and components. Eleventy over TypeScript sources was the first choice; a second toolchain
 beside vite-plus would double the configuration, the checks and what can break. **Decision:** the explainer's runtime
 renders every page at build with a Vite plugin, as the quiz's does; one toolchain builds pages and client code alike. A
-spike proved it before the runtime was built: one build emitted every page and one hashed client module, so the
-fallback, Eleventy, was not needed. **Consequences:**
-- an explainer's configuration is the same one line as a quiz's, and the shared preset checks both the same way;
+spike proved it before the runtime was built: one build emitted every page and its client code, so the fallback,
+Eleventy, was not needed. **Consequences:**
+- an explainer is configured like a quiz, and the shared preset checks both the same way;
 - the runtime owns the multi-page rendering that a static site generator would bring, and tests it in its repo.
 
 ```arc42
@@ -358,8 +358,8 @@ addresses: qg-checked-not-declared, qg-list-in-minutes, risk-owner-bottleneck
 
 **Context:** a review agent in CI needs an API key and costs money per run. **Decision:** the listing workflow runs
 the deterministic checks; the owner starts the review agent in the environment for lernapps agents on a pull request
-that passed them, on the owner's machine or by commenting `/review` on the pull request. **Consequences:** the
-secret of `/review` lies in lernapps/apps, used only by a job that a maintainer starts, that builds and runs nothing of
+that passed them, on the owner's machine or by a review command on the pull request. **Consequences:** the
+secret of that review job lies in lernapps/apps, used only when a maintainer starts it, that builds and runs nothing of
 the app and can write nothing; the environment can change without changing the procedure.
 
 ```arc42
