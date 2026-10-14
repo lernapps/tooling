@@ -32,7 +32,7 @@ After the creator confirms the plan, the assistant comes back at most three time
 :::glossary-term
 id: term-checkpoint
 title: Checkpoint
-definition: A point in the plan where the assistant stops for the creator's decision - confirming the plan, publishing, listing.
+definition: A point in the plan where the assistant stops for the creator's decision - confirming the research, the plan with its content method, publishing, listing.
 :::
 ```
 
