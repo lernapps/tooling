@@ -13,10 +13,11 @@ the retrospective name rules by it.
 ## Workflow
 
 Follow the plan in `.vibe/plan.md` exactly. The plan is the one source of the workflow: its phases, tasks and
-checkpoints, and the command that creates the app. If the plan does not exist, start it from the template:
-`node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists,
-<https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. This skill adds the rules
-below: what every app and every step must meet.
+checkpoints, and the command that creates the app. If the plan does not exist, copy the template there, complete and
+unchanged: `node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists, download
+<https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. Read the plan, this skill and
+every skill they name from their files, in full; never from a summary. This skill adds the rules below: what every
+app and every step must meet.
 
 ## Content
 
