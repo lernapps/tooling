@@ -146,8 +146,8 @@ language map.
   ```
 
 - The build fails on a missing translation (`the translation is missing; write the text as a map: { de: …, en: … }`)
-  and on a language that `languages` does not declare. Ids, addresses, numbers, formulas and drawn figures are the
-  same in every language.
+  and on a language that `languages` does not declare. Ids, page addresses, numbers, formulas and drawn figures are
+  the same in every language.
 - Each language gets its own page tree: German at the root, the others below `/<language>/`, each page with `lang`,
   `hreflang` and a language switch of plain links.
 
