@@ -1,6 +1,8 @@
 /// <reference lib="dom" />
 // Opens the built app in a browser, as a learner would, and records what each page does before any click: requests,
-// cookies and storage, width at 360 px, axe-core's findings, its links. A bundle is
+// cookies and storage, width at 360 px, axe-core's findings, its links. A page the explainer runtime marks as its own
+// (<meta name="lernapps-archetype" content="explainer">) is opened a second time with JavaScript off, in one more
+// browser context for all of them, to read what it shows without it; other pages get no second visit. A bundle is
 // served on 127.0.0.1 under its base path; an app on a URL is opened there. Requests to other hosts are recorded
 // and blocked, so a check never depends on another server. The checks in check/rules/ read the visits.
 import { spawnSync } from "node:child_process";
@@ -10,7 +12,7 @@ import { createRequire } from "node:module";
 import type { AddressInfo } from "node:net";
 import { dirname, extname, join, relative, resolve, sep } from "node:path";
 import { chromium, type Browser, type BrowserContext } from "playwright";
-import type { PageVisit } from "./check.ts";
+import type { PageVisit, WithoutJavaScript } from "./check.ts";
 import { linkStatus } from "./status.ts";
 
 const require = createRequire(import.meta.url);
@@ -179,41 +181,48 @@ export async function visitApp(
   const queue = [withoutHash(start)];
   const seen = new Set([pageOf(start)]);
   const visits: PageVisit[] = [];
+  // the browser context without JavaScript, made at the first page marked as an explainer page
+  let withoutJs: Promise<BrowserContext> | undefined;
+  const noJs = () => (withoutJs ??= newContext(browser, new URL(base).origin, [], false));
   const visitAll = async (urls: string[]) => {
-    const done = await Promise.all(urls.map((url) => visitPage(browser, url, base, axe, links)));
+    const done = await Promise.all(urls.map((url) => visitPage(browser, url, base, axe, links, noJs)));
     return done.map((visit, index) => ({ ...visit, page: name(urls[index] ?? "") }));
   };
-  while (queue.length > 0 && visits.length < limit) {
-    // in the order of the queue, as one page at a time would: the links of each are queued after it
-    for (const visit of await visitAll(queue.splice(0, Math.min(PARALLEL, limit - visits.length)))) {
-      const { anchors, ...rest } = visit;
-      visits.push(rest);
-      for (const link of anchors) {
-        const next = pageOf(link);
-        if (seen.has(next) || !next.startsWith(base)) continue;
-        seen.add(next);
-        const { status, html } = await links.get(next);
-        if (status > 0 && status < 400 && html) queue.push(next);
+  try {
+    while (queue.length > 0 && visits.length < limit) {
+      // in the order of the queue, as one page at a time would: the links of each are queued after it
+      for (const visit of await visitAll(queue.splice(0, Math.min(PARALLEL, limit - visits.length)))) {
+        const { anchors, ...rest } = visit;
+        visits.push(rest);
+        for (const link of anchors) {
+          const next = pageOf(link);
+          if (seen.has(next) || !next.startsWith(base)) continue;
+          seen.add(next);
+          const { status, html } = await links.get(next);
+          if (status > 0 && status < 400 && html) queue.push(next);
+        }
       }
     }
+    const reached = new Set(
+      visits.flatMap((visit) => [visit.page, ...visit.links.map((link) => name(pageOf(link.url)))]),
+    );
+    const rest = (pages ?? []).filter((page) => !reached.has(page.name));
+    for (let index = 0; index < rest.length; index += PARALLEL) {
+      const urls = rest.slice(index, index + PARALLEL).map((page) => base + encodeURI(page.name));
+      visits.push(...(await visitAll(urls)).map(({ anchors: _anchors, ...visit }) => visit));
+    }
+    return {
+      pages: visits.sort((a, b) => a.page.localeCompare(b.page)),
+      unreachable: rest.filter((page) => page.navigable).map((page) => page.name),
+      ...(queue.length > 0 ? { stopped: { limit, more: queue.length } } : {}),
+    };
+  } finally {
+    if (withoutJs !== undefined) await (await withoutJs).close();
   }
-  const reached = new Set(
-    visits.flatMap((visit) => [visit.page, ...visit.links.map((link) => name(pageOf(link.url)))]),
-  );
-  const rest = (pages ?? []).filter((page) => !reached.has(page.name));
-  for (let index = 0; index < rest.length; index += PARALLEL) {
-    const urls = rest.slice(index, index + PARALLEL).map((page) => base + encodeURI(page.name));
-    visits.push(...(await visitAll(urls)).map(({ anchors: _anchors, ...visit }) => visit));
-  }
-  return {
-    pages: visits.sort((a, b) => a.page.localeCompare(b.page)),
-    unreachable: rest.filter((page) => page.navigable).map((page) => page.name),
-    ...(queue.length > 0 ? { stopped: { limit, more: queue.length } } : {}),
-  };
 }
 
-async function newContext(browser: Browser, origin: string, requests: PageVisit["requests"]) {
-  const context = await browser.newContext({ viewport: { width: WIDTH, height: 800 } });
+async function newContext(browser: Browser, origin: string, requests: PageVisit["requests"], javaScriptEnabled = true) {
+  const context = await browser.newContext({ viewport: { width: WIDTH, height: 800 }, javaScriptEnabled });
   await context.route("**/*", async (route) => {
     const request = route.request();
     requests.push({ url: request.url(), method: request.method() });
@@ -236,12 +245,19 @@ async function visitPage(
   base: string,
   axe: string,
   links: Links,
+  noJs: () => Promise<BrowserContext>,
 ): Promise<Omit<PageVisit, "page"> & { anchors: string[] }> {
   const origin = new URL(base).origin;
   const requests: PageVisit["requests"] = [];
   const context = await newContext(browser, origin, requests);
   try {
     const page = await settle(context, url);
+    // a page marked as an explainer page is read without JavaScript too, at the same time as the rest of this visit
+    const withoutJavaScript =
+      (await page.locator(EXPLAINER_MARKER).count()) > 0
+        ? noJs().then((noJsContext) => readWithoutJavaScript(noJsContext, url))
+        : undefined;
+    withoutJavaScript?.catch(() => undefined); // awaited below; not unhandled when this visit fails first
     const loaded = [...requests];
     const cookies = (await context.cookies()).map((cookie) => cookie.name).sort();
     const storage = await page.evaluate(async () => {
@@ -304,9 +320,113 @@ async function visitPage(
       overflow,
       axe: violations.sort((a, b) => a.id.localeCompare(b.id)),
       links: statuses,
+      ...(withoutJavaScript ? { withoutJavaScript: await withoutJavaScript } : {}),
       anchors,
     };
   } finally {
     await context.close();
+  }
+}
+
+/** The marker of a page the explainer runtime renders; only such a page is visited again without JavaScript. */
+const EXPLAINER_MARKER = 'meta[name="lernapps-archetype"][content="explainer"]';
+/**
+ * The parts of an explainer page that only JavaScript shows, hidden without it: a component's island, a generated
+ * exercise's live task, a question's controls and its reveal after "Prüfen". What is inside is not read.
+ */
+const ONLY_WITH_JAVASCRIPT = [".explainer-island", ".explainer-live", ".quiz-reveal", ".quiz-actions"];
+
+/**
+ * What an explainer page shows with JavaScript off (in `context`, made with JavaScript disabled): its h1, headings,
+ * formulas and figures, each exercise's "Lösung" and each component's nojs text, with every <details> opened, as a
+ * learner opens a "Lösung". Visible means rendered, not hidden by an attribute or a style.
+ */
+async function readWithoutJavaScript(context: BrowserContext, url: string): Promise<WithoutJavaScript> {
+  const page = await context.newPage();
+  try {
+    await page.goto(url, { waitUntil: "load" });
+    return await page.evaluate((skip) => {
+      const fold = (text: string | null | undefined) => (text ?? "").replace(/\s+/g, " ").trim();
+      for (const details of document.querySelectorAll("details")) details.open = true;
+      const read = (selector: string, root: ParentNode = document) =>
+        [...root.querySelectorAll(selector)].filter((element) => element.closest(skip) === null);
+      const visible = (element: Element) =>
+        element.checkVisibility({ opacityProperty: true, visibilityProperty: true });
+      // what an element shows: innerText for HTML, the text of MathML and SVG; nothing when it is not visible
+      const shown = (element: Element) =>
+        visible(element) ? fold(element instanceof HTMLElement ? element.innerText : element.textContent) : "";
+      // the section an element is in: the closest heading with an id before it
+      const section = (element: Element) => {
+        const heading = document.evaluate(
+          "preceding::*[self::h2 or self::h3 or self::h4][@id][1]",
+          element,
+          null,
+          XPathResult.FIRST_ORDERED_NODE_TYPE,
+          null,
+        ).singleNodeValue;
+        return heading instanceof Element ? ` in #${heading.id}` : "";
+      };
+      const labelledBy = (element: Element) =>
+        (element.getAttribute("aria-labelledby") ?? "")
+          .split(/\s+/)
+          .map((id) => fold(id === "" ? "" : document.getElementById(id)?.textContent))
+          .join(" ")
+          .trim();
+      const own = (element: Element) =>
+        element.localName === "img"
+          ? element.getAttribute("alt")
+          : element.localName === "figure"
+            ? element.querySelector(":scope > figcaption")?.textContent
+            : element.querySelector(":scope > title")?.textContent;
+      const accessibleName = (element: Element) =>
+        fold(element.getAttribute("aria-label")) ||
+        labelledBy(element) ||
+        fold(own(element)) ||
+        fold(element.getAttribute("title"));
+      const headings = read("h1, h2, h3, h4, h5, h6").map((element) => ({
+        kind: "heading" as const,
+        where: `${element.localName}${element.id === "" ? ` "${fold(element.textContent).slice(0, 40)}"` : `#${element.id}`}`,
+        visible: visible(element),
+        text: shown(element),
+      }));
+      const formulas = read("math").map((element, index) => ({
+        kind: "formula" as const,
+        where: `formula ${index + 1}${section(element)}`,
+        visible: visible(element),
+        text: shown(element),
+      }));
+      const figures = read('figure, img, [role="img"]').map((element, index) => ({
+        kind: "figure" as const,
+        where: `figure ${index + 1} (${element.localName})${section(element)}`,
+        visible: visible(element),
+        text: accessibleName(element),
+      }));
+      return {
+        h1: headings.find((heading) => heading.where.startsWith("h1") && heading.text !== "")?.text ?? "",
+        parts: [...headings, ...formulas, ...figures],
+        exercises: read(".explainer-exercise").map((element, index) => ({
+          where: `exercise ${element.id === "" ? String(index + 1) : `#${element.id}`}`,
+          solutions: read("details.explainer-solution", element).map((details) =>
+            visible(details)
+              ? fold(
+                  [...details.childNodes]
+                    .filter((node) => !(node instanceof Element && node.localName === "summary"))
+                    .map((node) => (node instanceof HTMLElement ? node.innerText : node.textContent))
+                    .join(" "),
+                )
+              : "",
+          ),
+        })),
+        components: read(".explainer-component").map((element) => {
+          const nojs = element.querySelector(":scope > .explainer-nojs");
+          return {
+            where: `component ${element.getAttribute("data-component") ?? ""}${section(element)}`,
+            ...(nojs === null ? {} : { nojs: shown(nojs) }),
+          };
+        }),
+      };
+    }, ONLY_WITH_JAVASCRIPT.join(", "));
+  } finally {
+    await page.close();
   }
 }

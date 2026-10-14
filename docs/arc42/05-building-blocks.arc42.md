@@ -309,8 +309,10 @@ protocol: Oxlint / ESLint plugin API
 Runs every deterministic check, from format and types to the checks of the built app in a browser. It is the same
 command in the hooks, in CI and in the listing validation. It runs every check that finds something to check. The
 checks of the built app need no source repo: they work on a bundle or on a
-deployed address, so apps built any other way are checked the same. It can also check a catalog entry against the
-app. Its output is the validation report.
+deployed address, so apps built any other way are checked the same. A page that an archetype's runtime marks as its
+own also gets that archetype's checks: an explainer page is opened a second time, without JavaScript, to find what
+the explainer promises there; other pages pay nothing for it. It can also check a catalog entry against the app, down
+to the sections its topics link. Its output is the validation report.
 
 ```arc42
 :::building-block

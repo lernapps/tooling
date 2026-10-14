@@ -75,14 +75,19 @@ changes the query string is the same page. Requests to other hosts are blocked a
   On a URL      the pages reachable by links, at most 100: a check of a deployed app stays within minutes and
                 asks its host a bounded number of times. When it stops there, a hint of pages-reachable says how
                 many pages it checked and that further pages were not visited; check the bundle for all of them.
+  Explainer     a page the explainer runtime marks as its own, <meta name="lernapps-archetype" content="explainer">,
+                is opened once more with JavaScript off, for explainer-readable-without-js: its h1, every heading,
+                formula (<math>) and figure visible, a figure with its accessible name, every exercise's "Lösung"
+                and every component's nojs text not empty. Pages without the marker get no second visit.
 A page takes about a second; four are visited at a time, about 0.3 s per page: 120 pages in about 40 s.
 Chromium is downloaded on the first run and cached; where no browser can run, the report says so.
 A link whose server answers 429 (rate limited) is asked again after a short wait, at most a few seconds; still
 limited, it is a finding of severity hint that names the link: not checked, nothing failed.
 
 Options:
-  --entry <file>   check a catalog entry (YAML) against the app: its URL and topic links resolve, the fitness
-                   values match; without <dir|url> the app at the entry's url is checked
+  --entry <file>   check a catalog entry (YAML) against the app: its URL and topic links resolve, a topic's
+                   #<section> (or #<section>/<sub>) is an element id of its page as the server sends it, the
+                   fitness values match; without <dir|url> the app at the entry's url is checked
   --report <file>  also write the full report to <file>, passing or not
   -h, --help       print this help
 
