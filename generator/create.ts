@@ -44,7 +44,8 @@ It needs git and access to github.com, codeload.github.com and the npm registry.
 commit of @lernapps/tooling that npx installed, and its workflows use the actions of that commit.
 
 It writes, besides the template: package.json named after the folder (its prepare script, lernapps hooks,
-installs the git hooks), AGENTS.md, the plan .vibe/plan.md (the one already there is kept), the workflow
+installs the git hooks; for an explainer also vue-tsc and typescript, with which lernapps check type-checks its Vue
+components), AGENTS.md, the plan .vibe/plan.md (the one already there is kept), the workflow
 .github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
 publish action to the repo's GitHub Pages), an issue form for content errors, LICENSE (MIT) and renovate.json (the
 Renovate preset of lernapps).
@@ -184,6 +185,15 @@ export function runtimeSpec(repository: string, commit: string): string {
   return `git+${repository}#${commit}`;
 }
 
+/**
+ * What the apps of an archetype need beyond its template, as development dependencies: an explainer's Vue components
+ * (src/components/<Name>.vue) are type-checked by vue-tsc, which `lernapps check` runs once the app has a .vue file.
+ * The same versions as in app-templates; Renovate moves them in the app.
+ */
+export const ARCHETYPE_DEV_DEPENDENCIES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+  explainer: { typescript: "6.0.3", "vue-tsc": "3.3.11" },
+};
+
 /** The plan: the one given, the one in the folder, or a new one from the template, for this archetype. */
 function writePlan(dir: string, archetype: string, plan: string | undefined): void {
   const target = join(dir, ".vibe", "plan.md");
@@ -268,6 +278,12 @@ export function create(args: string[]): number {
     app.devDependencies = { ...app.devDependencies, [RUNTIME]: runtimeSpec(repository, pin.commit) };
     rmSync(join(dir, ".npmrc"), { force: true });
   }
+  // sorted by name, as npm and the formatter keep them
+  app.devDependencies = Object.fromEntries(
+    Object.entries({ ...app.devDependencies, ...ARCHETYPE_DEV_DEPENDENCIES[archetype] }).sort(([a], [b]) =>
+      a.localeCompare(b),
+    ),
+  );
   // the tooling the app depends on: the one named, else the commit this generator was installed from, else the
   // template's
   const tooling = values.tooling ?? installedSpec();

@@ -1,6 +1,6 @@
 ---
 name: lernapps-quiz
-description: Use when you build or change a quiz for lernapps.net (archetype quiz). How the generated quiz works, what you write (only the question bank src/quiz.json), and how to write good questions, options, background knowledge and links. Load it together with lernapps-app before you write questions.
+description: Use when you build or change a quiz for lernapps.net (archetype quiz), or write the quiz-type exercises of an explainer. How the generated quiz works, what you write (only the question bank src/quiz.json), its languages, and how to write good questions, options, background knowledge and links. Load it together with lernapps-app before you write questions.
 license: MIT
 ---
 
@@ -9,7 +9,8 @@ license: MIT
 A quiz from the archetype `quiz` asks about things to know. The archetype is a deep scaffold. The engine, the six
 types of questions, the background knowledge after each answer, scoring, the order, accessibility and the page
 without JavaScript are built in. They come from the runtime `@lernapps/app-templates`, which the app depends on.
-You write the questions as data in `src/quiz.json`, and no code. The rules of `lernapps-app` apply too.
+You write the questions as data in `src/quiz.json`, and no code. The rules of `lernapps-app` apply too. An explainer
+(`lernapps-explainer`) embeds the same six types as exercises; the rules below for writing questions apply there.
 
 ## How the quiz works
 
@@ -34,9 +35,44 @@ You write the questions as data in `src/quiz.json`, and no code. The rules of `l
   - a right and a wrong answer;
   - that every option's background, the explanation and the links show.
 
-  They also check the full score and the page without JavaScript. `lernapps check` runs them.
+  They also check the full score and the page without JavaScript. In a quiz with several languages, each further
+  language gets two more tests: its page without JavaScript (every question, its solution, the language switch), and
+  one question answered with the feedback in that language. `lernapps check` runs them.
 - A new feature or a fix of the quiz reaches the app with a newer `@lernapps/app-templates`; `lernapps update` moves
   the app to it, as the skill `lernapps-app` says.
+
+## Languages
+
+A quiz is German, and may add languages: `"languages": ["de", "en"]`, German first (the runtime has its own texts in
+German and English). Then every text for learners (the title, the intro, the source titles, and in each question
+the text, options, `info`, items, pairs, unit, explanation and link titles) is a map with each declared language:
+
+```json
+{
+  "id": "totes-meer",
+  "type": "true-false",
+  "text": {
+    "de": "Im Toten Meer kann man nicht untergehen.",
+    "en": "You cannot sink in the Dead Sea."
+  },
+  "answer": true,
+  "explanation": {
+    "de": "Das Wasser ist so salzig, dass ein Mensch an der Oberfläche treibt.",
+    "en": "The water is so salty that a person floats on the surface."
+  },
+  "links": [
+    { "title": { "de": "Totes Meer (Wikipedia)", "en": "Dead Sea (Wikipedia)" }, "url": "https://de.wikipedia.org/wiki/Totes_Meer" }
+  ]
+}
+```
+
+- Without `languages` the quiz is German only and its texts are strings, as before.
+- The build checks every text against the list, with one line per problem:
+  `questions[1].explanation (en) (question "totes-meer"): the translation is missing; write the text as a map: { de: …, en: … }`,
+  and for a language the list does not declare `… is not a language of the app; declare it in languages in src/quiz.json, or remove it`.
+  `languages[0]: German comes first`.
+- The build writes a page per language: German at `index.html`, every other at `<language>/index.html`, each with
+  `lang`, `hreflang` links and a language switch that works without JavaScript.
 
 ## When a test of the runtime fails
 
@@ -102,7 +138,7 @@ configuration as generated (`keep-the-preset`). If the quiz needs something the 
 
 ```rule
 id: quiz-bank-valid
-scope: archetype:quiz
+scope: [archetype:quiz, archetype:explainer]
 severity: error
 ```
 
@@ -111,25 +147,26 @@ The bank validates against its schema. The build also checks what the schema can
 - ids and options that appear only once.
 
 A broken bank fails the build with one line per problem, naming the question by its position and id. Fix each one in
-`src/quiz.json`.
+`src/quiz.json`. A quiz-type exercise of an explainer validates the same way, named by its file and block path.
 
 ### `quiz-clear-question`: One clear question at a time
 
 ```rule
 id: quiz-clear-question
-scope: archetype:quiz
+scope: [archetype:quiz, archetype:explainer]
 severity: warning
 ```
 
 Ask one thing per question, complete in itself: the learner knows what to answer before reading the options. Ask
 positively; avoid "nicht" in the question, and never two negations. No trick questions: ask what is worth knowing,
-not whether the learner reads carefully. Plain German, short sentences (`learner-text-german`).
+not whether the learner reads carefully. Plain language and short sentences, in German and in every other language
+of the quiz (`learner-text-german`).
 
 ### `quiz-plausible-options`: Options a learner could believe
 
 ```rule
 id: quiz-plausible-options
-scope: archetype:quiz
+scope: [archetype:quiz, archetype:explainer]
 severity: warning
 ```
 
@@ -142,7 +179,7 @@ options are enough.
 
 ```rule
 id: quiz-feedback-explains
-scope: archetype:quiz
+scope: [archetype:quiz, archetype:explainer]
 severity: hint
 ```
 
@@ -188,7 +225,7 @@ where they come from in `sources` (`third-party-licence`).
 
 ```rule
 id: quiz-number-precision
-scope: archetype:quiz
+scope: [archetype:quiz, archetype:explainer]
 severity: warning
 ```
 
@@ -200,7 +237,7 @@ names the unit in `unit`, not in the learner's answer. Match `tolerance` to what
 
 ```rule
 id: quiz-fitting-type
-scope: archetype:quiz
+scope: [archetype:quiz, archetype:explainer]
 severity: hint
 ```
 

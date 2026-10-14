@@ -18,6 +18,10 @@ const lernappsRules = {
   "lernapps/no-request-before-click": "error",
   "lernapps/storage-through-wrapper": "error",
   "lernapps/suppression-reason": "error",
+  "lernapps/vue-component-browser-globals": "error",
+  "lernapps/vue-component-imports": "error",
+  "lernapps/vue-component-no-html-injection": "error",
+  "lernapps/vue-component-no-network": "error",
 } as const;
 
 const preset: UserConfig = {

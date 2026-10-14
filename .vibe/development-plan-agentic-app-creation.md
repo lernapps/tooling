@@ -51,6 +51,10 @@ explanation instead.
   stripping), client modules bundled by vite-plus; alternative: pre-rendering with Vite only. Prove with a prototype.
   Superseded (2026-10-13, owner): `explainer` renders with a Vite plugin, Vite only, as the quiz does; the spike that
   opens the structure pull request decides, and Eleventy is the fallback if it fails.
+  Result of the spike (2026-10-14, lernapps/app-templates#14): Vite alone works. `index.html` is Vite's only entry; in
+  `generateBundle` the built page becomes the shell of every page, each in its folder with its asset URLs rewritten
+  for its depth: 61 pages, one hashed client module, one stylesheet, no blockers. The Eleventy fallback is not needed
+  (architecture: `dec-explainer-vite`).
 - **Decision** (2026-10-09, accepted by the owner): question types of `quiz`: single choice, multiple choice, true/false, number (with tolerance and
   unit), ordering, matching; each with feedback per option and an explanation per question. Further types are
   engine extensions and never change the creator's data format.
@@ -308,7 +312,8 @@ first run. Next (owner, 2026-10-13): an MVP of the explainer archetype based on 
 principles hold there (11, sketch below), before the evals (10); then 10 and 12.*
 - [ ] 11 · The explainer archetype ([#19](https://github.com/lernapps/tooling/issues/19)): first an MVP based on the
   Mathe-Karte, sketched below and decided by the owner (2026-10-13). The issue's "prototype first" (Eleventy
-  or Vite only) becomes the spike that opens the structure-and-blocks pull request (sketch, step 2 and Q1)
+  or Vite only) becomes the spike that opens the structure-and-blocks pull request (sketch, step 2 and Q1). Steps
+  1–5 (app-templates) are done, see Completed; next: 6 (tooling: the archetype `explainer`), 7, 8
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
@@ -901,6 +906,37 @@ The open questions of the earlier versions, decided:
 - [x] Other merged work: no site scope and no site rules in the tooling. Readable without JavaScript applies only to
   lernapps.net's own site, not to apps (owner; #47, #49). Git hooks are installed only where the app is the root of
   its repository: `prepare` is `lernapps hooks`, and templates install none (#48, lernapps/app-templates#7)
+- [x] 11, steps 1–5 of the explainer MVP (sketch, 10.), in lernapps/app-templates:
+  - 1 · The quiz's questions one by one (merged in lernapps/app-templates#13): `@lernapps/app-templates/quiz/question`
+    (schema `$defs/question`, `validateQuestion`, `renderQuestion`, `renderSolution`, the checker, messages),
+    `startQuestion` and the per-question e2e helpers; the quiz is built from the same exports, byte for byte
+    unchanged
+  - 2 · Structure, blocks and languages (merged in lernapps/app-templates#14): the spike (KD-02: Vite alone works),
+    `explainer.v1.schema.json`, build-time validation with one line per problem (`file:line: place (lang): what to
+    do`), the closed set of blocks, Temml with mhchem, chapters with one hidden, navigation, glossary, one page tree
+    per language, `llms.txt`, the template with the Prozent chapter, `explainerTests()` without JS. The 60-page
+    fixture became two of each (2 chapters × 2 pages, every block, de and en) after review
+  - 3 · Exercises (merged in lernapps/app-templates#15): the quiz's six types as blocks and `generated` with
+    arbitraries, the expression language (exact fractions, no eval), comparators onto the quiz's answer kinds, the
+    property test over 200 seeds at build, three worked tasks without JS, a live task with `?seed=<n>#<id>`;
+    language maps in the quiz's question schema (owner, 2026-10-14). Deviations: the sketch's prozentwert example
+    with p = 50 fails its own property test (a mistake equals the answer), so the template draws p up to 40;
+    `distinct(xs)` is true or false; the unsolved-figure check works on numbers; mistake messages are plain text
+  - 4 · The quiz in several languages (merged in lernapps/app-templates#16): optional `languages`, a page per
+    language below `/<lang>/` with `lang`, `hreflang` and a switch; `quizTests()` adds two tests per further language
+  - Follow-up, the placeholder decision (owner, merged in lernapps/app-templates#17): placeholders are always
+    `{{name}}`, in prose and formulas alike ("whatever is more safe/checkable"), replacing step 3's rule that every
+    declared name in a formula is one. One brace stays LaTeX grouping, so a bare letter is always the letter; the build
+    fails on an unknown placeholder, one brace or spaces in prose, and a variable nothing uses
+  - 5 · `vue-component` (merged in lernapps/app-templates#18): the `nojs` text, server-side rendering at build into
+    hidden islands, hydration only on pages with a component (a page without one ships no Vue), props checked against
+    the prop types, the build checks on the SFC compiler's output, the 20 kB budget, the exercise contract with its
+    property test over 50 seeds per block, the history fixture's `AssignLabels`. Deviations: the logic module's
+    contract is `generate(seed, props)`, not `generate(seed)`, since a task depends on the block's props; browser
+    globals are allowed in the unmount hooks too (`onBeforeUnmount`, `onUnmounted`), which also never run at build;
+    props are resolved by Vue's SFC compiler instead of `vue-component-meta` (no language service, milliseconds);
+    `explainerTests()` tests an exercise component's `answered` by emitting it through the island's vnode, not by
+    operating the component's controls, which only the component knows
 
 ## Commit
 

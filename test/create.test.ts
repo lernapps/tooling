@@ -21,7 +21,7 @@ describe("lernapps create refuses", () => {
     const dir = tempDir("create-unknown");
     const result = lernapps(["create", "--archetype", "essay", dir], repoRoot);
     expect(result.code, output(result)).toBe(2);
-    expect(result.stderr).toContain("unknown archetype: essay (known: quiz)");
+    expect(result.stderr).toContain("unknown archetype: essay (known: explainer, quiz)");
   });
 
   test("a folder that is not empty, naming what is there", () => {
@@ -112,6 +112,23 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     const plan = join(app, ".vibe/plan.md");
     expect(frontMatterErrors(join(repoRoot, "guidance/plan-front-matter.v1.schema.json"), plan)).toEqual([]);
     expect(frontMatter(readFileSync(plan, "utf8"))).toEqual({ archetype: "quiz", phase: "code", prePushFailures: 0 });
+  });
+
+  test("an explainer app gets its template and what the type check of its Vue components needs", () => {
+    const dir = join(tempDir("explainer-files"), "prozent");
+    const result = lernapps(["create", "--archetype", "explainer", dir, "--templates", templates], repoRoot);
+    expect(result.code, output(result)).toBe(0);
+    for (const file of ["src/app.yaml", "src/main.ts", "vite.config.ts", "e2e/explainer.e2e.ts"]) {
+      expect(existsSync(join(dir, file)), file).toBe(true);
+    }
+    expect(readFileSync(join(dir, "vite.config.ts"), "utf8")).toContain("lernapps({ plugins: [explainer()] })");
+    const manifest = JSON.parse(readFileSync(join(dir, "package.json"), "utf8")) as {
+      devDependencies: Record<string, string>;
+    };
+    // lernapps check runs vue-tsc once the app has a component (src/components/<Name>.vue)
+    expect(manifest.devDependencies["vue-tsc"]).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(manifest.devDependencies["typescript"]).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(frontMatter(readFileSync(join(dir, ".vibe/plan.md"), "utf8"))).toMatchObject({ archetype: "explainer" });
   });
 
   test("it keeps the plan from the conversation", { timeout: SLOW }, () => {

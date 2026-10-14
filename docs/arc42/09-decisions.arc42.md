@@ -137,6 +137,27 @@ addresses: qg-guidance-evolves, qg-simple-to-build
 :::
 ```
 
+## Explainers render with a Vite plugin
+
+**Context:** an explainer has many pages, all readable without a script, from content written as data, with client
+code only for its exercises and components. Eleventy over TypeScript sources was the first choice; a second toolchain
+beside vite-plus would double the configuration, the checks and what can break. **Decision:** the explainer's runtime
+renders every page at build with a Vite plugin, as the quiz's does; one toolchain builds pages and client code alike. A
+spike proved it before the runtime was built: one build emitted every page and one hashed client module, so the
+fallback, Eleventy, was not needed. **Consequences:**
+- an explainer's configuration is the same one line as a quiz's, and the shared preset checks both the same way;
+- the runtime owns the multi-page rendering that a static site generator would bring, and tests it in its repo.
+
+```arc42
+:::decision
+id: dec-explainer-vite
+title: Explainers render with a Vite plugin
+status: accepted
+date: 2026-10-13
+addresses: qg-simple-to-build, risk-vite-plus-young
+:::
+```
+
 ## vite-plus as the toolchain
 
 **Context:** creators should get lint, format, type check, tests and hooks without choosing tools. **Decision:**
