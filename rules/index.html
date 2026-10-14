@@ -38,6 +38,8 @@
       <thead><tr><th>Rule</th><th>Scope</th><th>Severity</th></tr></thead>
       <tbody>
 <tr><td><a href="#accessible"><code>accessible</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#app-content-guide"><code>app-content-guide</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#app-content-matches"><code>app-content-matches</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#checks-pass"><code>checks-pass</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#correct-content-support"><code>correct-content-support</code></a></td><td>listing</td><td>hint</td></tr>
 <tr><td><a href="#dependency-licence"><code>dependency-licence</code></a></td><td>listing</td><td>error</td></tr>
@@ -118,6 +120,24 @@
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/accessible.ts"><code>check/rules/accessible.ts</code></a>.</p>
 </section>
 
+<section id="app-content-guide">
+<h2>Keep the app's content guide</h2>
+<p><code>app-content-guide</code> · listing · error</p>
+<div>
+<p>Keep <code>.agents/skills/app-content/SKILL.md</code> with its fixed headings. Fill in every placeholder (&quot;FILL IN&quot;) once the creator has confirmed the plan, before you build the content, with precise, concrete instructions: the files, ids, data files and an example of this app, not general advice. Whenever a content decision changes (a new pattern, a figure type, a source rule), change the guide in the same commit. The plan file records one run; the guide is what the agents after you follow. <code>lernapps check</code> checks an app from the generator: the file and its headings always, and that no placeholder is left once the app has content, which is when its plan is in Commit: by then the creator's questions (quiz) or chapters (explainer) are built in place of the generated example. An app made before the guide existed gets its skeleton from <code>npx --yes github:lernapps/tooling#main update</code>.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/app-content-guide.ts"><code>check/rules/app-content-guide.ts</code></a>.</p>
+</section>
+
+<section id="app-content-matches">
+<h2>The content guide says what was built</h2>
+<p><code>app-content-matches</code> · listing · error</p>
+<div>
+<p>The guide describes the app as it is: every exercise pattern it names is used, and the app uses no pattern it does not name; the curriculum, the competencies and their chapters, pages or rounds match the content; the procedure for a new chapter or round names the files as they are now. Write it so that an agent who never saw your conversation can add the next chapter or round from it alone.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
 <section id="checks-pass">
 <h2>Run the checks before you push</h2>
 <p><code>checks-pass</code> · listing · error</p>
@@ -169,7 +189,7 @@
 <h2>Every link of the entry resolves</h2>
 <p><code>entry-links-resolve</code> · listing · error</p>
 <div>
-<p>Give each topic the path of a page that exists, relative to the app's <code>url</code>. Check the entry against the deployed app with <code>lernapps check --entry &lt;file&gt;</code>.</p>
+<p>Give each topic the path of a page that exists, relative to the app's <code>url</code>; a topic that links a section of a page (<code>&lt;page&gt;#&lt;section&gt;</code>) names the id of an element on that page. Check the entry against the deployed app with <code>lernapps check --entry &lt;file&gt;</code>.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-links-resolve.ts"><code>check/rules/entry-links-resolve.ts</code></a>.</p>
 </section>
@@ -421,7 +441,7 @@
 <h2>Every page in one chain</h2>
 <p><code>explainer-navigation</code> · archetype:explainer · error</p>
 <div>
-<p>Leave the navigation to the runtime: contents, breadcrumbs and previous and next follow from the order lists, so every page is in one chain and reachable from the start page. Link from prose with paths that start at the app's root.</p>
+<p>Leave the navigation to the runtime: contents, breadcrumbs and previous and next follow from the order lists, so every page is in one chain and reachable from the start page. Link from prose with paths that start at the app's root. <code>lernapps check</code> finds a page no link from the start page reaches (<code>pages-reachable</code>), and a topic of the entry whose <code>#&lt;section&gt;</code> is no section of its page (<code>entry-links-resolve</code>).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>.</p>
 </section>
@@ -457,9 +477,9 @@
 <h2>Every page readable without JavaScript</h2>
 <p><code>explainer-readable-without-js</code> · archetype:explainer · error</p>
 <div>
-<p>Put every fact into a block, where it is on the page without JavaScript. Keep no meaning only inside an exercise or a component: give every component a <code>nojs</code> text that says what it shows and gives its content.</p>
+<p>Put every fact into a block, where it is on the page without JavaScript. Keep no meaning only inside an exercise or a component: give every component a <code>nojs</code> text that says what it shows and gives its content. <code>lernapps check</code> opens every page the runtime marks as an explainer page a second time, with JavaScript off, on the bundle and on the deployed app alike (so the listing and the review check it too): each heading, formula and figure must be visible, a figure with its name, every exercise's &quot;Lösung&quot; and every component's <code>nojs</code> text not empty.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-readable-without-js.ts"><code>check/rules/explainer-readable-without-js.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
 </section>
 
 <section id="explainer-stable-ids">
@@ -713,7 +733,7 @@
 <h2>Every component block has its <code>nojs</code> text</h2>
 <p><code>vue-component-nojs</code> · archetype:explainer · error</p>
 <div>
-<p>Give every <code>vue-component</code> block a <code>nojs</code> text in every language: what the component shows and does, with its content, so that the page means the same without JavaScript.</p>
+<p>Give every <code>vue-component</code> block a <code>nojs</code> text in every language: what the component shows and does, with its content, so that the page means the same without JavaScript. The schema requires it; <code>lernapps check</code> finds one that is empty or hidden without JavaScript (<code>explainer-readable-without-js</code>).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>.</p>
 </section>
