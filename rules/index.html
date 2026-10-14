@@ -56,6 +56,7 @@
 <tr><td><a href="#no-learner-data-in-texts"><code>no-learner-data-in-texts</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-request-before-click"><code>no-request-before-click</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-tracking"><code>no-tracking</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#pages-reachable"><code>pages-reachable</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#runs-in-browser"><code>runs-in-browser</code></a></td><td>listing</td><td>error</td></tr>
@@ -253,6 +254,15 @@
 <p>No cookies, no analytics, no tracking pixels, no server that stores data. If the app stores anything, it stays on the device (<code>localStorage</code>) and serves only the app.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="pages-reachable">
+<h2>Every page is reachable from the start page</h2>
+<p><code>pages-reachable</code> · listing · error</p>
+<div>
+<p>Link every page the build writes from the start page or from a page it leads to: learners find only what links reach, and the checks of the listing, which open the app at its address, check only those pages. Leave pages nobody should reach out of the build. A page reached another way on purpose gets <code>&lt;meta name=&quot;robots&quot; content=&quot;noindex&quot;&gt;</code>; a <code>404.html</code> at the root is the host's page for addresses that do not exist and needs no link. On a URL the checks visit at most 100 pages; a hint then says so: check the bundle to check every page.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/pages-reachable.ts"><code>check/rules/pages-reachable.ts</code></a>.</p>
 </section>
 
 <section id="plan-file">
