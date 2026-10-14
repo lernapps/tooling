@@ -21,6 +21,20 @@ runs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
+    # Renovate can reuse a stale branch whose pull request changes nothing once merged; automerged, that
+    # loops (mrsimpson/pdt42, 2026-10-10: 100 empty merges in four hours). Such a pull request must not turn
+    # green. On pull_request the checkout is the merge commit, so its first parent is the base it merges into.
+    - name: A Renovate pull request must change something
+      if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/')
+      shell: bash
+      env:
+        BASE: ${{ github.base_ref }}
+      run: |
+        git fetch --no-tags --quiet --deepen=1 origin
+        if git diff --quiet HEAD^1 HEAD; then
+          echo "::error::This pull request changes nothing compared with $BASE (stale Renovate branch). Delete the branch; Renovate recreates it."
+          exit 1
+        fi
     - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: 22
