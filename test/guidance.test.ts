@@ -73,12 +73,12 @@ describe("the plan's sections", () => {
     expect(retrospective).toEqual(expect.arrayContaining(RETROSPECTIVE_SECTIONS));
   });
 
-  test("the template marks the creator's checkpoints: confirm the plan, publish, list", () => {
+  test("the template marks the creator's checkpoints: research, confirm the plan, publish, list", () => {
     const checkpoints = read(TEMPLATE)
       .split("\n")
       .filter((line) => line.includes("**Checkpoint:**"));
-    expect(checkpoints).toHaveLength(3);
-    expect(checkpoints.join("\n")).toMatch(/confirm[\s\S]*publish[\s\S]*list/i);
+    expect(checkpoints).toHaveLength(4);
+    expect(checkpoints.join("\n")).toMatch(/research[\s\S]*confirm[\s\S]*publish[\s\S]*list/i);
   });
 
   test("the first publish starts the workflow the generator writes, also when GitHub starts no run for the push", () => {

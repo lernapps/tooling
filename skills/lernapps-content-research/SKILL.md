@@ -35,7 +35,8 @@ from what the creator said; ask the rest, one or two questions per turn. If they
 - Group the competencies into **chapters**: the units learners work through, in the order of the Lehrplan or the
   creator's material. An app may have many competencies in several chapters; a chapter is a part of the app, not a
   reason to split it.
-- Show the chapters with their competencies to the creator in the plan; they confirm them with the plan.
+- Explain the chapters with their competencies, and how you found them, to the creator at the checkpoint "research"
+  of the plan; they confirm them there.
 
 ## 4. Find second sources, verified
 
