@@ -67,8 +67,8 @@ scope: listing
 severity: error
 ```
 
-Stop at each checkpoint (confirm the plan, publish, list) and wait for the creator's answer. Example: "Die App ist
-fertig und geprüft. Soll ich sie jetzt veröffentlichen?"
+Stop at each checkpoint (research, confirm the plan and the content method, publish, list) and wait for the
+creator's answer. Example: "Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?"
 
 ### `few-turns-after-plan`: Work on your own after the plan
 

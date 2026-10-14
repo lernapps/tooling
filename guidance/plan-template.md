@@ -64,6 +64,9 @@ from earlier answers. Write each answer under "Answers".
 - [ ] Choose the archetype from the answers: `explainer` (many pages of explanation and exercises), `interactive`
       (one app page in the browser, plus a static start page) or `quiz` (questions with options and feedback).
       Write it under "Key decisions" with the reason; set `archetype`.
+- [ ] **Checkpoint:** research. Explain to the creator, in plain words, what you found and how: the Lehrplan with its
+      citation, the competencies by chapter, the sources and how you checked them, what you could not check, and the
+      archetype with its reason. Stop and wait for the creator. Change it if they ask, then ask again.
 - [ ] Set `phase: plan`.
 
 ### Answers
@@ -94,9 +97,21 @@ creator's turns from here to the listing are counted in the retrospective (targe
 
 - [ ] Write the tasks of Code under "Code": the pages or screens, the content, and what each must show. Each task
       ends in a commit.
-- [ ] Show the creator the goal, the archetype, the competencies by chapter, the entry draft and the tasks, short.
-- [ ] **Checkpoint:** confirm the plan. Stop and wait for the creator. Change the plan if they ask, then ask again.
+- [ ] Write the content method under "Content method": load the skill of the archetype and the skill
+      `lernapps-exercise-patterns`, and decide with them how you will make the content.
+- [ ] Show the creator the goal, the competencies by chapter, the entry draft and the tasks, short. Explain the
+      content method in plain words: what learners will see and do, and what it cannot do.
+- [ ] **Checkpoint:** confirm the plan and the content method. Stop and wait for the creator. Change the plan if they
+      ask, then ask again.
 - [ ] Set `phase: code`.
+
+### Content method
+
+<!--
+How you will make the content, one line each, so the creator can judge it: the exercise patterns and where each is
+used; the figures and how they are made; data files for material used more than once; each component, what it
+checks and what it cannot; how a later agent adds a chapter. In Code, it becomes the content guide.
+-->
 
 ### Completed
 
@@ -123,9 +138,10 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 - [ ] Commit what the generator wrote, with this plan: the first commit.
 - [ ] Load the skill `lernapps-app` and the skill of the archetype.
 - [ ] Fill in the content guide `.agents/skills/app-content/SKILL.md`, which the generator wrote, from the confirmed
-      plan, before you build the content: replace every "FILL IN" with precise, concrete instructions, as its comments
-      show (the skill `lernapps-exercise-patterns` helps with its patterns). Commit it. Whenever a content decision
-      changes later, update it in the same commit: this plan records the run, the guide stays for the agents after you.
+      plan and its content method, before you build the content: replace every "FILL IN" with precise, concrete
+      instructions, as its comments show (the skill `lernapps-exercise-patterns` helps with its patterns). Commit it.
+      Whenever a content decision changes later, update it in the same commit: this plan records the run, the guide
+      stays for the agents after you.
 - [ ] <the tasks written in Plan>
 - [ ] `npx lernapps check` passes.
 - [ ] Set `phase: commit`.
