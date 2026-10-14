@@ -604,7 +604,8 @@ Checked:
 - The generic tests run per language.
 - `learner-text-german` becomes "German always present; every other declared language complete". The build enforces
   it for the explainer.
-- The quiz's schema can take the same text shape later, without changing banks already written (Q5).
+- Embedded quiz-type exercises take the same text shape: the quiz's shared question schema accepts language maps
+  (10., step 3), and plain-string banks stay valid. The quiz template itself becomes multi-language in step 4.
 
 #### 6. Rules
 The owner removed the site rules and readable-without-JavaScript for apps in general (#47, #49). For the explainer it
@@ -761,14 +762,34 @@ Test first, end to end, on fixtures (KD-21, issue #19):
    broken fixture of these parts fails the build with its line.
 3. **app-templates: exercises.** Quiz-type exercise blocks and `generated`: arbitraries, expression language,
    comparators through the quiz's checker, the property test at build, worked tasks without JS, and the JS part of
-   `explainerTests()`. *Done when* the e2e tests check every exercise of the template and both fixtures, and the
-   fixtures with a mistake equal to the answer and with a starving `where` fail the build.
-4. **app-templates: `vue-component`.** The `nojs` text, server-side rendering at build, islands, props validation,
+   `explainerTests()`. Language maps in the shared quiz question schema and its validation (owner, 2026-10-14),
+   because the explainer embeds the quiz's question types through `$defs/question`:
+   - every learner-facing text field of a question (question, options, statements, pairs, background and `info`,
+     explanation, link titles, units) accepts a string or a language map `{ de: …, en: … }`;
+   - German is required and first; completeness is checked against the declared languages, with the same messages
+     as the explainer's language check;
+   - the shared language-map module of step 2 is reused;
+   - rendering and the checker pick the page's language;
+   - existing quiz banks stay valid unchanged (plain strings).
+
+   *Done when* the e2e tests check every exercise of the template and both fixtures, the fixtures with a mistake
+   equal to the answer and with a starving `where` fail the build, an explainer fixture page with an embedded
+   quiz-type exercise in German and English passes, a missing translation in an embedded question fails the build
+   with its line, and the quiz's own tests and the `quiz-many-questions` job pass unchanged.
+4. **app-templates: the quiz in several languages.**
+   - an optional `languages` field in the bank;
+   - one page per language, German at the root and others under `/<lang>/`, with `lang`, `hreflang` and a language
+     switch that works without JS;
+   - `quizTests()` run per language;
+   - the skill `lernapps-quiz` mentions it.
+
+   *Done when* a bilingual fixture bank passes `lernapps check` and the existing banks are unchanged.
+5. **app-templates: `vue-component`.** The `nojs` text, server-side rendering at build, islands, props validation,
    the exercise contract and its property tests, the build checks on the SFC, the size budget, and the labelling
    component of the history fixture with its logic module and test. *Done when* the history fixture passes
    `lernapps check`, a page without components ships no component JS, and each broken component fixture fails the
    build with its line.
-5. **tooling: the archetype `explainer`.**
+6. **tooling: the archetype `explainer`.**
    - pin bump and `appTemplates.archetypes`, the schema on the docs site;
    - `vue-tsc` in the check's type step for apps with `.vue` files, and the component lint rules in the lint plugin;
    - the skill `lernapps-explainer` with its rules, the quiz rules' wider scope, `learner-text-german` reworded,
@@ -777,11 +798,11 @@ Test first, end to end, on fixtures (KD-21, issue #19):
 
    *Done when* `lernapps create --archetype explainer`, `npm install` and `npx lernapps check` pass in the test and
    in CI, `npm run rules` lists the new ids, and lernapps/apps' entry-point test passes for both archetypes.
-6. **tooling: the check `explainer-readable-without-js`** (Q4), unreached pages as a finding, and section anchors in
+7. **tooling: the check `explainer-readable-without-js`** (Q4), unreached pages as a finding, and section anchors in
    `entry-links-resolve`. It brings back the page visit without JS that #47 removed, only for marked pages.
    *Done when* the empty-without-JS fixture and a component with an empty `nojs` text fail it, and quiz and other
    bundles are unaffected.
-7. **A first full explainer run**, from a creator prompt to the listing, as with naturwunder-quiz; the lessons go
+8. **A first full explainer run**, from a creator prompt to the listing, as with naturwunder-quiz; the lessons go
    into this plan. *Done when* the app is listed or each lesson is an issue. Then 10, with both archetypes.
 
 #### 11. Decisions (owner, 2026-10-13)
@@ -795,12 +816,15 @@ The open questions of the earlier versions, decided:
 - **Q4 No-JS at the gate:** `lernapps check` visits the pages marked as explainer pages without JavaScript, so the
   listing and `/review` check the promise too.
 - **Q5 Later:** test page, self-assessment, videos and the tutor prompt come after the evals (10), each with its own
-  issue; so do further figure kinds, other component types and language maps in the quiz's schema.
+  issue; so do further figure kinds and other component types.
 - **Q6 Depth:** chapter, page and two section levels; content that needs more is split into two apps.
 - **Q7 Languages:** language maps, German first and required; the build fails on a gap.
 - **Q8 Chapters:** mandatory; a single chapter is hidden in the navigation and kept in the URL.
 - **Headings:** structure only by `section` blocks; a heading inside a text field is a build error.
 - **`nojs`:** required for every `vue-component`.
+- **Quiz blocks in several languages** (owner, 2026-10-14): "add the i18n for the quiz blocks in step 3". The
+  shared quiz question schema takes language maps in step 3, so embedded questions have the explainer's text shape;
+  the quiz template becomes multi-language in the step after it (10., step 4).
 
 ### Completed
 - [x] 1 · The tooling's own build: package, strict TypeScript, vite-plus, hooks, `check` in CI
