@@ -4,7 +4,10 @@ name: App check
 # that passes, and the same quiz with a stylesheet from another host. Each fixture first runs its git hooks, as git
 # does (`git commit`, `git push`). Then the real action checks it: it must end like the hooks, with the same findings,
 # and keep its report as an artifact. The command inside the action is tested locally by test/app-check.e2e.test.ts
-# (in the pre-push hook and in check.yml); this workflow confirms the wrapper around it.
+# (in the pre-push hook and in check.yml); this workflow confirms the wrapper around it. The fixtures are repos of
+# their own, so the action's own change scope finds the event's commits unknown there and checks everything; the
+# change scope of this repo (changes.yml) gates the job instead: it runs for code only. The job `app-check` always
+# runs and reports the result (changes.yml describes the pattern).
 on:
   push:
     branches: [main]
@@ -19,7 +22,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    uses: ./.github/workflows/changes.yml
+
   fixture:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -50,3 +58,14 @@ jobs:
           path: ${{ runner.temp }}/report
       - name: The action ended like the hooks, with the same findings
         run: node test/app-fixture.ts compare "$RUNNER_TEMP/hooks.yaml" "$RUNNER_TEMP/report/validation-report.yaml" "${{ steps.check.outcome }}"
+
+  app-check: # always runs, fails when a job above failed or was cancelled
+    needs: [changes, fixture]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "the jobs ended: $RESULTS"
+          case " $RESULTS " in *" failure "* | *" cancelled "*) exit 1 ;; esac

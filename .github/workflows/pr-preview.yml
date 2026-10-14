@@ -4,7 +4,9 @@ name: Preview
 # https://lernapps.net/tooling/pr-preview/pr-<number>/, updated on every push and removed when the pull request
 # is closed (shared action of this repo). It contains the changes of the architecture (architecture-diff/) since
 # the merge base as one page. One comment on the pull request, updated in place, links it and lists the changed
-# elements (scripts/review-summary.ts).
+# elements (scripts/review-summary.ts). The change scope (changes.yml) gates it: no preview for a change of only the
+# plan (.vibe/**); closing a pull request always removes its preview. The job `preview` always runs and reports the
+# result (changes.yml describes the pattern).
 on:
   pull_request:
     types: [opened, reopened, synchronize, closed]
@@ -18,10 +20,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  preview:
+  changes:
+    uses: ./.github/workflows/changes.yml
+    permissions:
+      contents: read
+
+  build:
+    needs: changes
     runs-on: ubuntu-latest
     # Pull requests from forks get a read-only token and cannot push to gh-pages.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.action == 'closed' || needs.changes.outputs.site == 'true')
     env:
       ARC42_DIFF_BASE: origin/${{ github.base_ref }} # the build renders the changes since the merge base
     steps:
@@ -55,3 +65,14 @@ jobs:
             const existing = comments.find((c) => c.user?.type === "Bot" && c.body?.includes(marker));
             if (existing) await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
             else await github.rest.issues.createComment({ owner, repo, issue_number, body });
+
+  preview: # always runs, fails when a job above failed or was cancelled
+    needs: [changes, build]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "the jobs ended: $RESULTS"
+          case " $RESULTS " in *" failure "* | *" cancelled "*) exit 1 ;; esac

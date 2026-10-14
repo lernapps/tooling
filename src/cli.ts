@@ -3,7 +3,8 @@
 // toolchain (format, lint, types; unit tests, build, end-to-end tests) and the checks of the built app, or the checks
 // of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML. `create` writes a new app
 // from an archetype's template (generator/create.ts); `update` moves an app to this tooling's pins
-// (generator/update.ts); `hooks` installs an app's git hooks (archetypes/shared/install-hooks.ts).
+// (generator/update.ts); `hooks` installs an app's git hooks (archetypes/shared/install-hooks.ts); `changes` prints the
+// change scope (changes/changes.ts), which each hook part of `check` asks first.
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { delimiter, dirname, join, relative, resolve } from "node:path";
@@ -13,6 +14,16 @@ import { measure, type App, type Context, type Entry } from "../check/check.ts";
 import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
 import { BrowserError, bundlePages, launch, serve, urlPageLimit, visitApp } from "../check/visit.ts";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
+import {
+  changes,
+  ChangesConfigError,
+  classify,
+  loadRules,
+  pushedFiles,
+  readStdin,
+  SITE_CHECK,
+  stagedFiles,
+} from "../changes/changes.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { update, UpdateError } from "../generator/update.ts";
 import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
@@ -246,6 +257,38 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
   };
 }
 
+/**
+ * Before a hook part, the change scope (changes/changes.ts) of the staged files (pre-commit) or the pushed commits
+ * (pre-push): the line to print when the part has nothing to check, the site's check when the push changes only docs
+ * in a repo with a site, else undefined and the part runs.
+ */
+function hookScope(part: "pre-commit" | "pre-push"): { skip: string } | { site: string } | undefined {
+  const rules = loadRules(".");
+  const { scope, reason } = classify(part === "pre-commit" ? stagedFiles() : pushedFiles(readStdin()), rules);
+  if (scope === "all") return undefined;
+  const site = SITE_CHECK[rules.kind];
+  if (scope === "docs" && part === "pre-push" && site !== undefined) return { site };
+  const what =
+    scope === "none" ? "the plan only" : rules.kind === "app" ? "docs, which an app does not bundle" : "docs";
+  return { skip: `lernapps check --${part}: nothing to check, the change is ${what} (${scope}: ${reason})` };
+}
+
+/** The check of a repo's site before a push that changes only docs: build it, then its check script. */
+function checkSite(script: string): Report {
+  const findings: Finding[] = [];
+  for (const step of [
+    { name: "site build", command: "npm", args: ["run", "--silent", "build"] },
+    { name: "site check", command: "npm", args: ["run", "--silent", script] },
+  ]) {
+    const failure = runStep(step);
+    if (failure) {
+      findings.push(failure);
+      break;
+    }
+  }
+  return { checked: commitOrDirectory(), parts: ["pre-push"], rules: [CHECKS_PASS], findings, suppressions: [] };
+}
+
 /** The checks of a built app alone: a bundle directory or a URL. */
 async function checkApp(target: string, context: Context): Promise<Report> {
   const isUrl = /^https?:\/\//.test(target);
@@ -294,7 +337,16 @@ async function check(args: string[]): Promise<number> {
     report = await checkApp(target, context);
   } else {
     const all = values["pre-commit"] === values["pre-push"];
-    report = await checkProject(all || values["pre-commit"], all || values["pre-push"], context);
+    const scope = all ? undefined : hookScope(values["pre-commit"] ? "pre-commit" : "pre-push");
+    if (scope !== undefined && "skip" in scope) {
+      rmSync(REPORT, { force: true }); // nothing was checked: no report of an earlier run stays as if it were this one's
+      process.stdout.write(`${scope.skip}\n`);
+      return 0;
+    }
+    report =
+      scope !== undefined
+        ? checkSite(scope.site)
+        : await checkProject(all || values["pre-commit"], all || values["pre-push"], context);
     if (values["pre-push"] && failed(report)) countPrePushFailure();
   }
 
@@ -325,6 +377,8 @@ async function check(args: string[]): Promise<number> {
 async function main(argv: string[]): Promise<number> {
   const [command, ...rest] = argv;
   switch (command) {
+    case "changes":
+      return changes(rest);
     case "check":
       return check(rest);
     case "create":
@@ -356,6 +410,9 @@ try {
   if (error instanceof UsageError || parseError) {
     process.stderr.write(`lernapps: ${error.message}\n\n${USAGE}`);
     process.exitCode = 2;
+  } else if (error instanceof ChangesConfigError) {
+    process.stderr.write(`lernapps: ${error.message}\n`);
+    process.exitCode = 1;
   } else if (error instanceof CreateError) {
     process.stderr.write(`lernapps create: ${error.message}\n`);
     process.exitCode = 1;

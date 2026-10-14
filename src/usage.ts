@@ -9,6 +9,7 @@ export class UsageError extends Error {}
 export const USAGE = `Usage: lernapps <command> [options]
 
 Commands:
+  changes [--staged | --pushed | --ci]            what a change can affect: none, docs or all
   check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
   create --archetype <name> [<dir>]               write a new app from the archetype's template
   hooks                                           install the app's git hooks (the app's prepare script)
@@ -51,6 +52,12 @@ In a repo (no <dir|url>):
                    matter of .vibe/plan.md. A failing generic test of the archetype's runtime
                    (@lernapps/app-templates) is named as a test of the template, with where to report it
   Without a flag, or with both, it runs both parts (CI): the hooks together run exactly what CI runs.
+  Each hook part first asks lernapps changes what the change can affect (the staged files before a commit, the
+  pushed commits before a push): a change of only the plan (.vibe/**) checks nothing; a change of only docs
+  (docs/**/*.md) and the plan checks nothing in an app, whose bundle has no docs, and before a push builds and
+  checks the site in a repo with one (npm run build, then npm run check:site in the tooling, npm run check in a
+  site). Then it prints one line and writes no report. Anything else, or changed files it cannot know, runs the
+  part. CI decides the same in the app check action (lernapps changes --help).
   Every run in a repo also writes the full report to node_modules/.cache/lernapps/validation-report.yaml,
   passing or not; the app check action keeps it.
 
@@ -79,6 +86,60 @@ Options:
   -h, --help       print this help
 
 `;
+/** The options of `lernapps changes`, as node:util parseArgs takes them. */
+export const CHANGES_OPTIONS = {
+  staged: { type: "boolean", default: false },
+  pushed: { type: "boolean", default: false },
+  ci: { type: "boolean", default: false },
+  base: { type: "string" },
+  head: { type: "string" },
+  help: { type: "boolean", short: "h", default: false },
+} as const satisfies ParseArgsOptionsConfig;
+
+export const CHANGES_USAGE = `Usage: lernapps changes [--staged | --pushed | --ci | --base <rev> [--head <rev>] | <path>...]
+
+Prints the change scope of a change: what it can affect, and so what the hooks and CI run for it.
+  none   every changed file is the plan: .vibe/**. Nothing runs
+  docs   every changed file is docs, docs/**/*.md, or the plan. Only the site's checks and deployment run; an
+         app has no site (its bundle holds no docs), so nothing runs
+  all    anything else, also when the changed files are not known, or none are. Everything runs
+
+"Docs" are only Markdown files below docs/ (docs/**/*.md). README.md, AGENTS.md and every other path are not
+docs. The lists of none and docs are allowlists: every other path is all, so a new folder never causes a skip.
+
+Where the changed files come from (one source):
+  --staged         the staged files (the pre-commit hook)
+  --pushed         the pushed commits, from git's lines on standard input (the pre-push hook): each ref against
+                   the remote's commit; a new branch against its merge base with origin/main; no lines (run by
+                   hand) or an unknown commit is all
+  --ci             the GitHub Actions event: a pull request against the merge base with its base, a push to a
+                   branch before..after; a new branch, workflow_dispatch and any other event is all. A shallow
+                   clone is deepened once when a commit is missing. Also writes the step outputs scope, kind, code
+                   (true when the code's build and tests run: scope all) and site (true when the site's checks and
+                   deployment run) to GITHUB_OUTPUT, and a notice when something is skipped
+  --base <rev>     what --head (default HEAD) adds to its merge base with <rev>
+  <path>...        these paths, relative to the repo root
+Without a source the changed files are not known: all.
+
+The kind of repo decides what docs runs: app (index.html at the root), tooling (the package @lernapps/tooling),
+site (any other: a site or the catalog). A repo may name its kind and declare exceptions in package.json, each
+key optional, each list of path patterns relative to the repo root (** any folders, * any characters but /, a
+pattern ending in / a folder):
+  "lernapps": { "changes": { "kind": "site", "none": ["notes/**"], "docs": ["handbook/**/*.md"],
+                             "all": ["docs/generated/**"] } }
+  kind   app, tooling or site, instead of the detected one
+  none   more patterns that are plan: nothing runs for them
+  docs   more patterns that are docs
+  all    patterns that are all, also where they match none or docs
+Any other key, or a malformed value, is an error.
+
+Prints the scope (none, docs or all) on standard output and why on standard error.
+Exit codes: 0 when the scope is printed, 1 when package.json lernapps.changes is malformed, 2 on a usage error.
+
+Options:
+  -h, --help   print this help
+`;
+
 /** The options of `lernapps hooks`, as node:util parseArgs takes them. */
 export const HOOKS_OPTIONS = {
   help: { type: "boolean", short: "h", default: false },

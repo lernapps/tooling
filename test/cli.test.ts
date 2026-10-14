@@ -6,7 +6,7 @@ import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS } from "../generator/create.ts";
 import { UPDATE_OPTIONS } from "../generator/update.ts";
-import { CHECK_OPTIONS, HOOKS_OPTIONS } from "../src/usage.ts";
+import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS } from "../src/usage.ts";
 import { repoRoot, run, tempDir } from "./support.ts";
 
 /** The help must name every option the parser accepts: the help is where the options are documented. */
@@ -29,6 +29,24 @@ describe("lernapps", () => {
     expect(result.stdout).toMatch(/^  hooks +/m);
     expect(result.stdout).toMatch(/^  update +/m);
     expect(result.stderr).toBe("");
+  });
+
+  test("changes --help names every option, the map, what docs are, the configuration and the exit codes", () => {
+    const result = lernapps("changes", "--help");
+    expect(result.code).toBe(0);
+    expect(result.stdout).toMatch(/^Usage: lernapps changes /);
+    expectEveryOption(result.stdout, CHANGES_OPTIONS);
+    for (const text of [
+      ".vibe/**",
+      "docs/**/*.md",
+      "README.md, AGENTS.md and every other path are not",
+      "allowlists",
+    ]) {
+      expect(result.stdout).toContain(text);
+    }
+    expect(result.stdout).toContain('"lernapps": { "changes": {');
+    expect(result.stdout).toContain("0 when the scope is printed, 1 when package.json lernapps.changes is malformed");
+    expect(lernapps("--help").stdout).toMatch(/^  changes \[--staged \| --pushed \| --ci\] +/m);
   });
 
   test("hooks --help names every option it accepts, and the exit codes", () => {

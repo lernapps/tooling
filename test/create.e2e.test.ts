@@ -8,7 +8,8 @@
 //   - what it writes, and what it refuses, is tested on files alone in create.test.ts, on every push;
 //   - the app with the fixture bank (test/fixtures/quiz/quiz.json, every type of question) passes `lernapps check`,
 //     which runs the quiz's generic end-to-end tests (quizTests of @lernapps/app-templates) on that bank in a browser;
-//   - its publish workflow publishes on a push to main, but not for a push that changes only the plan (.vibe/);
+//   - its publish workflow runs on every push to main and pull request, with no paths filter: the actions decide what
+//     a change can affect (lernapps changes), so a push of only the plan (.vibe/) checks and publishes nothing;
 //   - a failing generic test of the runtime (quizTests, patched in the installed copy) is named as a test of the
 //     template: Playwright's report locates it below node_modules/@lernapps/app-templates/;
 //   - `lernapps update` moves an app on an older runtime to the commit the tooling pins, installs it and says so; a
@@ -79,11 +80,11 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
     expect(pages).toContain(`uses: lernapps/tooling/actions/app-publish@${commit} # main`);
   });
 
-  test("the publish workflow runs on a push to main, except for one that changes only the plan", () => {
+  test("the publish workflow runs on every push to main, with no paths filter: the actions skip a plan-only push", () => {
     const pages = parse(readFileSync(join(app, ".github/workflows/pages.yml"), "utf8")) as {
-      on: { push: { branches: string[]; "paths-ignore": string[] }; pull_request: unknown };
+      on: { push: { branches: string[] }; pull_request: unknown };
     };
-    expect(pages.on.push).toEqual({ branches: ["main"], "paths-ignore": [".vibe/**"] });
+    expect(pages.on.push).toEqual({ branches: ["main"] });
     expect(pages.on).toHaveProperty("pull_request");
   });
 

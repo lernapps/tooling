@@ -213,6 +213,29 @@ addresses: qg-guidance-evolves, con-one-owner
 :::
 ```
 
+## The change scope decides what runs
+
+**Context:** a commit of only the plan or only docs started the whole check before a push and in CI, with builds and
+end-to-end tests it could not affect; a paths filter on a workflow avoids that, but leaves a required check
+"Pending" for ever. **Decision:** one classifier in the tooling decides what a change can affect, and the hooks, the
+app actions and a reusable workflow ask it first. Only the plan does nothing; only docs run only a site's checks and
+deployment, which an app does not have; anything else, and any change whose files are not known, runs everything.
+The plan and the docs are allowlists, so an unknown path never causes a skip; a repo may declare exceptions.
+Workflows have no paths filter: their jobs are gated, and one final job always runs and reports the result.
+**Consequences:** a plan or docs commit costs seconds, in an app's hooks and CI and in the tooling's; app repos get it
+with the next version of the actions, without configuration; a required check never waits for a run that does not
+start; the tooling's positive list of its heavy tests stays as the second step for code changes.
+
+```arc42
+:::decision
+id: dec-change-scope
+title: The change scope decides what runs
+status: accepted
+date: 2026-10-14
+addresses: qg-few-iterations, qg-guidance-evolves, con-one-owner
+:::
+```
+
 ## Each app lives at its developer's hosting
 
 **Context:** an app belongs to its developer, and the catalog lists apps hosted anywhere. Still, most creators need a
