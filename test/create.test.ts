@@ -1,10 +1,11 @@
 // The contract of the generator on files, without installing anything: `lernapps create --archetype quiz`, run from
 // this repo, writes the template of app-templates at the pinned commit with the runtime of that commit as dependency,
-// AGENTS.md, the plan, the workflows, LICENSE and the issue form for content errors; it keeps a plan already there; it
+// AGENTS.md, the plan, the content guide (an app-local skill, linked for Claude Code), the workflows, LICENSE and the
+// issue form for content errors; it keeps a plan already there; it
 // fails on an unknown archetype and on a folder that is not empty. Fast enough for every push of this repo.
 // create.e2e.test.ts runs it as an assistant does, with npx from git, installs the app and checks it.
 // The templates come from a local clone of lernapps/app-templates with the pinned commit (support.ts, appTemplates).
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, lstatSync, mkdirSync, readFileSync, readlinkSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
 import { frontMatter, frontMatterErrors } from "./plan.ts";
@@ -108,6 +109,30 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(pages).not.toContain("site-check");
   });
 
+  test("it writes the content guide, linked for Claude Code; the link survives a commit and a clone", () => {
+    const guide = ".agents/skills/app-content/SKILL.md";
+    expect(readFileSync(join(app, guide), "utf8")).toBe(readFileSync(join(repoRoot, "generator/app", guide), "utf8"));
+    const link = join(app, ".claude/skills/app-content");
+    expect(lstatSync(link).isSymbolicLink()).toBe(true);
+    expect(readlinkSync(link)).toBe("../../.agents/skills/app-content");
+    // as the creator's first commit keeps it, and as anyone else gets it
+    const repo = join(tempDir("guide-link"), "app");
+    ok("git", ["init", "--quiet", "--initial-branch=main"], app);
+    ok("git", ["add", "--all"], app);
+    ok(
+      "git",
+      ["-c", "user.name=t", "-c", "user.email=t@example.org", "commit", "--quiet", "--no-verify", "-m", "app"],
+      app,
+    );
+    expect(ok("git", ["ls-files", "--stage", ".claude/skills/app-content"], app).stdout).toMatch(/^120000 /);
+    ok("git", ["clone", "--quiet", app, repo], repoRoot);
+    expect(lstatSync(join(repo, ".claude/skills/app-content")).isSymbolicLink()).toBe(true);
+    expect(readFileSync(join(repo, ".claude/skills/app-content/SKILL.md"), "utf8")).toMatch(
+      /^---\nname: app-content\n/,
+    );
+    rmSync(join(app, ".git"), { recursive: true, force: true });
+  });
+
   test("it starts the plan in Code, for the archetype quiz", () => {
     const plan = join(app, ".vibe/plan.md");
     expect(frontMatterErrors(join(repoRoot, "guidance/plan-front-matter.v1.schema.json"), plan)).toEqual([]);
@@ -129,6 +154,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(manifest.devDependencies["vue-tsc"]).toMatch(/^\d+\.\d+\.\d+$/);
     expect(manifest.devDependencies["typescript"]).toMatch(/^\d+\.\d+\.\d+$/);
     expect(frontMatter(readFileSync(join(dir, ".vibe/plan.md"), "utf8"))).toMatchObject({ archetype: "explainer" });
+    expect(existsSync(join(dir, ".claude/skills/app-content/SKILL.md"))).toBe(true);
   });
 
   test("it keeps the plan from the conversation", { timeout: SLOW }, () => {

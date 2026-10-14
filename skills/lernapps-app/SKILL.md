@@ -18,6 +18,16 @@ checkpoints, and the command that creates the app. If the plan does not exist, s
 <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. This skill adds the rules
 below: what every app and every step must meet.
 
+## Content
+
+What the app teaches, and how its content is built, is the app's own: its content guide
+`.agents/skills/app-content/SKILL.md`, which the generator writes as a skeleton. Once it is filled in, it comes first
+and takes precedence over the generic skills. These are archetype-neutral, and the skill of the archetype says how
+each step is expressed there:
+- the skill `lernapps-content-research`: the curriculum, the competencies and the verified sources, before the plan;
+- the skill `lernapps-exercise-patterns`: exercises from shared data, patterns and, where needed, a component;
+- the skill `lernapps-content-growth`: how the app grows after its first version, one competency at a time.
+
 ## Rules
 
 Each rule is a section headed by its rule block (`id`, `scope`, `severity`). Follow every rule in scope, whether
@@ -153,6 +163,36 @@ is in, `npx --yes github:lernapps/tooling#main update` moves the app to it. Then
 
 A link whose server limits requests (HTTP 429) is reported as not checked, at severity hint: it fails nothing. Tell
 the creator which links could not be checked, and go on.
+
+### `app-content-guide`: Keep the app's content guide
+
+```rule
+id: app-content-guide
+scope: listing
+severity: error
+```
+
+Keep `.agents/skills/app-content/SKILL.md` with its fixed headings. Fill in every placeholder ("FILL IN") once the
+creator has confirmed the plan, before you build the content, with precise, concrete instructions: the files, ids,
+data files and an example of this app, not general advice. Whenever a content decision changes (a new pattern, a
+figure type, a source rule), change the guide in the same commit. The plan file records one run; the guide is what
+the agents after you follow. `lernapps check` checks an app from the generator: the file and its headings always,
+and that no placeholder is left once the app has content, which is when its plan is in Commit: by then the
+creator's questions (quiz) or chapters (explainer) are built in place of the generated example. An app made before
+the guide existed gets its skeleton from `npx --yes github:lernapps/tooling#main update`.
+
+### `app-content-matches`: The content guide says what was built
+
+```rule
+id: app-content-matches
+scope: listing
+severity: error
+```
+
+The guide describes the app as it is: every exercise pattern it names is used, and the app uses no pattern it does
+not name; the curriculum, the competencies and their chapters, pages or rounds match the content; the procedure for a
+new chapter or round names the files as they are now. Write it so that an agent who never saw your conversation can
+add the next chapter or round from it alone.
 
 ### `retrospective-filled`: Fill the retrospective
 
