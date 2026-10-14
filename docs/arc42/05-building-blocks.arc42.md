@@ -306,13 +306,12 @@ protocol: Oxlint / ESLint plugin API
 
 ### Check CLI
 
-Runs every deterministic check, from format and types to the checks of the built app in a browser. It is the same
-command in the hooks, in CI and in the listing validation. It runs every check that finds something to check. The
-checks of the built app need no source repo: they work on a bundle or on a
-deployed address, so apps built any other way are checked the same. A page that an archetype's runtime marks as its
-own also gets that archetype's checks: an explainer page is opened a second time, without JavaScript, to find what
-the explainer promises there; other pages pay nothing for it. It can also check a catalog entry against the app, down
-to the sections its topics link. Its output is the validation report.
+Runs every deterministic check of an app, from its code to the built app, and is the same command in the hooks, in
+CI and in the listing validation. It runs every check that finds something to check. It checks a built app or a
+deployed address the way a learner meets it, including, for explainer pages, without JavaScript; it needs no source
+repo, so apps built any other way are checked the same, and the listing and the review see what the hooks saw. It
+checks a catalog entry against the app it describes, and reports every finding with its rule in the validation
+report.
 
 ```arc42
 :::building-block
@@ -428,7 +427,7 @@ the app. It is accountable for an archetype's promise holding by construction, f
   the browser with feedback after each answer;
 - for the explainer, it renders every page of the content at build, readable without a script and in each of the
   app's languages; it brings the exercises to life in the browser, the quiz's question types among them, and checks
-  and hydrates the app's own components (concept `concept-components`).
+  and runs the app's own components (concept `concept-components`).
 
 Their own tests run in their repo.
 
