@@ -45,7 +45,8 @@ rule id and severity, where, what was found and how to fix it, and links its rul
 Exit codes: 0 when no rule of severity error fails, 1 when one does, 2 on a usage error.
 
 In a repo (no <dir|url>):
-  --pre-commit     the fast part: format, lint, type check (the pre-commit hook)
+  --pre-commit     the fast part: format, lint, type check (the pre-commit hook); where the project has
+                   Vue components (.vue files), also their type check with vue-tsc --noEmit
   --pre-push       the heavy part: unit tests, build (vp build for an app with index.html, else vp pack),
                    checks of the built app in dist/, the Playwright tests when playwright.config.* exists,
                    dependency licences (the pre-push hook); a failure increments prePushFailures in the front

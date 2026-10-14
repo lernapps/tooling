@@ -6,7 +6,7 @@
 // (generator/update.ts); `hooks` installs an app's git hooks (archetypes/shared/install-hooks.ts); `changes` prints the
 // change scope (changes/changes.ts), which each hook part of `check` asks first.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { delimiter, dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { parse } from "yaml";
@@ -61,6 +61,19 @@ const projectEnv = (): NodeJS.ProcessEnv => ({
   PATH: [join(process.cwd(), "node_modules", ".bin"), process.env["PATH"] ?? ""].join(delimiter),
 });
 
+/** Folders that hold no sources of the project: what tools install or write. */
+const NOT_SOURCES = new Set(["node_modules", "dist", "_site", "playwright-report", "test-results"]);
+
+/** Whether the project has a Vue single-file component (.vue) among its sources. */
+function hasVueFiles(dir: string): boolean {
+  return readdirSync(dir, { withFileTypes: true }).some((entry) => {
+    if (entry.isDirectory()) {
+      return !entry.name.startsWith(".") && !NOT_SOURCES.has(entry.name) && hasVueFiles(join(dir, entry.name));
+    }
+    return entry.name.endsWith(".vue");
+  });
+}
+
 /** Runs a step; its output is shown only when it fails. */
 function runStep(step: Step): Finding | undefined {
   const result = spawnSync(step.command, step.args, {
@@ -73,7 +86,10 @@ function runStep(step: Step): Finding | undefined {
     return finding(CHECKS_PASS, "error", {
       where,
       found: `${step.name}: cannot run ${step.command}: ${result.error.message}`,
-      fix: `Install the project's dependencies (npm ci), then check again`,
+      fix:
+        step.command === "vue-tsc"
+          ? "The app has Vue components (.vue), which vue-tsc type-checks: add it with npm install --save-dev vue-tsc typescript, then check again"
+          : `Install the project's dependencies (npm ci), then check again`,
     });
   }
   if (result.status === 0) return undefined;
@@ -213,7 +229,14 @@ function readEntry(file: string): { file: string; value: Entry } {
 async function checkProject(fast: boolean, heavy: boolean, context: Context): Promise<Report> {
   const findings: Finding[] = [];
   const steps: Step[] = [];
-  if (fast) steps.push({ name: "format, lint, type check", command: "vp", args: ["check"] });
+  if (fast) {
+    steps.push({ name: "format, lint, type check", command: "vp", args: ["check"] });
+    // vp check type-checks the TypeScript files only; the Vue components (an explainer's src/components/<Name>.vue)
+    // need vue-tsc, run only where there are any
+    if (hasVueFiles(".")) {
+      steps.push({ name: "type check of the Vue components", command: "vue-tsc", args: ["--noEmit"] });
+    }
+  }
   if (heavy) {
     steps.push({ name: "unit tests", command: "vp", args: ["test", "--passWithNoTests"] });
     // An app (index.html, as Vite builds it) or a package (vp pack, as this tooling).

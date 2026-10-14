@@ -1,8 +1,11 @@
 // Learner texts only from the message files: a text written into the page from a string in code (textContent,
 // innerHTML, a label or title attribute, the document's title, a text node, an alert, JSX text) is reported. Texts come from the
 // app's message files through the preset's i18n helper, where they can be read, checked and corrected in one place.
+// A component's code (lint/component.ts) is left alone: an explainer's component gets its learner texts through its
+// props from the content, where the build checks every declared language.
 import type { ESTree } from "vite-plus/lint/plugins";
 import { memberName, staticText } from "../ast.ts";
+import { isComponentCode } from "../component.ts";
 import { lintRule } from "../rule.ts";
 
 /** Properties of an element (or the document) that put text in front of the learner. */
@@ -67,6 +70,7 @@ export default lintRule({
       'Learner text in code ("{{text}}"). Put it into the app\'s message file (src/messages/de.json) and show it with translator from @lernapps/tooling/i18n.',
   },
   create(context) {
+    if (isComponentCode(context.filename)) return {};
     const report = (node: ESTree.Node, text: string) => {
       const shown = visible(text).replace(/\s+/g, " ").trim();
       context.report({
