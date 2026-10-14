@@ -1,8 +1,11 @@
 name: Check
 
-# The checks of the tooling's own code: exactly what the git hooks run together, `lernapps check` without a
-# flag (pre-commit: format, lint, type check; pre-push: unit and end-to-end tests, build, checks). CI is the safety net
-# for skipped hooks and adds no checks of its own. The docs site is built and checked by pages.yml.
+# The checks of the tooling's own code: `lernapps check` without a flag, with every test. The pre-push hook runs the
+# same command, with the heavy end-to-end tests only when a push changes a path they exercise (scripts/pre-push.ts);
+# CI runs everything the change can affect, and so catches what the hook's positive list misses. The change scope
+# (the reusable workflow changes.yml) gates the jobs: a change of only the plan (.vibe/**) or only docs
+# (docs/**/*.md) checks no code here; the docs site is built and checked by pages.yml. The job `check` always runs
+# and reports the result: it is the required check, and it never stays "Pending" (changes.yml describes the pattern).
 on:
   push:
     branches: [main]
@@ -17,7 +20,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check: # required status check
+  changes:
+    uses: ./.github/workflows/changes.yml
+
+  toolchain:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -26,17 +34,26 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # The generator's tests create apps from the templates at the commit pinned in package.json (appTemplates), and
-      # install the runtime of that commit, from a local clone named by LERNAPPS_TEMPLATES: the tests themselves
-      # never fetch from GitHub. Full history, so npm can clone from it.
-      - id: templates
-        run: echo "commit=$(node -p 'require("./package.json").appTemplates.commit')" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: lernapps/app-templates
-          ref: ${{ steps.templates.outputs.commit }}
-          path: .app-templates
-          fetch-depth: 0
+      # The command of the hooks, with every test (no LERNAPPS_TESTS). The generator's tests fetch lernapps/app-templates at the commit
+      # pinned in package.json (appTemplates) themselves, as they do in the hooks (test/support.ts, appTemplates).
       - run: npm run lernapps -- check
-        env:
-          LERNAPPS_TEMPLATES: ${{ github.workspace }}/.app-templates
+
+  # The workflows, the reusable changes.yml among them; shellcheck (on the runner) checks their scripts.
+  actionlint:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 -color
+
+  check: # required status check: always runs, fails when a job above failed or was cancelled
+    needs: [changes, toolchain, actionlint]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "the jobs ended: $RESULTS"
+          case " $RESULTS " in *" failure "* | *" cancelled "*) exit 1 ;; esac

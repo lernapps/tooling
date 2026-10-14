@@ -3,6 +3,7 @@
 // no `any`, no JavaScript sources.
 import { readdirSync } from "node:fs";
 import { defineConfig } from "vite-plus";
+import { HEAVY_TESTS } from "./scripts/pre-push.ts";
 
 // The checks of the check CLI, each its own module next to the CLI (dist/check/rules/), loaded by the CLI at runtime.
 const checks = Object.fromEntries(
@@ -48,6 +49,11 @@ export default defineConfig({
   },
   test: {
     include: ["test/**/*.test.ts"],
+    // LERNAPPS_TESTS=fast leaves out the heavy end-to-end tests: the pre-push hook of a push that changes none of the
+    // paths they exercise (scripts/pre-push.ts). CI and every other run run everything.
+    exclude: process.env["LERNAPPS_TESTS"] === "fast" ? HEAVY_TESTS : [],
+    // One fresh clone with `npm ci`, shared by the test files that need an installed clone.
+    globalSetup: ["test/global-setup.ts"],
   },
   pack: {
     // The CLI, its checks, and what apps import at runtime: the preset, its helpers and the lint plugin.

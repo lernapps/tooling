@@ -13,6 +13,11 @@ export interface Problem {
   found: string;
   /** How to fix it. */
   fix: string;
+  /**
+   * Lower than the check's severity, for what the check could not decide: a link the server would not answer
+   * because of a rate limit is a hint, not an error.
+   */
+  severity?: Severity;
 }
 
 /** What one page of the built app did when a browser opened it, without a click. */
@@ -29,8 +34,6 @@ export interface PageVisit {
   overflow: { width: number; elements: string[] };
   /** Violations of WCAG 2.1 A and AA found by axe-core. */
   axe: { id: string; help: string; helpUrl: string; targets: string[] }[];
-  /** The page with JavaScript off: its title and visible text. */
-  withoutJavaScript: { title: string; heading: string; text: string };
   /** Links and resources of the app (below its base URL), with the HTTP status each one answers with. */
   links: { url: string; status: number }[];
 }
@@ -56,16 +59,18 @@ export interface App {
   pages: PageVisit[];
   fitness: Fitness;
   bundle?: string;
+  /** Of a bundle: its pages that no link from the start page reaches (visited too, and in `pages`). */
+  unreachable?: string[];
+  /** Of an app on a URL: the visit stopped at `limit` pages; at least `more` pages linked from them were not visited. */
+  stopped?: { limit: number; more: number };
 }
 
 /** What exists for this run; anything may be missing. */
 export interface Context {
-  /** The built app, served at `base`: one visit per page reachable from its start page. */
+  /** The built app, served at `base`: one visit per page (of a bundle: every page; on a URL: up to a limit). */
   app?: App;
   /** The app's repo (`lernapps check` without a target), with its node_modules. */
   project?: string;
-  /** `--site <path>`: the app is served on lernapps.net at this path. */
-  site?: string;
   /** `--entry <file>`: the catalog entry to check against the app. */
   entry?: { file: string; value: Entry };
 }

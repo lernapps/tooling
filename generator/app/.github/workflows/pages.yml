@@ -1,9 +1,17 @@
 name: Pages
 
-# Checks the app and publishes it. The job `site` runs the shared site check of lernapps/tooling: npm ci,
-# npm run build (the app into _site/), npm run check (`lernapps check`: format, lint, type check, unit tests, build,
-# the checks of the built app and the end-to-end tests, exactly what the git hooks ran). On main, the job `deploy`
-# publishes _site/ to the gh-pages branch, which GitHub Pages serves.
+# Checks the app and publishes it. The job `app` runs the app check of lernapps/tooling: `lernapps check`, the same
+# command the git hooks ran (format, lint, type check, unit tests, build, the checks of the built app, the end-to-end
+# tests), and keeps its validation report as the artifact "validation-report". On main, the job `deploy` publishes
+# the bundle it checked with the app publish action: to the gh-pages branch, which GitHub Pages serves from its root
+# (Settings → Pages → Deploy from a branch → gh-pages, / (root)). It checks that setting, waits until the app's
+# address serves the new bundle, and prints the address; on a failure, its message says what to do. Both actions
+# first ask what the change can affect (lernapps changes): a change of only the plan (.vibe/) or only docs
+# (docs/**/*.md) checks and publishes nothing, and the jobs succeed with a notice. So the workflow runs on every push
+# and pull request, with no paths filter: a check skipped by a paths filter stays "Pending" and blocks a pull request
+# that requires it. GitHub may start no run for a push that creates main from commits it already has (the first
+# publish): then start it by hand, Actions → Pages → Run workflow on main (gh workflow run Pages --ref main), as the
+# plan says; a run started by hand checks and publishes everything.
 on:
   push:
     branches: [main]
@@ -18,15 +26,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  site:
+  app:
     runs-on: ubuntu-latest
     steps:
-      - uses: lernapps/tooling/actions/site-check@{{tooling}} # main
+      - uses: lernapps/tooling/actions/app-check@{{tooling}} # main
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: site
+    needs: app
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
     steps:
-      - uses: lernapps/tooling/actions/site-deploy@{{tooling}} # main
+      - uses: lernapps/tooling/actions/app-publish@{{tooling}} # main

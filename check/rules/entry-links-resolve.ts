@@ -1,15 +1,7 @@
-// A catalog entry (`--entry <file>`) against the app: its URL and every topic's deep link answer without an error.
+// A catalog entry (`--entry <file>`) against the app: its URL and every topic's deep link answer without an error. A
+// link whose server is rate limited (429) could not be checked: a hint that names it, never an error.
 import type { Check } from "../check.ts";
-
-async function status(url: string): Promise<number> {
-  try {
-    const response = await fetch(url, { redirect: "follow" });
-    await response.body?.cancel();
-    return response.status;
-  } catch {
-    return 0;
-  }
-}
+import { linkProblem, linkStatus } from "../status.ts";
 
 export default {
   id: "entry-links-resolve",
@@ -26,13 +18,16 @@ export default {
         url: new URL(topic.path, url).href,
       })),
     ];
-    const answers = await Promise.all(links.map(async (link) => ({ ...link, status: await status(link.url) })));
-    return answers
-      .filter((link) => link.status === 0 || link.status >= 400)
-      .map((link) => ({
-        where: link.where,
-        found: `${link.url} ${link.status === 0 ? "cannot be fetched" : `answers ${link.status}`}`,
-        fix: "Point the topic's path (relative to url) to a page of the app, or correct the app's url",
-      }));
+    const problems = await Promise.all(
+      links.map(async ({ where, url: link }) =>
+        linkProblem(
+          where,
+          link,
+          (await linkStatus(link)).status,
+          "Point the topic's path (relative to url) to a page of the app, or correct the app's url",
+        ),
+      ),
+    );
+    return problems.filter((problem) => problem !== undefined);
   },
 } satisfies Check;

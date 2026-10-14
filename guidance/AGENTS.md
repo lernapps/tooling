@@ -1,26 +1,23 @@
 # AGENTS.md
 
 This repo is a learning app for lernapps.net: static, in the browser only, collecting nothing, accessible. You build
-it with its creator in four phases: Explore, Plan, Code, Commit. A plan file guides you through them.
+it with its creator. The plan file `.vibe/plan.md` holds the workflow: the phases, their tasks and the creator's
+checkpoints.
 
 ## Always
 
 1. Keep the plan in `.vibe/plan.md`. If it does not exist, create it from the template:
    `node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists,
-   <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. Keep every section and
-   every front matter key. Follow the comments in it.
-2. Read the plan before each step. Work only in the phase its front matter names (`phase`). Do the tasks in order,
-   tick each one when done.
-3. In Explore, ask and do not code. Ask the creator one or two questions per turn.
-4. Stop at every **Checkpoint:** in the plan: confirm the plan, publish, list. Show the creator what to decide and
-   wait for their answer. Do nothing past a checkpoint without it.
-5. Once the creator has confirmed the plan, work on your own. Ask only what you cannot decide; otherwise choose and
-   note it as a guess.
-6. Before you write code, load the skill `lernapps-app`, then the skills it names when a task needs them. Not
-   installed: `npx skills add lernapps/tooling`.
-7. Commit after each task. The git hooks run the checks; fix each failure from its message. Never bypass a hook
-   (`--no-verify`). Never edit `prePushFailures`.
-8. At the end of Commit, fill the retrospective in the plan.
+   <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. Then follow the plan exactly:
+   read it before each step, and do what its tasks and comments say.
+2. Load the skill `lernapps-app` before you start: it holds the rules every app follows. Load the skills it names
+   when a task needs them. Not installed: `npx skills add lernapps/tooling`.
+3. Never bypass a git hook (`--no-verify`). Never edit `prePushFailures`.
+4. Until the first publish, work on the branch `work`: if your environment asks you to push, push `work` only. The
+   first publish, in the plan's Commit phase, creates `main` (a push to `main` publishes the app); then push `main`
+   as the plan's tasks say. While a check fails, tell the creator instead of pushing.
+5. The repo's default branch must be `main`, or update pull requests miss what is published. Once `main` is pushed,
+   set it: `gh repo edit --default-branch main`, or a repository admin clicks Settings → General → Default branch.
 
 ## Language
 

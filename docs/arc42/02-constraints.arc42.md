@@ -22,9 +22,9 @@ source: Platform design; listing criteria of the app overview
 ## Rules for every page
 
 Every page in every repo of the organisation sets no cookies, does no tracking and sends no requests to other servers
-before a click; it is readable without JavaScript, meets WCAG 2.1 AA and is usable at 360 px. Pages on lernapps.net
-link the imprint and the privacy notice. Archetypes that cannot be read without JavaScript as a whole keep a
-readable start page.
+before a click; it meets WCAG 2.1 AA and is usable at 360 px. The further rules of lernapps.net's own websites, such
+as being readable without JavaScript and linking the imprint and the privacy notice, belong to the shared site frame
+and are no rules for apps.
 
 ```arc42
 :::constraint
@@ -38,8 +38,8 @@ source: ORGANIZATION.md "Every page, in every repo"
 ## GitHub is the means of production
 
 The platform runs on GitHub: repositories, pull requests, GitHub Actions, GitHub Pages and Renovate
-([platform](https://lernapps.net/docs/platform-design/#2-design/d1-ecosystem.pdt42.md:el-platform-lernapps)). Only the owner creates repositories in the organisation; a repo named `x` with Pages is served
-at `lernapps.net/x/`. Actions are pinned to full commit SHAs and updated by Renovate.
+([platform](https://lernapps.net/docs/platform-design/#2-design/d1-ecosystem.pdt42.md:el-platform-lernapps)). Only the owner creates repositories in the organisation. A repo of the organisation with Pages is served below
+lernapps.net, under its own name; this holds for the platform's own repos, not for an app in its developer's repo. Actions are pinned to full commit SHAs and updated by Renovate.
 
 ```arc42
 :::constraint
@@ -91,5 +91,19 @@ id: con-language-licence
 title: Languages and licence
 category: convention
 source: ORGANIZATION.md "Language", "License"
+:::
+```
+
+## Apps are written in strict TypeScript
+
+Every app is written in TypeScript, with the strictest settings enforced and no plain JavaScript. Types give the
+assistant the fastest feedback, and data the creator supplies is checked before the app is built.
+
+```arc42
+:::constraint
+id: con-strict-typescript
+title: Apps are written in strict TypeScript
+category: technical
+source: Owner's decision, 2026-10-08
 :::
 ```

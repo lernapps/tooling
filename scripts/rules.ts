@@ -18,7 +18,7 @@
 //
 //   ```rule
 //   id: no-request-before-click
-//   scope: [listing, site]
+//   scope: listing
 //   severity: error
 //   ```
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -30,7 +30,7 @@ const RULE_PAGE = "https://lernapps.net/tooling/rules/";
 const SOURCE = "https://github.com/lernapps/tooling/blob/main/";
 
 const ID = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
-const SCOPE = /^(listing|site|archetype:[a-z][a-z0-9-]*)$/;
+const SCOPE = /^(listing|archetype:[a-z][a-z0-9-]*)$/;
 const SEVERITIES = ["error", "warning", "hint"];
 const KEYS = { rule: ["id", "scope", "severity"], rubric: ["id"] };
 type Info = keyof typeof KEYS;
@@ -188,7 +188,7 @@ function fromRuleBlock({ fields, title, body, file, line }: Block, problems: str
     .map((scope) => scope.trim())
     .filter((scope) => scope !== "");
   if (scopes.length === 0 || scopes.some((scope) => !SCOPE.test(scope))) {
-    problems.push(`${at}: ${name}: scope "${scopeText}" must be listing, site or archetype:<name>, or a list of them`);
+    problems.push(`${at}: ${name}: scope "${scopeText}" must be listing or archetype:<name>, or a list of them`);
   }
   const severity = fields.get("severity") ?? "";
   if (!SEVERITIES.includes(severity)) {
@@ -361,8 +361,7 @@ function rulePage(catalog: Catalog): string {
     const told = skill ?? entries.find((entry) => entry.text !== undefined && entry.text !== "");
     return { id, entries, skill, title: told?.title ?? id, text: told?.text ?? "" };
   });
-  const order = ({ skill }: (typeof rules)[number]) =>
-    skill?.scopes?.includes("listing") ? 0 : skill?.scopes?.includes("site") ? 1 : 2;
+  const order = ({ skill }: (typeof rules)[number]) => (skill?.scopes?.includes("listing") ? 0 : 1);
   rules.sort((a, b) => order(a) - order(b) || a.id.localeCompare(b.id));
   const rows = rules
     .map(
@@ -404,8 +403,7 @@ function rulePage(catalog: Catalog): string {
       them, always under the same id. This page reads them from there.</p>
     <ul>
       <li><strong>Scope:</strong> <code>listing</code> applies to every app in the app overview, wherever it is
-        hosted; <code>site</code> to every page on lernapps.net; <code>archetype:…</code> to apps of that
-        archetype.</li>
+        hosted; <code>archetype:…</code> to apps of that archetype.</li>
       <li><strong>Severity:</strong> <code>error</code> must not be broken; <code>warning</code> only with a reason
         recorded in place; <code>hint</code> is a recommendation.</li>
     </ul>

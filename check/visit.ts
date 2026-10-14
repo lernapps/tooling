@@ -1,19 +1,19 @@
 /// <reference lib="dom" />
 // Opens the built app in a browser, as a learner would, and records what each page does before any click: requests,
-// cookies and storage, width at 360 px, axe-core's findings, the page without JavaScript, its links. A bundle is
+// cookies and storage, width at 360 px, axe-core's findings, its links. A bundle is
 // served on 127.0.0.1 under its base path; an app on a URL is opened there. Requests to other hosts are recorded
 // and blocked, so a check never depends on another server. The checks in check/rules/ read the visits.
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { createServer, type Server } from "node:http";
 import { createRequire } from "node:module";
 import type { AddressInfo } from "node:net";
-import { dirname, extname, join, resolve, sep } from "node:path";
+import { dirname, extname, join, relative, resolve, sep } from "node:path";
 import { chromium, type Browser, type BrowserContext } from "playwright";
 import type { PageVisit } from "./check.ts";
+import { linkStatus } from "./status.ts";
 
 const require = createRequire(import.meta.url);
-const MAX_PAGES = 100;
 const WIDTH = 360;
 const WCAG_21_AA = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 
@@ -65,6 +65,36 @@ export async function serve(bundle: string, path: string): Promise<{ server: Ser
   return { server, base: `http://127.0.0.1:${(server.address() as AddressInfo).port}${path}` };
 }
 
+/** A page of a bundle: its path below it ("kuerzen/index.html"), and whether a link from the start page must reach it. */
+export interface BundlePage {
+  name: string;
+  navigable: boolean;
+}
+
+/**
+ * The pages of a bundle: its .html files, sorted. Left out, as no pages: the 404 page at the root, which a static host
+ * serves at any address that does not exist, so its links work only from there (a link that leads to it makes it a
+ * page like any other); and a file without <!doctype html>, which is no document (a fragment, a host's verification
+ * file). Not navigable: a page the app marks with <meta name="robots" content="noindex">, reached another way on
+ * purpose; it is checked like any page, but no link needs to reach it.
+ */
+export function bundlePages(bundle: string): BundlePage[] {
+  const root = resolve(bundle);
+  const files = (dir: string): string[] =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) return files(path);
+      return entry.isFile() && entry.name.toLowerCase().endsWith(".html") ? [path] : [];
+    });
+  const doctype = /^\uFEFF?\s*<!doctype html\b/i;
+  const noindex = /<meta\b(?=[^>]*\bname\s*=\s*["']?robots\b)(?=[^>]*\bcontent\s*=\s*["'][^"']*\bnoindex\b)[^>]*>/i;
+  return files(root)
+    .map((file) => ({ name: relative(root, file).split(sep).join("/"), html: readFileSync(file, "utf8") }))
+    .filter(({ name, html }) => name !== "404.html" && doctype.test(html))
+    .map(({ name, html }) => ({ name, navigable: !noindex.test(html) }))
+    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+}
+
 /** Starts Chromium; installs it once (Playwright caches it) when it is missing. */
 export async function launch(): Promise<Browser> {
   try {
@@ -88,18 +118,13 @@ function cannotRun(error: unknown): BrowserError {
   return new BrowserError(`no browser can run here: ${first.trim()}`);
 }
 
-/** The status of every link, fetched once per URL. */
+/** The status of every link, fetched once per URL (a rate-limited one with a short, bounded backoff). */
 class Links {
   private readonly known = new Map<string, Promise<{ status: number; html: boolean }>>();
   get(url: string): Promise<{ status: number; html: boolean }> {
     let result = this.known.get(url);
     if (result === undefined) {
-      result = fetch(url, { redirect: "follow" })
-        .then(async (response) => {
-          await response.body?.cancel();
-          return { status: response.status, html: (response.headers.get("content-type") ?? "").includes("html") };
-        })
-        .catch(() => ({ status: 0, html: false }));
+      result = linkStatus(url);
       this.known.set(url, result);
     }
     return result;
@@ -107,44 +132,88 @@ class Links {
 }
 
 const withoutHash = (url: string) => url.replace(/#.*$/, "");
+/**
+ * The page a link leads to: without query and fragment. A static host serves the same file for any query, so a link
+ * that only changes it (a quiz's "start again" with a random seed) is the same page, and the report stays the same.
+ */
+const pageOf = (url: string) => url.replace(/[?#].*$/, "");
+
+/** The most pages a check of an app on a URL visits; a bundle's pages are all visited. */
+export const URL_PAGE_LIMIT = 100;
+/**
+ * For the tooling's own tests only, not for users: LERNAPPS_TEST_URL_PAGE_LIMIT lowers the limit, so a test reaches it
+ * with a few pages (test/check-pages.e2e.test.ts). Not in the help; any other value keeps URL_PAGE_LIMIT.
+ */
+export function urlPageLimit(env: NodeJS.ProcessEnv = process.env): number {
+  const value = Number(env["LERNAPPS_TEST_URL_PAGE_LIMIT"]);
+  return Number.isInteger(value) && value > 0 ? value : URL_PAGE_LIMIT;
+}
+/** Pages visited at the same time, each in its own browser context. */
+const PARALLEL = 4;
+
+/** The pages of a visit, and what it could not reach or did not visit. */
+export interface Visited {
+  pages: PageVisit[];
+  /** Navigable pages of the bundle that no link from the start page reaches, by name; visited too. */
+  unreachable: string[];
+  /** Set when the visit stopped at `limit` pages, with at least `more` further pages linked from them. */
+  stopped?: { limit: number; more: number };
+}
 
 /**
- * Visits the start page and every page of the app reachable from it by links below `base`, in a fixed order.
- * `name` turns a page's URL into what the messages call it.
+ * Visits the start page and every page of the app reachable from it by links below `base`, breadth first, in a fixed
+ * order, a few at a time; the result does not depend on how long a page takes. `name` turns a page's URL into what
+ * the messages call it. For a bundle, `pages` are its pages (bundlePages): those the links do not reach, nor a page
+ * embeds (an iframe), are visited afterwards, and unreachable unless they are not navigable. Without `pages` (an app
+ * on a URL), it stops after `limit` pages and says so.
  */
 export async function visitApp(
   browser: Browser,
   base: string,
   name: (url: string) => string,
-  start = base,
-): Promise<PageVisit[]> {
+  options: { start?: string; pages?: readonly BundlePage[]; limit?: number } = {},
+): Promise<Visited> {
+  const { start = base, pages, limit = Infinity } = options;
   const axe = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
   const links = new Links();
   const queue = [withoutHash(start)];
-  const seen = new Set(queue);
+  const seen = new Set([pageOf(start)]);
   const visits: PageVisit[] = [];
-  while (queue.length > 0 && visits.length < MAX_PAGES) {
-    const url = queue.shift() ?? "";
-    const visit = await visitPage(browser, url, base, axe, links);
-    visits.push({ ...visit, page: name(url) });
-    for (const link of visit.anchors) {
-      const next = withoutHash(link);
-      if (seen.has(next) || !next.startsWith(base)) continue;
-      seen.add(next);
-      const { status, html } = await links.get(next);
-      if (status > 0 && status < 400 && html) queue.push(next);
+  const visitAll = async (urls: string[]) => {
+    const done = await Promise.all(urls.map((url) => visitPage(browser, url, base, axe, links)));
+    return done.map((visit, index) => ({ ...visit, page: name(urls[index] ?? "") }));
+  };
+  while (queue.length > 0 && visits.length < limit) {
+    // in the order of the queue, as one page at a time would: the links of each are queued after it
+    for (const visit of await visitAll(queue.splice(0, Math.min(PARALLEL, limit - visits.length)))) {
+      const { anchors, ...rest } = visit;
+      visits.push(rest);
+      for (const link of anchors) {
+        const next = pageOf(link);
+        if (seen.has(next) || !next.startsWith(base)) continue;
+        seen.add(next);
+        const { status, html } = await links.get(next);
+        if (status > 0 && status < 400 && html) queue.push(next);
+      }
     }
   }
-  return visits.sort((a, b) => a.page.localeCompare(b.page));
+  const reached = new Set(
+    visits.flatMap((visit) => [visit.page, ...visit.links.map((link) => name(pageOf(link.url)))]),
+  );
+  const rest = (pages ?? []).filter((page) => !reached.has(page.name));
+  for (let index = 0; index < rest.length; index += PARALLEL) {
+    const urls = rest.slice(index, index + PARALLEL).map((page) => base + encodeURI(page.name));
+    visits.push(...(await visitAll(urls)).map(({ anchors: _anchors, ...visit }) => visit));
+  }
+  return {
+    pages: visits.sort((a, b) => a.page.localeCompare(b.page)),
+    unreachable: rest.filter((page) => page.navigable).map((page) => page.name),
+    ...(queue.length > 0 ? { stopped: { limit, more: queue.length } } : {}),
+  };
 }
 
-async function newContext(
-  browser: Browser,
-  origin: string,
-  javaScriptEnabled: boolean,
-  requests: PageVisit["requests"],
-) {
-  const context = await browser.newContext({ viewport: { width: WIDTH, height: 800 }, javaScriptEnabled });
+async function newContext(browser: Browser, origin: string, requests: PageVisit["requests"]) {
+  const context = await browser.newContext({ viewport: { width: WIDTH, height: 800 } });
   await context.route("**/*", async (route) => {
     const request = route.request();
     requests.push({ url: request.url(), method: request.method() });
@@ -170,7 +239,7 @@ async function visitPage(
 ): Promise<Omit<PageVisit, "page"> & { anchors: string[] }> {
   const origin = new URL(base).origin;
   const requests: PageVisit["requests"] = [];
-  const context = await newContext(browser, origin, true, requests);
+  const context = await newContext(browser, origin, requests);
   try {
     const page = await settle(context, url);
     const loaded = [...requests];
@@ -234,24 +303,9 @@ async function visitPage(
       storage,
       overflow,
       axe: violations.sort((a, b) => a.id.localeCompare(b.id)),
-      withoutJavaScript: await readWithoutJavaScript(browser, url, origin),
       links: statuses,
       anchors,
     };
-  } finally {
-    await context.close();
-  }
-}
-
-async function readWithoutJavaScript(browser: Browser, url: string, origin: string) {
-  const context = await newContext(browser, origin, false, []);
-  try {
-    const page = await settle(context, url);
-    return await page.evaluate(() => ({
-      title: document.title.trim(),
-      heading: document.querySelector("h1")?.textContent?.trim() ?? "",
-      text: document.body.innerText.replace(/\s+/g, " ").trim(),
-    }));
   } finally {
     await context.close();
   }

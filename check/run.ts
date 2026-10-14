@@ -30,6 +30,7 @@ export const finding = (rule: string, severity: Severity, problem: Problem): Fin
 interface Loaded {
   id: string;
   severity: Severity;
+  description: string;
   run: (context: Context) => unknown;
 }
 
@@ -45,12 +46,28 @@ async function loadChecks(): Promise<Loaded[]> {
     const module = (await import(pathToFileURL(join(dir, file)).href)) as { default?: Partial<Loaded> };
     const check = module.default;
     if (typeof check?.id !== "string" || typeof check.run !== "function") continue;
-    checks.push({ id: check.id, severity: check.severity ?? "error", run: check.run });
+    checks.push({
+      id: check.id,
+      severity: check.severity ?? "error",
+      description: check.description ?? "",
+      run: check.run,
+    });
   }
   return checks;
 }
 
-/** Runs every check; a check that returns undefined found nothing to check and is left out of the rules. */
+/** Every check with its rule id, severity and what it checks, for the help of `lernapps check`. */
+export async function describeChecks(): Promise<string> {
+  const checks = await loadChecks();
+  const width = Math.max(...checks.map((check) => check.id.length));
+  const lines = checks.map((check) => `  ${check.id.padEnd(width)}  ${check.severity.padEnd(7)}  ${check.description}`);
+  return `Checks (rule id, severity, what it checks; each rule at ${RULE_PAGE}<id>):\n${lines.join("\n")}\n`;
+}
+
+/**
+ * Runs every check; a check that returns undefined found nothing to check and is left out of the rules. A problem
+ * has its check's severity, or the lower one it names.
+ */
 export async function runChecks(context: Context): Promise<{ rules: string[]; findings: Finding[] }> {
   const rules: string[] = [];
   const findings: Finding[] = [];
@@ -58,7 +75,7 @@ export async function runChecks(context: Context): Promise<{ rules: string[]; fi
     const problems = (await check.run(context)) as Problem[] | undefined;
     if (problems === undefined) continue;
     rules.push(check.id);
-    findings.push(...problems.map((problem) => finding(check.id, check.severity, problem)));
+    findings.push(...problems.map((problem) => finding(check.id, problem.severity ?? check.severity, problem)));
   }
   return { rules, findings };
 }

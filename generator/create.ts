@@ -3,6 +3,8 @@
 // and makes the app depend on the runtime of that same commit (the package @lernapps/app-templates at the root of
 // that repo), so template and runtime always match. Then it writes what every app has: AGENTS.md, the plan file,
 // the workflows, LICENSE, an issue form for content errors and the Renovate configuration (generator/app/).
+// To move the pin when app-templates changes: set appTemplates.commit in package.json to the new commit on its main
+// (and appTemplates.archetypes to its archetype folders); the generator's tests then run on that commit.
 import { spawnSync } from "node:child_process";
 import {
   cpSync,
@@ -16,19 +18,40 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { basename, dirname, join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseArgs } from "node:util";
+import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
+
+/** The options of `lernapps create`, as node:util parseArgs takes them. */
+export const CREATE_OPTIONS = {
+  archetype: { type: "string" },
+  plan: { type: "string" },
+  templates: { type: "string" },
+  tooling: { type: "string" },
+  help: { type: "boolean", short: "h", default: false },
+} as const satisfies ParseArgsOptionsConfig;
 
 export const CREATE_USAGE = `Usage: lernapps create --archetype <name> [<dir>] [--plan <file>] [--templates <repo>] [--tooling <spec>]
 
 Writes a new app from the archetype's template into <dir> (default: the current folder), which must be empty
 except for .git and the plan file .vibe/plan.md. The template is the folder <name>/ of lernapps/app-templates at
 the commit pinned in @lernapps/tooling; the app depends on the runtime @lernapps/app-templates of the same commit.
-Fetching the template needs git and the network.
 
-Then: npm install (installs the git hooks; run git init first if <dir> is not a repository yet).
+Run it before anything is installed, with npx from git (the package is not on npm):
+  npx --yes github:lernapps/tooling#main create --archetype <name> [<dir>]
+It needs git and access to github.com, codeload.github.com and the npm registry. The app then depends on the
+commit of @lernapps/tooling that npx installed, and its workflows use the actions of that commit.
+
+It writes, besides the template: package.json named after the folder (its prepare script, lernapps hooks,
+installs the git hooks), AGENTS.md, the plan .vibe/plan.md (the one already there is kept), the workflow
+.github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
+publish action to the repo's GitHub Pages), an issue form for content errors, LICENSE (MIT) and renovate.json (the
+Renovate preset of lernapps).
+
+Then: git init (if <dir> is not a repository yet), npm install (installs the git hooks), and the first commit.
+
+Exit codes: 0 when the app is written, 1 when it cannot be (the message says why), 2 on a usage error.
 
 Options:
   --archetype <name>  the archetype chosen in the plan: ${"{archetypes}"}
@@ -36,7 +59,8 @@ Options:
                       one from the plan template)
   --templates <repo>  where to fetch app-templates from: a git URL or a local clone with the pinned commit
                       (default: the environment variable LERNAPPS_TEMPLATES, else GitHub)
-  --tooling <spec>    the npm spec of @lernapps/tooling the app depends on (default: the template's)
+  --tooling <spec>    the npm spec of @lernapps/tooling the app depends on (default: the commit this
+                      @lernapps/tooling was installed from, else the template's)
   -h, --help          print this help
 `;
 
@@ -44,17 +68,18 @@ Options:
 export class CreateError extends Error {}
 
 const packageRoot = fileURLToPath(new URL("..", import.meta.url));
-const fromPackage = (...path: string[]) => join(packageRoot, ...path);
+export const fromPackage = (...path: string[]) => join(packageRoot, ...path);
 
-interface Manifest {
+export interface Manifest {
   name?: string;
   devDependencies?: Record<string, string>;
+  scripts?: Record<string, string>;
   appTemplates?: { repository: string; commit: string; archetypes: string[] };
   [key: string]: unknown;
 }
 
-const readJson = (file: string): Manifest => JSON.parse(readFileSync(file, "utf8")) as Manifest;
-const writeJson = (file: string, value: unknown) => writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+export const readJson = (file: string): Manifest => JSON.parse(readFileSync(file, "utf8")) as Manifest;
+export const writeJson = (file: string, value: unknown) => writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 
 /** The archetypes this version of the package has templates for: the folders of app-templates at the pin. */
 export function archetypes(): string[] {
@@ -111,13 +136,48 @@ const packageName = (dir: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "") || "app";
 
-const commitOf = (spec: string | undefined) => /#([0-9a-f]{40})$/.exec(spec ?? "")?.[1];
+export const commitOf = (spec: string | undefined) => /#([0-9a-f]{40})$/.exec(spec ?? "")?.[1];
+
+/**
+ * The npm spec this package was installed from, at its commit, read from the lock npm keeps next to it
+ * (node_modules/.package-lock.json): `npx github:lernapps/tooling#main create ...` resolves `main` to a commit and
+ * installs the package from git. The app then depends on the same commit, and its workflows use the actions of that
+ * commit. Undefined when the package was not installed by npm (a clone of this repo).
+ */
+export function installedSpec(): string | undefined {
+  const parts = resolve(packageRoot).split(sep);
+  const at = parts.lastIndexOf("node_modules");
+  if (at < 0) return undefined;
+  const modules = parts.slice(0, at + 1).join(sep);
+  const key = parts.slice(at).join("/");
+  try {
+    const lock = JSON.parse(readFileSync(join(modules, ".package-lock.json"), "utf8")) as {
+      packages?: Record<string, { resolved?: string }>;
+    };
+    const resolved = lock.packages?.[key]?.resolved;
+    const commit = commitOf(resolved);
+    if (resolved === undefined || commit === undefined) return undefined;
+    const github = /^git\+(?:ssh:\/\/git@|https:\/\/)github\.com[/:]([^/]+)\/([^/#]+?)(?:\.git)?#/.exec(resolved);
+    return github ? `github:${github[1]}/${github[2]}#${commit}` : resolved;
+  } catch {
+    return undefined;
+  }
+}
 
 /** The runtime package at the root of app-templates. */
-const RUNTIME = "@lernapps/app-templates";
+export const RUNTIME = "@lernapps/app-templates";
+/** This package, as an app depends on it. */
+export const TOOLING = "@lernapps/tooling";
+
+/** The commit of app-templates this @lernapps/tooling pins (appTemplates in package.json); `fail` when it pins none. */
+export function pinnedTemplates(fail: (message: string) => Error): NonNullable<Manifest["appTemplates"]> {
+  const pin = readJson(fromPackage("package.json")).appTemplates;
+  if (pin === undefined) throw fail("this @lernapps/tooling pins no app-templates (appTemplates in package.json)");
+  return pin;
+}
 
 /** The npm spec of the runtime at `commit` of `repository`: GitHub, another git URL, or a local clone. */
-function runtimeSpec(repository: string, commit: string): string {
+export function runtimeSpec(repository: string, commit: string): string {
   const github = /^(?:https:\/\/|git@)github\.com[/:]([^/]+)\/([^/]+?)(?:\.git)?\/?$/.exec(repository);
   if (github) return `github:${github[1]}/${github[2]}#${commit}`;
   if (existsSync(repository)) return `git+file://${resolve(repository)}#${commit}`;
@@ -160,13 +220,7 @@ function writeAppFiles(dir: string, values: Record<string, string>): void {
 export function create(args: string[]): number {
   const { values, positionals } = parseArgs({
     args,
-    options: {
-      archetype: { type: "string" },
-      plan: { type: "string" },
-      templates: { type: "string" },
-      tooling: { type: "string" },
-      help: { type: "boolean", short: "h", default: false },
-    },
+    options: CREATE_OPTIONS,
     strict: true,
     allowPositionals: true,
   });
@@ -191,10 +245,7 @@ export function create(args: string[]): number {
   if (values.plan !== undefined && !existsSync(values.plan))
     throw new CreateError(`the plan ${values.plan} does not exist`);
 
-  const manifest = readJson(fromPackage("package.json"));
-  const pin = manifest.appTemplates;
-  if (pin === undefined)
-    throw new CreateError("this @lernapps/tooling pins no app-templates (appTemplates in package.json)");
+  const pin = pinnedTemplates((message) => new CreateError(message));
   const repository = values.templates ?? process.env["LERNAPPS_TEMPLATES"] ?? pin.repository;
   const template = fetchTemplate(archetype, repository, pin.commit);
   try {
@@ -205,17 +256,23 @@ export function create(args: string[]): number {
   }
 
   const app = readJson(join(dir, "package.json"));
-  const templateTooling = app.devDependencies?.["@lernapps/tooling"];
+  const templateTooling = app.devDependencies?.[TOOLING];
   const name = packageName(dir);
   app.name = name;
+  // npm install installs the hooks of this package, in the app's own repository only (lernapps hooks); the
+  // template needs no prepare script of its own, which would install them in app-templates
+  app.scripts = { ...app.scripts, prepare: "lernapps hooks" };
   // the template uses the runtime of its own checkout (file:.., installed as a copy through .npmrc); the app the
   // runtime of the commit it was copied from
   if (app.devDependencies?.[RUNTIME] !== undefined) {
     app.devDependencies = { ...app.devDependencies, [RUNTIME]: runtimeSpec(repository, pin.commit) };
     rmSync(join(dir, ".npmrc"), { force: true });
   }
-  if (values.tooling !== undefined) {
-    app.devDependencies = { ...app.devDependencies, "@lernapps/tooling": values.tooling };
+  // the tooling the app depends on: the one named, else the commit this generator was installed from, else the
+  // template's
+  const tooling = values.tooling ?? installedSpec();
+  if (tooling !== undefined) {
+    app.devDependencies = { ...app.devDependencies, [TOOLING]: tooling };
     rmSync(join(dir, "package-lock.json"), { force: true }); // locks the template's tooling, not this one
   } else if (existsSync(join(dir, "package-lock.json"))) {
     const lock = readJson(join(dir, "package-lock.json"));
@@ -229,7 +286,7 @@ export function create(args: string[]): number {
   const holder = git(["config", "user.name"], existsSync(dir) ? dir : process.cwd());
   writePlan(dir, archetype, values.plan);
   writeAppFiles(dir, {
-    tooling: commitOf(values.tooling) ?? commitOf(templateTooling) ?? "main",
+    tooling: commitOf(tooling) ?? commitOf(templateTooling) ?? "main",
     year: String(new Date().getFullYear()),
     holder: holder.ok && holder.out !== "" ? holder.out : "the creator of this app",
   });

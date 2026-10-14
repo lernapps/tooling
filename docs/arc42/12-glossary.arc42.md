@@ -50,7 +50,7 @@ definition: The person who builds an app with their assistant, typically a teach
 
 ## EPCC
 
-Written out in `AGENTS.md` as plain instructions; the MCP server of codemcp/workflows is optional.
+Written out in the plan template as plain instructions; the workflow server of codemcp/workflows is optional.
 
 ```arc42
 :::glossary-term
@@ -98,13 +98,14 @@ definition: An app's entry in lernapps/apps, added by a pull request, validated,
 
 ## Plan file
 
-Lives in the app repo and is readable by the creator; it reaches the platform only with a listing.
+Lives in the app repo and is readable by the creator; it reaches the platform only with a listing. Its format is
+fixed by the plan template.
 
 ```arc42
 :::glossary-term
 id: term-plan-file
 title: Plan file
-definition: The assistant's Markdown plan in the app repo with phases, checkpoints, front matter counters and a closing retrospective.
+definition: The assistant's plan in the app repo with phases, checkpoints, counters and a closing retrospective.
 :::
 ```
 
@@ -122,7 +123,7 @@ definition: How a rule moves to the layer where it works best - a recurring revi
 
 ## Retrospective
 
-Explained in comments of the plan template; the counters in the front matter are written by the hooks, not by the assistant.
+Explained in comments of the plan template; the counters are written by the hooks, not by the assistant.
 
 ```arc42
 :::glossary-term
@@ -134,25 +135,37 @@ definition: The last section of the plan file, filled by the assistant at the en
 
 ## Rule
 
-Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. One rule can be told in a skill and checked by a program at the same time, under one id. All rules together are the rule catalog (chapter 8).
+Replaces the loose terms criterion, convention and guideline: their difference is expressed by scope and severity. One rule can be told in a skill and checked by a program at the same time, under one id. All rules together are the rule catalog (chapter 8); the rules of lernapps.net's own websites are not part of it.
 
 ```arc42
 :::glossary-term
 id: term-rule
 title: Rule
-definition: One requirement on an app, with a stable id, scope (listing, site, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id.
+definition: One requirement on an app, with a stable id, scope (listing, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id.
 :::
 ```
 
 ## Rules in scope
 
-Skills, checks and rubric work on the rules in scope of the app at hand.
+Skills, checks and rubric work on the rules in scope of the app at hand, wherever the app is hosted.
 
 ```arc42
 :::glossary-term
 id: term-rules-in-scope
 title: Rules in scope
-definition: The rules that apply to one app - scope listing, its archetype, and scope site when it is served on lernapps.net.
+definition: The rules that apply to one app - scope listing and its archetype.
+:::
+```
+
+## Site
+
+A site's own rules belong to the shared site frame; no rule of the catalog has a site scope.
+
+```arc42
+:::glossary-term
+id: term-site
+title: Site
+definition: One of lernapps.net's own websites (the start page, the docs, the app catalog, the tooling docs); an app is never called a site.
 :::
 ```
 

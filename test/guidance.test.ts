@@ -3,9 +3,10 @@
 //   - the review and the evals read the retrospective; its sections are in every plan started from the template;
 //   - the generator copies AGENTS.md and the template; what AGENTS.md points to exists in the package.
 // How an assistant behaves with these files is checked by hand (the evals), not here.
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
+import { parse } from "yaml";
 import { frontMatter, frontMatterErrors, headings } from "./plan.ts";
 import { repoRoot } from "./support.ts";
 
@@ -17,6 +18,8 @@ const TEMPLATE = "guidance/plan-template.md";
 const AGENTS = "guidance/AGENTS.md";
 const SKILL = "skills/lernapps-app/SKILL.md";
 const fixture = (name: string) => `test/fixtures/plans/${name}.md`;
+/** A level-2 section of a plan, up to the next one. */
+const section = (plan: string, heading: string) => plan.slice(plan.indexOf(`\n${heading}\n`)).split(/\n## /)[1] ?? "";
 
 /** The sections every plan has, in this order: the phases, then the retrospective with its parts. */
 const PLAN_SECTIONS = ["## Explore", "## Plan", "## Code", "## Commit", "## Retrospective"];
@@ -78,6 +81,30 @@ describe("the plan's sections", () => {
     expect(checkpoints.join("\n")).toMatch(/confirm[\s\S]*publish[\s\S]*list/i);
   });
 
+  test("the first publish starts the workflow the generator writes, also when GitHub starts no run for the push", () => {
+    // pages.yml has no paths filter (its actions skip a push of only .vibe/), but a push that creates main from
+    // commits GitHub already has may still start no run: the template has the run started by hand, as a safety net
+    const workflow = parse(read("generator/app/.github/workflows/pages.yml")) as {
+      name: string;
+      on: Record<string, unknown>;
+    };
+    expect(workflow.name).toBe("Pages");
+    expect(workflow.on).toHaveProperty("workflow_dispatch");
+    expect(JSON.stringify(workflow.on)).not.toContain("paths");
+    const commit = section(read(TEMPLATE), "## Commit");
+    expect(commit).toContain("gh run list --workflow Pages --branch main --commit");
+    expect(commit).toContain("gh workflow run Pages --ref main");
+  });
+
+  test("the template pushes the plan with the filled retrospective before the listing pull request", () => {
+    // the listing check (retrospective-filled) and the maintainer's review read .vibe/plan.md in the app's repo
+    const tasks = section(read(TEMPLATE), "## Commit").split("\n- [ ] ");
+    const at = (text: string) => tasks.findIndex((task) => task.includes(text));
+    expect(at("Fill the retrospective")).toBeGreaterThan(0);
+    expect(at("Commit this plan on `main` and push it")).toBe(at("Fill the retrospective") + 1);
+    expect(at("Open the listing pull request")).toBeGreaterThan(at("Commit this plan on `main` and push it"));
+  });
+
   test("the template asks to fetch the entry schema instead of repeating its fields", () => {
     const template = read(TEMPLATE);
     expect(template).toContain("https://lernapps.net/apps/schemas/entry.v1.schema.json");
@@ -90,11 +117,42 @@ describe("AGENTS.md", () => {
     expect(read(AGENTS).split(/\s+/).length).toBeLessThanOrEqual(350);
   });
 
+  test("limits pushes to `work` until the first publish only, as the plan's Commit tasks push `main`", () => {
+    const agents = read(AGENTS);
+    expect(agents).toContain("Until the first publish");
+    expect(agents).not.toMatch(/If your environment asks you to push, push `work` only;/);
+  });
+
   test("points to the plan file, the template and the skill, which exist in the package", () => {
     const agents = read(AGENTS);
     expect(agents).toContain(".vibe/plan.md");
     expect(agents).toContain("@lernapps/tooling/guidance/plan-template.md");
     expect(agents).toContain("lernapps-app");
     expect(read(SKILL)).toMatch(/^---\nname: lernapps-app\n/);
+  });
+});
+
+describe("the skills", () => {
+  // Names in backticks after "skill": `lernapps-app`; the "Not installed" hint names a repo, not a skill.
+  const named = (text: string) => [...text.matchAll(/skills? `([a-z][a-z0-9-]*)`/g)].map((match) => match[1]);
+  const skills = readdirSync(file("skills"));
+
+  test.each([TEMPLATE, AGENTS, ...skills.map((name) => `skills/${name}/SKILL.md`)])(
+    "every skill %s names exists, with its name, and a consumer can resolve it",
+    (path) => {
+      const exports = (JSON.parse(read("package.json")) as { exports: Record<string, string> }).exports;
+      for (const name of named(read(path))) {
+        expect(skills, `${path} names the skill ${name}`).toContain(name);
+        expect(read(`skills/${name}/SKILL.md`)).toMatch(new RegExp(`^---\\nname: ${name}\\n`));
+        expect(exports, `package.json exports ${name}`).toHaveProperty(`./skills/${name}/SKILL.md`);
+      }
+    },
+  );
+
+  test("the listing skill points to the entry schema and the catalog's listing guide instead of repeating them", () => {
+    const skill = read("skills/lernapps-listing/SKILL.md");
+    expect(skill).toContain("https://lernapps.net/apps/schemas/entry.v1.schema.json");
+    expect(skill).toContain("https://lernapps.net/apps/llms.txt");
+    for (const field of ["grades", "thirdParty", "keywords", "topics"]) expect(skill).not.toContain(field);
   });
 });

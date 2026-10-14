@@ -2,66 +2,50 @@
 // The CLI `lernapps`: one entry for the tooling's commands. `check` runs every deterministic check: in a repo the
 // toolchain (format, lint, types; unit tests, build, end-to-end tests) and the checks of the built app, or the checks
 // of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML. `create` writes a new app
-// from an archetype's template (generator/create.ts).
+// from an archetype's template (generator/create.ts); `update` moves an app to this tooling's pins
+// (generator/update.ts); `hooks` installs an app's git hooks (archetypes/shared/install-hooks.ts); `changes` prints the
+// change scope (changes/changes.ts), which each hook part of `check` asks first.
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { delimiter, join, relative, resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { delimiter, dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
-import { failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
-import { BrowserError, launch, serve, visitApp } from "../check/visit.ts";
-import { create, CreateError } from "../generator/create.ts";
-import { UsageError } from "./usage.ts";
-
-const USAGE = `Usage: lernapps <command> [options]
-
-Commands:
-  check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
-  create --archetype <name> [<dir>]               write a new app from the archetype's template
-
-Options:
-  -h, --help      print this help
-  -v, --version   print the version
-
-Run "lernapps <command> --help" for the options of a command.
-`;
-
-const CHECK_USAGE = `Usage: lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--site <path>] [--report <file>]
-
-Runs every check that has something to check. Exits 0 when no rule of severity error fails, 1 when one does.
-Passing, it prints one line; otherwise the validation report in YAML (schema:
-https://lernapps.net/tooling/schemas/validation-report.v1.schema.json).
-
-In a repo (no <dir|url>):
-  --pre-commit     the fast part: format, lint, type check (the pre-commit hook)
-  --pre-push       the heavy part: unit tests, build, checks of the built app in dist/, the Playwright tests
-                   when playwright.config.* exists, dependency licences (the pre-push hook); a failure
-                   increments prePushFailures in .vibe/plan.md
-  Without a flag, or with both, it runs both parts (CI): the hooks together run exactly what CI runs.
-
-On a built app, without its repo:
-  <dir>            a bundle (a directory with index.html), served on 127.0.0.1
-  <url>            an app on the web
-
-Options:
-  --entry <file>   check a catalog entry (YAML) against the app: its URL and topic links resolve, the fitness
-                   values match; without <dir|url> the app at the entry's url is checked
-  --site <path>    the app is served on lernapps.net at <path> (e.g. /brueche/): also the site rules
-                   (lernapps-check of the site frame); needs a bundle
-  --report <file>  also write the full report to <file>, passing or not
-  -h, --help       print this help
-`;
+import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
+import { BrowserError, bundlePages, launch, serve, urlPageLimit, visitApp } from "../check/visit.ts";
+import { installHooks } from "../archetypes/shared/install-hooks.ts";
+import {
+  changes,
+  ChangesConfigError,
+  classify,
+  loadRules,
+  pushedFiles,
+  readStdin,
+  SITE_CHECK,
+  stagedFiles,
+} from "../changes/changes.ts";
+import { create, CreateError, RUNTIME } from "../generator/create.ts";
+import { update, UpdateError } from "../generator/update.ts";
+import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
 
 /** A step of a part: a command of the project's toolchain and what it checks. */
 interface Step {
   name: string;
   command: string;
   args: readonly string[];
+  /** How the messages name the step, when not by its command line. */
+  where?: string;
+  /** Environment variables for the step only. */
+  env?: Record<string, string>;
 }
 
 const PLAN = ".vibe/plan.md";
+/** In a repo, every run also writes its full report here, passing or not: the hooks and CI alike. */
+const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
 const CHECKS_PASS = "checks-pass";
+/** The Playwright tests' results, as its JSON reporter writes them, to tell the runtime's tests from the app's. */
+const E2E_RESULTS = "node_modules/.cache/lernapps/playwright-results.json";
+const RUNTIME_ISSUES = "https://github.com/lernapps/app-templates/issues";
 
 function version(): string {
   const manifest: unknown = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
@@ -80,11 +64,11 @@ const projectEnv = (): NodeJS.ProcessEnv => ({
 /** Runs a step; its output is shown only when it fails. */
 function runStep(step: Step): Finding | undefined {
   const result = spawnSync(step.command, step.args, {
-    env: projectEnv(),
+    env: { ...projectEnv(), ...step.env },
     encoding: "utf8",
     maxBuffer: 256 * 1024 * 1024,
   });
-  const where = [step.command, ...step.args].join(" ");
+  const where = step.where ?? [step.command, ...step.args].join(" ");
   if (result.error) {
     return finding(CHECKS_PASS, "error", {
       where,
@@ -108,23 +92,85 @@ const browserFinding = (error: BrowserError) =>
     fix: "Install Chromium and its system libraries: npx playwright install --with-deps chromium. Where no browser can run, push and let CI check",
   });
 
+interface Suite {
+  title?: string;
+  specs?: { title: string; file: string; ok: boolean }[];
+  suites?: Suite[];
+}
+
+/**
+ * The failing tests that are defined in the runtime (a file below node_modules/@lernapps/app-templates/), by their
+ * titles: the suites' titles below the file, then the test's. Playwright names a spec's file relative to the test
+ * folder, e.g. ../node_modules/@lernapps/app-templates/dist/quiz-e2e.mjs for the quiz's e2e/quiz.e2e.ts, which only
+ * calls quizTests(). Empty when the results cannot be read.
+ */
+function failingRuntimeTests(): string[] {
+  let results: { suites?: Suite[] };
+  try {
+    results = JSON.parse(readFileSync(E2E_RESULTS, "utf8")) as { suites?: Suite[] };
+  } catch {
+    return [];
+  }
+  const found = new Set<string>();
+  const walk = (suite: Suite, titles: string[]) => {
+    for (const spec of suite.specs ?? []) {
+      if (!spec.ok && spec.file.split(/[\\/]/).join("/").includes(`node_modules/${RUNTIME}/`)) {
+        found.add([...titles, spec.title].join(" › "));
+      }
+    }
+    for (const child of suite.suites ?? []) walk(child, child.title ? [...titles, child.title] : titles);
+  };
+  // the top suites are files: their titles are file names, not part of a test's title
+  for (const file of results.suites ?? []) walk(file, []);
+  return [...found].sort();
+}
+
+/** Runs the Playwright tests; a failing test of the runtime is named as a test of the template, with what to do. */
+function runEndToEndTests(): Finding | undefined {
+  rmSync(E2E_RESULTS, { force: true });
+  mkdirSync(dirname(E2E_RESULTS), { recursive: true });
+  const failure = runStep({
+    name: "end-to-end tests",
+    command: "playwright",
+    args: ["test", "--reporter=line,json"],
+    where: "playwright test",
+    env: { PLAYWRIGHT_JSON_OUTPUT_FILE: resolve(E2E_RESULTS) },
+  });
+  if (failure === undefined) return undefined;
+  const runtime = failingRuntimeTests();
+  if (runtime.length === 0) return failure;
+  const shown = runtime.slice(0, 5).map((title) => `"${title}"`);
+  const more = runtime.length > shown.length ? ` and ${runtime.length - shown.length} more` : "";
+  return {
+    ...failure,
+    found: `end-to-end tests failed (their output is above): ${runtime.length === 1 ? "a generic test" : "generic tests"} of the template's runtime ${RUNTIME}, not of this app: ${shown.join(", ")}${more}`,
+    fix: `If the content validates (the build passed), this is a bug in the template: tell the creator and open an issue at ${RUNTIME_ISSUES} with this validation report (or ask the creator to). Never change the tests or the configuration to get around it. Once it is fixed, lernapps update moves the app to the fixed runtime: npx --yes github:lernapps/tooling#main update`,
+  };
+}
+
 /** Serves a bundle (or opens a URL), visits its pages and measures its fitness. */
-async function visit(target: { bundle: string } | { url: string }, site: string | undefined): Promise<App> {
+async function visit(target: { bundle: string } | { url: string }): Promise<App> {
   const browser = await launch();
   try {
     if ("url" in target) {
       const base = new URL("./", target.url).href;
-      const pages = await visitApp(browser, base, (url) => url, target.url);
-      return { base, pages, fitness: measure(pages, base) };
+      const { pages, stopped } = await visitApp(browser, base, (url) => url, {
+        start: target.url,
+        limit: urlPageLimit(),
+      });
+      return { base, pages, fitness: measure(pages, base), ...(stopped ? { stopped } : {}) };
     }
-    const { server, base } = await serve(target.bundle, site ?? "/");
+    const { server, base } = await serve(target.bundle, "/");
     try {
+      // the file a URL serves: a folder's index.html, with or without the slash
       const name = (url: string) => {
         const path = decodeURIComponent(url.slice(base.length));
-        return path === "" || path.endsWith("/") ? `${path}index.html` : path;
+        if (path === "" || path.endsWith("/")) return `${path}index.html`;
+        const file = join(target.bundle, path);
+        return existsSync(file) && statSync(file).isDirectory() ? `${path}/index.html` : path;
       };
-      const pages = await visitApp(browser, base, name);
-      return { base, pages, fitness: measure(pages, base), bundle: target.bundle };
+      const { pages, unreachable } = await visitApp(browser, base, name, { pages: bundlePages(target.bundle) });
+      return { base, pages, fitness: measure(pages, base), bundle: target.bundle, unreachable };
     } finally {
       server.close();
     }
@@ -184,7 +230,7 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
     context.project = process.cwd();
     if (existsSync(join("dist", "index.html"))) {
       try {
-        context.app = await visit({ bundle: "dist" }, context.site);
+        context.app = await visit({ bundle: "dist" });
       } catch (error) {
         if (!(error instanceof BrowserError)) throw error;
         findings.push(browserFinding(error));
@@ -197,7 +243,7 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
     if (config !== undefined) {
       const failure =
         runStep({ name: "browser for the end-to-end tests", command: "playwright", args: ["install", "chromium"] }) ??
-        runStep({ name: "end-to-end tests", command: "playwright", args: ["test"] });
+        runEndToEndTests();
       if (failure) findings.push(failure);
     }
   }
@@ -211,17 +257,48 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
   };
 }
 
+/**
+ * Before a hook part, the change scope (changes/changes.ts) of the staged files (pre-commit) or the pushed commits
+ * (pre-push): the line to print when the part has nothing to check, the site's check when the push changes only docs
+ * in a repo with a site, else undefined and the part runs.
+ */
+function hookScope(part: "pre-commit" | "pre-push"): { skip: string } | { site: string } | undefined {
+  const rules = loadRules(".");
+  const { scope, reason } = classify(part === "pre-commit" ? stagedFiles() : pushedFiles(readStdin()), rules);
+  if (scope === "all") return undefined;
+  const site = SITE_CHECK[rules.kind];
+  if (scope === "docs" && part === "pre-push" && site !== undefined) return { site };
+  const what =
+    scope === "none" ? "the plan only" : rules.kind === "app" ? "docs, which an app does not bundle" : "docs";
+  return { skip: `lernapps check --${part}: nothing to check, the change is ${what} (${scope}: ${reason})` };
+}
+
+/** The check of a repo's site before a push that changes only docs: build it, then its check script. */
+function checkSite(script: string): Report {
+  const findings: Finding[] = [];
+  for (const step of [
+    { name: "site build", command: "npm", args: ["run", "--silent", "build"] },
+    { name: "site check", command: "npm", args: ["run", "--silent", script] },
+  ]) {
+    const failure = runStep(step);
+    if (failure) {
+      findings.push(failure);
+      break;
+    }
+  }
+  return { checked: commitOrDirectory(), parts: ["pre-push"], rules: [CHECKS_PASS], findings, suppressions: [] };
+}
+
 /** The checks of a built app alone: a bundle directory or a URL. */
 async function checkApp(target: string, context: Context): Promise<Report> {
   const isUrl = /^https?:\/\//.test(target);
   if (!isUrl && !(existsSync(target) && statSync(target).isDirectory() && existsSync(join(target, "index.html")))) {
     throw new UsageError(`${target}: not a URL, nor a directory with index.html (build the app first)`);
   }
-  if (isUrl && context.site !== undefined) throw new UsageError("--site needs a bundle directory, not a URL");
   const at = new Date().toISOString();
   const findings: Finding[] = [];
   try {
-    context.app = await visit(isUrl ? { url: target } : { bundle: target }, context.site);
+    context.app = await visit(isUrl ? { url: target } : { bundle: target });
   } catch (error) {
     if (!(error instanceof BrowserError)) throw error;
     findings.push(browserFinding(error));
@@ -239,27 +316,16 @@ async function checkApp(target: string, context: Context): Promise<Report> {
 async function check(args: string[]): Promise<number> {
   const { values, positionals } = parseArgs({
     args,
-    options: {
-      "pre-commit": { type: "boolean", default: false },
-      "pre-push": { type: "boolean", default: false },
-      entry: { type: "string" },
-      site: { type: "string" },
-      report: { type: "string" },
-      help: { type: "boolean", short: "h", default: false },
-    },
+    options: CHECK_OPTIONS,
     strict: true,
     allowPositionals: true,
   });
   if (values.help) {
-    process.stdout.write(CHECK_USAGE);
+    process.stdout.write(`${CHECK_USAGE}${await describeChecks()}`);
     return 0;
   }
   if (positionals.length > 1) throw new UsageError(`one <dir|url> at most, not ${positionals.join(" ")}`);
   const context: Context = {};
-  if (values.site !== undefined) {
-    if (!/^\/([^/]+\/)*$/.test(values.site)) throw new UsageError(`--site ${values.site}: a path like /brueche/`);
-    context.site = values.site;
-  }
   if (values.entry !== undefined) context.entry = readEntry(values.entry);
   const target = positionals[0] ?? context.entry?.value.url;
 
@@ -271,11 +337,24 @@ async function check(args: string[]): Promise<number> {
     report = await checkApp(target, context);
   } else {
     const all = values["pre-commit"] === values["pre-push"];
-    report = await checkProject(all || values["pre-commit"], all || values["pre-push"], context);
+    const scope = all ? undefined : hookScope(values["pre-commit"] ? "pre-commit" : "pre-push");
+    if (scope !== undefined && "skip" in scope) {
+      rmSync(REPORT, { force: true }); // nothing was checked: no report of an earlier run stays as if it were this one's
+      process.stdout.write(`${scope.skip}\n`);
+      return 0;
+    }
+    report =
+      scope !== undefined
+        ? checkSite(scope.site)
+        : await checkProject(all || values["pre-commit"], all || values["pre-push"], context);
     if (values["pre-push"] && failed(report)) countPrePushFailure();
   }
 
   const yaml = toYaml(report);
+  if (target === undefined) {
+    mkdirSync(dirname(REPORT), { recursive: true });
+    writeFileSync(REPORT, yaml);
+  }
   if (values.report !== undefined) writeFileSync(values.report, yaml);
   if (report.findings.length > 0) {
     process.stdout.write(yaml);
@@ -298,10 +377,16 @@ async function check(args: string[]): Promise<number> {
 async function main(argv: string[]): Promise<number> {
   const [command, ...rest] = argv;
   switch (command) {
+    case "changes":
+      return changes(rest);
     case "check":
       return check(rest);
     case "create":
       return create(rest);
+    case "hooks":
+      return installHooks(rest);
+    case "update":
+      return update(rest);
     case "-h":
     case "--help":
       process.stdout.write(USAGE);
@@ -325,8 +410,14 @@ try {
   if (error instanceof UsageError || parseError) {
     process.stderr.write(`lernapps: ${error.message}\n\n${USAGE}`);
     process.exitCode = 2;
+  } else if (error instanceof ChangesConfigError) {
+    process.stderr.write(`lernapps: ${error.message}\n`);
+    process.exitCode = 1;
   } else if (error instanceof CreateError) {
     process.stderr.write(`lernapps create: ${error.message}\n`);
+    process.exitCode = 1;
+  } else if (error instanceof UpdateError) {
+    process.stderr.write(`lernapps update: ${error.message}\n`);
     process.exitCode = 1;
   } else {
     throw error;

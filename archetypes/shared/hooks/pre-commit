@@ -1,4 +1,19 @@
 # The pre-commit hook of every lernapps app (installed by the preset): formats and fixes the staged files, then runs
-# the fast part of the checks (format, lint, type check), the first half of what CI runs.
-vp staged
-lernapps check --pre-commit
+# the fast part of the checks (format, lint, type check), the first half of what CI runs. npm install installs both
+# hooks through the app's prepare script, as the generator writes it: lernapps hooks (archetypes/shared/install-hooks.ts)
+# Quiet: everything the steps print goes to the log below. On success the hook prints nothing; on a failure it prints
+# one line: the step, its exit code and the log, which holds the full output. CI runs the same command and prints it.
+log=node_modules/.cache/lernapps/pre-commit.log
+mkdir -p "$(dirname "$log")"
+: >"$log"
+step() {
+  name=$1
+  shift
+  echo "\$ $*" >>"$log"
+  "$@" >>"$log" 2>&1 && return 0
+  code=$?
+  echo "lernapps pre-commit: $name failed (exit $code); the full output is in $log" >&2
+  exit "$code"
+}
+step "format and fix the staged files (vp staged)" vp staged
+step "the fast checks (lernapps check --pre-commit)" lernapps check --pre-commit

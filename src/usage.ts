@@ -1,2 +1,162 @@
+// The usage texts and options of the CLI `lernapps`: the one place where its commands, options, exit codes and
+// behaviour are described for its users. The docs (README, architecture) describe responsibilities and link here;
+// test/cli.test.ts checks that the help names every option the parser accepts.
+import type { ParseArgsOptionsConfig } from "node:util";
+
 /** A command was called wrongly: the CLI prints the message and the usage, and exits 2. */
 export class UsageError extends Error {}
+
+export const USAGE = `Usage: lernapps <command> [options]
+
+Commands:
+  changes [--staged | --pushed | --ci]            what a change can affect: none, docs or all
+  check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
+  create --archetype <name> [<dir>]               write a new app from the archetype's template
+  hooks                                           install the app's git hooks (the app's prepare script)
+  update                                          move the app to the runtime and tooling this tooling pins
+
+Options:
+  -h, --help      print this help
+  -v, --version   print the version
+
+Run "lernapps <command> --help" for the options of a command. Exit codes: 0 on success, 1 when a check fails or
+the app cannot be created, 2 on a usage error.
+
+The package @lernapps/tooling is installed from git, not from npm. Before it is installed, run a command with
+  npx --yes github:lernapps/tooling#main <command> ...
+In an app, it is a development dependency at a commit: npx lernapps <command> ...
+`;
+
+/** The options of `lernapps check`, as node:util parseArgs takes them. */
+export const CHECK_OPTIONS = {
+  "pre-commit": { type: "boolean", default: false },
+  "pre-push": { type: "boolean", default: false },
+  entry: { type: "string" },
+  report: { type: "string" },
+  help: { type: "boolean", short: "h", default: false },
+} as const satisfies ParseArgsOptionsConfig;
+
+export const CHECK_USAGE = `Usage: lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--report <file>]
+
+Runs every check that has something to check. Passing, it prints one line; otherwise the validation report in
+YAML (schema: https://lernapps.net/tooling/schemas/validation-report.v1.schema.json). Every finding names its
+rule id and severity, where, what was found and how to fix it, and links its rule.
+
+Exit codes: 0 when no rule of severity error fails, 1 when one does, 2 on a usage error.
+
+In a repo (no <dir|url>):
+  --pre-commit     the fast part: format, lint, type check (the pre-commit hook)
+  --pre-push       the heavy part: unit tests, build (vp build for an app with index.html, else vp pack),
+                   checks of the built app in dist/, the Playwright tests when playwright.config.* exists,
+                   dependency licences (the pre-push hook); a failure increments prePushFailures in the front
+                   matter of .vibe/plan.md. A failing generic test of the archetype's runtime
+                   (@lernapps/app-templates) is named as a test of the template, with where to report it
+  Without a flag, or with both, it runs both parts (CI): the hooks together run exactly what CI runs.
+  Each hook part first asks lernapps changes what the change can affect (the staged files before a commit, the
+  pushed commits before a push): a change of only the plan (.vibe/**) checks nothing; a change of only docs
+  (docs/**/*.md) and the plan checks nothing in an app, whose bundle has no docs, and before a push builds and
+  checks the site in a repo with one (npm run build, then npm run check:site in the tooling, npm run check in a
+  site). Then it prints one line and writes no report. Anything else, or changed files it cannot know, runs the
+  part. CI decides the same in the app check action (lernapps changes --help).
+  Every run in a repo also writes the full report to node_modules/.cache/lernapps/validation-report.yaml,
+  passing or not; the app check action keeps it.
+
+On a built app, without its repo:
+  <dir>            a bundle (a directory with index.html), served on 127.0.0.1
+  <url>            an app on the web
+
+The checks of a built app open its pages in Chromium, as a learner would, without a click; a link that only
+changes the query string is the same page. Requests to other hosts are blocked and recorded.
+  On a bundle   every page: first those reachable by links from the start page, then every other .html file,
+                which is a finding of pages-reachable (unreachable from the start page). Not pages: 404.html at
+                the root (the host's page for missing addresses) and a file without <!doctype html>. A page with
+                <meta name="robots" content="noindex"> is checked, but no link needs to reach it.
+  On a URL      the pages reachable by links, at most 100: a check of a deployed app stays within minutes and
+                asks its host a bounded number of times. When it stops there, a hint of pages-reachable says how
+                many pages it checked and that further pages were not visited; check the bundle for all of them.
+A page takes about a second; four are visited at a time, about 0.3 s per page: 120 pages in about 40 s.
+Chromium is downloaded on the first run and cached; where no browser can run, the report says so.
+A link whose server answers 429 (rate limited) is asked again after a short wait, at most a few seconds; still
+limited, it is a finding of severity hint that names the link: not checked, nothing failed.
+
+Options:
+  --entry <file>   check a catalog entry (YAML) against the app: its URL and topic links resolve, the fitness
+                   values match; without <dir|url> the app at the entry's url is checked
+  --report <file>  also write the full report to <file>, passing or not
+  -h, --help       print this help
+
+`;
+/** The options of `lernapps changes`, as node:util parseArgs takes them. */
+export const CHANGES_OPTIONS = {
+  staged: { type: "boolean", default: false },
+  pushed: { type: "boolean", default: false },
+  ci: { type: "boolean", default: false },
+  base: { type: "string" },
+  head: { type: "string" },
+  help: { type: "boolean", short: "h", default: false },
+} as const satisfies ParseArgsOptionsConfig;
+
+export const CHANGES_USAGE = `Usage: lernapps changes [--staged | --pushed | --ci | --base <rev> [--head <rev>] | <path>...]
+
+Prints the change scope of a change: what it can affect, and so what the hooks and CI run for it.
+  none   every changed file is the plan: .vibe/**. Nothing runs
+  docs   every changed file is docs, docs/**/*.md, or the plan. Only the site's checks and deployment run; an
+         app has no site (its bundle holds no docs), so nothing runs
+  all    anything else, also when the changed files are not known, or none are. Everything runs
+
+"Docs" are only Markdown files below docs/ (docs/**/*.md). README.md, AGENTS.md and every other path are not
+docs. The lists of none and docs are allowlists: every other path is all, so a new folder never causes a skip.
+
+Where the changed files come from (one source):
+  --staged         the staged files (the pre-commit hook)
+  --pushed         the pushed commits, from git's lines on standard input (the pre-push hook): each ref against
+                   the remote's commit; a new branch against its merge base with origin/main; no lines (run by
+                   hand) or an unknown commit is all
+  --ci             the GitHub Actions event: a pull request against the merge base with its base, a push to a
+                   branch before..after; a new branch, workflow_dispatch and any other event is all. A shallow
+                   clone is deepened once when a commit is missing. Also writes the step outputs scope, kind, code
+                   (true when the code's build and tests run: scope all) and site (true when the site's checks and
+                   deployment run) to GITHUB_OUTPUT, and a notice when something is skipped
+  --base <rev>     what --head (default HEAD) adds to its merge base with <rev>
+  <path>...        these paths, relative to the repo root
+Without a source the changed files are not known: all.
+
+The kind of repo decides what docs runs: app (index.html at the root), tooling (the package @lernapps/tooling),
+site (any other: a site or the catalog). A repo may name its kind and declare exceptions in package.json, each
+key optional, each list of path patterns relative to the repo root (** any folders, * any characters but /, a
+pattern ending in / a folder):
+  "lernapps": { "changes": { "kind": "site", "none": ["notes/**"], "docs": ["handbook/**/*.md"],
+                             "all": ["docs/generated/**"] } }
+  kind   app, tooling or site, instead of the detected one
+  none   more patterns that are plan: nothing runs for them
+  docs   more patterns that are docs
+  all    patterns that are all, also where they match none or docs
+Any other key, or a malformed value, is an error.
+
+Prints the scope (none, docs or all) on standard output and why on standard error.
+Exit codes: 0 when the scope is printed, 1 when package.json lernapps.changes is malformed, 2 on a usage error.
+
+Options:
+  -h, --help   print this help
+`;
+
+/** The options of `lernapps hooks`, as node:util parseArgs takes them. */
+export const HOOKS_OPTIONS = {
+  help: { type: "boolean", short: "h", default: false },
+} as const satisfies ParseArgsOptionsConfig;
+
+export const HOOKS_USAGE = `Usage: lernapps hooks
+
+Installs the git hooks of @lernapps/tooling (the fast part of lernapps check before a commit, the heavy part
+before a push) into the repository of the app in the current folder. Every app runs it as its prepare script, so
+npm install installs the hooks.
+
+It installs them only where the current folder is the root of its git repository. In a folder inside another
+repository, such as a template folder of lernapps/app-templates, it changes nothing and says so: that
+repository keeps its own hooks. Outside a repository it says so too: git init, then npm install again.
+
+Exit codes: 0 when the hooks are installed or deliberately not, 1 when they cannot be, 2 on a usage error.
+
+Options:
+  -h, --help   print this help
+`;

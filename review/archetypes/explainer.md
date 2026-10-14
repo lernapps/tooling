@@ -1,7 +1,6 @@
 # Review rubric: archetype explainer
 
-Many pages of explanation, pictures and exercises, every page readable without JavaScript. Judge these items after
-those of `review/rubric.md`.
+Many pages of explanation, pictures and exercises. Judge these items after those of `review/rubric.md`.
 
 ## Every topic has exercises
 

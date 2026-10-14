@@ -52,6 +52,7 @@
     "./guidance/plan-template.md": "./guidance/plan-template.md",
     "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
     "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md",
+    "./skills/lernapps-listing/SKILL.md": "./skills/lernapps-listing/SKILL.md",
     "./skills/lernapps-quiz/SKILL.md": "./skills/lernapps-quiz/SKILL.md"
   },
   "scripts": {
@@ -65,13 +66,13 @@
     "arc42": "arc42 --dir docs/arc42"
   },
   "dependencies": {
-    "@lernapps/site": "github:lernapps/lernapps.github.io#bd3ca7cd112220714f6a0db56d098253f913c4cc",
-    "axe-core": "4.13.0",
+    "axe-core": "4.14.0",
     "playwright": "1.63.0",
     "yaml": "2.9.1"
   },
   "devDependencies": {
     "@doctc/arc42": "0.36.1",
+    "@lernapps/site": "github:lernapps/lernapps.github.io#150e5fe1f7a28d3567a502995eaefc3839301bb0",
     "@types/node": "22.20.5",
     "ajv": "8.20.0",
     "vite-plus": "1.0.0"
@@ -92,7 +93,7 @@
   },
   "appTemplates": {
     "repository": "https://github.com/lernapps/app-templates.git",
-    "commit": "6c21e766f4fc6d19beeb907708c89efb10231530",
+    "commit": "a876fb98628d1bf916af923c1bc8399f15fd49f9",
     "archetypes": [
       "quiz"
     ]
