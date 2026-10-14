@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "base": {
+    "label": "63b4baeb1f373dc027c4f23f2832638a99a9d3ad",
+    "commit": "63b4baeb1f373dc027c4f23f2832638a99a9d3ad"
+  },
+  "head": {
+    "label": "6ba5a7f2526291291bc39a4c9e00d5fd7dcd44bd"
+  },
+  "acceptanceBase": "63b4baeb1f373dc027c4f23f2832638a99a9d3ad",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/12-glossary.arc42.md",
+      "line": 32,
+      "elementId": "term-checkpoint",
+      "message": "Block 'term-checkpoint' changed without changing its section prose."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "line": 32,
+        "elementId": "term-checkpoint",
+        "message": "Block 'term-checkpoint' changed without changing its section prose."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "term-checkpoint",
+        "kind": "glossary-term",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "definition",
+            "before": "A point in the plan where the assistant stops for the creator's decision - confirming the plan, publishing, listing.",
+            "after": "A point in the plan where the assistant stops for the creator's decision - confirming the research, the plan with its content method, publishing, listing."
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 32
+        },
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 32
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Checkpoint"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "rs-new-app-sequence",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "sequenceDiagram\n    participant creator as Creator\n    participant assistant as Assistant\n    participant guidance as Agent instructions and plan\n    participant generator as Generator\n    participant templates as Templates\n    participant skills as Skills\n    participant hooks as Git hooks\n    participant check as Check CLI\n    participant ci as App check action\n    participant publish as App publish\n    participant listing as Listing validation\n    assistant->>guidance: read the agent instructions, start the plan\n    assistant->>creator: Explore: purpose, learners, what the entry needs\n    creator->>assistant: answers, confirms the plan\n    assistant->>generator: create the app from the archetype\n    generator->>templates: copy the archetype folder\n    assistant->>skills: load the skills of the archetype and topic\n    assistant->>hooks: commit\n    hooks->>check: fast part of the check\n    assistant->>hooks: push\n    hooks->>check: heavy part of the check, with end-to-end tests\n    check-->>assistant: messages, or ok\n    assistant->>ci: pull request in the app repo\n    ci->>check: the same check, both parts\n    assistant->>creator: checkpoint: publish\n    assistant->>ci: merge to the main line\n    ci->>publish: the checked bundle\n    publish->>publish: check the hosting setup, deploy, wait for the address\n    publish-->>assistant: the address, or what to fix\n    assistant->>creator: the address, then checkpoint: list\n    assistant->>listing: entry from plan and report, pull request to lernapps/apps",
+            "after": "sequenceDiagram\n    participant creator as Creator\n    participant assistant as Assistant\n    participant guidance as Agent instructions and plan\n    participant generator as Generator\n    participant templates as Templates\n    participant skills as Skills\n    participant hooks as Git hooks\n    participant check as Check CLI\n    participant ci as App check action\n    participant publish as App publish\n    participant listing as Listing validation\n    assistant->>guidance: read the agent instructions, start the plan\n    assistant->>creator: Explore: purpose, learners, what the entry needs\n    assistant->>creator: checkpoint: research, explained\n    creator->>assistant: answers, confirms the plan and the content method\n    assistant->>generator: create the app from the archetype\n    generator->>templates: copy the archetype folder\n    assistant->>skills: load the skills of the archetype and topic\n    assistant->>hooks: commit\n    hooks->>check: fast part of the check\n    assistant->>hooks: push\n    hooks->>check: heavy part of the check, with end-to-end tests\n    check-->>assistant: messages, or ok\n    assistant->>ci: pull request in the app repo\n    ci->>check: the same check, both parts\n    assistant->>creator: checkpoint: publish\n    assistant->>ci: merge to the main line\n    ci->>publish: the checked bundle\n    publish->>publish: check the hosting setup, deploy, wait for the address\n    publish-->>assistant: the address, or what to fix\n    assistant->>creator: the address, then checkpoint: list\n    assistant->>listing: entry from plan and report, pull request to lernapps/apps"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 24
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 24
+        }
+      }
+    ],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/06-runtime-view.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
