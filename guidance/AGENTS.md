@@ -19,6 +19,14 @@ checkpoints.
 5. The repo's default branch must be `main`, or update pull requests miss what is published. Once `main` is pushed,
    set it: `gh repo edit --default-branch main`, or a repository admin clicks Settings → General → Default branch.
 
+## Content
+
+- In Explore: if `.agents/skills/app-content/SKILL.md` is filled in, load it first and follow it; it takes
+  precedence over the generic skills. Otherwise load the skill `lernapps-content-research`.
+- Once the creator has confirmed the plan, fill in `app-content` with precise, concrete instructions before you build.
+- Whenever a content decision changes (a new pattern, a figure type, a source rule), update `app-content` in the same
+  commit. The plan records one run; `app-content` is the standing guide for the agents after you.
+
 ## Language
 
 - Texts for learners, teachers and parents: German, in plain language.

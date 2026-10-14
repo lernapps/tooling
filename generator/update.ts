@@ -6,7 +6,8 @@
 // commit of app-templates: the generator's tests run the templates and the runtime of that commit with this tooling,
 // so the pair is known to work together, and a fix of the runtime reaches the tooling's main with its pin.
 // It never moves the runtime back: a commit newer than the pin (Renovate moves the runtime too) stays, and so does one
-// whose order it cannot tell (git fetches only the two commits, without their files). Run from a clone of the tooling,
+// whose order it cannot tell (git fetches only the two commits, without their files). An app made before the generator
+// wrote the content guide gets its skeleton (generator/create.ts). Run from a clone of the tooling,
 // it has no commit to move the tooling and the actions to: it says so and exits 1.
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -15,6 +16,7 @@ import { join } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
 import {
+  addContentGuide,
   commitOf,
   fromPackage,
   installedSpec,
@@ -40,6 +42,8 @@ runtime @lernapps/app-templates and @lernapps/tooling to git commits, so npm upd
                            (e.g. from Renovate) is kept, and so is one whose order git cannot tell; it says so
   @lernapps/tooling        to the commit npx installed this tooling from (unchanged when run from the app)
   .github/workflows/       the actions of lernapps/tooling at that same commit
+  .agents/skills/app-content/SKILL.md
+                           the content guide's skeleton, where the app has none yet (and its link for Claude Code)
 
 Run it from the latest tooling, in the app's folder, e.g. to pick up a fixed runtime:
   ${LATEST}
@@ -208,6 +212,9 @@ export function update(args: string[]): number {
     if (changed.length > 0)
       lines.push(`the actions of lernapps/tooling in ${changed.join(", ")}: ${commit.slice(0, 7)}`);
   }
+  // an app made before the generator wrote the content guide gets its skeleton
+  const guide = addContentGuide(".");
+  lines.push(...guide.map((line) => `content guide: ${line}`));
   process.stdout.write(`${lines.map((line) => `lernapps update: ${line}`).join("\n")}\n`);
   if (notMoved.length > 0) {
     throw new UpdateError(
@@ -215,7 +222,7 @@ export function update(args: string[]): number {
     );
   }
   process.stdout.write(
-    "Next: npx lernapps check, then commit package.json, package-lock.json and .github/workflows/\n",
+    `Next: npx lernapps check, then commit package.json, package-lock.json and .github/workflows/${guide.length > 0 ? ", .agents/ and .claude/" : ""}\n`,
   );
   return 0;
 }

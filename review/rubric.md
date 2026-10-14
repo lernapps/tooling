@@ -104,6 +104,19 @@ template's comments only, or a statement the history contradicts (e.g. no failed
 above 0). An app without a plan file was not built with the tooling: judge nothing here. Each place listed under
 "Where I had to guess" is a gap in the guidance: propose a rule for it where one would have helped.
 
+## Content guide matches the app
+
+```rubric
+id: app-content-matches
+```
+
+Read the content guide `.agents/skills/app-content/SKILL.md` next to the content in the repo and the bundle. The check
+already decided that it exists with its headings and no placeholder (`app-content-guide`). A finding: a pattern the
+guide names that no exercise uses, or exercises of a kind it does not name; competencies, chapters, pages or rounds
+that differ from the content; a procedure for a new chapter or round that names files or steps the app no longer
+has; or text too vague for a follow-up agent to act on ("use good exercises") where it should name files, ids and an
+example. Quote the part of the guide. An app without a plan file was not built with the tooling: judge nothing here.
+
 ## Support for correct content
 
 ```rubric

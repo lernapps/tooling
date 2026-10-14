@@ -423,6 +423,28 @@ addresses: qg-simple-to-build
 :::
 ```
 
+## Each app keeps its own content guide
+
+**Context:** the content decisions of a first run (curriculum, competencies, exercise patterns, figures, sources)
+live in the plan and the conversation; an agent who extends the app later sees neither, and generic guidance cannot
+know them. **Decision:** every app keeps its content decisions in a content guide in its repo, an app-local skill with
+fixed parts. The generator starts it, the assistant fills it once the creator has confirmed the plan and changes it
+with every content decision; it takes precedence over the generic content skills, which stay independent of the
+archetype. The check asks only that the guide exists and is filled once the app has content; whether it says what
+was built is judged by the review. A check of its freshness would be too noisy. **Consequences:** a follow-up agent
+starts from the app's own decisions; the plan stays the record of one run; a stale guide is found by the review, not
+by the hooks.
+
+```arc42
+:::decision
+id: dec-app-content-guide
+title: Each app keeps its own content guide
+status: accepted
+date: 2026-10-14
+addresses: qg-guidance-evolves, qg-few-iterations, qg-any-assistant
+:::
+```
+
 ## The tooling sends nothing
 
 **Context:** sessions that never reach a listing stay invisible, but the platform collects nothing in secret.

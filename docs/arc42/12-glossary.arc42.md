@@ -36,6 +36,18 @@ definition: A point in the plan where the assistant stops for the creator's deci
 :::
 ```
 
+## Content guide
+
+Lives in the app repo, next to the plan file; the generator starts it, the assistant fills it in.
+
+```arc42
+:::glossary-term
+id: term-content-guide
+title: Content guide
+definition: The app's own decisions about its content - curriculum, competencies, structure, exercise patterns, figures, sources - as a skill that every agent working on the app's content loads first.
+:::
+```
+
 ## Creator
 
 Not "developer": most creators are not professional developers.
