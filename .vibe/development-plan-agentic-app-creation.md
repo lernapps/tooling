@@ -313,7 +313,8 @@ principles hold there (11, sketch below), before the evals (10); then 10 and 12.
 - [ ] 11 · The explainer archetype ([#19](https://github.com/lernapps/tooling/issues/19)): first an MVP based on the
   Mathe-Karte, sketched below and decided by the owner (2026-10-13). The issue's "prototype first" (Eleventy
   or Vite only) becomes the spike that opens the structure-and-blocks pull request (sketch, step 2 and Q1). Steps
-  1–5 (app-templates) are done, see Completed; next: 6 (tooling: the archetype `explainer`), 7, 8
+  1–5 (app-templates) are done, see Completed, and 6 (tooling: the archetype `explainer`, merged in #59); 7 (the
+  check at the gate) is in review; next: 8
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
@@ -807,6 +808,15 @@ Test first, end to end, on fixtures (KD-21, issue #19):
    `entry-links-resolve`. It brings back the page visit without JS that #47 removed, only for marked pages.
    *Done when* the empty-without-JS fixture and a component with an empty `nojs` text fail it, and quiz and other
    bundles are unaffected.
+   As built (in review): the visit opens a marked page a second time in one more browser context with JavaScript
+   off, shared by all marked pages, at the same time as the rest of its visit; an app without the marker gets no
+   such context. Without JavaScript, every `<details>` opened: the page's h1, each heading, `<math>` and figure
+   visible, a figure with its accessible name, each exercise with a "Lösung" that is not empty, each component's
+   `nojs` text visible and not empty. Not read: the parts the runtime fills only with JavaScript (island, live task,
+   a question's controls and reveal). It counts no formulas against the content, which a URL does not have; that
+   stays with `explainerTests()`. A topic's `#<section>` must be an element id of its page in the HTML as the server
+   sends it, without a browser. `pages-reachable` needed no change: the template, both fixtures and a bundle of two
+   language trees with chapter pages and the glossary give no finding.
 8. **A first full explainer run**, from a creator prompt to the listing, as with naturwunder-quiz; the lessons go
    into this plan. *Done when* the app is listed or each lesson is an issue. Then 10, with both archetypes.
 
