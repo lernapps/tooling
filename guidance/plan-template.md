@@ -189,7 +189,10 @@ after the push (`gh run list --workflow Pages --branch main --commit <commit>` l
       them again when they are done.
 - [ ] Set the default branch to `main`: `gh repo edit --default-branch main`, or the creator's clicks from the
       checkpoint. The run of `Pages` warns while it is another branch.
-- [ ] Open the address the job `deploy` printed ("published at ...") and confirm that it shows the app.
+- [ ] Open the address the job `deploy` printed ("published at ...", also in the run's summary) and confirm that it
+      shows the app. Take that address, never one you derive: a repo whose owner has its own domain is served there,
+      and its github.io address only redirects to it. The job ends only once the app answers at that address, so do
+      not wait for it yourself; when you open an address, follow its redirects.
 - [ ] Load the skill `lernapps-listing`.
 - [ ] Complete the entry draft with what is known now, such as the app's address.
 - [ ] **Checkpoint:** list. Ask the creator before you open the listing pull request, and wait for their yes.
