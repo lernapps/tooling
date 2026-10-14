@@ -59,11 +59,15 @@ export interface App {
   pages: PageVisit[];
   fitness: Fitness;
   bundle?: string;
+  /** Of a bundle: its pages that no link from the start page reaches (visited too, and in `pages`). */
+  unreachable?: string[];
+  /** Of an app on a URL: the visit stopped at `limit` pages; at least `more` pages linked from them were not visited. */
+  stopped?: { limit: number; more: number };
 }
 
 /** What exists for this run; anything may be missing. */
 export interface Context {
-  /** The built app, served at `base`: one visit per page reachable from its start page. */
+  /** The built app, served at `base`: one visit per page (of a bundle: every page; on a URL: up to a limit). */
   app?: App;
   /** The app's repo (`lernapps check` without a target), with its node_modules. */
   project?: string;

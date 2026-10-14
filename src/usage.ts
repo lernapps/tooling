@@ -58,9 +58,17 @@ On a built app, without its repo:
   <dir>            a bundle (a directory with index.html), served on 127.0.0.1
   <url>            an app on the web
 
-The checks of a built app open every page reachable from the start page in Chromium, as a learner would, without
-a click; a link that only changes the query string is the same page. Requests to other hosts are blocked and
-recorded. Chromium is downloaded on the first run and cached; where no browser can run, the report says so.
+The checks of a built app open its pages in Chromium, as a learner would, without a click; a link that only
+changes the query string is the same page. Requests to other hosts are blocked and recorded.
+  On a bundle   every page: first those reachable by links from the start page, then every other .html file,
+                which is a finding of pages-reachable (unreachable from the start page). Not pages: 404.html at
+                the root (the host's page for missing addresses) and a file without <!doctype html>. A page with
+                <meta name="robots" content="noindex"> is checked, but no link needs to reach it.
+  On a URL      the pages reachable by links, at most 100: a check of a deployed app stays within minutes and
+                asks its host a bounded number of times. When it stops there, a hint of pages-reachable says how
+                many pages it checked and that further pages were not visited; check the bundle for all of them.
+A page takes about a second; four are visited at a time, about 0.3 s per page: 120 pages in about 40 s.
+Chromium is downloaded on the first run and cached; where no browser can run, the report says so.
 A link whose server answers 429 (rate limited) is asked again after a short wait, at most a few seconds; still
 limited, it is a finding of severity hint that names the link: not checked, nothing failed.
 

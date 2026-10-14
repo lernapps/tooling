@@ -20,6 +20,7 @@ export const HEAVY_TESTS = [
   "test/app-check-failing.e2e.test.ts",
   "test/preset.e2e.test.ts",
   "test/check-repo.e2e.test.ts",
+  "test/check-many-pages.e2e.test.ts",
 ];
 
 /**
