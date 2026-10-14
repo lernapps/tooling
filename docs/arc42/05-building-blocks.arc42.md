@@ -160,6 +160,11 @@ The rules as the assistant reads them, and the know-how around them: one general
 skills such as third-party content, and one for listing. Each skill section that states a rule names its rule id.
 The skills reach the creator's agent harness for an app from the generator as for one built otherwise.
 
+The content skills are the know-how of what an app teaches, independent of the archetype: researching the curriculum
+and its sources, exercise patterns, and growing an app after its first version. The skill of each archetype says
+only how their results are expressed there. What one app decided about its content is that app's own: its content
+guide, which takes precedence over the content skills and stays with the app for the agents after the first run.
+
 ```arc42
 :::building-block
 id: bb-skills
@@ -188,6 +193,7 @@ protocol: Agent skills (agentskills.io)
 
 Writes a new app from the archetype's template, once the creator has confirmed the plan. It is accountable for an
 app that passes every check from the first commit and that depends on the exact version of the tooling it came from.
+It also starts the app's content guide, for the assistant to fill in.
 It runs before anything is installed. It does not build content; the assistant does. On request it also moves an
 existing app to the runtime and tooling that a newer tooling pins, so that a fix reaches the app without waiting for
 an update pull request.

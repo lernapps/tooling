@@ -248,6 +248,28 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 - **Rejected**: cross-checks between the artifacts (every implementation declared in a skill, enforcement matching
   the implementation) - they need extra metadata in every artifact and forbid a rule told and checked at once.
 
+### KD-23: Content guidance: generic content skills and the app's own content guide
+- **Decision** (2026-10-14, owner), before the next full creator run (an electricity explainer):
+  - **A.** Three archetype-neutral skills next to `lernapps-app`, exported and listed in `site/llms.txt`:
+    `lernapps-content-research` (curriculum: Land, Schulform, Jahrgang, the creator's material; the official
+    Lehrplan cited with document, page and unit; competencies as "Ich kann …", one observable skill each, grouped
+    into chapters, which is no split of the app; second sources verified by opening them, no weak matches; the
+    creator's material stays local; never guess Lehrplan units, wording or ids; on rate limits tell the creator and
+    go on), `lernapps-content-growth` (one slice per competency; a brief for parallel sub-agents; the app's guide
+    first) and `lernapps-exercise-patterns` (data files, patterns written down once and varied, a component or an
+    issue on lernapps/app-templates; never app code beyond the archetype's allowance; a catalogue
+    `references/patterns.md` adapted from the Mathe-Karte's visualisations). `lernapps-quiz` and
+    `lernapps-explainer` keep their mechanics and say how a pattern is expressed there.
+  - **B.** The generator writes `.agents/skills/app-content/SKILL.md` into every app, a skeleton with fixed headings
+    and marked placeholders, and links it for Claude Code as `.claude/skills/app-content`.
+  - **C.** `AGENTS.md` and the plan template: load the filled guide first, else `lernapps-content-research`; fill it
+    in after the plan is confirmed, before building; update it with every content decision. The plan records one
+    run; the guide stays.
+  - **D.** The rule `app-content-guide` (listing, error), checked by `lernapps check`: the guide exists with its
+    headings, and has no placeholder once the app has content, i.e. once the plan is in Commit, for both archetypes.
+    The rubric item `app-content-matches`: the guide says what was built and is concrete enough. No freshness check.
+  - **E.** The architecture at the level of responsibilities (`dec-app-content-guide`).
+
 ## Notes
 
 - **Existing building blocks**: site actions and Renovate preset (this repo); site frame with `lernapps-check`
@@ -315,6 +337,8 @@ principles hold there (11, sketch below), before the evals (10); then 10 and 12.
   or Vite only) becomes the spike that opens the structure-and-blocks pull request (sketch, step 2 and Q1). Steps
   1–5 (app-templates) are done, see Completed, and 6 (tooling: the archetype `explainer`, merged in #59); 7 (the
   check at the gate) is in review in #64; next: 8
+- [ ] Content guidance before the first explainer run (KD-23): the content skills, the app's content guide from the
+  generator, its rule and rubric item; in review
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
