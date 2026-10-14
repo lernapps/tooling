@@ -67,6 +67,7 @@ the text, options, `info`, items, pairs, unit, explanation and link titles) is a
 ```
 
 - Without `languages` the quiz is German only and its texts are strings, as before.
+- A link's `url` is one address for every language, or a map by language where each has its own page (its Wikipedia).
 - The build checks every text against the list, with one line per problem:
   `questions[1].explanation (en) (question "totes-meer"): the translation is missing; write the text as a map: { de: …, en: … }`,
   and for a language the list does not declare `… is not a language of the app; declare it in languages in src/quiz.json, or remove it`.

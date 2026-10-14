@@ -120,6 +120,7 @@ Markdown: each has its block. A link to a page of the app starts with `/` from t
 
 Bundled images go into `src/images/`; name their `source` (a URL or a citation) and `licence` (an SPDX id such as
 `CC-BY-SA-4.0`, or `gemeinfrei`).
+With more languages a citation in `source` is a language map like any text; a URL stays one string.
 
 ## Formulas
 
