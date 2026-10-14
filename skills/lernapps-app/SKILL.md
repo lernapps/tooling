@@ -90,8 +90,9 @@ scope: listing
 severity: error
 ```
 
-Give each topic the path of a page that exists, relative to the app's `url`. Check the entry against the deployed app
-with `lernapps check --entry <file>`.
+Give each topic the path of a page that exists, relative to the app's `url`; a topic that links a section of a page
+(`<page>#<section>`) names the id of an element on that page. Check the entry against the deployed app with
+`lernapps check --entry <file>`.
 
 ### `entry-fitness-matches`: Fitness values as measured
 

@@ -132,6 +132,10 @@ describe("lernapps", () => {
     for (const option of ["<dir|url>", "--entry <file>", "--report <file>"]) {
       expect(result.stdout).toContain(option);
     }
+    // the second visit without JavaScript, only of explainer pages, and the section anchors of an entry's topics
+    expect(result.stdout).toContain('<meta name="lernapps-archetype" content="explainer">');
+    expect(result.stdout).toContain("Pages without the marker get no second visit");
+    expect(result.stdout).toContain("#<section>");
   });
 
   test("check --help names no site rules: the check has no option for them", () => {
