@@ -135,8 +135,8 @@ the branch `work` until the creator says yes; the first publish creates `main`.
 The repo's default branch must be `main`: only `main` publishes, and update pull requests (Renovate) and new pull
 requests target the default branch. A repo whose first push was `work` has `work` as its default branch until it is
 changed.
-A push to `main` that changes only the plan (`.vibe/`) starts no run and publishes nothing: push the plan whenever a
-task says so. A push to `main` that changes anything else must start a run of `Pages`. If none has started a minute
+A push to `main` that changes only the plan (`.vibe/`) starts a run of `Pages` that checks and publishes nothing:
+push the plan whenever a task says so. Every push to `main` must start a run of `Pages`. If none has started a minute
 after the push (`gh run list --workflow Pages --branch main --commit <commit>` lists none), start it:
 `gh workflow run Pages --ref main`.
 -->

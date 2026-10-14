@@ -1,0 +1,93 @@
+name: Changes
+
+# The change scope of the event, for the jobs of the calling workflow to decide what runs: `lernapps changes --ci`
+# (changes/changes.ts; `lernapps changes --help` describes the map, the sources and the configuration).
+#   scope  none (only the plan, .vibe/**), docs (only docs/**/*.md and the plan) or all (anything else, a new branch,
+#          workflow_dispatch, any changed files that cannot be known)
+#   kind   app, tooling or site: what docs runs
+#   code   "true" when the build and the tests of the code run (scope all)
+#   site   "true" when the site's checks and deployment run (scope all, or docs in a repo with a site)
+# An app needs none of this: the actions app-check and app-publish ask the same classifier themselves.
+#
+# Required checks must never stay "Pending": no paths filter on the workflow (a workflow that does not start leaves
+# its required check pending forever). Instead every job is gated by the outputs here, and one final job with a fixed
+# name always runs and reports the overall result. That job is the one to require; a skipped job counts as passed,
+# a failed or cancelled one fails it, and so does a failed `changes` job (everything after it is then skipped):
+#
+#   jobs:
+#     changes:
+#       uses: lernapps/tooling/.github/workflows/changes.yml@<commit> # main
+#       with:
+#         tooling-ref: <commit> # the classifier of the same commit
+#     build:
+#       needs: changes
+#       if: needs.changes.outputs.site == 'true'
+#       runs-on: ubuntu-latest
+#       steps: [...]
+#     site: # the required check
+#       needs: [changes, build]
+#       if: always()
+#       runs-on: ubuntu-latest
+#       steps:
+#         - env:
+#             RESULTS: ${{ join(needs.*.result, ' ') }}
+#           run: |
+#             echo "the jobs ended: $RESULTS"
+#             case " $RESULTS " in *" failure "* | *" cancelled "*) exit 1 ;; esac
+#
+# The tooling's own workflows (check.yml, pages.yml, pr-preview.yml, app-check.yml, app-publish.yml) are the first
+# consumers: in this repo the classifier of the checkout itself runs, so a pull request tests its own classifier.
+on:
+  workflow_call:
+    inputs:
+      tooling-ref:
+        description: The commit (or branch) of lernapps/tooling whose classifier runs, in a repo other than the tooling
+        type: string
+        default: main
+    outputs:
+      scope:
+        description: The change scope, none, docs or all
+        value: ${{ jobs.changes.outputs.scope }}
+      kind:
+        description: The kind of the repo, app, tooling or site
+        value: ${{ jobs.changes.outputs.kind }}
+      code:
+        description: '"true" when the build and the tests of the code run (scope all)'
+        value: ${{ jobs.changes.outputs.code }}
+      site:
+        description: '"true" when the site''s checks and deployment run (scope all, or docs in a repo with a site)'
+        value: ${{ jobs.changes.outputs.site }}
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      scope: ${{ steps.changes.outputs.scope }}
+      kind: ${{ steps.changes.outputs.kind }}
+      code: ${{ steps.changes.outputs.code }}
+      site: ${{ steps.changes.outputs.site }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # the merge base of a pull request, the commit before a push
+      - if: github.repository != 'lernapps/tooling'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: lernapps/tooling
+          ref: ${{ inputs.tooling-ref }}
+          path: .lernapps-tooling
+          sparse-checkout: |
+            changes
+            src
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      - id: changes
+        run: |
+          tooling=.
+          if [ -d .lernapps-tooling ]; then tooling=.lernapps-tooling; fi
+          node "$tooling/changes/main.ts" --ci

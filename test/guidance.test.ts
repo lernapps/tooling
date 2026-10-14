@@ -81,15 +81,16 @@ describe("the plan's sections", () => {
     expect(checkpoints.join("\n")).toMatch(/confirm[\s\S]*publish[\s\S]*list/i);
   });
 
-  test("the first publish starts the workflow the generator writes, also when GitHub's paths filter skips the push", () => {
-    // pages.yml ignores pushes that change only .vibe/; a push that creates main from commits GitHub already has
-    // may show no changed paths, and then starts no run: the template has the run started by hand
+  test("the first publish starts the workflow the generator writes, also when GitHub starts no run for the push", () => {
+    // pages.yml has no paths filter (its actions skip a push of only .vibe/), but a push that creates main from
+    // commits GitHub already has may still start no run: the template has the run started by hand, as a safety net
     const workflow = parse(read("generator/app/.github/workflows/pages.yml")) as {
       name: string;
       on: Record<string, unknown>;
     };
     expect(workflow.name).toBe("Pages");
     expect(workflow.on).toHaveProperty("workflow_dispatch");
+    expect(JSON.stringify(workflow.on)).not.toContain("paths");
     const commit = section(read(TEMPLATE), "## Commit");
     expect(commit).toContain("gh run list --workflow Pages --branch main --commit");
     expect(commit).toContain("gh workflow run Pages --ref main");
