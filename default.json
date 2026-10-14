@@ -2,10 +2,32 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Renovate preset of every lernapps repo: extends: [\"github>lernapps/tooling\"]",
   "extends": ["github>mrsimpson/renovate-config"],
+  "customManagers": [
+    {
+      "description": "The commit of lernapps/tooling that a workflow hands the reusable workflow changes.yml as its input (with: tooling-ref: <commit>), next to uses: lernapps/tooling/.github/workflows/changes.yml@<commit>, which the github-actions manager updates (test/renovate.test.ts)",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/[^/]+\\.ya?ml$/"],
+      "matchStrings": ["\\btooling-ref:[ \\t]*[\"']?(?<currentDigest>[0-9a-f]{40})\\b"],
+      "depNameTemplate": "lernapps/tooling",
+      "packageNameTemplate": "https://github.com/lernapps/tooling",
+      "datasourceTemplate": "git-refs",
+      "currentValueTemplate": "main"
+    },
+    {
+      "description": "The commit of lernapps/tooling whose classifier the pre-push hook runs (export const TOOLING_REF = \"<commit>\" in scripts/pre-push.ts or scripts/pre-push.mjs), the same commit as tooling-ref in the workflows (test/renovate.test.ts)",
+      "customType": "regex",
+      "managerFilePatterns": ["/^scripts/pre-push\\.(ts|mjs)$/"],
+      "matchStrings": ["\\bTOOLING_REF[ \\t]*=[ \\t]*[\"'](?<currentDigest>[0-9a-f]{40})[\"']"],
+      "depNameTemplate": "lernapps/tooling",
+      "packageNameTemplate": "https://github.com/lernapps/tooling",
+      "datasourceTemplate": "git-refs",
+      "currentValueTemplate": "main"
+    }
+  ],
   "packageRules": [
     {
-      "description": "Our own building blocks (the site frame from lernapps.github.io, the actions in tooling) follow main at once, at any time of the week, and merge when green: they are git commits without a release date, and a change to them is meant to reach every site",
-      "matchDepNames": ["@lernapps/site", "lernapps/**"],
+      "description": "Our own building blocks (the packages @lernapps/site, @lernapps/tooling and @lernapps/app-templates, the actions and the reusable workflows in tooling, and the commit of tooling as tooling-ref and TOOLING_REF of the custom managers above) follow main at once, at any time of the week, and merge when green: they are git commits without a release date, and a change to them is meant to reach every site and app. One group, so that one pull request per repo moves every pin of the tooling commit together: each repo's tests check that they are the same commit",
+      "matchDepNames": ["@lernapps/*", "lernapps/**"],
       "minimumReleaseAge": "0 days",
       "schedule": ["at any time"],
       "automerge": true,
