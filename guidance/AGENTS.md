@@ -5,7 +5,7 @@ it with its creator.
 
 ## Always
 
-1. Keep the plan in `.vibe/plan.md`. If it does not exist, copy the template there, complete and unchanged:
+1. Keep the plan in `.vibe/plan.md`. If it does not exist, copy the template, complete and unchanged:
    `node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists, downloaded from
    <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. Then follow the plan exactly:
    read it before each step, and do what its tasks and comments say. Read every skill and guide from its file, in
