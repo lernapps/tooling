@@ -115,12 +115,17 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
     "a failing generic test of the runtime, in the real app, is named as a test of the template",
     { timeout: SLOW },
     () => {
-      // the runtime as installed, with a bug in its full run: a copy patched for this test only
-      const e2e = join(app, "node_modules/@lernapps/app-templates/dist/quiz-e2e.mjs");
-      const original = readFileSync(e2e, "utf8");
+      // the runtime as installed, with a bug in its full run: a copy patched for this test only. quizTests is in
+      // dist/quiz-e2e.mjs or in a chunk it shares with the explainer's tests
       const title = "all right answers give the full score, then the solutions show";
       const opening = `test(${JSON.stringify(title)}, async ({ page }) => {`;
-      expect(original).toContain(opening);
+      const dist = join(app, "node_modules/@lernapps/app-templates/dist");
+      const e2e = readdirSync(dist)
+        .filter((file) => file.endsWith(".mjs"))
+        .map((file) => join(dist, file))
+        .find((file) => readFileSync(file, "utf8").includes(opening));
+      if (e2e === undefined) throw new Error(`no file of ${dist} defines the test "${title}"`);
+      const original = readFileSync(e2e, "utf8");
       writeFileSync(e2e, original.replace(opening, `${opening} expect("a bug").toBe("fixed");`));
       try {
         const result = run("npx", ["--no", "--", "lernapps", "check", "--pre-push"], app);
