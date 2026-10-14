@@ -35,10 +35,12 @@ lernapps.net's own websites, and the update policy for dependencies.
 - **The package `@lernapps/tooling`**, installed from git, not from npm: the guidance, the skills, the shared preset
   and lint rules of every app, and the CLI.
 - **The CLI `lernapps`:** `create` writes a new app for an archetype, `check` checks an app the same way in its git
-  hooks and in CI, `update` moves an app to the runtime and tooling the latest tooling pins. `npx --yes github:lernapps/tooling#main --help` before an app exists, `npx lernapps --help` in one.
+  hooks and in CI, `update` moves an app to the runtime and tooling the latest tooling pins, `changes` tells what a
+  change can affect, so that hooks and CI run only that. `npx --yes github:lernapps/tooling#main --help` before an app exists, `npx lernapps --help` in one.
 - **The actions in [`actions/`](actions/):** the app check and app publish actions of every app, and the site
   actions with which lernapps.net's own websites are checked, published and previewed. Each says what it does in its
-  `action.yml`.
+  `action.yml`. The reusable workflow [`changes.yml`](.github/workflows/changes.yml) gives other workflows the
+  change scope, and its comments show how a required check never stays "Pending".
 - **The [documentation site](https://lernapps.net/tooling/):** the architecture, the rule catalog, the published
   schemas and the `llms.txt`.
 - **The review** in [`review/`](review/): the procedure and rubric of the agent that reviews an app before listing.

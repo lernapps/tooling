@@ -10,7 +10,9 @@ description: >-
   publishes from; when it cannot read the default branch, a notice says so and the deploy goes on. The logic is
   publish/publish.ts, tested by test/app-publish.e2e.test.ts. Use it in the job "deploy" of the app's pages.yml, on
   main, after the job "app" (needs: app), pinned to a commit. The job needs permissions: contents: write, pages:
-  write.
+  write. Like app-check, it first asks the change scope of the event (`lernapps changes --ci` of the action's own
+  commit): when the push changes only the plan (.vibe/**) or only docs (docs/**/*.md), app-check checked nothing
+  and this action publishes nothing; the job succeeds with a notice and the published app stays as it is.
 inputs:
   token:
     description: >-
@@ -22,8 +24,11 @@ inputs:
     default: "600"
 outputs:
   url:
-    description: The app's address
+    description: The app's address (empty when nothing was published)
     value: ${{ steps.after.outputs.url }}
+  scope:
+    description: The change scope of the event (none, docs or all); only all publishes
+    value: ${{ steps.changes.outputs.scope }}
 runs:
   using: composite
   steps:
@@ -31,22 +36,30 @@ runs:
     - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: 22
-    - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+    - id: changes
+      run: node "$GITHUB_ACTION_PATH/../../changes/main.ts" --ci
+      shell: bash
+    # Every step below runs only when the change can affect the app (output code: scope all).
+    - if: steps.changes.outputs.code == 'true'
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
       with:
         name: app
         path: _app
-    - id: before
+    - if: steps.changes.outputs.code == 'true'
+      id: before
       shell: bash
       run: node "$GITHUB_ACTION_PATH/../../publish/publish.ts" before --dir _app
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
-    - uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
+    - if: steps.changes.outputs.code == 'true'
+      uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
       with:
         branch: gh-pages
         folder: _app
         clean-exclude: pr-preview/
         force: false
-    - id: after
+    - if: steps.changes.outputs.code == 'true'
+      id: after
       shell: bash
       run: node "$GITHUB_ACTION_PATH/../../publish/publish.ts" after
       env:

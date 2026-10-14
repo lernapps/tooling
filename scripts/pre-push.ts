@@ -1,15 +1,19 @@
-// The pre-push hook of this repo (.vite-hooks/pre-push). It runs `lernapps check` (format, lint, type check, the unit
-// and the fast end-to-end tests, the build) on every push, and the heavy end-to-end tests too when the push changes a
-// path they exercise. CI runs everything, on every push: it is the superset.
+// The pre-push hook of this repo (.vite-hooks/pre-push). It first asks the change scope (changes/changes.ts, as every
+// hook does): a push of only the plan (.vibe/**) checks nothing; a push of only docs (docs/**/*.md) and the plan builds
+// and checks the docs site (npm run build, npm run check:site). Any other push runs `lernapps check` (format, lint,
+// type check, the unit and the fast end-to-end tests, the build), and the heavy end-to-end tests too when it changes
+// a path they exercise. CI runs everything a change can affect: it is the superset.
 //
 //   node scripts/pre-push.ts [<remote> [<url>]]   reads git's lines "<local ref> <local sha> <remote ref> <remote sha>"
 //
 // Quiet like the pre-commit hook: what the check prints goes to node_modules/.cache/lernapps/pre-push.log; on a
-// failure the hook prints one line naming the log. Without lines on standard input (run by hand) it runs everything.
+// failure the hook prints one line naming the log, and a push that checks less than everything says so in one line.
+// Without lines on standard input (run by hand) it runs everything.
 import { spawnSync } from "node:child_process";
-import { mkdirSync, openSync, readFileSync, writeSync } from "node:fs";
+import { mkdirSync, openSync, writeSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { classify, loadRules, matchesAny, pushedFiles, readStdin } from "../changes/changes.ts";
 
 /** The heavy end-to-end tests: each installs, generates or builds apps and runs their checks. */
 export const HEAVY_TESTS = [
@@ -20,6 +24,7 @@ export const HEAVY_TESTS = [
   "test/app-check-failing.e2e.test.ts",
   "test/preset.e2e.test.ts",
   "test/check-repo.e2e.test.ts",
+  "test/changes.e2e.test.ts",
 ];
 
 /**
@@ -29,6 +34,7 @@ export const HEAVY_TESTS = [
  */
 export const HEAVY_PATHS = [
   "src/",
+  "changes/",
   "check/",
   "generator/",
   "archetypes/",
@@ -52,57 +58,58 @@ export const HEAVY_PATHS = [
   "test/fixtures/",
 ];
 
-/** Whether a changed path is one the heavy tests exercise. */
-export const isHeavy = (path: string) =>
-  HEAVY_PATHS.some((entry) => (entry.endsWith("/") ? path.startsWith(entry) : path === entry));
-
-const ZERO = /^0+$/;
-const LOG = "node_modules/.cache/lernapps/pre-push.log";
-
-const git = (...args: string[]) => spawnSync("git", args, { encoding: "utf8" });
+/** Whether a changed path is one the heavy tests exercise (the patterns of the change scope; "/" ends a folder). */
+export const isHeavy = (path: string) => matchesAny(path, HEAVY_PATHS);
 
 /** The paths a push changes, or undefined when they cannot be known (then everything runs). */
-export function changedPaths(lines: string): string[] | undefined {
-  const refs = lines
-    .split("\n")
-    .map((line) => line.trim().split(/\s+/))
-    .filter((fields) => fields.length === 4);
-  if (refs.length === 0) return undefined;
-  const paths = new Set<string>();
-  for (const [, local = "", , remote = ""] of refs) {
-    if (ZERO.test(local)) continue; // a deleted branch
-    // a new branch: what it adds to main; else what it adds to the remote's commit
-    const base = ZERO.test(remote) ? git("merge-base", local, "origin/main").stdout.trim() : remote;
-    if (base === "" || git("cat-file", "-e", `${base}^{commit}`).status !== 0) return undefined;
-    const diff = git("diff", "--name-only", base, local);
-    if (diff.status !== 0) return undefined;
-    for (const path of diff.stdout.split("\n")) if (path !== "") paths.add(path);
+export const changedPaths = (lines: string): string[] | undefined => pushedFiles(lines);
+
+const LOG = "node_modules/.cache/lernapps/pre-push.log";
+
+/** Runs the steps one after the other into the log; the exit code of the first that fails, else 0. */
+function runLogged(log: number, steps: readonly string[][], env: NodeJS.ProcessEnv = process.env): number {
+  for (const args of steps) {
+    writeSync(log, `$ npm ${args.join(" ")}\n`);
+    const code = spawnSync("npm", args, { stdio: ["ignore", log, log], env }).status ?? 1;
+    if (code !== 0) return code;
   }
-  return [...paths];
+  return 0;
 }
 
 function main(): number {
-  let input = "";
-  try {
-    input = process.stdin.isTTY ? "" : readFileSync(0, "utf8");
-  } catch {
-    // no standard input: run everything
-  }
-  const changed = changedPaths(input);
-  const heavy = changed === undefined ? ["(the changed paths are not known)"] : changed.filter(isHeavy);
+  const changed = changedPaths(readStdin());
+  const { scope, reason } = classify(changed, loadRules("."));
   mkdirSync(dirname(LOG), { recursive: true });
   const log = openSync(LOG, "w");
+  if (scope === "none") {
+    process.stdout.write(`lernapps pre-push: nothing to check, the push changes only the plan (${reason})\n`);
+    return 0;
+  }
+  if (scope === "docs") {
+    process.stdout.write(`lernapps pre-push: the docs site only, the push changes only docs (${reason})\n`);
+    const code = runLogged(log, [
+      ["run", "--silent", "build"],
+      ["run", "--silent", "check:site"],
+    ]);
+    if (code !== 0) {
+      process.stderr.write(
+        `lernapps pre-push: the docs site's build or check failed (exit ${code}); the full output is in ${LOG}\n`,
+      );
+    }
+    return code;
+  }
+  const heavy = changed === undefined ? ["(the changed paths are not known)"] : changed.filter(isHeavy);
   writeSync(
     log,
     heavy.length > 0
       ? `lernapps pre-push: every test, for ${heavy.join(", ")}\n`
       : "lernapps pre-push: the fast tests; the push changes no path the heavy tests exercise\n",
   );
-  const result = spawnSync("npm", ["run", "--silent", "lernapps", "--", "check"], {
-    stdio: ["ignore", log, log],
-    env: heavy.length > 0 ? process.env : { ...process.env, LERNAPPS_TESTS: "fast" },
-  });
-  const code = result.status ?? 1;
+  const code = runLogged(
+    log,
+    [["run", "--silent", "lernapps", "--", "check"]],
+    heavy.length > 0 ? process.env : { ...process.env, LERNAPPS_TESTS: "fast" },
+  );
   if (code !== 0) {
     process.stderr.write(
       `lernapps pre-push: lernapps check (${heavy.length > 0 ? "every test" : "the fast tests"}) failed (exit ${code}); the full output is in ${LOG}\n`,
