@@ -11,7 +11,7 @@ import { parseArgs } from "node:util";
 import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
 import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
-import { BrowserError, bundlePages, launch, serve, URL_PAGE_LIMIT, visitApp } from "../check/visit.ts";
+import { BrowserError, bundlePages, launch, serve, urlPageLimit, visitApp } from "../check/visit.ts";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { update, UpdateError } from "../generator/update.ts";
@@ -145,7 +145,7 @@ async function visit(target: { bundle: string } | { url: string }): Promise<App>
       const base = new URL("./", target.url).href;
       const { pages, stopped } = await visitApp(browser, base, (url) => url, {
         start: target.url,
-        limit: URL_PAGE_LIMIT,
+        limit: urlPageLimit(),
       });
       return { base, pages, fitness: measure(pages, base), ...(stopped ? { stopped } : {}) };
     }

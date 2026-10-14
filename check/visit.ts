@@ -140,6 +140,14 @@ const pageOf = (url: string) => url.replace(/[?#].*$/, "");
 
 /** The most pages a check of an app on a URL visits; a bundle's pages are all visited. */
 export const URL_PAGE_LIMIT = 100;
+/**
+ * For the tooling's own tests only, not for users: LERNAPPS_TEST_URL_PAGE_LIMIT lowers the limit, so a test reaches it
+ * with a few pages (test/check-pages.e2e.test.ts). Not in the help; any other value keeps URL_PAGE_LIMIT.
+ */
+export function urlPageLimit(env: NodeJS.ProcessEnv = process.env): number {
+  const value = Number(env["LERNAPPS_TEST_URL_PAGE_LIMIT"]);
+  return Number.isInteger(value) && value > 0 ? value : URL_PAGE_LIMIT;
+}
 /** Pages visited at the same time, each in its own browser context. */
 const PARALLEL = 4;
 
