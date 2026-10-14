@@ -30,6 +30,14 @@ import {
 } from "../changes/changes.ts";
 import { ok, repoRoot, run, tempDir, testEnv } from "./support.ts";
 
+// The library runs git in this process: without the variables git sets for a hook (GIT_DIR, GIT_INDEX_FILE, ...),
+// which would point its commands at the repo being pushed when the pre-push hook runs these tests (as testEnv does
+// for the commands the tests start).
+for (const name of Object.keys(process.env)) if (name.startsWith("GIT_")) delete process.env[name];
+
+/** Tests that make git repos and run commands: generous on a machine busy with other test files. */
+const GIT = { timeout: 120_000 };
+
 const app = DEFAULTS.app;
 const scope = (files: string[] | undefined, rules: Rules = app) => classify(files, rules).scope;
 
@@ -108,7 +116,7 @@ function folder(files: Record<string, string>): string {
 }
 const manifest = (value: object) => `${JSON.stringify(value)}\n`;
 
-describe("the default map per kind and the exceptions in package.json", () => {
+describe("the default map per kind and the exceptions in package.json", GIT, () => {
   test("the kind is detected: the tooling, an app (index.html), else a site", () => {
     expect(loadRules(repoRoot).kind).toBe("tooling");
     expect(loadRules(folder({ "package.json": manifest({ name: "quiz" }), "index.html": "" })).kind).toBe("app");
@@ -188,7 +196,7 @@ function commit(dir: string, files: Record<string, string>): string {
 
 const ZEROS = "0".repeat(40);
 
-describe("where the changed files come from", () => {
+describe("where the changed files come from", GIT, () => {
   test("the staged files; a move counts both paths", () => {
     const { dir } = repo();
     writeFileSync(join(dir, ".vibe/plan.md"), "# Plan\n\nmore\n");
@@ -276,7 +284,7 @@ describe("where the changed files come from", () => {
 
 const main = join(repoRoot, "changes/main.ts");
 
-describe("lernapps changes", () => {
+describe("lernapps changes", GIT, () => {
   test("prints the scope, and why on standard error", () => {
     const result = run("node", [main, ".vibe/plan.md", "docs/a.md"], repoRoot);
     expect(result.code).toBe(0);
@@ -326,7 +334,7 @@ describe("lernapps changes", () => {
   });
 });
 
-describe("lernapps check in a hook asks the change scope first", () => {
+describe("lernapps check in a hook asks the change scope first", GIT, () => {
   const cli = join(repoRoot, "src/cli.ts");
   const check = (dir: string, part: string, input = "") =>
     spawnSync("node", [cli, "check", part], { cwd: dir, env: testEnv, input, encoding: "utf8" });
@@ -382,7 +390,7 @@ const steps = (action: string) =>
     .steps;
 const GATE = "steps.changes.outputs.code == 'true'";
 
-describe.each(["app-check", "app-publish"])("the action %s on a fake diff", (action) => {
+describe.each(["app-check", "app-publish"])("the action %s on a fake diff", GIT, (action) => {
   const all = steps(action);
   const index = all.findIndex((step) => step.id === "changes");
 
