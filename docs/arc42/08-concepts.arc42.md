@@ -96,6 +96,30 @@ category: operations
 :::
 ```
 
+## Components under a contract
+
+Content is data; code enters an app of a content archetype in one place only: a component, for what no built-in block
+can express. A component is accountable for what it does; the runtime and the tooling make sure it cannot break the
+archetype's promise:
+- it is used by a block of the content that carries its props and a text for readers without a script, so the page
+  means the same without it;
+- the runtime renders it at build and runs it only where it is used; its props are checked against its own types;
+- what it may do is narrow and the same everywhere: no network, no code or markup from strings, imports only from
+  the framework, the runtime and the tooling's helpers, browser features only once it runs, a size budget. The
+  archetype's build checks this on what it compiles, the lint rules in the editor, under the same rule ids;
+- one that is an exercise keeps its logic apart, as pure functions that the build tests over fixed seeds; every
+  component has its own test, and the check type-checks it.
+
+The explainer uses this model first; the interactive archetype is to share it.
+
+```arc42
+:::concept
+id: concept-components
+title: Components under a contract
+category: development
+:::
+```
+
 ## Stable contracts
 
 What others build on does not change silently: rule ids, the commands and options of the CLI, the inputs of the

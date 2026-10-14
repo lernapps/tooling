@@ -52,6 +52,7 @@
     "./guidance/plan-template.md": "./guidance/plan-template.md",
     "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
     "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md",
+    "./skills/lernapps-explainer/SKILL.md": "./skills/lernapps-explainer/SKILL.md",
     "./skills/lernapps-listing/SKILL.md": "./skills/lernapps-listing/SKILL.md",
     "./skills/lernapps-quiz/SKILL.md": "./skills/lernapps-quiz/SKILL.md"
   },
@@ -93,8 +94,9 @@
   },
   "appTemplates": {
     "repository": "https://github.com/lernapps/app-templates.git",
-    "commit": "a876fb98628d1bf916af923c1bc8399f15fd49f9",
+    "commit": "1af96d3783ec2200b3ec2174f8f50e925efc5958",
     "archetypes": [
+      "explainer",
       "quiz"
     ]
   }

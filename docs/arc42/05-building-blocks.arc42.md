@@ -275,9 +275,10 @@ implements: concept-terse-output, concept-traceability
 ### Lint rules
 
 The rules that can be decided on source code: no requests to other hosts, storage only through the preset's helper,
-learner texts only from the message files, and a reason for every suppression. They read syntax only, so they are
-fast enough for the editor and the commit. What they cannot see, such as a request a built page makes, the check
-finds on the built app under the same rule id.
+learner texts only from the message files, a reason for every suppression, and what a component's code may do
+(concept `concept-components`). They read syntax only, so they are fast enough for the editor and the commit. What
+they cannot see, such as a request a built page makes or a component's template, the check or the archetype's build
+finds under the same rule id.
 
 ```arc42
 :::building-block
@@ -285,7 +286,7 @@ id: bb-lint-rules
 title: Lint rules
 parent: bb-tooling-package
 technology: Oxlint JS plugin
-implements: concept-rule-catalog, concept-terse-output
+implements: concept-rule-catalog, concept-terse-output, concept-components
 :::
 ```
 
@@ -420,15 +421,22 @@ implements: concept-traceability
 
 One template per archetype, each a working app that passes every check and can be tried on its own, and the runtime
 the apps of an archetype share. A template holds only thin files and example content. The runtime holds what runs in
-the app. For the quiz, it renders every question into the page, so the page reads without a script, and runs the
-quiz in the browser with feedback after each answer. Their own tests run in their repo.
+the app. It is accountable for an archetype's promise holding by construction, from the content alone:
+- for the quiz, it renders every question into the page, so the page reads without a script, and runs the quiz in
+  the browser with feedback after each answer;
+- for the explainer, it renders every page of the content at build, readable without a script and in each of the
+  app's languages; it brings the exercises to life in the browser, the quiz's question types among them, and checks
+  and hydrates the app's own components (concept `concept-components`).
+
+Their own tests run in their repo.
 
 ```arc42
 :::building-block
 id: bb-app-templates
 title: Archetype templates and runtimes
-technology: TypeScript, Vite plugin, Playwright
+technology: TypeScript, Vite plugin, Vue, Playwright
 requires: if-archetype-preset
+implements: concept-components
 :::
 ```
 
@@ -472,6 +480,22 @@ id: if-question-bank
 title: Question bank
 provider: bb-app-templates
 protocol: JSON with a published JSON Schema
+:::
+```
+
+### Explainer content
+
+The content an explainer is made of: chapters of pages, each a list of blocks from a closed set with an exercise,
+data files, bundled images, and components where no block fits. A consumer can rely on a published schema that
+refers to the question bank's for the quiz's question types, and on the build failing with one line per problem, its
+file and place. New blocks extend the schema without changing the existing ones.
+
+```arc42
+:::interface
+id: if-explainer-content
+title: Explainer content
+provider: bb-app-templates
+protocol: YAML with a published JSON Schema; Vue single-file components
 :::
 ```
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, llms.txt, the
 # rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of
-# the review verdict and of the question bank of a quiz (schemas/; the last from lernapps/app-templates at the
-# pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
+# the review verdict, of the question bank of a quiz and of the content of an explainer (schemas/; the last two from
+# lernapps/app-templates at the pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
 #
@@ -20,15 +20,18 @@ mkdir -p _site
 cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
 mkdir -p _site/schemas
 cp check/validation-report.v1.schema.json review/verdict.v1.schema.json _site/schemas/
-# The schema of a quiz's question bank lives with the quiz's runtime in lernapps/app-templates: published from the
-# commit pinned in package.json, read from the local clone named by LERNAPPS_TEMPLATES or fetched with git.
+# The schemas of a quiz's question bank and of an explainer's content live with their runtimes in
+# lernapps/app-templates: published from the commit pinned in package.json, read from the local clone named by
+# LERNAPPS_TEMPLATES or fetched with git. The explainer's refers to the quiz's for its question exercises.
 templates_commit=$(node -p 'require("./package.json").appTemplates.commit')
 templates_repo="${LERNAPPS_TEMPLATES:-$(node -p 'require("./package.json").appTemplates.repository')}"
 templates_work=$(mktemp -d)
 trap 'rm -rf "$templates_work"' EXIT
 git init --quiet "$templates_work"
 git -C "$templates_work" fetch --quiet --depth 1 "$templates_repo" "$templates_commit"
-git -C "$templates_work" show "FETCH_HEAD:runtime/quiz/quiz.v1.schema.json" > _site/schemas/quiz.v1.schema.json
+for schema in quiz/quiz.v1.schema.json explainer/explainer.v1.schema.json; do
+  git -C "$templates_work" show "FETCH_HEAD:runtime/$schema" > "_site/schemas/$(basename "$schema")"
+done
 node scripts/rules.ts page _site/rules/index.html
 
 arc42 --dir docs/arc42 validate
