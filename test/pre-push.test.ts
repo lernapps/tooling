@@ -32,6 +32,11 @@ test("every heavy test exists, and every end-to-end test that installs or builds
   }
   const e2e = readdirSync(join(repoRoot, "test")).filter((file) => file.endsWith(".e2e.test.ts"));
   // the fast end-to-end tests: quick, and no install of an app
-  const fast = ["test/app-publish.e2e.test.ts", "test/check-app.e2e.test.ts", "test/review.e2e.test.ts"];
+  const fast = [
+    "test/app-publish.e2e.test.ts",
+    "test/check-app.e2e.test.ts",
+    "test/check-pages.e2e.test.ts",
+    "test/review.e2e.test.ts",
+  ];
   expect(e2e.map((file) => `test/${file}`).sort()).toEqual([...HEAVY_TESTS, ...fast].sort());
 });

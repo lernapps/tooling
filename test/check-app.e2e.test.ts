@@ -7,7 +7,7 @@
 //   - a link whose server answers 429 (rate limited) fails nothing: after a short, bounded backoff it is a finding of
 //     severity hint that names the link and why it could not be checked;
 //   - no site rules: an app's pages need not be readable without JavaScript.
-// In an app's repo: check-repo.e2e.test.ts.
+// In an app's repo: check-repo.e2e.test.ts. How far it visits (the limit on a URL): check-pages.e2e.test.ts.
 import { readFileSync, writeFileSync } from "node:fs";
 import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
