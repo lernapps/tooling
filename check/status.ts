@@ -19,21 +19,60 @@ function wait(retryAfter: string | null, attempt: number): number {
   return Math.min(asked, MAX_WAIT);
 }
 
-/** The status of `url` after redirects, and whether it is an HTML page; status 0 when it cannot be fetched. */
-export async function linkStatus(url: string): Promise<{ status: number; html: boolean }> {
+/**
+ * The status of `url` after redirects, and whether it is an HTML page; status 0 when it cannot be fetched. With `ids`,
+ * also the element ids of an HTML page that answers without an error, as the server sends it (no script runs).
+ */
+export async function linkStatus(
+  url: string,
+  options: { ids?: boolean } = {},
+): Promise<{ status: number; html: boolean; ids?: Set<string> }> {
   for (let attempt = 0; ; attempt++) {
     let response: Response;
+    let ids: Set<string> | undefined;
     try {
       response = await fetch(url, { redirect: "follow" });
-      await response.body?.cancel();
+      const html = (response.headers.get("content-type") ?? "").includes("html");
+      if (options.ids && html && response.ok) ids = elementIds(await response.text());
+      else await response.body?.cancel();
     } catch {
       return { status: 0, html: false };
     }
     if (response.status !== RATE_LIMITED || attempt >= RETRIES) {
-      return { status: response.status, html: (response.headers.get("content-type") ?? "").includes("html") };
+      return {
+        status: response.status,
+        html: (response.headers.get("content-type") ?? "").includes("html"),
+        ...(ids ? { ids } : {}),
+      };
     }
     await sleep(wait(response.headers.get("retry-after"), attempt));
   }
+}
+
+/** The character references an attribute value may carry, decoded. */
+const decodeReferences = (value: string) =>
+  value
+    .replace(/&#x([0-9a-f]+);/gi, (_match, hex: string) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_match, decimal: string) => String.fromCodePoint(Number(decimal)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+
+const VALUE = String.raw`\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))`;
+const ID = new RegExp(String.raw`\sid${VALUE}`, "i");
+const NAME = new RegExp(String.raw`\sname${VALUE}`, "i");
+
+/** The ids of the elements of an HTML page (`id`, and `name` of an `<a>`, which a fragment also finds). */
+export function elementIds(html: string): Set<string> {
+  const ids = new Set<string>();
+  for (const tag of html.match(/<[a-zA-Z][^>]*>/g) ?? []) {
+    for (const match of [ID.exec(tag), /^<a\s/i.test(tag) ? NAME.exec(tag) : null]) {
+      if (match) ids.add(decodeReferences(match[1] ?? match[2] ?? match[3] ?? ""));
+    }
+  }
+  return ids;
 }
 
 /** The fix of a link that could not be checked. */
