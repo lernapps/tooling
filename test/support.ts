@@ -82,6 +82,21 @@ export function tempDir(name: string): string {
 }
 
 /**
+ * The plan of `lernapps create`, as the creator confirmed it: the plan template in the phase code, for the archetype,
+ * at <dir>/.vibe/plan.md. Returns its path.
+ */
+export function confirmedPlan(dir: string, archetype: string): string {
+  const plan = join(dir, ".vibe/plan.md");
+  mkdirSync(join(dir, ".vibe"), { recursive: true });
+  const template = readFileSync(join(repoRoot, "guidance/plan-template.md"), "utf8");
+  writeFileSync(
+    plan,
+    template.replace(/^archetype: null$/m, `archetype: ${archetype}`).replace(/^phase: explore$/m, "phase: code"),
+  );
+  return plan;
+}
+
+/**
  * A fresh clone of the repo as it is now, including uncommitted changes: the files git tracks or would
  * track, copied into a new repository with one commit. No node_modules, no build output.
  */
