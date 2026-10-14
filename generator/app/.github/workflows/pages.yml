@@ -5,16 +5,16 @@ name: Pages
 # tests), and keeps its validation report as the artifact "validation-report". On main, the job `deploy` publishes
 # the bundle it checked with the app publish action: to the gh-pages branch, which GitHub Pages serves from its root
 # (Settings → Pages → Deploy from a branch → gh-pages, / (root)). It checks that setting, waits until the app's
-# address serves the new bundle, and prints the address; on a failure, its message says what to do. A push that
-# changes only the plan (.vibe/) publishes nothing again: the app it would check and deploy is the same. GitHub may
-# also start no run for a push that creates main from commits it already has (the first publish): then start it by
-# hand, Actions → Pages → Run workflow on main (gh workflow run Pages --ref main), as the plan says. Pull requests run
-# the check whatever they change: a check skipped by a paths filter stays "Pending" and blocks a pull request that
-# requires it.
+# address serves the new bundle, and prints the address; on a failure, its message says what to do. Both actions
+# first ask what the change can affect (lernapps changes): a change of only the plan (.vibe/) or only docs
+# (docs/**/*.md) checks and publishes nothing, and the jobs succeed with a notice. So the workflow runs on every push
+# and pull request, with no paths filter: a check skipped by a paths filter stays "Pending" and blocks a pull request
+# that requires it. GitHub may start no run for a push that creates main from commits it already has (the first
+# publish): then start it by hand, Actions → Pages → Run workflow on main (gh workflow run Pages --ref main), as the
+# plan says; a run started by hand checks and publishes everything.
 on:
   push:
     branches: [main]
-    paths-ignore: [".vibe/**"]
   pull_request:
   workflow_dispatch:
 

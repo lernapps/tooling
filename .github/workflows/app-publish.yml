@@ -5,7 +5,8 @@ name: App publish
 # app repo's must. With the GITHUB_TOKEN of a job that may only read, it confirms that the token reads the settings
 # and that the answers have the shape the script expects. It never deploys: this repo's gh-pages is the docs site.
 # The rest (the deploy, turning Pages on, the wait for the address) is tested locally against a fake GitHub by
-# test/app-publish.e2e.test.ts, in the pre-push hook and in check.yml.
+# test/app-publish.e2e.test.ts, in the pre-push hook and in check.yml. The change scope (changes.yml) gates the job:
+# it runs for code only. The job `app-publish` always runs and reports the result (changes.yml describes the pattern).
 on:
   push:
     branches: [main]
@@ -17,7 +18,14 @@ permissions:
   pages: read
 
 jobs:
+  changes:
+    uses: ./.github/workflows/changes.yml
+    permissions:
+      contents: read
+
   before:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -28,3 +36,14 @@ jobs:
         run: node publish/publish.ts before
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
+  app-publish: # always runs, fails when a job above failed or was cancelled
+    needs: [changes, before]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "the jobs ended: $RESULTS"
+          case " $RESULTS " in *" failure "* | *" cancelled "*) exit 1 ;; esac
