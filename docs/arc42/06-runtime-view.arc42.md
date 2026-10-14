@@ -44,7 +44,8 @@ sequenceDiagram
     participant listing as Listing validation
     assistant->>guidance: read the agent instructions, start the plan
     assistant->>creator: Explore: purpose, learners, what the entry needs
-    creator->>assistant: answers, confirms the plan
+    assistant->>creator: checkpoint: research, explained
+    creator->>assistant: answers, confirms the plan and the content method
     assistant->>generator: create the app from the archetype
     generator->>templates: copy the archetype folder
     assistant->>skills: load the skills of the archetype and topic
