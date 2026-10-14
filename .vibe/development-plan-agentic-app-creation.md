@@ -338,7 +338,7 @@ principles hold there (11, sketch below), before the evals (10); then 10 and 12.
   1–5 (app-templates) are done, see Completed, and 6 (tooling: the archetype `explainer`, merged in #59); 7 (the
   check at the gate) is in review in #64; next: 8
 - [ ] Content guidance before the first explainer run (KD-23): the content skills, the app's content guide from the
-  generator, its rule and rubric item; in review
+  generator, its rule and rubric item; in review in #66
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
