@@ -314,7 +314,7 @@ principles hold there (11, sketch below), before the evals (10); then 10 and 12.
   Mathe-Karte, sketched below and decided by the owner (2026-10-13). The issue's "prototype first" (Eleventy
   or Vite only) becomes the spike that opens the structure-and-blocks pull request (sketch, step 2 and Q1). Steps
   1–5 (app-templates) are done, see Completed, and 6 (tooling: the archetype `explainer`, merged in #59); 7 (the
-  check at the gate) is in review; next: 8
+  check at the gate) is in review in #64; next: 8
 - [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
@@ -808,7 +808,7 @@ Test first, end to end, on fixtures (KD-21, issue #19):
    `entry-links-resolve`. It brings back the page visit without JS that #47 removed, only for marked pages.
    *Done when* the empty-without-JS fixture and a component with an empty `nojs` text fail it, and quiz and other
    bundles are unaffected.
-   As built (in review): the visit opens a marked page a second time in one more browser context with JavaScript
+   As built (in review, #64): the visit opens a marked page a second time in one more browser context with JavaScript
    off, shared by all marked pages, at the same time as the rest of its visit; an app without the marker gets no
    such context. Without JavaScript, every `<details>` opened: the page's h1, each heading, `<math>` and figure
    visible, a figure with its accessible name, each exercise with a "Lösung" that is not empty, each component's
