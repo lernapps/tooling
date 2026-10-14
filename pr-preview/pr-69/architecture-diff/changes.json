@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "base": {
+    "label": "2e926afca2e16274e1bbb75973c219d31200a622",
+    "commit": "2e926afca2e16274e1bbb75973c219d31200a622"
+  },
+  "head": {
+    "label": "3022564811f30d260b5e928426ac5076f716bd1f"
+  },
+  "acceptanceBase": "2e926afca2e16274e1bbb75973c219d31200a622",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 221,
+      "elementId": "if-generator-cli",
+      "message": "Section prose changed without changing block 'if-generator-cli' — it names 'Creator', 'Skills'."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 221,
+        "elementId": "if-generator-cli",
+        "message": "Section prose changed without changing block 'if-generator-cli' — it names 'Creator', 'Skills'."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "if-generator-cli",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [
+          {
+            "term": "Creator",
+            "element": "actor-creator",
+            "source": "element"
+          },
+          {
+            "term": "Skills",
+            "element": "bb-skills",
+            "source": "element"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 220
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 221
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Generator",
+            "Generator CLI"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
