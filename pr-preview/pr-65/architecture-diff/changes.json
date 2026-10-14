@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "base": {
+    "label": "c8ed53fa1c8103765c20ab5d2acfd7604deec4a2",
+    "commit": "c8ed53fa1c8103765c20ab5d2acfd7604deec4a2"
+  },
+  "head": {
+    "label": "163c30e7b39ff82209bd12c0908d438eb89dadbe"
+  },
+  "acceptanceBase": "c8ed53fa1c8103765c20ab5d2acfd7604deec4a2",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-renovate-preset",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 728
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 729
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Platform upkeep",
+            "Renovate preset"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
