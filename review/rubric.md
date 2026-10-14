@@ -3,7 +3,7 @@
 The rules no program decides. The review agent judges each item below for every app that asks to be listed, then
 the items of the app's archetype (`review/archetypes/<archetype>.md`). It starts from the validation report: a rule
 the checks already decided is not judged again. Each item's `rubric` block names its rule id; the skill section of
-the same id (`skills/lernapps-app/SKILL.md`) says the rule's scope and severity, and a finding has that severity.
+the same id (`skills/lernapps-app/SKILL.md`, or the skill of the archetype) says the rule's scope and severity, and a finding has that severity.
 Every level-2 heading of a rubric file is an item and carries its rubric block.
 
 ## Runs in the browser, without installation

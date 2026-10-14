@@ -280,7 +280,7 @@ severity: error
 
 Every page works at 360 px width without horizontal scrolling, with every control reachable.
 
-### `learner-text-german`: German, plain language for learners
+### `learner-text-german`: German always, every declared language complete
 
 ```rule
 id: learner-text-german
@@ -289,8 +289,10 @@ severity: error
 ```
 
 Write every text for learners, teachers and parents in German, in plain language: short sentences, active voice, no
-jargon. Keep the texts in message files, not in code: in an app from an archetype, in `src/messages/de.json`, shown
-with `translator` from `@lernapps/tooling/i18n`.
+jargon. German is always there. An app may add further languages where its archetype supports them (the explainer
+and the quiz: `languages`, German first); then every text is complete in each declared language, and in no other.
+Keep the texts out of code: in the content of a deep archetype (an explainer's YAML, a quiz's question bank), or in
+message files, e.g. `src/messages/de.json`, shown with `translator` from `@lernapps/tooling/i18n`.
 
 ### `third-party-licence`: Name source and licence of others' content
 
@@ -393,16 +395,17 @@ Keep what the app must remember with `createStorage` from `@lernapps/tooling/sto
 on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. Never use
 `localStorage`, `sessionStorage`, IndexedDB or cookies directly.
 
-### `topic-has-exercises`: Every topic has exercises (explainer)
+### `topic-has-exercises`: Every page has exercises (explainer)
 
 ```rule
 id: topic-has-exercises
 scope: archetype:explainer
-severity: hint
+severity: error
 ```
 
-Give every topic page exercises that practise what it explains, on the page or one link away, each with a solution
-or feedback learners can check.
+Give every page of an explainer at least one exercise that practises what the page explains, with a solution or
+feedback learners can check; the schema requires one on every page (the start page, the chapter pages and the
+glossary are generated). The review judges whether it practises what the page explains.
 
 ### `start-page-explains`: The start page explains the app (interactive)
 
