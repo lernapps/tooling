@@ -1,6 +1,6 @@
 ---
 name: lernapps-explainer
-description: Use when you build or change an explainer for lernapps.net (archetype explainer). How the generated explainer works, what you write (the content as YAML in src/, Vue components only where no block fits), its structure, blocks, formulas, languages, exercises and components, and the rules the build checks. Load it together with lernapps-app before you write content; for questions of the quiz's types also load lernapps-quiz.
+description: Use when you build or change an explainer for lernapps.net (archetype explainer). How the generated explainer works, what you write (the content as YAML in src/, Vue components only where no block fits), its structure, blocks, formulas, languages, exercises and components, how content patterns are expressed in it, and the rules the build checks. Load it together with lernapps-app before you write content; for questions of the quiz's types also load lernapps-quiz.
 license: MIT
 ---
 
@@ -285,17 +285,20 @@ drag into place. Prefer a built-in block; it is readable without JavaScript, acc
   and the tests compare them with the nesting. Its texts come through its props from the content, not from strings
   in its code.
 
-## Page structures by subject
+## Content and exercise patterns
 
-Recommended, not required; choose the sections that fit the topic and keep them alike across pages:
-- **Maths and the sciences:** Warum, Regel, Beispiel, Übung: why it matters, the rule with its formula and a
-  figure, a worked example in an `example` box, then the exercise.
-- **History:** Quelle, Einordnung, Zeitleiste, Übung: a `quote` from a source, its context, a `timeline` from a data
-  file, then an ordering or `generated` events exercise.
-- **Biology and geography:** Überblick, Aufbau, Funktion, Übung: a `labelled-figure` of the parts, a `table` of what
-  each does, then a matching exercise.
-- **Computer science:** Idee, Beispiel, Code, Übung: the idea in prose, a worked example, a `code` block, then an
-  exercise on what the code gives.
+What the app teaches and how its pages are built is decided once, in the app's content guide
+`.agents/skills/app-content/SKILL.md`; load it first. The archetype-neutral skills say how to decide it: the skill
+`lernapps-content-research` (curriculum, competencies, sources), the skill `lernapps-exercise-patterns` (data
+files, patterns, components; with page structures and patterns by subject) and the skill `lernapps-content-growth`
+(a new chapter). In an explainer they are expressed like this:
+- a **competency** is taught and practised on a page or a section, its chapter is a chapter of the app;
+- a **content structure** is the list of sections a page has, alike across pages, with fixed ids and titles;
+- **shared material** is a data file in `src/data/`;
+- a **pattern** is a block, quiz-type exercise or `generated` exercise with fixed parts, its variation in `given` or
+  in the records it picks;
+- what the notation cannot express is a component (see Components);
+- a **new chapter** is a folder with its `chapter.yaml`, listed in `src/app.yaml`, its pages listed in it.
 
 ## The entry's topics
 

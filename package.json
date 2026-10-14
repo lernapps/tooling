@@ -52,6 +52,10 @@
     "./guidance/plan-template.md": "./guidance/plan-template.md",
     "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
     "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md",
+    "./skills/lernapps-content-growth/SKILL.md": "./skills/lernapps-content-growth/SKILL.md",
+    "./skills/lernapps-content-research/SKILL.md": "./skills/lernapps-content-research/SKILL.md",
+    "./skills/lernapps-exercise-patterns/SKILL.md": "./skills/lernapps-exercise-patterns/SKILL.md",
+    "./skills/lernapps-exercise-patterns/references/patterns.md": "./skills/lernapps-exercise-patterns/references/patterns.md",
     "./skills/lernapps-explainer/SKILL.md": "./skills/lernapps-explainer/SKILL.md",
     "./skills/lernapps-listing/SKILL.md": "./skills/lernapps-listing/SKILL.md",
     "./skills/lernapps-quiz/SKILL.md": "./skills/lernapps-quiz/SKILL.md"

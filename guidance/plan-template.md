@@ -55,6 +55,9 @@ from earlier answers. Write each answer under "Answers".
 - [ ] Ask what the app is for: what do learners do in it, and what do they learn or train?
 - [ ] Ask who the learners are: subject, school year, what they know already.
 - [ ] Ask where the content comes from: written by the creator, or taken from others (with source and licence)?
+- [ ] Research the content: load the skill `lernapps-content-research` and follow it (in an app whose
+      `.agents/skills/app-content/SKILL.md` is filled in, load that first; it takes precedence). Write the Lehrplan
+      with its citation, the competencies by chapter and the verified sources under "Notes".
 - [ ] Fetch the entry schema of the app overview: https://lernapps.net/apps/schemas/entry.v1.schema.json. Read the
       description of every property. Ask the creator what it needs to help adults (teachers, parents) find the app.
       Fill the "Entry draft" from the answers.
@@ -91,7 +94,7 @@ creator's turns from here to the listing are counted in the retrospective (targe
 
 - [ ] Write the tasks of Code under "Code": the pages or screens, the content, and what each must show. Each task
       ends in a commit.
-- [ ] Show the creator the goal, the archetype, the entry draft and the tasks, short.
+- [ ] Show the creator the goal, the archetype, the competencies by chapter, the entry draft and the tasks, short.
 - [ ] **Checkpoint:** confirm the plan. Stop and wait for the creator. Change the plan if they ask, then ask again.
 - [ ] Set `phase: code`.
 
@@ -119,6 +122,10 @@ one of them, stop and ask the creator to allow it, then run the command again. N
       everything runs from the app's own `node_modules`: `npx lernapps check`, the hooks.
 - [ ] Commit what the generator wrote, with this plan: the first commit.
 - [ ] Load the skill `lernapps-app` and the skill of the archetype.
+- [ ] Fill in the content guide `.agents/skills/app-content/SKILL.md`, which the generator wrote, from the confirmed
+      plan, before you build the content: replace every "FILL IN" with precise, concrete instructions, as its comments
+      show (the skill `lernapps-exercise-patterns` helps with its patterns). Commit it. Whenever a content decision
+      changes later, update it in the same commit: this plan records the run, the guide stays for the agents after you.
 - [ ] <the tasks written in Plan>
 - [ ] `npx lernapps check` passes.
 - [ ] Set `phase: commit`.

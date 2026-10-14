@@ -2,7 +2,8 @@
 // archetype's folder from lernapps/app-templates at the commit pinned in this package (package.json, appTemplates),
 // and makes the app depend on the runtime of that same commit (the package @lernapps/app-templates at the root of
 // that repo), so template and runtime always match. Then it writes what every app has: AGENTS.md, the plan file,
-// the workflows, LICENSE, an issue form for content errors and the Renovate configuration (generator/app/).
+// the content guide (an app-local skill), the workflows, LICENSE, an issue form for content errors and the Renovate
+// configuration (generator/app/).
 // To move the pin when app-templates changes: set appTemplates.commit in package.json to the new commit on its main
 // (and appTemplates.archetypes to its archetype folders); the generator's tests then run on that commit.
 import { spawnSync } from "node:child_process";
@@ -15,6 +16,7 @@ import {
   readdirSync,
   rmSync,
   statSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -45,7 +47,9 @@ commit of @lernapps/tooling that npx installed, and its workflows use the action
 
 It writes, besides the template: package.json named after the folder (its prepare script, lernapps hooks,
 installs the git hooks; for an explainer also vue-tsc and typescript, with which lernapps check type-checks its Vue
-components), AGENTS.md, the plan .vibe/plan.md (the one already there is kept), the workflow
+components), AGENTS.md, the plan .vibe/plan.md (the one already there is kept), the content guide
+.agents/skills/app-content/SKILL.md (a skeleton the assistant fills in; linked as .claude/skills/app-content for
+Claude Code where the system allows symbolic links), the workflow
 .github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
 publish action to the repo's GitHub Pages), an issue form for content errors, LICENSE (MIT) and renovate.json (the
 Renovate preset of lernapps).
@@ -227,6 +231,40 @@ function writeAppFiles(dir: string, values: Record<string, string>): void {
   writeFileSync(join(dir, "AGENTS.md"), readFileSync(fromPackage("guidance", "AGENTS.md")));
 }
 
+/** The app's content guide, an app-local skill: written as a skeleton, filled in by the assistant. */
+export const CONTENT_GUIDE = ".agents/skills/app-content/SKILL.md";
+/** Where Claude Code looks for the skills of a project: a relative symbolic link to the guide's folder. */
+const CONTENT_GUIDE_LINK = ".claude/skills/app-content";
+
+/**
+ * Adds the content guide's skeleton and its link where they are missing; what it did, one line per file. The link is
+ * relative, so it survives a move, a commit and a clone (git keeps it as a link). Where the system allows no symbolic
+ * link (Windows without Developer Mode) it is left out: AGENTS.md names the guide's path, which every harness reads.
+ */
+export function addContentGuide(dir: string): string[] {
+  const done: string[] = [];
+  const guide = join(dir, CONTENT_GUIDE);
+  if (!existsSync(guide)) {
+    mkdirSync(dirname(guide), { recursive: true });
+    writeFileSync(guide, readFileSync(fromPackage("generator", "app", CONTENT_GUIDE)));
+    done.push(`added ${CONTENT_GUIDE}; fill it in from the plan, as its comments say`);
+  }
+  const link = join(dir, CONTENT_GUIDE_LINK);
+  if (!existsSync(link)) {
+    try {
+      rmSync(link, { force: true }); // a dangling link
+      mkdirSync(dirname(link), { recursive: true });
+      symlinkSync("../../.agents/skills/app-content", link, "dir");
+      done.push(`linked ${CONTENT_GUIDE_LINK} to it for Claude Code`);
+    } catch (error) {
+      done.push(
+        `could not link ${CONTENT_GUIDE_LINK} (${error instanceof Error ? error.message : String(error)}); AGENTS.md names ${CONTENT_GUIDE}, which is enough`,
+      );
+    }
+  }
+  return done;
+}
+
 export function create(args: string[]): number {
   const { values, positionals } = parseArgs({
     args,
@@ -306,10 +344,12 @@ export function create(args: string[]): number {
     year: String(new Date().getFullYear()),
     holder: holder.ok && holder.out !== "" ? holder.out : "the creator of this app",
   });
+  const guide = addContentGuide(dir).filter((line) => line.startsWith("could not"));
 
   process.stdout.write(
     [
       `lernapps create: the ${archetype} app ${name} in ${dir} (app-templates ${pin.commit.slice(0, 7)})`,
+      ...guide.map((line) => `Content guide: ${line}`),
       `Next: ${existsSync(join(dir, ".git")) ? "" : "git init, "}npm install, then follow .vibe/plan.md`,
       "",
     ].join("\n"),

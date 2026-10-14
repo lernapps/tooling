@@ -1,6 +1,6 @@
 ---
 name: lernapps-quiz
-description: Use when you build or change a quiz for lernapps.net (archetype quiz), or write the quiz-type exercises of an explainer. How the generated quiz works, what you write (only the question bank src/quiz.json), its languages, and how to write good questions, options, background knowledge and links. Load it together with lernapps-app before you write questions.
+description: Use when you build or change a quiz for lernapps.net (archetype quiz), or write the quiz-type exercises of an explainer. How the generated quiz works, what you write (only the question bank src/quiz.json), its languages, how content patterns are expressed in it, and how to write good questions, options, background knowledge and links. Load it together with lernapps-app before you write questions.
 license: MIT
 ---
 
@@ -80,6 +80,19 @@ The end-to-end tests come from the runtime, not from your app. If one of them fa
 build passes), the bug is in the template, not in your questions: do what the skill `lernapps-app` says for a
 failing test of the runtime. Never change the runtime in `node_modules` either (`quiz-only-data`); go on with the
 questions.
+
+## Content and question patterns
+
+What the quiz asks and how its rounds are built is decided once, in the app's content guide
+`.agents/skills/app-content/SKILL.md`; load it first. The archetype-neutral skills say how to decide it: the skill
+`lernapps-content-research` (curriculum, competencies, verified sources), the skill `lernapps-exercise-patterns`
+(patterns by subject) and the skill `lernapps-content-growth` (a new round). In a quiz they are expressed like this:
+- a **competency** is practised by one or more questions; a **round** is the questions of one chapter of
+  competencies, next to each other in the bank;
+- the bank is the **shared material**: each fact in one question;
+- a **pattern** is a question type with a fixed form of text, options and `info`, varied over the facts of a round;
+- what the bank cannot say is no code: write it under "Where I had to guess" (`quiz-only-data`), and open an issue at
+  <https://github.com/lernapps/app-templates/issues> when other quizzes would need it too.
 
 ## Types of questions
 
