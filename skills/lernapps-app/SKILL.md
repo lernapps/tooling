@@ -314,6 +314,21 @@ severity: error
 Point every link and every resource (pictures, scripts, styles) to a page or file that the build writes. Use
 relative links inside the app.
 
+### `pages-reachable`: Every page is reachable from the start page
+
+```rule
+id: pages-reachable
+scope: listing
+severity: error
+```
+
+Link every page the build writes from the start page or from a page it leads to: learners find only what links reach,
+and the checks of the listing, which open the app at its address, check only those pages. Leave pages nobody should
+reach out of the build. A page reached another way on purpose gets
+`<meta name="robots" content="noindex">`; a `404.html` at the root is the host's page for addresses that do not exist
+and needs no link. On a URL the checks visit at most 100 pages; a hint then says so: check the bundle to check every
+page.
+
 ### `dependency-licence`: Only dependencies with an open licence
 
 ```rule

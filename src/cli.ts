@@ -11,7 +11,7 @@ import { parseArgs } from "node:util";
 import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
 import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
-import { BrowserError, launch, serve, visitApp } from "../check/visit.ts";
+import { BrowserError, bundlePages, launch, serve, urlPageLimit, visitApp } from "../check/visit.ts";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { update, UpdateError } from "../generator/update.ts";
@@ -143,17 +143,23 @@ async function visit(target: { bundle: string } | { url: string }): Promise<App>
   try {
     if ("url" in target) {
       const base = new URL("./", target.url).href;
-      const pages = await visitApp(browser, base, (url) => url, target.url);
-      return { base, pages, fitness: measure(pages, base) };
+      const { pages, stopped } = await visitApp(browser, base, (url) => url, {
+        start: target.url,
+        limit: urlPageLimit(),
+      });
+      return { base, pages, fitness: measure(pages, base), ...(stopped ? { stopped } : {}) };
     }
     const { server, base } = await serve(target.bundle, "/");
     try {
+      // the file a URL serves: a folder's index.html, with or without the slash
       const name = (url: string) => {
         const path = decodeURIComponent(url.slice(base.length));
-        return path === "" || path.endsWith("/") ? `${path}index.html` : path;
+        if (path === "" || path.endsWith("/")) return `${path}index.html`;
+        const file = join(target.bundle, path);
+        return existsSync(file) && statSync(file).isDirectory() ? `${path}/index.html` : path;
       };
-      const pages = await visitApp(browser, base, name);
-      return { base, pages, fitness: measure(pages, base), bundle: target.bundle };
+      const { pages, unreachable } = await visitApp(browser, base, name, { pages: bundlePages(target.bundle) });
+      return { base, pages, fitness: measure(pages, base), bundle: target.bundle, unreachable };
     } finally {
       server.close();
     }
