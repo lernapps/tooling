@@ -15,7 +15,8 @@
 //   - `lernapps update` moves an app on an older runtime to the commit the tooling pins, installs it and says so; a
 //     runtime newer than the pin, or one whose order it cannot tell, it keeps, and says so.
 //   - an explainer app from the same generator passes `lernapps check` as generated, `lernapps update` leaves it at
-//     the pins, and a Vue component with a type error fails the commit's part of the check in vue-tsc. Kept to that:
+//     the pins and adds the content guide to an app made before it, and a Vue component with a type error fails the
+//     commit's part of the check in vue-tsc. Kept to that:
 //     the explainer's own tests (every block, exercise and component) run in lernapps/app-templates.
 // The quiz runtime itself (the browser behaviour, the page without JavaScript, the messages for a broken bank) is
 // tested in lernapps/app-templates, where it lives: its unit tests and quizTests.
@@ -251,6 +252,18 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
     expect(result.stdout).toContain("@lernapps/app-templates: unchanged");
     expect(result.stdout).toContain("@lernapps/tooling: unchanged");
     expect(readFileSync(join(app, "package.json"), "utf8")).toBe(before);
+  });
+
+  test("lernapps update adds the content guide to an app made before it, and says so", { timeout: SLOW }, () => {
+    const guide = join(app, ".agents/skills/app-content/SKILL.md");
+    const written = readFileSync(guide, "utf8");
+    rmSync(join(app, ".agents"), { recursive: true, force: true });
+    rmSync(join(app, ".claude"), { recursive: true, force: true });
+    const result = run("npx", ["--no", "--", "lernapps", "update"], app);
+    expect(result.code, output(result)).toBe(0);
+    expect(result.stdout).toContain("content guide: added .agents/skills/app-content/SKILL.md");
+    expect(readFileSync(guide, "utf8")).toBe(written);
+    expect(readFileSync(join(app, ".claude/skills/app-content/SKILL.md"), "utf8")).toBe(written);
   });
 
   test("a Vue component with a type error fails the commit's part of the check, in vue-tsc", { timeout: SLOW }, () => {
