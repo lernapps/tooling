@@ -1,6 +1,6 @@
 // The change scope: what a change can affect, and so what the hooks and CI run for it. `lernapps changes` and the
 // hooks (lernapps check --pre-commit, --pre-push; this repo's scripts/pre-push.ts) and the actions (app-check,
-// app-publish) and the reusable workflow changes.yml ask the same function. Its usage text, with the map and the
+// app-publish, app-preview) and the reusable workflow changes.yml ask the same function. Its usage text, with the map and the
 // configuration, is CHANGES_USAGE in src/usage.ts.
 //
 //   none  every changed file is the plan (.vibe/**): nothing runs

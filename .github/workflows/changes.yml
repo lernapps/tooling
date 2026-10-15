@@ -7,7 +7,7 @@ name: Changes
 #   kind   app, tooling or site: what docs runs
 #   code   "true" when the build and the tests of the code run (scope all)
 #   site   "true" when the site's checks and deployment run (scope all, or docs in a repo with a site)
-# An app needs none of this: the actions app-check and app-publish ask the same classifier themselves.
+# An app needs none of this: the actions app-check, app-publish and app-preview ask the same classifier themselves.
 #
 # Required checks must never stay "Pending": no paths filter on the workflow (a workflow that does not start leaves
 # its required check pending forever). Instead every job is gated by the outputs here, and one final job with a fixed
