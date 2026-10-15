@@ -80,9 +80,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
   }, SLOW);
 
   test("npm install installs the hooks of the package", () => {
-    expect(ok("git", ["config", "core.hooksPath"], app).stdout.trim()).toBe(
-      "node_modules/@lernapps/tooling/archetypes/shared/hooks/_",
-    );
+    expect(ok("git", ["config", "core.hooksPath"], app).stdout.trim()).toBe("node_modules/.cache/lernapps/hooks/_");
   });
 
   test("the app depends on the commit npx installed the generator from, and its workflows use that commit's actions", () => {

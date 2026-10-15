@@ -58,8 +58,8 @@ architecture-beta
 
 The creator's computer or their assistant's sandbox. Nothing of the tooling is installed there at first, and
 nothing globally. It receives, in this order: the generator (block "Generator"), the archetype's template, then the
-package and the runtime as the app's dependencies, with the git hooks. The first check that needs a browser fetches
-one and keeps it.
+package and the runtime as the app's dependencies, with the git hooks. The first check that needs a browser uses one
+the sandbox provides, or else fetches one and keeps it.
 
 From then on, the check, the lint rules and the hooks run from the app's own dependencies. The machine needs git, Node
 and network access to GitHub and the npm registry. If a sandbox blocks them, the creator allows them; the assistant
