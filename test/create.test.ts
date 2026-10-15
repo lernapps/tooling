@@ -2,8 +2,8 @@
 // this repo with a confirmed plan, writes the template of app-templates at the pinned commit with the runtime of that
 // commit as dependency, AGENTS.md, the content guide (an app-local skill, linked for Claude Code), the workflows,
 // LICENSE and the issue form for content errors; it keeps the plan and the skills `npx skills add` installed, which
-// git ignores; it fails on an unknown archetype, on a folder that is not empty, on more than one plan, and without a
-// plan the creator confirmed for this archetype. Fast enough for every push of this repo.
+// the app commits; it fails on an unknown archetype, on a folder that is not empty, on more than one plan, and
+// without a plan the creator confirmed for this archetype. Fast enough for every push of this repo.
 // create.e2e.test.ts runs it as an assistant does, with npx from git, installs the app and checks it.
 // The templates come from a local clone of lernapps/app-templates with the pinned commit (support.ts, appTemplates).
 import {
@@ -222,7 +222,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
   });
 
   test(
-    "it keeps the plan from the conversation and the skills npx skills add installed, which git ignores",
+    "it keeps the plan from the conversation and the skills npx skills add installed, which the app commits",
     {
       timeout: SLOW,
     },
@@ -249,10 +249,17 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
       expect(readFileSync(join(dir, ".claude/skills/app-content/SKILL.md"), "utf8")).toMatch(
         /^---\nname: app-content\n/,
       );
-      // the first commit holds the content guide and its link, not the installed skills
+      // the first commit holds the installed skills with their links and lock, besides the content guide
+      expect(readFileSync(join(dir, ".gitignore"), "utf8")).not.toContain("skills");
       ok("git", ["add", "--all"], dir);
       const staged = ok("git", ["ls-files", ".agents", ".claude", "skills-lock.json"], dir).stdout.trim().split("\n");
-      expect(staged).toEqual([".agents/skills/app-content/SKILL.md", ".claude/skills/app-content"]);
+      expect(staged).toEqual([
+        ".agents/skills/app-content/SKILL.md",
+        ".agents/skills/lernapps-app/SKILL.md",
+        ".claude/skills/app-content",
+        ".claude/skills/lernapps-app",
+        "skills-lock.json",
+      ]);
     },
   );
 });

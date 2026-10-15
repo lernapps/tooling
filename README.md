@@ -37,7 +37,8 @@ lernapps.net's own websites, and the update policy for dependencies.
   and lint rules of every app, and the CLI.
 - **The CLI `lernapps`:** `create` writes a new app for an archetype once the creator confirmed the plan, `check`
   checks an app the same way in its git hooks and in CI, `update` moves an app to the runtime and tooling the latest
-  tooling pins (and an older app's single plan into `.vibe/plans/`), `changes` tells what a change can affect, so that hooks and CI run only that. `npx --yes github:lernapps/tooling#main --help` before an app exists, `npx lernapps --help` in one.
+  tooling pins and replaces the app's `lernapps-*` skills with that tooling's (and an older app's single plan into
+  `.vibe/plans/`), `changes` tells what a change can affect, so that hooks and CI run only that. `npx --yes github:lernapps/tooling#main --help` before an app exists, `npx lernapps --help` in one.
 - **The actions in [`actions/`](actions/):** the app check, app publish and app preview actions of every app, and the site
   actions with which lernapps.net's own websites are checked, published and previewed. Each says what it does in its
   `action.yml`. The reusable workflow [`changes.yml`](.github/workflows/changes.yml) gives other workflows the
