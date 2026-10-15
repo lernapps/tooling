@@ -163,7 +163,7 @@ export function runHooks(dir: string, message: string): HookRun[] {
     const log = join(dir, PRE_COMMIT_LOG);
     const printed =
       name === "pre-commit" && existsSync(log) ? `${output(result)}\n${readFileSync(log, "utf8")}` : output(result);
-    // a pre-commit hook that stops before its check (vp staged lints first) writes no report
+    // a pre-commit hook that stops before its check (vp staged formats first) writes no report
     const findings =
       name === "pre-commit" && result.code !== 0 && !existsSync(report) ? [] : readReport(report).findings;
     return { hook: name, passed: result.code === 0, printed: output(result), output: printed, findings };
