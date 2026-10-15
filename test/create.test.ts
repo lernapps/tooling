@@ -169,6 +169,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     ].map((step) => pages.indexOf(step));
     expect(check, pages).toBeGreaterThan(-1);
     expect(deploy, pages).toBeGreaterThan(check ?? Infinity);
+    expect(pages).toContain(`uses: lernapps/tooling/actions/app-preview@${commit} # main`);
     expect(pages).toContain("pages: write"); // the app publish action reads the Pages settings
     expect(pages).not.toContain("site-check");
   });
