@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "base": {
+    "label": "60f5a946f06535536a9d1b80363fc899604a87b9",
+    "commit": "60f5a946f06535536a9d1b80363fc899604a87b9"
+  },
+  "head": {
+    "label": "9c4893bd316e194baa474d3d7bf9b29667130af6"
+  },
+  "acceptanceBase": "60f5a946f06535536a9d1b80363fc899604a87b9",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "if-plan-file",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 149
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 151
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance",
+            "Plan file"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-plan-file",
+        "kind": "glossary-term",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "definition",
+            "before": "The assistant's plan in the app repo with phases, checkpoints, counters and a closing retrospective.",
+            "after": "The assistant's plan of one piece of work in the app repo, with phases, checkpoints, counters and a closing retrospective."
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 117
+        },
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 117
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Plan file"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
