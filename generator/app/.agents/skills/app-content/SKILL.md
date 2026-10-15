@@ -23,9 +23,9 @@ which curriculum, and how its content is built. The generator wrote it as a skel
 
 ## Curriculum
 
-<!-- FILL IN: Land, Schulform and Jahrgang; the Lehrplan the app follows (document, issuer, year, address), with
-the page and unit of each part the app covers; where the creator's own material differs from it, and which one the
-app follows. -->
+<!-- FILL IN: Land, Schulform and Jahrgang; the orientation for which content belongs to which grade and in which
+order, e.g. "Orientation: Lehrplan <document, issuer, year, address>, page and unit of each part" (a citation is
+welcome, not required); where the creator's own material differs from it, and which one the app follows. -->
 
 ## Competencies
 
