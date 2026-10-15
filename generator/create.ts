@@ -1,10 +1,10 @@
 // The generator, `lernapps create --archetype <name> [<dir>]`: writes a new app into an empty folder, once the creator
-// has confirmed the plan (.vibe/plan.md, in the phase code, for this archetype). It copies the archetype's folder from
-// lernapps/app-templates at the commit pinned in this package (package.json, appTemplates), and makes the app depend
-// on the runtime of that same commit (the package @lernapps/app-templates at the root of that repo), so template and
-// runtime always match. Then it writes what every app has: AGENTS.md, the plan file, the content guide (an app-local
-// skill), the workflows, LICENSE, an issue form for content errors and the Renovate configuration (generator/app/),
-// and has git ignore the skills an assistant installed with `npx skills add`.
+// has confirmed the first version's plan (.vibe/plans/01-<short name>.md, in the phase code, for this archetype). It
+// copies the archetype's folder from lernapps/app-templates at the commit pinned in this package (package.json,
+// appTemplates), and makes the app depend on the runtime of that same commit (the package @lernapps/app-templates at
+// the root of that repo), so template and runtime always match. Then it writes what every app has: AGENTS.md, the
+// plan, the content guide (an app-local skill), the workflows, LICENSE, an issue form for content errors and the
+// Renovate configuration (generator/app/), and has git ignore the skills an assistant installed with `npx skills add`.
 // To move the pin when app-templates changes: set appTemplates.commit in package.json to the new commit on its main
 // (and appTemplates.archetypes to its archetype folders); the generator's tests then run on that commit.
 import { spawnSync } from "node:child_process";
@@ -15,6 +15,7 @@ import {
   mkdtempSync,
   readFileSync,
   readdirSync,
+  renameSync,
   rmSync,
   statSync,
   symlinkSync,
@@ -24,7 +25,7 @@ import { tmpdir } from "node:os";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
-import { parse } from "yaml";
+import { LEGACY_PLAN, MIGRATED_PLAN, PLAN_NAME, PLANS, planFrontMatter, plans } from "../src/plan.ts";
 import { UsageError } from "../src/usage.ts";
 
 /** The options of `lernapps create`, as node:util parseArgs takes them. */
@@ -39,13 +40,15 @@ export const CREATE_OPTIONS = {
 export const CREATE_USAGE = `Usage: lernapps create --archetype <name> [<dir>] [--plan <file>] [--templates <repo>] [--tooling <spec>]
 
 Writes a new app from the archetype's template into <dir> (default: the current folder), which must be empty
-except for .git, the plan file .vibe/plan.md and the skills that npx skills add lernapps/tooling installed
-(.agents/skills/, .claude/skills/, skills-lock.json). The template is the folder <name>/ of lernapps/app-templates
-at the commit pinned in @lernapps/tooling; the app depends on the runtime @lernapps/app-templates of the same commit.
+except for .git, the first version's plan .vibe/plans/01-<short name>.md and the skills that npx skills add
+lernapps/tooling installed (.agents/skills/, .claude/skills/, skills-lock.json). The template is the folder <name>/
+of lernapps/app-templates at the commit pinned in @lernapps/tooling; the app depends on the runtime
+@lernapps/app-templates of the same commit.
 
-It needs the plan, confirmed by the creator: started from the plan template, worked through Explore and Plan, now
-in the phase code (phase: code in its front matter), with the same archetype as --archetype. Without it, it writes
-nothing and says what to do.
+It needs the plan of the first version, confirmed by the creator: started from the plan template as
+.vibe/plans/01-<short name>.md, the only plan there, worked through Explore and Plan, now in the phase code
+(phase: code in its front matter), with the same archetype as --archetype. A plan .vibe/plan.md of an earlier
+tooling is moved to .vibe/plans/01-first-version.md. Without a plan, it writes nothing and says what to do.
 
 Run it before anything is installed, with npx from git (the package is not on npm):
   npx --yes github:lernapps/tooling#main create --archetype <name> [<dir>]
@@ -54,7 +57,7 @@ commit of @lernapps/tooling that npx installed, and its workflows use the action
 
 It writes, besides the template: package.json named after the folder (its prepare script, lernapps hooks,
 installs the git hooks; for an explainer also vue-tsc and typescript, with which lernapps check type-checks its Vue
-components), AGENTS.md, the plan .vibe/plan.md (the one already there is kept), the content guide
+components), AGENTS.md, the plan in .vibe/plans/ (the one already there is kept), the content guide
 .agents/skills/app-content/SKILL.md (a skeleton the assistant fills in; linked as .claude/skills/app-content for
 Claude Code where the system allows symbolic links), the workflow
 .github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
@@ -68,7 +71,8 @@ Exit codes: 0 when the app is written, 1 when it cannot be (the message says why
 
 Options:
   --archetype <name>  the archetype chosen in the plan: ${"{archetypes}"}
-  --plan <file>       the confirmed plan to carry over to .vibe/plan.md (default: the one in <dir>)
+  --plan <file>       the confirmed plan to carry over to .vibe/plans/01-<short name>.md, the short name from
+                      its file name <NN>-<short name>.md, else 01-plan.md (default: the one in <dir>)
   --templates <repo>  where to fetch app-templates from: a git URL or a local clone with the pinned commit
                       (default: the environment variable LERNAPPS_TEMPLATES, else GitHub)
   --tooling <spec>    the npm spec of @lernapps/tooling the app depends on (default: the commit this
@@ -112,9 +116,9 @@ function installedSkills(dir: string): Set<string> {
 }
 
 /**
- * What is in the folder besides .git, the plan file and the skills as `npx skills add lernapps/tooling` installs them:
- * each skill of its lock file in .agents/skills/<skill>/ and, for Claude Code, .claude/skills/<skill> (a link to it,
- * or a copy with --copy).
+ * What is in the folder besides .git, the plans (src/plan.ts) and the skills as `npx skills add lernapps/tooling`
+ * installs them: each skill of its lock file in .agents/skills/<skill>/ and, for Claude Code, .claude/skills/<skill>
+ * (a link to it, or a copy with --copy).
  */
 function contents(dir: string): string[] {
   if (!existsSync(dir)) return [];
@@ -126,7 +130,11 @@ function contents(dir: string): string[] {
       .map((name) => `${folder}/${name}`);
   return readdirSync(dir).flatMap((name) => {
     if (name === ".git" || (name === SKILLS_LOCK && skills.size > 0)) return [];
-    if (name === ".vibe") return within(name, (file) => file === "plan.md");
+    if (name === ".vibe") {
+      return within(name, (file) => file === "plan.md" || file === "plans").concat(
+        existsSync(join(dir, PLANS)) ? within(PLANS, (file) => PLAN_NAME.test(file)) : [],
+      );
+    }
     if ((name === ".agents" || name === ".claude") && skills.size > 0) {
       return within(name, (folder) => folder === "skills").concat(
         existsSync(join(dir, name, "skills")) ? within(`${name}/skills`, (skill) => skills.has(skill)) : [],
@@ -231,22 +239,60 @@ export const ARCHETYPE_DEV_DEPENDENCIES: Readonly<Record<string, Readonly<Record
 
 /** Where an assistant downloads the plan template before the app exists. */
 const PLAN_TEMPLATE = "https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md";
-const START_THE_PLAN = `start the plan .vibe/plan.md from the plan template, downloaded complete and unchanged from ${PLAN_TEMPLATE}, and work through Explore and Plan with the creator first`;
+const START_THE_PLAN = `start the plan of the first version from the plan template as .vibe/plans/01-<short name>.md, downloaded complete and unchanged from ${PLAN_TEMPLATE}, and work through Explore and Plan with the creator first`;
+
+/** The plan the app is created from, and where it goes in the app. */
+interface Plan {
+  file: string;
+  target: string;
+}
 
 /**
- * The plan the app is created from: the one given, else the one in the folder. The creator has confirmed it: it is in
- * the phase code (or later), for this archetype. The front matter is read as the hooks read it (plan-front-matter).
+ * The first version's plan: the one given (carried over to .vibe/plans/01-<short name>.md), else the only one in
+ * the folder's .vibe/plans/, numbered 01, else a .vibe/plan.md of an earlier tooling (moved to
+ * .vibe/plans/01-first-version.md, as lernapps update moves it).
  */
-function confirmedPlan(dir: string, archetype: string, given: string | undefined): string {
-  const plan = given ?? join(dir, ".vibe", "plan.md");
-  if (!existsSync(plan)) throw new CreateError(`there is no plan ${plan}: ${START_THE_PLAN}`);
-  let front: unknown;
-  try {
-    front = parse(/^---\n([\s\S]*?)\n---\n/.exec(readFileSync(plan, "utf8"))?.[1] ?? "");
-  } catch {
-    front = undefined;
+function firstPlan(dir: string, given: string | undefined): Plan {
+  const found = plans(dir).map((plan) => join(dir, plan));
+  const legacy = existsSync(join(dir, LEGACY_PLAN)) ? [join(dir, LEGACY_PLAN)] : [];
+  if (given !== undefined) {
+    if (!existsSync(given)) throw new CreateError(`there is no plan ${given}: ${START_THE_PLAN}`);
+    const others = [...found, ...legacy].filter((plan) => resolve(plan) !== resolve(given));
+    if (others.length > 0) {
+      throw new CreateError(
+        `${others.join(", ")} is already there besides the plan ${given} (--plan): a new app has one plan, the first version's; remove the one that is not confirmed`,
+      );
+    }
+    const name = /^\d{2}-([^/\\]+\.md)$/.exec(basename(given))?.[1] ?? "plan.md";
+    return { file: given, target: join(dir, PLANS, `01-${name}`) };
   }
-  const values = (typeof front === "object" && front !== null ? front : {}) as Record<string, unknown>;
+  if (found.length + legacy.length > 1) {
+    throw new CreateError(
+      `there is more than one plan (${[...found, ...legacy].join(", ")}): a new app has one plan, the first version's, .vibe/plans/01-<short name>.md; keep the one the creator confirmed, or name it with --plan <file>`,
+    );
+  }
+  const [plan] = found;
+  if (plan !== undefined) {
+    if (!basename(plan).startsWith("01-")) {
+      throw new CreateError(
+        `the plan ${plan} is not numbered 01: the first version's plan is .vibe/plans/01-<short name>.md, from the plan template; rename it`,
+      );
+    }
+    return { file: plan, target: plan };
+  }
+  const [old] = legacy;
+  if (old !== undefined) return { file: old, target: join(dir, MIGRATED_PLAN) };
+  throw new CreateError(`there is no plan in ${join(dir, PLANS)}: ${START_THE_PLAN}`);
+}
+
+/**
+ * The plan the app is created from, which the creator has confirmed: it is in the phase code (or later), for this
+ * archetype. The front matter is read as the hooks read it (src/plan.ts).
+ */
+function confirmedPlan(dir: string, archetype: string, given: string | undefined): Plan {
+  const found = firstPlan(dir, given);
+  const plan = found.file;
+  const values = planFrontMatter(plan);
   const phase = values["phase"];
   if (phase === "explore" || phase === "plan") {
     throw new CreateError(
@@ -261,15 +307,15 @@ function confirmedPlan(dir: string, archetype: string, given: string | undefined
       `the plan ${plan} chose the archetype ${String(values["archetype"])}, not ${archetype} (--archetype): create the app with the archetype of the plan, or change the plan with the creator first`,
     );
   }
-  return plan;
+  return found;
 }
 
-/** The plan at .vibe/plan.md: the one in the folder, or the one given, carried over. */
-function writePlan(dir: string, plan: string): void {
-  const target = join(dir, ".vibe", "plan.md");
-  if (resolve(plan) === resolve(target)) return;
-  mkdirSync(dirname(target), { recursive: true });
-  writeFileSync(target, readFileSync(plan));
+/** The plan at its place in .vibe/plans/: the one in the folder stays, a legacy one moves, one given is copied. */
+function writePlan(dir: string, plan: Plan): void {
+  if (resolve(plan.file) === resolve(plan.target)) return;
+  mkdirSync(dirname(plan.target), { recursive: true });
+  if (resolve(plan.file) === resolve(join(dir, LEGACY_PLAN))) renameSync(plan.file, plan.target);
+  else writeFileSync(plan.target, readFileSync(plan.file));
 }
 
 /**
@@ -358,7 +404,7 @@ export function create(args: string[]): number {
   const found = contents(dir);
   if (found.length > 0) {
     throw new CreateError(
-      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, the plan file .vibe/plan.md and the skills that npx skills add lernapps/tooling installed may be there`,
+      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, the first version's plan .vibe/plans/01-<short name>.md and the skills that npx skills add lernapps/tooling installed may be there`,
     );
   }
   const plan = confirmedPlan(dir, archetype, values.plan);
@@ -408,6 +454,7 @@ export function create(args: string[]): number {
   writeJson(join(dir, "package.json"), app);
 
   const holder = git(["config", "user.name"], existsSync(dir) ? dir : process.cwd());
+  const moved = resolve(plan.file) === resolve(join(dir, LEGACY_PLAN));
   writePlan(dir, plan);
   writeAppFiles(dir, {
     tooling: commitOf(tooling) ?? commitOf(templateTooling) ?? "main",
@@ -422,7 +469,8 @@ export function create(args: string[]): number {
     [
       `lernapps create: the ${archetype} app ${name} in ${dir} (app-templates ${pin.commit.slice(0, 7)})`,
       ...guide.map((line) => `Content guide: ${line}`),
-      `Next: ${existsSync(join(dir, ".git")) ? "" : "git init, "}npm install, then follow .vibe/plan.md`,
+      ...(moved ? [`Plan: moved ${LEGACY_PLAN} to ${relative(dir, plan.target)}`] : []),
+      `Next: ${existsSync(join(dir, ".git")) ? "" : "git init, "}npm install, then follow ${relative(dir, plan.target)}`,
       "",
     ].join("\n"),
   );
