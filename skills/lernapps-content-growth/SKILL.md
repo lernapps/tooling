@@ -24,7 +24,7 @@ If the guide is not filled in, fill it in from the app as it is before you add a
 Each slice is one competency, end to end, then the next:
 
 1. **Competency:** add it to the guide's competencies, in its chapter, as "Ich kann …", with the Lehrplan unit it
-   comes from (research it as `lernapps-content-research` says).
+   comes from where you used one (research it as `lernapps-content-research` says).
 2. **Content:** the page or section that teaches it (explainer), or its questions (quiz), in the content structure
    the guide describes.
 3. **Exercise:** from a pattern of the guide, varied for this competency; or a new pattern, which you write into the
@@ -59,7 +59,7 @@ Read first, in this order: .agents/skills/app-content/SKILL.md (it takes precede
 lernapps-app and lernapps-<archetype>, and lernapps-exercise-patterns if no pattern fits.
 
 Competencies, one slice each, in this order:
-1. "Ich kann …" (Lehrplan: <document, page, unit>)
+1. "Ich kann …" (Lehrplan: <document, page, unit> | none)
    - Content: <page or questions, with ids>
    - Exercise: pattern "<name from the guide>", varied as <…> | new pattern: <what it practises>
    - Second source: <address and exact title, verified> | none
