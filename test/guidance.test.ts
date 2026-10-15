@@ -15,6 +15,8 @@ const read = (path: string) => readFileSync(file(path), "utf8");
 
 const SCHEMA = "guidance/plan-front-matter.v1.schema.json";
 const TEMPLATE = "guidance/plan-template.md";
+const INCREMENT = "guidance/increment-template.md";
+const TEMPLATES = [TEMPLATE, INCREMENT];
 const AGENTS = "guidance/AGENTS.md";
 const SKILL = "skills/lernapps-app/SKILL.md";
 const fixture = (name: string) => `test/fixtures/plans/${name}.md`;
@@ -31,12 +33,12 @@ const RETROSPECTIVE_SECTIONS = [
 ];
 
 describe("the plan's front matter", () => {
-  test("of the template validates against the schema", () => {
-    expect(frontMatterErrors(file(SCHEMA), file(TEMPLATE))).toEqual([]);
+  test.each(TEMPLATES)("of %s validates against the schema", (template) => {
+    expect(frontMatterErrors(file(SCHEMA), file(template))).toEqual([]);
   });
 
-  test("of the template starts in Explore, without an archetype, with no failed pre-push runs", () => {
-    expect(frontMatter(read(TEMPLATE))).toEqual({ archetype: null, phase: "explore", prePushFailures: 0 });
+  test.each(TEMPLATES)("of %s starts in Explore, without an archetype, with no failed pre-push runs", (template) => {
+    expect(frontMatter(read(template))).toEqual({ archetype: null, phase: "explore", prePushFailures: 0 });
   });
 
   test("of a filled plan validates against the schema", () => {
@@ -62,19 +64,19 @@ describe("the plan's front matter", () => {
 });
 
 describe("the plan's sections", () => {
-  test.each([TEMPLATE, fixture("filled")])("%s has the phases and the retrospective, in order", (plan) => {
+  test.each([...TEMPLATES, fixture("filled")])("%s has the phases and the retrospective, in order", (plan) => {
     const level2 = headings(read(plan)).filter((heading) => PLAN_SECTIONS.includes(heading));
     expect(level2).toEqual(PLAN_SECTIONS);
   });
 
-  test.each([TEMPLATE, fixture("filled")])("%s has every section the retrospective needs", (plan) => {
+  test.each([...TEMPLATES, fixture("filled")])("%s has every section the retrospective needs", (plan) => {
     const all = headings(read(plan));
     const retrospective = all.slice(all.indexOf("## Retrospective"));
     expect(retrospective).toEqual(expect.arrayContaining(RETROSPECTIVE_SECTIONS));
   });
 
-  test("the template marks the creator's checkpoints: research, confirm the plan, publish, list", () => {
-    const checkpoints = read(TEMPLATE)
+  test.each(TEMPLATES)("%s marks the creator's checkpoints: research, confirm the plan, publish, list", (template) => {
+    const checkpoints = read(template)
       .split("\n")
       .filter((line) => line.includes("**Checkpoint:**"));
     expect(checkpoints).toHaveLength(4);
@@ -117,16 +119,20 @@ describe("AGENTS.md", () => {
     expect(read(AGENTS).split(/\s+/).length).toBeLessThanOrEqual(350);
   });
 
-  test("limits pushes to `work` until the first publish only, as the plan's Commit tasks push `main`", () => {
-    const agents = read(AGENTS);
-    expect(agents).toContain("Until the first publish");
-    expect(agents).not.toMatch(/If your environment asks you to push, push `work` only;/);
+  test("leaves the branch to push to the current plan: each template names its own", () => {
+    expect(read(AGENTS)).toContain("Push only the branch the current plan names");
+    expect(read(TEMPLATE)).toContain("Work on the branch `work`");
+    expect(read(INCREMENT)).toContain("Work on the branch `increment/<NN>-<short name>`");
   });
 
-  test("points to the plan file, the template and the skill, which exist in the package", () => {
+  test("points to the plans, both templates and the skill, which exist in the package", () => {
     const agents = read(AGENTS);
-    expect(agents).toContain(".vibe/plan.md");
-    expect(agents).toContain("@lernapps/tooling/guidance/plan-template.md");
+    expect(agents).toContain(".vibe/plans/<NN>-<short name>.md");
+    expect(agents).toContain("@lernapps/tooling/guidance/");
+    for (const template of TEMPLATES) {
+      expect(agents).toContain(template.replace("guidance/", "`") + "`");
+      expect(read(template)).toMatch(/^---\n/);
+    }
     expect(agents).toContain("lernapps-app");
     expect(read(SKILL)).toMatch(/^---\nname: lernapps-app\n/);
   });

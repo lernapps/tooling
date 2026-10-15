@@ -6,7 +6,7 @@
 
 ## Quick path
 
-1. Start the plan: download the [plan template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md) into the app's folder as `.vibe/plan.md`, complete and unchanged, and read it there. It holds the whole workflow, from the first question to the listing, and names each command when it is needed. Follow it exactly.
+1. Start the plan: download the [plan template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md) into the app's folder as `.vibe/plans/01-<short name>.md`, complete and unchanged, and read it there. It holds the whole workflow, from the first question to the listing, and names each command when it is needed. Follow it exactly.
 2. Install the skills with `npx skills add lernapps/tooling`, then load the [skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md) from the installed files.
 
 Read every file this page links to in full and word for word: download it, then read the downloaded file. A fetch tool that summarises, shortens or translates a page loses its tasks, checkpoints and rules: never work from such a summary.
@@ -31,7 +31,8 @@ Every command lists its options with `--help`: `npx lernapps check --help` in an
 
 ## Guidance
 
-- [Plan template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): the workflow (Explore, Plan, Code, Commit), with the creator's checkpoints and the retrospective. Keep it as `.vibe/plan.md` and follow it exactly.
+- [Plan template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): the workflow of an app's first version (Explore, Plan, Code, Commit), with the creator's checkpoints and the retrospective. Keep it as `.vibe/plans/01-<short name>.md` and follow it exactly.
+- [Increment template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/increment-template.md): the same workflow for every later change of a published app, in a plan of its own (`.vibe/plans/<NN>-<short name>.md`), on the decisions of the first version.
 - [AGENTS.md](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/AGENTS.md): what always holds in an app repo. The generator writes it into the app.
 - [Plan front matter schema](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-front-matter.v1.schema.json): `archetype`, `phase`, `prePushFailures`.
 

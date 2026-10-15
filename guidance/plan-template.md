@@ -9,11 +9,12 @@ phase: explore
 prePushFailures: 0
 ---
 
-# Plan: <name of the app>
+# Plan: <name of the app>, first version
 
 <!--
-This file guides you, the assistant, and shows the creator where you are.
-- Keep it at .vibe/plan.md. Read it before each step.
+This file guides you, the assistant, through the first version of an app, and shows the creator where you are.
+- Keep it at .vibe/plans/01-<short name>.md. Read it before each step. Each later increment gets a plan of its own,
+  from the increment template.
 - Read each skill and page this plan names in full, from its file: a skill where `npx skills add lernapps/tooling`
   installed it, a page downloaded unchanged. Never work from the summary of a fetch tool: it loses tasks and rules.
 - Work through one phase at a time: Explore, Plan, Code, Commit. Do the tasks of the current phase in order.
@@ -134,7 +135,7 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 ### Tasks
 
 - [ ] Generate the app in the folder that holds this plan: `npx --yes github:lernapps/tooling#main create --archetype
-      <archetype>`. Nothing needs to be installed first. The generator keeps this plan at `.vibe/plan.md`.
+      <archetype>`. Nothing needs to be installed first. The generator keeps this plan where it is.
 - [ ] Run `git init --initial-branch=work` if the folder is not a git repository yet; in one, `git switch -c work` if
       you are not on `work` yet. Then run `npm install`: it installs the dependencies and the git hooks. From now on,
       everything runs from the app's own `node_modules`: `npx lernapps check`, the hooks.

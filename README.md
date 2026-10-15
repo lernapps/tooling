@@ -25,8 +25,9 @@ lernapps.net's own websites, and the update policy for dependencies.
   the plan template and every link you need.
 - **The skill [`lernapps-app`](skills/lernapps-app/SKILL.md):** the quick path and the rules every app follows.
   Install it with `npx skills add lernapps/tooling`.
-- **The [plan template](guidance/plan-template.md):** the whole workflow, from the first question to the listing. It
-  names each command at the step where it is needed.
+- **The [plan template](guidance/plan-template.md):** the whole workflow of an app's first version, from the first
+  question to the listing. It names each command at the step where it is needed. Every later change follows the
+  [increment template](guidance/increment-template.md), in a plan of its own.
 - **The [architecture](https://lernapps.net/tooling/architecture/):** what each part is responsible for and why.
 - **The [rule catalog](https://lernapps.net/tooling/rules/):** every rule by id, with where it is told and checked.
 
