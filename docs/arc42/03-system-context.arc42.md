@@ -44,6 +44,7 @@ flowchart LR
         bb-review-procedure["Review procedure"]
         bb-app-check-action["App check action"]
         bb-app-publish["App publish"]
+        bb-app-preview["App preview"]
         bb-listing-validation["Listing validation"]
         bb-renovate-preset["Renovate preset"]
     end
@@ -51,8 +52,8 @@ flowchart LR
     actor-assistant -->|"agent instructions, plan, skills, generator, check, listing comment"| tooling
     actor-review-agent -->|"review procedure, check CLI"| tooling
     actor-owner -->|"validation report, review procedure"| tooling
-    actor-github-actions -->|"app check action, app publish, check CLI"| tooling
-    actor-github-pages -->|"checked bundle from app publish"| tooling
+    actor-github-actions -->|"app check action, app publish, app preview, check CLI"| tooling
+    actor-github-pages -->|"checked bundle from app publish and app preview"| tooling
     actor-renovate -->|"update policy, package updates"| tooling
 ```
 
@@ -128,8 +129,8 @@ and the app publish action, and the listing validation in lernapps/apps, with th
 id: actor-github-actions
 title: GitHub Actions
 type: system
-description: External system; runs the app check and app publish actions in the developer's app repo and the listing validation in lernapps/apps
-requires: if-app-check-action, if-app-publish, if-check-cli
+description: External system; runs the app check, app publish and app preview actions in the developer's app repo and the listing validation in lernapps/apps
+requires: if-app-check-action, if-app-publish, if-app-preview, if-check-cli
 :::
 ```
 

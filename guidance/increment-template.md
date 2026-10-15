@@ -144,8 +144,8 @@ bundle. A pull request to `main` runs the same checks without publishing.
 
 - [ ] Push the branch and open a pull request to `main` in the app's repo. The pre-push hook runs the heavy checks;
       fix what fails. See the checks of the pull request through to green.
-- [ ] **Checkpoint:** publish. Show the creator what the increment adds, and ask before it goes online. Wait for
-      their yes.
+- [ ] **Checkpoint:** publish. Show the creator what the increment adds and the link to its preview from the comment
+      "Vorschau der App" on the pull request, and ask whether it may go online. Wait for their yes.
 - [ ] Merge the pull request into `main` (or, without a pull request, merge the branch into `main` and push `main`).
       Watch the run of the workflow `Pages` for that commit until it ends. If it fails, read the message of the
       failed step, fix what you can and push again.

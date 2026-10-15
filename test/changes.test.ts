@@ -6,7 +6,7 @@
 //   - where the changed files come from, in real git repos: the staged files, the pushed refs (an existing branch, a
 //     new branch, unknown commits), a GitHub event (a pull request, a push, a new branch, a shallow clone);
 //   - the CLI, its step outputs for GitHub Actions and its exit codes;
-//   - the actions app-check and app-publish on a fake diff: their classifier step, run as the action runs it, skips
+//   - the actions app-check, app-publish and app-preview on a fake diff: their classifier step, run as the action runs it, skips
 //     every later step for a change of only the plan or only docs, and runs them for any other change;
 //   - the reusable workflow changes.yml and the pattern of the tooling's own workflows: every job is gated by it,
 //     and one final job always runs and reports the result (actionlint checks the workflows in check.yml).
@@ -391,7 +391,7 @@ const steps = (action: string) =>
     .steps;
 const GATE = "steps.changes.outputs.code == 'true'";
 
-describe.each(["app-check", "app-publish"])("the action %s on a fake diff", GIT, (action) => {
+describe.each(["app-check", "app-publish", "app-preview"])("the action %s on a fake diff", GIT, (action) => {
   const all = steps(action);
   const index = all.findIndex((step) => step.id === "changes");
 
