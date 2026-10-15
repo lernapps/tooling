@@ -1,5 +1,14 @@
 // The contract of the CLI `lernapps`: usage, exit codes, the command structure.
-import { lstatSync, mkdirSync, readdirSync, readFileSync, readlinkSync, symlinkSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  readlinkSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { ParseArgsOptionsConfig } from "node:util";
@@ -142,7 +151,12 @@ describe("lernapps", () => {
     expect(result.stdout).toContain("lernapps update: skills: replaced lernapps-app; added ");
     expect(result.stdout).toContain("removed lernapps-gone, which this tooling no longer has");
     expect(result.stdout).toContain("lernapps update: skills: removed the lines from .gitignore");
-    for (const name of readdirSync(join(repoRoot, "skills"))) {
+    // the skills this tooling ships: skills/lernapps-*/SKILL.md (another test may plant a folder of another name)
+    const ours = readdirSync(join(repoRoot, "skills"))
+      .filter((name) => name.startsWith("lernapps-") && existsSync(join(repoRoot, "skills", name, "SKILL.md")))
+      .sort();
+    expect(ours).toContain("lernapps-app");
+    for (const name of ours) {
       const ours = readFileSync(join(repoRoot, "skills", name, "SKILL.md"), "utf8");
       expect(readFileSync(join(dir, ".claude/skills", name, "SKILL.md"), "utf8"), name).toBe(ours);
       expect(readlinkSync(join(dir, ".claude/skills", name))).toBe(`../../.agents/skills/${name}`);
@@ -153,7 +167,7 @@ describe("lernapps", () => {
     const written = JSON.parse(readFileSync(join(dir, "skills-lock.json"), "utf8")) as {
       skills: Record<string, { source: string; skillPath: string; computedHash: string }>;
     };
-    expect(Object.keys(written.skills)).toEqual(readdirSync(join(repoRoot, "skills")).sort());
+    expect(Object.keys(written.skills)).toEqual(ours);
     expect(written.skills["lernapps-app"]?.skillPath).toBe("skills/lernapps-app/SKILL.md");
     expect(written.skills["lernapps-app"]?.computedHash).toMatch(/^[0-9a-f]{64}$/);
     expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe("node_modules/\n");
