@@ -15,7 +15,8 @@ prePushFailures: 0
 This file guides you, the assistant, through one increment of an app that is already published: new competencies,
 chapters, pages, rounds or questions, or a correction. It shows the creator where you are.
 - Keep it at .vibe/plans/<NN>-<short name>.md, NN one more than the highest number there (02 after 01). The plan with
-  the highest number is the current one; the others record earlier increments: never change them.
+  the highest number is the current one; the others record earlier increments: never change them. In an app made
+  before plans per piece of work, `.vibe/plan.md` is plan 01: start this one as 02; the update in Code moves it.
 - Read each skill and page this plan names in full, from its file: a skill where `npx skills add lernapps/tooling`
   installed it, a page downloaded unchanged. Never work from the summary of a fetch tool: it loses tasks and rules.
 - The decisions of the first version stand: the archetype, the content method and the content guide
