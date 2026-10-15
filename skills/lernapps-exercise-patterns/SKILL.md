@@ -61,6 +61,30 @@ place, a value to change and watch the idea respond):
 Never write app code beyond what the archetype allows: a quiz has only its question bank (`quiz-only-data`), an
 explainer its content and components (`explainer-only-content`). Write what you missed under "Where I had to guess".
 
+## How an exercise checks success
+
+Check the property the task text asks for, never equality with one model solution: "give a fraction equal to 1/2"
+accepts 2/4 and 3/6, "name a conductor" every conductor, "a word with a long vowel" every such word; "order the steps"
+fits only where the order is fixed.
+
+Before you write an exercise, answer and note in the plan or the content guide:
+- which answers fulfil the text, including correct ones other than yours;
+- which wrong answers are typical;
+- what feedback each one gets.
+
+If the exercise type cannot accept every correct answer (an `ordering` where the order does not matter, a
+`single-choice` with two defensible options), choose another type or change the text.
+
+Feedback on a wrong answer says why:
+- every wrong option has an `info` that says why it does not fit;
+- a number or `generated` exercise lists the 2-3 most common mistakes under `mistakes`, each with its message (for
+  `generated` as expressions over the variables);
+- an optional `hint` points to where to look, without giving the answer away;
+- a component's logic returns, besides right or wrong, a short reason for a wrong answer.
+
+A component's test checks its logic against correct answers equivalent to the solution and against the typical
+wrong ones, not only against the model solution.
+
 ## What every pattern keeps
 
 - The exercise works without the figure being visible: the figure explains, the check checks.

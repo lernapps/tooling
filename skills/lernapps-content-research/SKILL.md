@@ -1,6 +1,6 @@
 ---
 name: lernapps-content-research
-description: Use when you find out what a learning app for lernapps.net teaches, before its plan or before a new chapter - clarify the curriculum (Land, Schulform, Jahrgang, the creator's own material), look up and cite the official Lehrplan, write the competencies as "Ich kann …" statements grouped into chapters, and find second sources you verified by opening them. For every archetype. In an app whose content guide (.agents/skills/app-content) is filled in, load that first; it takes precedence.
+description: Use when you find out what a learning app for lernapps.net teaches, before its plan or before a new chapter - clarify the curriculum (Land, Schulform, Jahrgang, the creator's own material), use the official Lehrplan as orientation for grade and order, write the competencies as "Ich kann …" statements grouped into chapters, and find second sources you verified by opening them. For every archetype. In an app whose content guide (.agents/skills/app-content) is filled in, load that first; it takes precedence.
 license: MIT
 ---
 
@@ -17,12 +17,15 @@ You need four things: the **Land** (state), the **Schulform** (school type), the
 the creator has **their own material**, such as a worksheet, a checklist or the topics of a test. Derive what you can
 from what the creator said; ask the rest, one or two questions per turn. If they hand over a file, read it.
 
-## 2. Look up the Lehrplan
+## 2. Use the Lehrplan as orientation
 
-- Find the official document of the Land: Kerncurriculum, Lehrplan, Bildungsplan or Rahmenlehrplan, from its
+- The Lehrplan decides which content belongs to which grade, and in which order. It is orientation, not a condition:
+  a citation is welcome, not required. When you find none, say so once and go on; never stop for it or ask again.
+- Take the official document of the Land: Kerncurriculum, Lehrplan, Bildungsplan or Rahmenlehrplan, from its
   ministry or state institute. Not a publisher, a schoolbook or a teaching portal: they interpret the curriculum.
-- Cite it: the document (title, issuer, year, address), the page and the unit (Inhaltsfeld, Lernbereich, Kompetenz)
-  of each part the app covers. Write the citation into the plan's notes.
+- When you use one, download it and read it yourself (the PDF or the page), never through a fetch tool that
+  summarises. Cite what you used: the document (title, issuer, year, address), and the page and unit (Inhaltsfeld,
+  Lernbereich, Kompetenz) of each part the app covers, in the plan's notes.
 - When the creator's material differs from the Lehrplan (the class is behind or ahead), follow the material and say
   so in one sentence.
 
@@ -65,14 +68,15 @@ example on serlo.org (free, without ads or login), a video channel the creator t
 
 ## 6. Never guess
 
-Never guess Lehrplan units, curriculum wording or ids (a video's, an article's, a unit's number): look them up and
-cite them. What you could not look up you mark in the plan as not checked.
+Never guess Lehrplan units, curriculum wording or ids (a video's, an article's, a unit's number): look them up, or
+leave them out. What you could not look up you mark in the plan as not checked.
 
 When a site limits your requests (HTTP 429) or will not open, tell the creator which sources you could not check,
 mark them as not checked in the plan, and go on with the others. Write no scraper or loop to get around it.
 
 ## Where the results go
 
-Into the plan file: the citation and the competencies by chapter under "Notes", the choices under "Key decisions".
+Into the plan file: the curriculum orientation (with its citation, where you used one) and the competencies by
+chapter under "Notes", the choices under "Key decisions".
 Once the creator has confirmed the plan, into the content guide: its parts "Curriculum", "Competencies" and
 "Sources" (`app-content-guide`).

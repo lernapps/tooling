@@ -27,12 +27,14 @@ component where no block can say what the page needs. The rules of `lernapps-app
 - Without JavaScript every page is complete: all text, every formula as MathML, figures, tables, the navigation and
   the sources. Each exercise shows its task with the solution in a `<details>` "Lösung"; a `generated` exercise
   shows three worked tasks; a component shows its `nojs` text.
-- With JavaScript the exercises come alive: controls, "Prüfen", and the feedback in view with the focus. A
+- With JavaScript the exercises come alive: controls, "Prüfen", and the feedback in view with the focus. The
+  solution shows only after an answer: a wrong one says why and can be tried again or ended with "Lösung zeigen". A
   `generated` exercise also gets a live task, "Neue Aufgabe" and a deep link to its task:
   `/<chapter>/<page>/?seed=<n>#<exercise>`. A component hydrates in place.
 - Addresses: a page is `/<chapter>/<page>/`, a section `#<section>`, a section inside it `#<section>/<sub>`, an
   exercise `#<exercise>`. The glossary is `/glossar/`. Every other language has the same tree below `/<language>/`.
-  Each tree has an `llms.txt` with its pages and deep links.
+  Each tree has an `llms.txt` with its pages and deep links. An unknown address lands on a 404 page that leads to
+  the start page, so you may remove or move a page; change the topics of the catalog entry in the same increment.
 - The explainer stores nothing.
 - Your end-to-end tests come with the runtime (`e2e/explainer.e2e.ts`, `explainerTests()`), from your content, for
   every page in every language. Without JavaScript they check the headings against the nesting, the sections,
@@ -168,6 +170,12 @@ are blocks with the same fields as the questions of a quiz: `id`, `type`, `text`
 fields of the type. They are validated, checked and given feedback as in the quiz. How to write good questions,
 options, background and links: the skill `lernapps-quiz`; its rules for questions apply here.
 
+Decide first what counts as right and what each wrong answer is told, as the skill `lernapps-exercise-patterns` says
+("How an exercise checks success"). A wrong answer gets the most specific reason the exercise has: the `info` of the
+wrong option chosen, a matching entry of `mistakes` (`generated`, and `number` with `answer` and `message`), the
+`hint`, else a line to look again. So write an `info` that says why a wrong option does not fit, the 2-3 common
+mistakes, and a `hint` (any type) that points to where to look without giving the answer away.
+
 ```yaml
 - type: ordering
   id: staende-ordnen
@@ -252,6 +260,14 @@ A mistake that equals the answer for some values is a sign of a range that is to
 A component is for what no block and no `generated` exercise can express: a figure the learner labels, something to
 drag into place. Prefer a built-in block; it is readable without JavaScript, accessible and tested by construction.
 
+The build's rules for `src/components/`, before you write the first file:
+- only `<Name>.vue`, `<Name>.ts` and `<Name>.test.ts`, each Name in PascalCase; no subfolders, no other files;
+- every `.vue` has its `<Name>.test.ts`, and `<script setup lang="ts">`;
+- helpers shared by components go into a `<Name>.ts` of the folder, imported with its extension (`./Circuit.ts`);
+- props are `string`, `number`, `boolean`, literal types, and arrays and object types of them, written in the
+  component or as a type alias in it: no `null`, no `undefined` union (make the prop optional instead), no type
+  alias imported from another file.
+
 - **Files:** `src/components/<Name>.vue`, a single-file component with `<script setup lang="ts">`, next to it its
   test `src/components/<Name>.test.ts`, which `lernapps check` runs, and for an exercise its logic module
   `src/components/<Name>.ts`. `lernapps check` type-checks `.vue` files with `vue-tsc`.
@@ -261,12 +277,15 @@ drag into place. Prefer a built-in block; it is readable without JavaScript, acc
   learner text: a language map in an app with several languages, checked in each.
 - **`nojs`:** restricted Markdown that says what the component shows and gives its content, for readers without
   JavaScript: the labelled diagram described, or the task with its solution. It must carry the meaning on its own.
-  The component replaces it once it runs; with `defineOptions({ nojs: "caption" })` it keeps it as its caption.
-- **Exercise contract:** a component that emits `answered` with `{ correct }` is an exercise; the page shows the
-  feedback below it. Its logic lives in `<Name>.ts` as pure functions: `generate(seed, props)` gives the task,
-  `check(task, answer)` says whether an answer is right, `solution(task)` gives the right answer and `wrong(task)` a
-  wrong one. The build tests them over 50 fixed seeds per block: the task is the same for the same seed, the solution
-  passes, the wrong answer fails, nothing throws.
+  The component replaces it once it runs; with `defineOptions({ nojs: "caption" })` it keeps it folded as a text
+  description. Never in an exercise component: its `nojs` text gives the solution, and the build fails.
+- **Exercise contract:** a component that emits `answered` with `{ correct, reason }` is an exercise; the page shows the
+  feedback below it, with `reason` (a short sentence on what went wrong) for a wrong answer. Its logic lives in
+  `<Name>.ts` as pure functions: `generate(seed, props)` gives the task, `check(task, answer)` says whether an answer
+  is right (`true` or `false`), `solution(task)` gives the right answer and `wrong(task)` a wrong one; add a function
+  that gives the reason of a wrong answer. Check the property the task asks for, not equality with `solution(task)`,
+  and test it with equivalent right answers and typical wrong ones. The build tests them over 50 fixed seeds per
+  block: the task is the same for the same seed, the solution passes, the wrong answer fails, nothing throws.
 - **Rendering:** the build renders the component on the server into the page, hidden until it hydrates. The first
   render must be the same on the server and in the browser: draw it from a fixed seed (`generate(1, props)`), and
   draw anything random only in `onMounted`.
@@ -554,8 +573,9 @@ scope: archetype:explainer
 severity: error
 ```
 
-Write `src/components/<Name>.test.ts` next to each component, testing its logic: a right and a wrong answer, and the
-cases at the edges. `lernapps check` runs it.
+Write `src/components/<Name>.test.ts` next to each component, testing its logic: right answers other than the model
+solution that the task text allows, the typical wrong answers with their reasons, and the cases at the edges.
+`lernapps check` runs it.
 
 ### `vue-component-no-network`: No network
 

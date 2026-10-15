@@ -215,10 +215,11 @@ implements: concept-stable-contracts
 #### Generator CLI
 
 A consumer can rely on this: given an archetype, the plan the creator confirmed for it and an empty folder, it writes
-a complete app and keeps the plan. Skills an assistant installed in the folder before stay as they are, out of the
-app's commits. It refuses an unknown archetype, a folder that holds anything else, and a plan that is missing, not
+a complete app and keeps the plan. Skills an assistant installed in the folder before stay as they are, and the app
+commits them. It refuses an unknown archetype, a folder that holds anything else, and a plan that is missing, not
 confirmed yet or for another archetype, and says why. It can work offline from a local copy of the templates. Given
-an existing app, it moves the app's pins to its own and installs them. The commands' own help lists their options.
+an existing app, it moves the app's pins to its own and installs them, and replaces the app's `lernapps-*` skills
+with its own; the app's own skills stay as they are. The commands' own help lists their options.
 
 ```arc42
 :::interface

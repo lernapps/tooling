@@ -200,7 +200,10 @@ severity: hint
 Give every option an `info` of one to three sentences about the option itself. It must be true whether or not the
 option is the right answer, so that a learner who chose it learns something real. Example: "Der Nil fließt durch
 mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer." The `explanation` says in one to three sentences why the
-right answer is right. For true/false, number, ordering and matching it also carries the background.
+right answer is right. For true/false, number, ordering and matching it also carries the background. For a wrong
+option, say in its `info` why it does not fit: a learner who chose it reads it as the reason. Give a `number` question
+its typical wrong numbers as `mistakes` (`answer`, `message`), and any question an optional `hint` that points to
+where to look without giving the answer away.
 
 ### `quiz-further-reading`: Every question links to further reading
 
@@ -263,7 +266,8 @@ Choose the type from what the learner should do:
 - connect things that belong together: `matching`;
 - judge a statement: `true-false`.
 
-Mix types across the quiz.
+Mix types across the quiz. Choose a type that accepts every answer the text allows: an `ordering` only where the
+order is fixed (skill `lernapps-exercise-patterns`, "How an exercise checks success").
 
 ### `quiz-answers-checked`: Check every fact
 
