@@ -2,9 +2,10 @@
 // @lernapps/app-templates and the tooling to exact git commits, so `npm update` changes nothing. Run from the latest
 // tooling (`npx --yes github:lernapps/tooling#main update`), it sets the app's runtime to the commit this tooling pins
 // (package.json, appTemplates.commit), the tooling to the commit npx installed it from, and the app's workflows to
-// that commit's actions; then it runs npm install and says what moved. It takes the tooling's pin, not the newest
-// commit of app-templates: the generator's tests run the templates and the runtime of that commit with this tooling,
-// so the pair is known to work together, and a fix of the runtime reaches the tooling's main with its pin.
+// that commit's actions; then it runs npm install, installs the hooks again and says what moved. It takes the
+// tooling's pin, not the newest commit of app-templates: the generator's tests run the templates and the runtime of
+// that commit with this tooling, so the pair is known to work together, and a fix of the runtime reaches the tooling's
+// main with its pin.
 // It never moves the runtime back: a commit newer than the pin (Renovate moves the runtime too) stays, and so does one
 // whose order it cannot tell (git fetches only the two commits, without their files). An app made before the generator
 // wrote the content guide gets its skeleton (generator/create.ts), and one made before the plans had a folder gets its
@@ -25,6 +26,7 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
+import { installHooks } from "../archetypes/shared/install-hooks.ts";
 import { LEGACY_PLAN, MIGRATED_PLAN, plans } from "../src/plan.ts";
 import { UsageError } from "../src/usage.ts";
 import {
@@ -244,6 +246,9 @@ export function update(args: string[]): number {
         `npm install ${specs.join(" ")} failed${install.error ? `: ${install.error.message}` : ` (exit ${install.status})`}; its output is above. Fix the cause, then run lernapps update again`,
       );
     }
+    // npm install <spec> runs no prepare script: the hooks of the new tooling, as npm install would install them
+    if (installHooks([]) !== 0)
+      throw new UpdateError("lernapps hooks failed (see above); run npx lernapps hooks again");
   }
   if (commit !== undefined) {
     const changed = moveActions(commit);
