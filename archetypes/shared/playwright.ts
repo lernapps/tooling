@@ -33,7 +33,14 @@ const base: PlaywrightTestConfig = {
   fullyParallel: true,
   workers: Number(process.env["LERNAPPS_PLAYWRIGHT_WORKERS"]) || "75%",
   reporter: [["line"]],
-  use: { baseURL: URL },
+  // LERNAPPS_CHROMIUM: an installed Chromium that lernapps check starts where Playwright's own is missing
+  // (check/visit.ts)
+  use: {
+    baseURL: URL,
+    ...(process.env["LERNAPPS_CHROMIUM"]
+      ? { launchOptions: { executablePath: process.env["LERNAPPS_CHROMIUM"] } }
+      : {}),
+  },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "360px", use: { ...devices["Desktop Chrome"], viewport: { width: 360, height: 740 } } },
