@@ -97,7 +97,10 @@ function runStep(step: Step): Finding | undefined {
   return finding(CHECKS_PASS, "error", {
     where,
     found: `${step.name} failed (its output is above)`,
-    fix: `Fix the cause from the output of ${where}, then check again`,
+    fix:
+      step.command === "vp" && step.args[0] === "check"
+        ? "Run vp check --fix, which fixes what it can of format and lint; fix the rest from the output, then check again"
+        : `Fix the cause from the output of ${where}, then check again`,
   });
 }
 

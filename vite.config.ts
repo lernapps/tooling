@@ -72,7 +72,7 @@ export default defineConfig({
     dts: false,
   },
   staged: {
-    // Formats and fixes the staged files before the hook runs the fast part of `lernapps check`.
-    "*.{ts,json}": "vp check --fix",
+    // Formats the staged files before the hook runs the fast part of `lernapps check`, which lints and type-checks once.
+    "*.{ts,json}": "vp fmt",
   },
 });

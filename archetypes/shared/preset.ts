@@ -46,8 +46,9 @@ const preset: UserConfig = {
     include: ["src/**/*.test.ts", "test/**/*.test.ts"],
   },
   staged: {
-    // Formats and fixes the staged files before the hook runs the fast part of `lernapps check`.
-    "*.{ts,tsx,json}": "vp check --fix",
+    // Formats the staged files before the hook runs the fast part of `lernapps check`, which lints and type-checks the
+    // whole app once: `vp check --fix` here would type-check the staged files a second time.
+    "*.{ts,tsx,json}": "vp fmt",
   },
 };
 
