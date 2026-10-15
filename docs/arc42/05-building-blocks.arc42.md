@@ -1,8 +1,8 @@
 # Building Blocks
 
 The tooling is one package, installed by apps from git at a commit and kept current by update pull requests, like
-the shared site frame (decision `dec-one-package`). Next to the package, the repo holds two actions for an app's CI:
-one checks the app, one publishes it. Two blocks live in other repos: the archetype templates and runtimes, and the
+the shared site frame (decision `dec-one-package`). Next to the package, the repo holds three actions for an app's CI:
+one checks the app, one publishes it, one previews a pull request. Two blocks live in other repos: the archetype templates and runtimes, and the
 listing validation in the catalog. All of these make up the creator's path.
 
 The repo also holds "Platform upkeep", which no creator uses: it builds and documents the tooling itself, checks and
@@ -37,6 +37,7 @@ flowchart TB
     bb-app-templates["Archetype templates and runtimes (lernapps/app-templates)"]
     bb-app-check-action["App check action"]
     bb-app-publish["App publish"]
+    bb-app-preview["App preview"]
     subgraph bb-platform-upkeep["Platform upkeep (not used by creators)"]
         bb-tooling-build["Tooling build and docs"]
         bb-site-check["Platform site check"]
@@ -567,6 +568,37 @@ id: if-app-publish
 title: App publish
 provider: bb-app-publish
 protocol: GitHub Actions, pinned to a commit
+:::
+```
+
+## App preview
+
+Publishes the checked bundle of a pull request as a temporary preview next to the published app, so that the creator
+can look at an increment in the real app before agreeing to publish it. It is accountable for the preview being the
+bundle that was checked, kept out of search engines, the catalog and the learners' way, and gone once the pull request
+is closed. It tells the creator, in plain German on the pull request, what the preview is and where it is, and says
+so when it is gone. A pull request from a fork gets none.
+
+```arc42
+:::building-block
+id: bb-app-preview
+title: App preview
+technology: GitHub composite action, GitHub Pages
+path: actions/app-preview
+:::
+```
+
+### App preview interface
+
+A consumer, the creator's assistant, can rely on one comment on the pull request that links the preview while it
+exists. Its inputs, outputs and the permissions it needs are described in the action itself.
+
+```arc42
+:::interface
+id: if-app-preview
+title: App preview
+provider: bb-app-preview
+protocol: GitHub Actions, pinned to a commit; pull request comment
 :::
 ```
 

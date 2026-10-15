@@ -133,7 +133,7 @@ id: dn-tooling-repo
 title: lernapps/tooling repository
 type: environment
 parent: dn-github
-hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-tooling-build, bb-site-check, bb-site-deploy, bb-site-preview, bb-renovate-preset
+hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-app-preview, bb-tooling-build, bb-site-check, bb-site-deploy, bb-site-preview, bb-renovate-preset
 :::
 ```
 
@@ -154,11 +154,11 @@ hosts: bb-app-templates
 
 ### Developer's GitHub Actions
 
-The GitHub Actions of the app repo, which belongs to the developer: the node where the app check and the app publish
-action run. It receives both,
+The GitHub Actions of the app repo, which belongs to the developer: the node where the app check, the app publish and
+the app preview action run. It receives them,
 named in the workflow the generator wrote, at the commit of the package the app was created with. On every change it
 runs the same check as the hooks. On the main line it publishes the checked bundle to the GitHub Pages of the app's
-repo.
+repo; on a pull request from the repo itself it previews it there.
 
 ```arc42
 :::deployment-node
@@ -166,7 +166,7 @@ id: dn-app-ci
 title: Developer's GitHub Actions
 type: container
 parent: dn-github
-hosts: bb-app-check-action, bb-app-publish, bb-check-cli
+hosts: bb-app-check-action, bb-app-publish, bb-app-preview, bb-check-cli
 :::
 ```
 
@@ -201,7 +201,7 @@ type: environment
 #### GitHub Pages
 
 The default. The GitHub Pages of the app's repo receive the checked bundle from the app publish action and serve it
-at the developer's address, usually their own github.io address. Only an app repo of the lernapps organisation is
+at the developer's address, and a pull request's preview from the app preview action below it, usually their own github.io address. Only an app repo of the lernapps organisation is
 served below lernapps.net. The same service serves lernapps.net's own websites.
 
 ```arc42

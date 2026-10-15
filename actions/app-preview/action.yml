@@ -1,0 +1,70 @@
+name: lernapps app preview
+description: >-
+  A preview of a pull request, for the creator to look at before it goes online: the bundle the app check action
+  checked (the artifact "app"), published unchanged except for a robots noindex tag on every page, on the branch
+  gh-pages below pr-preview/pr-<number>/, so at <the app's address>pr-preview/pr-<number>/. The bundle's URLs are
+  relative, so it works there as it is. It is updated on every push to the pull request and removed when the pull
+  request is closed or merged; app-publish keeps pr-preview/ when it publishes. One comment on the pull request, in
+  German for the creator and updated in place, links the preview and says what it is; when the preview is removed,
+  the comment says so. The logic is publish/preview.ts. Use it in the job "preview" of the app's pages.yml, on
+  pull_request (opened, synchronize, reopened, closed) from the same repo (a fork's token may not write), after the
+  job "app" (needs: app), pinned to a commit. The job needs permissions: contents: write, pull-requests: write, and
+  pages: read for the app's address (without it, the address is derived from the repo as app-publish describes it).
+  Like app-check, it first asks the change scope of the event (`lernapps changes --ci` of the action's own commit):
+  a pull request of only the plan (.vibe/**) or only docs (docs/**/*.md) gets no preview; closing a pull request
+  always removes its preview.
+inputs:
+  token:
+    description: The token that pushes to gh-pages and writes the comment
+    default: ${{ github.token }}
+  timeout:
+    description: Seconds to wait until the preview's address serves the new bundle, before the comment links it
+    default: "600"
+outputs:
+  url:
+    description: The preview's address
+    value: ${{ steps.before.outputs.url }}
+  scope:
+    description: The change scope of the event (none, docs or all); only all makes a preview
+    value: ${{ steps.changes.outputs.scope }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: 22
+    # Closing a pull request needs no scope: it always removes the preview.
+    - id: changes
+      if: github.event.action != 'closed'
+      run: node "$GITHUB_ACTION_PATH/../../changes/main.ts" --ci
+      shell: bash
+    # Every step below runs only when the change can affect the app (output code: scope all), or to remove.
+    - if: steps.changes.outputs.code == 'true'
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+      with:
+        name: app
+        path: _app
+    - if: github.event.action == 'closed' || steps.changes.outputs.code == 'true'
+      id: before
+      shell: bash
+      run: node "$GITHUB_ACTION_PATH/../../publish/preview.ts" before ${{ github.event.action != 'closed' && '--dir _app' || '' }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+    - if: github.event.action == 'closed' || steps.changes.outputs.code == 'true'
+      uses: rossjrw/pr-preview-action@ffa7509e91a3ec8dfc2e5536c4d5c1acdf7a6de9 # v1.8.1
+      with:
+        source-dir: _app
+        preview-branch: gh-pages
+        umbrella-dir: pr-preview
+        pages-base-url: ${{ steps.before.outputs.base }}
+        token: ${{ inputs.token }}
+        qr-code: false
+        comment: false # publish/preview.ts writes the comment
+        action: auto
+    - if: github.event.action == 'closed' || steps.changes.outputs.code == 'true'
+      shell: bash
+      run: node "$GITHUB_ACTION_PATH/../../publish/preview.ts" after
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        LERNAPPS_PREVIEW_TIMEOUT: ${{ inputs.timeout }}

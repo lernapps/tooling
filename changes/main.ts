@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// `lernapps changes` without installing anything: the actions app-check and app-publish and the reusable workflow
+// `lernapps changes` without installing anything: the actions app-check, app-publish and app-preview and the reusable workflow
 // changes.yml run it from their own checkout of this repo (node changes/main.ts --ci). In an installed tooling, the
 // same command is `lernapps changes` (src/cli.ts).
 import { changes } from "./changes.ts";
