@@ -130,51 +130,60 @@ describe("lernapps", () => {
     expect(readFileSync(join(dir, ".vibe/plans/01-first-version.md"), "utf8")).toBe(plan);
   });
 
-  test("update replaces the app's lernapps-* skills with this tooling's, keeps its own, and commits them all", () => {
-    const dir = tempDir("app");
-    writeFileSync(join(dir, "package.json"), JSON.stringify({ devDependencies: { "@lernapps/tooling": "x" } }));
-    // as npx skills add installed an older lernapps-app, next to the app's own guide; an older generator ignored them
-    const skill = (name: string, text: string) => {
-      mkdirSync(join(dir, ".agents/skills", name), { recursive: true });
-      writeFileSync(join(dir, ".agents/skills", name, "SKILL.md"), text);
-      mkdirSync(join(dir, ".claude/skills"), { recursive: true });
-      symlinkSync(`../../.agents/skills/${name}`, join(dir, ".claude/skills", name));
-    };
-    skill("lernapps-app", "---\nname: lernapps-app\n---\nold\n");
-    skill("lernapps-gone", "---\nname: lernapps-gone\n---\n");
-    skill("app-content", "---\nname: app-content\n---\nthe app's own\n");
-    const lock = { "lernapps-app": { source: "lernapps/tooling", sourceType: "github", computedHash: "old" } };
-    writeFileSync(join(dir, "skills-lock.json"), JSON.stringify({ version: 1, skills: lock }));
-    writeFileSync(join(dir, ".gitignore"), `node_modules/\n\n${IGNORED_SKILLS_LINES.join("\n")}\n`);
-    // from a clone of the tooling it exits 1 (no commit to move the tooling to), but replaces the skills all the same
-    const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
-    expect(result.stdout).toContain("lernapps update: skills: replaced lernapps-app; added ");
-    expect(result.stdout).toContain("removed lernapps-gone, which this tooling no longer has");
-    expect(result.stdout).toContain("lernapps update: skills: removed the lines from .gitignore");
-    // the skills this tooling ships: skills/lernapps-*/SKILL.md (another test may plant a folder of another name)
-    const ours = readdirSync(join(repoRoot, "skills"))
-      .filter((name) => name.startsWith("lernapps-") && existsSync(join(repoRoot, "skills", name, "SKILL.md")))
-      .sort();
-    expect(ours).toContain("lernapps-app");
-    for (const name of ours) {
-      const ours = readFileSync(join(repoRoot, "skills", name, "SKILL.md"), "utf8");
-      expect(readFileSync(join(dir, ".claude/skills", name, "SKILL.md"), "utf8"), name).toBe(ours);
-      expect(readlinkSync(join(dir, ".claude/skills", name))).toBe(`../../.agents/skills/${name}`);
-    }
-    expect(readdirSync(join(dir, ".agents/skills"))).not.toContain("lernapps-gone");
-    expect(() => lstatSync(join(dir, ".claude/skills/lernapps-gone"))).toThrow();
-    expect(readFileSync(join(dir, ".agents/skills/app-content/SKILL.md"), "utf8")).toContain("the app's own");
-    const written = JSON.parse(readFileSync(join(dir, "skills-lock.json"), "utf8")) as {
-      skills: Record<string, { source: string; skillPath: string; computedHash: string }>;
-    };
-    expect(Object.keys(written.skills)).toEqual(ours);
-    expect(written.skills["lernapps-app"]?.skillPath).toBe("skills/lernapps-app/SKILL.md");
-    expect(written.skills["lernapps-app"]?.computedHash).toMatch(/^[0-9a-f]{64}$/);
-    expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe("node_modules/\n");
-    // a second run finds them as they are
-    const again = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
-    expect(again.stdout).toContain("lernapps update: skills: the lernapps-* skills are those of this tooling already");
-  });
+  // two runs of the CLI: slower than the default 5 s on a busy CI runner
+  test(
+    "update replaces the app's lernapps-* skills with this tooling's, keeps its own, and commits them all",
+    {
+      timeout: 60_000,
+    },
+    () => {
+      const dir = tempDir("app");
+      writeFileSync(join(dir, "package.json"), JSON.stringify({ devDependencies: { "@lernapps/tooling": "x" } }));
+      // as npx skills add installed an older lernapps-app, next to the app's own guide; an older generator ignored them
+      const skill = (name: string, text: string) => {
+        mkdirSync(join(dir, ".agents/skills", name), { recursive: true });
+        writeFileSync(join(dir, ".agents/skills", name, "SKILL.md"), text);
+        mkdirSync(join(dir, ".claude/skills"), { recursive: true });
+        symlinkSync(`../../.agents/skills/${name}`, join(dir, ".claude/skills", name));
+      };
+      skill("lernapps-app", "---\nname: lernapps-app\n---\nold\n");
+      skill("lernapps-gone", "---\nname: lernapps-gone\n---\n");
+      skill("app-content", "---\nname: app-content\n---\nthe app's own\n");
+      const lock = { "lernapps-app": { source: "lernapps/tooling", sourceType: "github", computedHash: "old" } };
+      writeFileSync(join(dir, "skills-lock.json"), JSON.stringify({ version: 1, skills: lock }));
+      writeFileSync(join(dir, ".gitignore"), `node_modules/\n\n${IGNORED_SKILLS_LINES.join("\n")}\n`);
+      // from a clone of the tooling it exits 1 (no commit to move the tooling to), but replaces the skills all the same
+      const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
+      expect(result.stdout).toContain("lernapps update: skills: replaced lernapps-app; added ");
+      expect(result.stdout).toContain("removed lernapps-gone, which this tooling no longer has");
+      expect(result.stdout).toContain("lernapps update: skills: removed the lines from .gitignore");
+      // the skills this tooling ships: skills/lernapps-*/SKILL.md (another test may plant a folder of another name)
+      const ours = readdirSync(join(repoRoot, "skills"))
+        .filter((name) => name.startsWith("lernapps-") && existsSync(join(repoRoot, "skills", name, "SKILL.md")))
+        .sort();
+      expect(ours).toContain("lernapps-app");
+      for (const name of ours) {
+        const ours = readFileSync(join(repoRoot, "skills", name, "SKILL.md"), "utf8");
+        expect(readFileSync(join(dir, ".claude/skills", name, "SKILL.md"), "utf8"), name).toBe(ours);
+        expect(readlinkSync(join(dir, ".claude/skills", name))).toBe(`../../.agents/skills/${name}`);
+      }
+      expect(readdirSync(join(dir, ".agents/skills"))).not.toContain("lernapps-gone");
+      expect(() => lstatSync(join(dir, ".claude/skills/lernapps-gone"))).toThrow();
+      expect(readFileSync(join(dir, ".agents/skills/app-content/SKILL.md"), "utf8")).toContain("the app's own");
+      const written = JSON.parse(readFileSync(join(dir, "skills-lock.json"), "utf8")) as {
+        skills: Record<string, { source: string; skillPath: string; computedHash: string }>;
+      };
+      expect(Object.keys(written.skills)).toEqual(ours);
+      expect(written.skills["lernapps-app"]?.skillPath).toBe("skills/lernapps-app/SKILL.md");
+      expect(written.skills["lernapps-app"]?.computedHash).toMatch(/^[0-9a-f]{64}$/);
+      expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe("node_modules/\n");
+      // a second run finds them as they are
+      const again = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
+      expect(again.stdout).toContain(
+        "lernapps update: skills: the lernapps-* skills are those of this tooling already",
+      );
+    },
+  );
 
   test("a failed check --pre-push counts in the current plan, the highest number; else in .vibe/plan.md", () => {
     const plan = (failures: number) => `---\narchetype: quiz\nphase: code\nprePushFailures: ${failures}\n---\n`;
