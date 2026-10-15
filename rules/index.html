@@ -522,7 +522,7 @@
 <h2>Extend the preset, change nothing of it</h2>
 <p><code>keep-the-preset</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
 <div>
-<p>An app from an archetype extends the preset of <code>@lernapps/tooling</code> and configures nothing the preset sets: <code>vite.config.ts</code> is <code>export default lernapps()</code>, <code>tsconfig.json</code> only extends <code>@lernapps/tooling/tsconfig.json</code>, the hooks come from the package (<code>prepare</code> in <code>package.json</code>). Pass only the app's own settings to <code>lernapps({ ... })</code>, such as the pages to build or the build step of its archetype's runtime, as generated: <code>lernapps({ plugins: [quiz()] })</code>. Never turn a lint rule off or lower its severity, never replace a hook.</p>
+<p>An app from an archetype extends the preset of <code>@lernapps/tooling</code> and configures nothing the preset sets: <code>vite.config.ts</code> is <code>export default lernapps()</code>, <code>tsconfig.json</code> extends <code>@lernapps/tooling/tsconfig.json</code> as generated, the hooks come from the package (<code>prepare</code> in <code>package.json</code>). Pass only the app's own settings to <code>lernapps({ ... })</code>, such as the pages to build or the build step of its archetype's runtime, as generated: <code>lernapps({ plugins: [quiz()] })</code>. Never turn a lint rule off or lower its severity, never replace a hook.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
 </section>
