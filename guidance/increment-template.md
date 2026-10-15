@@ -17,8 +17,8 @@ chapters, pages, rounds or questions, or a correction. It shows the creator wher
 - Keep it at .vibe/plans/<NN>-<short name>.md, NN one more than the highest number there (02 after 01). The plan with
   the highest number is the current one; the others record earlier increments: never change them. In an app made
   before plans per piece of work, `.vibe/plan.md` is plan 01: start this one as 02; the update in Code moves it.
-- Read each skill and page this plan names in full, from its file: a skill where `npx skills add lernapps/tooling`
-  installed it, a page downloaded unchanged. Never work from the summary of a fetch tool: it loses tasks and rules.
+- Read each skill and page this plan names in full, from its file: a skill from the app's `.agents/skills/`, a page
+  downloaded unchanged. Never work from the summary of a fetch tool: it loses tasks and rules.
 - The decisions of the first version stand: the archetype, the content method and the content guide
   `.agents/skills/app-content/SKILL.md`. Follow the guide; change it only where this increment needs a new pattern,
   figure type or source rule, and say so at the checkpoints.
@@ -61,16 +61,17 @@ turn, in plain words. Do not ask what you can derive from earlier answers or fro
 ### Tasks
 
 - [ ] Set `archetype` as in the app's first plan in `.vibe/plans/`.
-- [ ] Install the skills, if they are not installed yet: `npx skills add lernapps/tooling`.
+- [ ] The skills are in the app's repo, in `.agents/skills/`. Only if they are missing, install them:
+      `npx skills add lernapps/tooling`.
 - [ ] Load the content guide `.agents/skills/app-content/SKILL.md` and the skill `lernapps-content-growth`, and read
       the plans in `.vibe/plans/`: what the app teaches, how its content is made, and what earlier increments left
       open.
 - [ ] Ask what this increment adds or changes: which competencies, chapters or rounds, for which school years.
 - [ ] Research the new content: follow the guide's curriculum and sources, and the skill `lernapps-content-research`
-      for what the guide does not cover yet. Write the Lehrplan with its citation, the new competencies by chapter
-      and the verified sources under "Notes".
-- [ ] **Checkpoint:** research. Explain to the creator, in plain words, what you found and how: the Lehrplan with its
-      citation, the new competencies by chapter, the sources and how you checked them, and what you could not check.
+      for what the guide does not cover yet. Write the curriculum orientation (the Lehrplan, cited where you used
+      one), the new competencies by chapter and the verified sources under "Notes".
+- [ ] **Checkpoint:** research. Explain to the creator, in plain words, what you found and how: the curriculum
+      orientation, the new competencies by chapter, the sources and how you checked them, and what you could not check.
       Stop and wait for the creator. Change it if they ask, then ask again.
 - [ ] Set `phase: plan`.
 
@@ -95,6 +96,8 @@ creator's turns from here to the end are counted in the retrospective (target: a
       slice uses, and anything new, with the reason the guide's patterns do not fit.
 - [ ] Show the creator the goal, the new competencies by chapter and the slices, short. Explain in plain words what
       learners will see and do, and anything new in how the content is made.
+- [ ] For every new component and interactive exercise, show a sketch: a static SVG or image of what learners see,
+      or the steps (what they do, what they see after each). A description in words alone is not enough.
 - [ ] **Checkpoint:** confirm the plan and the content method. Stop and wait for the creator. Change the plan if they
       ask, then ask again.
 - [ ] Set `phase: code`.
@@ -123,7 +126,8 @@ something, choose, mark it "(guess)" under "Key decisions" and go on.
 
 - [ ] Switch to a new branch from `main`: `git switch -c increment/<NN>-<short name>`. Commit this plan on it.
 - [ ] Update the app to the newest tooling and runtime: `npx --yes github:lernapps/tooling#main update`, then
-      `npm install`. Commit the update on its own, and fix what its checks report before you add content.
+      `npm install`. It also replaces the `lernapps-*` skills: read the ones you use again. Commit the update on its
+      own, and fix what its checks report before you add content.
 - [ ] <the slices written in Plan, each: competency, content, exercise, the entry's topic, check, commit>
 - [ ] The content guide describes the app as it is now: its competencies, chapters and patterns, and its procedure
       for the next increment (`app-content-matches`).

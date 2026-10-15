@@ -55,22 +55,23 @@ from earlier answers. Write each answer under "Answers".
 
 ### Tasks
 
-- [ ] Install the skills, if they are not installed yet: `npx skills add lernapps/tooling`.
+- [ ] Install the skills, if they are not installed yet: `npx skills add lernapps/tooling`. The app commits them.
 - [ ] Ask what the app is for: what do learners do in it, and what do they learn or train?
 - [ ] Ask who the learners are: subject, school year, what they know already.
 - [ ] Ask where the content comes from: written by the creator, or taken from others (with source and licence)?
 - [ ] Research the content: load the skill `lernapps-content-research` and follow it (in an app whose
-      `.agents/skills/app-content/SKILL.md` is filled in, load that first; it takes precedence). Write the Lehrplan
-      with its citation, the competencies by chapter and the verified sources under "Notes".
+      `.agents/skills/app-content/SKILL.md` is filled in, load that first; it takes precedence). Write the curriculum
+      orientation (the Lehrplan, cited where you used one), the competencies by chapter and the verified sources
+      under "Notes".
 - [ ] Fetch the entry schema of the app overview: https://lernapps.net/apps/schemas/entry.v1.schema.json. Read the
       description of every property. Ask the creator what it needs to help adults (teachers, parents) find the app.
       Fill the "Entry draft" from the answers.
 - [ ] Choose the archetype from the answers: `explainer` (many pages of explanation and exercises), `interactive`
       (one app page in the browser, plus a static start page) or `quiz` (questions with options and feedback).
       Write it under "Key decisions" with the reason; set `archetype`.
-- [ ] **Checkpoint:** research. Explain to the creator, in plain words, what you found and how: the Lehrplan with its
-      citation, the competencies by chapter, the sources and how you checked them, what you could not check, and the
-      archetype with its reason. Stop and wait for the creator. Change it if they ask, then ask again.
+- [ ] **Checkpoint:** research. Explain to the creator, in plain words, what you found and how: the curriculum
+      orientation, the competencies by chapter, the sources and how you checked them, what you could not check, and
+      the archetype with its reason. Stop and wait for the creator. Change it if they ask, then ask again.
 - [ ] Set `phase: plan`.
 
 ### Answers
@@ -105,6 +106,8 @@ creator's turns from here to the listing are counted in the retrospective (targe
       `lernapps-exercise-patterns`, and decide with them how you will make the content.
 - [ ] Show the creator the goal, the competencies by chapter, the entry draft and the tasks, short. Explain the
       content method in plain words: what learners will see and do, and what it cannot do.
+- [ ] For every component and interactive exercise, show a sketch: a static SVG or image of what learners see, or
+      the steps (what they do, what they see after each). A description in words alone is not enough.
 - [ ] **Checkpoint:** confirm the plan and the content method. Stop and wait for the creator. Change the plan if they
       ask, then ask again.
 - [ ] Set `phase: code`.
