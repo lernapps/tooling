@@ -3,7 +3,7 @@
 // app made before this keeps its one plan at .vibe/plan.md until `lernapps update` moves it to
 // .vibe/plans/01-first-version.md: while there is no plan in .vibe/plans/, it counts as plan 01. The hooks, the checks
 // and the generator read the current plan here.
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "yaml";
 
@@ -47,4 +47,17 @@ export function planFrontMatter(file: string): Record<string, unknown> {
   } catch {
     return {};
   }
+}
+
+/** Increments prePushFailures in the front matter of the current plan below `root`, when it has the key. */
+export function countPrePushFailure(root = "."): void {
+  const plan = currentPlan(root);
+  if (plan === undefined) return;
+  const file = join(root, plan);
+  const text = readFileSync(file, "utf8");
+  const counted = text.replace(
+    /^(---\n(?:(?!---\n)[^\n]*\n)*?prePushFailures:[ \t]*)(\d+)/,
+    (_match, head: string, count: string) => `${head}${Number(count) + 1}`,
+  );
+  if (counted !== text) writeFileSync(file, counted);
 }

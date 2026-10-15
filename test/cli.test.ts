@@ -6,6 +6,7 @@ import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS, IGNORED_SKILLS_LINES } from "../generator/create.ts";
 import { replaceSkills, unignoreSkills, UPDATE_OPTIONS } from "../generator/update.ts";
+import { countPrePushFailure } from "../src/plan.ts";
 import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS } from "../src/usage.ts";
 import { repoRoot, run, tempDir } from "./support.ts";
 
@@ -180,19 +181,15 @@ describe("lernapps", () => {
   });
 
   test("a failed check --pre-push counts in the current plan, the highest number; else in .vibe/plan.md", () => {
+    // the counting itself; that a failed pre-push counts at all, the e2e test of the failing app shows
     const plan = (failures: number) => `---\narchetype: quiz\nphase: code\nprePushFailures: ${failures}\n---\n`;
     const counted = (files: Record<string, string>) => {
       const dir = tempDir("pre-push");
-      // a toolchain that fails at once: the unit tests and the build fail
-      mkdirSync(join(dir, "node_modules/.bin"), { recursive: true });
-      writeFileSync(join(dir, "node_modules/.bin/vp"), "#!/bin/sh\nexit 1\n", { mode: 0o755 });
-      writeFileSync(join(dir, "package.json"), "{}");
       for (const [file, text] of Object.entries(files)) {
         mkdirSync(join(dir, file, ".."), { recursive: true });
         writeFileSync(join(dir, file), text);
       }
-      const result = run("node", [join(repoRoot, "src/cli.ts"), "check", "--pre-push"], dir);
-      expect(result.code, result.stdout).toBe(1);
+      countPrePushFailure(dir);
       return Object.keys(files).map(
         (file) => /prePushFailures: (\d+)/.exec(readFileSync(join(dir, file), "utf8"))?.[1],
       );
