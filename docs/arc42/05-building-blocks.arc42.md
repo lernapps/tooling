@@ -211,10 +211,11 @@ implements: concept-stable-contracts
 
 #### Generator CLI
 
-A consumer can rely on this: given an archetype and an empty folder, it writes a complete app and keeps a plan that
-is already there. It refuses an unknown archetype and a folder that holds anything else, and says why. It can work
-offline from a local copy of the templates. Given an existing app, it moves the app's pins to its own and installs
-them. The commands' own help lists their options.
+A consumer can rely on this: given an archetype, the plan the creator confirmed for it and an empty folder, it writes
+a complete app and keeps the plan. Skills an assistant installed in the folder before stay as they are, out of the
+app's commits. It refuses an unknown archetype, a folder that holds anything else, and a plan that is missing, not
+confirmed yet or for another archetype, and says why. It can work offline from a local copy of the templates. Given
+an existing app, it moves the app's pins to its own and installs them. The commands' own help lists their options.
 
 ```arc42
 :::interface
