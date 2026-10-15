@@ -577,7 +577,7 @@
 <h2>Background and explanation say why</h2>
 <p><code>quiz-feedback-explains</code> · archetype:quiz, archetype:explainer · hint</p>
 <div>
-<p>Give every option an <code>info</code> of one to three sentences about the option itself. It must be true whether or not the option is the right answer, so that a learner who chose it learns something real. Example: &quot;Der Nil fließt durch mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer.&quot; The <code>explanation</code> says in one to three sentences why the right answer is right. For true/false, number, ordering and matching it also carries the background.</p>
+<p>Give every option an <code>info</code> of one to three sentences about the option itself. It must be true whether or not the option is the right answer, so that a learner who chose it learns something real. Example: &quot;Der Nil fließt durch mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer.&quot; The <code>explanation</code> says in one to three sentences why the right answer is right. For true/false, number, ordering and matching it also carries the background. For a wrong option, say in its <code>info</code> why it does not fit: a learner who chose it reads it as the reason. Give a <code>number</code> question its typical wrong numbers as <code>mistakes</code> (<code>answer</code>, <code>message</code>), and any question an optional <code>hint</code> that points to where to look without giving the answer away.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md"><code>review/archetypes/quiz.md</code></a>.</p>
 </section>
@@ -587,7 +587,7 @@
 <p><code>quiz-fitting-type</code> · archetype:quiz, archetype:explainer · hint</p>
 <div>
 <p>Choose the type from what the learner should do: - recall one fact out of several things of the same kind: <code>single-choice</code>; - several facts: <code>multiple-choice</code>; - estimate a size: <code>number</code>; - compare sizes or dates: <code>ordering</code>; - connect things that belong together: <code>matching</code>; - judge a statement: <code>true-false</code>.</p>
-<p>Mix types across the quiz.</p>
+<p>Mix types across the quiz. Choose a type that accepts every answer the text allows: an <code>ordering</code> only where the order is fixed (skill <code>lernapps-exercise-patterns</code>, &quot;How an exercise checks success&quot;).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-quiz/SKILL.md"><code>skills/lernapps-quiz/SKILL.md</code></a>.</p>
 </section>
@@ -760,7 +760,7 @@
 <h2>A test per component</h2>
 <p><code>vue-component-tested</code> · archetype:explainer · error</p>
 <div>
-<p>Write <code>src/components/&lt;Name&gt;.test.ts</code> next to each component, testing its logic: a right and a wrong answer, and the cases at the edges. <code>lernapps check</code> runs it.</p>
+<p>Write <code>src/components/&lt;Name&gt;.test.ts</code> next to each component, testing its logic: right answers other than the model solution that the task text allows, the typical wrong answers with their reasons, and the cases at the edges. <code>lernapps check</code> runs it.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>.</p>
 </section>
