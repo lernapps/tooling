@@ -9,6 +9,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { createServer, type Server } from "node:http";
 import { createRequire } from "node:module";
+import { homedir } from "node:os";
 import type { AddressInfo } from "node:net";
 import { dirname, extname, join, relative, resolve, sep } from "node:path";
 import { chromium, type Browser, type BrowserContext } from "playwright";
@@ -97,22 +98,103 @@ export function bundlePages(bundle: string): BundlePage[] {
     .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
 }
 
-/** Starts Chromium; installs it once (Playwright caches it) when it is missing. */
+/** How the checks get their browser, when Playwright's own build of Chromium is not installed. */
+export type BrowserChoice = { use: "installed"; executablePath: string } | { use: "download" };
+
+/**
+ * Where Playwright's own Chromium is missing: another Chromium installed in the browser folder, where the environment
+ * asks for no downloads (PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD, as a sandbox with a preinstalled browser sets it), the
+ * newest first; else a download of Playwright's own. CI sets no such variable, so it downloads (and caches) as before.
+ */
+export function chooseBrowsers(env: NodeJS.ProcessEnv, installed: readonly string[]): BrowserChoice[] {
+  const skip = (env["PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD"] ?? "").toLowerCase();
+  const noDownloads = skip !== "" && skip !== "0" && skip !== "false";
+  return [
+    ...(noDownloads ? installed.map((executablePath) => ({ use: "installed" as const, executablePath })) : []),
+    { use: "download" },
+  ];
+}
+
+/** Playwright's browser folder: PLAYWRIGHT_BROWSERS_PATH, else its cache; undefined where it is node_modules ("0"). */
+function browsersFolder(env: NodeJS.ProcessEnv): string | undefined {
+  const path = env["PLAYWRIGHT_BROWSERS_PATH"];
+  if (path === "0") return undefined;
+  if (path !== undefined && path !== "") return path;
+  if (process.platform === "win32") return join(env["LOCALAPPDATA"] ?? homedir(), "ms-playwright");
+  if (process.platform === "darwin") return join(homedir(), "Library", "Caches", "ms-playwright");
+  return join(env["XDG_CACHE_HOME"] ?? join(homedir(), ".cache"), "ms-playwright");
+}
+
+/** The Chromium executables of any version in a browser folder, newest first; the headless shell before the full one. */
+function installedChromiums(folder: string | undefined): string[] {
+  if (folder === undefined || !existsSync(folder)) return [];
+  const names = ["chrome-headless-shell", "headless_shell", "chrome", "chrome.exe", "chrome-headless-shell.exe"];
+  return readdirSync(folder)
+    .flatMap((name) => {
+      const match = /^chromium(_headless_shell)?-(\d+)$/.exec(name);
+      if (match === null) return [];
+      const rank = Number(match[2]) * 2 + (match[1] === undefined ? 0 : 1);
+      return readdirSync(join(folder, name), { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .flatMap((entry) => names.map((file) => join(folder, name, entry.name, file)))
+        .filter((file) => existsSync(file))
+        .map((file) => ({ file, rank }));
+    })
+    .sort((a, b) => b.rank - a.rank)
+    .map(({ file }) => file);
+}
+
+/** The browser that started last in this run: Playwright's own (undefined path) or another installed Chromium. */
+let started: { executablePath?: string } | undefined;
+
+/**
+ * Starts Chromium: Playwright's own build; where that is missing, another one that is installed (chooseBrowsers), or
+ * Playwright's own, installed once (Playwright caches it). Each says so in one line.
+ */
 export async function launch(): Promise<Browser> {
+  const missing = (error: unknown) => /Executable doesn't exist|playwright install/i.test(String(error));
   try {
-    return await chromium.launch();
+    const browser = await chromium.launch(started?.executablePath ? { executablePath: started.executablePath } : {});
+    started ??= {};
+    return browser;
   } catch (error) {
-    if (!/Executable doesn't exist|playwright install/i.test(String(error))) throw cannotRun(error);
+    if (!missing(error)) throw cannotRun(error);
+  }
+  for (const choice of chooseBrowsers(process.env, installedChromiums(browsersFolder(process.env)))) {
+    if (choice.use === "installed") {
+      try {
+        const browser = await chromium.launch({ executablePath: choice.executablePath });
+        process.stderr.write(
+          `lernapps check: Playwright's Chromium is not installed, using the installed ${choice.executablePath}\n`,
+        );
+        started = { executablePath: choice.executablePath };
+        return browser;
+      } catch {
+        continue;
+      }
+    }
   }
   const cli = join(dirname(require.resolve("playwright/package.json")), "cli.js");
-  process.stderr.write("lernapps check: installing the browser for the checks (once; Playwright caches it)\n");
+  process.stderr.write("lernapps check: no usable Chromium installed, downloading Playwright's (once; it is cached)\n");
   const install = spawnSync(process.execPath, [cli, "install", "chromium"], { stdio: ["ignore", 2, 2] });
   if (install.status !== 0) throw cannotRun(new Error("npx playwright install chromium failed"));
   try {
-    return await chromium.launch();
+    const browser = await chromium.launch();
+    started = {};
+    return browser;
   } catch (error) {
     throw cannotRun(error);
   }
+}
+
+/**
+ * The environment of the end-to-end tests, once a browser has started in this run (else it starts one): the
+ * executable of an installed Chromium in LERNAPPS_CHROMIUM, which the Playwright preset launches
+ * (archetypes/shared/playwright.ts); nothing for Playwright's own.
+ */
+export async function browserForTests(): Promise<Record<string, string>> {
+  if (started === undefined) await (await launch()).close();
+  return started?.executablePath ? { LERNAPPS_CHROMIUM: started.executablePath } : {};
 }
 
 function cannotRun(error: unknown): BrowserError {

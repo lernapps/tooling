@@ -97,13 +97,15 @@ const sharedQuizApp = (): string => shared("quiz-app", (dir) => createApp(dir), 
 
 /**
  * A copy of the shared quiz app to work in: its files and git repository, its own bare remote `origin`, and its
- * node_modules linked to the shared app's, with the git hooks of the package installed as `npm install` set them.
+ * node_modules linked to the shared app's, with the git hooks of the package installed as `npm install` installs them
+ * (in its own node_modules/.cache/, which the link leaves out).
  */
 export function quizApp(): string {
   const source = sharedQuizApp();
   const dir = join(tempDir("quiz-app"), "naturwunder");
   cpSync(source, dir, { recursive: true, filter: (path) => path !== join(source, "node_modules") });
   linkNodeModules(source, dir);
+  ok(join(dir, "node_modules/.bin/lernapps"), ["hooks"], dir);
   const remote = tempDir("remote");
   ok("git", ["init", "--quiet", "--bare", "--initial-branch=main"], remote);
   ok("git", ["remote", "set-url", "origin", remote], dir);

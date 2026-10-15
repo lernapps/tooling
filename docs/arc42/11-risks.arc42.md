@@ -65,7 +65,7 @@ and some assistant sandboxes cannot run one.
 id: risk-browser-at-creator
 title: A browser at the creator
 severity: medium
-mitigation: The check fetches a browser once and keeps it; the check says clearly when no browser can run and which part was skipped; CI runs the same checks, and the listing validation runs them against the deployed app
+mitigation: The check uses a browser the sandbox provides, else fetches one once and keeps it; the check says clearly when no browser can run and which part was skipped; CI runs the same checks, and the listing validation runs them against the deployed app
 :::
 ```
 
