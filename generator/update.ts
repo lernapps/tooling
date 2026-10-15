@@ -8,22 +8,29 @@
 // It never moves the runtime back: a commit newer than the pin (Renovate moves the runtime too) stays, and so does one
 // whose order it cannot tell (git fetches only the two commits, without their files). An app made before the generator
 // wrote the content guide gets its skeleton (generator/create.ts), and one made before the plans had a folder gets its
-// plan .vibe/plan.md moved to .vibe/plans/01-first-version.md (src/plan.ts). Run from a clone of the tooling,
+// plan .vibe/plan.md moved to .vibe/plans/01-first-version.md (src/plan.ts). The app's lernapps-* skills, which the
+// app commits, are replaced with those of this tooling (its skills/), in the layout of `npx skills add`; the app's
+// own skills (app-content, any other) stay as they are. Run from a clone of the tooling,
 // it has no commit to move the tooling and the actions to: it says so and exits 1. Run as the app's own tooling
 // (npx lernapps update), it knows only that tooling's pins, which the app already has: it says how to run the latest.
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
+  cpSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   mkdtempSync,
   readdirSync,
   readFileSync,
+  readlinkSync,
   renameSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { LEGACY_PLAN, MIGRATED_PLAN, plans } from "../src/plan.ts";
 import { UsageError } from "../src/usage.ts";
@@ -31,11 +38,13 @@ import {
   addContentGuide,
   commitOf,
   fromPackage,
+  IGNORED_SKILLS_LINES,
   installedSpec,
   pinnedTemplates,
   readJson,
   RUNTIME,
   runtimeSpec,
+  SKILLS_LOCK,
   TOOLING,
 } from "./create.ts";
 
@@ -58,6 +67,11 @@ runtime @lernapps/app-templates and @lernapps/tooling to git commits, so npm upd
                            the content guide's skeleton, where the app has none yet (and its link for Claude Code)
   .vibe/plan.md            the plan of an app made before the plans had a folder: moved to
                            .vibe/plans/01-first-version.md, the first of its plans (one per piece of work)
+  .agents/skills/lernapps-*, .claude/skills/lernapps-*, skills-lock.json
+                           replaced with the skills of this tooling, as npx skills add lays them out; a lernapps-*
+                           skill this tooling no longer has is removed. The app's own skills (app-content, any
+                           other) stay. The lines of an earlier generator that had git ignore them are removed
+                           from .gitignore: the app commits its skills
 
 Run it from the latest tooling, in the app's folder, e.g. to pick up a fixed runtime:
   ${LATEST}
@@ -177,6 +191,138 @@ function migratePlan(): string[] {
   ];
 }
 
+/** The skills every app has, as this tooling ships them (skills/<name>/), and as the app keeps them. */
+const SKILL_PREFIX = "lernapps-";
+const SKILLS = join(".agents", "skills");
+const SKILL_LINKS = join(".claude", "skills");
+
+/** The hash `npx skills` keeps in skills-lock.json (computedHash): every file of the folder, path and content. */
+function skillHash(dir: string): string {
+  const files: string[] = [];
+  const walk = (folder: string) => {
+    for (const entry of readdirSync(folder, { withFileTypes: true })) {
+      if (entry.isDirectory() && entry.name !== ".git" && entry.name !== "node_modules") walk(join(folder, entry.name));
+      else if (entry.isFile()) files.push(relative(dir, join(folder, entry.name)).split("\\").join("/"));
+    }
+  };
+  walk(dir);
+  const hash = createHash("sha256");
+  for (const file of files.sort((a, b) => a.localeCompare(b))) {
+    hash.update(file);
+    hash.update(readFileSync(join(dir, file)));
+  }
+  return hash.digest("hex");
+}
+
+interface SkillsLock {
+  version?: number;
+  skills?: Record<string, Record<string, unknown>>;
+  [key: string]: unknown;
+}
+
+/**
+ * Replaces the app's lernapps-* skills with those of this tooling, as `npx skills add lernapps/tooling` lays them out:
+ * the folder in .agents/skills/, a relative link to it in .claude/skills/ (a copy where the system allows no link), and
+ * its entry in skills-lock.json with the hash of the new files. Removes a lernapps-* skill this tooling no longer has.
+ * Never touches another skill. What it did, as lines of the output.
+ */
+function replaceSkills(): string[] {
+  const source = fromPackage("skills");
+  const ours = readdirSync(source)
+    .filter((name) => name.startsWith(SKILL_PREFIX) && existsSync(join(source, name, "SKILL.md")))
+    .sort();
+  const present = existsSync(SKILLS) ? readdirSync(SKILLS).filter((name) => name.startsWith(SKILL_PREFIX)) : [];
+  let lock: SkillsLock = { version: 1, skills: {} };
+  try {
+    lock = JSON.parse(readFileSync(SKILLS_LOCK, "utf8")) as SkillsLock;
+  } catch {
+    // none yet, or unreadable: written anew
+  }
+  const entries: Record<string, Record<string, unknown>> = { ...lock.skills };
+  const added: string[] = [];
+  const changed: string[] = [];
+  const removed = present.filter((name) => !ours.includes(name));
+  for (const name of removed) {
+    rmSync(join(SKILLS, name), { recursive: true, force: true });
+    rmSync(join(SKILL_LINKS, name), { recursive: true, force: true });
+    delete entries[name];
+  }
+  for (const name of ours) {
+    const target = join(SKILLS, name);
+    const before = existsSync(target) ? skillHash(target) : undefined;
+    rmSync(target, { recursive: true, force: true });
+    mkdirSync(SKILLS, { recursive: true });
+    cpSync(join(source, name), target, { recursive: true });
+    const hash = skillHash(target);
+    if (before === undefined) added.push(name);
+    else if (before !== hash) changed.push(name);
+    const link = join(SKILL_LINKS, name);
+    const to = `../../.agents/skills/${name}`;
+    let linked = false;
+    try {
+      linked = lstatSync(link).isSymbolicLink() && readlinkSync(link) === to;
+    } catch {
+      // no link yet
+    }
+    if (!linked) {
+      rmSync(link, { recursive: true, force: true });
+      mkdirSync(SKILL_LINKS, { recursive: true });
+      try {
+        symlinkSync(to, link, "dir");
+      } catch {
+        cpSync(target, link, { recursive: true }); // no symbolic links on this system: a copy, as npx skills makes
+      }
+    }
+    entries[name] = {
+      source: "lernapps/tooling",
+      sourceType: "github",
+      ...entries[name],
+      skillPath: `skills/${name}/SKILL.md`,
+      computedHash: hash,
+    };
+  }
+  const sorted = Object.fromEntries(
+    Object.keys(entries)
+      .sort()
+      .map((name) => [name, entries[name]]),
+  );
+  const next = `${JSON.stringify({ ...lock, version: lock.version ?? 1, skills: sorted }, null, 2)}\n`;
+  const lockChanged = !existsSync(SKILLS_LOCK) || readFileSync(SKILLS_LOCK, "utf8") !== next;
+  if (lockChanged) writeFileSync(SKILLS_LOCK, next);
+  const lines: string[] = [];
+  const list = (names: string[]) => names.join(", ");
+  if (added.length + changed.length + removed.length === 0) {
+    lines.push(
+      lockChanged
+        ? `skills: the ${SKILL_PREFIX}* skills are those of this tooling; their entries in ${SKILLS_LOCK} updated`
+        : `skills: the ${SKILL_PREFIX}* skills are those of this tooling already (${ours.length})`,
+    );
+  } else {
+    const parts = [
+      ...(changed.length > 0 ? [`replaced ${list(changed)}`] : []),
+      ...(added.length > 0 ? [`added ${list(added)}`] : []),
+      ...(removed.length > 0 ? [`removed ${list(removed)}, which this tooling no longer has`] : []),
+    ];
+    lines.push(
+      `skills: ${parts.join("; ")}: the ${SKILL_PREFIX}* skills of this tooling, in ${SKILLS}/ and ${SKILL_LINKS}/`,
+    );
+  }
+  return lines;
+}
+
+/**
+ * Removes the lines an earlier generator appended to .gitignore so that git ignored the installed skills: the app
+ * commits them now. What it did, as lines of the output.
+ */
+function unignoreSkills(): string[] {
+  if (!existsSync(".gitignore")) return [];
+  const lines = readFileSync(".gitignore", "utf8").split("\n");
+  const kept = lines.filter((line) => !IGNORED_SKILLS_LINES.includes(line));
+  if (kept.length === lines.length) return [];
+  writeFileSync(".gitignore", `${kept.join("\n").replace(/\n+$/, "")}\n`);
+  return ["skills: removed the lines from .gitignore that had git ignore them: the app commits its skills"];
+}
+
 /** The app's workflow files. */
 function workflows(): string[] {
   const dir = join(".github", "workflows");
@@ -255,6 +401,8 @@ export function update(args: string[]): number {
   lines.push(...guide.map((line) => `content guide: ${line}`));
   const plan = migratePlan();
   lines.push(...plan);
+  const skills = [...replaceSkills(), ...unignoreSkills()];
+  lines.push(...skills);
   process.stdout.write(`${lines.map((line) => `lernapps update: ${line}`).join("\n")}\n`);
   if (notMoved.length > 0) {
     throw new UpdateError(
@@ -262,7 +410,10 @@ export function update(args: string[]): number {
     );
   }
   const files = ["package.json", "package-lock.json", ".github/workflows/"];
-  if (guide.length > 0) files.push(".agents/", ".claude/");
+  const skillsMoved = skills.some((line) => !line.includes("those of this tooling already"));
+  if (guide.length > 0 || skillsMoved) files.push(".agents/", ".claude/");
+  if (skillsMoved) files.push(SKILLS_LOCK);
+  if (skills.some((line) => line.includes(".gitignore"))) files.push(".gitignore");
   if (plan.some((line) => line.startsWith("plan: moved"))) files.push(".vibe/ (git add -A .vibe, to keep the move)");
   process.stdout.write(
     `Next: npx lernapps check, then commit ${files.slice(0, -1).join(", ")} and ${files.at(-1) ?? ""}\n`,

@@ -4,7 +4,8 @@
 // appTemplates), and makes the app depend on the runtime of that same commit (the package @lernapps/app-templates at
 // the root of that repo), so template and runtime always match. Then it writes what every app has: AGENTS.md, the
 // plan, the content guide (an app-local skill), the workflows, LICENSE, an issue form for content errors and the
-// Renovate configuration (generator/app/), and has git ignore the skills an assistant installed with `npx skills add`.
+// Renovate configuration (generator/app/). The skills an assistant installed with `npx skills add` stay, and are
+// committed with the app; `lernapps update` replaces them with those of the tooling it moves the app to.
 // To move the pin when app-templates changes: set appTemplates.commit in package.json to the new commit on its main
 // (and appTemplates.archetypes to its archetype folders); the generator's tests then run on that commit.
 import { spawnSync } from "node:child_process";
@@ -62,8 +63,8 @@ components), AGENTS.md, the plan in .vibe/plans/ (the one already there is kept)
 Claude Code where the system allows symbolic links), the workflow
 .github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
 publish action to the repo's GitHub Pages), an issue form for content errors, LICENSE (MIT), renovate.json (the
-Renovate preset of lernapps) and, in .gitignore, the installed skills and skills-lock.json (installed again in each
-checkout; the content guide is committed).
+Renovate preset of lernapps). The installed skills and skills-lock.json are committed with the app, like the
+content guide; lernapps update replaces the lernapps-* skills.
 
 Then: git init (if <dir> is not a repository yet), npm install (installs the git hooks), and the first commit.
 
@@ -103,7 +104,7 @@ export function archetypes(): string[] {
 }
 
 /** The lock file of `npx skills add`, next to the skills it installed. */
-const SKILLS_LOCK = "skills-lock.json";
+export const SKILLS_LOCK = "skills-lock.json";
 
 /** The skills that `npx skills add` installed into the folder: the names in its lock file. */
 function installedSkills(dir: string): Set<string> {
@@ -319,18 +320,18 @@ function writePlan(dir: string, plan: Plan): void {
 }
 
 /**
- * The skills as `npx skills add lernapps/tooling` installs them, ignored by git: an install for the assistant, like
- * node_modules. Each checkout installs them again, as the plan says, and so reads the current skills, not a copy that
- * falls behind. The app's own skill, the content guide, is committed.
+ * The lines an earlier generator appended to .gitignore, to ignore the skills `npx skills add lernapps/tooling`
+ * installed. Apps now commit them (every checkout has the skills of the tooling the app is on); `lernapps update`
+ * removes these lines from an app that has them.
  */
-const IGNORED_SKILLS = `
-# the skills npx skills add lernapps/tooling installed: each checkout installs them; the content guide is the app's
-/${SKILLS_LOCK}
-/.agents/skills/*
-!/.agents/skills/app-content/
-/.claude/skills/*
-!/.claude/skills/app-content
-`;
+export const IGNORED_SKILLS_LINES: readonly string[] = [
+  "# the skills npx skills add lernapps/tooling installed: each checkout installs them; the content guide is the app's",
+  `/${SKILLS_LOCK}`,
+  "/.agents/skills/*",
+  "!/.agents/skills/app-content/",
+  "/.claude/skills/*",
+  "!/.claude/skills/app-content",
+];
 
 /** The files every app has (generator/app/), with their placeholders filled. */
 function writeAppFiles(dir: string, values: Record<string, string>): void {
@@ -461,8 +462,6 @@ export function create(args: string[]): number {
     year: String(new Date().getFullYear()),
     holder: holder.ok && holder.out !== "" ? holder.out : "the creator of this app",
   });
-  const ignore = join(dir, ".gitignore");
-  writeFileSync(ignore, `${existsSync(ignore) ? readFileSync(ignore, "utf8") : ""}${IGNORED_SKILLS}`);
   const guide = addContentGuide(dir).filter((line) => line.startsWith("could not"));
 
   process.stdout.write(
