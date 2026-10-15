@@ -226,15 +226,17 @@ interface SkillsLock {
  * its entry in skills-lock.json with the hash of the new files. Removes a lernapps-* skill this tooling no longer has.
  * Never touches another skill. What it did, as lines of the output.
  */
-function replaceSkills(): string[] {
-  const source = fromPackage("skills");
+export function replaceSkills(dir = ".", source = fromPackage("skills")): string[] {
+  const skillsDir = join(dir, SKILLS);
+  const linksDir = join(dir, SKILL_LINKS);
+  const lockFile = join(dir, SKILLS_LOCK);
   const ours = readdirSync(source)
     .filter((name) => name.startsWith(SKILL_PREFIX) && existsSync(join(source, name, "SKILL.md")))
     .sort();
-  const present = existsSync(SKILLS) ? readdirSync(SKILLS).filter((name) => name.startsWith(SKILL_PREFIX)) : [];
+  const present = existsSync(skillsDir) ? readdirSync(skillsDir).filter((name) => name.startsWith(SKILL_PREFIX)) : [];
   let lock: SkillsLock = { version: 1, skills: {} };
   try {
-    lock = JSON.parse(readFileSync(SKILLS_LOCK, "utf8")) as SkillsLock;
+    lock = JSON.parse(readFileSync(lockFile, "utf8")) as SkillsLock;
   } catch {
     // none yet, or unreadable: written anew
   }
@@ -243,20 +245,20 @@ function replaceSkills(): string[] {
   const changed: string[] = [];
   const removed = present.filter((name) => !ours.includes(name));
   for (const name of removed) {
-    rmSync(join(SKILLS, name), { recursive: true, force: true });
-    rmSync(join(SKILL_LINKS, name), { recursive: true, force: true });
+    rmSync(join(skillsDir, name), { recursive: true, force: true });
+    rmSync(join(linksDir, name), { recursive: true, force: true });
     delete entries[name];
   }
   for (const name of ours) {
-    const target = join(SKILLS, name);
+    const target = join(skillsDir, name);
     const before = existsSync(target) ? skillHash(target) : undefined;
     rmSync(target, { recursive: true, force: true });
-    mkdirSync(SKILLS, { recursive: true });
+    mkdirSync(skillsDir, { recursive: true });
     cpSync(join(source, name), target, { recursive: true });
     const hash = skillHash(target);
     if (before === undefined) added.push(name);
     else if (before !== hash) changed.push(name);
-    const link = join(SKILL_LINKS, name);
+    const link = join(linksDir, name);
     const to = `../../.agents/skills/${name}`;
     let linked = false;
     try {
@@ -266,7 +268,7 @@ function replaceSkills(): string[] {
     }
     if (!linked) {
       rmSync(link, { recursive: true, force: true });
-      mkdirSync(SKILL_LINKS, { recursive: true });
+      mkdirSync(linksDir, { recursive: true });
       try {
         symlinkSync(to, link, "dir");
       } catch {
@@ -287,8 +289,8 @@ function replaceSkills(): string[] {
       .map((name) => [name, entries[name]]),
   );
   const next = `${JSON.stringify({ ...lock, version: lock.version ?? 1, skills: sorted }, null, 2)}\n`;
-  const lockChanged = !existsSync(SKILLS_LOCK) || readFileSync(SKILLS_LOCK, "utf8") !== next;
-  if (lockChanged) writeFileSync(SKILLS_LOCK, next);
+  const lockChanged = !existsSync(lockFile) || readFileSync(lockFile, "utf8") !== next;
+  if (lockChanged) writeFileSync(lockFile, next);
   const lines: string[] = [];
   const list = (names: string[]) => names.join(", ");
   if (added.length + changed.length + removed.length === 0) {
@@ -314,12 +316,13 @@ function replaceSkills(): string[] {
  * Removes the lines an earlier generator appended to .gitignore so that git ignored the installed skills: the app
  * commits them now. What it did, as lines of the output.
  */
-function unignoreSkills(): string[] {
-  if (!existsSync(".gitignore")) return [];
-  const lines = readFileSync(".gitignore", "utf8").split("\n");
+export function unignoreSkills(dir = "."): string[] {
+  const ignore = join(dir, ".gitignore");
+  if (!existsSync(ignore)) return [];
+  const lines = readFileSync(ignore, "utf8").split("\n");
   const kept = lines.filter((line) => !IGNORED_SKILLS_LINES.includes(line));
   if (kept.length === lines.length) return [];
-  writeFileSync(".gitignore", `${kept.join("\n").replace(/\n+$/, "")}\n`);
+  writeFileSync(ignore, `${kept.join("\n").replace(/\n+$/, "")}\n`);
   return ["skills: removed the lines from .gitignore that had git ignore them: the app commits its skills"];
 }
 
