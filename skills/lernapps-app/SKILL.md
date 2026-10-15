@@ -1,6 +1,6 @@
 ---
 name: lernapps-app
-description: Use when you build or change a learning app for lernapps.net. The rules every app follows, each with its id; the workflow itself is in the plan file (.vibe/plan.md, from the plan template). Load it when you start work on an app.
+description: Use when you build or change a learning app for lernapps.net. The rules every app follows, each with its id; the workflow itself is in the current plan file (.vibe/plans/, from the plan or the increment template). Load it when you start work on an app.
 license: MIT
 ---
 
@@ -12,12 +12,13 @@ the retrospective name rules by it.
 
 ## Workflow
 
-Follow the plan in `.vibe/plan.md` exactly. The plan is the one source of the workflow: its phases, tasks and
-checkpoints, and the command that creates the app. If the plan does not exist, copy the template there, complete and
-unchanged: `node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists, download
-<https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. Read the plan, this skill and
-every skill they name from their files, in full; never from a summary. This skill adds the rules below: what every
-app and every step must meet.
+Follow the current plan exactly: the one with the highest number in `.vibe/plans/<NN>-<short name>.md`. It is the
+one source of the workflow of its piece of work: its phases, tasks and checkpoints, and the commands. Each piece of
+work gets its own plan, copied complete and unchanged from a template in `node_modules/@lernapps/tooling/guidance/`
+or, before the app exists, downloaded from <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/>:
+`plan-template.md` for the first version, `increment-template.md` for every later change. Read the plan, this skill
+and every skill they name from their files, in full; never from a summary. This skill adds the rules below: what
+every app and every step must meet.
 
 ## Content
 
@@ -47,7 +48,8 @@ scope: listing
 severity: error
 ```
 
-Keep `.vibe/plan.md` from the template, with every section and front matter key. Update `phase` when you enter a
+Keep each plan in `.vibe/plans/` as its template has it, with every section and front matter key; never change the
+plan of an earlier piece of work. Update `phase` when you enter a
 phase. Never edit `prePushFailures`: the pre-push hook writes it.
 
 ### `explore-before-code`: No code before the plan is confirmed

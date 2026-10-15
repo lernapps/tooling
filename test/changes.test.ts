@@ -45,6 +45,7 @@ describe("the classifier", () => {
   test("only the plan is none", () => {
     expect(scope([".vibe/plan.md"])).toBe("none");
     expect(scope([".vibe/plan.md", ".vibe/notes/run-1.md"])).toBe("none");
+    expect(scope([".vibe/plans/01-first-version.md", ".vibe/plans/02-mehr-runden.md"])).toBe("none");
   });
 
   test("only Markdown below docs/, with or without the plan, is docs", () => {

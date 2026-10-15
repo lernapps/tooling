@@ -32,7 +32,7 @@ function project(files: Record<string, string>, source = app("passing")): string
       "});",
       "",
     ].join("\n"),
-    ".vibe/plan.md": "---\narchetype: quiz\nphase: code\nprePushFailures: 0\n---\n\n# Plan\n",
+    ".vibe/plans/01-first-version.md": "---\narchetype: quiz\nphase: code\nprePushFailures: 0\n---\n\n# Plan\n",
     ...files,
   };
   for (const [file, content] of Object.entries(all)) {
@@ -55,7 +55,8 @@ const PLAYWRIGHT_CONFIG = [
   "",
 ].join("\n");
 
-const failures = (dir: string) => /prePushFailures: (\d+)/.exec(readFileSync(join(dir, ".vibe/plan.md"), "utf8"))?.[1];
+const failures = (dir: string) =>
+  /prePushFailures: (\d+)/.exec(readFileSync(join(dir, ".vibe/plans/01-first-version.md"), "utf8"))?.[1];
 
 describe.skipIf(inner)("lernapps check in an app's repo", () => {
   test("--pre-push builds and checks the built app; passing, it prints one line", { timeout: SLOW }, () => {

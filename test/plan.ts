@@ -1,4 +1,4 @@
-// How a consumer reads a plan file (.vibe/plan.md): the YAML front matter, validated against the schema the
+// How a consumer reads a plan file (.vibe/plans/<NN>-<short name>.md): the YAML front matter, validated against the schema the
 // package exports, and the headings of its sections. The hooks and the review read a plan the same way.
 import { readFileSync } from "node:fs";
 import { Ajv2020 } from "ajv/dist/2020.js";

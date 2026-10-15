@@ -2,8 +2,8 @@
 // this repo with a confirmed plan, writes the template of app-templates at the pinned commit with the runtime of that
 // commit as dependency, AGENTS.md, the content guide (an app-local skill, linked for Claude Code), the workflows,
 // LICENSE and the issue form for content errors; it keeps the plan and the skills `npx skills add` installed, which
-// git ignores; it fails on an unknown archetype, on a folder that is not empty, and without a plan the creator
-// confirmed for this archetype. Fast enough for every push of this repo.
+// git ignores; it fails on an unknown archetype, on a folder that is not empty, on more than one plan, and without a
+// plan the creator confirmed for this archetype. Fast enough for every push of this repo.
 // create.e2e.test.ts runs it as an assistant does, with npx from git, installs the app and checks it.
 // The templates come from a local clone of lernapps/app-templates with the pinned commit (support.ts, appTemplates).
 import {
@@ -18,7 +18,7 @@ import {
 } from "node:fs";
 import { join, resolve } from "node:path";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
-import { appTemplates, confirmedPlan, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import { appTemplates, confirmedPlan, FIRST_PLAN, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
 
 const SLOW = 5 * 60 * 1000;
 const cli = join(repoRoot, "src/cli.ts");
@@ -57,7 +57,9 @@ describe("lernapps create refuses", () => {
     const result = lernapps(["create", "--archetype", "quiz", dir], repoRoot);
     expect(result.code, output(result)).toBe(1);
     expect(result.stderr).toContain("there is no plan");
-    expect(result.stderr).toContain("from the plan template, downloaded complete and unchanged");
+    expect(result.stderr).toContain(
+      "from the plan template as .vibe/plans/01-<short name>.md, downloaded complete and unchanged",
+    );
     expect(result.stderr).toContain("work through Explore and Plan with the creator first");
   });
 
@@ -70,6 +72,29 @@ describe("lernapps create refuses", () => {
     expect(result.stderr).toContain("is in the phase plan: the creator must confirm the plan first");
     expect(result.stderr).toContain("the Plan phase ends with phase: code");
     expect(existsSync(join(dir, "package.json"))).toBe(false);
+  });
+
+  test("a second plan, or a first plan not numbered 01: a new app has one plan, the first version's", () => {
+    const dir = tempDir("create-two-plans");
+    confirmedPlan(dir, "quiz");
+    confirmedPlan(dir, "quiz", ".vibe/plans/02-mehr-runden.md");
+    const two = lernapps(["create", "--archetype", "quiz", dir], repoRoot);
+    expect(two.code, output(two)).toBe(1);
+    expect(two.stderr).toContain("there is more than one plan");
+    expect(two.stderr).toContain("a new app has one plan, the first version's, .vibe/plans/01-<short name>.md");
+    rmSync(join(dir, FIRST_PLAN));
+    const second = lernapps(["create", "--archetype", "quiz", dir], repoRoot);
+    expect(second.code, output(second)).toBe(1);
+    expect(second.stderr).toContain("is not numbered 01");
+    expect(existsSync(join(dir, "package.json"))).toBe(false);
+  });
+
+  test("a plan .vibe/plan.md of an earlier tooling is read as the first plan", () => {
+    const dir = tempDir("create-legacy-plan");
+    confirmedPlan(dir, "quiz", ".vibe/plan.md");
+    const result = lernapps(["create", "--archetype", "explainer", dir], repoRoot);
+    expect(result.code, output(result)).toBe(1);
+    expect(result.stderr).toContain(`${join(dir, ".vibe/plan.md")} chose the archetype quiz, not explainer`);
   });
 
   test("a plan for another archetype, naming both", () => {
@@ -191,7 +216,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(manifest.devDependencies["vue-tsc"]).toMatch(/^\d+\.\d+\.\d+$/);
     expect(manifest.devDependencies["typescript"]).toMatch(/^\d+\.\d+\.\d+$/);
     // the plan given with --plan, carried over
-    expect(readFileSync(join(dir, ".vibe/plan.md"), "utf8")).toBe(readFileSync(plan, "utf8"));
+    expect(readFileSync(join(dir, FIRST_PLAN), "utf8")).toBe(readFileSync(plan, "utf8"));
     expect(existsSync(join(dir, ".claude/skills/app-content/SKILL.md"))).toBe(true);
   });
 
@@ -202,10 +227,10 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     },
     () => {
       const dir = join(tempDir("plan"), "app");
-      mkdirSync(join(dir, ".vibe"), { recursive: true });
+      mkdirSync(join(dir, ".vibe/plans"), { recursive: true });
       ok("git", ["init", "--quiet"], dir);
       const plan = readFileSync(join(repoRoot, "test/fixtures/plans/filled.md"), "utf8");
-      writeFileSync(join(dir, ".vibe/plan.md"), plan);
+      writeFileSync(join(dir, ".vibe/plans/01-naturwunder.md"), plan);
       // as `npx skills add lernapps/tooling --yes` installs a skill: the folder, a link for Claude Code, the lock file
       const skill = readFileSync(join(repoRoot, "skills/lernapps-app/SKILL.md"), "utf8");
       mkdirSync(join(dir, ".agents/skills/lernapps-app"), { recursive: true });
@@ -216,7 +241,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
       writeFileSync(join(dir, "skills-lock.json"), lock);
       const result = lernapps(["create", "--archetype", "quiz", dir, "--templates", templates], repoRoot);
       expect(result.code, output(result)).toBe(0);
-      expect(readFileSync(join(dir, ".vibe/plan.md"), "utf8")).toBe(plan);
+      expect(readFileSync(join(dir, ".vibe/plans/01-naturwunder.md"), "utf8")).toBe(plan);
       expect(existsSync(join(dir, "src/quiz.json"))).toBe(true);
       expect(readFileSync(join(dir, ".claude/skills/lernapps-app/SKILL.md"), "utf8")).toBe(skill);
       expect(readFileSync(join(dir, "skills-lock.json"), "utf8")).toBe(lock);

@@ -1,11 +1,12 @@
 // The content guide of an app from an archetype's template: the app-local skill .agents/skills/app-content/SKILL.md,
 // which the generator writes as a skeleton and the assistant fills once the creator has confirmed the plan. It needs
-// the app's repo. It checks an app built with the tooling: one with a plan file (.vibe/plan.md) that depends on the
-// runtime @lernapps/app-templates; a template of app-templates (no plan), the tooling and a site are left out.
+// the app's repo. It checks an app built with the tooling: one with a plan (.vibe/plans/, src/plan.ts) that depends on
+// the runtime @lernapps/app-templates; a template of app-templates (no plan), the tooling and a site are left out.
+// It reads the phase of the current plan.
 // Whether the guide says what was built is judged by the review (app-content-matches), not here.
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { parse } from "yaml";
+import { currentPlan, planFrontMatter } from "../../src/plan.ts";
 import type { Check, Problem } from "../check.ts";
 
 /** The guide, relative to the app's root. */
@@ -34,19 +35,12 @@ interface Manifest {
   devDependencies?: Record<string, string>;
 }
 
-/** The `phase` of the plan's front matter; undefined when there is no plan file with front matter. */
+/** The `phase` of the current plan's front matter ("" when it has none); undefined when there is no plan. */
 function phase(project: string): string | undefined {
-  const plan = join(project, ".vibe/plan.md");
-  if (!existsSync(plan)) return undefined;
-  const match = /^---\n([\s\S]*?)\n---\n/.exec(readFileSync(plan, "utf8"));
-  if (!match) return undefined;
-  try {
-    const front: unknown = parse(match[1] ?? "");
-    const value = typeof front === "object" && front !== null ? (front as { phase?: unknown }).phase : undefined;
-    return typeof value === "string" ? value : "";
-  } catch {
-    return "";
-  }
+  const plan = currentPlan(project);
+  if (plan === undefined) return undefined;
+  const value = planFrontMatter(join(project, plan))["phase"];
+  return typeof value === "string" ? value : "";
 }
 
 export default {

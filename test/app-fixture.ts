@@ -15,6 +15,7 @@ import { parse, stringify } from "yaml";
 import {
   appTemplates,
   confirmedPlan,
+  FIRST_PLAN,
   freshClone,
   linkNodeModules,
   ok,
@@ -128,7 +129,7 @@ export const runActionCheck = (dir: string): Result => run("bash", ["-c", checkS
 
 /** The failed pushes the pre-push hook counted in the app's plan. */
 export const prePushFailures = (dir: string) =>
-  /prePushFailures: (\d+)/.exec(readFileSync(join(dir, ".vibe/plan.md"), "utf8"))?.[1];
+  /prePushFailures: (\d+)/.exec(readFileSync(join(dir, FIRST_PLAN), "utf8"))?.[1];
 
 /** A mistake the pre-push hook catches: a stylesheet from another host, loaded before any click. */
 export function plantRequest(dir: string): void {

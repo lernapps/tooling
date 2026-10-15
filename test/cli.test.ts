@@ -106,6 +106,44 @@ describe("lernapps", () => {
     expect(JSON.parse(readFileSync(join(dir, "package.json"), "utf8"))).toEqual({ name: "app", devDependencies });
   });
 
+  test("update moves the plan .vibe/plan.md of an older app to .vibe/plans/01-first-version.md, and says so", () => {
+    const dir = tempDir("app");
+    const plan = "---\narchetype: quiz\nphase: commit\nprePushFailures: 2\n---\n\n# Plan\n";
+    mkdirSync(join(dir, ".vibe"));
+    writeFileSync(join(dir, ".vibe/plan.md"), plan);
+    writeFileSync(join(dir, "package.json"), JSON.stringify({ devDependencies: { "@lernapps/tooling": "x" } }));
+    // from a clone of the tooling it exits 1 (no commit to move the tooling to), but moves the plan all the same
+    const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
+    expect(result.stdout).toContain(
+      "lernapps update: plan: moved .vibe/plan.md to .vibe/plans/01-first-version.md, unchanged",
+    );
+    expect(readdirSync(join(dir, ".vibe"))).toEqual(["plans"]);
+    expect(readFileSync(join(dir, ".vibe/plans/01-first-version.md"), "utf8")).toBe(plan);
+  });
+
+  test("a failed check --pre-push counts in the current plan, the highest number; else in .vibe/plan.md", () => {
+    const plan = (failures: number) => `---\narchetype: quiz\nphase: code\nprePushFailures: ${failures}\n---\n`;
+    const counted = (files: Record<string, string>) => {
+      const dir = tempDir("pre-push");
+      // a toolchain that fails at once: the unit tests and the build fail
+      mkdirSync(join(dir, "node_modules/.bin"), { recursive: true });
+      writeFileSync(join(dir, "node_modules/.bin/vp"), "#!/bin/sh\nexit 1\n", { mode: 0o755 });
+      writeFileSync(join(dir, "package.json"), "{}");
+      for (const [file, text] of Object.entries(files)) {
+        mkdirSync(join(dir, file, ".."), { recursive: true });
+        writeFileSync(join(dir, file), text);
+      }
+      const result = run("node", [join(repoRoot, "src/cli.ts"), "check", "--pre-push"], dir);
+      expect(result.code, result.stdout).toBe(1);
+      return Object.keys(files).map(
+        (file) => /prePushFailures: (\d+)/.exec(readFileSync(join(dir, file), "utf8"))?.[1],
+      );
+    };
+    const plans = { ".vibe/plans/01-first-version.md": plan(3), ".vibe/plans/02-mehr-runden.md": plan(0) };
+    expect(counted({ ".vibe/plan.md": plan(5), ...plans })).toEqual(["5", "3", "1"]);
+    expect(counted({ ".vibe/plan.md": plan(5) })).toEqual(["6"]);
+  });
+
   test("without a command it prints the usage and exits non-zero", () => {
     const result = lernapps();
     expect(result.code).not.toBe(0);
