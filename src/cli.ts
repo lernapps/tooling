@@ -12,7 +12,7 @@ import { parseArgs } from "node:util";
 import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
 import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
-import { BrowserError, bundlePages, launch, serve, urlPageLimit, visitApp } from "../check/visit.ts";
+import { BrowserError, browserForTests, bundlePages, launch, serve, urlPageLimit, visitApp } from "../check/visit.ts";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
 import {
   changes,
@@ -141,8 +141,11 @@ function failingRuntimeTests(): string[] {
   return [...found].sort();
 }
 
-/** Runs the Playwright tests; a failing test of the runtime is named as a test of the template, with what to do. */
-function runEndToEndTests(): Finding | undefined {
+/**
+ * Runs the Playwright tests in the browser of this run; a failing test of the runtime is named as a test of the
+ * template, with what to do.
+ */
+function runEndToEndTests(browser: Record<string, string>): Finding | undefined {
   rmSync(E2E_RESULTS, { force: true });
   mkdirSync(dirname(E2E_RESULTS), { recursive: true });
   const failure = runStep({
@@ -150,7 +153,7 @@ function runEndToEndTests(): Finding | undefined {
     command: "playwright",
     args: ["test", "--reporter=line,json"],
     where: "playwright test",
-    env: { PLAYWRIGHT_JSON_OUTPUT_FILE: resolve(E2E_RESULTS) },
+    env: { ...browser, PLAYWRIGHT_JSON_OUTPUT_FILE: resolve(E2E_RESULTS) },
   });
   if (failure === undefined) return undefined;
   const runtime = failingRuntimeTests();
@@ -265,10 +268,13 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
     findings.push(...checks.findings);
     const config = ["ts", "js", "mjs", "cjs"].map((ext) => `playwright.config.${ext}`).find((file) => existsSync(file));
     if (config !== undefined) {
-      const failure =
-        runStep({ name: "browser for the end-to-end tests", command: "playwright", args: ["install", "chromium"] }) ??
-        runEndToEndTests();
-      if (failure) findings.push(failure);
+      try {
+        const failure = runEndToEndTests(await browserForTests());
+        if (failure) findings.push(failure);
+      } catch (error) {
+        if (!(error instanceof BrowserError)) throw error;
+        findings.push(browserFinding(error));
+      }
     }
   }
   return {

@@ -16,7 +16,7 @@ import { ok, repoRoot, run, type Result } from "./support.ts";
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
 const RULES = "https://lernapps.net/tooling/rules/#";
-const HOOKS = "node_modules/@lernapps/tooling/archetypes/shared/hooks";
+const HOOKS = "node_modules/.cache/lernapps/hooks";
 
 const output = (result: Result) => `${result.stdout}\n${result.stderr}`;
 
