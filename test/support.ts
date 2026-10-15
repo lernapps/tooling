@@ -13,7 +13,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { afterAll, inject } from "vite-plus/test";
 import { copyRepo, repoRoot, testEnv } from "./repo-copy.ts";
 
@@ -81,13 +81,16 @@ export function tempDir(name: string): string {
   return mkdtempSync(join(tempRoot, `${name}-`));
 }
 
+/** The first version's plan in an app's folder, as the tests name it. */
+export const FIRST_PLAN = ".vibe/plans/01-first-version.md";
+
 /**
  * The plan of `lernapps create`, as the creator confirmed it: the plan template in the phase code, for the archetype,
- * at <dir>/.vibe/plan.md. Returns its path.
+ * at <dir>/<file> (default: the first version's plan in .vibe/plans/). Returns its path.
  */
-export function confirmedPlan(dir: string, archetype: string): string {
-  const plan = join(dir, ".vibe/plan.md");
-  mkdirSync(join(dir, ".vibe"), { recursive: true });
+export function confirmedPlan(dir: string, archetype: string, file = FIRST_PLAN): string {
+  const plan = join(dir, file);
+  mkdirSync(dirname(plan), { recursive: true });
   const template = readFileSync(join(repoRoot, "guidance/plan-template.md"), "utf8");
   writeFileSync(
     plan,

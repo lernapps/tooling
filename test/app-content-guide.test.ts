@@ -14,6 +14,8 @@ const SKELETON = readFileSync(join(repoRoot, "generator/app", SKILL), "utf8");
 /** The skeleton with every placeholder filled in, as after the plan is confirmed. */
 const FILLED = SKELETON.replace(/<!-- FILL IN:[\s\S]*?-->/g, "Concrete: the files, ids and examples of this app.");
 
+/** The first version's plan; an older app has it at .vibe/plan.md. */
+const FIRST = ".vibe/plans/01-erste-version.md";
 const plan = (phase: string) => `---\narchetype: quiz\nphase: ${phase}\nprePushFailures: 0\n---\n\n# Plan\n`;
 const RUNTIME = JSON.stringify({ devDependencies: { "@lernapps/app-templates": "github:lernapps/app-templates#1" } });
 
@@ -39,12 +41,12 @@ describe("app-content-guide", () => {
 
   test("checks nothing where there is no app from an archetype's template", () => {
     expect(run(app({ "package.json": "{}" }))).toBeUndefined(); // the tooling itself, a site
-    expect(run(app({ "package.json": "{}", ".vibe/plan.md": plan("commit") }))).toBeUndefined(); // built otherwise
+    expect(run(app({ "package.json": "{}", [FIRST]: plan("commit") }))).toBeUndefined(); // built otherwise
     expect(run(app({ "package.json": RUNTIME }))).toBeUndefined(); // a template in app-templates: no plan
   });
 
   test("an app without the guide fails, naming the file and how to get it", () => {
-    const problems = run(app({ "package.json": RUNTIME, ".vibe/plan.md": plan("code") }));
+    const problems = run(app({ "package.json": RUNTIME, [FIRST]: plan("code") }));
     expect(problems).toHaveLength(1);
     expect(problems?.[0]?.where).toBe(SKILL);
     expect(problems?.[0]?.fix).toContain("npx --yes github:lernapps/tooling#main update");
@@ -52,19 +54,26 @@ describe("app-content-guide", () => {
 
   test("a guide without a fixed heading fails, naming the heading", () => {
     const guide = FILLED.replace("\n## Figures\n", "\n## Pictures\n");
-    const problems = run(app({ "package.json": RUNTIME, ".vibe/plan.md": plan("commit"), [SKILL]: guide }));
+    const problems = run(app({ "package.json": RUNTIME, [FIRST]: plan("commit"), [SKILL]: guide }));
     expect(problems?.map((problem) => problem.found)).toEqual([`the heading "## Figures" is missing`]);
   });
 
   test("placeholders may stay while the plan is in Code; in Commit each one fails with its line", () => {
-    expect(run(app({ "package.json": RUNTIME, ".vibe/plan.md": plan("code"), [SKILL]: SKELETON }))).toEqual([]);
-    const problems = run(app({ "package.json": RUNTIME, ".vibe/plan.md": plan("commit"), [SKILL]: SKELETON }));
+    expect(run(app({ "package.json": RUNTIME, [FIRST]: plan("code"), [SKILL]: SKELETON }))).toEqual([]);
+    const problems = run(app({ "package.json": RUNTIME, [FIRST]: plan("commit"), [SKILL]: SKELETON }));
     expect(problems).toHaveLength(HEADINGS.length);
     const line = SKELETON.split("\n").findIndex((text) => text.includes("<!-- FILL IN:")) + 1;
     expect(problems?.[0]?.where).toBe(`${SKILL}:${line} (## ${HEADINGS[0]})`);
   });
 
   test("a filled guide passes in Commit", () => {
-    expect(run(app({ "package.json": RUNTIME, ".vibe/plan.md": plan("commit"), [SKILL]: FILLED }))).toEqual([]);
+    expect(run(app({ "package.json": RUNTIME, [FIRST]: plan("commit"), [SKILL]: FILLED }))).toEqual([]);
+  });
+
+  test("reads the phase of the current plan, the highest number; an older app's .vibe/plan.md counts as the first", () => {
+    const increment = { [FIRST]: plan("commit"), ".vibe/plans/02-mehr-runden.md": plan("code"), [SKILL]: SKELETON };
+    expect(run(app({ "package.json": RUNTIME, ...increment }))).toEqual([]);
+    const legacy = run(app({ "package.json": RUNTIME, ".vibe/plan.md": plan("commit"), [SKILL]: SKELETON }));
+    expect(legacy?.length).toBe(HEADINGS.length);
   });
 });

@@ -50,6 +50,7 @@
     "./review/verdict.v1.schema.json": "./review/verdict.v1.schema.json",
     "./guidance/AGENTS.md": "./guidance/AGENTS.md",
     "./guidance/plan-template.md": "./guidance/plan-template.md",
+    "./guidance/increment-template.md": "./guidance/increment-template.md",
     "./guidance/plan-front-matter.v1.schema.json": "./guidance/plan-front-matter.v1.schema.json",
     "./skills/lernapps-app/SKILL.md": "./skills/lernapps-app/SKILL.md",
     "./skills/lernapps-content-growth/SKILL.md": "./skills/lernapps-content-growth/SKILL.md",

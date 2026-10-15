@@ -25,8 +25,9 @@ lernapps.net's own websites, and the update policy for dependencies.
   the plan template and every link you need.
 - **The skill [`lernapps-app`](skills/lernapps-app/SKILL.md):** the quick path and the rules every app follows.
   Install it with `npx skills add lernapps/tooling`.
-- **The [plan template](guidance/plan-template.md):** the whole workflow, from the first question to the listing. It
-  names each command at the step where it is needed.
+- **The [plan template](guidance/plan-template.md):** the whole workflow of an app's first version, from the first
+  question to the listing. It names each command at the step where it is needed. Every later change follows the
+  [increment template](guidance/increment-template.md), in a plan of its own.
 - **The [architecture](https://lernapps.net/tooling/architecture/):** what each part is responsible for and why.
 - **The [rule catalog](https://lernapps.net/tooling/rules/):** every rule by id, with where it is told and checked.
 
@@ -36,7 +37,7 @@ lernapps.net's own websites, and the update policy for dependencies.
   and lint rules of every app, and the CLI.
 - **The CLI `lernapps`:** `create` writes a new app for an archetype once the creator confirmed the plan, `check`
   checks an app the same way in its git hooks and in CI, `update` moves an app to the runtime and tooling the latest
-  tooling pins, `changes` tells what a change can affect, so that hooks and CI run only that. `npx --yes github:lernapps/tooling#main --help` before an app exists, `npx lernapps --help` in one.
+  tooling pins (and an older app's single plan into `.vibe/plans/`), `changes` tells what a change can affect, so that hooks and CI run only that. `npx --yes github:lernapps/tooling#main --help` before an app exists, `npx lernapps --help` in one.
 - **The actions in [`actions/`](actions/):** the app check and app publish actions of every app, and the site
   actions with which lernapps.net's own websites are checked, published and previewed. Each says what it does in its
   `action.yml`. The reusable workflow [`changes.yml`](.github/workflows/changes.yml) gives other workflows the

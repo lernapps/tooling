@@ -254,6 +254,10 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
     expect(result.code, output(result)).toBe(0);
     expect(result.stdout).toContain("@lernapps/app-templates: unchanged");
     expect(result.stdout).toContain("@lernapps/tooling: unchanged");
+    // run as the app's own tooling, it knows no newer pins: it names the command that does
+    expect(result.stdout).toContain(
+      "this is the app's own tooling, which knows only its own pins; for the latest run: npx --yes github:lernapps/tooling#main update",
+    );
     expect(readFileSync(join(app, "package.json"), "utf8")).toBe(before);
   });
 

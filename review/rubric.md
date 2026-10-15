@@ -99,7 +99,7 @@ licence that does not allow its use in the app.
 id: retrospective-filled
 ```
 
-Read the retrospective at the end of the plan file (`.vibe/plan.md`). A finding: a part left empty or with the
+Read the retrospective at the end of the current plan file (the highest number in `.vibe/plans/`). A finding: a part left empty or with the
 template's comments only, or a statement the history contradicts (e.g. no failed checks, but `prePushFailures` is
 above 0). An app without a plan file was not built with the tooling: judge nothing here. Each place listed under
 "Where I had to guess" is a gap in the guidance: propose a rule for it where one would have helped.

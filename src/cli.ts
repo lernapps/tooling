@@ -26,6 +26,7 @@ import {
 } from "../changes/changes.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { update, UpdateError } from "../generator/update.ts";
+import { currentPlan } from "./plan.ts";
 import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
 
 /** A step of a part: a command of the project's toolchain and what it checks. */
@@ -39,7 +40,6 @@ interface Step {
   env?: Record<string, string>;
 }
 
-const PLAN = ".vibe/plan.md";
 /** In a repo, every run also writes its full report here, passing or not: the hooks and CI alike. */
 const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
 const CHECKS_PASS = "checks-pass";
@@ -195,15 +195,16 @@ async function visit(target: { bundle: string } | { url: string }): Promise<App>
   }
 }
 
-/** Increments prePushFailures in the plan's front matter, when there is a plan file with the key. */
+/** Increments prePushFailures in the current plan's front matter (src/plan.ts), when there is one with the key. */
 function countPrePushFailure(): void {
-  if (!existsSync(PLAN)) return;
-  const text = readFileSync(PLAN, "utf8");
+  const plan = currentPlan();
+  if (plan === undefined) return;
+  const text = readFileSync(plan, "utf8");
   const counted = text.replace(
     /^(---\n(?:(?!---\n)[^\n]*\n)*?prePushFailures:[ \t]*)(\d+)/,
     (_match, head: string, count: string) => `${head}${Number(count) + 1}`,
   );
-  if (counted !== text) writeFileSync(PLAN, counted);
+  if (counted !== text) writeFileSync(plan, counted);
 }
 
 function commitOrDirectory(): Report["checked"] {
