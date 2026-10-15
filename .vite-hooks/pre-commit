@@ -1,4 +1,4 @@
-# The fast part of the checks (format, lint, type check). The staged files are formatted and fixed first;
+# The fast part of the checks (format, lint, type check). The staged files are formatted first;
 # then the same command as the first half of the CI job `check`. Quiet, like the pre-commit hook of every app
 # (archetypes/shared/hooks/pre-commit): the steps print into the log below; on a failure the hook prints one line
 # with the step, its exit code and the log.
@@ -14,5 +14,5 @@ step() {
   echo "lernapps pre-commit: $name failed (exit $code); the full output is in $log" >&2
   exit "$code"
 }
-step "format and fix the staged files (vp staged)" vp staged
+step "format the staged files (vp staged)" vp staged
 step "the fast checks (lernapps check --pre-commit)" npm run --silent lernapps -- check --pre-commit
