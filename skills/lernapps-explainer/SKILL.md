@@ -120,6 +120,7 @@ Markdown: each has its block. A link to a page of the app starts with `/` from t
 
 Bundled images go into `src/images/`; name their `source` (a URL or a citation) and `licence` (an SPDX id such as
 `CC-BY-SA-4.0`, or `gemeinfrei`).
+With more languages a citation in `source` is a language map like any text; a URL stays one string.
 
 ## Formulas
 
@@ -145,8 +146,8 @@ language map.
   ```
 
 - The build fails on a missing translation (`the translation is missing; write the text as a map: { de: …, en: … }`)
-  and on a language that `languages` does not declare. Ids, addresses, numbers, formulas and drawn figures are the
-  same in every language.
+  and on a language that `languages` does not declare. Ids, page addresses, numbers, formulas and drawn figures are
+  the same in every language.
 - Each language gets its own page tree: German at the root, the others below `/<language>/`, each page with `lang`,
   `hreflang` and a language switch of plain links.
 
