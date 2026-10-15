@@ -186,7 +186,22 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     ok("git", ["add", "--all"], app);
     ok(
       "git",
-      ["-c", "user.name=t", "-c", "user.email=t@example.org", "commit", "--quiet", "--no-verify", "-m", "app"],
+      // no automatic maintenance: newer git runs it detached after a commit, writing into .git while it is removed
+      [
+        "-c",
+        "user.name=t",
+        "-c",
+        "user.email=t@example.org",
+        "-c",
+        "maintenance.auto=false",
+        "-c",
+        "gc.auto=0",
+        "commit",
+        "--quiet",
+        "--no-verify",
+        "-m",
+        "app",
+      ],
       app,
     );
     expect(ok("git", ["ls-files", "--stage", ".claude/skills/app-content"], app).stdout).toMatch(/^120000 /);
