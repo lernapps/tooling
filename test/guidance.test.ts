@@ -99,7 +99,7 @@ describe("the plan's sections", () => {
   });
 
   test("the template pushes the plan with the filled retrospective before the listing pull request", () => {
-    // the listing check (retrospective-filled) and the maintainer's review read .vibe/plan.md in the app's repo
+    // the listing check (retrospective-filled) and the maintainer's review read the current plan in the app's repo
     const tasks = section(read(TEMPLATE), "## Commit").split("\n- [ ] ");
     const at = (text: string) => tasks.findIndex((task) => task.includes(text));
     expect(at("Fill the retrospective")).toBeGreaterThan(0);

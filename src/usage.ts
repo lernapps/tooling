@@ -50,8 +50,9 @@ In a repo (no <dir|url>):
   --pre-push       the heavy part: unit tests, build (vp build for an app with index.html, else vp pack),
                    checks of the built app in dist/, the Playwright tests when playwright.config.* exists,
                    dependency licences (the pre-push hook); a failure increments prePushFailures in the front
-                   matter of .vibe/plan.md. A failing generic test of the archetype's runtime
-                   (@lernapps/app-templates) is named as a test of the template, with where to report it
+                   matter of the current plan (the highest number in .vibe/plans/, else .vibe/plan.md). A
+                   failing generic test of the archetype's runtime (@lernapps/app-templates) is named as a test
+                   of the template, with where to report it
   Without a flag, or with both, it runs both parts (CI): the hooks together run exactly what CI runs.
   Each hook part first asks lernapps changes what the change can affect (the staged files before a commit, the
   pushed commits before a push): a change of only the plan (.vibe/**) checks nothing; a change of only docs
@@ -105,7 +106,7 @@ export const CHANGES_OPTIONS = {
 export const CHANGES_USAGE = `Usage: lernapps changes [--staged | --pushed | --ci | --base <rev> [--head <rev>] | <path>...]
 
 Prints the change scope of a change: what it can affect, and so what the hooks and CI run for it.
-  none   every changed file is the plan: .vibe/**. Nothing runs
+  none   every changed file is a plan: .vibe/**. Nothing runs
   docs   every changed file is docs, docs/**/*.md, or the plan. Only the site's checks and deployment run; an
          app has no site (its bundle holds no docs), so nothing runs
   all    anything else, also when the changed files are not known, or none are. Everything runs

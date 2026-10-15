@@ -7,13 +7,25 @@
 // so the pair is known to work together, and a fix of the runtime reaches the tooling's main with its pin.
 // It never moves the runtime back: a commit newer than the pin (Renovate moves the runtime too) stays, and so does one
 // whose order it cannot tell (git fetches only the two commits, without their files). An app made before the generator
-// wrote the content guide gets its skeleton (generator/create.ts). Run from a clone of the tooling,
-// it has no commit to move the tooling and the actions to: it says so and exits 1.
+// wrote the content guide gets its skeleton (generator/create.ts), and one made before the plans had a folder gets its
+// plan .vibe/plan.md moved to .vibe/plans/01-first-version.md (src/plan.ts). Run from a clone of the tooling,
+// it has no commit to move the tooling and the actions to: it says so and exits 1. Run as the app's own tooling
+// (npx lernapps update), it knows only that tooling's pins, which the app already has: it says how to run the latest.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
+import { LEGACY_PLAN, MIGRATED_PLAN, plans } from "../src/plan.ts";
 import { UsageError } from "../src/usage.ts";
 import {
   addContentGuide,
@@ -44,10 +56,13 @@ runtime @lernapps/app-templates and @lernapps/tooling to git commits, so npm upd
   .github/workflows/       the actions of lernapps/tooling at that same commit
   .agents/skills/app-content/SKILL.md
                            the content guide's skeleton, where the app has none yet (and its link for Claude Code)
+  .vibe/plan.md            the plan of an app made before the plans had a folder: moved to
+                           .vibe/plans/01-first-version.md, the first of its plans (one per piece of work)
 
 Run it from the latest tooling, in the app's folder, e.g. to pick up a fixed runtime:
   ${LATEST}
-Then run npx lernapps check, and commit package.json, package-lock.json and .github/workflows/.
+Run as the app's own tooling (npx lernapps update), it knows only the pins the app already has.
+Then run npx lernapps check, and commit package.json, package-lock.json, .github/workflows/ and what else it names.
 
 Exit codes: 0 when the app is updated (or was up to date), 1 when it cannot be or only partly (the message says
 what was not moved and why; e.g. run from a clone of the tooling, which has no commit to move the tooling and the
@@ -143,6 +158,25 @@ function moveActions(commit: string): string[] {
   return changed;
 }
 
+/**
+ * Moves the plan of an app made before the plans had a folder, .vibe/plan.md, to .vibe/plans/01-first-version.md,
+ * where there is no plan 01 yet; what it did, as lines of the output. A move only: git sees the rename when the
+ * change is committed.
+ */
+function migratePlan(): string[] {
+  if (!existsSync(LEGACY_PLAN)) return [];
+  if (plans().some((plan) => /\/01-[^/]+$/.test(plan))) {
+    return [
+      `plan: kept ${LEGACY_PLAN}: .vibe/plans/ already has a plan 01. Compare the two and keep one as the plan 01`,
+    ];
+  }
+  mkdirSync(dirname(MIGRATED_PLAN), { recursive: true });
+  renameSync(LEGACY_PLAN, MIGRATED_PLAN);
+  return [
+    `plan: moved ${LEGACY_PLAN} to ${MIGRATED_PLAN}, unchanged: each piece of work has its own plan in .vibe/plans/`,
+  ];
+}
+
 /** The app's workflow files. */
 function workflows(): string[] {
   const dir = join(".github", "workflows");
@@ -194,6 +228,10 @@ export function update(args: string[]): number {
   } else {
     if (tooling !== current) specs.push(`${TOOLING}@${tooling}`);
     lines.push(moved(TOOLING, current, tooling));
+    // the app's own tooling knows the pins the app already has: nothing newer
+    if (tooling === current && resolve(fromPackage()) === resolve("node_modules", TOOLING)) {
+      lines.push(`this is the app's own tooling, which knows only its own pins; for the latest run: ${LATEST}`);
+    }
   }
 
   if (specs.length > 0) {
@@ -215,14 +253,19 @@ export function update(args: string[]): number {
   // an app made before the generator wrote the content guide gets its skeleton
   const guide = addContentGuide(".");
   lines.push(...guide.map((line) => `content guide: ${line}`));
+  const plan = migratePlan();
+  lines.push(...plan);
   process.stdout.write(`${lines.map((line) => `lernapps update: ${line}`).join("\n")}\n`);
   if (notMoved.length > 0) {
     throw new UpdateError(
       `partly updated: ${notMoved.join(" and ")} not moved (see above). Run it from the latest tooling, installed by npx: ${LATEST}`,
     );
   }
+  const files = ["package.json", "package-lock.json", ".github/workflows/"];
+  if (guide.length > 0) files.push(".agents/", ".claude/");
+  if (plan.some((line) => line.startsWith("plan: moved"))) files.push(".vibe/ (git add -A .vibe, to keep the move)");
   process.stdout.write(
-    `Next: npx lernapps check, then commit package.json, package-lock.json and .github/workflows/${guide.length > 0 ? ", .agents/ and .claude/" : ""}\n`,
+    `Next: npx lernapps check, then commit ${files.slice(0, -1).join(", ")} and ${files.at(-1) ?? ""}\n`,
   );
   return 0;
 }

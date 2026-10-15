@@ -140,8 +140,10 @@ protocol: Markdown file at the app's root
 
 #### Plan file
 
-The plan in the app repo, readable by the creator. It stays in the creator's repo and reaches the platform only with
-a listing. A consumer can rely on two things: its front matter has a versioned schema, and its headings, the four
+The plans in the app repo, one per piece of work, readable by the creator: the first version's and one for each later
+increment, numbered. The one with the highest number is the current plan; the hooks count in it and the checks read
+its phase, and the others are its record. An older app's single plan counts as the first until the update moves it.
+They stay in the creator's repo and reach the platform only with a listing. A consumer can rely on two things: its front matter has a versioned schema, and its headings, the four
 phases and the parts of the retrospective, are fixed. Hooks, review and evals read it by those. A breaking change gets
 a new schema version.
 
