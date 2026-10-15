@@ -14,6 +14,8 @@ prePushFailures: 0
 <!--
 This file guides you, the assistant, and shows the creator where you are.
 - Keep it at .vibe/plan.md. Read it before each step.
+- Read each skill and page this plan names in full, from its file: a skill where `npx skills add lernapps/tooling`
+  installed it, a page downloaded unchanged. Never work from the summary of a fetch tool: it loses tasks and rules.
 - Work through one phase at a time: Explore, Plan, Code, Commit. Do the tasks of the current phase in order.
 - Tick a task when it is done and move it to "Completed" of its phase. Add tasks as you find them.
 - A task marked as a checkpoint means: stop, show the creator what they need to decide, and wait for their answer.
@@ -52,6 +54,7 @@ from earlier answers. Write each answer under "Answers".
 
 ### Tasks
 
+- [ ] Install the skills, if they are not installed yet: `npx skills add lernapps/tooling`.
 - [ ] Ask what the app is for: what do learners do in it, and what do they learn or train?
 - [ ] Ask who the learners are: subject, school year, what they know already.
 - [ ] Ask where the content comes from: written by the creator, or taken from others (with source and licence)?

@@ -15,8 +15,9 @@
 //   - `lernapps update` moves an app on an older runtime to the commit the tooling pins, installs it and says so; a
 //     runtime newer than the pin, or one whose order it cannot tell, it keeps, and says so.
 //   - an explainer app from the same generator passes `lernapps check` as generated, `lernapps update` leaves it at
-//     the pins and adds the content guide to an app made before it, and a Vue component with a type error fails the
-//     commit's part of the check in vue-tsc. Kept to that:
+//     the pins and adds the content guide to an app made before it, a Vue component passes the commit's part of the
+//     check (vue-tsc checks the app's code, not the runtime's in node_modules) and one with a type error fails it in
+//     vue-tsc. Kept to that:
 //     the explainer's own tests (every block, exercise and component) run in lernapps/app-templates.
 // The quiz runtime itself (the browser behaviour, the page without JavaScript, the messages for a broken bank) is
 // tested in lernapps/app-templates, where it lives: its unit tests and quizTests.
@@ -28,7 +29,7 @@ import { dirname, join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import { findingsOf, output } from "./check-report.ts";
-import { appTemplates, freshClone, ok, repoRoot, run, tempDir } from "./support.ts";
+import { appTemplates, confirmedPlan, freshClone, ok, repoRoot, run, tempDir } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
@@ -64,7 +65,8 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
     tooling = freshTooling();
     const parent = tempDir("quiz");
     app = join(parent, "naturwunder");
-    // as the plan template says, in a folder where nothing is installed
+    // as the plan template says, in the folder of the confirmed plan, where nothing is installed
+    confirmedPlan(app, "quiz");
     const created = run(
       "npx",
       ["--yes", tooling, "create", "--archetype", "quiz", app, "--templates", templates],
@@ -228,6 +230,7 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
     const templates = appTemplates();
     const parent = tempDir("explainer");
     app = join(parent, "prozent");
+    confirmedPlan(app, "explainer");
     const created = run(
       "npx",
       ["--yes", freshTooling(), "create", "--archetype", "explainer", app, "--templates", templates],
@@ -265,6 +268,28 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
     expect(readFileSync(guide, "utf8")).toBe(written);
     expect(readFileSync(join(app, ".claude/skills/app-content/SKILL.md"), "utf8")).toBe(written);
   });
+
+  test(
+    "a Vue component passes the commit's part of the check: vue-tsc checks the app's code, not the runtime's",
+    {
+      timeout: SLOW,
+    },
+    () => {
+      const component = "src/components/Zahl.vue";
+      mkdirSync(join(app, "src/components"), { recursive: true });
+      writeFileSync(
+        join(app, component),
+        '<script setup lang="ts">\nconst count = 3;\n</script>\n\n<template>\n  <p>{{ count }}</p>\n</template>\n',
+      );
+      ok("git", ["add", component], app);
+      try {
+        const result = run("npx", ["--no", "--", "lernapps", "check", "--pre-commit"], app);
+        expect(result.code, output(result)).toBe(0);
+      } finally {
+        ok("git", ["rm", "--quiet", "--force", component], app);
+      }
+    },
+  );
 
   test("a Vue component with a type error fails the commit's part of the check, in vue-tsc", { timeout: SLOW }, () => {
     const component = "src/components/Zahl.vue";

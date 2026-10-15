@@ -13,10 +13,11 @@ the retrospective name rules by it.
 ## Workflow
 
 Follow the plan in `.vibe/plan.md` exactly. The plan is the one source of the workflow: its phases, tasks and
-checkpoints, and the command that creates the app. If the plan does not exist, start it from the template:
-`node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists,
-<https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. This skill adds the rules
-below: what every app and every step must meet.
+checkpoints, and the command that creates the app. If the plan does not exist, copy the template there, complete and
+unchanged: `node_modules/@lernapps/tooling/guidance/plan-template.md`, or, before the app exists, download
+<https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md>. Read the plan, this skill and
+every skill they name from their files, in full; never from a summary. This skill adds the rules below: what every
+app and every step must meet.
 
 ## Content
 
@@ -393,10 +394,10 @@ severity: error
 ```
 
 An app from an archetype extends the preset of `@lernapps/tooling` and configures nothing the preset sets:
-`vite.config.ts` is `export default lernapps()`, `tsconfig.json` only extends `@lernapps/tooling/tsconfig.json`, the
-hooks come from the package (`prepare` in `package.json`). Pass only the app's own settings to `lernapps({ ... })`,
-such as the pages to build or the build step of its archetype's runtime, as generated: `lernapps({ plugins: [quiz()]
-})`. Never turn a lint rule off or lower its severity, never replace a hook.
+`vite.config.ts` is `export default lernapps()`, `tsconfig.json` extends `@lernapps/tooling/tsconfig.json` as
+generated, the hooks come from the package (`prepare` in `package.json`). Pass only the app's own settings to
+`lernapps({ ... })`, such as the pages to build or the build step of its archetype's runtime, as generated:
+`lernapps({ plugins: [quiz()] })`. Never turn a lint rule off or lower its severity, never replace a hook.
 
 ### `pages-from-gh-pages`: Publish from `gh-pages`, served from its root
 

@@ -6,7 +6,10 @@
 
 ## Quick path
 
-- [Skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): install it with `npx skills add lernapps/tooling`. Load it, then follow the [plan template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): it holds the whole workflow, from the first question to the listing, and names each command when it is needed.
+1. Start the plan: download the [plan template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md) into the app's folder as `.vibe/plan.md`, complete and unchanged, and read it there. It holds the whole workflow, from the first question to the listing, and names each command when it is needed. Follow it exactly.
+2. Install the skills with `npx skills add lernapps/tooling`, then load the [skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md) from the installed files.
+
+Read every file this page links to in full and word for word: download it, then read the downloaded file. A fetch tool that summarises, shortens or translates a page loses its tasks, checkpoints and rules: never work from such a summary.
 
 Everything here is also in the package `@lernapps/tooling`.
 

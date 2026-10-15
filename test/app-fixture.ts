@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { parse, stringify } from "yaml";
 import {
   appTemplates,
+  confirmedPlan,
   freshClone,
   linkNodeModules,
   ok,
@@ -57,9 +58,10 @@ export function readReport(file: string): { findings: Finding[] } {
   return parse(readFileSync(file, "utf8")) as { findings: Finding[] };
 }
 
-/** The quiz app with the fixture bank, installed, in a git repo with a bare remote `origin`; nothing committed. */
+/** The quiz app with the fixture bank, from a confirmed plan, installed, in a git repo with a bare remote `origin`; nothing committed. */
 export function createApp(dir: string): string {
   const tooling = freshClone();
+  confirmedPlan(dir, "quiz");
   const created = run(
     "node",
     [
