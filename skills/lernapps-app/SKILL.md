@@ -312,7 +312,10 @@ scope: listing
 severity: error
 ```
 
-Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives.
+Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives. Only where the app's idea needs it (a typing game
+against the clock) may it deviate: then say in plain German what it does not offer in the entry's field `limits`,
+which teachers and parents read in the catalog. With `limits` in the entry, `lernapps check --entry` reports this
+rule's findings as warnings; without it, as errors.
 
 ### `usable-at-360px`: Usable at 360 px
 
@@ -322,7 +325,9 @@ scope: listing
 severity: error
 ```
 
-Every page works at 360 px width without horizontal scrolling, with every control reachable.
+Every page works at 360 px width without horizontal scrolling, with every control reachable. Only where the app's idea
+needs it (a keyboard is required) may it deviate, said in the entry's field `limits` as under `accessible`; with it,
+`lernapps check --entry` reports this rule's findings as warnings, without it as errors.
 
 ### `learner-text-german`: German always, every declared language complete
 
@@ -436,8 +441,10 @@ severity: error
 ```
 
 Keep what the app must remember with `createStorage` from `@lernapps/tooling/storage`, named after the app: it stays
-on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. Never use
-`localStorage`, `sessionStorage`, IndexedDB or cookies directly.
+on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. All apps share
+the origin's localStorage, so an app keeps at most 100 kB under its prefix (keys and values, 2 bytes per UTF-16 code
+unit): `save` returns false beyond it, as when storage is blocked, and the app keeps working. Keep the learning state,
+not histories that keep growing. Never use `localStorage`, `sessionStorage`, IndexedDB or cookies directly.
 
 ### `topic-has-exercises`: Every page has exercises (explainer)
 
