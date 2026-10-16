@@ -697,7 +697,8 @@
 <h2>An exercise component has its logic module</h2>
 <p><code>vue-component-exercise-contract</code> · archetype:explainer · error</p>
 <div>
-<p>When a component emits <code>answered</code>, put its logic into <code>src/components/&lt;Name&gt;.ts</code> with <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code> and <code>wrong(task)</code>, pure and deterministic, so that the build's property test passes.</p>
+<p>When a component emits <code>answered</code>, put its logic into <code>src/components/&lt;Name&gt;.ts</code> with <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code> and <code>wrong(task)</code>, pure and deterministic, so that the build's property test passes. Its block lists <code>examples</code> with at least one <code>accepted</code> and one <code>rejected</code> answer, <code>{ answer, seed? }</code> in the shape <code>check</code> takes (without a seed, for the tasks of seeds 1 to 50), including another correct answer where the text allows one.</p>
+<p>Any exercise may carry <code>examples: { accepted, rejected }</code>, which the build checks and learners never see; for <code>generated</code> they are expressions of <code>given</code> and <code>answer</code>, checked for every seed (e.g. <code>reverse(answer)</code>).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>.</p>
 </section>
