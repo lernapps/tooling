@@ -342,6 +342,97 @@ evals cover all three archetypes.*
   tutor support for the quiz, later ([#86](https://github.com/lernapps/tooling/issues/86))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
 
+### Sketch: the interactive archetype (step 12, for the owner's decision)
+*From the owner's examples and answers (2026-10-16). Open for the owner's decision; the explainer's sketch below is the
+model.*
+
+#### 1. Scope
+Apps whose doing is the content, with no explanation pages:
+- a ten-finger typing trainer like a shooting game: letter groups fly across the screen and burst when typed in time;
+- a Kniffel trainer that plays Kniffel and teaches probability on the way;
+- a careful-reading app: a text in a correct and a faulty version, and the learner marks the mistakes.
+
+They differ in how they render and run (a game loop per frame, turn by turn, task by task) and share the frame and the
+rules. **One archetype**, not one per kind: the kinds become recipes in its skill, as the exercise patterns are for
+content. Boundary to the explainer: an app that needs explanation pages is an explainer with a component; a few
+background sections on the start page or an info view stay interactive.
+
+#### 2. Opinionated where it makes the rules checkable, free where the learning happens
+- **Fixed:** Vue with TypeScript on vite-plus. The component rules the explainer already has (no network, storage only
+  through the wrapper, no `eval`, `innerHTML` or `v-html`, browser globals only once mounted), their build checks on
+  the SFC compiler's output, the lint rules and `vue-tsc` then hold for every interactive app, with no rules per
+  framework.
+- **Free:** the decomposition, the data format, the game logic and the rendering (DOM, SVG or canvas inside a
+  component, a frame loop with `requestAnimationFrame`).
+- **Libraries** (e.g. a canvas library for the game): bundled, never from a CDN; a licence the licence check accepts;
+  inside a size budget for the whole app, not per component.
+
+#### 3. The shell and the app
+The runtime `interactive/` in lernapps/app-templates, which the app does not change:
+- the static start page from `src/app.yaml` (what the app does, how to play, which competencies, optional background
+  sections), readable without JavaScript, with a `<noscript>` note, imprint and privacy notice;
+- the app page, a settings dialog (time limit off, less motion, sound off) and pause with Esc; the settings reach the
+  app's core as `settings`;
+- languages, storage, announcements and focus through the existing helpers (`i18n`, `storage`, `a11y`);
+- hash routes for modes and levels, so that an entry's topics point somewhere and `entry-links-resolve` resolves them.
+
+What the agent writes, in folders named by the template:
+- `src/core/`: the logic, pure TypeScript without DOM, deterministic by a seed: `start(seed, settings)`,
+  `step(state, input)`, optionally `tick(state, dt)`;
+- `src/ui/`: Vue components that show the state and turn input into actions;
+- `src/data/`: content as data (lessons, texts with their faulty versions) with the app's own schema;
+- `src/playthroughs/`: playthroughs as data, a sequence of keys with the state or announcement expected after it.
+
+Optional, for apps with tasks (a lesson, a text, a Kniffel situation): the explainer's exercise contract (`seed`,
+`describe`, `about`, `examples`), which brings task numbers in the address and the tutor.
+
+#### 4. The architecture guides the agent: arc42 in the app
+The other archetypes are frameworks whose notation already constrains the app so much that nobody needs to understand
+its architecture. An interactive app is free code, so its architecture is written early and kept current.
+- `docs/arc42/` in the app, in the arc42 DSL (`@doctc/arc42`). The **frame** comes from the tooling and
+  `lernapps update` replaces it, as it replaces the `lernapps-*` skills: the constraints (Vue, no network, state only
+  on the device, time pressure that can be turned off, no flashes), the shell as an external building block with its
+  interfaces, the concepts every app implements, and the basic blocks core, view and data with their intent.
+- The **app's own part**, written by the agent: its building blocks under the basic ones (`parent`, `path`), which
+  concepts each implements, its decisions (e.g. canvas or DOM), and its declared accessibility with the reasons.
+- **Checked:** what arc42 checks by itself, no more. Before a commit, `arc42 diff --staged --strict` (about 0.2 s):
+  a block changed without its prose, and new code under `src/` that no block claims, fail. In `lernapps check`,
+  `arc42 validate` (references, required fields, paths that exist, concepts no block implements). Whether the code
+  keeps to the responsibilities is not checked for now: how to see that depends on the framework, and arc42 does not
+  do it. Accepting a finding with `ARC42_CONSISTENT` is for the agent only with a reason in the plan, as with any
+  other check.
+- **In the creator's plan:** a checkpoint "architecture" in Plan, next to the content method: the blocks in plain
+  words and the sketches. Each increment keeps the architecture current. The review reads it.
+
+#### 5. Accessibility as a declaration
+Accessibility has limits: a shooting game with a time limit will not work with a screen reader. Instead of a promise
+it cannot keep, the app declares what it offers:
+- the start page is always WCAG 2.1 AA and says what the app offers and what not;
+- the app's entry gets a field such as `accessibility`: `keyboard` (full, partial, none), `screenReader`, `timing`
+  (none, adjustable, required), `motion`, and a reason;
+- the checks follow the declaration: `keyboard: full` requires a playthrough by keyboard alone, played in the browser;
+  what is declared is checked, what is excluded is not required. No flashes, always: that is health, not comfort.
+
+**For the owner:** this changes the organisation's rule (WCAG 2.1 AA for every page, ORGANIZATION.md) for the
+declared part of an interactive app, and the entry schema in lernapps/apps.
+
+#### 6. Tests and validation
+- The build plays every playthrough against the core and runs the core's property tests over fixed seeds; the e2e
+  test plays the same keys in the browser (`interactiveTests()`), together with the start page without JavaScript,
+  axe on start page and app page, and the time limit turned off.
+- `lernapps create --archetype interactive` gives an app that passes `lernapps check`.
+
+#### 7. Steps and pull requests
+1. **app-templates:** the runtime `interactive/` (shell, settings, hash routes, the core contract, playthroughs,
+   `interactiveTests()`) and a small template app, e.g. a letter-typing game with an untimed mode.
+2. **tooling:** the archetype `interactive`: pin, preset, the component rules' scope widened, the arc42 frame and
+   `arc42 diff` in the pre-commit hook, `arc42 validate` in the check, the skill `lernapps-interactive` with the
+   recipes (real-time game, turn-based game, text work), the plan template's architecture checkpoint, the rubric.
+3. **lernapps/apps and the organisation:** the `accessibility` field and the changed rule, after the owner's decision.
+4. **A first full run** with the typing shooting game as the pilot: it puts the most pressure on the frame (real
+   time, time pressure, motion, accessibility). The Kniffel trainer second, for the core's tests and the exercise
+   contract. Then the evals (10) with all three archetypes.
+
 ### Sketch: the explainer MVP (step 11, decided by the owner)
 
 *Proposal of 2026-10-13, revised the same day after three reviews by the owner, who then decided it: subject-neutral blocks, the quiz's
