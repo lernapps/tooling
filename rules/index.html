@@ -82,6 +82,9 @@
 <tr><td><a href="#explainer-structure-by-sections"><code>explainer-structure-by-sections</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#explainer-structure-complete"><code>explainer-structure-complete</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#explainer-structure-depth"><code>explainer-structure-depth</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#interactive-app-valid"><code>interactive-app-valid</code></a></td><td>archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#interactive-core-contract"><code>interactive-core-contract</code></a></td><td>archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#interactive-playthroughs-pass"><code>interactive-playthroughs-pass</code></a></td><td>archetype:interactive</td><td>error</td></tr>
 <tr><td><a href="#keep-the-preset"><code>keep-the-preset</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#pages-from-gh-pages"><code>pages-from-gh-pages</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#prefer-built-in-block"><code>prefer-built-in-block</code></a></td><td>archetype:explainer</td><td>hint</td></tr>
@@ -516,6 +519,33 @@
 <p>Nest sections at most two deep: a section, and sections inside it. Set no heading levels: they follow from the nesting. Content that needs more levels is two apps.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>.</p>
+</section>
+
+<section id="interactive-app-valid">
+<h2>The description and the playthroughs validate</h2>
+<p><code>interactive-app-valid</code> · archetype:interactive · error</p>
+<div>
+<p><code>src/app.yaml</code> and every playthrough validate against their schemas. German comes first and every declared language is complete. Ids are unique, there is at least one playthrough, each step expects a state or an announcement, and a playthrough's route is one of the app's. The build names each problem in one line with file and line; fix it there.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-interactive/SKILL.md"><code>skills/lernapps-interactive/SKILL.md</code></a>.</p>
+</section>
+
+<section id="interactive-core-contract">
+<h2>The core keeps its contract</h2>
+<p><code>interactive-core-contract</code> · archetype:interactive · error</p>
+<div>
+<p><code>src/core/index.ts</code> exports <code>start(seed, route)</code> and <code>step(state, key)</code>, and <code>tick(state, dt)</code> as a function when the app moves on its own. Every route starts, nothing throws, and the same seed, route and keys give the same states.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-interactive/SKILL.md"><code>skills/lernapps-interactive/SKILL.md</code></a>.</p>
+</section>
+
+<section id="interactive-playthroughs-pass">
+<h2>Every playthrough plays as written</h2>
+<p><code>interactive-playthroughs-pass</code> · archetype:interactive · error</p>
+<div>
+<p>After each step of a playthrough, the core's state has the fields the step expects. The browser shows the announcement it expects. When one fails, fix the core or the playthrough, whichever is wrong; never delete a playthrough to make the build pass.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-interactive/SKILL.md"><code>skills/lernapps-interactive/SKILL.md</code></a>.</p>
 </section>
 
 <section id="keep-the-preset">
