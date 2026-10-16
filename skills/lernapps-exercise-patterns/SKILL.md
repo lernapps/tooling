@@ -85,6 +85,10 @@ Feedback on a wrong answer says why:
 A component's test checks its logic against correct answers equivalent to the solution and against the typical
 wrong ones, not only against the model solution.
 
+Write the answers you noted into the exercise's `examples`: the other correct answers the text allows into
+`accepted`, typical wrong ones into `rejected`. The build runs them through the real check; learners never see them.
+When an accepted example fails, the exercise checks the wrong thing: change its type or its check, not the example.
+
 ## What every pattern keeps
 
 - The exercise works without the figure being visible: the figure explains, the check checks.
