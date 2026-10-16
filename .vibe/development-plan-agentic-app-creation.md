@@ -374,8 +374,10 @@ The runtime `interactive/` in lernapps/app-templates, which the app does not cha
 - the static start page from `src/app.yaml` (what the app does, how to play, which competencies, optional background
   sections), readable without JavaScript, with a `<noscript>` note, imprint and privacy notice;
 - the app page;
-- languages, storage (`localStorage` through the existing wrapper, owner, 2026-10-16), announcements and focus
-  through the existing helpers (`i18n`, `storage`, `a11y`);
+- languages, announcements and focus through the existing helpers (`i18n`, `a11y`);
+- small storage: `localStorage` through the existing wrapper (`storage`), with a quota of 100 kB per app, because all
+  apps share the origin's 5 MiB; `save` refuses beyond it (owner, 2026-10-16). It is a building block of the frame,
+  for small data only. When an app needs more, an IndexedDB wrapper is built then and added to the frame (YAGNI).
 - hash routes for modes and levels, so that an entry's topics point somewhere and `entry-links-resolve` resolves them.
 
 What the agent writes, in folders named by the template:
