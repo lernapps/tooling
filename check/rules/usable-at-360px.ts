@@ -1,21 +1,25 @@
-// The width of each page in a 360 px wide browser window.
-import type { Check } from "../check.ts";
+// The width of each page in a 360 px wide browser window; warnings when the entry declares the app's limits.
+import { declaredLimit, type Check } from "../check.ts";
 
 const WIDTH = 360;
 
 export default {
   id: "usable-at-360px",
   url: "https://lernapps.net/tooling/rules/#usable-at-360px",
-  description: "No page of the built app is wider than 360 px in a 360 px wide window.",
+  description:
+    "No page of the built app is wider than 360 px in a 360 px wide window; warnings when the entry declares the app's limits.",
   severity: "error",
-  run: ({ app }) =>
-    app?.pages
+  run: (context) => {
+    const severity = declaredLimit(context);
+    return context.app?.pages
       .filter(({ overflow }) => overflow.width > WIDTH)
       .map(({ page, overflow }) => ({
+        ...(severity ? { severity } : {}),
         where: page,
         found:
           `at ${WIDTH} px the page is ${overflow.width} px wide` +
           (overflow.elements.length > 0 ? `; too wide: ${overflow.elements.join(", ")}` : ""),
         fix: "Let the element shrink or wrap (max-width: 100%, flexible widths); give wide content like tables its own overflow-x: auto",
-      })),
+      }));
+  },
 } satisfies Check;
