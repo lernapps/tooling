@@ -119,7 +119,7 @@
 <h2>Accessible to WCAG 2.1 AA</h2>
 <p><code>accessible</code> · listing · error</p>
 <div>
-<p>Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives.</p>
+<p>Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives. Only where the app's idea needs it (a typing game against the clock) may it deviate: then say in plain German what it does not offer in the entry's field <code>limits</code>, which teachers and parents read in the catalog. With <code>limits</code> in the entry, <code>lernapps check --entry</code> reports this rule's findings as warnings; without it, as errors.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/accessible.ts"><code>check/rules/accessible.ts</code></a>.</p>
 </section>
@@ -373,7 +373,7 @@
 <h2>Usable at 360 px</h2>
 <p><code>usable-at-360px</code> · listing · error</p>
 <div>
-<p>Every page works at 360 px width without horizontal scrolling, with every control reachable.</p>
+<p>Every page works at 360 px width without horizontal scrolling, with every control reachable. Only where the app's idea needs it (a keyboard is required) may it deviate, said in the entry's field <code>limits</code> as under <code>accessible</code>; with it, <code>lernapps check --entry</code> reports this rule's findings as warnings, without it as errors.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/usable-at-360px.ts"><code>check/rules/usable-at-360px.ts</code></a>.</p>
 </section>
@@ -692,7 +692,7 @@
 <h2>Store only through the preset's storage</h2>
 <p><code>storage-through-wrapper</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
 <div>
-<p>Keep what the app must remember with <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app: it stays on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. Never use <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</p>
+<p>Keep what the app must remember with <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app: it stays on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. All apps share the origin's localStorage, so an app keeps at most 100 kB under its prefix (keys and values, 2 bytes per UTF-16 code unit): <code>save</code> returns false beyond it, as when storage is blocked, and the app keeps working. Keep the learning state, not histories that keep growing. Never use <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/storage-through-wrapper.ts"><code>lint/rules/storage-through-wrapper.ts</code></a>.</p>
 </section>
