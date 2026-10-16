@@ -345,7 +345,9 @@ Every page ends with the tutor button: one button with a select beside it (the a
 Claude first, and "Prompt kopieren"); the way a learner picks is kept on the device and is the default from then on.
 The prompt of a page also holds its address and, from its tutor file, the tasks with solutions of the numbers in that
 address, so the tutor needs no fetch for them. Where an assistant cannot fetch a file, the learner pastes the prompt:
-the tutor files say so.
+the tutor files say so. A chat assistant fetches only addresses its user wrote into the conversation, not those it finds
+in a fetched file: so the short prompt lists every address the tutor may fetch (`llms.txt`, the tutor file of each page),
+and an app's own `tutor.rules` must not send the tutor to an address that is not in that list.
 
 ## Rules
 
