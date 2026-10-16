@@ -389,7 +389,8 @@ Optional, for apps with tasks (a lesson, a text, a Kniffel situation): the expla
 #### 4. The architecture guides the agent: arc42 in the app
 The other archetypes are frameworks whose notation already constrains the app so much that nobody needs to understand
 its architecture. An interactive app is free code, so its architecture is written early and kept current.
-- `docs/arc42/` in the app, in the arc42 DSL (`@doctc/arc42`). The **frame** comes from the tooling and
+- `docs/arc42/` in the app, in the arc42 DSL (`@doctc/arc42`), in English and minimal (owner, 2026-10-16): per
+  building block and decision one or two sentences of responsibility and reason, nothing the code says. The **frame** comes from the tooling and
   `lernapps update` replaces it, as it replaces the `lernapps-*` skills: the constraints (Vue, no network, state only
   on the device, time pressure that can be turned off, no flashes), the shell as an external building block with its
   interfaces, the concepts every app implements, and the basic blocks core, view and data with their intent.
