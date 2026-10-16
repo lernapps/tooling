@@ -18,8 +18,8 @@ command or a check.
 ## Not built yet
 
 Do not rely on these. Tell the creator when the app needs one of them.
-- The archetype `interactive` in the tooling: no preset for it, no plan template checkpoint "architecture", and
-  `lernapps create --archetype interactive` does not exist.
+- The archetype `interactive` in the tooling: there is no preset for it, and `lernapps create --archetype interactive`
+  does not exist.
 - The storage quota of 100 kB per app: decided, but `createStorage` has no limit today.
 - Time steps in playthroughs (a step that lets a number of ticks pass): decided, not built. The build never calls
   `tick`, and in the browser the clock runs in real time between keys.
@@ -134,7 +134,9 @@ The app's architecture lives in `docs/arc42/` in the arc42 DSL (`@doctc/arc42`),
 part and the archetype's extension come from the frame. The app's own part is yours: its building blocks under the
 basic ones (core, UI, data), with `parent` and `path`, the concepts each implements, its decisions (for example
 canvas or DOM) and its declared accessibility with the reasons. Per block and decision one or two sentences of
-responsibility and reason, nothing the code says. Keep it current in every increment, in the same commit as the code.
+responsibility and reason, nothing the code says. Update it and validate it with every change, in the same commit as
+the code (`arc42 diff --staged --strict` before a commit, `arc42 validate` in the check, once they are wired in). This
+is your work, not the creator's: there is no checkpoint for the architecture.
 
 ## Rules
 
