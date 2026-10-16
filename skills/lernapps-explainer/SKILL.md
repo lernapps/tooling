@@ -271,14 +271,15 @@ The build's rules for `src/components/`, before you write the first file:
 - **Files:** `src/components/<Name>.vue`, a single-file component with `<script setup lang="ts">`, next to it its
   test `src/components/<Name>.test.ts`, which `lernapps check` runs, and for an exercise its logic module
   `src/components/<Name>.ts`. `lernapps check` type-checks `.vue` files with `vue-tsc`.
-- **The block:** `type: vue-component`, `component: <Name>`, `props`, and `nojs`.
+- **The block:** `type: vue-component`, `component: <Name>`, `props`, and `nojs` (an exercise component needs none).
 - **Props:** declared with their types, `defineProps<{ … }>()`: `string`, `number`, `boolean`, literal types, and
   unions, arrays and object types of them. The build checks each block's `props` against them. A `string` prop is a
   learner text: a language map in an app with several languages, checked in each.
 - **`nojs`:** restricted Markdown that says what the component shows and gives its content, for readers without
   JavaScript: the labelled diagram described, or the task with its solution. It must carry the meaning on its own.
   The component replaces it once it runs; with `defineOptions({ nojs: "caption" })` it keeps it folded as a text
-  description. Never in an exercise component: its `nojs` text gives the solution, and the build fails.
+  description. Never in an exercise component: its `nojs` text gives the solution, and the build fails. An exercise
+  component needs no `nojs`: the build writes its text from `describe` for task number 1.
 - **Exercise contract:** a component that emits `answered` with `{ correct, reason }` is an exercise; the page shows the
   feedback below it, with `reason` (a short sentence on what went wrong) for a wrong answer. Its logic lives in
   `<Name>.ts` as pure functions: `generate(seed, props)` gives the task, `check(task, answer)` says whether an answer
@@ -325,6 +326,15 @@ files, patterns, components; with page structures and patterns by subject) and t
 Each topic of the entry draft is the path of a page or a section, relative to the app's `url`: `prozent/prozentwert/`
 or `prozent/prozentwert/#regel` (`entry-links-resolve`; `lernapps check --entry` checks that the page has the section).
 Take the paths from the ids, which stay (`explainer-stable-ids`).
+
+## A tutor the learner brings
+
+The build writes what an AI tutor needs, from the content alone: notes for a tutor in `llms.txt`, a `tutor.md` per
+page (each exercise with its task, answer format, solution, `hint`, typical mistakes, and its numbered tasks with
+links) and a tutor prompt; the start page offers "Mit einem KI-Tutor lernen" (copy the prompt, or open an assistant
+after a click). Numbered tasks are the distinct tasks of an exercise, at most 67, "Aufgabe Nr. 1" to N, linked as
+`?seed=<n>#<id>`. Give app-specific tutor rules in `tutor.rules` and the assistants in `tutor.providers` in
+`src/app.yaml`; the app sends nothing to them.
 
 ## Rules
 
@@ -549,7 +559,8 @@ scope: archetype:explainer
 severity: error
 ```
 
-Give every `vue-component` block a `nojs` text in every language: what the component shows and does, with its
+Give every `vue-component` block that is not an exercise a `nojs` text in every language (an exercise component's text
+comes from `describe`): what the component shows and does, with its
 content, so that the page means the same without JavaScript. The schema requires it; `lernapps check` finds one that
 is empty or hidden without JavaScript (`explainer-readable-without-js`).
 
@@ -566,6 +577,13 @@ When a component emits `answered`, put its logic into `src/components/<Name>.ts`
 passes. Its block lists `examples` with at least one `accepted` and one `rejected` answer, `{ answer, seed? }` in the
 shape `check` takes (without a seed, for the tasks of seeds 1 to 50), including another correct answer where the text
 allows one.
+
+It declares the prop `seed: number` and shows `generate(seed, props)`: the explainer gives the seed, shows "Aufgabe
+Nr." and "Neue Aufgabe" and keeps `?seed=<n>#<id>` in the address; never draw a seed or offer a "next" button inside
+the component. Its logic module also exports `describe(task, props, lang)`, giving `{ task, solution }` in restricted
+Markdown, the task exactly as the learner sees it, and `about = { task, answer, correct, mistakes }`, texts by
+language: what the learner does, the answer format, what counts as right, the typical mistakes. A tutor reads only
+these: the build writes them into the page's `tutor.md` and the component's text without JavaScript.
 
 Any exercise may carry `examples: { accepted, rejected }`, which the build checks and learners never see; for
 `generated` they are expressions of `given` and `answer`, checked for every seed (e.g. `reverse(answer)`).

@@ -89,6 +89,9 @@ Write the answers you noted into the exercise's `examples`: the other correct an
 `accepted`, typical wrong ones into `rejected`. The build runs them through the real check; learners never see them.
 When an accepted example fails, the exercise checks the wrong thing: change its type or its check, not the example.
 
+For an exercise component, write `about.mistakes` from the same typical wrong answers as `examples.rejected`, and
+make `describe` state the task exactly as the screen shows it for that task number: a tutor reads only that.
+
 ## What every pattern keeps
 
 - The exercise works without the figure being visible: the figure explains, the check checks.
