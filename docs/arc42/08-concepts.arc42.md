@@ -13,8 +13,10 @@ Every rule has:
 | scope | listing, one or more archetypes, or both | which apps it applies to: every listed app wherever it is hosted; the apps of that archetype |
 | severity | error, warning, hint | error: must not be broken; the check or review fails. Warning: may be broken on purpose, with a reason recorded in place; the review sees every exception. Hint: a recommendation that never fails |
 
-A listing rule is never a warning: a creator cannot argue their way past the fitness signal. The rules in scope for an
-app are the listing rules and the rules of its archetype. The rules of lernapps.net's own websites are not in the
+A listing rule is never a warning: a creator cannot argue their way past the fitness signal. The exceptions are
+`accessible` and `usable-at-360px`: an app may deviate from them where its idea needs it and says so in its catalog
+entry (`limits`), where teachers and parents read it; with `limits` in the entry, their findings are warnings. The
+rules in scope for an app are the listing rules and the rules of its archetype. The rules of lernapps.net's own websites are not in the
 catalog: the shared site frame owns them.
 
 A rule can live in several artifacts at once, each deployed on its own; the shared id makes them one rule. A skill
