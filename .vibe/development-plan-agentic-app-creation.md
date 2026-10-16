@@ -336,7 +336,8 @@ first run. Next (owner, 2026-10-13): an MVP of the explainer archetype based on 
 principles hold there (11, sketch below), before the evals (10); then 10 and 12. Step 11 is done, with the first full
 explainer run (see Completed). Next (owner, 2026-10-16): the interactive archetype (12) before the evals (10), so the
 evals cover all three archetypes.*
-- [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
+- [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20)): sketched below and decided
+  by the owner (2026-10-16); next: step 1 (app-templates)
 - [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
   and an increment each
 - [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),
@@ -344,9 +345,8 @@ evals cover all three archetypes.*
   tutor support for the quiz, later ([#86](https://github.com/lernapps/tooling/issues/86))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
 
-### Sketch: the interactive archetype (step 12, for the owner's decision)
-*From the owner's examples and answers (2026-10-16). Open for the owner's decision; the explainer's sketch below is the
-model.*
+### Sketch: the interactive archetype (step 12, decided by the owner)
+*From the owner's examples and answers, decided by the owner (2026-10-16).*
 
 #### 1. Scope
 Apps whose doing is the content, with no explanation pages:
@@ -416,6 +416,8 @@ idea needs it: a shooting game with a time limit will not work with a screen rea
 - The entry says so in one optional field (e.g. `limits`, German, shown in the catalog): what the app does not offer.
 - With that field, the findings of `accessible` and `usable-at-360px` are warnings for that app; without it, errors.
 - The start page, which the shell renders, meets both rules in any case.
+- No obligation beyond these: the skill recommends low stimulation (no flashing, calm motion, sound off by default)
+  and says why, as advice, not as a check.
 
 #### 6. Tests and validation
 - The build plays every playthrough against the core and runs the core's property tests over fixed seeds; the e2e
