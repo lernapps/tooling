@@ -333,8 +333,19 @@ The build writes what an AI tutor needs, from the content alone: notes for a tut
 page (each exercise with its task, answer format, solution, `hint`, typical mistakes, and its numbered tasks with
 links) and a tutor prompt; the start page offers "Mit einem KI-Tutor lernen" (copy the prompt, or open an assistant
 after a click). Numbered tasks are the distinct tasks of an exercise, at most 67, "Aufgabe Nr. 1" to N, linked as
-`?seed=<n>#<id>`. Give app-specific tutor rules in `tutor.rules` and the assistants in `tutor.providers` in
+`?<id>=<n>#<id>`. Give app-specific tutor rules in `tutor.rules` and the assistants in `tutor.providers` in
 `src/app.yaml`; the app sends nothing to them.
+
+The address of a page holds the task number of every seeded exercise (`?<id1>=3&<id2>=12`), written on load and at
+each "Neue Aufgabe": a link to share in class, a deep link, and the state a tutor reads. `seed` and `von` are no
+exercise id (the build checks); `?seed=<n>#<id>` still opens that exercise's task. A number names a task only while
+the generator stays the same: when you change a generator, the numbers of shared links point to other tasks.
+
+Every page ends with the tutor button: one button with a select beside it (the assistants of `tutor.providers`,
+Claude first, and "Prompt kopieren"); the way a learner picks is kept on the device and is the default from then on.
+The prompt of a page also holds its address and, from its tutor file, the tasks with solutions of the numbers in that
+address, so the tutor needs no fetch for them. Where an assistant cannot fetch a file, the learner pastes the prompt:
+the tutor files say so.
 
 ## Rules
 
@@ -579,7 +590,7 @@ shape `check` takes (without a seed, for the tasks of seeds 1 to 50), including 
 allows one.
 
 It declares the prop `seed: number` and shows `generate(seed, props)`: the explainer gives the seed, shows "Aufgabe
-Nr." and "Neue Aufgabe" and keeps `?seed=<n>#<id>` in the address; never draw a seed or offer a "next" button inside
+Nr." and "Neue Aufgabe" and keeps `?<id>=<n>` in the address; never draw a seed or offer a "next" button inside
 the component. Its logic module also exports `describe(task, props, lang)`, giving `{ task, solution }` in restricted
 Markdown, the task exactly as the learner sees it, and `about = { task, answer, correct, mistakes }`, texts by
 language: what the learner does, the answer format, what counts as right, the typical mistakes. A tutor reads only
