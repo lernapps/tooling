@@ -331,16 +331,15 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
 Each step brings its rules in their artifacts and, where it touches the guidance, an eval run. To close the circle
 with the quiz archetype first (owner, 2026-10-12): 9 → 13 → a first full run → 10, then 11 and 12. Done up to the
 first run. Next (owner, 2026-10-13): an MVP of the explainer archetype based on the Mathe-Karte, to see that the
-principles hold there (11, sketch below), before the evals (10); then 10 and 12.*
-- [ ] 11 · The explainer archetype ([#19](https://github.com/lernapps/tooling/issues/19)): first an MVP based on the
-  Mathe-Karte, sketched below and decided by the owner (2026-10-13). The issue's "prototype first" (Eleventy
-  or Vite only) becomes the spike that opens the structure-and-blocks pull request (sketch, step 2 and Q1). Steps
-  1–5 (app-templates) are done, see Completed, and 6 (tooling: the archetype `explainer`, merged in #59); 7 (the
-  check at the gate) is in review in #64; next: 8
-- [ ] Content guidance before the first explainer run (KD-23): the content skills, the app's content guide from the
-  generator, its rule and rubric item; in review in #66
-- [ ] 10 · Evals for the quiz archetype ([#18](https://github.com/lernapps/tooling/issues/18))
+principles hold there (11, sketch below), before the evals (10); then 10 and 12. Step 11 is done, with the first full
+explainer run (see Completed). Next (owner, 2026-10-16): the interactive archetype (12) before the evals (10), so the
+evals cover all three archetypes.*
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20))
+- [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
+  and an increment each
+- [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),
+  the templates' build into `dist/` ([lernapps/app-templates#32](https://github.com/lernapps/app-templates/issues/32)),
+  tutor support for the quiz, later ([#86](https://github.com/lernapps/tooling/issues/86))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
 
 ### Sketch: the explainer MVP (step 11, decided by the owner)
@@ -971,6 +970,34 @@ The open questions of the earlier versions, decided:
     props are resolved by Vue's SFC compiler instead of `vue-component-meta` (no language service, milliseconds);
     `explainerTests()` tests an exercise component's `answered` by emitting it through the island's vnode, not by
     operating the component's controls, which only the component knows
+- [x] 11, steps 6–7 and the content guidance: the archetype `explainer` (#59), the check
+  `explainer-readable-without-js` with section anchors (#64), the content skills and each app's own content guide
+  (KD-23, #66)
+- [x] 11, step 8 · First full explainer run, in lernapps/elektrizitaet: the first version (plan 01, listed in
+  lernapps/apps#26) and two increments (plans 02 and 03). Lessons and the fixes they led to:
+  - Guidance: the creator confirms the research and the content method at checkpoints (#67); the agent reads skills
+    and pages in full from their files, never from a fetch tool's summary, installs the skills first, and
+    `lernapps create` refuses to run before the plan is confirmed (#69); the published address comes from the deploy
+    job (#70); exercise checks are explained at a meta level, sketches before figures, the Lehrplan is orientation
+    only (#75)
+  - A plan per piece of work: `.vibe/plans/<NN>-<short name>.md`, the plan template for the first version and the
+    increment template, an increment on its own branch ending in a pull request (#73); a preview of the pull request
+    in the real app, with a comment for non-technical reviewers (#74)
+  - Skills: the generic `lernapps-*` skills are committed in the app, `lernapps update` replaces them, and the app's
+    own skills (`app-content`) take precedence (#75); hooks survive an update (#76); the pre-commit hook type-checks
+    once (#79); tests of the CLI stay fast (#80)
+  - Runtime (lernapps/app-templates): the app's type check reads `src/` only (#20); labelled figures have a size
+    (#21); credits and links by language (#22); solutions after the answer, a reason for each wrong answer (generated
+    mistake, option info, `mistakes`, hint), folded captions for non-exercise components, and a 404 page that leads to
+    the app's home, without redirects (#24); each exercise's `examples` (accepted, rejected) checked against its real
+    check at build and never shipped (#25); exercises, solutions and sections recognisable (#29)
+  - Review and catalog (lernapps/apps): the review reads the content guide (#27) and every plan in `.vibe/plans/`
+    (#29, #30)
+  - Deviation from Q5: the tutor came before the evals, at the owner's request (variant A, the learner brings the
+    assistant, provider-neutral with Claude as the default). Distinct tasks are numbered, at most 67 per exercise, and
+    every exercise's number is in the address; exercise components take `seed` and export `describe` and `about`;
+    `tutor.md` per page, a tutor part in `llms.txt`, a tutor prompt that names every address the tutor may fetch, and
+    the tutor button (lernapps/app-templates#26–#28, #30, #31; #82–#84)
 
 ## Commit
 
