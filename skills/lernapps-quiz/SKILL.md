@@ -106,6 +106,11 @@ What the quiz asks and how its rounds are built is decided once, in the app's co
 | `ordering` | gives each item its place, e.g. by height | `items` in the right order; the page mixes them |
 | `matching` | matches each left entry with a right one | `pairs` as they belong; the page mixes the right entries |
 
+A question may carry `examples: { accepted, rejected }` when more than one answer could count or a typical wrong
+answer is worth pinning down: options and items by index from 0 or by their German text, numbers as a number or as
+typed (`"12,5"`; a point is the decimal mark, so write `8900`, never `8.900`). The build checks them; learners never
+see them. Mistakes and the `info` of wrong options already count as rejected.
+
 Every question has an `id`, its `text`, an `explanation` and at least one link in `links`. Types without options
 (true/false, number, ordering, matching) carry their background in `explanation`. The quiz may list its `sources`.
 

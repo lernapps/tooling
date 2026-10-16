@@ -563,7 +563,12 @@ severity: error
 
 When a component emits `answered`, put its logic into `src/components/<Name>.ts` with `generate(seed, props)`,
 `check(task, answer)`, `solution(task)` and `wrong(task)`, pure and deterministic, so that the build's property test
-passes.
+passes. Its block lists `examples` with at least one `accepted` and one `rejected` answer, `{ answer, seed? }` in the
+shape `check` takes (without a seed, for the tasks of seeds 1 to 50), including another correct answer where the text
+allows one.
+
+Any exercise may carry `examples: { accepted, rejected }`, which the build checks and learners never see; for
+`generated` they are expressions of `given` and `answer`, checked for every seed (e.g. `reverse(answer)`).
 
 ### `vue-component-tested`: A test per component
 
