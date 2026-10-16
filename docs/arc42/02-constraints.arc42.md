@@ -22,9 +22,10 @@ source: Platform design; listing criteria of the app overview
 ## Rules for every page
 
 Every page in every repo of the organisation sets no cookies, does no tracking and sends no requests to other servers
-before a click; it meets WCAG 2.1 AA and is usable at 360 px. The further rules of lernapps.net's own websites, such
-as being readable without JavaScript and linking the imprint and the privacy notice, belong to the shared site frame
-and are no rules for apps.
+before a click. The pages of the platform (the site frame, the catalog, the overview pages) also meet WCAG 2.1 AA, are
+usable at 360 px and are readable without JavaScript. An app meets WCAG 2.1 AA and 360 px by default and may deviate
+where its idea needs it, saying so in its entry. Linking the imprint and the privacy notice belongs to the shared site
+frame.
 
 ```arc42
 :::constraint

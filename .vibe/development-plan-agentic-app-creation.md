@@ -279,7 +279,9 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
   `werkzeuge/review/ki-review.md`, `e2e/` (Playwright + axe), `lib/pruefe-ausgabe.js`, `lib/pruefe-links.js`,
   `lib/pruefe-lizenzen.js`, `CLAUDE.md` (project rules).
 - **Org rules for every page, in every repo** (ORGANIZATION.md): no cookies, no tracking, no requests to other servers
-  before a click; WCAG 2.1 AA, usable at 360 px; imprint and privacy notice linked. Readable without JavaScript applies
+  before a click; imprint and privacy notice linked. WCAG 2.1 AA and usable at 360 px are rules of the platform (site
+  frame, catalog, overview pages); an app follows them by default and may deviate, saying so in its entry (owner,
+  2026-10-16). Readable without JavaScript applies
   only to lernapps.net's own site (the site frame and the catalog), not to apps (#47, lernapps/.github#42); the
   explainer archetype promises it as its own rule. Shared infrastructure in English, texts for learners, teachers and
   parents in German.
@@ -371,13 +373,13 @@ background sections on the start page or an info view stay interactive.
 The runtime `interactive/` in lernapps/app-templates, which the app does not change:
 - the static start page from `src/app.yaml` (what the app does, how to play, which competencies, optional background
   sections), readable without JavaScript, with a `<noscript>` note, imprint and privacy notice;
-- the app page, a settings dialog (time limit off, less motion, sound off) and pause with Esc; the settings reach the
-  app's core as `settings`;
-- languages, storage, announcements and focus through the existing helpers (`i18n`, `storage`, `a11y`);
+- the app page;
+- languages, storage (`localStorage` through the existing wrapper, owner, 2026-10-16), announcements and focus
+  through the existing helpers (`i18n`, `storage`, `a11y`);
 - hash routes for modes and levels, so that an entry's topics point somewhere and `entry-links-resolve` resolves them.
 
 What the agent writes, in folders named by the template:
-- `src/core/`: the logic, pure TypeScript without DOM, deterministic by a seed: `start(seed, settings)`,
+- `src/core/`: the logic, pure TypeScript without DOM, deterministic by a seed: `start(seed)`,
   `step(state, input)`, optionally `tick(state, dt)`;
 - `src/ui/`: Vue components that show the state and turn input into actions;
 - `src/data/`: content as data (lessons, texts with their faulty versions) with the app's own schema;
@@ -392,7 +394,7 @@ its architecture. An interactive app is free code, so its architecture is writte
 - `docs/arc42/` in the app, in the arc42 DSL (`@doctc/arc42`), in English and minimal (owner, 2026-10-16): per
   building block and decision one or two sentences of responsibility and reason, nothing the code says. The **frame** comes from the tooling and
   `lernapps update` replaces it, as it replaces the `lernapps-*` skills: the constraints (Vue, no network, state only
-  on the device, time pressure that can be turned off, no flashes), the shell as an external building block with its
+  on the device), the shell as an external building block with its
   interfaces, the concepts every app implements, and the basic blocks core, view and data with their intent.
 - The **app's own part**, written by the agent: its building blocks under the basic ones (`parent`, `path`), which
   concepts each implements, its decisions (e.g. canvas or DOM), and its declared accessibility with the reasons.
@@ -405,33 +407,30 @@ its architecture. An interactive app is free code, so its architecture is writte
 - **In the creator's plan:** a checkpoint "architecture" in Plan, next to the content method: the blocks in plain
   words and the sketches. Each increment keeps the architecture current. The review reads it.
 
-#### 5. Accessibility as a declaration
-Accessibility has limits: a shooting game with a time limit will not work with a screen reader. Instead of a promise
-it cannot keep, the app declares what it offers:
-- the start page is always WCAG 2.1 AA and says what the app offers and what not;
-- the app's entry gets a field such as `accessibility`: `keyboard` (full, partial, none), `screenReader`, `timing`
-  (none, adjustable, required), `motion`, and a reason;
-- the checks follow the declaration: `keyboard: full` requires a playthrough by keyboard alone, played in the browser;
-  what is declared is checked, what is excluded is not required. No flashes, always: that is health, not comfort.
-
-**For the owner:** this changes the organisation's rule (WCAG 2.1 AA for every page, ORGANIZATION.md) for the
-declared part of an interactive app, and the entry schema in lernapps/apps.
+#### 5. Accessibility: a rule of the platform, a default for apps
+WCAG 2.1 AA and 360 px are rules of the platform: the site frame, the catalog and the overview pages (owner,
+2026-10-16). An app follows them by default, as explainer and quiz do through their runtimes, and may deviate where its
+idea needs it: a shooting game with a time limit will not work with a screen reader, a typing trainer not on a phone.
+- The entry says so in one optional field (e.g. `limits`, German, shown in the catalog): what the app does not offer.
+- With that field, the findings of `accessible` and `usable-at-360px` are warnings for that app; without it, errors.
+- The start page, which the shell renders, meets both rules in any case.
 
 #### 6. Tests and validation
 - The build plays every playthrough against the core and runs the core's property tests over fixed seeds; the e2e
   test plays the same keys in the browser (`interactiveTests()`), together with the start page without JavaScript,
-  axe on start page and app page, and the time limit turned off.
+  axe on start page and app page.
 - `lernapps create --archetype interactive` gives an app that passes `lernapps check`.
 
 #### 7. Steps and pull requests
-1. **app-templates:** the runtime `interactive/` (shell, settings, hash routes, the core contract, playthroughs,
-   `interactiveTests()`) and a small template app, e.g. a letter-typing game with an untimed mode.
+1. **app-templates:** the runtime `interactive/` (shell, hash routes, the core contract, playthroughs,
+   `interactiveTests()`) and a small template app, e.g. a letter-typing game.
 2. **tooling:** the archetype `interactive`: pin, preset, the component rules' scope widened, the arc42 frame and
    `arc42 diff` in the pre-commit hook, `arc42 validate` in the check, the skill `lernapps-interactive` with the
-   recipes (real-time game, turn-based game, text work), the plan template's architecture checkpoint, the rubric.
-3. **lernapps/apps and the organisation:** the `accessibility` field and the changed rule, after the owner's decision.
+   recipes (real-time game, turn-based game, text work), the plan template's architecture checkpoint, the rubric;
+   `accessible` and `usable-at-360px` as warnings for an app whose entry states its limits.
+3. **lernapps/apps:** the optional field for the limits in the entry schema, shown in the catalog.
 4. **A first full run** with the typing shooting game as the pilot: it puts the most pressure on the frame (real
-   time, time pressure, motion, accessibility). The Kniffel trainer second, for the core's tests and the exercise
+   time, time pressure, accessibility). The Kniffel trainer second, for the core's tests and the exercise
    contract. Then the evals (10) with all three archetypes.
 
 ### Sketch: the explainer MVP (step 11, decided by the owner)
