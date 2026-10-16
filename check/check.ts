@@ -67,6 +67,17 @@ export interface Entry {
   url: string;
   topics?: { title: string; path: string }[];
   fitness?: { storage?: string; thirdParty?: string };
+  /** What the app does not offer of the platform's rules (WCAG 2.1 AA, usable at 360 px), because its idea needs it. */
+  limits?: string;
+}
+
+/**
+ * The severity of the findings of a rule an app may deviate from where its idea needs it (accessible,
+ * usable-at-360px): a warning when the entry declares the app's limits, otherwise the check's own (undefined).
+ */
+export function declaredLimit(context: Context): Severity | undefined {
+  const limits = context.entry?.value.limits;
+  return typeof limits === "string" && limits.trim() !== "" ? "warning" : undefined;
 }
 
 /** The fitness values measured on the built app, in the entry's words. */
