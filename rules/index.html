@@ -698,6 +698,7 @@
 <p><code>vue-component-exercise-contract</code> · archetype:explainer · error</p>
 <div>
 <p>When a component emits <code>answered</code>, put its logic into <code>src/components/&lt;Name&gt;.ts</code> with <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code> and <code>wrong(task)</code>, pure and deterministic, so that the build's property test passes. Its block lists <code>examples</code> with at least one <code>accepted</code> and one <code>rejected</code> answer, <code>{ answer, seed? }</code> in the shape <code>check</code> takes (without a seed, for the tasks of seeds 1 to 50), including another correct answer where the text allows one.</p>
+<p>It declares the prop <code>seed: number</code> and shows <code>generate(seed, props)</code>: the explainer gives the seed, shows &quot;Aufgabe Nr.&quot; and &quot;Neue Aufgabe&quot; and keeps <code>?seed=&lt;n&gt;#&lt;id&gt;</code> in the address; never draw a seed or offer a &quot;next&quot; button inside the component. Its logic module also exports <code>describe(task, props, lang)</code>, giving <code>{ task, solution }</code> in restricted Markdown, the task exactly as the learner sees it, and <code>about = { task, answer, correct, mistakes }</code>, texts by language: what the learner does, the answer format, what counts as right, the typical mistakes. A tutor reads only these: the build writes them into the page's <code>tutor.md</code> and the component's text without JavaScript.</p>
 <p>Any exercise may carry <code>examples: { accepted, rejected }</code>, which the build checks and learners never see; for <code>generated</code> they are expressions of <code>given</code> and <code>answer</code>, checked for every seed (e.g. <code>reverse(answer)</code>).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>.</p>
@@ -734,7 +735,7 @@
 <h2>Every component block has its <code>nojs</code> text</h2>
 <p><code>vue-component-nojs</code> · archetype:explainer · error</p>
 <div>
-<p>Give every <code>vue-component</code> block a <code>nojs</code> text in every language: what the component shows and does, with its content, so that the page means the same without JavaScript. The schema requires it; <code>lernapps check</code> finds one that is empty or hidden without JavaScript (<code>explainer-readable-without-js</code>).</p>
+<p>Give every <code>vue-component</code> block that is not an exercise a <code>nojs</code> text in every language (an exercise component's text comes from <code>describe</code>): what the component shows and does, with its content, so that the page means the same without JavaScript. The schema requires it; <code>lernapps check</code> finds one that is empty or hidden without JavaScript (<code>explainer-readable-without-js</code>).</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>.</p>
 </section>
