@@ -44,6 +44,7 @@ Install them into your harness with `npx skills add lernapps/tooling`. An app co
 - [lernapps-listing](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-listing/SKILL.md): how to open the listing pull request and act on its results comment.
 - [lernapps-quiz](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-quiz/SKILL.md): how the quiz works and how to write its questions.
 - [lernapps-explainer](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-explainer/SKILL.md): how the explainer works: its structure, blocks, formulas, languages, exercises and components.
+- [lernapps-interactive](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-interactive/SKILL.md): the principles of an interactive app's code, and what of its archetype is not built yet.
 - [lernapps-content-research](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-research/SKILL.md): what the app teaches: the curriculum, with the Lehrplan as orientation for grade and order, the competencies as "Ich kann …" grouped into chapters, second sources verified by opening them. For every archetype.
 - [lernapps-exercise-patterns](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-exercise-patterns/SKILL.md): exercises from shared data files, patterns written down once and varied, and a component or an issue for the rest; with a [catalogue of patterns by subject](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-exercise-patterns/references/patterns.md).
 - [lernapps-content-growth](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-growth/SKILL.md): how an app grows after its first version, one competency per slice, with a brief for parallel sub-agents.
@@ -72,7 +73,7 @@ An archetype is a kind of app: a template, a runtime, skills and the rules in sc
 
 - quiz: questions with options and feedback; the assistant writes only the question bank. [Template](https://github.com/lernapps/app-templates/tree/main/quiz), skill lernapps-quiz, [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md).
 - explainer: chapters of pages that explain and practise, readable without JavaScript; the assistant writes the content as YAML, and Vue components only where no block fits. [Template](https://github.com/lernapps/app-templates/tree/main/explainer), skill lernapps-explainer, [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md).
-- interactive: one app page plus a static start page. Rules and [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md); no template yet.
+- interactive: one app page plus a static start page. Skill lernapps-interactive, rules and [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md); not in the tooling yet.
 
 ## Optional
 
