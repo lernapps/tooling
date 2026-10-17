@@ -126,7 +126,40 @@ describe("a verdict", () => {
     expect(result.code, output(result)).toBe(0);
   });
 
+  test("of an app built with the tooling whose only finding is an unticked plan box passes, as advice", () => {
+    const value = changed((verdict) => {
+      verdict.outcome = "pass";
+      verdict.findings = [
+        {
+          rule: "retrospective-filled",
+          link: `${RULES}retrospective-filled`,
+          severity: "warning",
+          where: ".vibe/plans/01-first-version.md, Explore",
+          found: 'The checkpoint "- [ ] Research: wait for the creator\'s answer" is left unticked.',
+          fix: "Tick the box once the creator has answered.",
+        },
+      ];
+    });
+    const result = verdict(write("tooling-advice", value));
+    expect(result.code, output(result)).toBe(0);
+    expect(result.stdout).toMatch(/^verdict: ok, commit [0-9a-f]{7}, pass, 1 finding \(0 errors\)/);
+  });
+
   test.each<[string, (verdict: Verdict) => void, string]>([
+    [
+      "that blocks the listing with a finding of a tooling rule",
+      (verdict) => {
+        verdict.findings.unshift({
+          rule: "retrospective-filled",
+          link: `${RULES}retrospective-filled`,
+          severity: "error",
+          where: ".vibe/plans/01-first-version.md, Explore",
+          found: "A checkpoint is left unticked.",
+          fix: "Tick it.",
+        });
+      },
+      "/findings/0: retrospective-filled is a tooling rule and never blocks a listing: its findings are advice, severity warning",
+    ],
     [
       "without the reviewed commit",
       (verdict) => {
