@@ -84,6 +84,7 @@
 <tr><td><a href="#explainer-structure-complete"><code>explainer-structure-complete</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#explainer-structure-depth"><code>explainer-structure-depth</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#interactive-app-valid"><code>interactive-app-valid</code></a></td><td>archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#interactive-architecture-current"><code>interactive-architecture-current</code></a></td><td>archetype:interactive</td><td>error</td></tr>
 <tr><td><a href="#interactive-core-contract"><code>interactive-core-contract</code></a></td><td>archetype:interactive</td><td>error</td></tr>
 <tr><td><a href="#interactive-playthroughs-pass"><code>interactive-playthroughs-pass</code></a></td><td>archetype:interactive</td><td>error</td></tr>
 <tr><td><a href="#keep-the-preset"><code>keep-the-preset</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
@@ -104,11 +105,11 @@
 <tr><td><a href="#storage-through-wrapper"><code>storage-through-wrapper</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#strict-typescript"><code>strict-typescript</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#topic-has-exercises"><code>topic-has-exercises</code></a></td><td>archetype:explainer</td><td>error</td></tr>
-<tr><td><a href="#vue-component-browser-globals"><code>vue-component-browser-globals</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#vue-component-browser-globals"><code>vue-component-browser-globals</code></a></td><td>archetype:explainer, archetype:interactive</td><td>error</td></tr>
 <tr><td><a href="#vue-component-exercise-contract"><code>vue-component-exercise-contract</code></a></td><td>archetype:explainer</td><td>error</td></tr>
-<tr><td><a href="#vue-component-imports"><code>vue-component-imports</code></a></td><td>archetype:explainer</td><td>error</td></tr>
-<tr><td><a href="#vue-component-no-html-injection"><code>vue-component-no-html-injection</code></a></td><td>archetype:explainer</td><td>error</td></tr>
-<tr><td><a href="#vue-component-no-network"><code>vue-component-no-network</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#vue-component-imports"><code>vue-component-imports</code></a></td><td>archetype:explainer, archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#vue-component-no-html-injection"><code>vue-component-no-html-injection</code></a></td><td>archetype:explainer, archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#vue-component-no-network"><code>vue-component-no-network</code></a></td><td>archetype:explainer, archetype:interactive</td><td>error</td></tr>
 <tr><td><a href="#vue-component-nojs"><code>vue-component-nojs</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#vue-component-props-valid"><code>vue-component-props-valid</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#vue-component-size"><code>vue-component-size</code></a></td><td>archetype:explainer</td><td>error</td></tr>
@@ -531,11 +532,20 @@
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-interactive/SKILL.md"><code>skills/lernapps-interactive/SKILL.md</code></a>.</p>
 </section>
 
+<section id="interactive-architecture-current">
+<h2>The architecture is valid and current</h2>
+<p><code>interactive-architecture-current</code> · archetype:interactive · error</p>
+<div>
+<p><code>docs/arc42/</code> holds the generic part and the interactive extension as <code>lernapps create</code> or <code>lernapps update</code> wrote them, unchanged outside the app sections, and the app's own part inside them describes the code as it is: every part of <code>src/</code> has its block, every block its code. <code>arc42 validate --strict</code> in <code>lernapps check</code> and <code>arc42 diff --staged --strict</code> before a commit pass; the review reads whether the architecture still says what the code does.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-interactive/SKILL.md"><code>skills/lernapps-interactive/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md"><code>review/archetypes/interactive.md</code></a>.</p>
+</section>
+
 <section id="interactive-core-contract">
 <h2>The core keeps its contract</h2>
 <p><code>interactive-core-contract</code> · archetype:interactive · error</p>
 <div>
-<p><code>src/core/index.ts</code> exports <code>start(seed, route)</code> and <code>step(state, key)</code>, and <code>tick(state, dt)</code> as a function when the app moves on its own. Every route starts, nothing throws, and the same seed, route and keys give the same states.</p>
+<p><code>src/core/index.ts</code> exports <code>start(seed, route)</code> and <code>step(state, input)</code>, and <code>tick(state, dt)</code> as a function when the app moves on its own. Every route starts, nothing throws, and the same seed, route, inputs and ticks give the same states.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-interactive/SKILL.md"><code>skills/lernapps-interactive/SKILL.md</code></a>.</p>
 </section>
@@ -717,7 +727,7 @@
 
 <section id="vue-component-browser-globals">
 <h2>Browser globals only once mounted</h2>
-<p><code>vue-component-browser-globals</code> · archetype:explainer · error</p>
+<p><code>vue-component-browser-globals</code> · archetype:explainer, archetype:interactive · error</p>
 <div>
 <p>Use <code>window</code>, <code>document</code>, <code>localStorage</code> and the other browser globals only inside <code>onMounted</code>, or the unmount hooks after it: the build renders the component where they do not exist.</p>
 </div>
@@ -737,16 +747,16 @@
 
 <section id="vue-component-imports">
 <h2>Imports only from the allowed packages</h2>
-<p><code>vue-component-imports</code> · archetype:explainer · error</p>
+<p><code>vue-component-imports</code> · archetype:explainer, archetype:interactive · error</p>
 <div>
-<p>Import only from <code>vue</code>, <code>@lernapps/app-templates</code>, <code>@lernapps/tooling/storage</code>, <code>i18n</code> and <code>a11y</code>, and the component's own folder. Types may come from anywhere.</p>
+<p>Import only from <code>vue</code>, <code>@lernapps/app-templates</code>, <code>@lernapps/tooling/storage</code>, <code>i18n</code> and <code>a11y</code>, and the component's own folder. Types may come from anywhere. In an interactive app, the components may also import the app's files in <code>src/</code> and the libraries in the <code>dependencies</code> of its <code>package.json</code>.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-explainer/SKILL.md"><code>skills/lernapps-explainer/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-imports.ts"><code>lint/rules/vue-component-imports.ts</code></a>.</p>
 </section>
 
 <section id="vue-component-no-html-injection">
 <h2>No code or HTML from strings</h2>
-<p><code>vue-component-no-html-injection</code> · archetype:explainer · error</p>
+<p><code>vue-component-no-html-injection</code> · archetype:explainer, archetype:interactive · error</p>
 <div>
 <p>Use no <code>eval</code>, <code>new Function</code>, <code>innerHTML</code> or <code>v-html</code> in a component: let its template render the content.</p>
 </div>
@@ -755,7 +765,7 @@
 
 <section id="vue-component-no-network">
 <h2>No network</h2>
-<p><code>vue-component-no-network</code> · archetype:explainer · error</p>
+<p><code>vue-component-no-network</code> · archetype:explainer, archetype:interactive · error</p>
 <div>
 <p>Make no request from a component and import nothing from a URL: give it what it needs through its props, or bundle it.</p>
 </div>
