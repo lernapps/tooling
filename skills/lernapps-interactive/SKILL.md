@@ -132,9 +132,9 @@ two sentences of responsibility and reason, nothing the code says.
 
 Update it with every change, in the same commit as the code. Before a commit that stages architecture or code,
 `arc42 diff --staged --strict` runs: a block changed without its prose, or new code under `src/` that no block claims,
-fails it. `lernapps check` runs `arc42 validate --strict`: any error, warning or hint fails. arc42 resolves only paths
-git knows, so `git add` new files before the check. This is your work, not the creator's: there is no checkpoint for
-the architecture.
+fails it; it reads what is staged, so `git add` the new files that belong to the commit. `lernapps check` runs
+`arc42 validate --strict` on the working tree, files not added to git included: any error, warning or hint fails.
+This is your work, not the creator's: there is no checkpoint for the architecture.
 
 ## Rules
 
