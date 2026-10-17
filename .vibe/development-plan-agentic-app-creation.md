@@ -355,7 +355,7 @@ evals cover all three archetypes.*
   Next: the first full run with a pilot app (step 4 of the sketch).
 - [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
   and an increment each: inventory and expected behaviour in the sketch below (2026-10-17); scenarios and scoring next
-  - How the eval runs are built: ADR `dec-eval-runs-from-files` in `docs/arc42/09-decisions.arc42.md` (proposed,
+  - How the eval runs are built: ADR [`docs/adr/eval-runs-from-files.md`](../docs/adr/eval-runs-from-files.md), short form `dec-eval-runs-from-files` in chapter 9 (proposed,
     2026-10-17; scripts and result files, a scripted creator, a scoring script; Harbor as the later option)
 - [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),
   the templates' build into `dist/` ([lernapps/app-templates#32](https://github.com/lernapps/app-templates/issues/32)),
@@ -494,7 +494,7 @@ Overall:
   increment), so the later stages do not depend on an early derailment.
 - Each expectation maps to its inventory item; a failure says whether the item was not read, misread or not followed.
   Counterfactual runs (one item changed) only for suspects. At least three runs per scenario and configuration.
-- Infrastructure: `dec-eval-runs-from-files` in chapter 9 (proposed).
+- Infrastructure: [`docs/adr/eval-runs-from-files.md`](../docs/adr/eval-runs-from-files.md) (proposed).
 
 ### Sketch: the interactive archetype (step 12, decided by the owner)
 *From the owner's examples and answers, decided by the owner (2026-10-16).*
