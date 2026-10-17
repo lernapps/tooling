@@ -15,15 +15,19 @@ Every rule has:
 
 Scope `tooling` holds the rules that presuppose the plan workflow or the tooling's checks (the plan file, the
 checkpoints, the retrospective, the content guide, `lernapps check`, suppressions). They apply to an app built with
-the tooling, at listing too; an app built freely (by hand, with another framework, with an app builder) is held to
+the tooling; an app built freely (by hand, with another framework, with an app builder) is held to
 the listing rules alone and never fails its listing for lacking a plan file. An app is built with the tooling when its
 `package.json` lists `@lernapps/tooling` in `dependencies` or `devDependencies`: the generator writes it into every
 app, and it needs no marker of its own. The plan file cannot be the marker, since `plan-file` is about its absence.
 `npm run rules -- --app <dir>` lists the rules in scope for one app; the review judges those alone.
 
-A listing or tooling rule is never a warning: a creator cannot argue their way past the fitness signal. The exceptions are
-`accessible` and `usable-at-360px`: an app may deviate from them where its idea needs it and says so in its catalog
-entry (`limits`), where teachers and parents read it; with `limits` in the entry, their findings are warnings. The
+A tooling rule never blocks a listing, since the catalog takes apps built in completely different ways: in the
+listing validation and the review its findings are warnings at most, advice for the creator, even for an app built
+with the tooling (`atListing` in `npm run rules`; the verdict check refuses a tooling finding of severity error).
+In the app's repo its declared severity holds: the assistant follows it, and the hooks and checks enforce it (a
+failing pre-push check still fails the push). The listing validation (`lernapps check --entry`) checks the built app
+on its URL or bundle, without the repo, so no tooling check runs there. An app may deviate from the listing rules
+`accessible` and `usable-at-360px` where its idea needs it and says so in its catalog entry (`limits`), where teachers and parents read it; with `limits` in the entry, their findings are warnings. The
 rules in scope for an app are the listing rules, the tooling rules when it is built with the tooling, and the rules
 of its archetype. The rules of lernapps.net's own websites are not in the
 catalog: the shared site frame owns them.

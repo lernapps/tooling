@@ -7,6 +7,8 @@ the same id (in `skills/lernapps-app/references/`, or the skill of the archetype
 It judges an item only when its rule is in scope for the app (`npm run --silent rules -- --app <app dir>` lists those).
 A rule of scope `tooling` is in scope only for an app built with the tooling: its `package.json` lists
 `@lernapps/tooling` in `dependencies` or `devDependencies`. An app built freely, without it, is not judged by them.
+A tooling rule never blocks a listing: its findings are advice for the creator, severity `warning` at most (`atListing`
+in the list), and never make the outcome `fail`.
 Every level-2 heading of a rubric file is an item and carries its rubric block.
 
 ## Runs in the browser, without installation
@@ -113,7 +115,9 @@ id: retrospective-filled
 
 Read the retrospective at the end of the current plan file (the highest number in `.vibe/plans/`). A finding: a part left empty or with the
 template's comments only, or a statement the history contradicts (e.g. no failed checks, but `prePushFailures` is
-above 0). Scope `tooling`: an app built freely is not judged here; one built with the tooling but without a plan is a
+above 0). A task or checkpoint left unticked in the plan is no finding here; a phase the history shows was really
+skipped (code before the plan was confirmed, published or listed without the creator's answer) is a finding of
+`explore-before-code` or `stop-at-checkpoints`, a warning like every tooling rule. Scope `tooling`: an app built freely is not judged here; one built with the tooling but without a plan is a
 finding of `plan-file`, not here. Each place listed under
 "Where I had to guess" is a gap in the guidance: propose a rule for it where one would have helped.
 

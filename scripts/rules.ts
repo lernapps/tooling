@@ -30,6 +30,11 @@
 // generator writes does. A freely built app (by hand, another framework, an app builder) is held to the listing rules
 // alone. `archetype:<name>`: apps of that archetype, as the current plan's front matter names it. A rule that only a
 // check, lint rule or rubric item carries has no scope of its own and stays in every list.
+//
+// At listing: a tooling rule never blocks a listing, since the catalog takes apps built in any way. The listing
+// validation and the review report its findings as warnings at most, advice for the creator; the list says so with
+// `atListing` where that differs from the declared severity. In the app's repo the declared severity holds: the
+// assistant follows it, and the hooks and checks enforce what they enforce.
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -211,11 +216,22 @@ function fromRuleBlock({ fields, title, body, file, line }: Block, problems: str
   if (!SEVERITIES.includes(severity)) {
     problems.push(`${at}: ${name}: unknown severity "${severity}" (${SEVERITIES.join(", ")})`);
   }
-  const listed = scopes.find((scope) => scope === "listing" || scope === "tooling");
-  if (severity === "warning" && listed !== undefined) {
-    problems.push(`${at}: ${name}: a ${listed} rule is never a warning`);
-  }
   return { kind: "skill", id, file, line, title: title ?? id, text: body, scopes, severity };
+}
+
+/**
+ * The severity of a rule's findings at listing (validation and review), where it is lower than the declared one: a
+ * tooling rule is advice there, a warning at most. Undefined when the declared severity holds at listing too.
+ */
+function atListing({
+  scopes,
+  severity,
+}: {
+  scopes?: string[] | undefined;
+  severity?: string | undefined;
+}): string | undefined {
+  const tooling = scopes?.includes("tooling") === true && !scopes.includes("listing");
+  return tooling && severity === "error" ? "warning" : undefined;
 }
 
 function field(value: unknown, ...path: string[]): unknown {
@@ -350,14 +366,18 @@ function ruleList(catalog: Catalog): string {
   const list = Object.fromEntries(
     [...catalog.rules.keys()].sort().map((id) => [
       id,
-      (catalog.rules.get(id) ?? []).map(({ kind, file, line, title, scopes, severity, text }) => ({
-        in: kind,
-        file: line === undefined ? file : `${file}:${line}`,
-        ...(title === undefined ? {} : { title }),
-        ...(scopes === undefined ? {} : { scope: scopes }),
-        ...(severity === undefined ? {} : { severity }),
-        ...(text === undefined || text === "" ? {} : { text }),
-      })),
+      (catalog.rules.get(id) ?? []).map(({ kind, file, line, title, scopes, severity, text }) => {
+        const listing = atListing({ scopes, severity });
+        return {
+          in: kind,
+          file: line === undefined ? file : `${file}:${line}`,
+          ...(title === undefined ? {} : { title }),
+          ...(scopes === undefined ? {} : { scope: scopes }),
+          ...(severity === undefined ? {} : { severity }),
+          ...(listing === undefined ? {} : { atListing: listing }),
+          ...(text === undefined || text === "" ? {} : { text }),
+        };
+      }),
     ]),
   );
   return stringify(list, { lineWidth: 0 });
@@ -420,7 +440,7 @@ function rulePage(catalog: Catalog): string {
     .map(
       ({ id, skill }) =>
         `<tr><td><a href="#${id}"><code>${id}</code></a></td><td>${skill?.scopes?.join(", ") ?? ""}</td>` +
-        `<td>${skill?.severity ?? ""}</td></tr>`,
+        `<td>${[skill?.severity, skill && atListing(skill) ? `${atListing(skill)} at listing` : undefined].filter(Boolean).join(", ")}</td></tr>`,
     )
     .join("\n");
   const sections = rules
@@ -431,7 +451,7 @@ function rulePage(catalog: Catalog): string {
         `<section id="${id}">`,
         // A heading like "`plan-file`: Keep the plan file": the id is shown below it.
         `<h2>${inline(title.replace(/^`[^`]+`:\s*/, ""))}</h2>`,
-        `<p>${[`<code>${id}</code>`, skill?.scopes?.join(", "), skill?.severity].filter(Boolean).join(" · ")}</p>`,
+        `<p>${[`<code>${id}</code>`, skill?.scopes?.join(", "), skill?.severity, skill && atListing(skill) ? `${atListing(skill)} at listing` : undefined].filter(Boolean).join(" · ")}</p>`,
         `<div>\n${blocks(text)}\n</div>`,
         `<p>${where_}.</p>`,
         "</section>",
@@ -458,9 +478,11 @@ function rulePage(catalog: Catalog): string {
       <li><strong>Scope:</strong> <code>listing</code> applies to every app in the app overview, however it is built
         and wherever it is hosted; <code>tooling</code> to apps built with this tooling (their
         <code>package.json</code> lists <code>${TOOLING}</code>), because the rule presupposes its plan workflow or its
-        checks, and to them in the app overview too; <code>archetype:…</code> to apps of that archetype.</li>
+        checks; <code>archetype:…</code> to apps of that archetype.</li>
       <li><strong>Severity:</strong> <code>error</code> must not be broken; <code>warning</code> only with a reason
-        recorded in place; <code>hint</code> is a recommendation.</li>
+        recorded in place; <code>hint</code> is a recommendation. A <code>tooling</code> rule never blocks a listing:
+        in the listing validation and the review its findings are warnings at most, advice for the creator; in the
+        app's repo its severity holds.</li>
     </ul>
     <p>Every message of a check links to its rule here, by its id: <code>${RULE_PAGE}#&lt;id&gt;</code>.</p>
     <table>

@@ -4,7 +4,8 @@
 //   node scripts/verdict.ts <file>   (npm run --silent verdict -- <file>)
 //
 // The verdict is YAML, valid against review/verdict.v1.schema.json. Beyond the schema, every finding names a rule of
-// the catalog (npm run rules) with its link, or proposes a rule that is not in the catalog yet. One line when the
+// the catalog (npm run rules) with its link, or proposes a rule that is not in the catalog yet, and no finding is more
+// severe than its rule is at listing: a tooling rule is advice there, a warning at most. One line when the
 // verdict is good, exit 0; one line per problem otherwise, exit 1; 2 on a usage error.
 import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
@@ -28,12 +29,20 @@ interface Verdict {
   findings: Finding[];
 }
 
-/** The ids of the rule catalog, read from the artifacts by scripts/rules.ts. */
-function ruleIds(): Set<string> {
+/**
+ * The rule catalog, read from the artifacts by scripts/rules.ts: every id, with the severity of its findings at
+ * listing where that is lower than the declared one (`atListing`).
+ */
+function ruleCatalog(): Map<string, string | undefined> {
   const list = spawnSync(process.execPath, [resolve(ROOT, "scripts/rules.ts"), "list"], { encoding: "utf8" });
   if (list.status !== 0) throw new Error(`cannot read the rule catalog:\n${list.stderr}`);
-  return new Set(Object.keys((parse(list.stdout) ?? {}) as Record<string, unknown>));
+  const rules = (parse(list.stdout) ?? {}) as Record<string, { atListing?: string }[]>;
+  return new Map(
+    Object.entries(rules).map(([id, entries]) => [id, entries.find((entry) => entry.atListing)?.atListing]),
+  );
 }
+
+const RANK = ["hint", "warning", "error"];
 
 /** The schema's messages, said for the agent that writes the verdict. */
 function schemaProblems(errors: ErrorObject[], value: unknown): string[] {
@@ -76,7 +85,7 @@ function check(file: string): string[] {
   if (!validate(value)) return schemaProblems(validate.errors ?? [], value);
 
   const verdict = value as Verdict;
-  const ids = ruleIds();
+  const ids = ruleCatalog();
   const problems: string[] = [];
   verdict.findings.forEach((finding, index) => {
     const at = `/findings/${index}`;
@@ -87,6 +96,12 @@ function check(file: string): string[] {
         );
       } else if (finding.link !== `${RULE_PAGE}${finding.rule}`) {
         problems.push(`${at}: the link of ${finding.rule} must be ${RULE_PAGE}${finding.rule}`);
+      }
+      const cap = ids.get(finding.rule);
+      if (cap !== undefined && RANK.indexOf(finding.severity) > RANK.indexOf(cap)) {
+        problems.push(
+          `${at}: ${finding.rule} is a tooling rule and never blocks a listing: its findings are advice, severity ${cap}`,
+        );
       }
     }
     if (finding.proposal !== undefined && ids.has(finding.proposal.id)) {
