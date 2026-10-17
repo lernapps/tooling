@@ -374,8 +374,9 @@ protocol: YAML with a published JSON Schema
 The judgment part of the validation: a prompt for an agent in a fresh context, the rubric of the rules no program
 decides, and the format of the verdict. The agent starts from the validation report and does not judge again what
 it decided. It judges the rest: whether learners act themselves, ads, plain language, data about learners, what
-happens after a click. A guess in the retrospective, or a problem no rule covers, becomes a proposed rule. The
-procedure decides nothing about the listing; the owner does.
+happens after a click. It judges only the rules in scope for the app: the rules of scope `tooling` (the plan, the
+retrospective, the content guide) only for an app built with the tooling. A guess in the retrospective, or a problem
+no rule covers, becomes a proposed rule. The procedure decides nothing about the listing; the owner does.
 
 ```arc42
 :::building-block

@@ -4,6 +4,8 @@
 //
 //   node scripts/rules.ts test          the id test (test/rules.test.ts): one line per problem, exit 1 on any
 //   node scripts/rules.ts list          every rule of every artifact, grouped by id, as YAML (npm run rules)
+//   node scripts/rules.ts list --app <dir>
+//                                       only the rules in scope for the app in <dir> (see "Scopes" below)
 //   node scripts/rules.ts page <file>   writes the rule page of the docs site (scripts/build.sh); fails like test
 //
 // The artifacts, each one deployment unit with its own ids:
@@ -21,16 +23,26 @@
 //   scope: listing
 //   severity: error
 //   ```
+//
+// Scopes: which apps a rule applies to. `listing`: every listed app, however and wherever it is built and hosted.
+// `tooling`: apps built with this tooling, because the rule presupposes its plan workflow or its checks; an app is
+// built with it when its package.json lists @lernapps/tooling in dependencies or devDependencies, as every app the
+// generator writes does. A freely built app (by hand, another framework, an app builder) is held to the listing rules
+// alone. `archetype:<name>`: apps of that archetype, as the current plan's front matter names it. A rule that only a
+// check, lint rule or rubric item carries has no scope of its own and stays in every list.
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { stringify } from "yaml";
+import { currentPlan, planFrontMatter } from "../src/plan.ts";
 
 const RULE_PAGE = "https://lernapps.net/tooling/rules/";
 const SOURCE = "https://github.com/lernapps/tooling/blob/main/";
 
 const ID = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
-const SCOPE = /^(listing|archetype:[a-z][a-z0-9-]*)$/;
+const SCOPE = /^(listing|tooling|archetype:[a-z][a-z0-9-]*)$/;
+/** The dependency that marks an app as built with this tooling: the generator writes it into every app. */
+const TOOLING = "@lernapps/tooling";
 const SEVERITIES = ["error", "warning", "hint"];
 const KEYS = { rule: ["id", "scope", "severity"], rubric: ["id"] };
 type Info = keyof typeof KEYS;
@@ -188,14 +200,20 @@ function fromRuleBlock({ fields, title, body, file, line }: Block, problems: str
     .map((scope) => scope.trim())
     .filter((scope) => scope !== "");
   if (scopes.length === 0 || scopes.some((scope) => !SCOPE.test(scope))) {
-    problems.push(`${at}: ${name}: scope "${scopeText}" must be listing or archetype:<name>, or a list of them`);
+    problems.push(
+      `${at}: ${name}: scope "${scopeText}" must be listing, tooling or archetype:<name>, or a list of them`,
+    );
+  }
+  if (scopes.includes("listing") && scopes.includes("tooling")) {
+    problems.push(`${at}: ${name}: scope listing already holds every app built with the tooling: name one of them`);
   }
   const severity = fields.get("severity") ?? "";
   if (!SEVERITIES.includes(severity)) {
     problems.push(`${at}: ${name}: unknown severity "${severity}" (${SEVERITIES.join(", ")})`);
   }
-  if (severity === "warning" && scopes.includes("listing")) {
-    problems.push(`${at}: ${name}: a listing rule is never a warning`);
+  const listed = scopes.find((scope) => scope === "listing" || scope === "tooling");
+  if (severity === "warning" && listed !== undefined) {
+    problems.push(`${at}: ${name}: a ${listed} rule is never a warning`);
   }
   return { kind: "skill", id, file, line, title: title ?? id, text: body, scopes, severity };
 }
@@ -291,6 +309,40 @@ async function readCatalog(root: string): Promise<Catalog> {
   return { rules, problems };
 }
 
+// The scopes of one app
+
+/** Whether the app in `dir` was built with this tooling: its package.json lists @lernapps/tooling. */
+function builtWithTooling(dir: string): boolean {
+  try {
+    const manifest: unknown = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
+    return ["dependencies", "devDependencies"].some((key) => field(manifest, key, TOOLING) !== undefined);
+  } catch {
+    return false;
+  }
+}
+
+/** The scopes that hold for the app in `dir`: listing, tooling when built with it, its plan's archetype. */
+function appScopes(dir: string): string[] {
+  const plan = currentPlan(dir);
+  const archetype = plan === undefined ? undefined : planFrontMatter(join(dir, plan))["archetype"];
+  return [
+    "listing",
+    ...(builtWithTooling(dir) ? ["tooling"] : []),
+    ...(typeof archetype === "string" && archetype !== "" ? [`archetype:${archetype}`] : []),
+  ];
+}
+
+/** The catalog without the rules whose skill section names no scope of the app; rules without a skill stay. */
+function inScope(catalog: Catalog, scopes: readonly string[]): Catalog {
+  const rules = new Map(
+    [...catalog.rules].filter(([, entries]) => {
+      const skill = entries.find((entry) => entry.kind === "skill");
+      return skill?.scopes === undefined || skill.scopes.some((scope) => scopes.includes(scope));
+    }),
+  );
+  return { rules, problems: catalog.problems };
+}
+
 // The list
 
 /** Every rule, grouped by id: what each artifact says about it, for people and for the rules review. */
@@ -361,7 +413,8 @@ function rulePage(catalog: Catalog): string {
     const told = skill ?? entries.find((entry) => entry.text !== undefined && entry.text !== "");
     return { id, entries, skill, title: told?.title ?? id, text: told?.text ?? "" };
   });
-  const order = ({ skill }: (typeof rules)[number]) => (skill?.scopes?.includes("listing") ? 0 : 1);
+  const order = ({ skill }: (typeof rules)[number]) =>
+    skill?.scopes?.includes("listing") ? 0 : skill?.scopes?.includes("tooling") ? 1 : 2;
   rules.sort((a, b) => order(a) - order(b) || a.id.localeCompare(b.id));
   const rows = rules
     .map(
@@ -402,8 +455,10 @@ function rulePage(catalog: Catalog): string {
       assistants, as a check, as a lint rule or as an item of the review rubric. The same rule can live in several of
       them, always under the same id. This page reads them from there.</p>
     <ul>
-      <li><strong>Scope:</strong> <code>listing</code> applies to every app in the app overview, wherever it is
-        hosted; <code>archetype:…</code> to apps of that archetype.</li>
+      <li><strong>Scope:</strong> <code>listing</code> applies to every app in the app overview, however it is built
+        and wherever it is hosted; <code>tooling</code> to apps built with this tooling (their
+        <code>package.json</code> lists <code>${TOOLING}</code>), because the rule presupposes its plan workflow or its
+        checks, and to them in the app overview too; <code>archetype:…</code> to apps of that archetype.</li>
       <li><strong>Severity:</strong> <code>error</code> must not be broken; <code>warning</code> only with a reason
         recorded in place; <code>hint</code> is a recommendation.</li>
     </ul>
@@ -423,8 +478,14 @@ ${sections}
 
 async function main(args: string[]): Promise<number> {
   const [command, out] = args;
-  if (command !== "test" && command !== "list" && !(command === "page" && out)) {
-    process.stderr.write("usage: node scripts/rules.ts test | list | page <file>\n");
+  const app = command === "list" && args[1] === "--app" ? args[2] : undefined;
+  const listArgs = app === undefined ? 1 : 3;
+  if (
+    !(command === "test" && args.length === 1) &&
+    !(command === "list" && args.length === listArgs && (app === undefined || existsSync(app))) &&
+    !(command === "page" && out && args.length === 2)
+  ) {
+    process.stderr.write("usage: node scripts/rules.ts test | list [--app <dir>] | page <file>\n");
     return 2;
   }
   const root = resolve(import.meta.dirname, "..");
@@ -433,7 +494,12 @@ async function main(args: string[]): Promise<number> {
     process.stderr.write(`${catalog.problems.map((problem) => `rules: ${problem}`).join("\n")}\n`);
     return 1;
   }
-  if (command === "list") {
+  if (command === "list" && app !== undefined) {
+    const scopes = appScopes(app);
+    process.stdout.write(
+      `# the rules in scope for ${app}: ${scopes.join(", ")}\n${ruleList(inScope(catalog, scopes))}`,
+    );
+  } else if (command === "list") {
     process.stdout.write(ruleList(catalog));
   } else if (command === "page" && out) {
     mkdirSync(dirname(resolve(out)), { recursive: true });

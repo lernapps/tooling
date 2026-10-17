@@ -4,6 +4,9 @@ The rules no program decides. The review agent judges each item below for every 
 the items of the app's archetype (`review/archetypes/<archetype>.md`). It starts from the validation report: a rule
 the checks already decided is not judged again. Each item's `rubric` block names its rule id; the skill section of
 the same id (in `skills/lernapps-app/references/`, or the skill of the archetype) says the rule's scope and severity, and a finding has that severity.
+It judges an item only when its rule is in scope for the app (`npm run --silent rules -- --app <app dir>` lists those).
+A rule of scope `tooling` is in scope only for an app built with the tooling: its `package.json` lists
+`@lernapps/tooling` in `dependencies` or `devDependencies`. An app built freely, without it, is not judged by them.
 Every level-2 heading of a rubric file is an item and carries its rubric block.
 
 ## Runs in the browser, without installation
@@ -93,6 +96,15 @@ Read the bundle for texts, pictures, quotes, videos and data that the creator di
 where the content comes from. A finding: content of others without its source and licence next to it, or with a
 licence that does not allow its use in the app.
 
+## Plan kept
+
+```rubric
+id: plan-file
+```
+
+Scope `tooling`. Look for the plans in `.vibe/plans/` (or the one `.vibe/plan.md` of an older app). A finding: an app
+built with the tooling that has no plan, or whose current plan has no front matter with `phase` and `archetype`.
+
 ## Retrospective filled
 
 ```rubric
@@ -101,7 +113,8 @@ id: retrospective-filled
 
 Read the retrospective at the end of the current plan file (the highest number in `.vibe/plans/`). A finding: a part left empty or with the
 template's comments only, or a statement the history contradicts (e.g. no failed checks, but `prePushFailures` is
-above 0). An app without a plan file was not built with the tooling: judge nothing here. Each place listed under
+above 0). Scope `tooling`: an app built freely is not judged here; one built with the tooling but without a plan is a
+finding of `plan-file`, not here. Each place listed under
 "Where I had to guess" is a gap in the guidance: propose a rule for it where one would have helped.
 
 ## Content guide matches the app
@@ -115,7 +128,7 @@ already decided that it exists with its headings and no placeholder (`app-conten
 guide names that no exercise uses, or exercises of a kind it does not name; competencies, chapters, pages or rounds
 that differ from the content; a procedure for a new chapter or round that names files or steps the app no longer
 has; or text too vague for a follow-up agent to act on ("use good exercises") where it should name files, ids and an
-example. Quote the part of the guide. An app without a plan file was not built with the tooling: judge nothing here.
+example. Quote the part of the guide. Scope `tooling`: an app built freely is not judged here.
 
 ## Support for correct content
 
