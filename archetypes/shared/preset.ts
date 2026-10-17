@@ -52,7 +52,30 @@ const preset: UserConfig = {
   },
 };
 
-/** The preset, with the app's own settings merged over it. */
-export const lernapps = (config: UserConfig = {}): UserConfig => defineConfig(mergeConfig(preset, config));
+/** Whether the plugins (nested lists, as Vite takes them) hold one named `name`. */
+const hasPlugin = (plugins: unknown, name: string): boolean =>
+  Array.isArray(plugins)
+    ? plugins.some((plugin) => hasPlugin(plugin, name))
+    : typeof plugins === "object" && plugins !== null && "name" in plugins && plugins.name === name;
+
+/**
+ * The preset, with the app's own settings merged over it. With the interactive runtime's build step among the
+ * plugins, a component may also import the app's own files in src/ and the libraries in its dependencies, as that
+ * build allows (lint/rules/vue-component-imports.ts).
+ */
+export const lernapps = (config: UserConfig = {}): UserConfig => {
+  const interactive = hasPlugin(config.plugins, "lernapps-interactive");
+  // set in place, not merged: mergeConfig would concatenate the rule's severity with its options
+  const base: UserConfig = interactive
+    ? {
+        ...preset,
+        lint: {
+          ...preset.lint,
+          rules: { ...preset.lint?.rules, "lernapps/vue-component-imports": ["error", { scope: "src" }] },
+        },
+      }
+    : preset;
+  return defineConfig(mergeConfig(base, config));
+};
 
 export default lernapps();
