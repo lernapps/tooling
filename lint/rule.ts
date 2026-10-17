@@ -11,14 +11,17 @@ export interface LintRule {
   description: string;
   /** Message templates: what was found and how to fix it, in one or two sentences. */
   messages: Record<string, string>;
+  /** The JSON schema of the rule's options, for a rule that takes any. */
+  schema?: Rule["meta"] extends infer Meta ? (Meta extends { schema?: infer Schema } ? Schema : never) : never;
   create: (context: Context) => Visitor;
 }
 
 /** An ESLint-compatible rule with its link in `meta.docs.url` and in every message. */
-export const lintRule = ({ id, description, messages, create }: LintRule): Rule => ({
+export const lintRule = ({ id, description, messages, schema, create }: LintRule): Rule => ({
   meta: {
     type: "problem",
     docs: { description, url: `${RULE_PAGE}${id}` },
+    ...(schema === undefined ? {} : { schema }),
     messages: Object.fromEntries(
       Object.entries(messages).map(([key, message]) => [key, `${message} ${RULE_PAGE}${id}`]),
     ),
