@@ -1,7 +1,8 @@
 // The scopes of the rule catalog from the review's side (docs/arc42 ch. 8, concept "Rule catalog"): the review judges
 // the rules `npm run rules -- --app <dir>` lists for the app. A freely built app (no @lernapps/tooling in its
 // package.json) is held to the listing rules alone, so it is never judged by a rule that presupposes the plan workflow
-// or the tooling's checks, and a missing plan file fails nothing. An app built with the tooling still is, plan or not.
+// or the tooling's checks, and a missing plan file fails nothing. An app built with the tooling still is, plan or not,
+// but a tooling rule never blocks its listing: the list gives `atListing: warning` for each one declared an error.
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
@@ -29,14 +30,23 @@ function app(name: string, devDependencies: Record<string, string>): string {
 }
 
 /** The rules in scope for the app, with their scopes in the skill, and the first line naming the app's scopes. */
-function inScope(dir: string): { header: string; rules: Map<string, string[]> } {
+function inScope(dir: string): {
+  header: string;
+  rules: Map<string, string[]>;
+  severities: Map<string, { severity: string | undefined; atListing: string | undefined }>;
+} {
   const result = run("node", ["scripts/rules.ts", "list", "--app", dir], repoRoot);
   expect(result.code, result.stderr).toBe(0);
-  const list = parse(result.stdout) as Record<string, { in: string; scope?: string[] }[]>;
-  const rules = new Map(
-    Object.entries(list).map(([id, entries]) => [id, entries.find((entry) => entry.in === "skill")?.scope ?? []]),
+  const list = parse(result.stdout) as Record<
+    string,
+    { in: string; scope?: string[]; severity?: string; atListing?: string }[]
+  >;
+  const skill = (id: string) => list[id]?.find((entry) => entry.in === "skill");
+  const rules = new Map(Object.keys(list).map((id) => [id, skill(id)?.scope ?? []]));
+  const severities = new Map(
+    Object.keys(list).map((id) => [id, { severity: skill(id)?.severity, atListing: skill(id)?.atListing }]),
   );
-  return { header: result.stdout.split("\n")[0] ?? "", rules };
+  return { header: result.stdout.split("\n")[0] ?? "", rules, severities };
 }
 
 test("a freely built app without a plan file is held to the listing rules alone", () => {
@@ -63,4 +73,15 @@ test("an app built with the tooling without a plan file is still held to plan-fi
   expect(header).toMatch(/: listing, tooling$/);
   for (const id of TOOLING_RULES) expect(rules.get(id), id).toEqual(["tooling"]);
   expect(rules.has("no-ads")).toBe(true);
+});
+
+test("a tooling rule never blocks a listing: at listing an error of it is a warning, a listing rule keeps its error", () => {
+  const { severities } = inScope(app("built", { "@lernapps/tooling": "github:lernapps/tooling#main" }));
+  // In the app's repo the declared severity holds: retrospective-filled stays an error there.
+  expect(severities.get("retrospective-filled")).toEqual({ severity: "error", atListing: "warning" });
+  for (const id of TOOLING_RULES) {
+    const { severity, atListing } = severities.get(id) ?? {};
+    expect(atListing, id).toBe(severity === "error" ? "warning" : undefined);
+  }
+  expect(severities.get("no-ads")).toEqual({ severity: "error", atListing: undefined });
 });

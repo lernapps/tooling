@@ -74,6 +74,8 @@ finding write:
 
 - `rule`: the item's rule id, and `link`: `https://lernapps.net/tooling/rules/#<id>`;
 - `severity`: the severity of the rule's block in the skill (`npm run --silent rules`); `hint` for a rule without one;
+  where the list gives `atListing`, that one: a rule of scope `tooling` never blocks a listing, its findings are
+  advice for the creator, `warning` at most;
 - `where`: the file in the bundle or repo, as a path below the app's repo (e.g. `dist/kuerzen/index.html`), and the
   element, or the plan's section;
 - `found`: what you found, quoting the text in question;
@@ -116,7 +118,8 @@ at: 2026-10-09
 ```
 
 - `rules`: the ids of every rubric item you judged, with or without a finding; none out of scope;
-- `outcome`: `fail` when a finding has severity `error`, else `pass`;
+- `outcome`: `fail` when a finding has severity `error`, else `pass`; findings of tooling rules alone never make it
+  `fail`;
 - `findings`: errors first, then warnings, then hints; `findings: []` when there is none.
 
 Then check it: `npm run --silent verdict -- .reviews/<name>/verdict.yaml`. It validates the verdict against the schema
