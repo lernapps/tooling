@@ -35,6 +35,20 @@ severity: error
 The app opens at its URL in a current browser and works there. Nothing to install: no app store, no download, no
 browser extension.
 
+### `app-checkable`: The published app can be opened and checked
+
+```rule
+id: app-checkable
+scope: listing
+severity: error
+```
+
+The app opens at the entry's `url`, so that `lernapps check` can visit its pages; a built app opens from its bundle
+(`index.html`). An app that cannot be opened cannot be checked, and learners cannot use it either. When the page does
+not load, the app's build fails, no browser can start or the check stops, the checks report this rule instead
+of the others. Fix the app so that it opens at the entry's `url`, then check again. When the app opens in a browser but the
+check itself fails, open an issue at <https://github.com/lernapps/tooling/issues> with the message.
+
 ### `no-account`: No account
 
 ```rule

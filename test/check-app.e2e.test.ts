@@ -18,7 +18,7 @@ import { extname, join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import { app, check, checkAsync, findingsOf, output, report, type Report } from "./check-report.ts";
-import { tempDir, type Result } from "./support.ts";
+import { repoRoot, runAsync, tempDir, type Result } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 5 * 60 * 1000;
@@ -207,6 +207,23 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
       "bruch/kuerzen/index.html component FarbStreifen in #uebung: the component's nojs text is empty, or hidden, without JavaScript",
       "bruch/kuerzen/index.html exercise #kuerzen-4-8: the Lösung is empty without JavaScript",
     ]);
+  });
+
+  test("where no browser can start, the app could not be checked: one finding of app-checkable", async () => {
+    // no Chromium in the browser folder, none to fall back to, and the download refused at once
+    const result = await runAsync("node", [join(repoRoot, "src/cli.ts"), "check", app("passing")], repoRoot, {
+      PLAYWRIGHT_BROWSERS_PATH: tempDir("no-browsers"),
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1",
+      PLAYWRIGHT_DOWNLOAD_HOST: "http://127.0.0.1:9",
+    });
+    expect(result.code, output(result)).toBe(1);
+    const [finding, ...more] = findingsOf(result, "app-checkable");
+    expect(more).toEqual([]);
+    expect(finding).toMatchObject({ severity: "error", where: "browser" });
+    expect(finding?.found).toMatch(/^no browser can run here: /);
+    expect(finding?.fix).toContain("https://github.com/lernapps/tooling/issues");
+    expect(findingsOf(result, "checks-pass")).toEqual([]);
+    expect(report(result).rules).toContain("app-checkable");
   });
 
   test("a directory without index.html is a usage error", () => {
