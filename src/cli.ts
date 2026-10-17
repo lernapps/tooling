@@ -6,7 +6,18 @@
 // (generator/update.ts); `hooks` installs an app's git hooks (archetypes/shared/install-hooks.ts); `changes` prints the
 // change scope (changes/changes.ts), which each hook part of `check` asks first.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
 import { delimiter, dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { parse } from "yaml";
@@ -39,6 +50,8 @@ interface Step {
   where?: string;
   /** Environment variables for the step only. */
   env?: Record<string, string>;
+  /** arc42 of the working tree: files git does not know yet count too (ofWorkingTree). */
+  workingTree?: boolean;
 }
 
 /** In a repo, every run also writes its full report here, passing or not: the hooks and CI alike. */
@@ -75,13 +88,42 @@ function hasVueFiles(dir: string): boolean {
   });
 }
 
+/**
+ * An arc42 step on the working tree, as the rest of the check reads it (the build, the tests): a file not added to git
+ * yet counts too, so a freshly created app passes before anything is added. arc42 resolves paths only from
+ * `git ls-files` (docToolchain/arc42-language#128). In a repository the step therefore runs on a copy of its index
+ * with every untracked, not ignored file below the app added as intent to add: no content goes into git and the
+ * repository's own index stays as it is. Outside a repository arc42 lists the files below its root, which must then
+ * be the app's folder (by default it would be the architecture's).
+ */
+function ofWorkingTree(step: Step): { step: Step; done: () => void } {
+  const where = step.where ?? [step.command, ...step.args].join(" ");
+  const gitPath = spawnSync("git", ["rev-parse", "--git-path", "index"], { encoding: "utf8" });
+  if (gitPath.status !== 0) {
+    return { step: { ...step, where, args: ["--root", ".", ...step.args] }, done: () => {} };
+  }
+  const temp = mkdtempSync(join(tmpdir(), "lernapps-index-"));
+  const index = join(temp, "index");
+  const own = resolve(gitPath.stdout.trim());
+  if (existsSync(own)) copyFileSync(own, index);
+  const env = { ...step.env, GIT_INDEX_FILE: index };
+  spawnSync("git", ["add", "--all", "--intent-to-add", "--", "."], { env: { ...process.env, ...env } });
+  return { step: { ...step, where, env }, done: () => rmSync(temp, { recursive: true, force: true }) };
+}
+
 /** Runs a step; its output is shown only when it fails. */
-function runStep(step: Step): Finding | undefined {
-  const result = spawnSync(step.command, step.args, {
-    env: { ...projectEnv(), ...step.env },
-    encoding: "utf8",
-    maxBuffer: 256 * 1024 * 1024,
-  });
+function runStep(planned: Step): Finding | undefined {
+  const { step, done } = planned.workingTree ? ofWorkingTree(planned) : { step: planned, done: () => {} };
+  let result;
+  try {
+    result = spawnSync(step.command, step.args, {
+      env: { ...projectEnv(), ...step.env },
+      encoding: "utf8",
+      maxBuffer: 256 * 1024 * 1024,
+    });
+  } finally {
+    done();
+  }
   const where = step.where ?? [step.command, ...step.args].join(" ");
   if (result.error) {
     return finding(CHECKS_PASS, "error", {
@@ -104,7 +146,7 @@ function runStep(step: Step): Finding | undefined {
       step.command === "vp" && step.args[0] === "check"
         ? "Run vp check --fix, which fixes what it can of format and lint; fix the rest from the output, then check again"
         : step.command === "arc42"
-          ? `Keep the architecture current with the code: fix each finding of ${where} in the app's own part, between the markers <!-- app: begin … --> and <!-- app: end … --> of ${ARCHITECTURE}/, or in the code; never edit outside those markers, which lernapps update replaces. arc42 resolves only paths git knows: git add new files first. Then check again`
+          ? `Keep the architecture current with the code: fix each finding of ${where} in the app's own part, between the markers <!-- app: begin … --> and <!-- app: end … --> of ${ARCHITECTURE}/, or in the code; never edit outside those markers, which lernapps update replaces.${step.workingTree ? "" : " Before a commit arc42 reads what is staged: git add the new files that belong to the commit."} Then check again`
           : `Fix the cause from the output of ${where}, then check again`,
   });
 }
@@ -258,8 +300,13 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
   }
   if (heavy && hasArchitecture()) {
     // the whole architecture of an app with one, strictly: any finding fails (references, required fields, paths
-    // that exist, coverage of the sources)
-    steps.push({ name: "architecture", command: "arc42", args: ["--dir", ARCHITECTURE, "validate", "--strict"] });
+    // that exist, coverage of the sources), of the working tree like the rest of the check
+    steps.push({
+      name: "architecture",
+      command: "arc42",
+      args: ["--dir", ARCHITECTURE, "validate", "--strict"],
+      workingTree: true,
+    });
   }
   if (fast) {
     steps.push({ name: "format, lint, type check", command: "vp", args: ["check"] });

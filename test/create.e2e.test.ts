@@ -315,7 +315,8 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
 
 // The interactive archetype with the same generator, kept to what the tooling adds: the template passes the check as
 // generated (its runtime's tests run in lernapps/app-templates), and its architecture (docs/arc42/, the generic part
-// and the interactive extension of app-templates with the app's paths) validates strictly in the app; the first commit
+// and the interactive extension of app-templates with the app's paths) validates strictly in the app, before anything
+// is added to git; the first commit
 // passes the pre-commit hook, new code that no block claims fails the commit's check (arc42 diff --staged --strict),
 // a broken architecture fails the check, and lernapps update keeps the app's own sections and replaces the rest.
 describe.skipIf(inner)("an interactive app from lernapps create, run with npx from git", () => {
@@ -342,25 +343,32 @@ describe.skipIf(inner)("an interactive app from lernapps create, run with npx fr
     if (created.code !== 0) throw new Error(output(created));
     ok("git", ["init", "--quiet", "--initial-branch=main"], app);
     ok("npm", ["install", "--no-audit", "--no-fund"], app);
-    // arc42 resolves only the paths git knows
-    ok("git", ["add", "--all"], app);
   }, SLOW);
 
-  test("as generated, the app passes lernapps check, its architecture included", { timeout: SLOW }, () => {
-    const result = run("npx", ["--no", "--", "lernapps", "check"], app);
+  // as the creator and the plan go on: nothing added to git yet, which arc42 alone resolves paths from
+  test(
+    "as generated, nothing added to git, the app passes lernapps check, its architecture included",
+    { timeout: SLOW },
+    () => {
+      expect(ok("git", ["ls-files"], app).stdout).toBe("");
+      const result = run("npx", ["--no", "--", "lernapps", "check"], app);
+      expect(result.code, output(result)).toBe(0);
+      expect(result.stdout).toMatch(/^lernapps check: ok/);
+      // the check leaves the repository's index as it was
+      expect(ok("git", ["ls-files"], app).stdout).toBe("");
+    },
+  );
+
+  test("the first commit passes the pre-commit hook", { timeout: SLOW }, () => {
+    ok("git", ["add", "--all"], app);
+    const result = commit("app");
     expect(result.code, output(result)).toBe(0);
-    expect(result.stdout).toMatch(/^lernapps check: ok/);
   });
 
   test("its architecture validates strictly: no error, warning or hint", () => {
     const result = arc42("validate", "--strict");
     expect(result.code, output(result)).toBe(0);
     expect(result.stdout).toContain("0 errors, 0 warnings, 0 hints");
-  });
-
-  test("the first commit passes the pre-commit hook", { timeout: SLOW }, () => {
-    const result = commit("app");
-    expect(result.code, output(result)).toBe(0);
   });
 
   test("new code that no block claims fails the commit's check, in arc42 diff", { timeout: SLOW }, () => {
