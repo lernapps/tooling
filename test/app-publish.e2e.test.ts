@@ -2,7 +2,8 @@
 // the action runs it, against a local server that answers like the GitHub API and like GitHub Pages.
 //   - before the deploy: the branch gh-pages missing (the first deploy goes ahead), Pages off, Pages serving another
 //     branch or folder, Pages built by a workflow, and a token that may not read the settings; where the token may,
-//     it sets Pages itself; where not, it fails with what is wrong, the clicks, why, and the rule link;
+//     it sets Pages itself; where not, it warns with what is wrong, the clicks, why, and the rule link, and the deploy
+//     goes on, so that the admin's click shows the newest bundle without a new run (`after` fails until then);
 //   - before the deploy: a default branch other than main is a warning with the clicks that set it; the deploy goes on;
 //     the default branch is best-effort: a request for it that fails (no answer) is a notice, never a failure;
 //   - after the deploy: it waits until the app's address serves the marker of this commit, then prints the address;
@@ -155,7 +156,7 @@ describe("before the deploy", () => {
       expect(printed).toContain(
         "Settings → General → Default branch → ⇄ (Switch to another branch) → main → Update → I understand, update the default branch",
       );
-      expect(printed).toContain(`gh repo edit ${REPO} --default-branch main`);
+      expect(printed).toContain(`gh api -X PATCH repos/${REPO} -f default_branch=main`);
       expect(printed).toContain("the app is published only from main");
       expect(printed).toContain(`  link: ${RULE}`);
       expect(result.outputs).toBe(`first=${String(!branch)}\n`);
@@ -186,23 +187,27 @@ describe("before the deploy", () => {
     expect(result.outputs).toBe("first=true\n");
   });
 
-  test("Pages off, with a token that may not change it, fails with the clicks and the rule", async () => {
+  test("Pages off, with a token that may not change it, warns with the clicks and the rule; the deploy goes on", async () => {
     setWorld({ pages: undefined });
     const result = await publish(["before"]);
-    expect(result.code).toBe(1);
-    expect(result.stderr).toContain(
-      `::error::lernapps app-publish: GitHub Pages of ${REPO} does not serve the branch gh-pages from its root (/).`,
+    expect(result.code, result.stderr).toBe(0);
+    const printed = `${result.stdout}${result.stderr}`;
+    expect(printed).toContain(
+      `::warning::lernapps app-publish: GitHub Pages of ${REPO} does not serve the branch gh-pages from its root (/).`,
     );
-    expect(result.stderr).toContain("  found: GitHub Pages is off");
-    expect(result.stderr).toContain(
+    expect(printed).toContain("  found: GitHub Pages is off");
+    expect(printed).toContain(
       "  tried: to turn it on through the API: HTTP 403: Resource not accessible by integration",
     );
-    expect(result.stderr).toContain(
+    expect(printed).toContain(
       "Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: gh-pages, folder: / (root) → Save",
     );
-    expect(result.stderr).toContain("previews of pull requests will go below pr-preview/");
-    expect(result.stderr).toContain(`  link: ${RULE}`);
-    expect(result.outputs).toBe("");
+    expect(printed).toContain("Pages serves it right after the click, without a new run");
+    expect(printed).toContain("previews of pull requests will go below pr-preview/");
+    expect(printed).toContain(`  link: ${RULE}`);
+    expect(printed).toContain("deploying anyway");
+    expect(printed).not.toContain("::error::");
+    expect(result.outputs).toBe("first=false\n");
   });
 
   test.each([
@@ -221,13 +226,17 @@ describe("before the deploy", () => {
       { build_type: "workflow", source: { branch: "main", path: "/" } },
       "Pages is built by a GitHub Actions workflow",
     ],
-  ])("Pages serving %s fails, naming what it serves", async (_name, pages, found) => {
+  ])("Pages serving %s warns, naming what it serves, and fails after the deploy", async (_name, pages, found) => {
     setWorld({ pages });
     const result = await publish(["before"]);
-    expect(result.code).toBe(1);
-    expect(result.stderr).toContain(`  found: ${found}`);
-    expect(result.stderr).toContain("  tried: to change it through the API: HTTP 403");
-    expect(result.stderr).toContain(`  link: ${RULE}`);
+    expect(result.code, result.stderr).toBe(0);
+    expect(result.stdout).toContain(`  found: ${found}`);
+    expect(result.stdout).toContain("  tried: to change it through the API: HTTP 403");
+    expect(result.stdout).toContain(`  link: ${RULE}`);
+    const after = await publish(["after"]);
+    expect(after.code).toBe(1);
+    expect(after.stderr).toContain(`::error::lernapps app-publish: GitHub Pages of ${REPO} does not serve`);
+    expect(after.stderr).toContain(`  found: ${found}`);
   });
 
   test("with a token that may change the settings, it turns Pages on or sets its source itself", async () => {
