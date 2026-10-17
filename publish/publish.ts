@@ -2,8 +2,10 @@
 // The logic of the app publish action (actions/app-publish): it publishes an app's checked bundle to the app repo's
 // GitHub Pages, the branch gh-pages served from its root (/). The action is a thin wrapper around two commands:
 //   before  checks the setup before the deploy: the branch gh-pages exists and Pages serves it from its root; where
-//           Pages is off or serves something else, it sets it through the API if the token may. On the first deploy
-//           the branch does not exist yet: the deploy creates it, and `after` checks Pages. It also writes the marker
+//           Pages is off or serves something else, it sets it through the API if the token may. Where it may not, it
+//           warns and the deploy goes on: the newest bundle is on gh-pages, so the creator's click shows it without a
+//           new run, and `after` fails until the setting is made. On the first deploy the branch does not exist yet:
+//           the deploy creates it, and `after` checks Pages. It also writes the marker
 //           file lernapps-publish.txt (the commit) into the bundle, and warns when the repo's default branch is not
 //           main (the token may not change it; the deploy goes on, also when it cannot be read).
 //   after   checks Pages again (it may be the first deploy), then waits until the app's address serves the marker of
@@ -29,6 +31,8 @@ the app's address. Exit code 0 when the setup is right (and the app is served), 
 
 /** The setup or the deploy is wrong; the message says what to do. */
 class Failure extends Error {}
+/** The Pages settings are wrong and this run may not change them: only a repository admin's click fixes it. */
+class SetupFailure extends Failure {}
 /** The command was called wrongly. */
 class UsageFailure extends Error {}
 
@@ -95,13 +99,13 @@ const WHY =
   "the app is published from the branch gh-pages; previews of pull requests will go below pr-preview/ on the same branch, so Pages must serve the whole branch from its root";
 
 /** The message of a setup that is wrong and that this run could not fix. */
-function setupFailure(e: Env, found: string, tried: string): Failure {
-  return new Failure(
+function setupFailure(e: Env, found: string, tried: string): SetupFailure {
+  return new SetupFailure(
     [
       `${PREFIX}: GitHub Pages of ${e.repo} does not serve the branch ${BRANCH} from its root (/).`,
       `  found: ${found}`,
       `  tried: ${tried}`,
-      `  fix: a repository admin sets it once: ${CLICKS}. Then run the workflow again (Actions → Pages → Re-run all jobs). Or give the action a token that may change the Pages settings (input token: a fine-grained token with the repository permissions Administration: write and Pages: write).`,
+      `  fix: a repository admin sets it once: ${CLICKS}. The deploy has put the newest app on the branch ${BRANCH} already, so Pages serves it right after the click, without a new run. Never push a change only to start a run. Or give the action a token that may change the Pages settings (input token: a fine-grained token with the repository permissions Administration: write and Pages: write).`,
       `  why: ${WHY}`,
       `  link: ${RULE}`,
     ].join("\n"),
@@ -147,7 +151,7 @@ async function checkDefaultBranch(e: Env): Promise<void> {
   console.log(
     [
       `::warning::${PREFIX}: the default branch of ${e.repo} is ${branch}, not ${MAIN}.`,
-      `  fix: a repository admin sets it once: ${DEFAULT_BRANCH_CLICKS}. Or, with the GitHub CLI and admin rights: gh repo edit ${e.repo} --default-branch ${MAIN}. Branch ${branch} stays.`,
+      `  fix: a repository admin sets it once: ${DEFAULT_BRANCH_CLICKS}. Or, with the GitHub CLI and admin rights: gh api -X PATCH repos/${e.repo} -f default_branch=${MAIN}. Branch ${branch} stays.`,
       `  why: the app is published only from ${MAIN}; update pull requests (Renovate) and new pull requests target the default branch, so what they change would not be published`,
       `  link: ${RULE}`,
     ].join("\n"),
@@ -211,8 +215,16 @@ async function before(e: Env, dir: string | undefined): Promise<void> {
   }
   if (branch.status !== 200)
     throw new Failure(`${PREFIX}: cannot read the branch ${BRANCH} of ${e.repo}: ${apiMessage(branch)}`);
-  await ensurePages(e);
-  console.log(`${PREFIX}: GitHub Pages serves the branch ${BRANCH} from its root: ready to deploy`);
+  try {
+    await ensurePages(e);
+    console.log(`${PREFIX}: GitHub Pages serves the branch ${BRANCH} from its root: ready to deploy`);
+  } catch (error) {
+    // the deploy goes on: once the admin's click is made, Pages serves the newest bundle; `after` fails until then
+    if (!(error instanceof SetupFailure)) throw error;
+    console.log(`::warning::${error.message.split("\n")[0]}`);
+    console.log(error.message);
+    console.log(`${PREFIX}: deploying anyway; the check after the deploy fails until the setting is made`);
+  }
   output("first", "false");
 }
 

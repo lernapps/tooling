@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, llms.txt, the
-# rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of
-# the review verdict, of the question bank of a quiz and of the content of an explainer (schemas/; the last two from
-# lernapps/app-templates at the pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
+# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, the page
+# GitHub, explained (github/), llms.txt, the rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON
+# Schemas of the validation report, of the review verdict, of the question bank of a quiz and of the content of an
+# explainer (schemas/; the last two from lernapps/app-templates at the pinned commit) and the architecture (arc42,
+# docs/arc42/) as the arc42 web app.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
 #
@@ -18,6 +19,8 @@ PREFIX="${SITE_PATH_PREFIX:-/tooling/}"
 rm -rf _site
 mkdir -p _site
 cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
+mkdir -p _site/github
+cp site/github/index.html _site/github/
 mkdir -p _site/schemas
 cp check/validation-report.v1.schema.json review/verdict.v1.schema.json _site/schemas/
 # The schemas of a quiz's question bank and of an explainer's content live with their runtimes in

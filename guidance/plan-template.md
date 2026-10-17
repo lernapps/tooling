@@ -20,9 +20,10 @@ This file guides you, the assistant, through the first version of an app, and sh
 - Work through one phase at a time: Explore, Plan, Code, Commit. Do the tasks of the current phase in order.
 - Tick a task when it is done and move it to "Completed" of its phase. Add tasks as you find them.
 - A task marked as a checkpoint means: stop, show the creator what they need to decide, and wait for their answer.
-- Work on the branch `work`, from the first commit on, until the first publish: before it, if your environment asks
-  you to push, push `work` only. The first publish, in Commit, creates `main`; from then on, push `main` as the Commit
-  tasks say. While a check fails, tell the creator instead of pushing.
+- The repo gets its branches `main`, `gh-pages` and `work` at the start of Explore, before anything else is pushed.
+  Work on the branch `work` until the first publish: before it, if your environment asks you to push, push `work`
+  only. The first publish, in Commit, brings `work` into `main`; from then on, push `main` as the Commit tasks say.
+  While a check fails, tell the creator instead of pushing. When a GitHub step fails, load the skill `lernapps-github`.
 - Write the plan in the language you talk to the creator in. Keep the headings and the front matter keys as they
   are: the review reads them.
 - Delete these comments only where you have filled the part they explain.
@@ -56,6 +57,28 @@ from earlier answers. Write each answer under "Answers".
 ### Tasks
 
 - [ ] Install the skills, if they are not installed yet: `npx skills add lernapps/tooling`. The app commits them.
+- [ ] Tell the creator, in plain words, where the app will live: it is published with GitHub Pages, from their own
+      GitHub repo, free and public, at their own address (usually `https://<owner>.github.io/<repo>/`). Offer to
+      explain GitHub simply: what it is, and the parts we use: the repo; the branches `main` (what is published),
+      `work` (the work until then) and `gh-pages` (what Pages serves); pull requests with a preview; Actions, which
+      check and publish; Pages, which serves the app. Say that they need not know any of it: the tooling and you
+      handle it. For them to read: <https://lernapps.net/tooling/github/>. Example: "Deine App wird über GitHub
+      veröffentlicht, kostenlos und öffentlich, unter deiner eigenen Adresse. Soll ich dir kurz erklären, was GitHub
+      ist? Du musst es nicht wissen, ich kümmere mich darum."
+- [ ] Set up the repo's branches before anything else is pushed. First settle the repo's name with the creator: a
+      rename later can cost your session its access. If the folder is not a git repository yet:
+      `git init --initial-branch=main`. If the repo has no branch `main` yet (`git ls-remote --heads origin main` and
+      `git branch --list main` list none), create it first, so that it becomes the default branch:
+      `git switch --orphan main`, `git commit --allow-empty -m "chore: start"`, `git push -u origin main`. Then
+      create what is missing of `gh-pages`, empty (`git switch --orphan gh-pages`,
+      `git commit --allow-empty -m "chore: gh-pages"`), and `work` (`git switch -c work main`), and push them:
+      `git push -u origin gh-pages work`. Without a remote yet, push the three, `main` first, once it exists.
+      Then let Pages serve `gh-pages` from its root (`pages-from-gh-pages`), so that the first publish works: set
+      it yourself if you may (`gh api -X POST repos/<owner>/<repo>/pages -f build_type=legacy
+      -f "source[branch]=gh-pages" -f "source[path]=/"`), else ask the creator, with your next question, to click:
+      Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: gh-pages, folder: / (root) →
+      Save. If the default branch is not `main` (`gh api repos/<owner>/<repo> --jq .default_branch`), the skill
+      `lernapps-github` says how to change it.
 - [ ] Ask what the app is for: what do learners do in it, and what do they learn or train?
 - [ ] Ask who the learners are: subject, school year, what they know already.
 - [ ] Ask where the content comes from: written by the creator, or taken from others (with source and licence)?
@@ -139,10 +162,9 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 
 - [ ] Generate the app in the folder that holds this plan: `npx --yes github:lernapps/tooling#main create --archetype
       <archetype>`. Nothing needs to be installed first. The generator keeps this plan where it is.
-- [ ] Run `git init --initial-branch=work` if the folder is not a git repository yet; in one, `git switch -c work` if
-      you are not on `work` yet. Then run `npm install`: it installs the dependencies and the git hooks. From now on,
+- [ ] Be on the branch `work` from Explore (`git switch work`). Then run `npm install`: it installs the dependencies and the git hooks. From now on,
       everything runs from the app's own `node_modules`: `npx lernapps check`, the hooks.
-- [ ] Commit what the generator wrote, with this plan: the first commit.
+- [ ] Commit what the generator wrote, with this plan, on `work`.
 - [ ] Load the skill `lernapps-app` and the skill of the archetype.
 - [ ] Fill in the content guide `.agents/skills/app-content/SKILL.md`, which the generator wrote, from the confirmed
       plan and its content method, before you build the content: replace every "FILL IN" with precise, concrete
@@ -161,41 +183,34 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 Publish the app and list it, each only after the creator says yes. Then fill the retrospective.
 A push to `main` publishes the app: the workflow `Pages` checks it and, in its job `deploy`, publishes the checked
 bundle to the repo's GitHub Pages, at the repo's own address (usually https://<owner>.github.io/<repo>/). So work on
-the branch `work` until the creator says yes; the first publish creates `main`.
+the branch `work` until the creator says yes; the first publish brings `work` into `main`.
 The repo's default branch must be `main`: only `main` publishes, and update pull requests (Renovate) and new pull
-requests target the default branch. A repo whose first push was `work` has `work` as its default branch until it is
-changed.
+requests target the default branch. Explore set up the branches and Pages; here you only verify them.
 A push to `main` that changes only the plan (`.vibe/`) starts a run of `Pages` that checks and publishes nothing:
 push the plan whenever a task says so. Every push to `main` must start a run of `Pages`. If none has started a minute
 after the push (`gh run list --workflow Pages --branch main --commit <commit>` lists none), start it:
-`gh workflow run Pages --ref main`.
+`gh workflow run Pages --ref main`. When GitHub refuses a step with "403 Resource not accessible by integration",
+it is a click for the creator (skill `lernapps-github`): never push a change only to start a run.
 -->
 
 ### Tasks
 
 - [ ] Push the branch `work` (not `main`): `git push -u origin work`. The pre-push hook runs the heavy checks; fix
       what fails.
-- [ ] Check the repo's settings on GitHub: the default branch (`gh repo view --json defaultBranchRef`) and GitHub
-      Pages (`gh api repos/<owner>/<repo>/pages`; "Not Found" means it is off). For each one that is not right and
-      that you may not change, note the clicks of a repository admin:
-      - Pages, once the first run has created the branch `gh-pages`: Settings → Pages → Build and deployment →
-        Source: Deploy from a branch → Branch: gh-pages, folder: / (root) → Save.
-      - The default branch, once `main` is pushed: Settings → General → Default branch → ⇄ (Switch to another
-        branch) → main → Update.
+- [ ] Verify the setup from Explore over REST: the default branch is `main`
+      (`gh api repos/<owner>/<repo> --jq .default_branch`) and Pages serves `gh-pages` from `/`
+      (`gh api repos/<owner>/<repo>/pages`; "Not Found" means it is off). For each one that is not right and that you
+      may not change, note the creator's click from the skill `lernapps-github`.
 - [ ] **Checkpoint:** publish. Ask the creator before the app goes online, and wait for their yes. Put the clicks you
       noted into the same question, to make after the first run, so that they cost no extra turn.
-- [ ] Create `main` from `work` and push it: `git switch -c main`, `git push -u origin main`. Check that a run of
-      the workflow `Pages` started for this commit:
-      `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`. GitHub may start none for a
-      push that creates a branch from commits it already has. If none is listed a minute after the push, start it:
-      `gh workflow run Pages --ref main`. Watch the run until it ends (for example `gh run watch`, or the Actions
-      tab of the repo). If it fails, read the message of the failed step: fix what you can and push again. For a
-      setting only a repository admin may change: if the creator agreed to the clicks at the checkpoint, wait until
-      the setting is made (for example `gh api repos/<owner>/<repo>/pages` names `gh-pages`) and run the failed jobs
-      again (`gh run rerun <id> --failed`); otherwise tell the creator the exact clicks the message names, and run
-      them again when they are done.
-- [ ] Set the default branch to `main`: `gh repo edit --default-branch main`, or the creator's clicks from the
-      checkpoint. The run of `Pages` warns while it is another branch.
+- [ ] Bring `work` into `main` and push it: `git switch main`, `git merge --ff-only work`, `git push origin main`.
+      Check that a run of the workflow `Pages` started for this commit:
+      `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`. If none is listed a minute after
+      the push, start it: `gh workflow run Pages --ref main` (refused: the creator clicks Actions → Pages → Run
+      workflow). Watch the run until it ends (for example `gh run watch`, or the Actions tab of the repo). If it
+      fails, read the message of the failed step: fix what you can and push again. A Pages setting only a repository
+      admin may change: the run has deployed the app to `gh-pages` anyway, so once the creator has made the click the
+      message names, the app appears without a new run; check the address below.
 - [ ] Open the address the job `deploy` printed ("published at ...", also in the run's summary) and confirm that it
       shows the app. Take that address, never one you derive: a repo whose owner has its own domain is served there,
       and its github.io address only redirects to it. The job ends only once the app answers at that address, so do
