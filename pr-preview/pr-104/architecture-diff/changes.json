@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "base": {
+    "label": "8a027634b88aacf8e8cd0bd1dd4c34030336a72e",
+    "commit": "8a027634b88aacf8e8cd0bd1dd4c34030336a72e"
+  },
+  "head": {
+    "label": "464cb2b081d6ec61c9648aa1f73280cad7148247"
+  },
+  "acceptanceBase": "8a027634b88aacf8e8cd0bd1dd4c34030336a72e",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "dec-evals-by-hand",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 401
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 402
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Evals by hand with three assistants"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-eval-runs-from-files",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 422
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Eval runs from files: a run directory, a scripted creator, a scoring script"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-eval-runs-from-files",
+          "to": "qg-any-assistant",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-eval-runs-from-files",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-eval-runs-from-files",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-eval-runs-from-files",
+          "to": "risk-invisible-failures",
+          "relation": "addresses"
+        }
+      }
+    ],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
+        "added": 1,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
