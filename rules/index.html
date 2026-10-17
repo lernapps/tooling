@@ -349,7 +349,7 @@
 <h2>Fix failed checks, never bypass them</h2>
 <p><code>fix-from-message</code> · tooling · error</p>
 <div>
-<p>Read the message of a failed check and fix the cause. A failed commit prints one line with the step and the log <code>node_modules/.cache/lernapps/pre-commit.log</code>: the messages are in that log. Never bypass a hook (<code>--no-verify</code>), never delete a test to make it pass.</p>
+<p>Read the message of a failed check and fix the cause. A failed commit prints one line with the step and the log <code>node_modules/.cache/lernapps/pre-commit.log</code>: the messages are in that log. Never bypass a hook (<code>--no-verify</code>, or an acceptance such as <code>ARC42_CONSISTENT</code> set without a finding shown), never delete a test to make it pass.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/tooling-rules.md"><code>skills/lernapps-app/references/tooling-rules.md</code></a>.</p>
 </section>
@@ -547,7 +547,7 @@
 <h2>The architecture is valid and current</h2>
 <p><code>interactive-architecture-current</code> · archetype:interactive · error</p>
 <div>
-<p><code>docs/arc42/</code> holds the generic part and the interactive extension as <code>lernapps create</code> or <code>lernapps update</code> wrote them, unchanged outside the app sections, and the app's own part inside them describes the code as it is: every part of <code>src/</code> has its block, every block its code. <code>arc42 validate --strict</code> in <code>lernapps check</code> and <code>arc42 diff --staged --strict</code> before a commit pass; the review reads whether the architecture still says what the code does.</p>
+<p><code>docs/arc42/</code> holds the generic part and the interactive extension as <code>lernapps create</code> or <code>lernapps update</code> wrote them, unchanged outside the app sections, and the app's own part inside them describes the code as it is: every part of <code>src/</code> has its block, every block its code. <code>arc42 validate --strict</code> in <code>lernapps check</code> and <code>arc42 diff --staged</code> before a commit pass; the review reads whether the architecture still says what the code does.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-interactive/SKILL.md"><code>skills/lernapps-interactive/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md"><code>review/archetypes/interactive.md</code></a>.</p>
 </section>
