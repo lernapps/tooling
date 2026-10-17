@@ -1,0 +1,211 @@
+{
+  "version": 1,
+  "base": {
+    "label": "e480d9615c9405a88d787ad37eca040226bcf3b0",
+    "commit": "e480d9615c9405a88d787ad37eca040226bcf3b0"
+  },
+  "head": {
+    "label": "5fefe7eba9384be8ff00cda87ee4b7da0c20f703"
+  },
+  "acceptanceBase": "e480d9615c9405a88d787ad37eca040226bcf3b0",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/08-concepts.arc42.md",
+      "line": 53,
+      "elementId": "concept-rule-catalog",
+      "message": "Section prose changed without changing block 'concept-rule-catalog' — it names 'Generator'."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/12-glossary.arc42.md",
+      "line": 153,
+      "elementId": "term-rule",
+      "message": "Block 'term-rule' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/12-glossary.arc42.md",
+      "line": 165,
+      "elementId": "term-rules-in-scope",
+      "message": "Block 'term-rules-in-scope' changed without changing its section prose."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "line": 53,
+        "elementId": "concept-rule-catalog",
+        "message": "Section prose changed without changing block 'concept-rule-catalog' — it names 'Generator'."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "line": 153,
+        "elementId": "term-rule",
+        "message": "Block 'term-rule' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "line": 165,
+        "elementId": "term-rules-in-scope",
+        "message": "Block 'term-rules-in-scope' changed without changing its section prose."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-review-procedure",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 381
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 382
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-rule-catalog",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [
+          {
+            "term": "Generator",
+            "element": "bb-generator",
+            "source": "element"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 44
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 53
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Rule catalog"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-rule",
+        "kind": "glossary-term",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "definition",
+            "before": "One requirement on an app, with a stable id, scope (listing, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id.",
+            "after": "One requirement on an app, with a stable id, scope (listing, tooling, archetype), and severity (error, warning, hint); it lives as skill text, lint rule, check or rubric item, often in several of them under the same id."
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 153
+        },
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 153
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Rule"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-rules-in-scope",
+        "kind": "glossary-term",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "definition",
+            "before": "The rules that apply to one app - scope listing and its archetype.",
+            "after": "The rules that apply to one app - scope listing, scope tooling when it is built with the tooling, and its archetype."
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 165
+        },
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 165
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Rules in scope"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "added": 0,
+        "modified": 2,
+        "removed": 0
+      }
+    ]
+  }
+}
