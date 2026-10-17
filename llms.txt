@@ -19,6 +19,10 @@ Everything here is also in the package `@lernapps/tooling`.
 - [Docs](https://lernapps.net/docs/llms.txt): the platform and organisation docs, and how to read them (biz42, pdt42 and their CLIs).
 - [Apps](https://lernapps.net/apps/llms.txt): listing an app in the catalog.
 
+## GitHub
+
+An app lives in its creator's GitHub repo and is published with GitHub Pages: the branches `main` (published), `work` (until the first publish) and `gh-pages` (served), set up at the start of the plan; Actions check and publish. [GitHub, explained for creators](https://lernapps.net/tooling/github/): what it is and which parts the tooling uses. The creator need not know it; tell them in plain words.
+
 ## Commands
 
 Every command lists its options with `--help`: `npx lernapps check --help` in an app, or
@@ -47,6 +51,7 @@ Install them into your harness with `npx skills add lernapps/tooling`. An app co
 - [lernapps-interactive](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-interactive/SKILL.md): the principles of an interactive app's code, and what of its archetype is not built yet.
 - [lernapps-content-research](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-research/SKILL.md): what the app teaches: the curriculum, with the Lehrplan as orientation for grade and order, the competencies as "Ich kann …" grouped into chapters, second sources verified by opening them. For every archetype.
 - [lernapps-exercise-patterns](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-exercise-patterns/SKILL.md): exercises from shared data files, patterns written down once and varied, and a component or an issue for the rest; with a [catalogue of patterns by subject](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-exercise-patterns/references/patterns.md).
+- [lernapps-github](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-github/SKILL.md): GitHub access when the obvious path fails: which tools in which order (gh over REST, GitHub MCP tools, curl for public reads), "403 Resource not accessible by integration" as a click for the creator (never a dummy push), the REST checks of default branch and Pages, the listing pull request from a fork.
 - [lernapps-content-growth](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-growth/SKILL.md): how an app grows after its first version, one competency per slice, with a brief for parallel sub-agents.
 
 Every app from the generator also has its own content guide, `.agents/skills/app-content/SKILL.md` (linked for Claude Code as `.claude/skills/app-content`): the skeleton the assistant fills in once the plan is confirmed. Where it is filled in, it takes precedence over the skills above.
