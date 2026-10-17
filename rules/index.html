@@ -121,7 +121,7 @@
 <div>
 <p>Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives. Only where the app's idea needs it (a typing game against the clock) may it deviate: then say in plain German what it does not offer in the entry's field <code>limits</code>, which teachers and parents read in the catalog. With <code>limits</code> in the entry, <code>lernapps check --entry</code> reports this rule's findings as warnings; without it, as errors.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/accessible.ts"><code>check/rules/accessible.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/accessible.ts"><code>check/rules/accessible.ts</code></a>.</p>
 </section>
 
 <section id="app-content-guide">
@@ -130,7 +130,7 @@
 <div>
 <p>Keep <code>.agents/skills/app-content/SKILL.md</code> with its fixed headings. Fill in every placeholder (&quot;FILL IN&quot;) once the creator has confirmed the plan, before you build the content, with precise, concrete instructions: the files, ids, data files and an example of this app, not general advice. Whenever a content decision changes (a new pattern, a figure type, a source rule), change the guide in the same commit. The plan file records one run; the guide is what the agents after you follow. <code>lernapps check</code> checks an app from the generator: the file and its headings always, and that no placeholder is left once the app has content, which is when its plan is in Commit: by then the creator's questions (quiz) or chapters (explainer) are built in place of the generated example. An app made before the guide existed gets its skeleton from <code>npx --yes github:lernapps/tooling#main update</code>.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/app-content-guide.ts"><code>check/rules/app-content-guide.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/app-content-guide.ts"><code>check/rules/app-content-guide.ts</code></a>.</p>
 </section>
 
 <section id="app-content-matches">
@@ -139,7 +139,7 @@
 <div>
 <p>The guide describes the app as it is: every exercise pattern it names is used, and the app uses no pattern it does not name; the curriculum, the competencies and their chapters, pages or rounds match the content; the procedure for a new chapter or round names the files as they are now. Write it so that an agent who never saw your conversation can add the next chapter or round from it alone.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="checks-pass">
@@ -150,7 +150,7 @@
 <p>A test that comes with the archetype's runtime (<code>@lernapps/app-templates</code>) and fails while your content validates is a bug in the template; the message names it as a test of the template. Tell the creator, and open an issue at <a href="https://github.com/lernapps/app-templates/issues">https://github.com/lernapps/app-templates/issues</a> with the validation report (<code>node_modules/.cache/lernapps/validation-report.yaml</code>), or ask the creator to. Never change the tests or the configuration to get around it. The app pins the runtime to a commit, so <code>npm update</code> changes nothing; once the fix is in, <code>npx --yes github:lernapps/tooling#main update</code> moves the app to it. Then run <code>npx lernapps check</code> and commit.</p>
 <p>A link whose server limits requests (HTTP 429) is reported as not checked, at severity hint: it fails nothing. Tell the creator which links could not be checked, and go on.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/tooling-rules.md"><code>skills/lernapps-app/references/tooling-rules.md</code></a>.</p>
 </section>
 
 <section id="correct-content-support">
@@ -159,7 +159,7 @@
 <div>
 <p>Where answers are computable, generate the exercises and test the answers with a checker. Name a source learners and teachers can follow for facts. This should be done where it fits; it is never a condition for listing.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="dependency-licence">
@@ -168,7 +168,7 @@
 <div>
 <p>Add a package to <code>dependencies</code> only if it and its own dependencies have one of these licences: MIT, MIT-0, ISC, 0BSD, BSD-2-Clause, BSD-3-Clause, Apache-2.0, MPL-2.0, BlueOak-1.0.0, Zlib, Unlicense, CC0-1.0, CC-BY-4.0, Python-2.0. Tools for the build belong in <code>devDependencies</code>.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/dependency-licence.ts"><code>check/rules/dependency-licence.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/dependency-licence.ts"><code>check/rules/dependency-licence.ts</code></a>.</p>
 </section>
 
 <section id="entry-fitness-matches">
@@ -177,7 +177,7 @@
 <div>
 <p>Take <code>fitness.storage</code> and <code>fitness.thirdParty</code> from what the app does, not from what it should do: <code>lernapps check --report &lt;file&gt;</code> measures what it does before a click. An app that keeps anything in <code>localStorage</code> has <code>storage: device</code>; one that loads from another server after a click has <code>thirdParty: on-click</code>.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-fitness-matches.ts"><code>check/rules/entry-fitness-matches.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-fitness-matches.ts"><code>check/rules/entry-fitness-matches.ts</code></a>.</p>
 </section>
 
 <section id="entry-from-schema">
@@ -186,7 +186,7 @@
 <div>
 <p>Fetch the entry schema each time you need it; never fill the entry from memory or from another app. Take every value from the creator's answers, the plan or the app; never invent one.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>.</p>
 </section>
 
 <section id="entry-links-resolve">
@@ -195,7 +195,7 @@
 <div>
 <p>Give each topic the path of a page that exists, relative to the app's <code>url</code>; a topic that links a section of a page (<code>&lt;page&gt;#&lt;section&gt;</code>) names the id of an element on that page. Check the entry against the deployed app with <code>lernapps check --entry &lt;file&gt;</code>.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-links-resolve.ts"><code>check/rules/entry-links-resolve.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-links-resolve.ts"><code>check/rules/entry-links-resolve.ts</code></a>.</p>
 </section>
 
 <section id="explore-before-code">
@@ -204,7 +204,7 @@
 <div>
 <p>Write no code and generate nothing until the creator has confirmed the plan.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>.</p>
 </section>
 
 <section id="few-turns-after-plan">
@@ -213,7 +213,7 @@
 <div>
 <p>After the plan is confirmed, ask the creator only what you cannot decide. Otherwise choose, mark it &quot;(guess)&quot; under &quot;Key decisions&quot; and list it in the retrospective.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>.</p>
 </section>
 
 <section id="fix-from-message">
@@ -222,7 +222,7 @@
 <div>
 <p>Read the message of a failed check and fix the cause. A failed commit prints one line with the step and the log <code>node_modules/.cache/lernapps/pre-commit.log</code>: the messages are in that log. Never bypass a hook (<code>--no-verify</code>), never delete a test to make it pass.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/tooling-rules.md"><code>skills/lernapps-app/references/tooling-rules.md</code></a>.</p>
 </section>
 
 <section id="free-of-charge">
@@ -231,7 +231,7 @@
 <div>
 <p>Every part of the app is free: no payment, no paid upgrade, no trial that ends.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="learner-text-german">
@@ -240,7 +240,7 @@
 <div>
 <p>Write every text for learners, teachers and parents in German, in plain language: short sentences, active voice, no jargon. German is always there. An app may add further languages where its archetype supports them (the explainer and the quiz: <code>languages</code>, German first); then every text is complete in each declared language, and in no other. Keep the texts out of code: in the content of a deep archetype (an explainer's YAML, a quiz's question bank), or in message files, e.g. <code>src/messages/de.json</code>, shown with <code>translator</code> from <code>@lernapps/tooling/i18n</code>.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/learner-text-german.ts"><code>lint/rules/learner-text-german.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/learner-text-german.ts"><code>lint/rules/learner-text-german.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="learners-act">
@@ -249,7 +249,7 @@
 <div>
 <p>Learners try, practise or decide in the app; reading alone is not enough. Each page or screen asks them to act.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="links-resolve">
@@ -258,7 +258,7 @@
 <div>
 <p>Point every link and every resource (pictures, scripts, styles) to a page or file that the build writes. Use relative links inside the app.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/links-resolve.ts"><code>check/rules/links-resolve.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/links-resolve.ts"><code>check/rules/links-resolve.ts</code></a>.</p>
 </section>
 
 <section id="no-account">
@@ -267,7 +267,7 @@
 <div>
 <p>Learners and teachers use the whole app without signing up or logging in.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="no-ads">
@@ -276,7 +276,7 @@
 <div>
 <p>Show no advertising, no sponsored content, no product placement.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="no-learner-data-in-texts">
@@ -285,7 +285,7 @@
 <div>
 <p>Write no name, class, school, grade, picture or other detail of a real learner into the app, the entry, the README, the plan or a commit message, even when the creator mentions one. Use made-up names in exercises.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="no-request-before-click">
@@ -294,7 +294,7 @@
 <div>
 <p>Bundle fonts, scripts and pictures at build time. Load anything from another server (a video, a map) only after the learner clicks for it. Keep URLs of other servers out of code; where the learner clicks to load one, suppress the lint message on that line with this reason.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-request-before-click.ts"><code>check/rules/no-request-before-click.ts</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/no-request-before-click.ts"><code>lint/rules/no-request-before-click.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-request-before-click.ts"><code>check/rules/no-request-before-click.ts</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/no-request-before-click.ts"><code>lint/rules/no-request-before-click.ts</code></a>.</p>
 </section>
 
 <section id="no-tracking">
@@ -303,7 +303,7 @@
 <div>
 <p>No cookies, no analytics, no tracking pixels, no server that stores data. If the app stores anything, it stays on the device (<code>localStorage</code>) and serves only the app.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="pages-reachable">
@@ -312,7 +312,7 @@
 <div>
 <p>Link every page the build writes from the start page or from a page it leads to: learners find only what links reach, and the checks of the listing, which open the app at its address, check only those pages. Leave pages nobody should reach out of the build. A page reached another way on purpose gets <code>&lt;meta name=&quot;robots&quot; content=&quot;noindex&quot;&gt;</code>; a <code>404.html</code> at the root is the host's page for addresses that do not exist and needs no link. On a URL the checks visit at most 100 pages; a hint then says so: check the bundle to check every page.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/pages-reachable.ts"><code>check/rules/pages-reachable.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/pages-reachable.ts"><code>check/rules/pages-reachable.ts</code></a>.</p>
 </section>
 
 <section id="plan-file">
@@ -321,7 +321,7 @@
 <div>
 <p>Keep each plan in <code>.vibe/plans/</code> as its template has it, with every section and front matter key; never change the plan of an earlier piece of work. Update <code>phase</code> when you enter a phase. Never edit <code>prePushFailures</code>: the pre-push hook writes it.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>.</p>
 </section>
 
 <section id="retrospective-filled">
@@ -330,7 +330,7 @@
 <div>
 <p>At the end of Commit, fill every part of the retrospective with facts: phases reached, failed checks with rule ids, the creator's turns after the plan, where you had to guess. No names of people.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="runs-in-browser">
@@ -339,7 +339,7 @@
 <div>
 <p>The app opens at its URL in a current browser and works there. Nothing to install: no app store, no download, no browser extension.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="stop-at-checkpoints">
@@ -348,7 +348,7 @@
 <div>
 <p>Stop at each checkpoint (research, confirm the plan and the content method, publish, list) and wait for the creator's answer. Example: &quot;Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?&quot;</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>.</p>
 </section>
 
 <section id="suppression-reason">
@@ -357,7 +357,7 @@
 <div>
 <p>Suppress a lint message only on the line where it occurs, name the rule and write why after <code>--</code>: <code>// oxlint-disable-next-line lernapps/no-request-before-click -- the video loads after a click</code>. Suppress a type error only with <code>// @ts-expect-error -- &lt;reason&gt;</code>, never with <code>@ts-ignore</code> or <code>@ts-nocheck</code>. The review reads every suppression.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/suppression-reason.ts"><code>lint/rules/suppression-reason.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/tooling-rules.md"><code>skills/lernapps-app/references/tooling-rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/suppression-reason.ts"><code>lint/rules/suppression-reason.ts</code></a>.</p>
 </section>
 
 <section id="third-party-licence">
@@ -366,7 +366,7 @@
 <div>
 <p>Use content of others (texts, pictures, quotes) only with a licence that allows it, and name source and licence next to it.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="usable-at-360px">
@@ -375,7 +375,7 @@
 <div>
 <p>Every page works at 360 px width without horizontal scrolling, with every control reachable. Only where the app's idea needs it (a keyboard is required) may it deviate, said in the entry's field <code>limits</code> as under <code>accessible</code>; with it, <code>lernapps check --entry</code> reports this rule's findings as warnings, without it as errors.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/usable-at-360px.ts"><code>check/rules/usable-at-360px.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/usable-at-360px.ts"><code>check/rules/usable-at-360px.ts</code></a>.</p>
 </section>
 
 <section id="explainer-content-valid">
@@ -564,7 +564,7 @@
 <div>
 <p>An app from an archetype extends the preset of <code>@lernapps/tooling</code> and configures nothing the preset sets: <code>vite.config.ts</code> is <code>export default lernapps()</code>, <code>tsconfig.json</code> extends <code>@lernapps/tooling/tsconfig.json</code> as generated, the hooks come from the package (<code>prepare</code> in <code>package.json</code>). Pass only the app's own settings to <code>lernapps({ ... })</code>, such as the pages to build or the build step of its archetype's runtime, as generated: <code>lernapps({ plugins: [quiz()] })</code>. Never turn a lint rule off or lower its severity, never replace a hook.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/tooling-rules.md"><code>skills/lernapps-app/references/tooling-rules.md</code></a>.</p>
 </section>
 
 <section id="pages-from-gh-pages">
@@ -573,7 +573,7 @@
 <div>
 <p>An app from the generator publishes with the app publish action: GitHub Pages of the app repo serves the branch <code>gh-pages</code> from its root (<code>/</code>), at the repo's Pages address (usually <code>https://&lt;owner&gt;.github.io/&lt;repo&gt;/</code>; only a repo of the lernapps organisation is served at <code>https://lernapps.net/&lt;repo&gt;/</code>). Previews of pull requests will go below <code>pr-preview/</code> on the same branch, so leave that setting as it is. When the publish run fails, read its message: fix what you can, and tell the creator the exact clicks it names for what only a repository admin may change. The creator may host the app elsewhere; then the entry's <code>url</code> points there.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/tooling-rules.md"><code>skills/lernapps-app/references/tooling-rules.md</code></a>.</p>
 </section>
 
 <section id="prefer-built-in-block">
@@ -694,7 +694,7 @@
 <div>
 <p>Say on the static start page what learners train, for whom, and how to begin.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md"><code>review/archetypes/interactive.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/archetype-rules.md"><code>skills/lernapps-app/references/archetype-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md"><code>review/archetypes/interactive.md</code></a>.</p>
 </section>
 
 <section id="storage-through-wrapper">
@@ -703,7 +703,7 @@
 <div>
 <p>Keep what the app must remember with <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app: it stays on the device, under the app's own prefix, and the app keeps working when the browser blocks storage. All apps share the origin's localStorage, so an app keeps at most 100 kB under its prefix (keys and values, 2 bytes per UTF-16 code unit): <code>save</code> returns false beyond it, as when storage is blocked, and the app keeps working. Keep the learning state, not histories that keep growing. Never use <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/storage-through-wrapper.ts"><code>lint/rules/storage-through-wrapper.ts</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/tooling-rules.md"><code>skills/lernapps-app/references/tooling-rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/storage-through-wrapper.ts"><code>lint/rules/storage-through-wrapper.ts</code></a>.</p>
 </section>
 
 <section id="strict-typescript">
@@ -712,7 +712,7 @@
 <div>
 <p>Write every source in TypeScript; no JavaScript files. Never use <code>any</code>: use <code>unknown</code> and narrow it, or write the type. Type the data the creator supplies and validate it at build time.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/tooling-rules.md"><code>skills/lernapps-app/references/tooling-rules.md</code></a>.</p>
 </section>
 
 <section id="topic-has-exercises">
@@ -721,7 +721,7 @@
 <div>
 <p>Give every page of an explainer at least one exercise that practises what the page explains, with a solution or feedback learners can check; the schema requires one on every page (the start page, the chapter pages and the glossary are generated). The review judges whether it practises what the page explains.</p>
 </div>
-<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/SKILL.md"><code>skills/lernapps-app/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/archetype-rules.md"><code>skills/lernapps-app/references/archetype-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
 </section>
 
 <section id="vue-component-browser-globals">
