@@ -24,7 +24,7 @@
 // The templates and the runtime come from a local clone of lernapps/app-templates with the pinned commit: the one named
 // by LERNAPPS_TEMPLATES, else one fetched once into a cache (support.ts, appTemplates), so the hooks run these tests as
 // CI does. The packages are installed from git.
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
@@ -317,7 +317,8 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
 // generated (its runtime's tests run in lernapps/app-templates), and its architecture (docs/arc42/, the generic part
 // and the interactive extension of app-templates with the app's paths) validates strictly in the app, before anything
 // is added to git; the first commit
-// passes the pre-commit hook, new code that no block claims fails the commit's check (arc42 diff --staged --strict),
+// passes the pre-commit hook, also after an earlier commit (arc42 diff, with .arc42ignore applied and its review hints
+// as warnings), new code that no block claims fails the commit's check (arc42 diff --staged), even with ARC42_CONSISTENT,
 // a broken architecture fails the check, and lernapps update keeps the app's own sections and replaces the rest.
 describe.skipIf(inner)("an interactive app from lernapps create, run with npx from git", () => {
   let app = "";
@@ -365,6 +366,48 @@ describe.skipIf(inner)("an interactive app from lernapps create, run with npx fr
     expect(result.code, output(result)).toBe(0);
   });
 
+  // as in a repository whose plan was committed before lernapps create: the app's first commit then has a HEAD to
+  // compare with and runs arc42 diff, which does not read .arc42ignore and hints at every file under an interface's
+  // path; the copy shares the app's node_modules and runs the real hook
+  test(
+    "the first commit after an earlier one (the plan) passes the pre-commit hook: .arc42ignore holds, a review hint is a warning",
+    { timeout: SLOW },
+    () => {
+      const copy = join(dirname(app), "zehnfinger-planned");
+      cpSync(app, copy, {
+        recursive: true,
+        filter: (source) => !["node_modules", ".git"].includes(source.slice(app.length + 1).split("/")[0] ?? ""),
+      });
+      symlinkSync(join(app, "node_modules"), join(copy, "node_modules"));
+      ok("git", ["init", "--quiet", "--initial-branch=main"], copy);
+      // the hooks npm install set up in the app, which the copy shares through node_modules
+      const hooksPath = ok("git", ["config", "--local", "core.hooksPath"], app).stdout.trim();
+      ok("git", ["config", "--local", "core.hooksPath", hooksPath], copy);
+      ok("git", ["add", ".vibe"], copy);
+      const plan = run("git", ["-c", "user.name=t", "-c", "user.email=t@example.org", "commit", "-qm", "plan"], copy);
+      expect(plan.code, output(plan)).toBe(0);
+      ok("git", ["add", "--all"], copy);
+      const log = join(copy, "node_modules/.cache/lernapps/pre-commit.log");
+      rmSync(log, { force: true });
+      const first = run(
+        "git",
+        ["-c", "user.name=t", "-c", "user.email=t@example.org", "-c", "maintenance.auto=false", "commit", "-qm", "app"],
+        copy,
+      );
+      expect(first.code, `${output(first)}\n${existsSync(log) ? readFileSync(log, "utf8") : ""}`).toBe(0);
+      expect(readFileSync(log, "utf8")).toContain("lernapps check --pre-commit");
+      // what the hook checked: the diff, whose hint at code under an interface the report keeps as a warning
+      const report = readFileSync(join(copy, "node_modules/.cache/lernapps/validation-report.yaml"), "utf8");
+      const diffFindings = (
+        parse(report) as { findings: { severity: string; where: string; found: string }[] }
+      ).findings.filter((finding) => finding.where === "arc42 --dir docs/arc42 diff --staged");
+      expect(diffFindings.map((finding) => finding.severity)).toEqual(["warning"]);
+      expect(diffFindings[0]?.found).toContain("review whether its element still says what the code does");
+      expect(report).not.toContain("src/main.ts");
+      expect(report).not.toContain("src/env.d.ts");
+    },
+  );
+
   test("its architecture validates strictly: no error, warning or hint", () => {
     const result = arc42("validate", "--strict");
     expect(result.code, output(result)).toBe(0);
@@ -380,8 +423,28 @@ describe.skipIf(inner)("an interactive app from lernapps create, run with npx fr
       const result = run("npx", ["--no", "--", "lernapps", "check", "--pre-commit"], app);
       expect(result.code, output(result)).toBe(1);
       const failed = findingsOf(result, "checks-pass");
-      expect(failed.map((finding) => finding.where)).toEqual(["arc42 --dir docs/arc42 diff --staged --strict"]);
-      expect(output(result)).toContain("src/effects");
+      expect(failed.map((finding) => finding.where)).toEqual(["arc42 --dir docs/arc42 diff --staged"]);
+      expect(failed[0]?.found).toContain("src/effects is new code that no building block claims");
+      // ARC42_CONSISTENT, set to the HEAD commit without a finding read, accepts no new code
+      const accepted = run(
+        "env",
+        [
+          `ARC42_CONSISTENT=${ok("git", ["rev-parse", "HEAD"], app).stdout.trim()}`,
+          "npx",
+          "--no",
+          "--",
+          "lernapps",
+          "check",
+          "--pre-commit",
+        ],
+        app,
+      );
+      expect(accepted.code, output(accepted)).toBe(1);
+      expect(
+        findingsOf(accepted, "checks-pass")
+          .filter((finding) => finding.severity === "error")
+          .map((finding) => finding.found),
+      ).toEqual(["architecture: src/effects is new code that no building block claims"]);
     } finally {
       ok("git", ["rm", "--quiet", "--force", file], app);
     }

@@ -52,11 +52,15 @@ interface Step {
   env?: Record<string, string>;
   /** arc42 of the working tree: files git does not know yet count too (ofWorkingTree). */
   workingTree?: boolean;
+  /** `arc42 diff --format json` before a commit, whose findings the wrapper judges (architectureDiffFindings). */
+  architectureDiff?: boolean;
 }
 
 /** In a repo, every run also writes its full report here, passing or not: the hooks and CI alike. */
 const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
 const CHECKS_PASS = "checks-pass";
+/** A built app or a URL that could not be checked at all: a platform rule, unlike the toolchain's checks-pass. */
+const APP_CHECKABLE = "app-checkable";
 /** The Playwright tests' results, as its JSON reporter writes them, to tell the runtime's tests from the app's. */
 const E2E_RESULTS = "node_modules/.cache/lernapps/playwright-results.json";
 const RUNTIME_ISSUES = "https://github.com/lernapps/app-templates/issues";
@@ -151,11 +155,15 @@ function runStep(planned: Step): Finding | undefined {
   });
 }
 
-const browserFinding = (error: BrowserError) =>
-  finding(CHECKS_PASS, "error", {
+/** No browser could start: in a repo a step of the toolchain's checks, on a built app or a URL the app could not be checked. */
+const browserFinding = (error: BrowserError, rule: typeof CHECKS_PASS | typeof APP_CHECKABLE = CHECKS_PASS) =>
+  finding(rule, "error", {
     where: "browser",
     found: error.message,
-    fix: "Install Chromium and its system libraries: npx playwright install --with-deps chromium. Where no browser can run, push and let CI check",
+    fix:
+      rule === CHECKS_PASS
+        ? "Install Chromium and its system libraries: npx playwright install --with-deps chromium. Where no browser can run, push and let CI check"
+        : "Install Chromium and its system libraries: npx playwright install --with-deps chromium, then check again. If no browser can start even then, open an issue at https://github.com/lernapps/tooling/issues with this message",
   });
 
 interface Suite {
@@ -272,9 +280,9 @@ const ARCHITECTURE_INPUTS = [`${ARCHITECTURE}/`, ".arc42ignore", "src/"];
 
 /**
  * The architecture's step before a commit of an app with one (generator/architecture.ts), when the commit stages a
- * file of the architecture or of the sources: `arc42 diff --staged --strict` (a fraction of a second), which fails on a
- * changed block without its prose and on new code no block claims; before the first commit, which has nothing to
- * compare with, `arc42 validate --strict`.
+ * file of the architecture or of the sources: `arc42 diff --staged` (a fraction of a second), whose findings
+ * architectureDiffFindings judges; before the first commit, which has nothing to compare with,
+ * `arc42 validate --strict`.
  */
 function architectureBeforeCommit(): Step | undefined {
   if (!hasArchitecture()) return undefined;
@@ -283,11 +291,133 @@ function architectureBeforeCommit(): Step | undefined {
     return undefined;
   }
   const head = spawnSync("git", ["rev-parse", "--verify", "--quiet", "HEAD"], { encoding: "utf8" }).status === 0;
-  return {
-    name: "architecture",
-    command: "arc42",
-    args: ["--dir", ARCHITECTURE, ...(head ? ["diff", "--staged", "--strict"] : ["validate", "--strict"])],
-  };
+  return head
+    ? {
+        name: "architecture",
+        command: "arc42",
+        args: ["--dir", ARCHITECTURE, "diff", "--staged", "--format", "json"],
+        where: `arc42 --dir ${ARCHITECTURE} diff --staged`,
+        architectureDiff: true,
+      }
+    : { name: "architecture", command: "arc42", args: ["--dir", ARCHITECTURE, "validate", "--strict"] };
+}
+
+/** A finding of `arc42 diff --format json` (DiffFinding of @doctc/arc42), as far as the wrapper reads it. */
+interface DiffFinding {
+  kind: string;
+  file: string;
+  line: number;
+  message: string;
+  elementId?: string;
+}
+
+/**
+ * The paths of .arc42ignore, as arc42 reads them for its coverage hint H021 in `validate`: each line that is neither
+ * blank nor a comment, trimmed, matched exactly. `arc42 diff` does not read the file (its coverage hint is not H021),
+ * so the wrapper applies it to the diff's coverage hints: what validate accepts, the commit accepts too.
+ */
+function arc42Ignored(): Set<string> {
+  if (!existsSync(".arc42ignore")) return new Set();
+  return new Set(
+    readFileSync(".arc42ignore", "utf8")
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line !== "" && !line.startsWith("#")),
+  );
+}
+
+/**
+ * What a commit's `arc42 diff --staged` found, judged for the commit: it fails on a block changed without its prose
+ * (or the other way round) and on new code that no block claims and .arc42ignore does not list, as
+ * `arc42 validate --strict` before a push would. A hint "review architecture element" (code changed under an
+ * interface's path) asks a person to look at that element; it is shown as a warning and does not fail the commit,
+ * since nothing in it is wrong yet. ARC42_CONSISTENT (arc42's acceptance, the HEAD commit) accepts only the
+ * consistency findings, which can be intended, and they stay in the report as a warning; new code no block claims has
+ * a fix that is always possible (a block, or .arc42ignore for configuration), so the acceptance does not pass it.
+ */
+function architectureDiffFindings(where: string, stdout: string, stderr: string): Finding[] {
+  let diff: { accepted?: boolean; untracked?: string[]; findings?: DiffFinding[] };
+  try {
+    diff = JSON.parse(stdout) as typeof diff;
+  } catch {
+    process.stderr.write(`${stdout}${stderr}`);
+    return [
+      finding(CHECKS_PASS, "error", {
+        where,
+        found: "architecture: arc42 diff failed (its output is above)",
+        fix: `Fix the cause from the output of ${where}, then check again`,
+      }),
+    ];
+  }
+  const ignored = arc42Ignored();
+  const all = diff.findings ?? [];
+  const consistency = all.filter((f) => f.kind !== "implementation-path" && f.kind !== "new-building-block-hint");
+  const uncovered = all.filter((f) => f.kind === "new-building-block-hint" && !ignored.has(f.file));
+  const review = all.filter((f) => f.kind === "implementation-path");
+  const line = (f: DiffFinding) =>
+    f.kind === "new-building-block-hint"
+      ? `${f.file} is new code that no building block claims`
+      : `${f.file}${f.line > 0 ? `:${f.line}` : ""} ${f.message}`;
+  const findings: Finding[] = [];
+  const failing = diff.accepted === true ? [] : consistency;
+  if (failing.length < consistency.length) {
+    findings.push(
+      finding(CHECKS_PASS, "warning", {
+        where,
+        found: `architecture: accepted with ARC42_CONSISTENT, not fixed: ${consistency.map(line).join("; ")}`,
+        fix: "Accept a finding only after reading it, with a note in the plan why it is intended; ARC42_CONSISTENT set without a finding shown is a bypass like --no-verify",
+      }),
+    );
+  }
+  const blocking = [...failing, ...uncovered];
+  if (blocking.length > 0) {
+    const fixes = [
+      ...(uncovered.length > 0
+        ? [
+            `For new code no block claims, add a building block with its path to the app's section of ${ARCHITECTURE}/05-building-blocks.arc42.md (and place it on a node in chapter 7); only a path that is configuration rather than architecture goes into .arc42ignore. ARC42_CONSISTENT does not accept new code.`,
+          ]
+        : []),
+      ...(failing.length > 0
+        ? [
+            "For a block changed without its prose, or prose naming a fact of a block without the block, change both together in the same commit. Only if you read the finding and judge the change intended may you accept it with ARC42_CONSISTENT (the base commit arc42 diff --staged names) and a note in the plan why.",
+          ]
+        : []),
+    ];
+    const untracked = diff.untracked ?? [];
+    findings.push(
+      finding(CHECKS_PASS, "error", {
+        where,
+        found: `architecture: ${blocking.map(line).join("; ")}`,
+        fix: `Keep the architecture current with the code, in the app's own part between the markers <!-- app: begin … --> and <!-- app: end … --> of ${ARCHITECTURE}/ (never outside them, which lernapps update replaces). ${fixes.join(" ")} Before a commit arc42 reads what is staged: git add the files that belong to the commit${untracked.length > 0 ? ` (not compared until added: ${untracked.join(", ")})` : ""}. Then commit again`,
+      }),
+    );
+  }
+  if (review.length > 0) {
+    findings.push(
+      finding(CHECKS_PASS, "warning", {
+        where,
+        found: `architecture: code changed under an interface; review whether its element still says what the code does: ${review.map((f) => `${f.file} (${f.elementId ?? "?"})`).join(", ")}`,
+        fix: `Read each element in ${ARCHITECTURE}/; if the change alters what it describes, update the element in the same commit. This does not fail the commit, and nothing is to be accepted`,
+      }),
+    );
+  }
+  return findings;
+}
+
+/** Runs a step and returns its findings: a diff's as architectureDiffFindings judges them, else runStep's one. */
+function stepFindings(step: Step): Finding[] {
+  if (!step.architectureDiff) {
+    const failure = runStep(step);
+    return failure ? [failure] : [];
+  }
+  const where = step.where ?? [step.command, ...step.args].join(" ");
+  const result = spawnSync(step.command, step.args, {
+    env: { ...projectEnv(), ...step.env },
+    encoding: "utf8",
+    maxBuffer: 256 * 1024 * 1024,
+  });
+  if (result.error) return [runStep(step)].filter((f): f is Finding => f !== undefined);
+  return architectureDiffFindings(where, result.stdout, result.stderr);
 }
 
 /** The checks of the toolchain in a repo, then the checks of what it built. */
@@ -323,9 +453,9 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
   }
   let built = true;
   for (const step of steps) {
-    const failure = runStep(step);
-    if (failure) findings.push(failure);
-    if (failure && step.name === "build") built = false;
+    const found = stepFindings(step);
+    findings.push(...found);
+    if (found.length > 0 && step.name === "build") built = false;
   }
   const rules = steps.length > 0 ? [CHECKS_PASS] : [];
   if (heavy && built) {
@@ -406,12 +536,12 @@ async function checkApp(target: string, context: Context): Promise<Report> {
     context.app = await visit(isUrl ? { url: target } : { bundle: target });
   } catch (error) {
     if (!(error instanceof BrowserError)) throw error;
-    findings.push(browserFinding(error));
+    findings.push(browserFinding(error, APP_CHECKABLE));
   }
   const checks = await runChecks(context);
   return {
     checked: isUrl ? { url: target, at } : { bundle: target },
-    rules: [...checks.rules, ...(findings.length > 0 ? [CHECKS_PASS] : [])],
+    rules: [...checks.rules, ...(findings.length > 0 ? [APP_CHECKABLE] : [])],
     findings: [...findings, ...checks.findings],
     suppressions: [],
     ...(context.app ? { fitness: context.app.fitness } : {}),
@@ -447,12 +577,11 @@ async function check(args: string[]): Promise<number> {
     const architecture =
       scope !== undefined && "skip" in scope && values["pre-commit"] ? architectureBeforeCommit() : undefined;
     if (architecture !== undefined) {
-      const failure = runStep(architecture);
       report = {
         checked: commitOrDirectory(),
         parts: ["pre-commit"],
         rules: [CHECKS_PASS],
-        findings: failure ? [failure] : [],
+        findings: stepFindings(architecture),
         suppressions: [],
       };
     } else if (scope !== undefined && "skip" in scope) {

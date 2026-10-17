@@ -37,8 +37,8 @@ severity: error
 ```
 
 Read the message of a failed check and fix the cause. A failed commit prints one line with the step and the log
-`node_modules/.cache/lernapps/pre-commit.log`: the messages are in that log. Never bypass a hook (`--no-verify`), never delete a test to
-make it pass.
+`node_modules/.cache/lernapps/pre-commit.log`: the messages are in that log. Never bypass a hook (`--no-verify`, or an acceptance such as `ARC42_CONSISTENT` set without a finding
+shown), never delete a test to make it pass.
 
 ### `suppression-reason`: Suppress only in place, with the reason
 

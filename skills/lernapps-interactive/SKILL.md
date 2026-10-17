@@ -155,8 +155,14 @@ declared accessibility with the reasons into the sections at the end of the chap
 two sentences of responsibility and reason, nothing the code says.
 
 Update it with every change, in the same commit as the code. Before a commit that stages architecture or code,
-`arc42 diff --staged --strict` runs: a block changed without its prose, or new code under `src/` that no block claims,
-fails it; it reads what is staged, so `git add` the new files that belong to the commit. `lernapps check` runs
+`lernapps check --pre-commit` runs `arc42 diff --staged`: a block changed without its prose (or prose naming a fact of
+a block without the block), or new code under `src/` that no block claims and `.arc42ignore` does not list, fails it;
+it reads what is staged, so `git add` the new files that belong to the commit. A hint to review an element (code
+changed under an interface's path) is a warning in the report: read the element and update it if the change alters
+what it says; it does not fail the commit. Fix a finding; accept one with `ARC42_CONSISTENT` only when it is a
+consistency finding you have read and judge intended, with a note in the plan why. Never set `ARC42_CONSISTENT`
+without a finding shown, e.g. to `$(git rev-parse HEAD)` in advance: that is a bypass like `--no-verify`. New code no
+block claims is never accepted: give it a block, or list configuration in `.arc42ignore`. `lernapps check` runs
 `arc42 validate --strict` on the working tree, files not added to git included: any error, warning or hint fails.
 This is your work, not the creator's: there is no checkpoint for the architecture.
 
@@ -211,5 +217,5 @@ severity: error
 
 `docs/arc42/` holds the generic part and the interactive extension as `lernapps create` or `lernapps update` wrote
 them, unchanged outside the app sections, and the app's own part inside them describes the code as it is: every part
-of `src/` has its block, every block its code. `arc42 validate --strict` in `lernapps check` and `arc42 diff --staged
---strict` before a commit pass; the review reads whether the architecture still says what the code does.
+of `src/` has its block, every block its code. `arc42 validate --strict` in `lernapps check` and `arc42 diff --staged`
+before a commit pass; the review reads whether the architecture still says what the code does.
