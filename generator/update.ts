@@ -11,7 +11,8 @@
 // wrote the content guide gets its skeleton (generator/create.ts), and one made before the plans had a folder gets its
 // plan .vibe/plan.md moved to .vibe/plans/01-first-version.md (src/plan.ts). The app's lernapps-* skills, which the
 // app commits, are replaced with those of this tooling (its skills/), in the layout of `npx skills add`; the app's
-// own skills (app-content, any other) stay as they are. Run from a clone of the tooling,
+// own skills (app-content, any other) stay as they are; so does the app's own architecture, while the reference files
+// of an interactive app's architecture are replaced (generator/architecture.ts). Run from a clone of the tooling,
 // it has no commit to move the tooling and the actions to: it says so and exits 1. Run as the app's own tooling
 // (npx lernapps update), it knows only that tooling's pins, which the app already has: it says how to run the latest.
 import { spawnSync } from "node:child_process";
@@ -35,10 +36,13 @@ import { dirname, join, relative, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
 import { LEGACY_PLAN, MIGRATED_PLAN, plans } from "../src/plan.ts";
+import { ARCHITECTURE, architectureArchetype, writeArchitecture } from "./architecture.ts";
 import { UsageError } from "../src/usage.ts";
 import {
   addContentGuide,
   commitOf,
+  CreateError,
+  fetchTemplates,
   fromPackage,
   IGNORED_SKILLS_LINES,
   installedSpec,
@@ -74,6 +78,9 @@ runtime @lernapps/app-templates and @lernapps/tooling to git commits, so npm upd
                            skill this tooling no longer has is removed. The app's own skills (app-content, any
                            other) stay. The lines of an earlier generator that had git ignore them are removed
                            from .gitignore: the app commits its skills
+  docs/arc42/              of an interactive app: the reference files (the generic part and the interactive
+                           extension of app-templates, at the commit of the app's runtime) replaced; the app's own
+                           files (app-*.arc42.md) stay
 
 Run it from the latest tooling, in the app's folder, e.g. to pick up a fixed runtime:
   ${LATEST}
@@ -328,6 +335,36 @@ export function unignoreSkills(dir = "."): string[] {
   return ["skills: removed the lines from .gitignore that had git ignore them: the app commits its skills"];
 }
 
+/**
+ * Replaces the reference files of an interactive app's architecture with the generic part and the extension of
+ * app-templates at the commit of the runtime `spec` (the one the app is on after this update, so that the architecture
+ * describes the runtime it has); the app's own files stay. What it did, as lines of the output, and whether it failed.
+ */
+function updateArchitecture(spec: string | undefined): { lines: string[]; failed: boolean } {
+  const archetype = architectureArchetype();
+  if (archetype === undefined) return { lines: [], failed: false };
+  const commit = commitOf(spec);
+  const url = spec === undefined ? undefined : gitUrl(spec);
+  if (commit === undefined || url === undefined) {
+    return {
+      lines: [`architecture: not replaced: the runtime ${spec ?? "(none)"} names no git commit to take it from`],
+      failed: true,
+    };
+  }
+  let templates: string;
+  try {
+    templates = fetchTemplates(url, commit, [ARCHITECTURE, `${archetype}/${ARCHITECTURE}`]);
+  } catch (error) {
+    if (!(error instanceof CreateError)) throw error;
+    return { lines: [`architecture: not replaced: ${error.message}`], failed: true };
+  }
+  try {
+    return { lines: writeArchitecture(".", templates, archetype, commit), failed: false };
+  } finally {
+    rmSync(templates, { recursive: true, force: true });
+  }
+}
+
 /** The app's workflow files. */
 function workflows(): string[] {
   const dir = join(".github", "workflows");
@@ -411,6 +448,10 @@ export function update(args: string[]): number {
   lines.push(...plan);
   const skills = [...replaceSkills(), ...unignoreSkills()];
   lines.push(...skills);
+  const runtimeSpec = specs.find((spec) => spec.startsWith(`${RUNTIME}@`))?.slice(RUNTIME.length + 1) ?? runtime;
+  const architecture = updateArchitecture(runtimeSpec);
+  lines.push(...architecture.lines);
+  if (architecture.failed) notMoved.push("the architecture");
   process.stdout.write(`${lines.map((line) => `lernapps update: ${line}`).join("\n")}\n`);
   if (notMoved.length > 0) {
     throw new UpdateError(
@@ -422,6 +463,7 @@ export function update(args: string[]): number {
   if (guide.length > 0 || skillsMoved) files.push(".agents/", ".claude/");
   if (skillsMoved) files.push(SKILLS_LOCK);
   if (skills.some((line) => line.includes(".gitignore"))) files.push(".gitignore");
+  if (architecture.lines.length > 0) files.push(`${ARCHITECTURE}/`);
   if (plan.some((line) => line.startsWith("plan: moved"))) files.push(".vibe/ (git add -A .vibe, to keep the move)");
   process.stdout.write(
     `Next: npx lernapps check, then commit ${files.slice(0, -1).join(", ")} and ${files.at(-1) ?? ""}\n`,
