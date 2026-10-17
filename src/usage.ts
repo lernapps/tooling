@@ -48,8 +48,10 @@ In a repo (no <dir|url>):
   --pre-commit     the fast part: format, lint, type check (the pre-commit hook); where the project has
                    Vue components (.vue files), also their type check with vue-tsc --noEmit; in an app with
                    an architecture (docs/arc42/ from lernapps create, an interactive app), when the commit
-                   stages a file of it, .arc42ignore or src/, arc42 diff --staged --strict (also when the commit
-                   is only docs; before the first commit arc42 validate --strict)
+                   stages a file of it, .arc42ignore or src/, arc42 diff --staged (also when the commit is only
+                   docs): a block and its prose not changed together fail, and new code no block claims that
+                   .arc42ignore does not list; a hint to review an element under whose path code changed is a
+                   warning. Before the first commit arc42 validate --strict
   --pre-push       the heavy part: in an app with an architecture arc42 validate --strict, unit tests, build (vp build for an app with index.html, else vp pack),
                    checks of the built app in dist/, the Playwright tests when playwright.config.* exists,
                    dependency licences (the pre-push hook); a failure increments prePushFailures in the front
