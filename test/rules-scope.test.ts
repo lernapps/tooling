@@ -43,7 +43,14 @@ test("a freely built app without a plan file is held to the listing rules alone"
   const { header, rules } = inScope(app("free", { vite: "8.0.0" }));
   expect(header).toMatch(/: listing$/);
   for (const id of TOOLING_RULES) expect(rules.has(id), id).toBe(false);
-  for (const id of ["no-ads", "no-tracking", "accessible", "runs-in-browser", "entry-fitness-matches"]) {
+  for (const id of [
+    "no-ads",
+    "no-tracking",
+    "accessible",
+    "runs-in-browser",
+    "app-checkable",
+    "entry-fitness-matches",
+  ]) {
     expect(rules.has(id), id).toBe(true);
   }
   for (const [id, scopes] of rules) {

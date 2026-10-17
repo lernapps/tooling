@@ -421,12 +421,17 @@ its architecture. An interactive app is free code, so its architecture is writte
   same-file rules): its building blocks under the basic ones (`parent`, `path`) in the sections of the core, the UI
   and the data, which concepts each implements, its decisions (e.g. canvas or DOM), and its declared accessibility
   with the reasons.
-- **Checked:** what arc42 checks by itself, no more. Before a commit, `arc42 diff --staged --strict` (about 0.2 s):
-  a block changed without its prose, and new code under `src/` that no block claims, fail. In `lernapps check`,
+- **Checked:** what arc42 checks by itself, no more. Before a commit, `arc42 diff --staged` (about 0.2 s), judged by
+  `lernapps check`: a block changed without its prose, and new code under `src/` that no block claims and
+  `.arc42ignore` does not list (arc42 diff does not read it, validate does), fail; a hint to review an element under
+  whose path code changed is a warning, not a failure (first creator run, typonaut: a fresh app's first commit after
+  the plan's failed on both under `--strict`, and the agent then set `ARC42_CONSISTENT=$(git rev-parse HEAD)` in
+  advance). In `lernapps check`,
   `arc42 validate` (references, required fields, paths that exist, concepts no block implements). Whether the code
   keeps to the responsibilities is not checked for now: how to see that depends on the framework, and arc42 does not
   do it. Accepting a finding with `ARC42_CONSISTENT` is for the agent only with a reason in the plan, as with any
-  other check.
+  other check, and only for a consistency finding it has read; set without a finding shown it is a bypass like
+  `--no-verify`. It never accepts new code no block claims.
 - **Not user-facing** (owner, 2026-10-17): no creator checkpoint for the architecture; the agent updates and validates
   it with every change. The review reads it (`interactive-architecture-current`).
 
