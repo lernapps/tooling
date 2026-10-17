@@ -10,7 +10,7 @@ workflow; these rules say what each step must meet. Each rule is a section heade
 
 ```rule
 id: plan-file
-scope: listing
+scope: tooling
 severity: error
 ```
 
@@ -22,7 +22,7 @@ phase. Never edit `prePushFailures`: the pre-push hook writes it.
 
 ```rule
 id: explore-before-code
-scope: listing
+scope: tooling
 severity: error
 ```
 
@@ -32,7 +32,7 @@ Write no code and generate nothing until the creator has confirmed the plan.
 
 ```rule
 id: stop-at-checkpoints
-scope: listing
+scope: tooling
 severity: error
 ```
 
@@ -43,7 +43,7 @@ creator's answer. Example: "Die App ist fertig und geprüft. Soll ich sie jetzt 
 
 ```rule
 id: few-turns-after-plan
-scope: listing
+scope: tooling
 severity: hint
 ```
 
@@ -54,7 +54,7 @@ After the plan is confirmed, ask the creator only what you cannot decide. Otherw
 
 ```rule
 id: retrospective-filled
-scope: listing
+scope: tooling
 severity: error
 ```
 
@@ -67,7 +67,7 @@ the creator's turns after the plan, where you had to guess. No names of people.
 
 ```rule
 id: app-content-guide
-scope: listing
+scope: tooling
 severity: error
 ```
 
@@ -84,7 +84,7 @@ the guide existed gets its skeleton from `npx --yes github:lernapps/tooling#main
 
 ```rule
 id: app-content-matches
-scope: listing
+scope: tooling
 severity: error
 ```
 

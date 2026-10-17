@@ -24,8 +24,10 @@ they name from their files, in full; never from a summary.
 
 Each file holds the rules of one concern. Each rule is a section headed by its rule block (`id`, `scope`,
 `severity`). Follow every rule in scope, whether or not a lint rule, check or the review also enforces it under the
-same id; their messages link to the rule. `listing` applies to every listed app, wherever it is hosted;
-`archetype:<name>` to apps of that archetype.
+same id; their messages link to the rule. `listing` applies to every listed app, however it is built and wherever it
+is hosted; `tooling` to apps built with this tooling (`@lernapps/tooling` in the app's `package.json`, as the
+generator writes it), at listing too, because the rule presupposes the plan workflow or the checks; `archetype:<name>`
+to apps of that archetype. An app built freely is held to the `listing` rules alone.
 
 - [references/platform-rules.md](references/platform-rules.md): read it first, always. What every app keeps to,
   however it is built (nothing collected, no account, accessible, German, licences, links, pages), and the rules of
