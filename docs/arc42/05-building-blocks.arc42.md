@@ -553,7 +553,8 @@ Publishes an app's checked bundle to the GitHub Pages of the app's repo, at the 
 simple default: the app lives at its developer's hosting, which may be any other host, and lernapps.net only links to
 it (decision `dec-app-own-hosting`). It is accountable for a
 setup that later previews of pull requests can share. Before the deploy it checks that setup and fixes it where it
-may; where it may not, it fails with a message for the creator's assistant that says what to change and why.
+may; where it may not, it deploys anyway and fails after the deploy with a message for the creator's assistant that
+says what to change and why, so that the admin's one click shows the newest app without a new run.
 
 ```arc42
 :::building-block
