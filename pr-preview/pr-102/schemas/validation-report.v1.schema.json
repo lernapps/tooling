@@ -44,7 +44,7 @@
       "uniqueItems": true
     },
     "rules": {
-      "description": "The ids of the rules checked: every check that found something to check, and checks-pass for the toolchain steps.",
+      "description": "The ids of the rules checked: every check that found something to check, checks-pass for the toolchain steps, and app-checkable when a built app or a URL could not be checked at all.",
       "type": "array",
       "items": { "$ref": "#/$defs/id" },
       "uniqueItems": true
