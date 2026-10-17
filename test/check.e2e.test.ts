@@ -189,6 +189,7 @@ describe.skipIf(inner)("installed from git", () => {
     "@lernapps/tooling/guidance/plan-template.md",
     "@lernapps/tooling/guidance/plan-front-matter.v1.schema.json",
     "@lernapps/tooling/skills/lernapps-app/SKILL.md",
+    "@lernapps/tooling/skills/lernapps-app/references/platform-rules.md",
     "@lernapps/tooling/skills/lernapps-explainer/SKILL.md",
     "@lernapps/tooling/skills/lernapps-listing/SKILL.md",
     "@lernapps/tooling/skills/lernapps-quiz/SKILL.md",

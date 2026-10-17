@@ -3,8 +3,8 @@
 //   - the review and the evals read the retrospective; its sections are in every plan started from the template;
 //   - the generator copies AGENTS.md and the template; what AGENTS.md points to exists in the package.
 // How an assistant behaves with these files is checked by hand (the evals), not here.
-import { readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { join, relative } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import { frontMatter, frontMatterErrors, headings } from "./plan.ts";
@@ -140,20 +140,45 @@ describe("AGENTS.md", () => {
 
 describe("the skills", () => {
   // Names in backticks after "skill": `lernapps-app`; the "Not installed" hint names a repo, not a skill.
-  const named = (text: string) => [...text.matchAll(/skills? `([a-z][a-z0-9-]*)`/g)].map((match) => match[1]);
+  const named = (text: string) => [...text.matchAll(/skills?\s+`([a-z][a-z0-9-]*)`/g)].map((match) => match[1]);
   const skills = readdirSync(file("skills"));
+  /** The files of a skill besides its SKILL.md, relative to its folder, e.g. references/platform-rules.md. */
+  const filesOf = (name: string) =>
+    readdirSync(file(`skills/${name}`), { recursive: true, withFileTypes: true })
+      .filter((entry) => entry.isFile())
+      .map((entry) =>
+        relative(file(`skills/${name}`), join(entry.parentPath, entry.name))
+          .split("\\")
+          .join("/"),
+      )
+      .filter((path) => path !== "SKILL.md");
+  const exported = () => (JSON.parse(read("package.json")) as { exports: Record<string, string> }).exports;
 
-  test.each([TEMPLATE, AGENTS, ...skills.map((name) => `skills/${name}/SKILL.md`)])(
-    "every skill %s names exists, with its name, and a consumer can resolve it",
-    (path) => {
-      const exports = (JSON.parse(read("package.json")) as { exports: Record<string, string> }).exports;
-      for (const name of named(read(path))) {
-        expect(skills, `${path} names the skill ${name}`).toContain(name);
-        expect(read(`skills/${name}/SKILL.md`)).toMatch(new RegExp(`^---\\nname: ${name}\\n`));
-        expect(exports, `package.json exports ${name}`).toHaveProperty(`./skills/${name}/SKILL.md`);
-      }
-    },
-  );
+  test.each(skills)("the skill %s links each of its files from SKILL.md and exports them", (name) => {
+    // progressive disclosure (agentskills.io): SKILL.md is the entry and links the files an assistant reads on demand
+    const skill = read(`skills/${name}/SKILL.md`);
+    const links = [...skill.matchAll(/\]\(([^)#\s]+)\)/g)]
+      .map((match) => match[1] ?? "")
+      .filter((link) => !/^[a-z]+:/.test(link));
+    for (const link of links) expect(existsSync(file(`skills/${name}/${link}`)), `${name} links ${link}`).toBe(true);
+    for (const path of filesOf(name)) {
+      expect(links, `SKILL.md of ${name} links ${path}`).toContain(path);
+      expect(exported(), `package.json exports ${name}/${path}`).toHaveProperty(`./skills/${name}/${path}`);
+    }
+  });
+
+  test.each([
+    TEMPLATE,
+    AGENTS,
+    ...skills.flatMap((name) => ["SKILL.md", ...filesOf(name)].map((path) => `skills/${name}/${path}`)),
+  ])("every skill %s names exists, with its name, and a consumer can resolve it", (path) => {
+    const exports = exported();
+    for (const name of named(read(path))) {
+      expect(skills, `${path} names the skill ${name}`).toContain(name);
+      expect(read(`skills/${name}/SKILL.md`)).toMatch(new RegExp(`^---\\nname: ${name}\\n`));
+      expect(exports, `package.json exports ${name}`).toHaveProperty(`./skills/${name}/SKILL.md`);
+    }
+  });
 
   test("the listing skill points to the entry schema and the catalog's listing guide instead of repeating them", () => {
     const skill = read("skills/lernapps-listing/SKILL.md");
