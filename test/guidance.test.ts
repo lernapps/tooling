@@ -98,6 +98,19 @@ describe("the plan's sections", () => {
     expect(commit).toContain("gh workflow run Pages --ref main");
   });
 
+  test("the template sets up main, gh-pages and work and the Pages source in Explore, before anything else is pushed", () => {
+    // the first push sets the default branch; Pages from gh-pages from the start lets the first publish deploy
+    const explore = section(read(TEMPLATE), "## Explore");
+    const at = (text: string) => explore.indexOf(text);
+    expect(at("git switch --orphan main")).toBeGreaterThan(0);
+    expect(at("git switch --orphan gh-pages")).toBeGreaterThan(at("git push -u origin main"));
+    expect(at("git switch -c work main")).toBeGreaterThan(at("git push -u origin main"));
+    expect(explore).toContain("pages-from-gh-pages");
+    expect(explore).toContain("https://lernapps.net/tooling/github/");
+    // GraphQL may be blocked where the assistant runs: the template uses REST (gh api) only
+    expect(read(TEMPLATE)).not.toMatch(/gh repo (view|edit)/);
+  });
+
   test("the template pushes the plan with the filled retrospective before the listing pull request", () => {
     // the listing check (retrospective-filled) and the maintainer's review read the current plan in the app's repo
     const tasks = section(read(TEMPLATE), "## Commit").split("\n- [ ] ");

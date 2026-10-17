@@ -21,6 +21,8 @@ Only after the creator said yes at the checkpoint "list".
    skill names none of them.
 3. Run the check the guide names and fix what it reports before you open the pull request: it is the same check the
    pull request runs.
+4. Open the pull request from a fork of lernapps/apps; never push a branch to lernapps/apps itself, even if you may.
+   The skill `lernapps-github` says how, and what to do when a GitHub step fails.
 
 ## Read the results comment
 
