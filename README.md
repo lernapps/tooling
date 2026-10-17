@@ -23,8 +23,9 @@ lernapps.net's own websites, and the update policy for dependencies.
 - **Creators:** [lernapps.net/apps/build/](https://lernapps.net/apps/build/) says what to tell your assistant.
 - **Assistants:** read [lernapps.net/tooling/llms.txt](https://lernapps.net/tooling/llms.txt). It names the skill,
   the plan template and every link you need.
-- **The skill [`lernapps-app`](skills/lernapps-app/SKILL.md):** the quick path and the rules every app follows.
-  Install it with `npx skills add lernapps/tooling`.
+- **The skill [`lernapps-app`](skills/lernapps-app/SKILL.md):** the quick path and the rules every app follows, in
+  files by concern; the [platform rules](skills/lernapps-app/references/platform-rules.md) hold for every app, however
+  it is built. Install it with `npx skills add lernapps/tooling`.
 - **The [plan template](guidance/plan-template.md):** the whole workflow of an app's first version, from the first
   question to the listing. It names each command at the step where it is needed. Every later change follows the
   [increment template](guidance/increment-template.md), in a plan of its own.

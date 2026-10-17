@@ -39,7 +39,7 @@ You write the questions as data in `src/quiz.json`, and no code. The rules of `l
   language gets two more tests: its page without JavaScript (every question, its solution, the language switch), and
   one question answered with the feedback in that language. `lernapps check` runs them.
 - A new feature or a fix of the quiz reaches the app with a newer `@lernapps/app-templates`; `lernapps update` moves
-  the app to it, as the skill `lernapps-app` says.
+  the app to it, as the skill `lernapps-app` says (`checks-pass`, in its `references/tooling-rules.md`).
 
 ## Languages
 
@@ -79,8 +79,8 @@ the text, options, `info`, items, pairs, unit, explanation and link titles) is a
 
 The end-to-end tests come from the runtime, not from your app. If one of them fails while your bank validates (the
 build passes), the bug is in the template, not in your questions: do what the skill `lernapps-app` says for a
-failing test of the runtime. Never change the runtime in `node_modules` either (`quiz-only-data`); go on with the
-questions.
+failing test of the runtime (`checks-pass`, in its `references/tooling-rules.md`). Never change the runtime in
+`node_modules` either (`quiz-only-data`); go on with the questions.
 
 ## Content and question patterns
 
