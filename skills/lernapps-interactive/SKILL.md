@@ -1,6 +1,6 @@
 ---
 name: lernapps-interactive
-description: Use when you build or change an interactive app for lernapps.net (archetype interactive), or decide whether an app should be one. What an interactive app is and when to choose it, the principles its code follows (a pure deterministic core under a runtime that owns state and clock, typed inputs, components that only show the state, data apart, playthroughs with inputs and ticks as proof, libraries, storage, accessibility with declared limits, low stimulation as advice, its architecture in arc42 with the app's own sections), and what is not built yet. Load it together with lernapps-app.
+description: Use when you build or change an interactive app for lernapps.net (archetype interactive), or decide whether an app should be one. What an interactive app is and when to choose it, the principles its code follows (a pure deterministic core under a runtime that owns state and clock, typed inputs, components that only show the state, data apart, playthroughs with inputs and ticks as proof, libraries, storage, accessibility with declared limits, the frame and a full-screen game, low stimulation as advice, its architecture in arc42 with the app's own sections), and what is not built yet. Load it together with lernapps-app.
 license: MIT
 ---
 
@@ -19,6 +19,7 @@ Do not rely on these. Tell the creator when the app needs one of them.
 - The core's property tests over fixed seeds: decided, not built. Until then the build checks determinism by playing
   every playthrough twice.
 - An IndexedDB wrapper for more than the small storage: built only when an app needs it.
+- A full-screen mode of the app page: the runtime always renders its frame. See "The frame and a full-screen game".
 
 ## When to choose it
 
@@ -60,6 +61,29 @@ states, in Node at build and in the browser.
 The runtime turns keydown into key inputs; the root component emits `input` with an action (or a key). Handle the
 kinds you know and return the same state object for any other input and for a key you ignore: new kinds may come,
 and an ignored key keeps its default (Tab moves the focus).
+
+### The frame and a full-screen game
+
+What the runtime gives the app page: a header (the app's name, linked to the start page, and the language switch),
+`<main>` with the title, a `<noscript>` note, the routes as links and the element `.interactive-app` the root
+component is mounted into, and a footer with imprint and privacy notice; at most 44rem wide. The start page is a page
+of its own, static and without script; nothing you do on the app page changes it.
+
+- **Hide the frame only while playing, with an overlay of the app's own.** Give the root element a class from the
+  state, for example while `state.phase === "playing"`, and style it `position: fixed; inset: 0` with the page's
+  background: it covers the header and footer without changing them. Leave the runtime's markup and CSS as they are.
+- **Keep a way out.** In the overlay, show a visible button (for example "Pause") and let Escape end the overlay as
+  an input of the core; then the frame, its links and the routes are back. Declare a time limit or anything else the
+  overlay takes away in the entry's `limits` field.
+- **Keep the keys in the game.** The runtime gives a key to the core only when the focus is not on a link, button or
+  form field, which keep their keys. After a click on a route link or a start button, the focus stays there: make
+  the play area focusable (`tabindex="0"`, an `aria-label`) and move the focus to it with a template ref
+  (`area.value?.focus()`) when play starts. Keep focus visible.
+- **Space and arrows do not scroll.** The runtime prevents the default only for a key that changes the state. Let the
+  core take the keys of play while playing, or add `@keydown.space.prevent` (and the arrows) on the play area: the
+  key still reaches the runtime.
+- **The browser's full screen** (`element.requestFullscreen()`) is optional, only after a click, through a template
+  ref; the overlay must work without it. Browser globals only inside `onMounted` (`vue-component-browser-globals`).
 
 ### Components only show the state
 
