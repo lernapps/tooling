@@ -5,7 +5,7 @@
     "commit": "8a027634b88aacf8e8cd0bd1dd4c34030336a72e"
   },
   "head": {
-    "label": "464cb2b081d6ec61c9648aa1f73280cad7148247"
+    "label": "7a76a0895d70f3c26521234942b006eefd15fc17"
   },
   "acceptanceBase": "8a027634b88aacf8e8cd0bd1dd4c34030336a72e",
   "untracked": [],
@@ -20,6 +20,60 @@
   },
   "architecture": {
     "elements": [
+      {
+        "id": "bb-evals",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "technology",
+            "before": "Markdown prompts",
+            "after": "Harbor tasks (Markdown, Dockerfile, shell)"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 429
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 429
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Evals"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-lernapps-agents",
+        "kind": "deployment-node",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 102
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 103
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "Environment for lernapps agents"
+          ],
+          "occurrence": 1
+        }
+      },
       {
         "id": "dec-evals-by-hand",
         "kind": "decision",
@@ -45,20 +99,20 @@
         }
       },
       {
-        "id": "dec-eval-runs-from-files",
+        "id": "dec-eval-runs-with-harbor",
         "kind": "decision",
         "status": "added",
         "attributes": [],
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 422
+          "line": 424
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
           "headingPath": [
             "Architecture Decisions",
-            "Eval runs from files: a run directory, a scripted creator, a scoring script"
+            "Eval runs with Harbor: single-step tasks, a simulated creator, a scoring verifier"
           ],
           "occurrence": 1
         }
@@ -69,7 +123,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-eval-runs-from-files",
+          "from": "dec-eval-runs-with-harbor",
           "to": "qg-any-assistant",
           "relation": "addresses"
         }
@@ -77,7 +131,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-eval-runs-from-files",
+          "from": "dec-eval-runs-with-harbor",
           "to": "qg-few-iterations",
           "relation": "addresses"
         }
@@ -85,7 +139,7 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-eval-runs-from-files",
+          "from": "dec-eval-runs-with-harbor",
           "to": "qg-guidance-evolves",
           "relation": "addresses"
         }
@@ -93,14 +147,34 @@
       {
         "status": "added",
         "edge": {
-          "from": "dec-eval-runs-from-files",
+          "from": "dec-eval-runs-with-harbor",
           "to": "risk-invisible-failures",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-eval-runs-with-harbor",
+          "to": "risk-owner-bottleneck",
           "relation": "addresses"
         }
       }
     ],
     "proseSections": [],
     "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
       {
         "file": "docs/arc42/09-decisions.arc42.md",
         "added": 1,
