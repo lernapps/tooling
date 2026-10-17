@@ -37,7 +37,8 @@ severity: error
 ```
 
 Stop at each checkpoint (research, confirm the plan and the content method, publish, list) and wait for the
-creator's answer. Example: "Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?"
+creator's answer. Example: "Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?" A message the
+creator sent before you asked the checkpoint's question is not a yes.
 
 ### `few-turns-after-plan`: Work on your own after the plan
 
