@@ -219,7 +219,9 @@ a complete app and keeps the plan. Skills an assistant installed in the folder b
 commits them. It refuses an unknown archetype, a folder that holds anything else, and a plan that is missing, not
 confirmed yet or for another archetype, and says why. It can work offline from a local copy of the templates. Given
 an existing app, it moves the app's pins to its own and installs them, and replaces the app's `lernapps-*` skills
-with its own; the app's own skills stay as they are. The commands' own help lists their options.
+with its own; the app's own skills stay as they are. An interactive app also gets its architecture: the generic part
+and the interactive extension of the templates' architecture, with the app's paths, which the update replaces except
+the app's own sections. The commands' own help lists their options.
 
 ```arc42
 :::interface
@@ -454,8 +456,8 @@ implements: concept-components
 
 ### Archetype templates interface
 
-The generator copies one template at the commit the package pins. A consumer can rely on templates, runtimes and
-presets changing together.
+The generator copies one template at the commit the package pins, and for an interactive app the templates'
+architecture of that commit. A consumer can rely on templates, runtimes and presets changing together.
 
 ```arc42
 :::interface

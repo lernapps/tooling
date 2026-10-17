@@ -289,7 +289,7 @@ describe("lernapps", () => {
     const result = lernapps("create", "--help");
     expect(result.code).toBe(0);
     expect(result.stdout).toMatch(/^Usage: lernapps create --archetype <name> \[<dir>\]/);
-    expect(result.stdout).toContain("explainer, quiz");
+    expect(result.stdout).toContain("explainer, interactive, quiz");
     for (const option of ["--plan <file>", "--templates <repo>", "--tooling <spec>", "LERNAPPS_TEMPLATES"]) {
       expect(result.stdout).toContain(option);
     }
@@ -313,6 +313,6 @@ describe("lernapps", () => {
   test("create without --archetype is a usage error", () => {
     const result = lernapps("create");
     expect(result.code).toBe(2);
-    expect(result.stderr).toContain("create needs --archetype <name> (explainer, quiz)");
+    expect(result.stderr).toContain("create needs --archetype <name> (explainer, interactive, quiz)");
   });
 });
