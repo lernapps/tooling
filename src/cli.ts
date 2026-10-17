@@ -57,6 +57,8 @@ interface Step {
 /** In a repo, every run also writes its full report here, passing or not: the hooks and CI alike. */
 const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
 const CHECKS_PASS = "checks-pass";
+/** A built app or a URL that could not be checked at all: a platform rule, unlike the toolchain's checks-pass. */
+const APP_CHECKABLE = "app-checkable";
 /** The Playwright tests' results, as its JSON reporter writes them, to tell the runtime's tests from the app's. */
 const E2E_RESULTS = "node_modules/.cache/lernapps/playwright-results.json";
 const RUNTIME_ISSUES = "https://github.com/lernapps/app-templates/issues";
@@ -151,11 +153,15 @@ function runStep(planned: Step): Finding | undefined {
   });
 }
 
-const browserFinding = (error: BrowserError) =>
-  finding(CHECKS_PASS, "error", {
+/** No browser could start: in a repo a step of the toolchain's checks, on a built app or a URL the app could not be checked. */
+const browserFinding = (error: BrowserError, rule: typeof CHECKS_PASS | typeof APP_CHECKABLE = CHECKS_PASS) =>
+  finding(rule, "error", {
     where: "browser",
     found: error.message,
-    fix: "Install Chromium and its system libraries: npx playwright install --with-deps chromium. Where no browser can run, push and let CI check",
+    fix:
+      rule === CHECKS_PASS
+        ? "Install Chromium and its system libraries: npx playwright install --with-deps chromium. Where no browser can run, push and let CI check"
+        : "Install Chromium and its system libraries: npx playwright install --with-deps chromium, then check again. If no browser can start even then, open an issue at https://github.com/lernapps/tooling/issues with this message",
   });
 
 interface Suite {
@@ -406,12 +412,12 @@ async function checkApp(target: string, context: Context): Promise<Report> {
     context.app = await visit(isUrl ? { url: target } : { bundle: target });
   } catch (error) {
     if (!(error instanceof BrowserError)) throw error;
-    findings.push(browserFinding(error));
+    findings.push(browserFinding(error, APP_CHECKABLE));
   }
   const checks = await runChecks(context);
   return {
     checked: isUrl ? { url: target, at } : { bundle: target },
-    rules: [...checks.rules, ...(findings.length > 0 ? [CHECKS_PASS] : [])],
+    rules: [...checks.rules, ...(findings.length > 0 ? [APP_CHECKABLE] : [])],
     findings: [...findings, ...checks.findings],
     suppressions: [],
     ...(context.app ? { fitness: context.app.fitness } : {}),
