@@ -337,7 +337,22 @@ principles hold there (11, sketch below), before the evals (10); then 10 and 12.
 explainer run (see Completed). Next (owner, 2026-10-16): the interactive archetype (12) before the evals (10), so the
 evals cover all three archetypes.*
 - [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20)): sketched below and decided
-  by the owner (2026-10-16); next: step 1 (app-templates)
+  by the owner (2026-10-16, 2026-10-17). Done in Code:
+  - step 1, app-templates: the runtime and the template ([lernapps/app-templates#33](https://github.com/lernapps/app-templates/pull/33),
+    [#34](https://github.com/lernapps/app-templates/pull/34)); typed inputs, ticks in playthroughs, libraries from the
+    app's dependencies, no size limit ([#36](https://github.com/lernapps/app-templates/pull/36)); template blocks with
+    their path ([#43](https://github.com/lernapps/app-templates/pull/43)); the empty app sections
+    ([#44](https://github.com/lernapps/app-templates/pull/44));
+  - step 2, tooling: the skill `lernapps-interactive` (#90); the storage quota of 100 kB and warnings for declared
+    limits (#93); the archetype `interactive` with the architecture copy, its app sections and the arc42 gate (this
+    pull request);
+  - step 3, lernapps/apps: the entry's `limits` field ([lernapps/apps#35](https://github.com/lernapps/apps/pull/35)).
+
+  Decisions of 2026-10-16/17: one archetype, principles and no recipes; no size limit; libraries from the app's
+  dependencies; typed inputs and ticks; storage quota 100 kB; WCAG and 360 px as platform rules with declared limits;
+  the architecture only in interactive apps, copied and replaced by the tooling, the app's own part in marked
+  sections, not user-facing, gated by `arc42 diff --staged --strict` and `arc42 validate --strict`; Vue stays.
+  Next: the first full run with a pilot app (step 4 of the sketch).
 - [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
   and an increment each
 - [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),
@@ -355,8 +370,8 @@ Apps whose doing is the content, with no explanation pages:
 - a careful-reading app: a text in a correct and a faulty version, and the learner marks the mistakes.
 
 They differ in how they render and run (a game loop per frame, turn by turn, task by task) and share the frame and the
-rules. **One archetype**, not one per kind: the kinds become recipes in its skill, as the exercise patterns are for
-content. Boundary to the explainer: an app that needs explanation pages is an explainer with a component; a few
+rules. **One archetype**, not one per kind: its skill gives principles that hold for all kinds, no recipes and no
+example apps (owner). Boundary to the explainer: an app that needs explanation pages is an explainer with a component; a few
 background sections on the start page or an info view stay interactive.
 
 #### 2. Opinionated where it makes the rules checkable, free where the learning happens
@@ -364,10 +379,12 @@ background sections on the start page or an info view stay interactive.
   through the wrapper, no `eval`, `innerHTML` or `v-html`, browser globals only once mounted), their build checks on
   the SFC compiler's output, the lint rules and `vue-tsc` then hold for every interactive app, with no rules per
   framework.
+- **Vue stays** (owner, 2026-10-17): no framework-agnostic runtime; apps built freestyle or in other tools are
+  covered by documentation on the catalog's build page.
 - **Free:** the decomposition, the data format, the game logic and the rendering (DOM, SVG or canvas inside a
   component, a frame loop with `requestAnimationFrame`).
 - **Libraries** (e.g. a canvas library for the game): bundled, never from a CDN; a licence the licence check accepts;
-  inside a size budget for the whole app, not per component.
+  no size limit (owner).
 
 #### 3. The shell and the app
 The runtime `interactive/` in lernapps/app-templates, which the app does not change:
@@ -394,20 +411,24 @@ Optional, for apps with tasks (a lesson, a text, a Kniffel situation): the expla
 The other archetypes are frameworks whose notation already constrains the app so much that nobody needs to understand
 its architecture. An interactive app is free code, so its architecture is written early and kept current.
 - `docs/arc42/` in the app, in the arc42 DSL (`@doctc/arc42`), in English and minimal (owner, 2026-10-16): per
-  building block and decision one or two sentences of responsibility and reason, nothing the code says. The **frame** comes from the tooling and
-  `lernapps update` replaces it, as it replaces the `lernapps-*` skills: the constraints (Vue, no network, state only
-  on the device), the shell as an external building block with its
-  interfaces, the concepts every app implements, and the basic blocks core, view and data with their intent.
-- The **app's own part**, written by the agent: its building blocks under the basic ones (`parent`, `path`), which
-  concepts each implements, its decisions (e.g. canvas or DOM), and its declared accessibility with the reasons.
+  building block and decision one or two sentences of responsibility and reason, nothing the code says. The **frame**
+  is the generic part and the interactive extension of app-templates, combined as its `scripts/arc42.ts` combines
+  them, which `lernapps create` copies and `lernapps update` replaces, as it replaces the `lernapps-*` skills
+  (owner, 2026-10-17). The paths are rewritten: a runtime block's becomes an ignore directive (arc42 resolves only
+  tracked files, docToolchain/arc42-language#128), a template block's loses the template's prefix.
+- The **app's own part**, written by the agent between the markers `<!-- app: begin … -->` and `<!-- app: end … -->`
+  of the copied chapters, which `update` keeps verbatim (owner, 2026-10-17; separate files cannot pass arc42's
+  same-file rules): its building blocks under the basic ones (`parent`, `path`) in the sections of the core, the UI
+  and the data, which concepts each implements, its decisions (e.g. canvas or DOM), and its declared accessibility
+  with the reasons.
 - **Checked:** what arc42 checks by itself, no more. Before a commit, `arc42 diff --staged --strict` (about 0.2 s):
   a block changed without its prose, and new code under `src/` that no block claims, fail. In `lernapps check`,
   `arc42 validate` (references, required fields, paths that exist, concepts no block implements). Whether the code
   keeps to the responsibilities is not checked for now: how to see that depends on the framework, and arc42 does not
   do it. Accepting a finding with `ARC42_CONSISTENT` is for the agent only with a reason in the plan, as with any
   other check.
-- **In the creator's plan:** a checkpoint "architecture" in Plan, next to the content method: the blocks in plain
-  words and the sketches. Each increment keeps the architecture current. The review reads it.
+- **Not user-facing** (owner, 2026-10-17): no creator checkpoint for the architecture; the agent updates and validates
+  it with every change. The review reads it (`interactive-architecture-current`).
 
 #### 5. Accessibility: a rule of the platform, a default for apps
 WCAG 2.1 AA and 360 px are rules of the platform: the site frame, the catalog and the overview pages (owner,
@@ -429,8 +450,7 @@ idea needs it: a shooting game with a time limit will not work with a screen rea
 1. **app-templates:** the runtime `interactive/` (shell, hash routes, the core contract, playthroughs,
    `interactiveTests()`) and a small template app, e.g. a letter-typing game.
 2. **tooling:** the archetype `interactive`: pin, preset, the component rules' scope widened, the arc42 frame and
-   `arc42 diff` in the pre-commit hook, `arc42 validate` in the check, the skill `lernapps-interactive` with the
-   recipes (real-time game, turn-based game, text work), the plan template's architecture checkpoint, the rubric;
+   `arc42 diff` in the pre-commit hook, `arc42 validate` in the check, the skill `lernapps-interactive`, the rubric;
    `accessible` and `usable-at-360px` as warnings for an app whose entry states its limits.
 3. **lernapps/apps:** the optional field for the limits in the entry schema, shown in the catalog.
 4. **A first full run** with the typing shooting game as the pilot: it puts the most pressure on the frame (real

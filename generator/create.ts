@@ -4,8 +4,9 @@
 // appTemplates), and makes the app depend on the runtime of that same commit (the package @lernapps/app-templates at
 // the root of that repo), so template and runtime always match. Then it writes what every app has: AGENTS.md, the
 // plan, the content guide (an app-local skill), the workflows, LICENSE, an issue form for content errors and the
-// Renovate configuration (generator/app/). The skills an assistant installed with `npx skills add` stay, and are
-// committed with the app; `lernapps update` replaces them with those of the tooling it moves the app to.
+// Renovate configuration (generator/app/); an interactive app also its architecture (generator/architecture.ts). The
+// skills an assistant installed with `npx skills add` stay, and are committed with the app; `lernapps update`
+// replaces them with those of the tooling it moves the app to.
 // To move the pin when app-templates changes: set appTemplates.commit in package.json to the new commit on its main
 // (and appTemplates.archetypes to its archetype folders); the generator's tests then run on that commit.
 import { spawnSync } from "node:child_process";
@@ -26,6 +27,7 @@ import { tmpdir } from "node:os";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
+import { ARCHITECTURE, ARCHITECTURE_ARCHETYPES, writeArchitecture } from "./architecture.ts";
 import { LEGACY_PLAN, MIGRATED_PLAN, PLAN_NAME, PLANS, planFrontMatter, plans } from "../src/plan.ts";
 import { UsageError } from "../src/usage.ts";
 
@@ -57,8 +59,11 @@ It needs git and access to github.com, codeload.github.com and the npm registry.
 commit of @lernapps/tooling that npx installed, and its workflows use the actions of that commit.
 
 It writes, besides the template: package.json named after the folder (its prepare script, lernapps hooks,
-installs the git hooks; for an explainer also vue-tsc and typescript, with which lernapps check type-checks its Vue
-components), AGENTS.md, the plan in .vibe/plans/ (the one already there is kept), the content guide
+installs the git hooks; for an explainer and an interactive app also vue-tsc and typescript, with which lernapps
+check type-checks its Vue components; for an interactive app also @doctc/arc42, which checks its architecture),
+for an interactive app its architecture docs/arc42/ (the generic part and the interactive extension of app-templates,
+which lernapps update replaces except the marked app sections, where the app's own part goes),
+AGENTS.md, the plan in .vibe/plans/ (the one already there is kept), the content guide
 .agents/skills/app-content/SKILL.md (a skeleton the assistant fills in; linked as .claude/skills/app-content for
 Claude Code where the system allows symbolic links), the workflow
 .github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
@@ -151,8 +156,11 @@ function git(args: readonly string[], cwd: string): { ok: boolean; out: string }
   return { ok: result.status === 0, out: `${result.stdout}${result.stderr}`.trim() };
 }
 
-/** The archetype's folder of app-templates at the pinned commit, in a temporary folder. */
-function fetchTemplate(archetype: string, repository: string, commit: string): string {
+/**
+ * The folders `paths` of app-templates at `commit`, in a temporary checkout; its root. The first path must exist; the
+ * caller removes the checkout.
+ */
+export function fetchTemplates(repository: string, commit: string, paths: readonly string[]): string {
   const work = mkdtempSync(join(tmpdir(), "lernapps-create-"));
   const fail = (message: string) => {
     rmSync(work, { recursive: true, force: true });
@@ -167,9 +175,11 @@ function fetchTemplate(archetype: string, repository: string, commit: string): s
       `cannot fetch app-templates at ${commit} from ${source}: ${fetched.out}. It needs the network; or name a local clone that has this commit with --templates <dir> or LERNAPPS_TEMPLATES`,
     );
   }
-  const checkout = git(["checkout", "--quiet", "FETCH_HEAD", "--", `${archetype}/`], work);
-  if (!checkout.ok) throw fail(`app-templates has no folder ${archetype}/ at ${commit}`);
-  return join(work, archetype);
+  for (const path of paths) {
+    const checkout = git(["checkout", "--quiet", "FETCH_HEAD", "--", path], work);
+    if (!checkout.ok) throw fail(`app-templates has no folder ${path} at ${commit}`);
+  }
+  return work;
 }
 
 /** A package name from the folder's name: lower case, letters, digits and hyphens. */
@@ -236,6 +246,9 @@ export function runtimeSpec(repository: string, commit: string): string {
  */
 export const ARCHETYPE_DEV_DEPENDENCIES: Readonly<Record<string, Readonly<Record<string, string>>>> = {
   explainer: { typescript: "6.0.3", "vue-tsc": "3.3.11" },
+  // an interactive app's UI is Vue components from the start; its architecture (docs/arc42/) is validated by the
+  // arc42 CLI, the version this repo validates its own with
+  interactive: { "@doctc/arc42": "0.36.1", typescript: "6.0.3", "vue-tsc": "3.3.11" },
 };
 
 /** Where an assistant downloads the plan template before the app exists. */
@@ -412,12 +425,21 @@ export function create(args: string[]): number {
 
   const pin = pinnedTemplates((message) => new CreateError(message));
   const repository = values.templates ?? process.env["LERNAPPS_TEMPLATES"] ?? pin.repository;
-  const template = fetchTemplate(archetype, repository, pin.commit);
+  const architecture = ARCHITECTURE_ARCHETYPES.includes(archetype);
+  const templates = fetchTemplates(repository, pin.commit, [`${archetype}/`, ...(architecture ? [ARCHITECTURE] : [])]);
   try {
     mkdirSync(dir, { recursive: true });
-    cpSync(template, dir, { recursive: true });
+    cpSync(join(templates, archetype), dir, { recursive: true });
+    // the template folder's architecture is the extension of app-templates' own: an interactive app gets the
+    // combination as its reference, the other archetypes none
+    rmSync(join(dir, ARCHITECTURE), { recursive: true, force: true });
+    if (existsSync(join(dir, "docs")) && readdirSync(join(dir, "docs")).length === 0) {
+      rmSync(join(dir, "docs"), { recursive: true });
+    }
+    if (architecture) writeArchitecture(dir, templates, archetype, pin.commit);
+    else rmSync(join(dir, ".arc42ignore"), { force: true });
   } finally {
-    rmSync(dirname(template), { recursive: true, force: true });
+    rmSync(templates, { recursive: true, force: true });
   }
 
   const app = readJson(join(dir, "package.json"));

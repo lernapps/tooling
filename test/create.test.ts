@@ -10,6 +10,7 @@ import {
   existsSync,
   lstatSync,
   mkdirSync,
+  readdirSync,
   readFileSync,
   readlinkSync,
   rmSync,
@@ -31,7 +32,7 @@ describe("lernapps create refuses", () => {
     const dir = tempDir("create-unknown");
     const result = lernapps(["create", "--archetype", "essay", dir], repoRoot);
     expect(result.code, output(result)).toBe(2);
-    expect(result.stderr).toContain("unknown archetype: essay (known: explainer, quiz)");
+    expect(result.stderr).toContain("unknown archetype: essay (known: explainer, interactive, quiz)");
   });
 
   test("a folder that is not empty, naming what is there", () => {
@@ -234,6 +235,40 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     // the plan given with --plan, carried over
     expect(readFileSync(join(dir, FIRST_PLAN), "utf8")).toBe(readFileSync(plan, "utf8"));
     expect(existsSync(join(dir, ".claude/skills/app-content/SKILL.md"))).toBe(true);
+  });
+
+  test("a quiz app gets no architecture: only interactive apps have one", () => {
+    expect(existsSync(join(app, "docs/arc42"))).toBe(false);
+    expect(existsSync(join(app, ".arc42ignore"))).toBe(false);
+  });
+
+  test("an interactive app gets its template, the type check of its Vue components and its architecture", () => {
+    const dir = join(tempDir("interactive-files"), "zehnfinger");
+    const plan = confirmedPlan(tempDir("interactive-plan"), "interactive");
+    const result = lernapps(
+      ["create", "--archetype", "interactive", dir, "--templates", templates, "--plan", plan],
+      repoRoot,
+    );
+    expect(result.code, output(result)).toBe(0);
+    for (const file of ["src/app.yaml", "src/core/index.ts", "src/ui/App.vue", "src/main.ts", ".arc42ignore"]) {
+      expect(existsSync(join(dir, file)), file).toBe(true);
+    }
+    const manifest = JSON.parse(readFileSync(join(dir, "package.json"), "utf8")) as {
+      devDependencies: Record<string, string>;
+    };
+    expect(manifest.devDependencies["vue-tsc"]).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(manifest.devDependencies["@doctc/arc42"]).toBe("0.36.1");
+    // the generic part and the interactive extension, combined chapter by chapter, with the app's paths
+    const chapters = readdirSync(join(dir, "docs/arc42")).sort();
+    expect(chapters).toHaveLength(12);
+    expect(chapters[0]).toBe("01-introduction-and-goals.arc42.md");
+    const blocks = readFileSync(join(dir, "docs/arc42/05-building-blocks.arc42.md"), "utf8");
+    expect(blocks).toContain("lernapps update replaces this file");
+    expect(blocks).toContain("id: bb-interactive-core");
+    expect(blocks).toContain("path: src/core\n");
+    expect(blocks).not.toMatch(/^path: (runtime|interactive)\//m);
+    expect(blocks).toContain(":::ignore H014 installed package @lernapps/app-templates");
+    expect(blocks).toContain("<!-- app: begin core -->\n<!-- app: end core -->");
   });
 
   test(

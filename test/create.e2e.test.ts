@@ -312,3 +312,111 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
     }
   });
 });
+
+// The interactive archetype with the same generator, kept to what the tooling adds: the template passes the check as
+// generated (its runtime's tests run in lernapps/app-templates), and its architecture (docs/arc42/, the generic part
+// and the interactive extension of app-templates with the app's paths) validates strictly in the app; the first commit
+// passes the pre-commit hook, new code that no block claims fails the commit's check (arc42 diff --staged --strict),
+// a broken architecture fails the check, and lernapps update keeps the app's own sections and replaces the rest.
+describe.skipIf(inner)("an interactive app from lernapps create, run with npx from git", () => {
+  let app = "";
+  const arc42 = (...args: string[]) => run(join(app, "node_modules/.bin/arc42"), ["--dir", "docs/arc42", ...args], app);
+  const blocks = () => join(app, "docs/arc42/05-building-blocks.arc42.md");
+  const commit = (message: string) =>
+    run(
+      "git",
+      ["-c", "user.name=t", "-c", "user.email=t@example.org", "-c", "maintenance.auto=false", "commit", "-qm", message],
+      app,
+    );
+
+  beforeAll(async () => {
+    const templates = appTemplates();
+    const parent = tempDir("interactive");
+    app = join(parent, "zehnfinger");
+    confirmedPlan(app, "interactive");
+    const created = run(
+      "npx",
+      ["--yes", freshTooling(), "create", "--archetype", "interactive", app, "--templates", templates],
+      parent,
+    );
+    if (created.code !== 0) throw new Error(output(created));
+    ok("git", ["init", "--quiet", "--initial-branch=main"], app);
+    ok("npm", ["install", "--no-audit", "--no-fund"], app);
+    // arc42 resolves only the paths git knows
+    ok("git", ["add", "--all"], app);
+  }, SLOW);
+
+  test("as generated, the app passes lernapps check, its architecture included", { timeout: SLOW }, () => {
+    const result = run("npx", ["--no", "--", "lernapps", "check"], app);
+    expect(result.code, output(result)).toBe(0);
+    expect(result.stdout).toMatch(/^lernapps check: ok/);
+  });
+
+  test("its architecture validates strictly: no error, warning or hint", () => {
+    const result = arc42("validate", "--strict");
+    expect(result.code, output(result)).toBe(0);
+    expect(result.stdout).toContain("0 errors, 0 warnings, 0 hints");
+  });
+
+  test("the first commit passes the pre-commit hook", { timeout: SLOW }, () => {
+    const result = commit("app");
+    expect(result.code, output(result)).toBe(0);
+  });
+
+  test("new code that no block claims fails the commit's check, in arc42 diff", { timeout: SLOW }, () => {
+    const file = "src/effects/burst.ts";
+    mkdirSync(join(app, "src/effects"), { recursive: true });
+    writeFileSync(join(app, file), "export const burst = 1;\n");
+    ok("git", ["add", file], app);
+    try {
+      const result = run("npx", ["--no", "--", "lernapps", "check", "--pre-commit"], app);
+      expect(result.code, output(result)).toBe(1);
+      const failed = findingsOf(result, "checks-pass");
+      expect(failed.map((finding) => finding.where)).toEqual(["arc42 --dir docs/arc42 diff --staged --strict"]);
+      expect(output(result)).toContain("src/effects");
+    } finally {
+      ok("git", ["rm", "--quiet", "--force", file], app);
+    }
+  });
+
+  test("a broken architecture fails the check, in arc42 validate", { timeout: SLOW }, () => {
+    const original = readFileSync(blocks(), "utf8");
+    writeFileSync(
+      blocks(),
+      original.replace(
+        "<!-- app: begin core -->\n",
+        "<!-- app: begin core -->\n### Scoring\n\nCounts the letters typed in time.\n\n```arc42\n:::building-block\nid: bb-app-scoring\ntitle: Scoring\nparent: bb-interactive-core\nrequires: if-nowhere\n:::\n```\n\n",
+      ),
+    );
+    try {
+      const result = run("npx", ["--no", "--", "lernapps", "check", "--pre-push"], app);
+      expect(result.code, output(result)).toBe(1);
+      const failed = findingsOf(result, "checks-pass");
+      expect(failed.map((finding) => finding.where)).toEqual(["arc42 --dir docs/arc42 validate --strict"]);
+      expect(output(result)).toContain("if-nowhere");
+    } finally {
+      writeFileSync(blocks(), original);
+    }
+  });
+
+  test("lernapps update keeps the app's own sections and replaces the rest", { timeout: SLOW }, () => {
+    const original = readFileSync(blocks(), "utf8");
+    const own = "### Scoring\n\nCounts the letters typed in time.\n";
+    writeFileSync(
+      blocks(),
+      original
+        .replace("<!-- app: begin core -->\n", `<!-- app: begin core -->\n${own}`)
+        .replace("## Core\n", "## Core, edited by hand\n"),
+    );
+    try {
+      const result = run("npx", ["--no", "--", "lernapps", "update"], app);
+      expect(result.code, output(result)).toBe(0);
+      const text = readFileSync(blocks(), "utf8");
+      expect(text).toContain(`<!-- app: begin core -->\n${own}<!-- app: end core -->`);
+      expect(text).not.toContain("edited by hand");
+      expect(text).toBe(original.replace("<!-- app: begin core -->\n", `<!-- app: begin core -->\n${own}`));
+    } finally {
+      writeFileSync(blocks(), original);
+    }
+  });
+});

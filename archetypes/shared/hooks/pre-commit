@@ -1,6 +1,7 @@
 # The pre-commit hook of every lernapps app (installed by the preset): formats the staged files, then runs
-# the fast part of the checks (format, lint, type check), the first half of what CI runs. npm install installs both
-# hooks through the app's prepare script, as the generator writes it: lernapps hooks (archetypes/shared/install-hooks.ts)
+# the fast part of the checks (format, lint, type check; an interactive app's architecture with arc42 diff), the
+# first half of what CI runs. npm install installs both hooks through the app's prepare script, as the generator
+# writes it: lernapps hooks (archetypes/shared/install-hooks.ts)
 # Quiet: everything the steps print goes to the log below. On success the hook prints nothing; on a failure it prints
 # one line: the step, its exit code and the log, which holds the full output. CI runs the same command and prints it.
 log=node_modules/.cache/lernapps/pre-commit.log
