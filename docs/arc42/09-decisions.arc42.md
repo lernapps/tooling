@@ -396,7 +396,7 @@ addresses: qg-checked-not-declared, qg-guidance-evolves
 **Context:** other people's assistants cannot be observed. **Decision:** the evals run by hand with Claude Code,
 Codex and Gemini CLI on their latest models; there is no automated eval pipeline. **Consequences:** evals before
 merging guidance changes; the p90 of failed pre-push runs is measured there. How the runs are built:
-`dec-eval-runs-from-files` (proposed).
+`dec-eval-runs-with-harbor`, which refines this decision.
 
 ```arc42
 :::decision
@@ -408,23 +408,25 @@ addresses: qg-any-assistant, qg-few-iterations
 :::
 ```
 
-## Eval runs from files: a run directory, a scripted creator, a scoring script
+## Eval runs with Harbor: single-step tasks, a simulated creator, a scoring verifier
 
 **Context:** the evals test assistant configurations (harness, version, model, settings) against a guidance that works
-as a chain; they must be simple to run by the orchestrating agent and conclusive. **Decision** (proposed): scenarios run
-in one session from a fresh or a prepared start state, the creator played from a persona; a prepare script, a scoring
-script and a summary script work on run directories; scored Claude runs in a new cloud session, Codex and Gemini by
-hand. Harbor ties in the Pugh matrix and can take the layout over later. **Consequences:** results are scored per
-expectation with evidence and comparable between guidance commits; prepared states must be kept current. The full
-ADR with options and matrix: [docs/adr/eval-runs-from-files.md](https://github.com/lernapps/tooling/blob/main/docs/adr/eval-runs-from-files.md).
+as a chain; they must be simple to run by the orchestrating agent and conclusive, and a spike showed that Harbor runs
+in the cloud container. **Decision:** each scenario is a single-step Harbor task from a fresh or a prepared start state
+(a git bundle in the image), the creator played by Harbor's simulated user from a persona, run through a wrapper with a
+scrubbed environment, at least three trials per task and configuration, scored at the end by a verifier over the
+collected artifacts and by a script over the transcript. **Consequences:** an eval is one command, scored per
+expectation with evidence, re-scored with `harbor job regrade` and compared only within a configuration; the images,
+prepared states and a local patch for Harbor's ACP bridge must be maintained. The full ADR with options and matrix:
+[docs/adr/eval-runs-with-harbor.md](https://github.com/lernapps/tooling/blob/main/docs/adr/eval-runs-with-harbor.md).
 
 ```arc42
 :::decision
-id: dec-eval-runs-from-files
-title: Eval runs from files: a run directory, a scripted creator, a scoring script
-status: proposed
+id: dec-eval-runs-with-harbor
+title: Eval runs with Harbor: single-step tasks, a simulated creator, a scoring verifier
+status: accepted
 date: 2026-10-17
-addresses: qg-any-assistant, qg-few-iterations, qg-guidance-evolves, risk-invisible-failures
+addresses: qg-any-assistant, qg-few-iterations, qg-guidance-evolves, risk-invisible-failures, risk-owner-bottleneck
 :::
 ```
 
