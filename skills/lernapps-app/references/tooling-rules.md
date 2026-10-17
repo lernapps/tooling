@@ -9,7 +9,7 @@ block (`id`, `scope`, `severity`).
 
 ```rule
 id: checks-pass
-scope: listing
+scope: tooling
 severity: error
 ```
 
@@ -32,7 +32,7 @@ the creator which links could not be checked, and go on.
 
 ```rule
 id: fix-from-message
-scope: listing
+scope: tooling
 severity: error
 ```
 
@@ -44,7 +44,7 @@ make it pass.
 
 ```rule
 id: suppression-reason
-scope: listing
+scope: tooling
 severity: error
 ```
 
