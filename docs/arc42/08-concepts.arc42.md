@@ -10,13 +10,22 @@ Every rule has:
 | Attribute | Values | Meaning |
 |---|---|---|
 | id | a stable name, such as no-request-before-click | the same in every artifact, message and report; it never changes when the rule moves |
-| scope | listing, one or more archetypes, or both | which apps it applies to: every listed app wherever it is hosted; the apps of that archetype |
+| scope | listing, tooling, one or more archetypes, or a list of them | which apps it applies to: every listed app, however it is built and wherever it is hosted; the apps built with the tooling; the apps of that archetype |
 | severity | error, warning, hint | error: must not be broken; the check or review fails. Warning: may be broken on purpose, with a reason recorded in place; the review sees every exception. Hint: a recommendation that never fails |
 
-A listing rule is never a warning: a creator cannot argue their way past the fitness signal. The exceptions are
+Scope `tooling` holds the rules that presuppose the plan workflow or the tooling's checks (the plan file, the
+checkpoints, the retrospective, the content guide, `lernapps check`, suppressions). They apply to an app built with
+the tooling, at listing too; an app built freely (by hand, with another framework, with an app builder) is held to
+the listing rules alone and never fails its listing for lacking a plan file. An app is built with the tooling when its
+`package.json` lists `@lernapps/tooling` in `dependencies` or `devDependencies`: the generator writes it into every
+app, and it needs no marker of its own. The plan file cannot be the marker, since `plan-file` is about its absence.
+`npm run rules -- --app <dir>` lists the rules in scope for one app; the review judges those alone.
+
+A listing or tooling rule is never a warning: a creator cannot argue their way past the fitness signal. The exceptions are
 `accessible` and `usable-at-360px`: an app may deviate from them where its idea needs it and says so in its catalog
 entry (`limits`), where teachers and parents read it; with `limits` in the entry, their findings are warnings. The
-rules in scope for an app are the listing rules and the rules of its archetype. The rules of lernapps.net's own websites are not in the
+rules in scope for an app are the listing rules, the tooling rules when it is built with the tooling, and the rules
+of its archetype. The rules of lernapps.net's own websites are not in the
 catalog: the shared site frame owns them.
 
 A rule can live in several artifacts at once, each deployed on its own; the shared id makes them one rule. A skill

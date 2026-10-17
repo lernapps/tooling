@@ -2,7 +2,8 @@
 // which the generator writes as a skeleton and the assistant fills once the creator has confirmed the plan. It needs
 // the app's repo. It checks an app built with the tooling: one with a plan (.vibe/plans/, src/plan.ts) that depends on
 // the runtime @lernapps/app-templates; a template of app-templates (no plan), the tooling and a site are left out.
-// It reads the phase of the current plan.
+// It reads the phase of the current plan. Its rule has scope tooling: an app built freely is never checked, and
+// `lernapps check --entry` on a URL or a bundle (the listing validation) has no repo, so it does not report it.
 // Whether the guide says what was built is judged by the review (app-content-matches), not here.
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
