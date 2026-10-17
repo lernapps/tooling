@@ -423,6 +423,14 @@ retrospective's numbers are self-reported, so turns and failed checks are counte
 `prePushFailures` is the one reliable counter; a first version and an increment are separate cases; GitHub handling
 has seven cases of its own. Further constraints:
 
+- What is tested is an assistant configuration, not a model: the harness, its version, the model and its settings
+  together. The harness shapes the result as much as the model (a fetch tool that summarises, a blocked GraphQL API,
+  how skills are loaded). We control only the guidance, so comparisons are between guidance commits within one
+  configuration; configurations are conditions, like browsers in a test matrix.
+- The guidance works as a chain (E1 → llms.txt → skill → plan → AGENTS.md → archetype skill → tool messages →
+  listing); a single prompt's effect cannot be measured alone. A run from the first prompt measures the chain, but a
+  run that derails early never reaches the later stages, and an increment needs a first version.
+
 - A run takes hours, with many turns, and stops at checkpoints for the creator. Someone has to answer: the owner, or
   a creator played from a script (a persona with the facts and the answer for each checkpoint).
 - The creator's agent may know only what a creator's agent knows: the published site, skills and package, not our
@@ -494,11 +502,17 @@ Gemini. C, D, E and F add a Python or container toolchain to a Node repository.
 container daemon, credentials, a toolchain); its gains (a simulated user for Codex and Gemini, parallel runs) pay only
 once runs across assistants are automated, which `dec-evals-by-hand` excludes for now.
 
+- Scenarios run in one session, the creator's turns in sequence. Each scenario has a start state: `fresh` (from the
+  real first prompt, the whole chain) or a prepared state from which the later stages are measured reliably (plan
+  confirmed; app built with a failing check; app published, not yet listed; a first version, for an increment). From
+  there it again runs over many turns.
 - `evals/scenarios/<id>/` per scenario: `instruction.md` (the creator's first prompt), `persona.md` (the creator's
-  facts and the answer for each checkpoint), `scenario.yaml` (archetype, first version or increment, the expectations
-  that apply, `remote: local` or `github`). The names follow D's task format, so a later switch reuses them.
+  facts and how they answer, by topic and checkpoint rather than as a fixed sequence, because the agent's questions
+  vary between runs), `scenario.yaml` (archetype, start state, the expectations that apply, each mapped to the
+  inventory item it tests, `remote: local` or `github`). Prepared states live in `evals/states/<id>/` as a git bundle.
+  The names follow D's task format, so a later switch reuses them.
 - `npm run eval:prepare -- <scenario> <assistant>` creates a run directory outside every checkout, with a `meta.json`
-  (scenario, assistant, model, guidance commit, start time) and, for `remote: local`, a bare git remote.
+  (scenario, configuration: harness, its version, model and settings; guidance commit, start time) and, for `remote: local`, a bare git remote.
 - Runner, in this order of preference: a new cloud session with the chosen model and no repository of ours, the
   orchestrator playing the creator from `persona.md` (`send_message`, `list_events`); for a quick trial a sub-agent,
   its run marked unscored, since it can read our checkouts; Codex and Gemini by hand in their own environment from the
@@ -508,9 +522,13 @@ once runs across assistants are automated, which `dec-evals-by-hand` excludes fo
   script: plan front matter and retrospective, git log of the remote, `lernapps check --report`, the review verdict.
   T is counted from the transcript (creator turns after the plan, failed hook runs, skills read, reads outside the
   published guidance); expectations that need judgment (A9, A10, A19, …) are marked `judge` with the quoted turns,
-  and the orchestrator records its verdict with a reason.
+  and the orchestrator records its verdict with a reason. A failed expectation names its inventory item and how it
+  failed, read from the transcript: not read (or read only as a summary), misread, or read and not followed; each
+  needs a different fix.
 - `npm run eval:summary` aggregates at least three runs per scenario and assistant: pass rate per expectation, min
-  and max, the p90 of `prePushFailures`.
+  and max, the p90 of `prePushFailures`. It compares guidance commits within one configuration, never across.
+- Later, only for a suspected inventory item: a counterfactual run, the same scenario and configuration with that item
+  changed or removed; the difference is its effect in the chain.
 - GitHub: local bare remotes cover branch order, dummy pushes and checkpoints (cases 1, 6, 7); the default branch, the
   Pages source, refusals by the integration and the forked listing pull request (cases 2–5) need real GitHub, in a
   few runs with a sandbox account, which also serves new sessions, since a local remote in their container is out of
@@ -522,6 +540,8 @@ once runs across assistants are automated, which `dec-evals-by-hand` excludes fo
   runs Codex or Gemini from the same files.
 - Results are comparable across runs and assistants, because every run is scored by the same script from stored
   evidence; a better scoring script re-scores old runs.
+- The later stages and increments are measured without depending on an early derailment; the prepared states must be
+  kept current with the templates (regenerated with `lernapps update` or from a recorded run).
 - The scoring script is the contract issue #18 asks to build test-first, on recorded runs.
 - Transcript parsing covers Claude Code first; Codex and Gemini transcripts need a parser each, or are scored on P,
   G and C only until they have one.

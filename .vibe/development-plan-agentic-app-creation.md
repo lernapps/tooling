@@ -486,6 +486,16 @@ Overall:
 - B3 Its verdict on seeded apps (one that passes, one with a hidden platform violation, one built freely without our
   tooling) matches the expected verdict.
 
+#### 4. Method (owner, 2026-10-17)
+- What is tested is an assistant configuration (harness, version, model, settings), not a model. We compare guidance
+  commits within one configuration.
+- Scenarios in one session, the creator's turns in sequence, played from a persona. Each starts fresh (the whole
+  chain) or from a prepared state (plan confirmed, failing check, published but not listed, first version for an
+  increment), so the later stages do not depend on an early derailment.
+- Each expectation maps to its inventory item; a failure says whether the item was not read, misread or not followed.
+  Counterfactual runs (one item changed) only for suspects. At least three runs per scenario and configuration.
+- Infrastructure: `dec-eval-runs-from-files` in chapter 9 (proposed).
+
 ### Sketch: the interactive archetype (step 12, decided by the owner)
 *From the owner's examples and answers, decided by the owner (2026-10-16).*
 
