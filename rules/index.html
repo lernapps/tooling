@@ -31,9 +31,11 @@
       <li><strong>Scope:</strong> <code>listing</code> applies to every app in the app overview, however it is built
         and wherever it is hosted; <code>tooling</code> to apps built with this tooling (their
         <code>package.json</code> lists <code>@lernapps/tooling</code>), because the rule presupposes its plan workflow or its
-        checks, and to them in the app overview too; <code>archetype:…</code> to apps of that archetype.</li>
+        checks; <code>archetype:…</code> to apps of that archetype.</li>
       <li><strong>Severity:</strong> <code>error</code> must not be broken; <code>warning</code> only with a reason
-        recorded in place; <code>hint</code> is a recommendation.</li>
+        recorded in place; <code>hint</code> is a recommendation. A <code>tooling</code> rule never blocks a listing:
+        in the listing validation and the review its findings are warnings at most, advice for the creator; in the
+        app's repo its severity holds.</li>
     </ul>
     <p>Every message of a check links to its rule here, by its id: <code>https://lernapps.net/tooling/rules/#&lt;id&gt;</code>.</p>
     <table>
@@ -59,16 +61,16 @@
 <tr><td><a href="#runs-in-browser"><code>runs-in-browser</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#third-party-licence"><code>third-party-licence</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#usable-at-360px"><code>usable-at-360px</code></a></td><td>listing</td><td>error</td></tr>
-<tr><td><a href="#app-content-guide"><code>app-content-guide</code></a></td><td>tooling</td><td>error</td></tr>
-<tr><td><a href="#app-content-matches"><code>app-content-matches</code></a></td><td>tooling</td><td>error</td></tr>
-<tr><td><a href="#checks-pass"><code>checks-pass</code></a></td><td>tooling</td><td>error</td></tr>
-<tr><td><a href="#explore-before-code"><code>explore-before-code</code></a></td><td>tooling</td><td>error</td></tr>
+<tr><td><a href="#app-content-guide"><code>app-content-guide</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#app-content-matches"><code>app-content-matches</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#checks-pass"><code>checks-pass</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#explore-before-code"><code>explore-before-code</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#few-turns-after-plan"><code>few-turns-after-plan</code></a></td><td>tooling</td><td>hint</td></tr>
-<tr><td><a href="#fix-from-message"><code>fix-from-message</code></a></td><td>tooling</td><td>error</td></tr>
-<tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>tooling</td><td>error</td></tr>
-<tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>tooling</td><td>error</td></tr>
-<tr><td><a href="#stop-at-checkpoints"><code>stop-at-checkpoints</code></a></td><td>tooling</td><td>error</td></tr>
-<tr><td><a href="#suppression-reason"><code>suppression-reason</code></a></td><td>tooling</td><td>error</td></tr>
+<tr><td><a href="#fix-from-message"><code>fix-from-message</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#stop-at-checkpoints"><code>stop-at-checkpoints</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#suppression-reason"><code>suppression-reason</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#explainer-content-valid"><code>explainer-content-valid</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#explainer-figure-explains"><code>explainer-figure-explains</code></a></td><td>archetype:explainer</td><td>hint</td></tr>
 <tr><td><a href="#explainer-figure-hides-answer"><code>explainer-figure-hides-answer</code></a></td><td>archetype:explainer</td><td>error</td></tr>
@@ -300,7 +302,7 @@
 
 <section id="app-content-guide">
 <h2>Keep the app's content guide</h2>
-<p><code>app-content-guide</code> · tooling · error</p>
+<p><code>app-content-guide</code> · tooling · error · warning at listing</p>
 <div>
 <p>Keep <code>.agents/skills/app-content/SKILL.md</code> with its fixed headings. Fill in every placeholder (&quot;FILL IN&quot;) once the creator has confirmed the plan, before you build the content, with precise, concrete instructions: the files, ids, data files and an example of this app, not general advice. Whenever a content decision changes (a new pattern, a figure type, a source rule), change the guide in the same commit. The plan file records one run; the guide is what the agents after you follow. <code>lernapps check</code> checks an app from the generator: the file and its headings always, and that no placeholder is left once the app has content, which is when its plan is in Commit: by then the creator's questions (quiz) or chapters (explainer) are built in place of the generated example. An app made before the guide existed gets its skeleton from <code>npx --yes github:lernapps/tooling#main update</code>.</p>
 </div>
@@ -309,7 +311,7 @@
 
 <section id="app-content-matches">
 <h2>The content guide says what was built</h2>
-<p><code>app-content-matches</code> · tooling · error</p>
+<p><code>app-content-matches</code> · tooling · error · warning at listing</p>
 <div>
 <p>The guide describes the app as it is: every exercise pattern it names is used, and the app uses no pattern it does not name; the curriculum, the competencies and their chapters, pages or rounds match the content; the procedure for a new chapter or round names the files as they are now. Write it so that an agent who never saw your conversation can add the next chapter or round from it alone.</p>
 </div>
@@ -318,7 +320,7 @@
 
 <section id="checks-pass">
 <h2>Run the checks before you push</h2>
-<p><code>checks-pass</code> · tooling · error</p>
+<p><code>checks-pass</code> · tooling · error · warning at listing</p>
 <div>
 <p>Run <code>lernapps check</code> before you push; the hooks run it too. Format, lint, type check, unit tests, build, the checks of the built app and the end-to-end tests must pass. A failure names the step: fix it from the step's output. CI runs the same command and nothing else, so what passes on your machine passes in CI. A failed CI run has the same message as the hook, and its report is the artifact <code>validation-report</code>.</p>
 <p>A test that comes with the archetype's runtime (<code>@lernapps/app-templates</code>) and fails while your content validates is a bug in the template; the message names it as a test of the template. Tell the creator, and open an issue at <a href="https://github.com/lernapps/app-templates/issues">https://github.com/lernapps/app-templates/issues</a> with the validation report (<code>node_modules/.cache/lernapps/validation-report.yaml</code>), or ask the creator to. Never change the tests or the configuration to get around it. The app pins the runtime to a commit, so <code>npm update</code> changes nothing; once the fix is in, <code>npx --yes github:lernapps/tooling#main update</code> moves the app to it. Then run <code>npx lernapps check</code> and commit.</p>
@@ -329,7 +331,7 @@
 
 <section id="explore-before-code">
 <h2>No code before the plan is confirmed</h2>
-<p><code>explore-before-code</code> · tooling · error</p>
+<p><code>explore-before-code</code> · tooling · error · warning at listing</p>
 <div>
 <p>Write no code and generate nothing until the creator has confirmed the plan.</p>
 </div>
@@ -347,7 +349,7 @@
 
 <section id="fix-from-message">
 <h2>Fix failed checks, never bypass them</h2>
-<p><code>fix-from-message</code> · tooling · error</p>
+<p><code>fix-from-message</code> · tooling · error · warning at listing</p>
 <div>
 <p>Read the message of a failed check and fix the cause. A failed commit prints one line with the step and the log <code>node_modules/.cache/lernapps/pre-commit.log</code>: the messages are in that log. Never bypass a hook (<code>--no-verify</code>, or an acceptance such as <code>ARC42_CONSISTENT</code> set without a finding shown), never delete a test to make it pass.</p>
 </div>
@@ -356,7 +358,7 @@
 
 <section id="plan-file">
 <h2>Keep the plan file</h2>
-<p><code>plan-file</code> · tooling · error</p>
+<p><code>plan-file</code> · tooling · error · warning at listing</p>
 <div>
 <p>Keep each plan in <code>.vibe/plans/</code> as its template has it, with every section and front matter key; never change the plan of an earlier piece of work. Update <code>phase</code> when you enter a phase. Never edit <code>prePushFailures</code>: the pre-push hook writes it.</p>
 </div>
@@ -365,7 +367,7 @@
 
 <section id="retrospective-filled">
 <h2>Fill the retrospective</h2>
-<p><code>retrospective-filled</code> · tooling · error</p>
+<p><code>retrospective-filled</code> · tooling · error · warning at listing</p>
 <div>
 <p>At the end of Commit, fill every part of the retrospective with facts: phases reached, failed checks with rule ids, the creator's turns after the plan, where you had to guess. No names of people.</p>
 </div>
@@ -374,7 +376,7 @@
 
 <section id="stop-at-checkpoints">
 <h2>Stop at the creator's checkpoints</h2>
-<p><code>stop-at-checkpoints</code> · tooling · error</p>
+<p><code>stop-at-checkpoints</code> · tooling · error · warning at listing</p>
 <div>
 <p>Stop at each checkpoint (research, confirm the plan and the content method, publish, list) and wait for the creator's answer. Example: &quot;Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?&quot; A message the creator sent before you asked the checkpoint's question is not a yes.</p>
 </div>
@@ -383,7 +385,7 @@
 
 <section id="suppression-reason">
 <h2>Suppress only in place, with the reason</h2>
-<p><code>suppression-reason</code> · tooling · error</p>
+<p><code>suppression-reason</code> · tooling · error · warning at listing</p>
 <div>
 <p>Suppress a lint message only on the line where it occurs, name the rule and write why after <code>--</code>: <code>// oxlint-disable-next-line lernapps/no-request-before-click -- the video loads after a click</code>. Suppress a type error only with <code>// @ts-expect-error -- &lt;reason&gt;</code>, never with <code>@ts-ignore</code> or <code>@ts-nocheck</code>. The review reads every suppression.</p>
 </div>
