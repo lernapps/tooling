@@ -1,0 +1,37 @@
+--- a/harbor/agents/installed/claude_code.py
++++ b/harbor/agents/installed/claude_code.py
+@@ -533,7 +533,8 @@
+         max_thinking = self._resolved_env_vars.get("MAX_THINKING_TOKENS")
+         if max_thinking is not None:
+             command.append(f"MAX_THINKING_TOKENS={max_thinking}")
+-        command.append("claude-code-acp")
++        # lernapps evals: the wrapper written by acp_install loads the subscription token.
++        command.append("/tmp/.hb-acp-auth.sh")
+         return command
+ 
+     @override
+@@ -596,6 +597,24 @@
+                 node_path, "/usr/local/bin/node"
+             )
+         await self.exec_as_root(environment, command=link_command)
++        # lernapps evals: acpx starts the adapter from the environment of the
++        # `acpx prompt` caller, which does not carry the subscription token.
++        # Write it to a mode-600 file (passed via the exec environment, never
++        # on a command line) and load it in a mode-700 wrapper.
++        oauth_token = (self._get_env("CLAUDE_CODE_OAUTH_TOKEN") or "").strip()
++        await self.exec_as_agent(
++            environment,
++            command=(
++                "umask 077; "
++                'printf "%s" "$HB_ACP_TOKEN" > /tmp/.hb-acp-token; '
++                "printf '%s\\n' '#!/bin/sh' "
++                "'CLAUDE_CODE_OAUTH_TOKEN=\"$(cat /tmp/.hb-acp-token)\"; "
++                "export CLAUDE_CODE_OAUTH_TOKEN' "
++                "'exec /usr/local/bin/claude-code-acp \"$@\"' "
++                "> /tmp/.hb-acp-auth.sh; chmod 700 /tmp/.hb-acp-auth.sh"
++            ),
++            env={"HB_ACP_TOKEN": oauth_token},
++        )
+ 
+     @property
+     @override
