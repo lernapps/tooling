@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "base": {
+    "label": "62e7dc5b057c21c6f094965945781b9da720c47a",
+    "commit": "62e7dc5b057c21c6f094965945781b9da720c47a"
+  },
+  "head": {
+    "label": "1ca0da7810d106fd260d2cab85ae2fe04cf79d20"
+  },
+  "acceptanceBase": "62e7dc5b057c21c6f094965945781b9da720c47a",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/08-concepts.arc42.md",
+      "line": 57,
+      "elementId": "concept-rule-catalog",
+      "message": "Section prose changed without changing block 'concept-rule-catalog' — it names 'Listing validation'."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "line": 57,
+        "elementId": "concept-rule-catalog",
+        "message": "Section prose changed without changing block 'concept-rule-catalog' — it names 'Listing validation'."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-review-procedure",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 382
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 383
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-rule-catalog",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [
+          {
+            "term": "Listing validation",
+            "element": "bb-listing-validation",
+            "source": "element"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 53
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 57
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Rule catalog"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
