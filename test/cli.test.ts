@@ -125,13 +125,15 @@ describe("lernapps", () => {
   });
 
   test("update's skills step replaces the lernapps-* skills, keeps the app's own, and removes the old ignore lines", () => {
-    // the tooling's skills: a changed lernapps-app, a new lernapps-listing, and a folder of another name
+    // the tooling's skills: a changed lernapps-app with a file in a subfolder, a new lernapps-listing, and a folder of
+    // another name
     const source = tempDir("skills");
     const write = (file: string, text: string) => {
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, text);
     };
     write(join(source, "lernapps-app/SKILL.md"), "---\nname: lernapps-app\n---\nnew\n");
+    write(join(source, "lernapps-app/references/platform-rules.md"), "# Platform rules\n");
     write(join(source, "lernapps-listing/SKILL.md"), "---\nname: lernapps-listing\n---\n");
     write(join(source, "planted/SKILL.md"), "---\nname: planted\n---\n");
     // the app: an older lernapps-app and one the tooling no longer has, as npx skills add installed them, next to
@@ -166,6 +168,9 @@ describe("lernapps", () => {
       "lernapps-app",
       "lernapps-listing",
     ]);
+    expect(readFileSync(join(dir, ".claude/skills/lernapps-app/references/platform-rules.md"), "utf8")).toBe(
+      "# Platform rules\n",
+    );
     expect(() => lstatSync(join(dir, ".claude/skills/lernapps-gone"))).toThrow();
     expect(readFileSync(join(dir, ".claude/skills/app-content/SKILL.md"), "utf8")).toContain("the app's own");
     const written = JSON.parse(readFileSync(join(dir, "skills-lock.json"), "utf8")) as {

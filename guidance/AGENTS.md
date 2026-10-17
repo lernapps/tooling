@@ -11,7 +11,7 @@ with its creator.
    <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/>: `plan-template.md` for an app's first
    version, `increment-template.md` for every later change. Follow the plan exactly: read it before each step; do
    what its tasks and comments say. Read every skill and guide from its file, in full; never from a summary.
-2. Load the skill `lernapps-app` first: the rules every app follows. Load the skills it names when needed.
+2. Load the skill `lernapps-app` first: the rules every app follows. Load the files and skills it names when needed.
 3. Never bypass a git hook (`--no-verify`). Never edit `prePushFailures`.
 4. Push only the branch the current plan names: a push to `main` publishes the app. While a check fails, tell the
    creator instead of pushing.

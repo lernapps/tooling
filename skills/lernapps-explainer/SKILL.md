@@ -47,8 +47,8 @@ component where no block can say what the page needs. The rules of `lernapps-app
 
 The end-to-end tests and the build's checks come from the runtime, not from your app. If a test fails while your
 content validates (the build passes), the bug is in the template, not in your content: do what the skill
-`lernapps-app` says for a failing test of the runtime (`checks-pass`), and go on with the content. Never change the
-runtime in `node_modules` (`explainer-only-content`). A fix reaches the app with a newer `@lernapps/app-templates`:
+`lernapps-app` says for a failing test of the runtime (`checks-pass`, in its `references/tooling-rules.md`), and go
+on with the content. Never change the runtime in `node_modules` (`explainer-only-content`). A fix reaches the app with a newer `@lernapps/app-templates`:
 `npx --yes github:lernapps/tooling#main update` moves the app to it.
 
 ## Structure
