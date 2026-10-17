@@ -354,11 +354,135 @@ evals cover all three archetypes.*
   sections, not user-facing, gated by `arc42 diff --staged --strict` and `arc42 validate --strict`; Vue stays.
   Next: the first full run with a pilot app (step 4 of the sketch).
 - [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
-  and an increment each
+  and an increment each: inventory and expected behaviour in the sketch below (2026-10-17); scenarios and scoring next
 - [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),
   the templates' build into `dist/` ([lernapps/app-templates#32](https://github.com/lernapps/app-templates/issues/32)),
   tutor support for the quiz, later ([#86](https://github.com/lernapps/tooling/issues/86))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
+
+### Sketch: the evals (step 10, inventory and expectations, 2026-10-17)
+*The text an agent reads on its way from a creator's first prompt to a listed app, and what we expect it to do with
+it. Scenarios, prompts and scoring follow from this list. Lessons from earlier runs: comments on
+[#18](https://github.com/lernapps/tooling/issues/18).*
+
+#### 1. Inventory: what we evaluate
+
+Entry points (what a creator pastes or an agent finds first):
+- E1 the build prompt on lernapps.net/apps/build/ (`apps/src/_data/de.js`, `en.js`: `build.start.prompt`);
+- E2 the listing prompt on /enter/ (`list.agent.prompt`);
+- E3 the panel "Lieber frei bauen?", which hands `skills/lernapps-app/references/platform-rules.md` to Lovable,
+  bolt.new or a hand-built app;
+- E4 the llms.txt files: lernapps.net (`lernapps.github.io/src/llms.txt`), apps (`apps/src/llms.njk`), tooling
+  (`site/llms.txt`), docs (`docs/site/llms.txt`);
+- E5 the docs pages an agent is sent to: tooling (`site/index.html`), GitHub (`site/github/index.html`).
+
+Workflow:
+- W1 `guidance/AGENTS.md`, copied into each app;
+- W2 `guidance/plan-template.md` (first version), W3 `guidance/increment-template.md` (every later change), with the
+  front matter schema `guidance/plan-front-matter.v1.schema.json`.
+
+Skills (`skills/`, installed with `npx skills add lernapps/tooling`):
+- S1 `lernapps-app` with `references/platform-rules.md`, `workflow-rules.md`, `tooling-rules.md`,
+  `archetype-rules.md`;
+- S2 the archetypes: `lernapps-quiz`, `lernapps-explainer`, `lernapps-interactive`;
+- S3 content: `lernapps-content-research`, `lernapps-exercise-patterns` (with `references/patterns.md`),
+  `lernapps-content-growth`;
+- S4 `lernapps-github`; S5 `lernapps-listing`;
+- S6 in each app: `.agents/skills/app-content/SKILL.md` (from `generator/app/`), which the agent fills in itself.
+
+Messages the tooling writes for the agent (instructions too, rule `fix-from-message`):
+- M1 the CLI: `--help` and the output of `create`, `update`, `check`, `publish` (`src/cli.ts`, `src/usage.ts`,
+  `publish/`);
+- M2 the findings of the checks and lint rules (`check/rules/`, `lint/rules/`) and of the git hooks;
+- M3 the architecture in interactive apps: `docs/arc42/` copied from app-templates, and the findings of the arc42 gate;
+- M4 the entry schema with its descriptions (`apps/schemas/entry.v1.schema.json`, KD-04);
+- M5 the results comment on the listing pull request (`apps/scripts/listing-comment.mjs`) and the review comment
+  (`apps/scripts/review-comment.mjs`).
+
+The review agent, an agent of its own:
+- R1 `review/prompt.md`, `review/rubric.md`, `review/archetypes/{quiz,explainer,interactive}.md`.
+
+Not evaluated: the skills for our own repos (`.agents/skills/` in tooling and docs), the docs models (biz42, pdt42),
+the organisation files in lernapps/.github. A creator's agent may read them but is not sent there.
+
+#### 2. What we expect of the creator's agent
+
+Each expectation names where the evidence is: T transcript, P plan file, G git and GitHub, C checks and review.
+
+Finding the way:
+- A1 From E1 alone it finds the skill and the plan template and reads them in full from the downloaded file, not from
+  a summary (T).
+- A2 It loads the archetype skill once the archetype is chosen, the content skills in Explore, `lernapps-github` when
+  a GitHub step fails, `lernapps-listing` at the listing checkpoint; no skill it does not need (T).
+- A3 It installs nothing before the plan is confirmed and creates the app with the command the plan names (T, G).
+
+Process (W1–W3):
+- A4 One plan per piece of work, copied complete and unchanged; the phase in the front matter follows the work; every
+  task ticked when done, no box left open at the end (P).
+- A5 Explore before code: no app code before the plan is confirmed (G: first commit with code after the confirmation
+  in T).
+- A6 It stops at every checkpoint and waits; a message sent before the checkpoint question is not the answer (T).
+- A7 The retrospective is filled in, and its numbers match the transcript and the hooks (P against T, G).
+- A8 An increment gets its own plan from the increment template (P).
+
+With the creator:
+- A9 One or two questions per turn, in plain words, in the creator's language; no form (T).
+- A10 Before building it explains its method: how it researched, how it will build, what the app cannot do (T).
+- A11 At most 3 creator turns after the plan (T, counted, not self-reported).
+
+Content (S3, S6):
+- A12 The curriculum is clarified (Land, Schulform, Jahrgang, own material) and the competencies are written as
+  "Ich kann …" (P, T).
+- A13 `app-content` is filled in before building, from the confirmed method, and updated whenever a content decision
+  changes (G).
+- A14 Sources and licences of content by others are named (C: rubric).
+- A15 Texts for learners are German and in plain language (C: rubric).
+
+Platform rules (S1, `platform-rules.md`), the same for any way of building (E3):
+- A16 Static, browser only, no account, free, no ads, collects nothing, also after a click (C).
+- A17 WCAG 2.1 AA and usable at 360 px, or a declared and justified `limits` entry (C).
+- A18 Checkable: the published app can be opened and checked on its URL (`lernapps check <url>`) (C).
+
+Archetype (S2):
+- A19 It chooses the archetype that fits the learning goal and can say why; interactive only when the learner acts in
+  a way a quiz or an explainer cannot carry (T).
+- A20 Quiz: it writes only `src/quiz.json`. Explainer: content as YAML, components only where no block fits, readable
+  without JavaScript. Interactive: a pure deterministic core under the runtime (`start`, `step`, `tick`), playthroughs
+  that pass, storage through the wrapper within the quota, the architecture updated in the app sections (G, C).
+
+Checks and tooling (M1–M3):
+- A21 It acts on every check and hook message without asking the creator (T).
+- A22 It never bypasses a hook (`--no-verify`), never edits `prePushFailures`, never disables a check or a test, and
+  gives a reason for every suppression (G).
+- A23 Few failed pre-push runs: p90 of `prePushFailures` below 5 (P, written by the hook).
+- A24 `lernapps update` keeps its own app sections and skills; it never edits a `lernapps-*` skill (G).
+
+GitHub (S4, E5; cases from the Tipp-Huhn run, #18):
+- A25 The repo name is settled before the first push; `main` first as the default, then an empty `gh-pages`, then
+  `work` (G).
+- A26 The Pages source is `gh-pages`, set by the agent if it may, else by the creator's click at the exact place (G, T).
+- A27 Tools in the order of the skill (gh over REST, MCP, curl); a refusal by the integration becomes a click for the
+  creator, never a dummy push (T, G).
+- A28 It pushes only the branch the plan names; `main` only at publish, after the creator's yes (G, T).
+
+Listing (S5, M4, M5):
+- A29 It checks the listing criteria on the published app, not on its description (T).
+- A30 The entry is valid against the schema on the first try or after reading its messages (C).
+- A31 The pull request comes from a fork, branch `add-<id>`; nothing is pushed to lernapps/apps (G).
+- A32 It reads the results comment and fixes what it names; platform findings block, tooling findings are warnings
+  (T, G).
+
+Overall:
+- A33 Time from the first prompt to an entry ready to list, for the MVP assumption `a-creators-list` (T).
+- A34 Where it had to guess: every guess is written in the retrospective and becomes a finding for the guidance
+  (P, KD-12).
+
+#### 3. What we expect of the review agent (R1)
+- B1 It reviews exactly the named commit on `main`, starting from the validation report (C).
+- B2 It judges each rubric item with evidence, separates platform rules (blocking) from tooling rules (warnings), and
+  changes nothing (C).
+- B3 Its verdict on seeded apps (one that passes, one with a hidden platform violation, one built freely without our
+  tooling) matches the expected verdict.
 
 ### Sketch: the interactive archetype (step 12, decided by the owner)
 *From the owner's examples and answers, decided by the owner (2026-10-16).*
