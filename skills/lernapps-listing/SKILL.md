@@ -8,7 +8,7 @@ license: MIT
 
 An app is listed by a pull request to [lernapps/apps](https://github.com/lernapps/apps) that adds its entry. The
 rules of `lernapps-app` apply; the entry rules are `entry-from-schema`, `entry-links-resolve` and
-`entry-fitness-matches`.
+`entry-fitness-matches`, in its `references/platform-rules.md`.
 
 ## Open the listing pull request
 

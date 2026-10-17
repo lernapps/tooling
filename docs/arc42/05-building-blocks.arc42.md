@@ -161,7 +161,10 @@ protocol: Markdown with YAML front matter and a versioned JSON Schema
 
 The rules as the assistant reads them, and the know-how around them: one general skill, one per archetype, topic
 skills such as third-party content, and one for listing. Each skill section that states a rule names its rule id.
-The skills reach the creator's agent harness for an app from the generator as for one built otherwise.
+A skill too long to load at once keeps its `SKILL.md` short and links files in its `references/`, which the assistant
+reads when it needs them: the general skill holds its rules there by concern, and its platform rules read on their
+own, for an app built without the tooling. The skills reach the creator's agent harness for an app from the
+generator as for one built otherwise.
 
 The content skills are the know-how of what an app teaches, independent of the archetype: researching the curriculum
 and its sources, exercise patterns, and growing an app after its first version. The skill of each archetype says
