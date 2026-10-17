@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "base": {
+    "label": "41bffad2afcc823c19f741a13854d575ee52f282",
+    "commit": "41bffad2afcc823c19f741a13854d575ee52f282"
+  },
+  "head": {
+    "label": "b64d3f540d8aef8c9f910161ba9a589de8b38c6e"
+  },
+  "acceptanceBase": "41bffad2afcc823c19f741a13854d575ee52f282",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "if-generator-cli",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 225
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 227
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Generator",
+            "Generator CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-archetype-templates",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 461
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 463
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes",
+            "Archetype templates interface"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 2,
+        "removed": 0
+      }
+    ]
+  }
+}
