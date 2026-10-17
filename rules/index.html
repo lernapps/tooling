@@ -40,6 +40,7 @@
       <thead><tr><th>Rule</th><th>Scope</th><th>Severity</th></tr></thead>
       <tbody>
 <tr><td><a href="#accessible"><code>accessible</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#app-checkable"><code>app-checkable</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#correct-content-support"><code>correct-content-support</code></a></td><td>listing</td><td>hint</td></tr>
 <tr><td><a href="#dependency-licence"><code>dependency-licence</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#entry-fitness-matches"><code>entry-fitness-matches</code></a></td><td>listing</td><td>error</td></tr>
@@ -124,6 +125,15 @@
 <p>Meet WCAG 2.1 AA: labels, contrast, keyboard use, text alternatives. Only where the app's idea needs it (a typing game against the clock) may it deviate: then say in plain German what it does not offer in the entry's field <code>limits</code>, which teachers and parents read in the catalog. With <code>limits</code> in the entry, <code>lernapps check --entry</code> reports this rule's findings as warnings; without it, as errors.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/accessible.ts"><code>check/rules/accessible.ts</code></a>.</p>
+</section>
+
+<section id="app-checkable">
+<h2>The published app can be opened and checked</h2>
+<p><code>app-checkable</code> · listing · error</p>
+<div>
+<p>The app opens at the entry's <code>url</code>, so that <code>lernapps check</code> can visit its pages; a built app opens from its bundle (<code>index.html</code>). An app that cannot be opened cannot be checked, and learners cannot use it either. When the page does not load, the app's build fails, no browser can start or the check stops, the checks report this rule instead of the others. Fix the app so that it opens at the entry's <code>url</code>, then check again. When the app opens in a browser but the check itself fails, open an issue at <a href="https://github.com/lernapps/tooling/issues">https://github.com/lernapps/tooling/issues</a> with the message.</p>
+</div>
+<p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/platform-rules.md"><code>skills/lernapps-app/references/platform-rules.md</code></a>.</p>
 </section>
 
 <section id="correct-content-support">
