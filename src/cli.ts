@@ -24,6 +24,7 @@ import {
   SITE_CHECK,
   stagedFiles,
 } from "../changes/changes.ts";
+import { ARCHITECTURE, hasArchitecture } from "../generator/architecture.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { update, UpdateError } from "../generator/update.ts";
 import { countPrePushFailure } from "./plan.ts";
@@ -89,7 +90,9 @@ function runStep(step: Step): Finding | undefined {
       fix:
         step.command === "vue-tsc"
           ? "The app has Vue components (.vue), which vue-tsc type-checks: add it with npm install --save-dev vue-tsc typescript, then check again"
-          : `Install the project's dependencies (npm ci), then check again`,
+          : step.command === "arc42"
+            ? `The app has an architecture (${ARCHITECTURE}/), which the arc42 CLI checks: add it with npm install --save-dev @doctc/arc42@0.36.1, then check again`
+            : `Install the project's dependencies (npm ci), then check again`,
     });
   }
   if (result.status === 0) return undefined;
@@ -100,7 +103,9 @@ function runStep(step: Step): Finding | undefined {
     fix:
       step.command === "vp" && step.args[0] === "check"
         ? "Run vp check --fix, which fixes what it can of format and lint; fix the rest from the output, then check again"
-        : `Fix the cause from the output of ${where}, then check again`,
+        : step.command === "arc42"
+          ? `Keep the architecture current with the code: fix each finding of ${where} in the app's own part, between the markers <!-- app: begin … --> and <!-- app: end … --> of ${ARCHITECTURE}/, or in the code; never edit outside those markers, which lernapps update replaces. arc42 resolves only paths git knows: git add new files first. Then check again`
+          : `Fix the cause from the output of ${where}, then check again`,
   });
 }
 
@@ -220,10 +225,42 @@ function readEntry(file: string): { file: string; value: Entry } {
   return { file, value: value as Entry };
 }
 
+/** What the arc42 CLI reads in an app with an architecture: a staged change of one of these is checked before a commit. */
+const ARCHITECTURE_INPUTS = [`${ARCHITECTURE}/`, ".arc42ignore", "src/"];
+
+/**
+ * The architecture's step before a commit of an app with one (generator/architecture.ts), when the commit stages a
+ * file of the architecture or of the sources: `arc42 diff --staged --strict` (a fraction of a second), which fails on a
+ * changed block without its prose and on new code no block claims; before the first commit, which has nothing to
+ * compare with, `arc42 validate --strict`.
+ */
+function architectureBeforeCommit(): Step | undefined {
+  if (!hasArchitecture()) return undefined;
+  const staged = stagedFiles();
+  if (staged !== undefined && !staged.some((file) => ARCHITECTURE_INPUTS.some((input) => file.startsWith(input)))) {
+    return undefined;
+  }
+  const head = spawnSync("git", ["rev-parse", "--verify", "--quiet", "HEAD"], { encoding: "utf8" }).status === 0;
+  return {
+    name: "architecture",
+    command: "arc42",
+    args: ["--dir", ARCHITECTURE, ...(head ? ["diff", "--staged", "--strict"] : ["validate", "--strict"])],
+  };
+}
+
 /** The checks of the toolchain in a repo, then the checks of what it built. */
 async function checkProject(fast: boolean, heavy: boolean, context: Context): Promise<Report> {
   const findings: Finding[] = [];
   const steps: Step[] = [];
+  if (fast && !heavy) {
+    const architecture = architectureBeforeCommit();
+    if (architecture) steps.push(architecture);
+  }
+  if (heavy && hasArchitecture()) {
+    // the whole architecture of an app with one, strictly: any finding fails (references, required fields, paths
+    // that exist, coverage of the sources)
+    steps.push({ name: "architecture", command: "arc42", args: ["--dir", ARCHITECTURE, "validate", "--strict"] });
+  }
   if (fast) {
     steps.push({ name: "format, lint, type check", command: "vp", args: ["check"] });
     // vp check type-checks the TypeScript files only; the Vue components (an explainer's src/components/<Name>.vue)
@@ -359,16 +396,29 @@ async function check(args: string[]): Promise<number> {
   } else {
     const all = values["pre-commit"] === values["pre-push"];
     const scope = all ? undefined : hookScope(values["pre-commit"] ? "pre-commit" : "pre-push");
-    if (scope !== undefined && "skip" in scope) {
+    // a commit of only docs still checks a change of the architecture, which is docs to the change scope
+    const architecture =
+      scope !== undefined && "skip" in scope && values["pre-commit"] ? architectureBeforeCommit() : undefined;
+    if (architecture !== undefined) {
+      const failure = runStep(architecture);
+      report = {
+        checked: commitOrDirectory(),
+        parts: ["pre-commit"],
+        rules: [CHECKS_PASS],
+        findings: failure ? [failure] : [],
+        suppressions: [],
+      };
+    } else if (scope !== undefined && "skip" in scope) {
       rmSync(REPORT, { force: true }); // nothing was checked: no report of an earlier run stays as if it were this one's
       process.stdout.write(`${scope.skip}\n`);
       return 0;
+    } else {
+      report =
+        scope !== undefined
+          ? checkSite(scope.site)
+          : await checkProject(all || values["pre-commit"], all || values["pre-push"], context);
+      if (values["pre-push"] && failed(report)) countPrePushFailure();
     }
-    report =
-      scope !== undefined
-        ? checkSite(scope.site)
-        : await checkProject(all || values["pre-commit"], all || values["pre-push"], context);
-    if (values["pre-push"] && failed(report)) countPrePushFailure();
   }
 
   const yaml = toYaml(report);
