@@ -1,8 +1,8 @@
 ---
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
-# archetype: explainer | interactive | quiz; null until chosen in Explore.
+# Archetype, null until chosen in Explore. Allowed values: explainer, interactive, quiz.
 archetype: null
-# phase: explore | plan | code | commit. Set it on entering a phase.
+# Current phase. Allowed values: explore, plan, code, commit. Change the value line below, never this comment.
 phase: explore
 # prePushFailures: written by the pre-push hook. Never change it.
 prePushFailures: 0
@@ -41,8 +41,10 @@ For you, the assistant.
 ## Explore
 
 <!--
+- All content questions belong here: what, for whom, scope, didactics, look and feel. Plan only maps them onto the
+  scaffold.
 - Ask; write no code; run no `create`.
-- Max 2 questions per message. Skip what earlier answers tell.
+- Max 2 questions per message. Skip what earlier answers tell. Never ask the same question twice.
 - Each answer → "Answers".
 -->
 
@@ -65,21 +67,35 @@ For you, the assistant.
         -f build_type=legacy -f "source[branch]=gh-pages" -f "source[path]=/"`; refused → put the click from skill
         `lernapps-github` into your next question;
       - default branch not `main` (`gh api repos/<owner>/<repo> --jq .default_branch`) → skill `lernapps-github`.
+- [ ] Load skill `lernapps-content-research` before the first question about learners or curriculum.
 - [ ] Ask: what do learners do in the app, what do they learn?
-- [ ] Ask: who are the learners (subject, school year, prior knowledge)?
-- [ ] Ask: where does the content come from (own, or others' with source and licence)?
-- [ ] Research: load skill `lernapps-content-research` and follow it (filled-in `app-content` first). Write under
-      "Notes": curriculum orientation (Lehrplan cited where used), competencies by chapter as Ich-kann-Sätze,
-      verified sources. No competencies written = task not done.
+- [ ] Ask: who are the learners (subject, school year, prior knowledge)? Land and Schulform: only if the creator
+      names a school or class, at most once; no answer → KMK-Bildungsstandards.
+- [ ] Ask: where does the content come from (own material such as worksheets, tests, experiments; or others' with
+      source and licence)?
+- [ ] Read the catalog https://lernapps.net/apps/llms.txt. Ask: is an app there a model? What matters most:
+      exercises, visualisations, game feel?
+- [ ] Ask: which hurdles and misconceptions do learners have? Which examples or experiments does the creator use?
+- [ ] Ask: languages (German only, or more)?
+- [ ] Interactive or game-like: ask how it should feel and look (e.g. "wie ein echter Spielblock", colours).
+- [ ] Research: follow skill `lernapps-content-research` (filled-in `app-content` first). Write under "Notes":
+      curriculum orientation (Lehrplan cited where used), competencies by chapter as Ich-kann-Sätze, verified
+      sources. No competencies written = task not done.
+- [ ] Didactic approach under "Notes", one line per competency: how learners get there (derive, not only read off;
+      e.g. a tree diagram shows how a probability comes about), which misconception the feedback catches.
+- [ ] Scope under "Notes": what is in, what is out (and why), data range (e.g. "all main-group elements", not a
+      silent "1–20"), languages.
 - [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json; read every property's description. Ask what
-      helps teachers and parents find the app. Fill "Entry draft".
+      helps teachers and parents find the app. Fill "Entry draft". Search words: short, one or two words each, as
+      people type them into a search.
 - [ ] Choose the archetype; write it with its reason under "Key decisions"; set `archetype`:
       - `interactive`: learners act in one app page (game, trainer, simulation; e.g. a typing game);
       - `explainer`: many pages of explanation, each with exercises;
       - `quiz`: questions with options and feedback.
-- [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, competencies by chapter, sources and
-      how checked, what is unchecked, archetype and reason. Stop and wait. Changes → change, ask again.
-- [ ] Set `phase: plan`.
+- [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, competencies by chapter, didactic
+      approach, scope (in, out, data range, languages), sources and how checked, what is unchecked, archetype and
+      reason. Stop and wait. Changes → change, ask again.
+- [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
 
 ### Answers
 
@@ -96,19 +112,25 @@ For you, the assistant.
 
 ## Plan
 
-<!-- Confirmable in one read. After the confirmation: work on your own (creator turns to the listing: max 3). -->
+<!--
+- Map the confirmed content onto the scaffold: the archetype's blocks, components, data files, patterns.
+- No new content questions; a content gap → back to Explore, say so.
+- Confirmable in one read. After the confirmation: work on your own (creator turns to the listing: max 3).
+-->
 
 ### Tasks
 
 - [ ] Write the Code tasks under "Code": pages or screens, content, what each shows; each ends in a commit.
-- [ ] Load the archetype's skill and skill `lernapps-exercise-patterns`. Write "Content method".
+- [ ] Load the archetype's skill with all its references, `lernapps-app/references/archetype-rules.md`, skill
+      `lernapps-exercise-patterns` with `references/patterns.md` and `references/success.md`. Explainer with
+      quiz-type exercises: also skill `lernapps-quiz`. Write "Content method".
 - [ ] Show the creator, short: goal, competencies by chapter, entry draft, tasks; the content method in plain words
       (what learners see and do, what it cannot do). Max 2 questions.
-- [ ] Each component or interactive exercise: show a sketch (static SVG or image, or the steps with what learners
-      see after each). Words alone are not enough.
-- [ ] **Checkpoint:** confirm the plan and the content method. Stop and wait for an explicit yes. Changes → change,
-      ask again. No `create` before the yes.
-- [ ] Set `phase: code`.
+- [ ] Each screen, component or interactive exercise: show a sketch (static SVG or image, or the steps with what
+      learners see after each). Words alone are not enough.
+- [ ] **Checkpoint:** confirm the plan and the content method. Only with the sketches shown. Stop and wait for an
+      explicit yes. Changes → change, ask again. No `create` before the yes.
+- [ ] Set `phase: code`: change the value line (`grep '^phase:'` prints `phase: code`).
 
 ### Content method
 
@@ -123,6 +145,9 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - Commit after each task; the hooks check. Pre-commit fails → read node_modules/.cache/lernapps/pre-commit.log.
 - Fix from the message; never bypass a hook.
 - Undecidable → choose, mark "(guess)" under "Key decisions", go on.
+- Creator asks for a change → first say your reading in one sentence ("Ich nehme alle 44 Hauptgruppenelemente
+  auf."); never narrow it silently. Content change → update "Notes" too.
+- Test fails at runtime → read the archetype's `references/runtime.md` first.
 - `create` needs git, Node ≥ 22.18, github.com, codeload.github.com, registry.npmjs.org. Blocked → ask the creator
   to allow it, rerun. Never write the app by hand.
 -->
@@ -140,8 +165,10 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - [ ] <the tasks written in Plan>
 - [ ] Content guide still matches what was built (`app-content-matches`); `grep -c "FILL IN"` prints 0.
 - [ ] `npx lernapps check` passes.
+- [ ] Look at a screenshot of every screen and state (start, each mode, pause, end), desktop and 360 px; check each
+      against the confirmed sketches and the archetype's rules (interactive: `references/frame.md`).
 - [ ] Every box of Explore, Plan and Code ticked.
-- [ ] Set `phase: commit`.
+- [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
 
 ### Completed
 

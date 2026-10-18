@@ -17,7 +17,7 @@ license: MIT
 2. Fill the entry from the plan's entry draft and <https://lernapps.net/apps/schemas/entry.v1.schema.json>,
    fetched now. The schema describes every field.
 3. Run the check the guide names; fix findings first (same check as the pull request).
-4. From a fork; never push a branch to lernapps/apps (skill `lernapps-github`).
+4. From a fork; never push a branch to lernapps/apps (skill `lernapps-github`). You open the pull request yourself.
 
 ## Results comment
 

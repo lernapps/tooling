@@ -1,8 +1,8 @@
 ---
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
-# archetype: as in the app's first plan; set it when you start. Never changes.
+# Archetype as in the app's first plan; set it when you start. Never changes.
 archetype: null
-# phase: explore | plan | code | commit. Set it on entering a phase.
+# Current phase. Allowed values: explore, plan, code, commit. Change the value line below, never this comment.
 phase: explore
 # prePushFailures: failed pre-push runs of this increment, written by the hook. Never change it.
 prePushFailures: 0
@@ -42,7 +42,8 @@ a correction.
 
 ## Explore
 
-<!-- Ask; write no code. Max 2 questions per message. Skip what earlier answers or the app tell. Answers → "Answers". -->
+<!-- All content questions belong here; Plan maps them onto the app. Ask; write no code. Max 2 questions per message.
+Skip what earlier answers or the app tell. Answers → "Answers". -->
 
 ### Tasks
 
@@ -54,9 +55,11 @@ a correction.
 - [ ] Research: the guide's curriculum and sources; skill `lernapps-content-research` for the rest. Under "Notes":
       curriculum orientation (Lehrplan cited where used), new competencies by chapter as Ich-kann-Sätze, verified
       sources.
-- [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, new competencies by chapter, sources
-      and how checked, what is unchecked. Stop and wait. Changes → change, ask again.
-- [ ] Set `phase: plan`.
+- [ ] Ask: which hurdles and misconceptions, which examples or experiments for the new content? Under "Notes": the
+      didactic approach per competency and the scope (in, out, data range).
+- [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, new competencies by chapter, didactic
+      approach, scope, sources and how checked, what is unchecked. Stop and wait. Changes → change, ask again.
+- [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
 
 ### Answers
 
@@ -80,7 +83,7 @@ a correction.
       not enough.
 - [ ] **Checkpoint:** confirm the plan and the content method. Stop and wait for an explicit yes. Changes → change,
       ask again.
-- [ ] Set `phase: code`.
+- [ ] Set `phase: code`: change the value line (`grep '^phase:'` prints `phase: code`).
 
 ### Content method
 
@@ -95,6 +98,7 @@ New things go into the guide in the slice that adds them. -->
 - Load skill lernapps-app, the archetype's skill and the content guide before content.
 - Commit after each slice; the hooks check. Pre-commit fails → read node_modules/.cache/lernapps/pre-commit.log.
 - Fix from the message; never bypass a hook. Undecidable → choose, mark "(guess)", go on.
+- Creator asks for a change → first say your reading in one sentence; never narrow it silently.
 -->
 
 ### Tasks
@@ -107,7 +111,7 @@ New things go into the guide in the slice that adds them. -->
       increment (`app-content-matches`). `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` prints 0.
 - [ ] `npx lernapps check` passes.
 - [ ] Every box of Explore, Plan and Code ticked.
-- [ ] Set `phase: commit`.
+- [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
 
 ### Completed
 

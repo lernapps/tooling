@@ -12,14 +12,18 @@ license: MIT
 
 ## 1. Curriculum
 
-- Need: Land, Schulform, Jahrgang, creator's own material (worksheet, checklist, test topics).
-- Derive what you can; ask the rest, max 2 questions per message. Read files the creator gives.
+- Need: Jahrgang, creator's own material (worksheet, checklist, test topics), the creator's known hurdles and
+  misconceptions.
+- Land, Schulform: only if the creator names a school or class; ask at most once. No answer → KMK-Bildungsstandards
+  as orientation. The content matters, not the Land.
+- Derive what you can; ask the rest, max 2 questions per message, never the same twice. Read files the creator
+  gives.
 
 ## 2. Lehrplan
 
 - Orientation for grade and order, not a condition. None found → say so once, go on.
 - Only the Land's official document (Kerncurriculum, Lehrplan, Bildungsplan, Rahmenlehrplan) from ministry or
-  state institute; no publisher, schoolbook, portal.
+  state institute; no publisher, schoolbook, portal. No Land known → KMK-Bildungsstandards.
 - Download and read it yourself; no summarising fetch tool.
 - Cite in the plan's notes: title, issuer, year, address; page and unit (Inhaltsfeld, Lernbereich, Kompetenz).
 - Creator's material differs → follow the material; say so in one sentence.
@@ -31,6 +35,9 @@ license: MIT
   - Yes: "Ich kann die Stromstärke in einem Reihenstromkreis berechnen."
   - No: "Ich verstehe den elektrischen Strom."
 - Group into chapters, in Lehrplan or material order. Many competencies, several chapters: still one app.
+- Per competency, with the creator: how learners get there (derive, not only read off), which misconception the
+  feedback catches.
+- Scope explicit: what is in, what is out and why, data range ("alle Hauptgruppenelemente", never a silent subset).
 - Write them into the plan (Notes). Show them at the checkpoint "research".
 
 ## 4. Second sources

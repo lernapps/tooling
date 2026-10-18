@@ -7,6 +7,7 @@ license: MIT
 # Exercise patterns
 
 - Learners act on every page or round (`learners-act`).
+- Learners derive, not only read off: show how a value comes about (tree diagram, step, model), then let them do it.
 - Content guide `.agents/skills/app-content/SKILL.md` names the app's patterns; it takes precedence.
 - Three levels; next level only when the previous cannot express the competency.
 

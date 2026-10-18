@@ -37,7 +37,10 @@ license: MIT
 
 ## Listing pull request from a fork
 
-- Never push a branch to lernapps/apps, even if allowed.
+- Never push a branch to lernapps/apps, even if allowed. Opening the pull request from the fork is yours: do it
+  yourself, after the creator's yes at the checkpoint "list".
+- No fork yet and you cannot create one → give the creator the click (github.com/lernapps/apps → Fork) in your
+  checkpoint question, not later.
 - Fork (`gh repo fork lernapps/apps --clone=false`, or MCP), push `add-<id>` to the fork.
 - `gh pr create --repo lernapps/apps --head <your-user>:add-<id>`, or
   `gh api repos/lernapps/apps/pulls -f base=main -f head=<your-user>:add-<id> -f title=… -f body=…`.
