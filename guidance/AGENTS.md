@@ -16,7 +16,7 @@ Learning app for lernapps.net: static, browser only, collects nothing, accessibl
 
 - Load skill `lernapps-app` first.
 - No `lernapps create` and no code before the creator confirmed the plan.
-- Never `--no-verify`. Never edit `prePushFailures`.
+- Never `--no-verify`. Never edit `prePushFailures` or `failedChecks`.
 - Push only the branch the current plan names. Push to `main` = publish.
 - A check fails: fix it or tell the creator; never push past it.
 - Default branch: `main` (the plan sets it up).

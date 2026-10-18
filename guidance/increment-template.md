@@ -1,11 +1,14 @@
 ---
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
+# Keep all four keys.
 # Archetype as in the app's first plan; set it when you start. Never changes.
 archetype: null
 # Current phase. Allowed values: explore, plan, code, commit. Change the value line below, never this comment.
 phase: explore
 # prePushFailures: failed pre-push runs of this increment, written by the hook. Never change it.
 prePushFailures: 0
+# failedChecks: failed rules and runs, written by lernapps check and the hooks. Never change it.
+failedChecks: {}
 ---
 
 # Increment: <what it adds>
@@ -150,10 +153,6 @@ New things go into the guide in the slice that adds them. -->
 ### Phases reached
 
 <!-- Last phase completed, checkpoints passed. E.g. "commit; confirmed, published". -->
-
-### Failed checks
-
-<!-- Each failed check: rule id, count. E.g. "`no-request-before-click`: 2". Not the pre-push count. -->
 
 ### Creator turns after the plan
 

@@ -103,7 +103,10 @@ const sharedQuizApp = (): string => shared("quiz-app", (dir) => createApp(dir), 
 export function quizApp(): string {
   const source = sharedQuizApp();
   const dir = join(tempDir("quiz-app"), "naturwunder");
-  cpSync(source, dir, { recursive: true, filter: (path) => path !== join(source, "node_modules") });
+  cpSync(source, dir, {
+    recursive: true,
+    filter: (path) => path !== join(source, "node_modules"),
+  });
   linkNodeModules(source, dir);
   ok(join(dir, "node_modules/.bin/lernapps"), ["hooks"], dir);
   const remote = tempDir("remote");
@@ -132,6 +135,10 @@ export const runActionCheck = (dir: string): Result => run("bash", ["-c", checkS
 /** The failed pushes the pre-push hook counted in the app's plan. */
 export const prePushFailures = (dir: string) =>
   /prePushFailures: (\d+)/.exec(readFileSync(join(dir, FIRST_PLAN), "utf8"))?.[1];
+
+/** The failed rules the check counted in the app's plan, as the front matter's line holds them. */
+export const failedChecks = (dir: string) =>
+  /^failedChecks: (.*)$/m.exec(readFileSync(join(dir, FIRST_PLAN), "utf8"))?.[1];
 
 /** A mistake the pre-push hook catches: a stylesheet from another host, loaded before any click. */
 export function plantRequest(dir: string): void {
@@ -166,7 +173,13 @@ export function runHooks(dir: string, message: string): HookRun[] {
     // a pre-commit hook that stops before its check (vp staged formats first) writes no report
     const findings =
       name === "pre-commit" && result.code !== 0 && !existsSync(report) ? [] : readReport(report).findings;
-    return { hook: name, passed: result.code === 0, printed: output(result), output: printed, findings };
+    return {
+      hook: name,
+      passed: result.code === 0,
+      printed: output(result),
+      output: printed,
+      findings,
+    };
   };
   ok("git", ["add", "--all"], dir);
   const commit = hook("pre-commit", ["commit", "--quiet", "--message", message]);

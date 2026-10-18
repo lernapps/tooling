@@ -75,7 +75,8 @@ Download each (curl) and read the file in full. Never a summarising fetch tool.
 
 - lernapps.net: https://lernapps.net/llms.txt
 - Docs: https://lernapps.net/docs/llms.txt
-- Catalog, listing: https://lernapps.net/apps/llms.txt
+- Catalog: https://lernapps.net/apps/llms.txt; listing guide: https://lernapps.net/apps/enter/llms.txt
 - Templates: https://github.com/lernapps/app-templates
+- Prompt engineering (how we test the guidance, eval results): https://lernapps.net/tooling/prompt-engineering/
 - Architecture: https://lernapps.net/tooling/architecture/
 - Source: https://github.com/lernapps/tooling

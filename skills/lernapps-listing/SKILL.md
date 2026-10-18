@@ -13,7 +13,7 @@ license: MIT
 ## Open the pull request
 
 - Only after the creator's yes at the checkpoint "list".
-1. Follow <https://lernapps.net/apps/llms.txt> step by step (where the entry goes, how to check, how to open).
+1. Follow the listing guide <https://lernapps.net/apps/enter/llms.txt> step by step (where the entry goes, how to check, how to open).
 2. Fill the entry from the plan's entry draft and <https://lernapps.net/apps/schemas/entry.v1.schema.json>,
    fetched now. The schema describes every field.
 3. Run the check the guide names; fix findings first (same check as the pull request).
@@ -21,10 +21,6 @@ license: MIT
 
 ## Results comment
 
-- Each push: validation against the app at its address; comment starting `<!-- lernapps-listing -->`, updated in
-  place: "bestanden" or "nicht bestanden" with findings.
-- Finding: rule, place, what was found, fix, link. Fix the cause in app or entry (`fix-from-message`). Full
-  reports: artifact `listing`.
-- App fixes count only once published (plan, Commit), then push to the pull request's branch.
-- Repeat until "bestanden". Then the owner of lernapps.net reviews and decides; wait; tell the creator the comment
-  and the decision.
+- The listing guide says how to read it. Repeat until "bestanden"; app fixes count only once published (plan,
+  Commit), then push to the pull request's branch.
+- Then the owner of lernapps.net reviews and decides; wait; tell the creator the comment and the decision.

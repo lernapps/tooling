@@ -1,0 +1,17 @@
+--- a/harbor/bridges/acp.py
++++ b/harbor/bridges/acp.py
+@@ -182,8 +182,12 @@
+     quoted_content = shlex.quote(content)
+     result = await environment.exec(
+         command=(
+-            f"printf '%s' {quoted_content} > \"$(pwd)/{ACPX_CONFIG_FILENAME}\"; "
+-            f'echo "$(pwd)/{ACPX_CONFIG_FILENAME}"'
++            # lernapps evals: the global config, not .acpxrc.json in the workspace,
++            # which the agent under test would find there (the app generator
++            # refuses a folder with files it does not know).
++            'mkdir -p "$HOME/.acpx"; '
++            f"printf '%s' {quoted_content} > \"$HOME/.acpx/config.json\"; "
++            'echo "$HOME/.acpx/config.json"'
+         )
+     )
+     if result.return_code != 0:

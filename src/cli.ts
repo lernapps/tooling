@@ -38,7 +38,7 @@ import {
 import { ARCHITECTURE, hasArchitecture } from "../generator/architecture.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { update, UpdateError } from "../generator/update.ts";
-import { countPrePushFailure } from "./plan.ts";
+import { countFailedChecks, countPrePushFailure } from "./plan.ts";
 import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
 
 /** A step of a part: a command of the project's toolchain and what it checks. */
@@ -102,17 +102,27 @@ function hasVueFiles(dir: string): boolean {
  */
 function ofWorkingTree(step: Step): { step: Step; done: () => void } {
   const where = step.where ?? [step.command, ...step.args].join(" ");
-  const gitPath = spawnSync("git", ["rev-parse", "--git-path", "index"], { encoding: "utf8" });
+  const gitPath = spawnSync("git", ["rev-parse", "--git-path", "index"], {
+    encoding: "utf8",
+  });
   if (gitPath.status !== 0) {
-    return { step: { ...step, where, args: ["--root", ".", ...step.args] }, done: () => {} };
+    return {
+      step: { ...step, where, args: ["--root", ".", ...step.args] },
+      done: () => {},
+    };
   }
   const temp = mkdtempSync(join(tmpdir(), "lernapps-index-"));
   const index = join(temp, "index");
   const own = resolve(gitPath.stdout.trim());
   if (existsSync(own)) copyFileSync(own, index);
   const env = { ...step.env, GIT_INDEX_FILE: index };
-  spawnSync("git", ["add", "--all", "--intent-to-add", "--", "."], { env: { ...process.env, ...env } });
-  return { step: { ...step, where, env }, done: () => rmSync(temp, { recursive: true, force: true }) };
+  spawnSync("git", ["add", "--all", "--intent-to-add", "--", "."], {
+    env: { ...process.env, ...env },
+  });
+  return {
+    step: { ...step, where, env },
+    done: () => rmSync(temp, { recursive: true, force: true }),
+  };
 }
 
 /** Runs a step; its output is shown only when it fails. */
@@ -181,7 +191,9 @@ interface Suite {
 function failingRuntimeTests(): string[] {
   let results: { suites?: Suite[] };
   try {
-    results = JSON.parse(readFileSync(E2E_RESULTS, "utf8")) as { suites?: Suite[] };
+    results = JSON.parse(readFileSync(E2E_RESULTS, "utf8")) as {
+      suites?: Suite[];
+    };
   } catch {
     return [];
   }
@@ -235,7 +247,12 @@ async function visit(target: { bundle: string } | { url: string }): Promise<App>
         start: target.url,
         limit: urlPageLimit(),
       });
-      return { base, pages, fitness: measure(pages, base), ...(stopped ? { stopped } : {}) };
+      return {
+        base,
+        pages,
+        fitness: measure(pages, base),
+        ...(stopped ? { stopped } : {}),
+      };
     }
     const { server, base } = await serve(target.bundle, "/");
     try {
@@ -246,8 +263,16 @@ async function visit(target: { bundle: string } | { url: string }): Promise<App>
         const file = join(target.bundle, path);
         return existsSync(file) && statSync(file).isDirectory() ? `${path}/index.html` : path;
       };
-      const { pages, unreachable } = await visitApp(browser, base, name, { pages: bundlePages(target.bundle) });
-      return { base, pages, fitness: measure(pages, base), bundle: target.bundle, unreachable };
+      const { pages, unreachable } = await visitApp(browser, base, name, {
+        pages: bundlePages(target.bundle),
+      });
+      return {
+        base,
+        pages,
+        fitness: measure(pages, base),
+        bundle: target.bundle,
+        unreachable,
+      };
     } finally {
       server.close();
     }
@@ -290,7 +315,10 @@ function architectureBeforeCommit(): Step | undefined {
   if (staged !== undefined && !staged.some((file) => ARCHITECTURE_INPUTS.some((input) => file.startsWith(input)))) {
     return undefined;
   }
-  const head = spawnSync("git", ["rev-parse", "--verify", "--quiet", "HEAD"], { encoding: "utf8" }).status === 0;
+  const head =
+    spawnSync("git", ["rev-parse", "--verify", "--quiet", "HEAD"], {
+      encoding: "utf8",
+    }).status === 0;
   return head
     ? {
         name: "architecture",
@@ -299,7 +327,11 @@ function architectureBeforeCommit(): Step | undefined {
         where: `arc42 --dir ${ARCHITECTURE} diff --staged`,
         architectureDiff: true,
       }
-    : { name: "architecture", command: "arc42", args: ["--dir", ARCHITECTURE, "validate", "--strict"] };
+    : {
+        name: "architecture",
+        command: "arc42",
+        args: ["--dir", ARCHITECTURE, "validate", "--strict"],
+      };
 }
 
 /** A finding of `arc42 diff --format json` (DiffFinding of @doctc/arc42), as far as the wrapper reads it. */
@@ -336,7 +368,11 @@ function arc42Ignored(): Set<string> {
  * a fix that is always possible (a block, or .arc42ignore for configuration), so the acceptance does not pass it.
  */
 function architectureDiffFindings(where: string, stdout: string, stderr: string): Finding[] {
-  let diff: { accepted?: boolean; untracked?: string[]; findings?: DiffFinding[] };
+  let diff: {
+    accepted?: boolean;
+    untracked?: string[];
+    findings?: DiffFinding[];
+  };
   try {
     diff = JSON.parse(stdout) as typeof diff;
   } catch {
@@ -439,17 +475,33 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
     });
   }
   if (fast) {
-    steps.push({ name: "format, lint, type check", command: "vp", args: ["check"] });
+    steps.push({
+      name: "format, lint, type check",
+      command: "vp",
+      args: ["check"],
+    });
     // vp check type-checks the TypeScript files only; the Vue components (an explainer's src/components/<Name>.vue)
     // need vue-tsc, run only where there are any
     if (hasVueFiles(".")) {
-      steps.push({ name: "type check of the Vue components", command: "vue-tsc", args: ["--noEmit"] });
+      steps.push({
+        name: "type check of the Vue components",
+        command: "vue-tsc",
+        args: ["--noEmit"],
+      });
     }
   }
   if (heavy) {
-    steps.push({ name: "unit tests", command: "vp", args: ["test", "--passWithNoTests"] });
+    steps.push({
+      name: "unit tests",
+      command: "vp",
+      args: ["test", "--passWithNoTests"],
+    });
     // An app (index.html, as Vite builds it) or a package (vp pack, as this tooling).
-    steps.push({ name: "build", command: "vp", args: existsSync("index.html") ? ["build"] : ["pack"] });
+    steps.push({
+      name: "build",
+      command: "vp",
+      args: existsSync("index.html") ? ["build"] : ["pack"],
+    });
   }
   let built = true;
   for (const step of steps) {
@@ -505,7 +557,9 @@ function hookScope(part: "pre-commit" | "pre-push"): { skip: string } | { site: 
   if (scope === "docs" && part === "pre-push" && site !== undefined) return { site };
   const what =
     scope === "none" ? "the plan only" : rules.kind === "app" ? "docs, which an app does not bundle" : "docs";
-  return { skip: `lernapps check --${part}: nothing to check, the change is ${what} (${scope}: ${reason})` };
+  return {
+    skip: `lernapps check --${part}: nothing to check, the change is ${what} (${scope}: ${reason})`,
+  };
 }
 
 /** The check of a repo's site before a push that changes only docs: build it, then its check script. */
@@ -521,7 +575,13 @@ function checkSite(script: string): Report {
       break;
     }
   }
-  return { checked: commitOrDirectory(), parts: ["pre-push"], rules: [CHECKS_PASS], findings, suppressions: [] };
+  return {
+    checked: commitOrDirectory(),
+    parts: ["pre-push"],
+    rules: [CHECKS_PASS],
+    findings,
+    suppressions: [],
+  };
 }
 
 /** The checks of a built app alone: a bundle directory or a URL. */
@@ -597,6 +657,9 @@ async function check(args: string[]): Promise<number> {
     }
   }
 
+  if (target === undefined && failed(report)) {
+    countFailedChecks(report.findings.filter((found) => found.severity === "error").map((found) => found.rule));
+  }
   const yaml = toYaml(report);
   if (target === undefined) {
     mkdirSync(dirname(REPORT), { recursive: true });

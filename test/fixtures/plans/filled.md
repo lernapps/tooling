@@ -2,6 +2,7 @@
 archetype: quiz
 phase: commit
 prePushFailures: 2
+failedChecks: { checks-pass: 2, quiz-bank-valid: 1 }
 ---
 
 # Plan: Brüche vergleichen
@@ -91,11 +92,6 @@ subject: Mathematik
 ### Phases reached
 
 commit; confirmed, published, listing approved.
-
-### Failed checks
-
-- `no-request-before-click`: 1 (a web font from another server)
-- `accessible`: 1 (contrast of the feedback colour)
 
 ### Creator turns after the plan
 

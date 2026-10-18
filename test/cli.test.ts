@@ -6,7 +6,7 @@ import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS, IGNORED_SKILLS_LINES } from "../generator/create.ts";
 import { replaceSkills, unignoreSkills, UPDATE_OPTIONS } from "../generator/update.ts";
-import { countPrePushFailure } from "../src/plan.ts";
+import { countFailedChecks, countPrePushFailure } from "../src/plan.ts";
 import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS } from "../src/usage.ts";
 import { repoRoot, run, tempDir } from "./support.ts";
 
@@ -20,7 +20,8 @@ function expectEveryOption(help: string, options: ParseArgsOptionsConfig): void 
 
 const lernapps = (...args: string[]) => run("node", ["src/cli.ts", ...args], repoRoot);
 
-describe("lernapps", () => {
+// Each test starts the CLI (about 2 s, more on a busy runner): the default 5 s is too tight.
+describe("lernapps", { timeout: 20_000 }, () => {
   test("--help prints the usage with the check command and exits 0", () => {
     const result = lernapps("--help");
     expect(result.code).toBe(0);
@@ -77,7 +78,9 @@ describe("lernapps", () => {
   test("update from a clone of the tooling says what it did not move and why, and exits 1", () => {
     // run from this repo: not installed by npm from a git commit, so there is no commit to move the tooling to
     const { commit } = (
-      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
+      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as {
+        appTemplates: { commit: string };
+      }
     ).appTemplates;
     const toolingCommit = "0123456789abcdef0123456789abcdef01234567";
     const dir = tempDir("app");
@@ -147,7 +150,13 @@ describe("lernapps", () => {
     installed("lernapps-app", "---\nname: lernapps-app\n---\nold\n");
     installed("lernapps-gone", "---\nname: lernapps-gone\n---\n");
     installed("app-content", "---\nname: app-content\n---\nthe app's own\n");
-    const lock = { "lernapps-app": { source: "lernapps/tooling", sourceType: "github", computedHash: "old" } };
+    const lock = {
+      "lernapps-app": {
+        source: "lernapps/tooling",
+        sourceType: "github",
+        computedHash: "old",
+      },
+    };
     writeFileSync(join(dir, "skills-lock.json"), JSON.stringify({ version: 1, skills: lock }));
     writeFileSync(join(dir, ".gitignore"), `node_modules/\n\n${IGNORED_SKILLS_LINES.join("\n")}\n`);
 
@@ -199,9 +208,29 @@ describe("lernapps", () => {
         (file) => /prePushFailures: (\d+)/.exec(readFileSync(join(dir, file), "utf8"))?.[1],
       );
     };
-    const plans = { ".vibe/plans/01-first-version.md": plan(3), ".vibe/plans/02-mehr-runden.md": plan(0) };
+    const plans = {
+      ".vibe/plans/01-first-version.md": plan(3),
+      ".vibe/plans/02-mehr-runden.md": plan(0),
+    };
     expect(counted({ ".vibe/plan.md": plan(5), ...plans })).toEqual(["5", "3", "1"]);
     expect(counted({ ".vibe/plan.md": plan(5) })).toEqual(["6"]);
+  });
+
+  test("a failed check counts each failed rule once per run in failedChecks of the current plan, when it has the key", () => {
+    const dir = tempDir("failed-checks");
+    const plan = join(dir, ".vibe/plans/01-first-version.md");
+    mkdirSync(join(plan, ".."), { recursive: true });
+    const front = (failed: string) =>
+      `---\narchetype: quiz\nphase: code\nprePushFailures: 0\nfailedChecks: ${failed}\n---\n`;
+    writeFileSync(plan, `${front("{}")}\n# Plan\n`);
+    countFailedChecks(["quiz-bank-valid", "checks-pass", "quiz-bank-valid"], dir);
+    countFailedChecks(["checks-pass"], dir);
+    expect(readFileSync(plan, "utf8")).toBe(`${front("{ checks-pass: 2, quiz-bank-valid: 1 }")}\n# Plan\n`);
+    // a plan made before the key stays as it is
+    const old = "---\narchetype: quiz\nphase: code\nprePushFailures: 0\n---\n\nfailedChecks: {}\n";
+    writeFileSync(plan, old);
+    countFailedChecks(["checks-pass"], dir);
+    expect(readFileSync(plan, "utf8")).toBe(old);
   });
 
   test("without a command it prints the usage and exits non-zero", () => {

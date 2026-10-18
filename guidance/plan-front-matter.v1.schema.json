@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Front matter of a lernapps plan file, version 1",
-  "description": "The YAML front matter of an app's plan files (.vibe/plans/<NN>-<short name>.md, one per piece of work). The assistant sets archetype and phase; the pre-push hook increments prePushFailures. The review and the evals read all three. Flat: one `key: value` per line. A breaking change gets a new version of this schema.",
+  "description": "The YAML front matter of an app's plan files (.vibe/plans/<NN>-<short name>.md, one per piece of work). The assistant sets archetype and phase; the pre-push hook increments prePushFailures; every failed run of `lernapps check` in the repo (the hooks included) counts its failed rules in failedChecks. The review and the evals read them. One `key: value` per line; failedChecks is a flow map on its line. A breaking change gets a new version of this schema.",
   "type": "object",
   "properties": {
     "archetype": {
@@ -16,6 +16,12 @@
       "description": "Failed runs of the pre-push hook during this plan. Written by the hook, never by the assistant.",
       "type": "integer",
       "minimum": 0
+    },
+    "failedChecks": {
+      "description": "Each rule that had an error in a failed run of `lernapps check` in the repo during this plan (the git hooks included), with the number of such runs. Written by the check, never by the assistant. A plan made before this key has none.",
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+      "additionalProperties": { "type": "integer", "minimum": 1 }
     }
   },
   "required": ["archetype", "phase", "prePushFailures"],
