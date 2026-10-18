@@ -14,6 +14,7 @@ import { stripVTControlCharacters } from "node:util";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import {
+  failedChecks,
   plantLintError,
   plantRequest,
   prePushFailures,
@@ -70,6 +71,7 @@ describe.skipIf(inner)("the app check action and the hooks, on an app with two m
       expect(run("git", ["ls-remote", "--heads", "origin", "main"], failing).stdout.trim()).toBe("");
       expect(push?.findings.map((finding) => finding.rule)).toContain("no-request-before-click");
       expect(prePushFailures(failing)).toBe("1");
+      expect(failedChecks(failing)).toMatch(/\bno-request-before-click: 1\b/);
 
       // the action's one check: both, with the same lint message and the same findings for the request
       const result = runActionCheck(failing);
