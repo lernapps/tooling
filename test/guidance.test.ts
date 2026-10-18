@@ -196,7 +196,7 @@ describe("the skills", () => {
   test("the listing skill points to the entry schema and the catalog's listing guide instead of repeating them", () => {
     const skill = read("skills/lernapps-listing/SKILL.md");
     expect(skill).toContain("https://lernapps.net/apps/schemas/entry.v1.schema.json");
-    expect(skill).toContain("https://lernapps.net/apps/llms.txt");
+    expect(skill).toContain("https://lernapps.net/apps/enter/llms.txt");
     for (const field of ["grades", "thirdParty", "keywords", "topics"]) expect(skill).not.toContain(field);
   });
 });

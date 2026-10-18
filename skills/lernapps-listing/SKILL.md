@@ -14,7 +14,7 @@ rules of `lernapps-app` apply; the entry rules are `entry-from-schema`, `entry-l
 
 Only after the creator said yes at the checkpoint "list".
 
-1. Follow the listing guide of the app overview, <https://lernapps.net/apps/llms.txt>, step by step. It says where
+1. Follow the listing guide of the app overview, <https://lernapps.net/apps/enter/llms.txt>, step by step. It says where
    the entry goes, how to check it before you open the pull request, and how to open it.
 2. Fill the entry from the entry draft of the plan and from the entry schema,
    <https://lernapps.net/apps/schemas/entry.v1.schema.json>, fetched now. The schema describes every field; this
@@ -26,14 +26,6 @@ Only after the creator said yes at the checkpoint "list".
 
 ## Read the results comment
 
-On every push to the pull request, the listing validation checks the entry against the app at its address and
-comments its result on the pull request: "bestanden" when the check passes, else "nicht bestanden" with its
-findings. The comment starts
-with `<!-- lernapps-listing -->`, and each new run updates the same comment.
-
-- Each finding names its rule, where it is, what was found, the fix and a link to the rule. Fix the cause, in the app
-  or in the entry (`fix-from-message`). The full reports are the artifact `listing` of the run.
-- A fix in the app counts only once it is published: the check opens the app at the entry's address. Publish it
-  as the plan's Commit phase does, then push to the pull request's branch.
-- Repeat until the comment says "bestanden". Then the owner of lernapps.net reviews the app and decides; wait for
-  that, and tell the creator what the comment and the decision say.
+The listing guide says how to read the comment the listing validation writes on the pull request, and what to do until
+it says "bestanden". Then the owner of lernapps.net reviews the app and decides; wait for that, and tell the creator
+what the comment and the decision say.

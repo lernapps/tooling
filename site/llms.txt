@@ -17,7 +17,7 @@ Everything here is also in the package `@lernapps/tooling`.
 
 - [lernapps.net](https://lernapps.net/llms.txt): the vision and the overall picture.
 - [Docs](https://lernapps.net/docs/llms.txt): the platform and organisation docs, and how to read them (biz42, pdt42 and their CLIs).
-- [Apps](https://lernapps.net/apps/llms.txt): listing an app in the catalog.
+- [Apps](https://lernapps.net/apps/llms.txt): the catalog; [listing an app](https://lernapps.net/apps/enter/llms.txt): the steps, the entry and the validation comment.
 
 ## GitHub
 
