@@ -409,7 +409,13 @@ function blocks(markdown: string): string {
     .map((block) => block.trim())
     .filter((block) => block !== "")
     .map((block) => {
-      const lines = block.split("\n").map((line) => line.trim());
+      // a wrapped list item: its indented continuation lines join the item
+      const lines = block.split("\n").reduce<string[]>((all, line) => {
+        const last = all.length - 1;
+        if (last >= 0 && /^\s+\S/.test(line) && /^[-*]\s/.test(all[last] ?? "")) all[last] += ` ${line.trim()}`;
+        else all.push(line.trim());
+        return all;
+      }, []);
       if (lines.every((line) => /^[-*]\s/.test(line))) {
         return `<ul>\n${lines.map((line) => `<li>${inline(line.replace(/^[-*]\s+/, ""))}</li>`).join("\n")}\n</ul>`;
       }

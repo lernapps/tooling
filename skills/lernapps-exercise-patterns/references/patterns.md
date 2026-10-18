@@ -1,19 +1,11 @@
-# Patterns that worked, by subject
+# Patterns by subject
 
-A catalogue to start from, not a rule. Each pattern names the idea, what learners see and do, and how it is expressed
-with the archetypes' means:
-
-- **blocks** of the explainer: `figure` with a drawn kind (`hundred-grid` with `filled`, `bar` with `part` and
-  `whole`) or a bundled `image` (an SVG in `src/images/`), `labelled-figure`, `table`, `timeline`, `formula`
-  (with `\ce{…}` and `\pu{…}` for chemistry and units), `definition`, `quote`, `code`;
-- **question types** of the quiz, also exercises of the explainer: `single-choice`, `multiple-choice`, `true-false`,
-  `number`, `ordering`, `matching`;
-- **`generated`** exercises of the explainer: a new task per seed, from `given` values or the records of a data file,
-  with `mistakes` and an optional drawn figure;
-- a **component** (`vue-component` with its `nojs` text) where learners change a value and watch the idea respond.
-  It is the last resort: each one below has a static form first, which stays when the component is left out.
-
-A pattern that is new to an app goes into its content guide with a concrete example and its data file.
+- A start, not a rule. Columns: idea; what learners see and do; how it is expressed.
+- Means: explainer blocks (`figure` `hundred-grid`/`bar`/`image`, `labelled-figure`, `table`, `timeline`, `formula`
+  with `\ce{…}`/`\pu{…}`, `definition`, `quote`, `code`); question types (`single-choice`, `multiple-choice`,
+  `true-false`, `number`, `ordering`, `matching`); `generated` (task per seed, `given` or data-file records,
+  `mistakes`, optional drawn figure); component (`vue-component` + `nojs`) last, each with a static form first.
+- New pattern in an app → its content guide, with example and data file.
 
 ## Mathematics
 
@@ -73,27 +65,18 @@ A pattern that is new to an app goes into its content guide with a concrete exam
 
 ## Page structures (explainer)
 
-Recommended, not required; choose the sections that fit the topic and keep them alike across the app's pages:
-- **Mathematics and the sciences:** Warum, Regel, Beispiel, Übung: why it matters, the rule with its formula and a
-  figure, a worked example in an `example` box, then the exercise.
-- **History:** Quelle, Einordnung, Zeitleiste, Übung: a `quote` from a source, its context, a `timeline` from a data
-  file, then an ordering or `generated` events exercise.
-- **Biology and geography:** Überblick, Aufbau, Funktion, Übung: a `labelled-figure` of the parts, a `table` of what
-  each does, then a matching exercise.
-- **Computer science:** Idee, Beispiel, Code, Übung: the idea in prose, a worked example, a `code` block, then an
-  exercise on what the code gives.
+- Recommended; keep alike across the app's pages.
+- Maths, sciences: Warum, Regel (formula, figure), Beispiel (`example` box), Übung.
+- History: Quelle (`quote`), Einordnung, Zeitleiste (`timeline` from data), Übung (ordering or `generated`).
+- Biology, geography: Überblick, Aufbau (`labelled-figure`), Funktion (`table`), Übung (matching).
+- Computer science: Idee, Beispiel, Code (`code`), Übung (output of the code).
+- Quiz: one round per chapter, questions in the patterns above a question type can express.
 
-A quiz groups its questions into rounds the same way: one round per chapter of competencies, its questions in the
-patterns above that a question type can express.
+## Figures
 
-## Figures that teach
-
-- A figure earns its place when it shows what the text next to it says; the caption says what to look at, the `alt`
-  text what it shows (`explainer-figure-explains`).
-- Draw from the task's given values, never from its answer (`explainer-figure-hides-answer`).
-- Bundle every image; nothing loads from another server before a click (`no-request-before-click`). Name source and
-  licence of an image you did not make (`third-party-licence`).
-- Mobile first: it works at 360 px. A tree runs from top to bottom; one too wide for 360 px becomes a table, or is
-  split into its stages.
-- Keep a figure's conventions (colours, labels, units, orientation) the same across the app, and write them into the
-  content guide, part "Figures".
+- Shows what the text next to it says; caption: what to look at; `alt`: what it shows (`explainer-figure-explains`).
+- Drawn from the given, never the answer (`explainer-figure-hides-answer`).
+- Bundled; nothing from other servers before a click (`no-request-before-click`); others' images with source and
+  licence (`third-party-licence`).
+- Works at 360 px: trees top to bottom; too wide → table, or split by stage.
+- Same conventions (colours, labels, units, orientation) across the app; write them into the guide, "Figures".

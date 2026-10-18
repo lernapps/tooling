@@ -4,45 +4,41 @@ description: Use when a GitHub step of a lernapps.net app fails or a tool is mis
 license: MIT
 ---
 
-# GitHub access for a lernapps app
+# GitHub
 
-The app lives in the creator's GitHub repo: branches `main` (published), `work` (until the first publish) and
-`gh-pages` (what Pages serves), the workflow `Pages` (checks and publishes), and the listing pull request to
-lernapps/apps. The creator need not know any of it: you do it, and explain in plain words when they ask
-(<https://lernapps.net/tooling/github/>).
+- Branches: `main` (published), `work` (until first publish), `gh-pages` (served). Workflow `Pages` checks and
+  publishes. Listing pull request to lernapps/apps.
+- You do it; the creator need not know. Explain on request: <https://lernapps.net/tooling/github/>.
+- Settle the repo name before the first push: a rename may cost your access.
 
-## Tools, in this order
+## Tools, in order
 
-1. `gh`: `gh api`, `gh run`, `gh workflow` use REST. Some environments block GraphQL, which `gh repo view --json`,
-   `gh repo edit` and some `gh pr` commands use: that does not mean "no gh"; do the same with `gh api`.
-2. The GitHub MCP tools of your environment, if there are any.
-3. `curl -s https://api.github.com/repos/<owner>/<repo>/…` for reads of a public repo, without a token.
+1. `gh` over REST: `gh api`, `gh run`, `gh workflow`. GraphQL blocked (`gh repo view --json`, `gh repo edit`, some
+   `gh pr`) ≠ no gh: use `gh api`.
+2. GitHub MCP tools, if present.
+3. `curl -s https://api.github.com/repos/<owner>/<repo>/…`: public reads, no token.
 
-Settle the repo's name before the first push: after a rename, your session may lose access to it.
+## REST checks
 
-## Checks over REST
-
-- Default branch: `gh api repos/<owner>/<repo> --jq .default_branch` must say `main`. Set it with admin rights:
+- Default branch: `gh api repos/<owner>/<repo> --jq .default_branch` → `main`. Set (admin):
   `gh api -X PATCH repos/<owner>/<repo> -f default_branch=main`.
-- Pages: `gh api repos/<owner>/<repo>/pages --jq '.build_type, .source.branch, .source.path'` must say `legacy`,
-  `gh-pages`, `/`. "Not Found" means Pages is off.
+- Pages: `gh api repos/<owner>/<repo>/pages --jq '.build_type, .source.branch, .source.path'` → `legacy`,
+  `gh-pages`, `/`. "Not Found" = off.
 - Runs: `gh run list --workflow Pages --branch main`, `gh run watch <id>`, `gh run view <id> --log-failed`.
 
 ## "403 Resource not accessible by integration"
 
-Your token may not do this: Pages settings, the default branch, a rerun or a dispatch of a workflow. It is a click
-for the creator. Tell them the exact place, once, in plain words:
-- Pages: Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: gh-pages, folder: / (root)
-  → Save. The last deploy is on `gh-pages` already, so the app appears without a new run.
-- Default branch: Settings → General → Default branch → ⇄ → main → Update.
-- A run: Actions → the run → Re-run all jobs (or Re-run failed jobs).
+- Token may not (Pages settings, default branch, rerun, dispatch) → a click for the creator. Say the place once:
+  - Pages: Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: gh-pages, folder:
+    / (root) → Save. Last deploy is on `gh-pages`: app appears without a new run.
+  - Default branch: Settings → General → Default branch → ⇄ → main → Update.
+  - Run: Actions → the run → Re-run all jobs (or Re-run failed jobs).
+- Never work around it: no dummy push to start a run, no new branch to pass a setting.
 
-Never work around it: no push of a dummy change to start a run, no new branch to get past a setting.
+## Listing pull request from a fork
 
-## The listing pull request from a fork
-
-Never push a branch to lernapps/apps, even if you may. Fork it (`gh repo fork lernapps/apps --clone=false`, or the
-MCP tool), push `add-<id>` to the fork, and open the pull request from it:
-`gh pr create --repo lernapps/apps --head <your-user>:add-<id>`, or over REST
-`gh api repos/lernapps/apps/pulls -f base=main -f head=<your-user>:add-<id> -f title=… -f body=…`. A pull request from a fork gets the check comment,
-but no preview.
+- Never push a branch to lernapps/apps, even if allowed.
+- Fork (`gh repo fork lernapps/apps --clone=false`, or MCP), push `add-<id>` to the fork.
+- `gh pr create --repo lernapps/apps --head <your-user>:add-<id>`, or
+  `gh api repos/lernapps/apps/pulls -f base=main -f head=<your-user>:add-<id> -f title=… -f body=…`.
+- From a fork: check comment yes, preview no.
