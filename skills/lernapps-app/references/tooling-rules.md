@@ -20,7 +20,7 @@ severity: error
   - tell the creator; issue at <https://github.com/lernapps/app-templates/issues> with
     `node_modules/.cache/lernapps/validation-report.yaml` (or ask the creator to);
   - never change tests or config to get around it;
-  - `npm update` changes nothing (pinned); after the fix: `npx --yes github:lernapps/tooling#main update`,
+  - `npm update` changes nothing (pinned); after the fix: `npx --yes github:lernapps/tooling#exp/compact-guidance update`,
     `npx lernapps check`, commit.
 - Link with HTTP 429 → "not checked", hint, fails nothing. Tell the creator which; go on.
 

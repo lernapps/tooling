@@ -36,7 +36,7 @@
 
 - Content validates (build passes) but a test fails = template bug: act as `checks-pass` says; go on with content.
 - Never change the runtime in `node_modules` (`explainer-only-content`). Fix arrives via
-  `npx --yes github:lernapps/tooling#main update`.
+  `npx --yes github:lernapps/tooling#exp/compact-guidance update`.
 
 ## Tutor
 

@@ -7,7 +7,7 @@ Learning app for lernapps.net: static, browser only, collects nothing, accessibl
 - One plan per piece of work: `.vibe/plans/<NN>-<short name>.md`; highest number = current.
 - None, or current one done (Commit completed): start the next from a template, complete and unchanged:
   - source: `node_modules/@lernapps/tooling/guidance/`; before the app exists:
-    <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/>
+    <https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/>
   - `plan-template.md`: first version; `increment-template.md`: every later change.
 - Read the plan before each step. Do its tasks in order. Tick each box when done.
 - Read skills and guides from the file, in full (curl, cat). Never a summarising fetch tool.

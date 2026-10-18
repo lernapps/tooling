@@ -11,7 +11,7 @@ license: MIT
 - `AGENTS.md`: what always holds.
 - Current plan `.vibe/plans/<NN>-<short name>.md` (highest NN): phases, tasks, checkpoints, commands. Follow it.
 - New plan: copy a template unchanged from `node_modules/@lernapps/tooling/guidance/`, before the app exists from
-  <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/>: `plan-template.md` (first version),
+  <https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/>: `plan-template.md` (first version),
   `increment-template.md` (later changes).
 
 ## Rules

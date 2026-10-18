@@ -252,7 +252,8 @@ export const ARCHETYPE_DEV_DEPENDENCIES: Readonly<Record<string, Readonly<Record
 };
 
 /** Where an assistant downloads the plan template before the app exists. */
-const PLAN_TEMPLATE = "https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md";
+const PLAN_TEMPLATE =
+  "https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/plan-template.md";
 const START_THE_PLAN = `start the plan of the first version from the plan template as .vibe/plans/01-<short name>.md, downloaded complete and unchanged from ${PLAN_TEMPLATE}, and work through Explore and Plan with the creator first`;
 
 /** The plan the app is created from, and where it goes in the app. */

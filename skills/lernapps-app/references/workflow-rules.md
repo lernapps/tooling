@@ -76,7 +76,7 @@ severity: error
   files, ids, data files, an example of this app. No general advice.
 - Content decision changes (pattern, figure type, source rule) → change the guide in the same commit.
 - `lernapps check`: file and headings always; no placeholder once the plan is in Commit.
-- App older than the guide: `npx --yes github:lernapps/tooling#main update` adds the skeleton.
+- App older than the guide: `npx --yes github:lernapps/tooling#exp/compact-guidance update` adds the skeleton.
 
 ### `app-content-matches`: The content guide says what was built
 
