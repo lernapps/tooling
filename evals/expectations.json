@@ -1,0 +1,34 @@
+{
+  "$comment": "The dimensions of the eval scores and the expectation each one measures (.vibe/development-plan-agentic-app-creation.md, 'Sketch: the evals'). reward.json: the verifier (evals/verifier/verify.ts). transcript-score.json: evals/score-transcript.ts, prefixed t_ in the summary.",
+  "reward": {
+    "plan_exists": ["A4"],
+    "plan_front_matter_valid": ["A4"],
+    "phase_reached": ["A4"],
+    "plan_boxes_ticked": ["A4"],
+    "committed_clean": ["A4"],
+    "archetype_expected": ["A19"],
+    "retrospective_filled": ["A7"],
+    "competencies_written": ["A12"],
+    "app_content_filled": ["A13"],
+    "app_created": ["A3"],
+    "check_passes": ["A21", "A16", "A17", "A18"],
+    "pre_push_failures": ["A23"]
+  },
+  "transcript": {
+    "creator_turns": ["A11"],
+    "plan_confirmed": ["A6"],
+    "creator_turns_after_plan": ["A11"],
+    "questions_per_turn_mean": ["A9"],
+    "questions_per_turn_max": ["A9"],
+    "turns_over_two_questions": ["A9"],
+    "approvals_after_question": ["A6"],
+    "skill_read_raw": ["A1"],
+    "plan_template_read_raw": ["A1"],
+    "guidance_summary_fetches": ["A1", "A2"],
+    "reads_outside_guidance": ["A2"],
+    "installs_before_plan": ["A3", "A5"],
+    "created_with_plan_command": ["A3"],
+    "no_verify_bypass": ["A22"],
+    "pre_push_counter_edits": ["A22"]
+  }
+}

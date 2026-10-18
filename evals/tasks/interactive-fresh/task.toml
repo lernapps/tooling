@@ -1,0 +1,27 @@
+schema_version = "1.4"
+# The workspace the agent leaves, without installed dependencies; the separate verifier scores it from this copy.
+artifacts = [{ source = "/app", destination = "app", exclude = ["node_modules", ".cache"] }]
+
+[task]
+name = "lernapps/interactive-fresh"
+
+[metadata]
+archetype = "interactive"
+start = "fresh"
+entry_point = "E1"
+# The dimensions of reward.json and transcript-score.json and their expectations: evals/expectations.json.
+expectations = ["A1", "A2", "A3", "A4", "A6", "A7", "A9", "A11", "A12", "A13", "A19", "A21", "A22", "A23"]
+
+[agent]
+timeout_sec = 7200
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 2700
+
+[verifier.env]
+EXPECTED_ARCHETYPE = "interactive"
+
+[environment]
+workdir = "/app"
+build_timeout_sec = 1800
