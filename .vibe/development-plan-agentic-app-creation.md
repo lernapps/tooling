@@ -497,7 +497,7 @@ Overall:
 - Infrastructure: Harbor, [`docs/adr/eval-runs-with-harbor.md`](../docs/adr/eval-runs-with-harbor.md) (accepted 2026-10-17).
 - Focus (owner, 2026-10-18): the evals measure how well the agent follows the process. Content quality is not
   scored: an app the agent built by the guidance is good when its creator knows the subject.
-- First results (2026-10-18, 33 runs, three archetypes × Haiku, Sonnet, Opus 5.5): [lernapps.net/tooling/evals/](https://lernapps.net/tooling/evals/).
+- First results (2026-10-18, 33 runs, three archetypes × Haiku, Sonnet, Opus 5.5): [lernapps.net/tooling/prompt-engineering/](https://lernapps.net/tooling/prompt-engineering/).
   Next (owner): optimise the guidance for agents (compact, bullets, less boilerplate) and compare quality and cost.
 
 ### Sketch: the interactive archetype (step 12, decided by the owner)

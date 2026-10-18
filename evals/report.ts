@@ -1,10 +1,10 @@
-// The results page of the evals (site/evals/, https://lernapps.net/tooling/evals/): reads finished jobs and writes
-// - site/evals/data.json: aggregates per task and model (n, mean, min and max of each dimension, agent minutes,
+// The results page of the evals (site/prompt-engineering/, https://lernapps.net/tooling/prompt-engineering/): reads finished jobs and writes
+// - site/prompt-engineering/data.json: aggregates per task and model (n, mean, min and max of each dimension, agent minutes,
 //   transcript numbers) and the run's configuration; no transcripts, no paths, no credentials;
-// - the generated parts of site/evals/index.html, between `<!-- report:<name> -->` and `<!-- /report:<name> -->`:
+// - the generated parts of site/prompt-engineering/index.html, between `<!-- report:<name> -->` and `<!-- /report:<name> -->`:
 //   the heatmap, the minutes per run, the stat tiles and the data date, as plain HTML that reads without JavaScript.
 // One configuration (harness and version, Harbor, creator model, guidance commit) per page: the models differ only.
-//   node evals/report.ts <job dir or jobs dir>... [--out site/evals]
+//   node evals/report.ts <job dir or jobs dir>... [--out site/prompt-engineering]
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { type Configuration, jobsOf, trialNumbers } from "./summary.ts";
@@ -443,10 +443,10 @@ export function fill(page: string, parts: Record<string, string>): string {
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
   const outIndex = args.indexOf("--out");
-  const out = outIndex >= 0 ? (args[outIndex + 1] ?? "site/evals") : "site/evals";
+  const out = outIndex >= 0 ? (args[outIndex + 1] ?? "site/prompt-engineering") : "site/prompt-engineering";
   const paths = outIndex >= 0 ? args.filter((_, index) => index !== outIndex && index !== outIndex + 1) : args;
   if (paths.length === 0) {
-    process.stderr.write("Usage: node evals/report.ts <job dir or jobs dir>... [--out site/evals]\n");
+    process.stderr.write("Usage: node evals/report.ts <job dir or jobs dir>... [--out site/prompt-engineering]\n");
     process.exit(2);
   }
   const expectations = JSON.parse(readFileSync(new URL("expectations.json", import.meta.url), "utf8")) as Record<
