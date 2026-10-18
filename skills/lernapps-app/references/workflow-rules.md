@@ -16,7 +16,7 @@ severity: error
 
 Keep each plan in `.vibe/plans/` as its template has it, with every section and front matter key; never change the
 plan of an earlier piece of work. Update `phase` when you enter a
-phase. Never edit `prePushFailures`: the pre-push hook writes it.
+phase. Never edit `prePushFailures` or `failedChecks`: the hook and the check write them.
 
 ### `explore-before-code`: No code before the plan is confirmed
 
@@ -59,8 +59,8 @@ scope: tooling
 severity: error
 ```
 
-At the end of Commit, fill every part of the retrospective with facts: phases reached, failed checks with rule ids,
-the creator's turns after the plan, where you had to guess. No names of people.
+At the end of Commit, fill every part of the retrospective with facts: phases reached, the creator's turns after the
+plan, where you had to guess. Failed checks need no entry: the check counts them in `failedChecks`. No names of people.
 
 ## The content guide
 

@@ -61,3 +61,32 @@ export function countPrePushFailure(root = "."): void {
   );
   if (counted !== text) writeFileSync(file, counted);
 }
+
+/**
+ * Counts a failed check in failedChecks of the current plan's front matter below `root`, when it has the key: one run
+ * more for each of `rules`, the rules with an error in that run. A flow map on one line, the rule ids sorted, so the
+ * front matter stays one key per line: `failedChecks: { checks-pass: 2, quiz-bank-valid: 1 }`.
+ */
+export function countFailedChecks(rules: readonly string[], root = "."): void {
+  const plan = currentPlan(root);
+  if (plan === undefined || rules.length === 0) return;
+  const file = join(root, plan);
+  const text = readFileSync(file, "utf8");
+  const line = /^(---\n(?:(?!---\n)[^\n]*\n)*?failedChecks:[ \t]*)([^\n]*)/.exec(text);
+  if (line === null) return;
+  let counts: Record<string, number> = {};
+  try {
+    const value: unknown = parse(line[2] ?? "");
+    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      for (const [rule, runs] of Object.entries(value)) if (typeof runs === "number") counts[rule] = runs;
+    }
+  } catch {
+    counts = {};
+  }
+  for (const rule of new Set(rules)) counts[rule] = (counts[rule] ?? 0) + 1;
+  const entries = Object.keys(counts)
+    .sort()
+    .map((rule) => `${rule}: ${counts[rule]}`);
+  const head = line[1] ?? "";
+  writeFileSync(file, `${head}{ ${entries.join(", ")} }${text.slice(head.length + (line[2] ?? "").length)}`);
+}

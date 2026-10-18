@@ -16,7 +16,8 @@ const SKIP_CHECK = process.env["EVAL_SKIP_CHECK"] === "1";
 /** Files the harness leaves in the workspace, not the agent. */
 const HARNESS_FILES = [".acpxrc.json"];
 const PHASES = ["explore", "plan", "code", "commit"] as const;
-const RETRO_PARTS = ["Phases reached", "Failed checks", "Creator turns after the plan", "Where I had to guess"];
+// "Failed checks" is no part any more: the check counts them in the front matter (failedChecks).
+const RETRO_PARTS = ["Phases reached", "Creator turns after the plan", "Where I had to guess"];
 
 const reward: Record<string, number> = {};
 const evidence: string[] = [];
@@ -27,7 +28,12 @@ const record = (name: string, value: number, detail: string) => {
 const note = (line: string) => evidence.push(`  - ${line}`);
 
 const run = (command: string, args: string[], cwd: string, timeoutMs = 120_000) =>
-  spawnSync(command, args, { cwd, encoding: "utf8", timeout: timeoutMs, maxBuffer: 64 * 1024 * 1024 });
+  spawnSync(command, args, {
+    cwd,
+    encoding: "utf8",
+    timeout: timeoutMs,
+    maxBuffer: 64 * 1024 * 1024,
+  });
 const git = (cwd: string, ...args: string[]) => run("git", ["-c", "safe.directory=*", ...args], cwd);
 
 /** The folders under the workspace that hold a `.vibe/` folder (the agent may create the app in a subfolder). */
@@ -59,6 +65,19 @@ function findPlan(appDir: string): string | undefined {
 }
 
 /** The flat YAML front matter of a plan (`key: value` per line, comments allowed), or undefined without one. */
+const scalar = (value: string): unknown =>
+  value === "null" || value === "~" || value === "" ? null : /^-?\d+$/.test(value) ? Number(value) : value;
+
+/** A one-line flow map of scalars, as failedChecks is written: `{ checks-pass: 2, quiz-bank-valid: 1 }`. */
+function flowMap(value: string): Record<string, unknown> {
+  const map: Record<string, unknown> = {};
+  for (const entry of value.slice(1, -1).split(",")) {
+    const kv = /^\s*([^:\s]+):\s*(.*?)\s*$/.exec(entry);
+    if (kv) map[kv[1] ?? ""] = scalar(kv[2] ?? "");
+  }
+  return map;
+}
+
 export function parseFrontMatter(text: string): Record<string, unknown> | undefined {
   const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text);
   if (!match) return undefined;
@@ -69,8 +88,7 @@ export function parseFrontMatter(text: string): Record<string, unknown> | undefi
     const kv = /^([A-Za-z_][\w-]*):\s*(.*)$/.exec(line);
     if (!kv) return undefined;
     const value = (kv[2] ?? "").trim().replace(/^(["'])(.*)\1$/, "$2");
-    data[kv[1] ?? ""] =
-      value === "null" || value === "~" || value === "" ? null : /^-?\d+$/.test(value) ? Number(value) : value;
+    data[kv[1] ?? ""] = /^\{.*\}$/.test(value) ? flowMap(value) : scalar(value);
   }
   return data;
 }
@@ -81,7 +99,7 @@ interface Schema {
   minimum?: number;
   properties?: Record<string, Schema>;
   required?: string[];
-  additionalProperties?: boolean;
+  additionalProperties?: boolean | Schema;
   if?: Schema;
   then?: Schema;
 }
@@ -114,6 +132,9 @@ export function validate(value: unknown, schema: Schema, path = ""): string[] {
       const sub = schema.properties?.[key];
       if (sub) errors.push(...validate(child, sub, key));
       else if (schema.additionalProperties === false) errors.push(`${at}: unexpected key ${key}`);
+      else if (typeof schema.additionalProperties === "object") {
+        errors.push(...validate(child, schema.additionalProperties, path ? `${path}.${key}` : key));
+      }
     }
     if (schema.if && schema.then && validate(value, schema.if, path).length === 0) {
       errors.push(...validate(value, schema.then, path));
@@ -138,7 +159,10 @@ const withoutComments = (text: string) => text.replace(/<!--[\s\S]*?-->/g, "");
 /** Ticked and all task boxes of a text. */
 export function boxes(text: string): { ticked: number; total: number } {
   const all = withoutComments(text).match(/^\s*[-*] \[[ xX]\]/gm) ?? [];
-  return { ticked: all.filter((box) => /\[[xX]\]/.test(box)).length, total: all.length };
+  return {
+    ticked: all.filter((box) => /\[[xX]\]/.test(box)).length,
+    total: all.length,
+  };
 }
 
 function main() {
@@ -257,10 +281,22 @@ function main() {
   const failures = front?.["prePushFailures"];
   if (typeof failures === "number")
     record("pre_push_failures", failures, "prePushFailures in the front matter, written by the hook");
+  const failedChecks = front?.["failedChecks"];
+  if (typeof failedChecks === "object" && failedChecks !== null) {
+    const runs = Object.values(failedChecks).reduce((sum: number, n) => sum + (typeof n === "number" ? n : 0), 0);
+    record(
+      "failed_checks",
+      runs,
+      `failedChecks in the front matter, written by the check: ${JSON.stringify(failedChecks)}`,
+    );
+  }
 
   // Boxes ticked in the phases before the current one (A4).
   if (planPath && phaseIndex > 0) {
-    const done = PHASES.slice(0, phaseIndex).map((name) => ({ name, ...boxes(section(plan, name)) }));
+    const done = PHASES.slice(0, phaseIndex).map((name) => ({
+      name,
+      ...boxes(section(plan, name)),
+    }));
     const ticked = done.reduce((sum, part) => sum + part.ticked, 0);
     const total = done.reduce((sum, part) => sum + part.total, 0);
     record(
