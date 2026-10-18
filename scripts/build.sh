@@ -21,8 +21,9 @@ mkdir -p _site
 cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
 mkdir -p _site/github
 cp site/github/index.html _site/github/
-mkdir -p _site/evals
-cp site/evals/index.html site/evals/data.json _site/evals/
+mkdir -p _site/prompt-engineering _site/evals
+cp site/prompt-engineering/index.html site/prompt-engineering/data.json _site/prompt-engineering/
+cp site/evals/index.html _site/evals/
 mkdir -p _site/schemas
 cp check/validation-report.v1.schema.json review/verdict.v1.schema.json _site/schemas/
 # The schemas of a quiz's question bank and of an explainer's content live with their runtimes in
