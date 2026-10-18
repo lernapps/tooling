@@ -20,7 +20,8 @@ function expectEveryOption(help: string, options: ParseArgsOptionsConfig): void 
 
 const lernapps = (...args: string[]) => run("node", ["src/cli.ts", ...args], repoRoot);
 
-describe("lernapps", () => {
+// Each test starts the CLI (about 2 s, more on a busy runner): the default 5 s is too tight.
+describe("lernapps", { timeout: 20_000 }, () => {
   test("--help prints the usage with the check command and exits 0", () => {
     const result = lernapps("--help");
     expect(result.code).toBe(0);
