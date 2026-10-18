@@ -25,20 +25,20 @@ const section = (plan: string, heading: string) => plan.slice(plan.indexOf(`\n${
 
 /** The sections every plan has, in this order: the phases, then the retrospective with its parts. */
 const PLAN_SECTIONS = ["## Explore", "## Plan", "## Code", "## Commit", "## Retrospective"];
-const RETROSPECTIVE_SECTIONS = [
-  "### Phases reached",
-  "### Failed checks",
-  "### Creator turns after the plan",
-  "### Where I had to guess",
-];
+const RETROSPECTIVE_SECTIONS = ["### Phases reached", "### Creator turns after the plan", "### Where I had to guess"];
 
 describe("the plan's front matter", () => {
   test.each(TEMPLATES)("of %s validates against the schema", (template) => {
     expect(frontMatterErrors(file(SCHEMA), file(template))).toEqual([]);
   });
 
-  test.each(TEMPLATES)("of %s starts in Explore, without an archetype, with no failed pre-push runs", (template) => {
-    expect(frontMatter(read(template))).toEqual({ archetype: null, phase: "explore", prePushFailures: 0 });
+  test.each(TEMPLATES)("of %s starts in Explore, without an archetype, with no failed runs", (template) => {
+    expect(frontMatter(read(template))).toEqual({
+      archetype: null,
+      phase: "explore",
+      prePushFailures: 0,
+      failedChecks: {},
+    });
   });
 
   test("of a filled plan validates against the schema", () => {
@@ -196,7 +196,7 @@ describe("the skills", () => {
   test("the listing skill points to the entry schema and the catalog's listing guide instead of repeating them", () => {
     const skill = read("skills/lernapps-listing/SKILL.md");
     expect(skill).toContain("https://lernapps.net/apps/schemas/entry.v1.schema.json");
-    expect(skill).toContain("https://lernapps.net/apps/llms.txt");
+    expect(skill).toContain("https://lernapps.net/apps/enter/llms.txt");
     for (const field of ["grades", "thirdParty", "keywords", "topics"]) expect(skill).not.toContain(field);
   });
 });

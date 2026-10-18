@@ -1,11 +1,14 @@
 ---
 # Read by the hooks, the review, the evals. Schema: @lernapps/tooling/guidance/plan-front-matter.v1.schema.json
+# Keep all four keys.
 # Archetype, null until chosen in Explore. Allowed values: explainer, interactive, quiz.
 archetype: null
 # Current phase. Allowed values: explore, plan, code, commit. Change the value line below, never this comment.
 phase: explore
 # prePushFailures: written by the pre-push hook. Never change it.
 prePushFailures: 0
+# failedChecks: failed rules and runs, written by lernapps check and the hooks. Never change it.
+failedChecks: {}
 ---
 
 # Plan: <app name>, first version
@@ -231,10 +234,6 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 ### Phases reached
 
 <!-- Last phase completed, checkpoints passed. E.g. "commit; confirmed, published". -->
-
-### Failed checks
-
-<!-- Each failed check: rule id, count. E.g. "`no-request-before-click`: 2". Not the pre-push count. -->
 
 ### Creator turns after the plan
 

@@ -15,7 +15,7 @@ severity: error
 - Each plan in `.vibe/plans/`, every section and front matter key of its template kept.
 - Never change the plan of an earlier piece of work.
 - Update `phase` on entering a phase. Tick each task box when done.
-- Never edit `prePushFailures`: the pre-push hook writes it.
+- Never edit `prePushFailures` or `failedChecks`: the hook and the check write them.
 
 ### `explore-before-code`: No code before the plan is confirmed
 
@@ -58,8 +58,8 @@ scope: tooling
 severity: error
 ```
 
-- End of Commit: every part filled with facts: phases reached, failed checks with rule ids, creator turns after the
-  plan, where you guessed. No names.
+- End of Commit: every part filled with facts: phases reached, creator turns after the plan, where you guessed.
+  No names. Failed checks need no entry: the check counts them in `failedChecks`.
 
 ## Content guide
 
