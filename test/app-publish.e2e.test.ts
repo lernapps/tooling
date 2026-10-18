@@ -261,7 +261,7 @@ describe("before the deploy", () => {
     expect(result.stderr).toContain("contents: write and pages: write");
   });
 
-  test("it writes the marker of the commit into the bundle, and refuses a bundle without index.html", async () => {
+  test("it writes the marker of the commit and .nojekyll into the bundle, and refuses a bundle without index.html", async () => {
     setWorld({});
     const bundle = join(tempDir("bundle"), "_app");
     mkdirSync(bundle);
@@ -272,6 +272,7 @@ describe("before the deploy", () => {
     const result = await publish(["before", "--dir", bundle]);
     expect(result.code, result.stderr).toBe(0);
     expect(readFileSync(join(bundle, "lernapps-publish.txt"), "utf8")).toBe(`${SHA}\n`);
+    expect(readFileSync(join(bundle, ".nojekyll"), "utf8")).toBe("");
   });
 });
 
