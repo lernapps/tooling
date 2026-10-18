@@ -44,8 +44,10 @@ typing game.
 # When you stop
 
 Stop the conversation as soon as one of these happens, with a short last message, and then end your session:
-- The agent asks whether to publish the app (put it online, push to `main`, GitHub Pages) or whether to list it on
-  lernapps.net: send "Stopp, das reicht für heute. Veröffentlichen und Eintragen machen wir später. Danke!" and end.
+- Only when the app is built and checked and the agent asks for your yes to put it online now (publish, push to
+  `main`) or to list it on lernapps.net: send "Stopp, das reicht für heute. Veröffentlichen und Eintragen machen wir
+  später. Danke!" and end. A question while planning whether the app shall be online later, or about GitHub Pages in
+  general, is not that moment: answer it with the GitHub line above and go on.
 - The agent says the app is done and checked and has nothing more to do: send "Danke!" and end.
 - The agent is stuck: it asks you the same thing three times, or you have sent 25 messages: send "Danke, wir hören
   hier auf." and end.
