@@ -148,6 +148,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 - Creator asks for a change → first say your reading in one sentence ("Ich nehme alle 44 Hauptgruppenelemente
   auf."); never narrow it silently. Content change → update "Notes" too.
 - Test fails at runtime → read the archetype's `references/runtime.md` first.
+- Push `work` after each task: the pull request's preview shows the creator the current state. Never push `main`.
 - `create` needs git, Node ≥ 22.18, github.com, codeload.github.com, registry.npmjs.org. Blocked → ask the creator
   to allow it, rerun. Never write the app by hand.
 -->
@@ -158,6 +159,9 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
       --archetype <archetype>`. Keeps this plan.
 - [ ] `git switch work`, then `npm install` (dependencies, git hooks). From now on: `npx lernapps check`.
 - [ ] Commit the generated app with this plan on `work`.
+- [ ] `git push -u origin work`; open a draft pull request `work` → `main` (`gh pr create --draft --base main
+      --head work --title "Erste Version" --body "Vorschau für die Erstellerin oder den Ersteller"`). The comment
+      "Vorschau der App" links the preview; give the creator the link once. Refused → skill `lernapps-github`.
 - [ ] Load skill `lernapps-app` and the archetype's skill.
 - [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from the plan and its content method: replace
       every placeholder comment with concrete instructions (files, ids, data files, one example). Delete its top
@@ -186,13 +190,15 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 
 ### Tasks
 
-- [ ] `git push -u origin work` (not `main`). Pre-push runs the heavy checks; fix failures.
+- [ ] `git push origin work` (not `main`). Pre-push runs the heavy checks; fix failures. See the pull request's
+      checks to green; mark it ready (`gh pr ready`).
 - [ ] Verify over REST: default branch `main` (`gh api repos/<owner>/<repo> --jq .default_branch`); Pages serves
       `gh-pages` from `/` (`gh api repos/<owner>/<repo>/pages`; "Not Found" = off). Not right and not yours to
       change → note the creator's click (skill `lernapps-github`).
-- [ ] **Checkpoint:** publish. Ask before the app goes online; wait for the yes. Put the noted clicks into the same
-      question.
-- [ ] `git switch main`, `git merge --ff-only work`, `git push origin main`. Run started?
+- [ ] **Checkpoint:** publish. Show the preview link from the comment "Vorschau der App"; ask before the app goes
+      online; wait for the yes. Put the noted clicks into the same question.
+- [ ] `git switch main`, `git merge --ff-only work`, `git push origin main` (GitHub marks the pull request merged
+      and removes the preview). Run started?
       `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`; none after a minute →
       `gh workflow run Pages --ref main` (refused: creator clicks Actions → Pages → Run workflow). Watch it
       (`gh run watch`). Fails → read the failed step, fix, push. Admin-only Pages setting → the run deployed
