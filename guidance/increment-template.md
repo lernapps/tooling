@@ -42,8 +42,8 @@ a correction.
 
 ## Explore
 
-<!-- All content questions belong here; Plan maps them onto the app. Ask; write no code. Max 2 questions per message.
-Skip what earlier answers or the app tell. Answers → "Answers". -->
+<!-- All content questions belong here; Plan maps them onto the app. Ask; write no code. Max 2 questions per message,
+one topic each. Skip what earlier answers or the app tell. Never tick a question you assumed. -->
 
 ### Tasks
 
@@ -51,12 +51,13 @@ Skip what earlier answers or the app tell. Answers → "Answers". -->
 - [ ] Skills are in `.agents/skills/`. Only if missing: `npx skills add lernapps/tooling#exp/compact-guidance`.
 - [ ] Load the content guide `.agents/skills/app-content/SKILL.md` and skill `lernapps-content-growth`; read the
       plans in `.vibe/plans/` (what the app teaches, how content is made, what is open).
-- [ ] Ask: which competencies, chapters or rounds, for which school years?
+- [ ] Interview, as in the first plan: one topic per question, the creator's words under "Answers"; no answer →
+      ask once more, then "(guess)", shown at the checkpoint. Topics: which competencies, chapters or rounds, for
+      which school years; hurdles and examples; amount; anything of look and feel or terms that changes.
 - [ ] Research: the guide's curriculum and sources; skill `lernapps-content-research` for the rest. Under "Notes":
       curriculum orientation (Lehrplan cited where used), new competencies by chapter as Ich-kann-Sätze, verified
       sources.
-- [ ] Ask: which hurdles and misconceptions, which examples or experiments for the new content? Under "Notes": the
-      didactic approach per competency and the scope (in, out, data range).
+- [ ] Under "Notes": the didactic approach per competency and the scope (in, out, data range).
 - [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, new competencies by chapter, didactic
       approach, scope, sources and how checked, what is unchecked. Stop and wait. Changes → change, ask again.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).

@@ -16,8 +16,8 @@ license: MIT
   misconceptions.
 - Land, Schulform: only if the creator names a school or class; ask at most once. No answer → KMK-Bildungsstandards
   as orientation. The content matters, not the Land.
-- Derive what you can; ask the rest, max 2 questions per message, never the same twice. Read files the creator
-  gives.
+- The questions are the plan's interview ("Answers"): one topic per question, max 2 per message, the creator's
+  words; never tick one you assumed. Read files the creator gives.
 
 ## 2. Lehrplan
 

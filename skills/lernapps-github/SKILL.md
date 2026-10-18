@@ -39,9 +39,13 @@ license: MIT
 
 - Never push a branch to lernapps/apps, even if allowed. Opening the pull request from the fork is yours: do it
   yourself, after the creator's yes at the checkpoint "list".
-- No fork yet and you cannot create one → give the creator the click (github.com/lernapps/apps → Fork) in your
-  checkpoint question, not later.
-- Fork (`gh repo fork lernapps/apps --clone=false`, or MCP), push `add-<id>` to the fork.
-- `gh pr create --repo lernapps/apps --head <your-user>:add-<id>`, or
-  `gh api repos/lernapps/apps/pulls -f base=main -f head=<your-user>:add-<id> -f title=… -f body=…`.
+- Find the fork; never guess its name (it may be renamed): `curl -s
+  "https://api.github.com/repos/lernapps/apps/forks?per_page=100" | jq -r '.[] | select(.owner.login=="<owner>")
+  | .clone_url'`, `<owner>` the app repo's owner. Public, no token needed.
+- No fork: create it (`gh repo fork lernapps/apps --clone=false`, or MCP); refused → give the creator the click
+  (github.com/lernapps/apps → Fork) in your checkpoint question, not later.
+- Push `add-<id>` to the fork. Your environment grants access per repo (e.g. `add_repo`) → adding lernapps/apps to
+  open the pull request is allowed.
+- Open it over REST (GraphQL may be blocked; `gh pr create` uses it):
+  `gh api repos/lernapps/apps/pulls -f base=main -f head=<owner>:add-<id> -f title=… -f body=…`.
 - From a fork: check comment yes, preview no.
