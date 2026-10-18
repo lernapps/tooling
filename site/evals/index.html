@@ -195,6 +195,13 @@
       </ul>
     </section>
 
+    <h2 id="run-short">How to run an eval</h2>
+<pre tabindex="0"><code>evals/harbor/setup.sh
+evals/harbor/run.sh quiz-fresh anthropic/&lt;model&gt; 3
+node evals/summary.ts ~/.lernapps-evals/jobs</code></pre>
+    <p>Setup once per machine, one job per task and model, then the summary. Details at the
+      <a href="#run">end of this page</a>.</p>
+
     <h2 id="results">Results</h2>
     <p>Three scenarios, each from an empty folder: a quiz, an explainer and an interactive app (a typing trainer).
       Each with three models as the creator's assistant. The simulated creator was always played by Haiku 5.5.</p>
@@ -334,12 +341,36 @@
         publish checkpoint and ended before the plan, a fault of the harness, not of the agent (fixed since).</li>
     </ul>
 
-    <h2 id="run">How to run it</h2>
-<pre tabindex="0"><code>evals/harbor/setup.sh
-EVALS_ANTHROPIC_API_KEY=… evals/harbor/run.sh quiz-fresh anthropic/&lt;model&gt; [trials] [concurrency]
-node evals/summary.ts ~/.lernapps-evals/jobs</code></pre>
-    <p>This page: <code>node evals/report.ts ~/.lernapps-evals/jobs</code> writes <code>site/evals/data.json</code>
-      and the tables and charts above.</p>
+    <h2 id="run">How to run it, in detail</h2>
+    <h3>What it needs</h3>
+    <ul>
+      <li>A machine with Docker (the daemon is started by <code>setup.sh</code> if none runs), <code>uv</code> and
+        Node 22. In a Claude Code cloud container this is all there.</li>
+      <li>A credential in <code>EVALS_ANTHROPIC_API_KEY</code>: an API key, or a subscription token from
+        <code>claude setup-token</code>. In a cloud environment, store it as an environment variable under that name;
+        names starting with <code>ANTHROPIC_</code> are filtered out by the platform.</li>
+      <li>About 2 GB of disk for the task image and up to 1.5 GB per running trial.</li>
+    </ul>
+    <h3>Steps</h3>
+    <ol>
+      <li><code>evals/harbor/setup.sh</code> installs Harbor 0.24.0 into <code>~/.lernapps-evals</code>, applies the
+        patches in <code>evals/harbor/</code> (the subscription token for the ACP bridge, the acpx config outside the
+        app folder) and writes the generated files into each task.</li>
+      <li><code>evals/harbor/run.sh &lt;task&gt; &lt;model&gt; [trials] [concurrency]</code> runs one Harbor job. The
+        tasks are <code>quiz-fresh</code>, <code>explainer-fresh</code> and <code>interactive-fresh</code>; the model is a
+        Harbor name such as <code>anthropic/claude-sonnet-5-5</code>; <code>USER_MODEL</code> sets the simulated
+        creator (default: the same model). Harbor runs through <code>evals/harbor/harbor.sh</code>, which clears the
+        environment, so no other credential reaches the containers. The job lands in
+        <code>~/.lernapps-evals/jobs</code> with its <code>configuration.json</code> and the transcript score.</li>
+      <li>For a matrix, start one <code>run.sh</code> per model in parallel; two or three at a time fit a machine with
+        4 CPUs and 16 GB. Watch the <code>rate_limit_event</code> lines in
+        <code>&lt;trial&gt;/user-agent/claude-code.txt</code> and stop at a limit.</li>
+      <li><code>node evals/summary.ts ~/.lernapps-evals/jobs</code> prints mean, min and max per dimension for each
+        task and configuration; configurations are never mixed. A job with an <code>excluded.txt</code> (its reason
+        inside) is left out.</li>
+      <li><code>node evals/report.ts ~/.lernapps-evals/jobs</code> writes <code>site/evals/data.json</code> and the
+        tables and charts of this page.</li>
+    </ol>
     <ul>
       <li><a href="https://github.com/lernapps/tooling/blob/main/docs/adr/eval-runs-with-harbor.md">ADR: eval runs
         with Harbor</a></li>
