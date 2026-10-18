@@ -6,8 +6,8 @@
 //           warns and the deploy goes on: the newest bundle is on gh-pages, so the creator's click shows it without a
 //           new run, and `after` fails until the setting is made. On the first deploy the branch does not exist yet:
 //           the deploy creates it, and `after` checks Pages. It also writes the marker
-//           file lernapps-publish.txt (the commit) into the bundle, and warns when the repo's default branch is not
-//           main (the token may not change it; the deploy goes on, also when it cannot be read).
+//           file lernapps-publish.txt (the commit) and an empty .nojekyll into the bundle, and warns when the repo's
+//           default branch is not main (the token may not change it; the deploy goes on, also when it cannot be read).
 //   after   checks Pages again (it may be the first deploy), then waits until the app's address serves the marker of
 //           this commit, and prints the address.
 // Only Node's own modules: the action runs it without installing anything. Every failure says what is wrong, how to
@@ -203,6 +203,8 @@ async function before(e: Env, dir: string | undefined): Promise<void> {
       );
     }
     writeFileSync(join(dir, MARKER), `${e.sha}\n`);
+    // Without it Pages runs Jekyll, which does not serve files starting with _ (Vite's _plugin-vue_export-helper-*.js).
+    writeFileSync(join(dir, ".nojekyll"), "");
   }
   await checkDefaultBranch(e);
   const branch = await request(e, "GET", `/repos/${e.repo}/branches/${BRANCH}`);
