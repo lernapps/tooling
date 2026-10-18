@@ -73,6 +73,8 @@ export function summarise(jobDirs: string[]): Group[] {
     { task: string; configuration: Group["configuration"]; trials: Record<string, number>[] }
   >();
   for (const job of jobDirs) {
+    // A job the orchestrator ruled out (a harness fault, not the agent's) carries its reason in excluded.txt.
+    if (existsSync(join(job, "excluded.txt"))) continue;
     const {
       task = "?",
       toolingCommit: _tooling,
