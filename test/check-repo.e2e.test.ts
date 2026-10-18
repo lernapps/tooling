@@ -95,7 +95,7 @@ describe.skipIf(inner)("lernapps check in an app's repo", () => {
             "export default defineConfig({",
             '  testDir: "e2e",',
             '  testMatch: "*.e2e.ts",',
-            '  use: { baseURL: "http://127.0.0.1:4179/" },',
+            '  use: { baseURL: "http://127.0.0.1:4179/", launchOptions: { executablePath: process.env.LERNAPPS_CHROMIUM } },',
             '  webServer: { command: "vp preview --host 127.0.0.1 --port 4179 --strictPort", url: "http://127.0.0.1:4179/" },',
             "});",
             "",
