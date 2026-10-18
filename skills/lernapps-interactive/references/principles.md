@@ -57,6 +57,8 @@
 
 ## Low stimulation (advice)
 
+- Means no overload, not no fun: a game may look and feel like a game (bold colours, a real game board). Ask the
+  creator in Explore; the start page stays calm.
 - No flashing.
 - Calm motion; less with reduced motion (`prefersReducedMotion`, `@lernapps/tooling/a11y`).
 - Sound off by default.
