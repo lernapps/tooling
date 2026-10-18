@@ -15,9 +15,9 @@ We cannot observe other people's AI assistants, and the platform collects nothin
 - **Evals**: we run Claude Code, Codex and Gemini CLI ourselves, by hand, with each provider's latest model, on
   sample creator prompts, one set per archetype. The only source for iterations and for comparing assistants.
 - **Listing reports**: the validation report of every listing pull request (first-pass rate, findings per rule).
-- **Retrospective**: the section the agent writes at the end of its plan file (phases, failed checks, the
-  creator's turns after the plan, where it had to guess), and the counters the git hooks keep in the plan (failed
-  pushes). It stays in the creator's repo and reaches the platform only with a
+- **Retrospective**: the section the agent writes at the end of its plan file (phases, the creator's turns
+  after the plan, where it had to guess), and the counters the check and the git hooks keep in the plan (failed
+  rules, failed pushes). It stays in the creator's repo and reaches the platform only with a
   listing.
 - **Conversations**: the owner talks to each creator after listing ([creators contribute without payment](https://lernapps.net/docs/platform-design/#2-design/d8-mvp.pdt42.md:el-a-creators-unpaid)).
 

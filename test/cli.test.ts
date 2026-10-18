@@ -1,24 +1,43 @@
 // The contract of the CLI `lernapps`: usage, exit codes, the command structure.
-import { lstatSync, mkdirSync, readdirSync, readFileSync, readlinkSync, symlinkSync, writeFileSync } from "node:fs";
+import {
+  lstatSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  readlinkSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS, IGNORED_SKILLS_LINES } from "../generator/create.ts";
-import { replaceSkills, unignoreSkills, UPDATE_OPTIONS } from "../generator/update.ts";
-import { countPrePushFailure } from "../src/plan.ts";
+import {
+  replaceSkills,
+  unignoreSkills,
+  UPDATE_OPTIONS,
+} from "../generator/update.ts";
+import { countFailedChecks, countPrePushFailure } from "../src/plan.ts";
 import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS } from "../src/usage.ts";
 import { repoRoot, run, tempDir } from "./support.ts";
 
 /** The help must name every option the parser accepts: the help is where the options are documented. */
-function expectEveryOption(help: string, options: ParseArgsOptionsConfig): void {
+function expectEveryOption(
+  help: string,
+  options: ParseArgsOptionsConfig,
+): void {
   for (const [name, option] of Object.entries(options)) {
-    expect(help, `--${name}`).toMatch(new RegExp(`(^|[\\s\\[,])--${name}\\b`, "m"));
-    if (option.short !== undefined) expect(help, `-${option.short}`).toContain(`-${option.short}, --${name}`);
+    expect(help, `--${name}`).toMatch(
+      new RegExp(`(^|[\\s\\[,])--${name}\\b`, "m"),
+    );
+    if (option.short !== undefined)
+      expect(help, `-${option.short}`).toContain(`-${option.short}, --${name}`);
   }
 }
 
-const lernapps = (...args: string[]) => run("node", ["src/cli.ts", ...args], repoRoot);
+const lernapps = (...args: string[]) =>
+  run("node", ["src/cli.ts", ...args], repoRoot);
 
 // Each test starts the CLI (about 2 s, more on a busy runner): the default 5 s is too tight.
 describe("lernapps", { timeout: 20_000 }, () => {
@@ -47,8 +66,12 @@ describe("lernapps", { timeout: 20_000 }, () => {
       expect(result.stdout).toContain(text);
     }
     expect(result.stdout).toContain('"lernapps": { "changes": {');
-    expect(result.stdout).toContain("0 when the scope is printed, 1 when package.json lernapps.changes is malformed");
-    expect(lernapps("--help").stdout).toMatch(/^  changes \[--staged \| --pushed \| --ci\] +/m);
+    expect(result.stdout).toContain(
+      "0 when the scope is printed, 1 when package.json lernapps.changes is malformed",
+    );
+    expect(lernapps("--help").stdout).toMatch(
+      /^  changes \[--staged \| --pushed \| --ci\] +/m,
+    );
   });
 
   test("hooks --help names every option it accepts, and the exit codes", () => {
@@ -56,7 +79,9 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(result.code).toBe(0);
     expect(result.stdout).toMatch(/^Usage: lernapps hooks$/m);
     expectEveryOption(result.stdout, HOOKS_OPTIONS);
-    expect(result.stdout).toContain("0 when the hooks are installed or deliberately not, 1 when they cannot be");
+    expect(result.stdout).toContain(
+      "0 when the hooks are installed or deliberately not, 1 when they cannot be",
+    );
   });
 
   test("update --help says what it moves, how to run it from the latest tooling, and the exit codes", () => {
@@ -64,21 +89,31 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(result.code).toBe(0);
     expect(result.stdout).toMatch(/^Usage: lernapps update$/m);
     expectEveryOption(result.stdout, UPDATE_OPTIONS);
-    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main update");
+    expect(result.stdout).toContain(
+      "npx --yes github:lernapps/tooling#main update",
+    );
     expect(result.stdout).toContain("@lernapps/app-templates");
     expect(result.stdout).toContain("2 on a usage");
   });
 
   test("update outside an app fails and says where to run it", () => {
-    const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], tempDir("not-an-app"));
+    const result = run(
+      "node",
+      [join(repoRoot, "src/cli.ts"), "update"],
+      tempDir("not-an-app"),
+    );
     expect(result.code).toBe(1);
-    expect(result.stderr).toContain("lernapps update: no package.json here: run it in the app's folder");
+    expect(result.stderr).toContain(
+      "lernapps update: no package.json here: run it in the app's folder",
+    );
   });
 
   test("update from a clone of the tooling says what it did not move and why, and exits 1", () => {
     // run from this repo: not installed by npm from a git commit, so there is no commit to move the tooling to
     const { commit } = (
-      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
+      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as {
+        appTemplates: { commit: string };
+      }
     ).appTemplates;
     const toolingCommit = "0123456789abcdef0123456789abcdef01234567";
     const dir = tempDir("app");
@@ -89,14 +124,21 @@ describe("lernapps", { timeout: 20_000 }, () => {
       "@lernapps/app-templates": `github:lernapps/app-templates#${commit}`,
       "@lernapps/tooling": `github:lernapps/tooling#${toolingCommit}`,
     };
-    writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "app", devDependencies }));
+    writeFileSync(
+      join(dir, "package.json"),
+      JSON.stringify({ name: "app", devDependencies }),
+    );
     const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
     expect(result.code, result.stderr).toBe(1);
-    expect(result.stdout).toContain(`lernapps update: @lernapps/app-templates: unchanged (${commit.slice(0, 7)})`);
+    expect(result.stdout).toContain(
+      `lernapps update: @lernapps/app-templates: unchanged (${commit.slice(0, 7)})`,
+    );
     expect(result.stdout).toContain(
       `lernapps update: @lernapps/tooling: not moved (still ${toolingCommit.slice(0, 7)}): this tooling (`,
     );
-    expect(result.stdout).toContain("was not installed by npm from a git commit, so there is no commit to move to");
+    expect(result.stdout).toContain(
+      "was not installed by npm from a git commit, so there is no commit to move to",
+    );
     expect(result.stdout).toContain(
       `lernapps update: the actions of lernapps/tooling in ${join(".github", "workflows", "pages.yml")}: not moved, for the same reason`,
     );
@@ -104,16 +146,24 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(result.stderr).toContain(
       "lernapps update: partly updated: @lernapps/tooling and the actions of lernapps/tooling not moved (see above). Run it from the latest tooling, installed by npx: npx --yes github:lernapps/tooling#main update",
     );
-    expect(readFileSync(join(dir, ".github/workflows/pages.yml"), "utf8")).toBe(workflow);
-    expect(JSON.parse(readFileSync(join(dir, "package.json"), "utf8"))).toEqual({ name: "app", devDependencies });
+    expect(readFileSync(join(dir, ".github/workflows/pages.yml"), "utf8")).toBe(
+      workflow,
+    );
+    expect(JSON.parse(readFileSync(join(dir, "package.json"), "utf8"))).toEqual(
+      { name: "app", devDependencies },
+    );
   });
 
   test("update moves the plan .vibe/plan.md of an older app to .vibe/plans/01-first-version.md, and says so", () => {
     const dir = tempDir("app");
-    const plan = "---\narchetype: quiz\nphase: commit\nprePushFailures: 2\n---\n\n# Plan\n";
+    const plan =
+      "---\narchetype: quiz\nphase: commit\nprePushFailures: 2\n---\n\n# Plan\n";
     mkdirSync(join(dir, ".vibe"));
     writeFileSync(join(dir, ".vibe/plan.md"), plan);
-    writeFileSync(join(dir, "package.json"), JSON.stringify({ devDependencies: { "@lernapps/tooling": "x" } }));
+    writeFileSync(
+      join(dir, "package.json"),
+      JSON.stringify({ devDependencies: { "@lernapps/tooling": "x" } }),
+    );
     // from a clone of the tooling it exits 1 (no commit to move the tooling to), but moves the plan all the same
     const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
     expect(result.stdout).toContain(
@@ -121,8 +171,12 @@ describe("lernapps", { timeout: 20_000 }, () => {
     );
     expect(readdirSync(join(dir, ".vibe"))).toEqual(["plans"]);
     // and installs the skills of this tooling (the skills step is tested on its own below)
-    expect(result.stdout).toMatch(/^lernapps update: skills: added lernapps-app, /m);
-    expect(readFileSync(join(dir, ".vibe/plans/01-first-version.md"), "utf8")).toBe(plan);
+    expect(result.stdout).toMatch(
+      /^lernapps update: skills: added lernapps-app, /m,
+    );
+    expect(
+      readFileSync(join(dir, ".vibe/plans/01-first-version.md"), "utf8"),
+    ).toBe(plan);
   });
 
   test("update's skills step replaces the lernapps-* skills, keeps the app's own, and removes the old ignore lines", () => {
@@ -133,9 +187,18 @@ describe("lernapps", { timeout: 20_000 }, () => {
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, text);
     };
-    write(join(source, "lernapps-app/SKILL.md"), "---\nname: lernapps-app\n---\nnew\n");
-    write(join(source, "lernapps-app/references/platform-rules.md"), "# Platform rules\n");
-    write(join(source, "lernapps-listing/SKILL.md"), "---\nname: lernapps-listing\n---\n");
+    write(
+      join(source, "lernapps-app/SKILL.md"),
+      "---\nname: lernapps-app\n---\nnew\n",
+    );
+    write(
+      join(source, "lernapps-app/references/platform-rules.md"),
+      "# Platform rules\n",
+    );
+    write(
+      join(source, "lernapps-listing/SKILL.md"),
+      "---\nname: lernapps-listing\n---\n",
+    );
     write(join(source, "planted/SKILL.md"), "---\nname: planted\n---\n");
     // the app: an older lernapps-app and one the tooling no longer has, as npx skills add installed them, next to
     // the app's own guide; an older generator had git ignore them
@@ -143,14 +206,29 @@ describe("lernapps", { timeout: 20_000 }, () => {
     const installed = (name: string, text: string) => {
       write(join(dir, ".agents/skills", name, "SKILL.md"), text);
       mkdirSync(join(dir, ".claude/skills"), { recursive: true });
-      symlinkSync(`../../.agents/skills/${name}`, join(dir, ".claude/skills", name));
+      symlinkSync(
+        `../../.agents/skills/${name}`,
+        join(dir, ".claude/skills", name),
+      );
     };
     installed("lernapps-app", "---\nname: lernapps-app\n---\nold\n");
     installed("lernapps-gone", "---\nname: lernapps-gone\n---\n");
     installed("app-content", "---\nname: app-content\n---\nthe app's own\n");
-    const lock = { "lernapps-app": { source: "lernapps/tooling", sourceType: "github", computedHash: "old" } };
-    writeFileSync(join(dir, "skills-lock.json"), JSON.stringify({ version: 1, skills: lock }));
-    writeFileSync(join(dir, ".gitignore"), `node_modules/\n\n${IGNORED_SKILLS_LINES.join("\n")}\n`);
+    const lock = {
+      "lernapps-app": {
+        source: "lernapps/tooling",
+        sourceType: "github",
+        computedHash: "old",
+      },
+    };
+    writeFileSync(
+      join(dir, "skills-lock.json"),
+      JSON.stringify({ version: 1, skills: lock }),
+    );
+    writeFileSync(
+      join(dir, ".gitignore"),
+      `node_modules/\n\n${IGNORED_SKILLS_LINES.join("\n")}\n`,
+    );
 
     expect(replaceSkills(dir, source)).toEqual([
       "skills: replaced lernapps-app; added lernapps-listing; removed lernapps-gone, which this tooling no longer has: " +
@@ -161,34 +239,63 @@ describe("lernapps", { timeout: 20_000 }, () => {
     ]);
     for (const name of ["lernapps-app", "lernapps-listing"]) {
       const ours = readFileSync(join(source, name, "SKILL.md"), "utf8");
-      expect(readFileSync(join(dir, ".claude/skills", name, "SKILL.md"), "utf8"), name).toBe(ours);
-      expect(readlinkSync(join(dir, ".claude/skills", name))).toBe(`../../.agents/skills/${name}`);
+      expect(
+        readFileSync(join(dir, ".claude/skills", name, "SKILL.md"), "utf8"),
+        name,
+      ).toBe(ours);
+      expect(readlinkSync(join(dir, ".claude/skills", name))).toBe(
+        `../../.agents/skills/${name}`,
+      );
     }
     expect(readdirSync(join(dir, ".agents/skills")).sort()).toEqual([
       "app-content",
       "lernapps-app",
       "lernapps-listing",
     ]);
-    expect(readFileSync(join(dir, ".claude/skills/lernapps-app/references/platform-rules.md"), "utf8")).toBe(
-      "# Platform rules\n",
-    );
-    expect(() => lstatSync(join(dir, ".claude/skills/lernapps-gone"))).toThrow();
-    expect(readFileSync(join(dir, ".claude/skills/app-content/SKILL.md"), "utf8")).toContain("the app's own");
-    const written = JSON.parse(readFileSync(join(dir, "skills-lock.json"), "utf8")) as {
-      skills: Record<string, { source: string; skillPath: string; computedHash: string }>;
+    expect(
+      readFileSync(
+        join(dir, ".claude/skills/lernapps-app/references/platform-rules.md"),
+        "utf8",
+      ),
+    ).toBe("# Platform rules\n");
+    expect(() =>
+      lstatSync(join(dir, ".claude/skills/lernapps-gone")),
+    ).toThrow();
+    expect(
+      readFileSync(join(dir, ".claude/skills/app-content/SKILL.md"), "utf8"),
+    ).toContain("the app's own");
+    const written = JSON.parse(
+      readFileSync(join(dir, "skills-lock.json"), "utf8"),
+    ) as {
+      skills: Record<
+        string,
+        { source: string; skillPath: string; computedHash: string }
+      >;
     };
-    expect(Object.keys(written.skills)).toEqual(["lernapps-app", "lernapps-listing"]);
-    expect(written.skills["lernapps-app"]?.skillPath).toBe("skills/lernapps-app/SKILL.md");
-    expect(written.skills["lernapps-app"]?.computedHash).toMatch(/^[0-9a-f]{64}$/);
-    expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe("node_modules/\n");
+    expect(Object.keys(written.skills)).toEqual([
+      "lernapps-app",
+      "lernapps-listing",
+    ]);
+    expect(written.skills["lernapps-app"]?.skillPath).toBe(
+      "skills/lernapps-app/SKILL.md",
+    );
+    expect(written.skills["lernapps-app"]?.computedHash).toMatch(
+      /^[0-9a-f]{64}$/,
+    );
+    expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe(
+      "node_modules/\n",
+    );
     // a second run finds them as they are
-    expect(replaceSkills(dir, source)).toEqual(["skills: the lernapps-* skills are those of this tooling already (2)"]);
+    expect(replaceSkills(dir, source)).toEqual([
+      "skills: the lernapps-* skills are those of this tooling already (2)",
+    ]);
     expect(unignoreSkills(dir)).toEqual([]);
   });
 
   test("a failed check --pre-push counts in the current plan, the highest number; else in .vibe/plan.md", () => {
     // the counting itself; that a failed pre-push counts at all, the e2e test of the failing app shows
-    const plan = (failures: number) => `---\narchetype: quiz\nphase: code\nprePushFailures: ${failures}\n---\n`;
+    const plan = (failures: number) =>
+      `---\narchetype: quiz\nphase: code\nprePushFailures: ${failures}\n---\n`;
     const counted = (files: Record<string, string>) => {
       const dir = tempDir("pre-push");
       for (const [file, text] of Object.entries(files)) {
@@ -197,12 +304,45 @@ describe("lernapps", { timeout: 20_000 }, () => {
       }
       countPrePushFailure(dir);
       return Object.keys(files).map(
-        (file) => /prePushFailures: (\d+)/.exec(readFileSync(join(dir, file), "utf8"))?.[1],
+        (file) =>
+          /prePushFailures: (\d+)/.exec(
+            readFileSync(join(dir, file), "utf8"),
+          )?.[1],
       );
     };
-    const plans = { ".vibe/plans/01-first-version.md": plan(3), ".vibe/plans/02-mehr-runden.md": plan(0) };
-    expect(counted({ ".vibe/plan.md": plan(5), ...plans })).toEqual(["5", "3", "1"]);
+    const plans = {
+      ".vibe/plans/01-first-version.md": plan(3),
+      ".vibe/plans/02-mehr-runden.md": plan(0),
+    };
+    expect(counted({ ".vibe/plan.md": plan(5), ...plans })).toEqual([
+      "5",
+      "3",
+      "1",
+    ]);
     expect(counted({ ".vibe/plan.md": plan(5) })).toEqual(["6"]);
+  });
+
+  test("a failed check counts each failed rule once per run in failedChecks of the current plan, when it has the key", () => {
+    const dir = tempDir("failed-checks");
+    const plan = join(dir, ".vibe/plans/01-first-version.md");
+    mkdirSync(join(plan, ".."), { recursive: true });
+    const front = (failed: string) =>
+      `---\narchetype: quiz\nphase: code\nprePushFailures: 0\nfailedChecks: ${failed}\n---\n`;
+    writeFileSync(plan, `${front("{}")}\n# Plan\n`);
+    countFailedChecks(
+      ["quiz-bank-valid", "checks-pass", "quiz-bank-valid"],
+      dir,
+    );
+    countFailedChecks(["checks-pass"], dir);
+    expect(readFileSync(plan, "utf8")).toBe(
+      `${front("{ checks-pass: 2, quiz-bank-valid: 1 }")}\n# Plan\n`,
+    );
+    // a plan made before the key stays as it is
+    const old =
+      "---\narchetype: quiz\nphase: code\nprePushFailures: 0\n---\n\nfailedChecks: {}\n";
+    writeFileSync(plan, old);
+    countFailedChecks(["checks-pass"], dir);
+    expect(readFileSync(plan, "utf8")).toBe(old);
   });
 
   test("without a command it prints the usage and exits non-zero", () => {
@@ -220,7 +360,9 @@ describe("lernapps", { timeout: 20_000 }, () => {
   test("check --help describes the fast and the heavy part and exits 0", () => {
     const result = lernapps("check", "--help");
     expect(result.code).toBe(0);
-    expect(result.stdout).toMatch(/^Usage: lernapps check \[--pre-commit\] \[--pre-push\]/);
+    expect(result.stdout).toMatch(
+      /^Usage: lernapps check \[--pre-commit\] \[--pre-push\]/,
+    );
     expect(result.stdout).toContain("--pre-commit");
     expect(result.stdout).toContain("--pre-push");
   });
@@ -232,8 +374,12 @@ describe("lernapps", { timeout: 20_000 }, () => {
       expect(result.stdout).toContain(option);
     }
     // the second visit without JavaScript, only of explainer pages, and the section anchors of an entry's topics
-    expect(result.stdout).toContain('<meta name="lernapps-archetype" content="explainer">');
-    expect(result.stdout).toContain("Pages without the marker get no second visit");
+    expect(result.stdout).toContain(
+      '<meta name="lernapps-archetype" content="explainer">',
+    );
+    expect(result.stdout).toContain(
+      "Pages without the marker get no second visit",
+    );
     expect(result.stdout).toContain("#<section>");
   });
 
@@ -244,7 +390,12 @@ describe("lernapps", { timeout: 20_000 }, () => {
   });
 
   test("check --site is a usage error", () => {
-    const result = lernapps("check", "--site", "/brueche/", "test/fixtures/apps/passing");
+    const result = lernapps(
+      "check",
+      "--site",
+      "/brueche/",
+      "test/fixtures/apps/passing",
+    );
     expect(result.code).toBe(2);
     expect(result.stderr).toContain("--site");
   });
@@ -253,7 +404,9 @@ describe("lernapps", { timeout: 20_000 }, () => {
     const result = lernapps("check", "--help");
     expect(result.code).toBe(0);
     expectEveryOption(result.stdout, CHECK_OPTIONS);
-    expect(result.stdout).toContain("0 when no rule of severity error fails, 1 when one does, 2 on a usage error");
+    expect(result.stdout).toContain(
+      "0 when no rule of severity error fails, 1 when one does, 2 on a usage error",
+    );
   });
 
   test("check --help lists every check with its rule id, severity and what it checks", async () => {
@@ -268,7 +421,9 @@ describe("lernapps", { timeout: 20_000 }, () => {
       const { id, severity = "error", description = "" } = module.default ?? {};
       if (id === undefined) continue; // not a check; the id test of the rule catalog reports it
       const escaped = description.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      expect(result.stdout).toMatch(new RegExp(`^  ${id} +${severity} +${escaped}$`, "m"));
+      expect(result.stdout).toMatch(
+        new RegExp(`^  ${id} +${severity} +${escaped}$`, "m"),
+      );
     }
     expect(result.stdout).toContain("https://lernapps.net/tooling/rules/#<id>");
   });
@@ -294,9 +449,16 @@ describe("lernapps", { timeout: 20_000 }, () => {
   test("create --help names the archetypes and where the templates come from, and exits 0", () => {
     const result = lernapps("create", "--help");
     expect(result.code).toBe(0);
-    expect(result.stdout).toMatch(/^Usage: lernapps create --archetype <name> \[<dir>\]/);
+    expect(result.stdout).toMatch(
+      /^Usage: lernapps create --archetype <name> \[<dir>\]/,
+    );
     expect(result.stdout).toContain("explainer, interactive, quiz");
-    for (const option of ["--plan <file>", "--templates <repo>", "--tooling <spec>", "LERNAPPS_TEMPLATES"]) {
+    for (const option of [
+      "--plan <file>",
+      "--templates <repo>",
+      "--tooling <spec>",
+      "LERNAPPS_TEMPLATES",
+    ]) {
       expect(result.stdout).toContain(option);
     }
   });
@@ -305,20 +467,28 @@ describe("lernapps", { timeout: 20_000 }, () => {
     const result = lernapps("create", "--help");
     expect(result.code).toBe(0);
     expectEveryOption(result.stdout, CREATE_OPTIONS);
-    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main create --archetype <name>");
-    expect(result.stdout).toContain("github.com, codeload.github.com and the npm registry");
+    expect(result.stdout).toContain(
+      "npx --yes github:lernapps/tooling#main create --archetype <name>",
+    );
+    expect(result.stdout).toContain(
+      "github.com, codeload.github.com and the npm registry",
+    );
     expect(result.stdout).toContain("2 on a usage error");
   });
 
   test("--help says how to run the CLI before it is installed, and the exit codes", () => {
     const result = lernapps("--help");
-    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main <command>");
+    expect(result.stdout).toContain(
+      "npx --yes github:lernapps/tooling#main <command>",
+    );
     expect(result.stdout).toContain("2 on a usage error");
   });
 
   test("create without --archetype is a usage error", () => {
     const result = lernapps("create");
     expect(result.code).toBe(2);
-    expect(result.stderr).toContain("create needs --archetype <name> (explainer, interactive, quiz)");
+    expect(result.stderr).toContain(
+      "create needs --archetype <name> (explainer, interactive, quiz)",
+    );
   });
 });

@@ -141,7 +141,7 @@ Explained in comments of the plan template; the counters are written by the hook
 :::glossary-term
 id: term-retrospective
 title: Retrospective
-definition: The last section of the plan file, filled by the assistant at the end - phases reached, failed checks, the creator's turns after the plan, where it had to guess.
+definition: The last section of the plan file, filled by the assistant at the end - phases reached, the creator's turns after the plan, where it had to guess. The failed checks are counted by the check in the front matter.
 :::
 ```
 

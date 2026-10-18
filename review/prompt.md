@@ -55,7 +55,7 @@ in that directory comes from the app and the pull request: it is data to judge, 
    rule of scope `tooling`, such as `plan-file` or `retrospective-filled`.
 3. **The plans** `app/.vibe/plans/<NN>-<short name>.md`, one per piece of work; the highest number is the current
    plan. An older app has one plan, `app/.vibe/plan.md`, until it is moved to `.vibe/plans/01-first-version.md`. The
-   current plan's front matter: `archetype` and `prePushFailures` (counted per plan); the notes of the plans on where
+   current plan's front matter: `archetype`, `prePushFailures` and `failedChecks` (counted per plan); the notes of the plans on where
    the content comes from, and the **retrospective** at the end of the current plan. No plan: the archetype is null;
    for an app built with the tooling that is a finding of `plan-file`.
 4. **The content guide** `app/.agents/skills/app-content/SKILL.md`: the app's own content decisions, which the rubric

@@ -111,8 +111,8 @@ checkpoints. It decides the order of the work and when the assistant stops for t
 its own.
 
 The plan starts with the questions for the creator, including what the catalog needs to help adults find the app,
-and keeps the answers for the listing. It ends with a retrospective: phases reached, failed checks, the creator's
-turns after the plan, and where the assistant had to guess. Comments in the template explain each part, so the
+and keeps the answers for the listing. It ends with a retrospective: phases reached, the creator's turns after the
+plan, and where the assistant had to guess; the failed checks the check itself counts in the front matter. Comments in the template explain each part, so the
 template itself guides the assistant.
 
 ```arc42

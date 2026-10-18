@@ -114,8 +114,8 @@ id: retrospective-filled
 ```
 
 Read the retrospective at the end of the current plan file (the highest number in `.vibe/plans/`). A finding: a part left empty or with the
-template's comments only, or a statement the history contradicts (e.g. no failed checks, but `prePushFailures` is
-above 0). A task or checkpoint left unticked in the plan is no finding here; a phase the history shows was really
+template's comments only, or a statement the history contradicts (e.g. a smooth run, but `failedChecks` in the
+front matter counts many failed runs). A task or checkpoint left unticked in the plan is no finding here; a phase the history shows was really
 skipped (code before the plan was confirmed, published or listed without the creator's answer) is a finding of
 `explore-before-code` or `stop-at-checkpoints`, a warning like every tooling rule. Scope `tooling`: an app built freely is not judged here; one built with the tooling but without a plan is a
 finding of `plan-file`, not here. Each place listed under

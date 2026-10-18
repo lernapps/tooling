@@ -14,6 +14,7 @@ import { stripVTControlCharacters } from "node:util";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import {
+  failedChecks,
   plantLintError,
   plantRequest,
   prePushFailures,
@@ -31,64 +32,96 @@ const SLOW = 15 * 60 * 1000;
 const output = (result: Result) => `${result.stdout}\n${result.stderr}`;
 const RULES = "https://lernapps.net/tooling/rules/#";
 
-describe.skipIf(inner)("the app check action and the hooks, on an app with two mistakes", () => {
-  let failing = "";
+describe.skipIf(inner)(
+  "the app check action and the hooks, on an app with two mistakes",
+  () => {
+    let failing = "";
 
-  beforeAll(() => {
-    failing = quizApp();
-  }, SLOW);
+    beforeAll(() => {
+      failing = quizApp();
+    }, SLOW);
 
-  test(
-    "a lint error stops the commit, a stylesheet from another host the push, and the action's check finds both",
-    { timeout: SLOW },
-    () => {
-      plantLintError(failing);
-      plantRequest(failing);
-      const hooks: HookRun[] = runHooks(failing, "localStorage and a stylesheet from another host");
-      expect(
-        hooks.map((hook) => hook.passed),
-        hooks.map((hook) => hook.output).join("\n"),
-      ).toEqual([false, false]);
+    test(
+      "a lint error stops the commit, a stylesheet from another host the push, and the action's check finds both",
+      { timeout: SLOW },
+      () => {
+        plantLintError(failing);
+        plantRequest(failing);
+        const hooks: HookRun[] = runHooks(
+          failing,
+          "localStorage and a stylesheet from another host",
+        );
+        expect(
+          hooks.map((hook) => hook.passed),
+          hooks.map((hook) => hook.output).join("\n"),
+        ).toEqual([false, false]);
 
-      // the commit: one line naming the log; the log holds the lint message with its fix and rule link
-      const [commit, push] = hooks;
-      const lines = (commit?.printed ?? "")
-        .trim()
-        .split("\n")
-        .filter((line) => !line.startsWith("VITE+ - "));
-      expect(lines, commit?.printed).toHaveLength(1);
-      expect(lines[0]).toMatch(/^lernapps pre-commit: .+ failed \(exit [1-9]\d*\); the full output is in /);
-      expect(lines[0]?.endsWith(`the full output is in ${PRE_COMMIT_LOG}`)).toBe(true);
-      const log = stripVTControlCharacters(readFileSync(join(failing, PRE_COMMIT_LOG), "utf8"));
-      expect(log).toContain("src/main.ts");
-      expect(log).toContain("createStorage");
-      expect(log).toContain(`${RULES}storage-through-wrapper`);
+        // the commit: one line naming the log; the log holds the lint message with its fix and rule link
+        const [commit, push] = hooks;
+        const lines = (commit?.printed ?? "")
+          .trim()
+          .split("\n")
+          .filter((line) => !line.startsWith("VITE+ - "));
+        expect(lines, commit?.printed).toHaveLength(1);
+        expect(lines[0]).toMatch(
+          /^lernapps pre-commit: .+ failed \(exit [1-9]\d*\); the full output is in /,
+        );
+        expect(
+          lines[0]?.endsWith(`the full output is in ${PRE_COMMIT_LOG}`),
+        ).toBe(true);
+        const log = stripVTControlCharacters(
+          readFileSync(join(failing, PRE_COMMIT_LOG), "utf8"),
+        );
+        expect(log).toContain("src/main.ts");
+        expect(log).toContain("createStorage");
+        expect(log).toContain(`${RULES}storage-through-wrapper`);
 
-      // the push: the request, named with its host; the remote did not get the branch; the failed push counted
-      expect(push?.output).toContain("rule: no-request-before-click");
-      expect(push?.output).toContain("fonts.lernapps.invalid");
-      expect(run("git", ["ls-remote", "--heads", "origin", "main"], failing).stdout.trim()).toBe("");
-      expect(push?.findings.map((finding) => finding.rule)).toContain("no-request-before-click");
-      expect(prePushFailures(failing)).toBe("1");
+        // the push: the request, named with its host; the remote did not get the branch; the failed push counted
+        expect(push?.output).toContain("rule: no-request-before-click");
+        expect(push?.output).toContain("fonts.lernapps.invalid");
+        expect(
+          run(
+            "git",
+            ["ls-remote", "--heads", "origin", "main"],
+            failing,
+          ).stdout.trim(),
+        ).toBe("");
+        expect(push?.findings.map((finding) => finding.rule)).toContain(
+          "no-request-before-click",
+        );
+        expect(prePushFailures(failing)).toBe("1");
+        expect(failedChecks(failing)).toMatch(/\bno-request-before-click: 1\b/);
 
-      // the action's one check: both, with the same lint message and the same findings for the request
-      const result = runActionCheck(failing);
-      expect(result.code, output(result)).toBe(1);
-      const plain = stripVTControlCharacters(output(result));
-      // the lint message with its code frame, from its first line to the frame's end: plain (`x`, `----`) on a
-      // terminal, with colours and box drawing (`×`, `╰────`) where the linter sees CI; the same in hook and action
-      const message = /^ *[x×] lernapps\(storage-through-wrapper\)[^]*?^ *(?:`-+|╰─+)$/m.exec(log)?.[0];
-      expect(message, log).toBeDefined();
-      expect(plain).toContain(message?.trim());
-      const report = readReport(join(failing, REPORT));
-      const checks = report.findings.filter((finding) => finding.rule === "checks-pass");
-      expect(checks.map((finding) => finding.where)).toContain("vp check");
-      const requests = (findings: { rule: string }[]) =>
-        findings.filter((finding) => finding.rule === "no-request-before-click");
-      expect(requests(report.findings)).toEqual(requests(push?.findings ?? []));
-      expect(requests(report.findings).length).toBeGreaterThan(0);
-      // the same report on standard output, finding for finding
-      expect((parse(result.stdout) as { findings: unknown[] }).findings).toEqual(report.findings);
-    },
-  );
-});
+        // the action's one check: both, with the same lint message and the same findings for the request
+        const result = runActionCheck(failing);
+        expect(result.code, output(result)).toBe(1);
+        const plain = stripVTControlCharacters(output(result));
+        // the lint message with its code frame, from its first line to the frame's end: plain (`x`, `----`) on a
+        // terminal, with colours and box drawing (`×`, `╰────`) where the linter sees CI; the same in hook and action
+        const message =
+          /^ *[x×] lernapps\(storage-through-wrapper\)[^]*?^ *(?:`-+|╰─+)$/m.exec(
+            log,
+          )?.[0];
+        expect(message, log).toBeDefined();
+        expect(plain).toContain(message?.trim());
+        const report = readReport(join(failing, REPORT));
+        const checks = report.findings.filter(
+          (finding) => finding.rule === "checks-pass",
+        );
+        expect(checks.map((finding) => finding.where)).toContain("vp check");
+        const requests = (findings: { rule: string }[]) =>
+          findings.filter(
+            (finding) => finding.rule === "no-request-before-click",
+          );
+        expect(requests(report.findings)).toEqual(
+          requests(push?.findings ?? []),
+        );
+        expect(requests(report.findings).length).toBeGreaterThan(0);
+        // the same report on standard output, finding for finding
+        expect(
+          (parse(result.stdout) as { findings: unknown[] }).findings,
+        ).toEqual(report.findings);
+      },
+    );
+  },
+);

@@ -27,7 +27,6 @@ const section = (plan: string, heading: string) => plan.slice(plan.indexOf(`\n${
 const PLAN_SECTIONS = ["## Explore", "## Plan", "## Code", "## Commit", "## Retrospective"];
 const RETROSPECTIVE_SECTIONS = [
   "### Phases reached",
-  "### Failed checks",
   "### Creator turns after the plan",
   "### Where I had to guess",
 ];
@@ -37,8 +36,13 @@ describe("the plan's front matter", () => {
     expect(frontMatterErrors(file(SCHEMA), file(template))).toEqual([]);
   });
 
-  test.each(TEMPLATES)("of %s starts in Explore, without an archetype, with no failed pre-push runs", (template) => {
-    expect(frontMatter(read(template))).toEqual({ archetype: null, phase: "explore", prePushFailures: 0 });
+  test.each(TEMPLATES)("of %s starts in Explore, without an archetype, with no failed runs", (template) => {
+    expect(frontMatter(read(template))).toEqual({
+      archetype: null,
+      phase: "explore",
+      prePushFailures: 0,
+      failedChecks: {},
+    });
   });
 
   test("of a filled plan validates against the schema", () => {
