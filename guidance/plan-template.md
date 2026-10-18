@@ -44,8 +44,8 @@ For you, the assistant.
 - All content questions belong here: what, for whom, scope, didactics, look and feel. Plan only maps them onto the
   scaffold.
 - Ask; write no code; run no `create`.
-- Max 2 questions per message. Skip what earlier answers tell. Never ask the same question twice.
-- Each answer → "Answers".
+- One topic per question, max 2 questions per message. Never bundle topics into one question.
+- An answer counts only in the creator's words under "Answers"; never tick a question you assumed.
 -->
 
 ### Tasks
@@ -68,16 +68,9 @@ For you, the assistant.
         `lernapps-github` into your next question;
       - default branch not `main` (`gh api repos/<owner>/<repo> --jq .default_branch`) → skill `lernapps-github`.
 - [ ] Load skill `lernapps-content-research` before the first question about learners or curriculum.
-- [ ] Ask: what do learners do in the app, what do they learn?
-- [ ] Ask: who are the learners (subject, school year, prior knowledge)? Land and Schulform: only if the creator
-      names a school or class, at most once; no answer → KMK-Bildungsstandards.
-- [ ] Ask: where does the content come from (own material such as worksheets, tests, experiments; or others' with
-      source and licence)?
-- [ ] Read the catalog https://lernapps.net/apps/llms.txt. Ask: is an app there a model? What matters most:
-      exercises, visualisations, game feel?
-- [ ] Ask: which hurdles and misconceptions do learners have? Which examples or experiments does the creator use?
-- [ ] Ask: languages (German only, or more)?
-- [ ] Interactive or game-like: ask how it should feel and look (e.g. "wie ein echter Spielblock", colours).
+- [ ] Interview: ask every topic of "Answers", in order. Skip a topic only when an earlier answer already
+      covers it; note which. No answer → ask once more; still none → write your assumption with "(guess)" and
+      show it at the checkpoint. Done only when every topic has an answer or a shown guess.
 - [ ] Research: follow skill `lernapps-content-research` (filled-in `app-content` first). Write under "Notes":
       curriculum orientation (Lehrplan cited where used), competencies by chapter as Ich-kann-Sätze, verified
       sources. No competencies written = task not done.
@@ -93,13 +86,27 @@ For you, the assistant.
       - `explainer`: many pages of explanation, each with exercises;
       - `quiz`: questions with options and feedback.
 - [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, competencies by chapter, didactic
-      approach, scope (in, out, data range, languages), sources and how checked, what is unchecked, archetype and
-      reason. Stop and wait. Changes → change, ask again.
+      approach, scope (in, out, data range, languages), every "(guess)" of the interview, sources and how checked,
+      what is unchecked, archetype and reason. Stop and wait. Changes → change, ask again.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
 
 ### Answers
 
-<!-- Creator's answers, their words, one bullet each. -->
+<!-- The interview: per topic the creator's answer, their words. Keep the topics. -->
+
+- Goal: what learners do in the app, what they learn.
+- Learners: subject, school year, prior knowledge. Land and Schulform only if the creator names a school or class,
+  at most once; none → KMK-Bildungsstandards.
+- Model and focus: an app of the catalog (read https://lernapps.net/apps/llms.txt) as model; what matters most
+  (exercises, visualisations, game feel).
+- Hurdles: misconceptions and mistakes of the learners; the creator's examples and experiments.
+- Content: who writes it (creator, you, from sources); own material (worksheets, tests); how it is made (sources,
+  research, a skill or data format for producing it).
+- Amount: how much content per level or chapter in the first version (e.g. "one text per school year"); what
+  comes later.
+- Languages: German only, or more (texts, code).
+- Look and feel: calm like a worksheet, or like a game (colours, praise, effects); dark mode.
+- Terms: the creator's words for the main things in the app, used everywhere.
 
 ### Entry draft
 
@@ -159,9 +166,10 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
       --archetype <archetype>`. Keeps this plan.
 - [ ] `git switch work`, then `npm install` (dependencies, git hooks). From now on: `npx lernapps check`.
 - [ ] Commit the generated app with this plan on `work`.
-- [ ] `git push -u origin work`; open a draft pull request `work` → `main` (`gh pr create --draft --base main
-      --head work --title "Erste Version" --body "Vorschau für die Erstellerin oder den Ersteller"`). The comment
-      "Vorschau der App" links the preview; give the creator the link once. Refused → skill `lernapps-github`.
+- [ ] `git push -u origin work`; open a pull request `work` → `main` over REST (`gh api repos/<owner>/<repo>/pulls
+      -f base=main -f head=work -f title="Erste Version" -f body="Vorschau"`; `gh pr create` needs GraphQL, which
+      may be blocked). The comment "Vorschau der App" links the preview; give the creator the link once. Refused →
+      skill `lernapps-github`.
 - [ ] Load skill `lernapps-app` and the archetype's skill.
 - [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from the plan and its content method: replace
       every placeholder comment with concrete instructions (files, ids, data files, one example). Delete its top
@@ -191,7 +199,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 ### Tasks
 
 - [ ] `git push origin work` (not `main`). Pre-push runs the heavy checks; fix failures. See the pull request's
-      checks to green; mark it ready (`gh pr ready`).
+      checks to green.
 - [ ] Verify over REST: default branch `main` (`gh api repos/<owner>/<repo> --jq .default_branch`); Pages serves
       `gh-pages` from `/` (`gh api repos/<owner>/<repo>/pages`; "Not Found" = off). Not right and not yours to
       change → note the creator's click (skill `lernapps-github`).
