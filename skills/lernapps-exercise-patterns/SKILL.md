@@ -6,98 +6,54 @@ license: MIT
 
 # Exercise patterns
 
-Learners act on every page or in every round (`learners-act`). Good exercises are not invented one by one: they
-come from a few patterns that fit the subject, filled from shared material. Build them in three levels, and go to
-the next level only when the one before cannot say what the competency needs. The skill of the archetype says how
-each level is written there; the app's content guide `.agents/skills/app-content/SKILL.md` names the patterns this
-app uses, and takes precedence.
+- Learners act on every page or round (`learners-act`).
+- Content guide `.agents/skills/app-content/SKILL.md` names the app's patterns; it takes precedence.
+- Three levels; next level only when the previous cannot express the competency.
 
-## 1. Data files: the material, once
+## 1. Data files
 
-Write each fact once, as a record with the same fields as its neighbours, and let the exercises draw from it:
-elements with their properties, parts of a circuit with symbol and function, events with their date, organs with
-their function.
+- Each fact once, as a record with the same fields as its neighbours (elements, circuit parts, events, organs).
+- Explainer: `src/data/<name>.yaml`, used by `generated` exercises and timelines.
+- Quiz: the bank is the material; one fact in one question; same kind of fact, same question form.
 
-- In an explainer: `src/data/<name>.yaml`, which `generated` exercises and timelines draw from.
-- In a quiz: the bank is the material. Keep a fact in one question, and the same kind of fact in questions of the
-  same form.
+## 2. Patterns
 
-A correction then happens in one place, and a new exercise costs a few lines.
-
-## 2. Patterns: written down once, varied per use
-
-A pattern is a kind of exercise that practises one kind of competency: "read a value off a diagram", "match symbol
-and part", "compute a quantity with its unit, with the typical mistakes". Write each pattern the app uses into the
-content guide, part "Exercise patterns":
-- its name and the kind of competency it practises;
-- how it is expressed in the archetype: the block or question type, its fixed parts, and what varies;
-- one concrete example as it is in the app (file and id), and its data file.
-
-Then vary it per use: other values, other records of the data file, another context. Choose the pattern from the
-competency's verb:
+- Pattern = a kind of exercise for one kind of competency.
+- Write each into the guide, part "Exercise patterns": name, competency kind, archetype form (block or question
+  type, fixed parts, what varies), one example from the app (file, id), data file.
+- Vary per use: values, records, context.
+- Choose by the competency's verb:
 
 | The learner can … | Pattern |
 |---|---|
-| compute, convert, estimate | a computed task with its unit, the typical mistakes diagnosed; numbers drawn where the archetype can |
+| compute, convert, estimate | computed task with unit, typical mistakes diagnosed; numbers drawn where possible |
 | assign, name, recognise | match pairs, or pick one of things of the same kind |
 | order, compare | put items in order by size, date or step |
 | judge, decide | true or false with the reason in the feedback, or pick the right statement |
-| read off, interpret | a figure or table given, a value or statement asked |
+| read off, interpret | figure or table given, value or statement asked |
 | explain | pick the right explanation among plausible wrong ones, each with background |
 
-The catalogue [references/patterns.md](references/patterns.md) lists patterns that worked, by subject, with how
-each is expressed. Start from it, and add what you learn to the app's guide, not to the catalogue.
+- Catalogue by subject: [references/patterns.md](references/patterns.md). Learnings go into the app's guide, not
+  the catalogue.
 
-## 3. A component or an issue: what the notation cannot express
+## 3. Component or issue
 
-When no block, question type or `generated` exercise can say what the competency needs (something to drag into
-place, a value to change and watch the idea respond):
-- **in an explainer**, write a component as the skill `lernapps-explainer` says, with its `nojs` text and its
-  logic module, and say in the plan why no block fits (`prefer-built-in-block`);
-- **when the need is general** (a figure kind, a block, a question type that other apps would use too), open an
-  issue at <https://github.com/lernapps/app-templates/issues> that describes it with an example, and tell the
-  creator; until it exists, use the nearest pattern.
+- Explainer: a component (skill `lernapps-explainer`), with `nojs` text and logic module; say in the plan why no
+  block fits (`prefer-built-in-block`).
+- Need other apps share (figure kind, block, question type) → issue at
+  <https://github.com/lernapps/app-templates/issues> with an example; tell the creator; use the nearest pattern.
+- Never code beyond the archetype: quiz only its bank (`quiz-only-data`), explainer only content and components
+  (`explainer-only-content`). Note the gap under "Where I had to guess".
 
-Never write app code beyond what the archetype allows: a quiz has only its question bank (`quiz-only-data`), an
-explainer its content and components (`explainer-only-content`). Write what you missed under "Where I had to guess".
+## Checking answers
 
-## How an exercise checks success
+- Before writing an exercise: [references/success.md](references/success.md).
 
-Check the property the task text asks for, never equality with one model solution: "give a fraction equal to 1/2"
-accepts 2/4 and 3/6, "name a conductor" every conductor, "a word with a long vowel" every such word; "order the steps"
-fits only where the order is fixed.
+## Every pattern
 
-Before you write an exercise, answer and note in the plan or the content guide:
-- which answers fulfil the text, including correct ones other than yours;
-- which wrong answers are typical;
-- what feedback each one gets.
-
-If the exercise type cannot accept every correct answer (an `ordering` where the order does not matter, a
-`single-choice` with two defensible options), choose another type or change the text.
-
-Feedback on a wrong answer says why:
-- every wrong option has an `info` that says why it does not fit;
-- a number or `generated` exercise lists the 2-3 most common mistakes under `mistakes`, each with its message (for
-  `generated` as expressions over the variables);
-- an optional `hint` points to where to look, without giving the answer away;
-- a component's logic returns, besides right or wrong, a short reason for a wrong answer.
-
-A component's test checks its logic against correct answers equivalent to the solution and against the typical
-wrong ones, not only against the model solution.
-
-Write the answers you noted into the exercise's `examples`: the other correct answers the text allows into
-`accepted`, typical wrong ones into `rejected`. The build runs them through the real check; learners never see them.
-When an accepted example fails, the exercise checks the wrong thing: change its type or its check, not the example.
-
-For an exercise component, write `about.mistakes` from the same typical wrong answers as `examples.rejected`, and
-make `describe` state the task exactly as the screen shows it for that task number: a tutor reads only that.
-
-## What every pattern keeps
-
-- The exercise works without the figure being visible: the figure explains, the check checks.
-- A figure shows what the task gives, never its answer (`explainer-figure-hides-answer`).
-- Numbers fit the story, units are named, and the rounding is said (`explainer-plausible-numbers`,
-  `quiz-number-precision`).
-- Wrong options and mistakes are the ones learners really make, each with a message that says why
-  (`quiz-plausible-options`, `explainer-mistakes-diagnosed`).
-- Every figure works at 360 px and has its text alternative (`usable-at-360px`, `accessible`).
+- Works without seeing the figure: the figure explains, the check checks.
+- Figure shows the given, never the answer (`explainer-figure-hides-answer`).
+- Numbers fit the story, units named, rounding said (`explainer-plausible-numbers`, `quiz-number-precision`).
+- Wrong options and mistakes are real ones, each with a reason (`quiz-plausible-options`,
+  `explainer-mistakes-diagnosed`).
+- Every figure works at 360 px, has a text alternative (`usable-at-360px`, `accessible`).

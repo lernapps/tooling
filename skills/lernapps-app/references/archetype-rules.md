@@ -1,8 +1,6 @@
 # Archetype rules
 
-The rules that hold only for apps of one archetype. How such an app is built is in the skill of its archetype
-(`lernapps-explainer`, `lernapps-interactive`). Each rule is a section headed by its rule block (`id`, `scope`,
-`severity`).
+How to build: skill `lernapps-explainer`, skill `lernapps-interactive`.
 
 ## Explainer
 
@@ -14,9 +12,8 @@ scope: archetype:explainer
 severity: error
 ```
 
-Give every page of an explainer at least one exercise that practises what the page explains, with a solution or
-feedback learners can check; the schema requires one on every page (the start page, the chapter pages and the
-glossary are generated). The review judges whether it practises what the page explains.
+- Every page: at least one exercise practising what the page explains, with solution or feedback.
+- The schema requires it; start, chapter and glossary pages are generated. The review judges the fit.
 
 ## Interactive
 
@@ -28,4 +25,4 @@ scope: archetype:interactive
 severity: hint
 ```
 
-Say on the static start page what learners train, for whom, and how to begin.
+- Static start page says: what learners train, for whom, how to begin.
