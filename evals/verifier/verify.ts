@@ -274,7 +274,11 @@ function main() {
   if (planPath) {
     const retro = section(plan, "Retrospective");
     const filled = RETRO_PARTS.filter((part) => withoutComments(section(retro, part, 3)).trim() !== "");
-    record("retrospective_filled", filled.length / RETRO_PARTS.length, `filled: ${filled.join(", ") || "none"}`);
+    // The template fills it after the listing checkpoint; a run that stops earlier leaves it out (n/a, no 0).
+    const listed = /^- \[x\] \*\*Checkpoint:\*\* list/im.test(section(plan, "Commit"));
+    if (listed || filled.length > 0)
+      record("retrospective_filled", filled.length / RETRO_PARTS.length, `filled: ${filled.join(", ") || "none"}`);
+    else evidence.push("- `retrospective_filled`: n/a (the listing checkpoint was not reached)");
     // Competencies as "Ich kann …" (A12).
     const competencies = (plan.match(/Ich kann /g) ?? []).length;
     record("competencies_written", competencies > 0 ? 1 : 0, `${competencies} lines with "Ich kann"`);
