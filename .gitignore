@@ -7,3 +7,7 @@ dist/
 /.reviews/
 # the fixture apps of the workflow app-check.yml (test/app-fixture.ts)
 /app-fixtures/
+# the generated files of the eval tasks (evals/harbor/setup.sh)
+/evals/tasks/*/environment/ccr-ca.crt
+/evals/tasks/*/tests/verify.ts
+/evals/tasks/*/tests/plan-front-matter.v1.schema.json

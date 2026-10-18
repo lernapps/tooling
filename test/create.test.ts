@@ -88,7 +88,8 @@ describe("lernapps create refuses", () => {
     expect(second.code, output(second)).toBe(1);
     expect(second.stderr).toContain("is not numbered 01");
     expect(existsSync(join(dir, "package.json"))).toBe(false);
-  });
+    // two runs of the CLI, about 2 s each: more than the default 5 s on a busy runner
+  }, 20_000);
 
   test("a plan .vibe/plan.md of an earlier tooling is read as the first plan", () => {
     const dir = tempDir("create-legacy-plan");
