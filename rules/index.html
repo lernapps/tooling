@@ -360,7 +360,7 @@
 <h2>Keep the plan file</h2>
 <p><code>plan-file</code> · tooling · error · warning at listing</p>
 <div>
-<p>Keep each plan in <code>.vibe/plans/</code> as its template has it, with every section and front matter key; never change the plan of an earlier piece of work. Update <code>phase</code> when you enter a phase. Never edit <code>prePushFailures</code>: the pre-push hook writes it.</p>
+<p>Keep each plan in <code>.vibe/plans/</code> as its template has it, with every section and front matter key; never change the plan of an earlier piece of work. Update <code>phase</code> when you enter a phase. Never edit <code>prePushFailures</code> or <code>failedChecks</code>: the hook and the check write them.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
@@ -369,7 +369,7 @@
 <h2>Fill the retrospective</h2>
 <p><code>retrospective-filled</code> · tooling · error · warning at listing</p>
 <div>
-<p>At the end of Commit, fill every part of the retrospective with facts: phases reached, failed checks with rule ids, the creator's turns after the plan, where you had to guess. No names of people.</p>
+<p>At the end of Commit, fill every part of the retrospective with facts: phases reached, the creator's turns after the plan, where you had to guess. Failed checks need no entry: the check counts them in <code>failedChecks</code>. No names of people.</p>
 </div>
 <p>Told in the skill <a href="https://github.com/lernapps/tooling/blob/main/skills/lernapps-app/references/workflow-rules.md"><code>skills/lernapps-app/references/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
