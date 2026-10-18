@@ -6,14 +6,14 @@
 
 Download each (curl) and read the file in full. Never a summarising fetch tool.
 
-1. AGENTS.md: https://raw.githubusercontent.com/lernapps/tooling/main/guidance/AGENTS.md
+1. AGENTS.md: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/AGENTS.md
 2. Plan template, save unchanged as `.vibe/plans/01-<short name>.md`, then follow it:
-   https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md
-3. Skill lernapps-app: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md
+   https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/plan-template.md
+3. Skill lernapps-app: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-app/SKILL.md
 4. Its rules, platform first:
-   - https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/references/platform-rules.md
-   - https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/references/workflow-rules.md
-   - https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/references/tooling-rules.md
+   - https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-app/references/platform-rules.md
+   - https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-app/references/workflow-rules.md
+   - https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-app/references/tooling-rules.md
 
 ## Hard rules
 
@@ -23,31 +23,31 @@ Download each (curl) and read the file in full. Never a summarising fetch tool.
 
 ## Commands
 
-- Install skills: `npx skills add lernapps/tooling`
-- Create (after confirmation): `npx --yes github:lernapps/tooling#main create --archetype <archetype> [<dir>]`;
+- Install skills: `npx skills add lernapps/tooling#exp/compact-guidance`
+- Create (after confirmation): `npx --yes github:lernapps/tooling#exp/compact-guidance create --archetype <archetype> [<dir>]`;
   then `npm install`. Needs git, github.com, codeload.github.com, registry.npmjs.org.
 - Check, in the app: `npx lernapps check` (`--pre-commit`, `--pre-push` for one part).
-- Check any built or published app: `npx --yes github:lernapps/tooling#main check <dir|url>` (`--entry <file>`).
-- Update an app (tooling, runtime, `lernapps-*` skills): `npx --yes github:lernapps/tooling#main update`.
+- Check any built or published app: `npx --yes github:lernapps/tooling#exp/compact-guidance check <dir|url>` (`--entry <file>`).
+- Update an app (tooling, runtime, `lernapps-*` skills): `npx --yes github:lernapps/tooling#exp/compact-guidance update`.
 - Options: `--help`.
-- Publish: push to `main` → workflow `Pages` (action: https://github.com/lernapps/tooling/blob/main/actions/app-publish/action.yml) → branch `gh-pages`, at the address it prints. Any host works; the entry links to it.
+- Publish: push to `main` → workflow `Pages` (action: https://github.com/lernapps/tooling/blob/exp/compact-guidance/actions/app-publish/action.yml) → branch `gh-pages`, at the address it prints. Any host works; the entry links to it.
 
 ## Guidance
 
-- Increment template (later changes): https://raw.githubusercontent.com/lernapps/tooling/main/guidance/increment-template.md
-- Plan front matter schema: https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-front-matter.v1.schema.json
+- Increment template (later changes): https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/increment-template.md
+- Plan front matter schema: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/plan-front-matter.v1.schema.json
 - GitHub for creators: https://lernapps.net/tooling/github/
 
 ## Skills
 
-- lernapps-quiz: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-quiz/SKILL.md
-- lernapps-explainer: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-explainer/SKILL.md
-- lernapps-interactive: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-interactive/SKILL.md
-- lernapps-content-research: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-research/SKILL.md
-- lernapps-exercise-patterns: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-exercise-patterns/SKILL.md
-- lernapps-content-growth: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-growth/SKILL.md
-- lernapps-github: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-github/SKILL.md
-- lernapps-listing: https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-listing/SKILL.md
+- lernapps-quiz: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-quiz/SKILL.md
+- lernapps-explainer: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-explainer/SKILL.md
+- lernapps-interactive: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-interactive/SKILL.md
+- lernapps-content-research: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-content-research/SKILL.md
+- lernapps-exercise-patterns: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-exercise-patterns/SKILL.md
+- lernapps-content-growth: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-content-growth/SKILL.md
+- lernapps-github: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-github/SKILL.md
+- lernapps-listing: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-listing/SKILL.md
 - App's own guide `.agents/skills/app-content/SKILL.md`: takes precedence once filled.
 
 ## Archetypes
@@ -67,9 +67,9 @@ Download each (curl) and read the file in full. Never a summarising fetch tool.
 
 ## Review
 
-- Prompt: https://github.com/lernapps/tooling/blob/main/review/prompt.md
-- Rubric: https://github.com/lernapps/tooling/blob/main/review/rubric.md
-- Archetype rubrics: https://github.com/lernapps/tooling/tree/main/review/archetypes
+- Prompt: https://github.com/lernapps/tooling/blob/exp/compact-guidance/review/prompt.md
+- Rubric: https://github.com/lernapps/tooling/blob/exp/compact-guidance/review/rubric.md
+- Archetype rubrics: https://github.com/lernapps/tooling/tree/exp/compact-guidance/review/archetypes
 
 ## Other
 

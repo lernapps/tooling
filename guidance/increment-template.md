@@ -47,7 +47,7 @@ a correction.
 ### Tasks
 
 - [ ] Set `archetype` as in the app's first plan in `.vibe/plans/`.
-- [ ] Skills are in `.agents/skills/`. Only if missing: `npx skills add lernapps/tooling`.
+- [ ] Skills are in `.agents/skills/`. Only if missing: `npx skills add lernapps/tooling#exp/compact-guidance`.
 - [ ] Load the content guide `.agents/skills/app-content/SKILL.md` and skill `lernapps-content-growth`; read the
       plans in `.vibe/plans/` (what the app teaches, how content is made, what is open).
 - [ ] Ask: which competencies, chapters or rounds, for which school years?
@@ -100,7 +100,7 @@ New things go into the guide in the slice that adds them. -->
 ### Tasks
 
 - [ ] `git switch -c increment/<NN>-<short name>` from `main`. Commit this plan on it.
-- [ ] `npx --yes github:lernapps/tooling#main update`, then `npm install`. It replaces the `lernapps-*` skills: reread
+- [ ] `npx --yes github:lernapps/tooling#exp/compact-guidance update`, then `npm install`. It replaces the `lernapps-*` skills: reread
       the ones you use. Commit the update alone; fix its check findings before content.
 - [ ] <the slices written in Plan, each: competency, content, exercise, the entry's topic, check, commit>
 - [ ] The content guide describes the app as it is now: competencies, chapters, patterns, procedure for the next
