@@ -95,6 +95,7 @@ hosts: bb-process-guidance, bb-skills
 
 Where agents defined by lernapps run: the review agent on a listing, and the evals. Today it is the owner's machine,
 or for the review a job of lernapps/apps that the owner starts on the listing pull request.
+The evals run in a cloud container with Docker, where Harbor starts one container per trial (`dec-eval-runs-with-harbor`).
 It receives a checkout of the tooling at its main line. For a review, it receives the app at the commit to review.
 Only the verdict leaves this environment: the owner, or that job, posts it on the listing.
 

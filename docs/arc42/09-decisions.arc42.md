@@ -395,7 +395,8 @@ addresses: qg-checked-not-declared, qg-guidance-evolves
 
 **Context:** other people's assistants cannot be observed. **Decision:** the evals run by hand with Claude Code,
 Codex and Gemini CLI on their latest models; there is no automated eval pipeline. **Consequences:** evals before
-merging guidance changes; the p90 of failed pre-push runs is measured there.
+merging guidance changes; the p90 of failed pre-push runs is measured there. How the runs are built:
+`dec-eval-runs-with-harbor`, which refines this decision.
 
 ```arc42
 :::decision
@@ -404,6 +405,28 @@ title: Evals by hand with three assistants
 status: accepted
 date: 2026-10-08
 addresses: qg-any-assistant, qg-few-iterations
+:::
+```
+
+## Eval runs with Harbor: single-step tasks, a simulated creator, a scoring verifier
+
+**Context:** the evals test assistant configurations (harness, version, model, settings) against a guidance that works
+as a chain; they must be simple to run by the orchestrating agent and conclusive, and a spike showed that Harbor runs
+in the cloud container. **Decision:** each scenario is a single-step Harbor task from a fresh or a prepared start state
+(a git bundle in the image), the creator played by Harbor's simulated user from a persona, run through a wrapper with a
+scrubbed environment, at least three trials per task and configuration, scored at the end by a verifier over the
+collected artifacts and by a script over the transcript. **Consequences:** an eval is one command, scored per
+expectation with evidence, re-scored with `harbor job regrade` and compared only within a configuration; the images,
+prepared states and a local patch for Harbor's ACP bridge must be maintained. The full ADR with options and matrix:
+[docs/adr/eval-runs-with-harbor.md](https://github.com/lernapps/tooling/blob/main/docs/adr/eval-runs-with-harbor.md).
+
+```arc42
+:::decision
+id: dec-eval-runs-with-harbor
+title: Eval runs with Harbor: single-step tasks, a simulated creator, a scoring verifier
+status: accepted
+date: 2026-10-17
+addresses: qg-any-assistant, qg-few-iterations, qg-guidance-evolves, risk-invisible-failures, risk-owner-bottleneck
 :::
 ```
 

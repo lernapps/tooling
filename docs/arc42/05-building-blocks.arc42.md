@@ -423,14 +423,14 @@ protocol: YAML with a published JSON Schema
 
 Sample creator prompts, at least one per archetype, with the expected result. They test the guidance itself before
 a change to it is merged. They are run by hand with several assistants and scored by the check, the review and the
-plan's counters.
+plan's counters. Each scenario is a Harbor task in `evals/tasks/` (`dec-eval-runs-with-harbor`).
 
 ```arc42
 :::building-block
 id: bb-evals
 title: Evals
 parent: bb-tooling-package
-technology: Markdown prompts
+technology: Harbor tasks (Markdown, Dockerfile, shell)
 requires: if-generator-cli, if-check-cli, if-validation-report, if-review-procedure
 implements: concept-traceability
 :::
