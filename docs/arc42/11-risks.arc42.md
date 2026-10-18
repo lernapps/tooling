@@ -93,7 +93,7 @@ Creators who build in claude.ai or another chat assistant cannot run the generat
 id: risk-no-shell
 title: Creators without a shell
 severity: medium
-mitigation: The listing validation works on a URL alone; the comment with the deterministic results is readable for a chat assistant too; lernapps.net/apps/llms.txt guides listing
+mitigation: The listing validation works on a URL alone; the comment with the deterministic results is readable for a chat assistant too; lernapps.net/apps/enter/llms.txt guides listing
 :::
 ```
 
