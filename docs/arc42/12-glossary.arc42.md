@@ -135,7 +135,8 @@ definition: How a rule moves to the layer where it works best - a recurring revi
 
 ## Retrospective
 
-Explained in comments of the plan template; the counters are written by the hooks, not by the assistant.
+Explained in comments of the plan template; the counters (failed pushes, failed rules) are written by the hooks and
+the check, not by the assistant.
 
 ```arc42
 :::glossary-term
