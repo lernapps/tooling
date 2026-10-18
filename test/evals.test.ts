@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
 import { scoreTrial } from "../evals/score-transcript.ts";
+import { fill, report } from "../evals/report.ts";
 import { summarise } from "../evals/summary.ts";
 import { boxes, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
 import { repoRoot } from "./support.ts";
@@ -163,4 +164,60 @@ test("the summary aggregates trials per task and configuration and never mixes c
     ["m1", 3, { mean: 0.667, min: 0, max: 1, n: 3 }],
     ["m2", 1, { mean: 0, min: 0, max: 0, n: 1 }],
   ]);
+});
+
+test("the report of the results page: one cell per task and model, excluded jobs listed, only create commands count", () => {
+  const jobs = mkdtempSync(join(tmpdir(), "evals-report-"));
+  const job = (name: string, model: string, trials: { reward: Record<string, number>; early?: string[] }[]) => {
+    const dir = join(jobs, name);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(
+      join(dir, "configuration.json"),
+      JSON.stringify({ harness: "claude-code", model, userModel: "anthropic/claude-haiku-5-5", task: "quiz-fresh" }),
+    );
+    trials.forEach(({ reward, early = [] }, index) => {
+      mkdirSync(join(dir, `t${index}`, "verifier"), { recursive: true });
+      writeFileSync(
+        join(dir, `t${index}`, "result.json"),
+        JSON.stringify({
+          started_at: "2026-10-17T23:00:00Z",
+          finished_at: "2026-10-18T01:00:00Z",
+          agent_execution: { started_at: "2026-10-17T23:00:00Z", finished_at: "2026-10-17T23:30:00Z" },
+        }),
+      );
+      writeFileSync(join(dir, `t${index}`, "verifier", "reward.json"), JSON.stringify(reward));
+      writeFileSync(
+        join(dir, `t${index}`, "transcript-score.json"),
+        JSON.stringify({
+          dimensions: { questions_per_turn_max: index + 1, installs_before_plan: early.length },
+          evidence: { installsBeforePlan: early },
+        }),
+      );
+    });
+    return dir;
+  };
+  const excluded = job("x", "anthropic/claude-opus-5-5", [{ reward: { check_passes: 0 } }]);
+  writeFileSync(join(excluded, "excluded.txt"), "a harness fault\n");
+  const data = report(
+    [
+      job("a", "anthropic/claude-haiku-5-5", [
+        {
+          reward: { check_passes: 1 },
+          early: ["cd /app && npx --yes github:lernapps/tooling#main create --archetype quiz q"],
+        },
+        { reward: { check_passes: 1 }, early: ["cat > plan.md <<'EOF'\nnpm install"] },
+      ]),
+      excluded,
+    ],
+    { reward: { check_passes: ["A21"] }, transcript: {} },
+  );
+  expect(data.cells.map((cell) => [cell.model, cell.n, cell.minutes])).toEqual([["Haiku 5.5", 2, [30, 30]]]);
+  expect(data.cells[0]?.rows["not_created_before_plan"]).toEqual({ mean: 0.5, min: 0, max: 1, n: 2 });
+  expect(data.cells[0]?.rows["questions_max_2"]).toEqual({ mean: 1, min: 1, max: 1, n: 2 });
+  expect(data.excluded).toEqual([{ task: "quiz-fresh", model: "Opus 5.5", reason: "a harness fault" }]);
+  expect(data.totals).toMatchObject({ trials: 2, checkPasses: 2, createdBeforePlanRuns: 1, installsBeforePlanRuns: 2 });
+  expect(data.rows.find((row) => row.id === "check_passes")?.expectations).toEqual(["A21"]);
+  expect(fill("a<!-- report:x -->old<!-- /report:x -->b", { x: "new" })).toBe(
+    "a<!-- report:x -->\nnew\n<!-- /report:x -->b",
+  );
 });
