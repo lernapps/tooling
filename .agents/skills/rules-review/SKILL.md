@@ -1,6 +1,8 @@
 ---
 name: rules-review
 description: Review the rule catalog of lernapps/tooling across skills, lint rules, checks and rubric. Use when asked to review the rules, before a release of the guidance, or after rules were added or moved.
+metadata:
+  internal: true
 ---
 
 # Review the rule catalog
