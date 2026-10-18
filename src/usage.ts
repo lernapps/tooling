@@ -66,7 +66,8 @@ In a repo (no <dir|url>):
   site). Then it prints one line and writes no report. Anything else, or changed files it cannot know, runs the
   part. CI decides the same in the app check action (lernapps changes --help).
   Every run in a repo also writes the full report to node_modules/.cache/lernapps/validation-report.yaml,
-  passing or not; the app check action keeps it.
+  passing or not; the app check action keeps it. A failed run counts each rule with an error in failedChecks
+  of the current plan's front matter, when it has the key.
 
 On a built app, without its repo:
   <dir>            a bundle (a directory with index.html), served on 127.0.0.1
