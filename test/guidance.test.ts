@@ -25,11 +25,7 @@ const section = (plan: string, heading: string) => plan.slice(plan.indexOf(`\n${
 
 /** The sections every plan has, in this order: the phases, then the retrospective with its parts. */
 const PLAN_SECTIONS = ["## Explore", "## Plan", "## Code", "## Commit", "## Retrospective"];
-const RETROSPECTIVE_SECTIONS = [
-  "### Phases reached",
-  "### Creator turns after the plan",
-  "### Where I had to guess",
-];
+const RETROSPECTIVE_SECTIONS = ["### Phases reached", "### Creator turns after the plan", "### Where I had to guess"];
 
 describe("the plan's front matter", () => {
   test.each(TEMPLATES)("of %s validates against the schema", (template) => {

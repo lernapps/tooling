@@ -1,24 +1,13 @@
 // The scoring of the eval tasks (evals/): the transcript score of a trial, the verifier's parsing of a plan, and the
 // summary across jobs. The trials are fixtures: a synthetic one that exercises each dimension, and a trimmed real one.
-import {
-  cpSync,
-  mkdirSync,
-  mkdtempSync,
-  readFileSync,
-  writeFileSync,
-} from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
 import { scoreTrial } from "../evals/score-transcript.ts";
 import { fill, report } from "../evals/report.ts";
 import { summarise } from "../evals/summary.ts";
-import {
-  boxes,
-  parseFrontMatter,
-  section,
-  validate,
-} from "../evals/verifier/verify.ts";
+import { boxes, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
 import { repoRoot } from "./support.ts";
 
 const fixtures = join(repoRoot, "test", "fixtures", "evals");
@@ -53,16 +42,9 @@ test("the transcript score counts turns, questions, reads and bypasses of a synt
     agent_cache_read_tokens: 0,
     agent_output_tokens: 0,
   });
-  expect(score?.evidence["skillsRead"]).toEqual([
-    "lernapps-app",
-    "lernapps-quiz",
-  ]);
-  expect(score?.evidence["otherUrls"]).toEqual([
-    "https://de.wikipedia.org/wiki/Bruch_(Mathematik)",
-  ]);
-  expect(
-    JSON.parse(readFileSync(join(trial, "transcript-score.json"), "utf8")),
-  ).toEqual(score);
+  expect(score?.evidence["skillsRead"]).toEqual(["lernapps-app", "lernapps-quiz"]);
+  expect(score?.evidence["otherUrls"]).toEqual(["https://de.wikipedia.org/wiki/Bruch_(Mathematik)"]);
+  expect(JSON.parse(readFileSync(join(trial, "transcript-score.json"), "utf8"))).toEqual(score);
 });
 
 test("the transcript score of a recorded trial (quiz-fresh, trimmed): the plan confirmed at the fifth creator turn", () => {
@@ -143,19 +125,9 @@ test("the verifier reads a plan's front matter, its sections and its boxes", () 
     phase: "code",
     prePushFailures: 2,
   });
-  const schema = JSON.parse(
-    readFileSync(
-      join(repoRoot, "guidance", "plan-front-matter.v1.schema.json"),
-      "utf8",
-    ),
-  );
+  const schema = JSON.parse(readFileSync(join(repoRoot, "guidance", "plan-front-matter.v1.schema.json"), "utf8"));
   expect(validate(front, schema)).toEqual([]);
-  expect(
-    validate(
-      { archetype: null, phase: "code", prePushFailures: -1, extra: 1 },
-      schema,
-    ),
-  ).toEqual([
+  expect(validate({ archetype: null, phase: "code", prePushFailures: -1, extra: 1 }, schema)).toEqual([
     "prePushFailures: -1 is below 0",
     "(root): unexpected key extra",
     "archetype: null is not of type string",
@@ -168,9 +140,9 @@ test("the verifier reads a plan's front matter, its sections and its boxes", () 
     "quiz-bank-valid": 1,
   });
   expect(validate(counted, schema)).toEqual([]);
-  expect(
-    validate({ ...counted, failedChecks: { "checks-pass": 0 } }, schema),
-  ).toEqual(["failedChecks.checks-pass: 0 is below 1"]);
+  expect(validate({ ...counted, failedChecks: { "checks-pass": 0 } }, schema)).toEqual([
+    "failedChecks.checks-pass: 0 is below 1",
+  ]);
   expect(boxes(section(plan, "Explore"))).toEqual({ ticked: 2, total: 2 });
   expect(boxes(section(plan, "Plan"))).toEqual({ ticked: 1, total: 2 });
   const retro = section(plan, "Retrospective");
@@ -184,11 +156,7 @@ test("the verifier reads a plan's front matter, its sections and its boxes", () 
 
 test("the summary aggregates trials per task and configuration and never mixes configurations", () => {
   const jobs = mkdtempSync(join(tmpdir(), "evals-jobs-"));
-  const job = (
-    name: string,
-    model: string,
-    rewards: Record<string, number>[],
-  ) => {
+  const job = (name: string, model: string, rewards: Record<string, number>[]) => {
     const dir = join(jobs, name);
     mkdirSync(dir, { recursive: true });
     writeFileSync(
@@ -203,10 +171,7 @@ test("the summary aggregates trials per task and configuration and never mixes c
     rewards.forEach((reward, index) => {
       mkdirSync(join(dir, `t${index}`, "verifier"), { recursive: true });
       writeFileSync(join(dir, `t${index}`, "result.json"), "{}");
-      writeFileSync(
-        join(dir, `t${index}`, "verifier", "reward.json"),
-        JSON.stringify(reward),
-      );
+      writeFileSync(join(dir, `t${index}`, "verifier", "reward.json"), JSON.stringify(reward));
     });
     return dir;
   };
@@ -215,13 +180,7 @@ test("the summary aggregates trials per task and configuration and never mixes c
     job("b", "m1", [{ plan_exists: 1 }]),
     job("c", "m2", [{ plan_exists: 0 }]),
   ]);
-  expect(
-    groups.map((group) => [
-      group.configuration.model,
-      group.trials,
-      group.dimensions["plan_exists"],
-    ]),
-  ).toEqual([
+  expect(groups.map((group) => [group.configuration.model, group.trials, group.dimensions["plan_exists"]])).toEqual([
     ["m1", 3, { mean: 0.667, min: 0, max: 1, n: 3 }],
     ["m2", 1, { mean: 0, min: 0, max: 0, n: 1 }],
   ]);
@@ -229,11 +188,7 @@ test("the summary aggregates trials per task and configuration and never mixes c
 
 test("the report of the results page: one cell per task and model, excluded jobs listed, only create commands count", () => {
   const jobs = mkdtempSync(join(tmpdir(), "evals-report-"));
-  const job = (
-    name: string,
-    model: string,
-    trials: { reward: Record<string, number>; early?: string[] }[],
-  ) => {
+  const job = (name: string, model: string, trials: { reward: Record<string, number>; early?: string[] }[]) => {
     const dir = join(jobs, name);
     mkdirSync(dir, { recursive: true });
     writeFileSync(
@@ -258,10 +213,7 @@ test("the report of the results page: one cell per task and model, excluded jobs
           },
         }),
       );
-      writeFileSync(
-        join(dir, `t${index}`, "verifier", "reward.json"),
-        JSON.stringify(reward),
-      );
+      writeFileSync(join(dir, `t${index}`, "verifier", "reward.json"), JSON.stringify(reward));
       writeFileSync(
         join(dir, `t${index}`, "transcript-score.json"),
         JSON.stringify({
@@ -275,18 +227,14 @@ test("the report of the results page: one cell per task and model, excluded jobs
     });
     return dir;
   };
-  const excluded = job("x", "anthropic/claude-opus-5-5", [
-    { reward: { check_passes: 0 } },
-  ]);
+  const excluded = job("x", "anthropic/claude-opus-5-5", [{ reward: { check_passes: 0 } }]);
   writeFileSync(join(excluded, "excluded.txt"), "a harness fault\n");
   const data = report(
     [
       job("a", "anthropic/claude-haiku-5-5", [
         {
           reward: { check_passes: 1 },
-          early: [
-            "cd /app && npx --yes github:lernapps/tooling#main create --archetype quiz q",
-          ],
+          early: ["cd /app && npx --yes github:lernapps/tooling#main create --archetype quiz q"],
         },
         {
           reward: { check_passes: 1 },
@@ -297,9 +245,7 @@ test("the report of the results page: one cell per task and model, excluded jobs
     ],
     { reward: { check_passes: ["A21"] }, transcript: {} },
   );
-  expect(data.cells.map((cell) => [cell.model, cell.n, cell.minutes])).toEqual([
-    ["Haiku 5.5", 2, [30, 30]],
-  ]);
+  expect(data.cells.map((cell) => [cell.model, cell.n, cell.minutes])).toEqual([["Haiku 5.5", 2, [30, 30]]]);
   expect(data.cells[0]?.rows["not_created_before_plan"]).toEqual({
     mean: 0.5,
     min: 0,
@@ -312,18 +258,14 @@ test("the report of the results page: one cell per task and model, excluded jobs
     max: 1,
     n: 2,
   });
-  expect(data.excluded).toEqual([
-    { task: "quiz-fresh", model: "Opus 5.5", reason: "a harness fault" },
-  ]);
+  expect(data.excluded).toEqual([{ task: "quiz-fresh", model: "Opus 5.5", reason: "a harness fault" }]);
   expect(data.totals).toMatchObject({
     trials: 2,
     checkPasses: 2,
     createdBeforePlanRuns: 1,
     installsBeforePlanRuns: 2,
   });
-  expect(
-    data.rows.find((row) => row.id === "check_passes")?.expectations,
-  ).toEqual(["A21"]);
+  expect(data.rows.find((row) => row.id === "check_passes")?.expectations).toEqual(["A21"]);
   expect(fill("a<!-- report:x -->old<!-- /report:x -->b", { x: "new" })).toBe(
     "a<!-- report:x -->\nnew\n<!-- /report:x -->b",
   );

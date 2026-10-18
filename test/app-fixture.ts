@@ -8,14 +8,7 @@
 //       creates the app in <dir>, runs its hooks and writes what they found to <hooks.yaml>
 //   node test/app-fixture.ts compare <hooks.yaml> <report.yaml> <success|failure>
 //       the action's report and outcome match the hooks': exit 0, else 1 with the difference
-import {
-  appendFileSync,
-  cpSync,
-  existsSync,
-  readFileSync,
-  rmSync,
-  writeFileSync,
-} from "node:fs";
+import { appendFileSync, cpSync, existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse, stringify } from "yaml";
@@ -62,10 +55,7 @@ const output = (result: Result) => `${result.stdout}\n${result.stderr}`;
 
 /** The report `lernapps check` wrote in the app; fails when the run wrote none. */
 export function readReport(file: string): { findings: Finding[] } {
-  if (!existsSync(file))
-    throw new Error(
-      `no validation report at ${file}: lernapps check did not run to its end`,
-    );
+  if (!existsSync(file)) throw new Error(`no validation report at ${file}: lernapps check did not run to its end`);
   return parse(readFileSync(file, "utf8")) as { findings: Finding[] };
 }
 
@@ -103,8 +93,7 @@ export function createApp(dir: string): string {
  * The quiz app of `createApp`, made once per test run and shared read only (support.ts, shared): generated from a
  * fresh clone of this repo, installed, with the fixture bank, nothing committed. Use a copy (quizApp).
  */
-const sharedQuizApp = (): string =>
-  shared("quiz-app", (dir) => createApp(dir), "naturwunder");
+const sharedQuizApp = (): string => shared("quiz-app", (dir) => createApp(dir), "naturwunder");
 
 /**
  * A copy of the shared quiz app to work in: its files and git repository, its own bare remote `origin`, and its
@@ -135,28 +124,21 @@ export interface ActionStep {
 }
 /** The steps of the app check action (actions/app-check/action.yml). */
 export const actionSteps = (
-  parse(
-    readFileSync(join(repoRoot, "actions/app-check/action.yml"), "utf8"),
-  ) as { runs: { steps: ActionStep[] } }
+  parse(readFileSync(join(repoRoot, "actions/app-check/action.yml"), "utf8")) as { runs: { steps: ActionStep[] } }
 ).runs.steps;
 /** The action's check step. */
 export const checkStep = actionSteps.find((step) => step.id === "check");
 
 /** The action's check step, run in the app as the action runs it. */
-export const runActionCheck = (dir: string): Result =>
-  run("bash", ["-c", checkStep?.run ?? "false"], dir);
+export const runActionCheck = (dir: string): Result => run("bash", ["-c", checkStep?.run ?? "false"], dir);
 
 /** The failed pushes the pre-push hook counted in the app's plan. */
 export const prePushFailures = (dir: string) =>
-  /prePushFailures: (\d+)/.exec(
-    readFileSync(join(dir, FIRST_PLAN), "utf8"),
-  )?.[1];
+  /prePushFailures: (\d+)/.exec(readFileSync(join(dir, FIRST_PLAN), "utf8"))?.[1];
 
 /** The failed rules the check counted in the app's plan, as the front matter's line holds them. */
 export const failedChecks = (dir: string) =>
-  /^failedChecks: (.*)$/m.exec(
-    readFileSync(join(dir, FIRST_PLAN), "utf8"),
-  )?.[1];
+  /^failedChecks: (.*)$/m.exec(readFileSync(join(dir, FIRST_PLAN), "utf8"))?.[1];
 
 /** A mistake the pre-push hook catches: a stylesheet from another host, loaded before any click. */
 export function plantRequest(dir: string): void {
@@ -172,10 +154,7 @@ export function plantRequest(dir: string): void {
 
 /** A mistake the pre-commit hook catches: localStorage used directly, not through the storage wrapper. */
 export function plantLintError(dir: string): void {
-  appendFileSync(
-    join(dir, "src/main.ts"),
-    'console.info(localStorage.getItem("probe"));\n',
-  );
+  appendFileSync(join(dir, "src/main.ts"), 'console.info(localStorage.getItem("probe"));\n');
 }
 
 /**
@@ -190,14 +169,10 @@ export function runHooks(dir: string, message: string): HookRun[] {
     // the pre-commit hook is quiet: what its steps printed is in its log
     const log = join(dir, PRE_COMMIT_LOG);
     const printed =
-      name === "pre-commit" && existsSync(log)
-        ? `${output(result)}\n${readFileSync(log, "utf8")}`
-        : output(result);
+      name === "pre-commit" && existsSync(log) ? `${output(result)}\n${readFileSync(log, "utf8")}` : output(result);
     // a pre-commit hook that stops before its check (vp staged formats first) writes no report
     const findings =
-      name === "pre-commit" && result.code !== 0 && !existsSync(report)
-        ? []
-        : readReport(report).findings;
+      name === "pre-commit" && result.code !== 0 && !existsSync(report) ? [] : readReport(report).findings;
     return {
       hook: name,
       passed: result.code === 0,
@@ -207,33 +182,21 @@ export function runHooks(dir: string, message: string): HookRun[] {
     };
   };
   ok("git", ["add", "--all"], dir);
-  const commit = hook("pre-commit", [
-    "commit",
-    "--quiet",
-    "--message",
-    message,
-  ]);
-  if (!commit.passed)
-    ok("git", ["commit", "--quiet", "--no-verify", "--message", message], dir);
+  const commit = hook("pre-commit", ["commit", "--quiet", "--message", message]);
+  if (!commit.passed) ok("git", ["commit", "--quiet", "--no-verify", "--message", message], dir);
   const push = hook("pre-push", ["push", "--quiet", "origin", "HEAD:main"]);
   return [commit, push];
 }
 
 /** The differences between the action's run (its report and outcome) and the hooks' runs; none when they agree. */
-export function compare(
-  hooks: readonly HookRun[],
-  report: { findings: Finding[] },
-  outcome: string,
-): string[] {
+export function compare(hooks: readonly HookRun[], report: { findings: Finding[] }, outcome: string): string[] {
   const key = (finding: Finding) => JSON.stringify(finding);
   const expected = hooks.flatMap((run) => run.findings.map(key)).sort();
   const actual = report.findings.map(key).sort();
   const problems: string[] = [];
   const passed = hooks.every((run) => run.passed);
   if ((outcome === "success") !== passed) {
-    problems.push(
-      `the action's check ended in ${outcome}, the hooks ${passed ? "passed" : "failed"}`,
-    );
+    problems.push(`the action's check ended in ${outcome}, the hooks ${passed ? "passed" : "failed"}`);
   }
   for (const finding of actual.filter((item) => !expected.includes(item))) {
     problems.push(`only the action found: ${finding}`);
@@ -244,43 +207,26 @@ export function compare(
   return problems;
 }
 
-if (
-  process.argv[1] !== undefined &&
-  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-) {
+if (process.argv[1] !== undefined && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [command, first, second, third] = process.argv.slice(2);
   if (command === "compare" && first && second && third) {
-    const problems = compare(
-      parse(readFileSync(first, "utf8")) as HookRun[],
-      readReport(second),
-      third,
-    );
+    const problems = compare(parse(readFileSync(first, "utf8")) as HookRun[], readReport(second), third);
     process.stdout.write(
       problems.length === 0
         ? "app check: the action's check found the same as the hooks\n"
         : `app check: the action's check and the hooks differ:\n${problems.map((line) => `- ${line}\n`).join("")}`,
     );
     process.exitCode = problems.length === 0 ? 0 : 1;
-  } else if (
-    (command === "passing" || command === "failing") &&
-    first &&
-    second
-  ) {
+  } else if ((command === "passing" || command === "failing") && first && second) {
     const dir = createApp(resolve(first));
     if (command === "failing") {
       ok("git", ["add", "--all"], dir);
       ok("git", ["commit", "--quiet", "--no-verify", "--message", "quiz"], dir);
       plantRequest(dir);
     }
-    const hooks = runHooks(
-      dir,
-      command === "failing" ? "a stylesheet from another host" : "quiz",
-    );
+    const hooks = runHooks(dir, command === "failing" ? "a stylesheet from another host" : "quiz");
     writeFileSync(second, stringify(hooks, { lineWidth: 0 }));
-    for (const run of hooks)
-      process.stdout.write(
-        `${run.hook}: ${run.passed ? "passed" : "failed"}\n`,
-      );
+    for (const run of hooks) process.stdout.write(`${run.hook}: ${run.passed ? "passed" : "failed"}\n`);
   } else {
     process.stderr.write(
       "usage: node test/app-fixture.ts <passing|failing> <dir> <hooks.yaml>\n" +

@@ -22,24 +22,8 @@ import { delimiter, dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { parse } from "yaml";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
-import {
-  describeChecks,
-  failed,
-  finding,
-  runChecks,
-  toYaml,
-  type Finding,
-  type Report,
-} from "../check/run.ts";
-import {
-  BrowserError,
-  browserForTests,
-  bundlePages,
-  launch,
-  serve,
-  urlPageLimit,
-  visitApp,
-} from "../check/visit.ts";
+import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
+import { BrowserError, browserForTests, bundlePages, launch, serve, urlPageLimit, visitApp } from "../check/visit.ts";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
 import {
   changes,
@@ -82,14 +66,8 @@ const E2E_RESULTS = "node_modules/.cache/lernapps/playwright-results.json";
 const RUNTIME_ISSUES = "https://github.com/lernapps/app-templates/issues";
 
 function version(): string {
-  const manifest: unknown = JSON.parse(
-    readFileSync(new URL("../package.json", import.meta.url), "utf8"),
-  );
-  if (
-    typeof manifest === "object" &&
-    manifest !== null &&
-    "version" in manifest
-  ) {
+  const manifest: unknown = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+  if (typeof manifest === "object" && manifest !== null && "version" in manifest) {
     return String(manifest.version);
   }
   return "unknown";
@@ -98,30 +76,17 @@ function version(): string {
 /** The toolchain of the project being checked: its node_modules/.bin first. */
 const projectEnv = (): NodeJS.ProcessEnv => ({
   ...process.env,
-  PATH: [
-    join(process.cwd(), "node_modules", ".bin"),
-    process.env["PATH"] ?? "",
-  ].join(delimiter),
+  PATH: [join(process.cwd(), "node_modules", ".bin"), process.env["PATH"] ?? ""].join(delimiter),
 });
 
 /** Folders that hold no sources of the project: what tools install or write. */
-const NOT_SOURCES = new Set([
-  "node_modules",
-  "dist",
-  "_site",
-  "playwright-report",
-  "test-results",
-]);
+const NOT_SOURCES = new Set(["node_modules", "dist", "_site", "playwright-report", "test-results"]);
 
 /** Whether the project has a Vue single-file component (.vue) among its sources. */
 function hasVueFiles(dir: string): boolean {
   return readdirSync(dir, { withFileTypes: true }).some((entry) => {
     if (entry.isDirectory()) {
-      return (
-        !entry.name.startsWith(".") &&
-        !NOT_SOURCES.has(entry.name) &&
-        hasVueFiles(join(dir, entry.name))
-      );
+      return !entry.name.startsWith(".") && !NOT_SOURCES.has(entry.name) && hasVueFiles(join(dir, entry.name));
     }
     return entry.name.endsWith(".vue");
   });
@@ -162,9 +127,7 @@ function ofWorkingTree(step: Step): { step: Step; done: () => void } {
 
 /** Runs a step; its output is shown only when it fails. */
 function runStep(planned: Step): Finding | undefined {
-  const { step, done } = planned.workingTree
-    ? ofWorkingTree(planned)
-    : { step: planned, done: () => {} };
+  const { step, done } = planned.workingTree ? ofWorkingTree(planned) : { step: planned, done: () => {} };
   let result;
   try {
     result = spawnSync(step.command, step.args, {
@@ -203,10 +166,7 @@ function runStep(planned: Step): Finding | undefined {
 }
 
 /** No browser could start: in a repo a step of the toolchain's checks, on a built app or a URL the app could not be checked. */
-const browserFinding = (
-  error: BrowserError,
-  rule: typeof CHECKS_PASS | typeof APP_CHECKABLE = CHECKS_PASS,
-) =>
+const browserFinding = (error: BrowserError, rule: typeof CHECKS_PASS | typeof APP_CHECKABLE = CHECKS_PASS) =>
   finding(rule, "error", {
     where: "browser",
     found: error.message,
@@ -240,15 +200,11 @@ function failingRuntimeTests(): string[] {
   const found = new Set<string>();
   const walk = (suite: Suite, titles: string[]) => {
     for (const spec of suite.specs ?? []) {
-      if (
-        !spec.ok &&
-        spec.file.split(/[\\/]/).join("/").includes(`node_modules/${RUNTIME}/`)
-      ) {
+      if (!spec.ok && spec.file.split(/[\\/]/).join("/").includes(`node_modules/${RUNTIME}/`)) {
         found.add([...titles, spec.title].join(" › "));
       }
     }
-    for (const child of suite.suites ?? [])
-      walk(child, child.title ? [...titles, child.title] : titles);
+    for (const child of suite.suites ?? []) walk(child, child.title ? [...titles, child.title] : titles);
   };
   // the top suites are files: their titles are file names, not part of a test's title
   for (const file of results.suites ?? []) walk(file, []);
@@ -259,9 +215,7 @@ function failingRuntimeTests(): string[] {
  * Runs the Playwright tests in the browser of this run; a failing test of the runtime is named as a test of the
  * template, with what to do.
  */
-function runEndToEndTests(
-  browser: Record<string, string>,
-): Finding | undefined {
+function runEndToEndTests(browser: Record<string, string>): Finding | undefined {
   rmSync(E2E_RESULTS, { force: true });
   mkdirSync(dirname(E2E_RESULTS), { recursive: true });
   const failure = runStep({
@@ -275,10 +229,7 @@ function runEndToEndTests(
   const runtime = failingRuntimeTests();
   if (runtime.length === 0) return failure;
   const shown = runtime.slice(0, 5).map((title) => `"${title}"`);
-  const more =
-    runtime.length > shown.length
-      ? ` and ${runtime.length - shown.length} more`
-      : "";
+  const more = runtime.length > shown.length ? ` and ${runtime.length - shown.length} more` : "";
   return {
     ...failure,
     found: `end-to-end tests failed (their output is above): ${runtime.length === 1 ? "a generic test" : "generic tests"} of the template's runtime ${RUNTIME}, not of this app: ${shown.join(", ")}${more}`,
@@ -287,9 +238,7 @@ function runEndToEndTests(
 }
 
 /** Serves a bundle (or opens a URL), visits its pages and measures its fitness. */
-async function visit(
-  target: { bundle: string } | { url: string },
-): Promise<App> {
+async function visit(target: { bundle: string } | { url: string }): Promise<App> {
   const browser = await launch();
   try {
     if ("url" in target) {
@@ -312,9 +261,7 @@ async function visit(
         const path = decodeURIComponent(url.slice(base.length));
         if (path === "" || path.endsWith("/")) return `${path}index.html`;
         const file = join(target.bundle, path);
-        return existsSync(file) && statSync(file).isDirectory()
-          ? `${path}/index.html`
-          : path;
+        return existsSync(file) && statSync(file).isDirectory() ? `${path}/index.html` : path;
       };
       const { pages, unreachable } = await visitApp(browser, base, name, {
         pages: bundlePages(target.bundle),
@@ -337,9 +284,7 @@ async function visit(
 function commitOrDirectory(): Report["checked"] {
   const git = spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" });
   const commit = git.status === 0 ? git.stdout.trim() : "";
-  return /^[0-9a-f]{40}$/.test(commit)
-    ? { commit }
-    : { directory: process.cwd() };
+  return /^[0-9a-f]{40}$/.test(commit) ? { commit } : { directory: process.cwd() };
 }
 
 function readEntry(file: string): { file: string; value: Entry } {
@@ -347,15 +292,9 @@ function readEntry(file: string): { file: string; value: Entry } {
   try {
     value = parse(readFileSync(file, "utf8"));
   } catch (error) {
-    throw new UsageError(
-      `cannot read the entry ${file}: ${error instanceof Error ? error.message : String(error)}`,
-    );
+    throw new UsageError(`cannot read the entry ${file}: ${error instanceof Error ? error.message : String(error)}`);
   }
-  if (
-    typeof value !== "object" ||
-    value === null ||
-    typeof (value as Entry).url !== "string"
-  ) {
+  if (typeof value !== "object" || value === null || typeof (value as Entry).url !== "string") {
     throw new UsageError(`the entry ${file} has no url`);
   }
   return { file, value: value as Entry };
@@ -373,12 +312,7 @@ const ARCHITECTURE_INPUTS = [`${ARCHITECTURE}/`, ".arc42ignore", "src/"];
 function architectureBeforeCommit(): Step | undefined {
   if (!hasArchitecture()) return undefined;
   const staged = stagedFiles();
-  if (
-    staged !== undefined &&
-    !staged.some((file) =>
-      ARCHITECTURE_INPUTS.some((input) => file.startsWith(input)),
-    )
-  ) {
+  if (staged !== undefined && !staged.some((file) => ARCHITECTURE_INPUTS.some((input) => file.startsWith(input)))) {
     return undefined;
   }
   const head =
@@ -433,11 +367,7 @@ function arc42Ignored(): Set<string> {
  * consistency findings, which can be intended, and they stay in the report as a warning; new code no block claims has
  * a fix that is always possible (a block, or .arc42ignore for configuration), so the acceptance does not pass it.
  */
-function architectureDiffFindings(
-  where: string,
-  stdout: string,
-  stderr: string,
-): Finding[] {
+function architectureDiffFindings(where: string, stdout: string, stderr: string): Finding[] {
   let diff: {
     accepted?: boolean;
     untracked?: string[];
@@ -457,13 +387,8 @@ function architectureDiffFindings(
   }
   const ignored = arc42Ignored();
   const all = diff.findings ?? [];
-  const consistency = all.filter(
-    (f) =>
-      f.kind !== "implementation-path" && f.kind !== "new-building-block-hint",
-  );
-  const uncovered = all.filter(
-    (f) => f.kind === "new-building-block-hint" && !ignored.has(f.file),
-  );
+  const consistency = all.filter((f) => f.kind !== "implementation-path" && f.kind !== "new-building-block-hint");
+  const uncovered = all.filter((f) => f.kind === "new-building-block-hint" && !ignored.has(f.file));
   const review = all.filter((f) => f.kind === "implementation-path");
   const line = (f: DiffFinding) =>
     f.kind === "new-building-block-hint"
@@ -527,17 +452,12 @@ function stepFindings(step: Step): Finding[] {
     encoding: "utf8",
     maxBuffer: 256 * 1024 * 1024,
   });
-  if (result.error)
-    return [runStep(step)].filter((f): f is Finding => f !== undefined);
+  if (result.error) return [runStep(step)].filter((f): f is Finding => f !== undefined);
   return architectureDiffFindings(where, result.stdout, result.stderr);
 }
 
 /** The checks of the toolchain in a repo, then the checks of what it built. */
-async function checkProject(
-  fast: boolean,
-  heavy: boolean,
-  context: Context,
-): Promise<Report> {
+async function checkProject(fast: boolean, heavy: boolean, context: Context): Promise<Report> {
   const findings: Finding[] = [];
   const steps: Step[] = [];
   if (fast && !heavy) {
@@ -603,9 +523,7 @@ async function checkProject(
     const checks = await runChecks(context);
     rules.push(...checks.rules);
     findings.push(...checks.findings);
-    const config = ["ts", "js", "mjs", "cjs"]
-      .map((ext) => `playwright.config.${ext}`)
-      .find((file) => existsSync(file));
+    const config = ["ts", "js", "mjs", "cjs"].map((ext) => `playwright.config.${ext}`).find((file) => existsSync(file));
     if (config !== undefined) {
       try {
         const failure = runEndToEndTests(await browserForTests());
@@ -618,10 +536,7 @@ async function checkProject(
   }
   return {
     checked: commitOrDirectory(),
-    parts: [
-      ...(fast ? ["pre-commit" as const] : []),
-      ...(heavy ? ["pre-push" as const] : []),
-    ],
+    parts: [...(fast ? ["pre-commit" as const] : []), ...(heavy ? ["pre-push" as const] : [])],
     rules,
     findings,
     suppressions: [],
@@ -634,24 +549,14 @@ async function checkProject(
  * (pre-push): the line to print when the part has nothing to check, the site's check when the push changes only docs
  * in a repo with a site, else undefined and the part runs.
  */
-function hookScope(
-  part: "pre-commit" | "pre-push",
-): { skip: string } | { site: string } | undefined {
+function hookScope(part: "pre-commit" | "pre-push"): { skip: string } | { site: string } | undefined {
   const rules = loadRules(".");
-  const { scope, reason } = classify(
-    part === "pre-commit" ? stagedFiles() : pushedFiles(readStdin()),
-    rules,
-  );
+  const { scope, reason } = classify(part === "pre-commit" ? stagedFiles() : pushedFiles(readStdin()), rules);
   if (scope === "all") return undefined;
   const site = SITE_CHECK[rules.kind];
-  if (scope === "docs" && part === "pre-push" && site !== undefined)
-    return { site };
+  if (scope === "docs" && part === "pre-push" && site !== undefined) return { site };
   const what =
-    scope === "none"
-      ? "the plan only"
-      : rules.kind === "app"
-        ? "docs, which an app does not bundle"
-        : "docs";
+    scope === "none" ? "the plan only" : rules.kind === "app" ? "docs, which an app does not bundle" : "docs";
   return {
     skip: `lernapps check --${part}: nothing to check, the change is ${what} (${scope}: ${reason})`,
   };
@@ -682,17 +587,8 @@ function checkSite(script: string): Report {
 /** The checks of a built app alone: a bundle directory or a URL. */
 async function checkApp(target: string, context: Context): Promise<Report> {
   const isUrl = /^https?:\/\//.test(target);
-  if (
-    !isUrl &&
-    !(
-      existsSync(target) &&
-      statSync(target).isDirectory() &&
-      existsSync(join(target, "index.html"))
-    )
-  ) {
-    throw new UsageError(
-      `${target}: not a URL, nor a directory with index.html (build the app first)`,
-    );
+  if (!isUrl && !(existsSync(target) && statSync(target).isDirectory() && existsSync(join(target, "index.html")))) {
+    throw new UsageError(`${target}: not a URL, nor a directory with index.html (build the app first)`);
   }
   const at = new Date().toISOString();
   const findings: Finding[] = [];
@@ -723,8 +619,7 @@ async function check(args: string[]): Promise<number> {
     process.stdout.write(`${CHECK_USAGE}${await describeChecks()}`);
     return 0;
   }
-  if (positionals.length > 1)
-    throw new UsageError(`one <dir|url> at most, not ${positionals.join(" ")}`);
+  if (positionals.length > 1) throw new UsageError(`one <dir|url> at most, not ${positionals.join(" ")}`);
   const context: Context = {};
   if (values.entry !== undefined) context.entry = readEntry(values.entry);
   const target = positionals[0] ?? context.entry?.value.url;
@@ -732,21 +627,15 @@ async function check(args: string[]): Promise<number> {
   let report: Report;
   if (target !== undefined) {
     if (values["pre-commit"] || values["pre-push"]) {
-      throw new UsageError(
-        "--pre-commit and --pre-push check a repo; a built app is checked without them",
-      );
+      throw new UsageError("--pre-commit and --pre-push check a repo; a built app is checked without them");
     }
     report = await checkApp(target, context);
   } else {
     const all = values["pre-commit"] === values["pre-push"];
-    const scope = all
-      ? undefined
-      : hookScope(values["pre-commit"] ? "pre-commit" : "pre-push");
+    const scope = all ? undefined : hookScope(values["pre-commit"] ? "pre-commit" : "pre-push");
     // a commit of only docs still checks a change of the architecture, which is docs to the change scope
     const architecture =
-      scope !== undefined && "skip" in scope && values["pre-commit"]
-        ? architectureBeforeCommit()
-        : undefined;
+      scope !== undefined && "skip" in scope && values["pre-commit"] ? architectureBeforeCommit() : undefined;
     if (architecture !== undefined) {
       report = {
         checked: commitOrDirectory(),
@@ -763,21 +652,13 @@ async function check(args: string[]): Promise<number> {
       report =
         scope !== undefined
           ? checkSite(scope.site)
-          : await checkProject(
-              all || values["pre-commit"],
-              all || values["pre-push"],
-              context,
-            );
+          : await checkProject(all || values["pre-commit"], all || values["pre-push"], context);
       if (values["pre-push"] && failed(report)) countPrePushFailure();
     }
   }
 
   if (target === undefined && failed(report)) {
-    countFailedChecks(
-      report.findings
-        .filter((found) => found.severity === "error")
-        .map((found) => found.rule),
-    );
+    countFailedChecks(report.findings.filter((found) => found.severity === "error").map((found) => found.rule));
   }
   const yaml = toYaml(report);
   if (target === undefined) {
@@ -835,10 +716,7 @@ try {
   process.exitCode = await main(process.argv.slice(2));
 } catch (error) {
   // A usage error, or an unknown or malformed option found by node:util parseArgs (ERR_PARSE_ARGS_*)
-  const parseError =
-    error instanceof TypeError &&
-    "code" in error &&
-    String(error.code).startsWith("ERR_PARSE_ARGS");
+  const parseError = error instanceof TypeError && "code" in error && String(error.code).startsWith("ERR_PARSE_ARGS");
   if (error instanceof UsageError || parseError) {
     process.stderr.write(`lernapps: ${error.message}\n\n${USAGE}`);
     process.exitCode = 2;

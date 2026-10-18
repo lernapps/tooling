@@ -3,13 +3,7 @@
 // app made before this keeps its one plan at .vibe/plan.md until `lernapps update` moves it to
 // .vibe/plans/01-first-version.md: while there is no plan in .vibe/plans/, it counts as plan 01. The hooks, the checks
 // and the generator read the current plan here.
-import {
-  existsSync,
-  readdirSync,
-  readFileSync,
-  statSync,
-  writeFileSync,
-} from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "yaml";
 
@@ -27,13 +21,8 @@ export function plans(root = "."): string[] {
   const folder = join(root, PLANS);
   if (!existsSync(folder) || !statSync(folder).isDirectory()) return [];
   return readdirSync(folder)
-    .filter(
-      (name) => PLAN_NAME.test(name) && statSync(join(folder, name)).isFile(),
-    )
-    .sort(
-      (a, b) =>
-        Number(a.slice(0, 2)) - Number(b.slice(0, 2)) || a.localeCompare(b),
-    )
+    .filter((name) => PLAN_NAME.test(name) && statSync(join(folder, name)).isFile())
+    .sort((a, b) => Number(a.slice(0, 2)) - Number(b.slice(0, 2)) || a.localeCompare(b))
     .map((name) => `${PLANS}/${name}`);
 }
 
@@ -42,9 +31,7 @@ export function currentPlan(root = "."): string | undefined {
   const numbered = plans(root).at(-1);
   if (numbered !== undefined) return numbered;
   const legacy = join(root, LEGACY_PLAN);
-  return existsSync(legacy) && statSync(legacy).isFile()
-    ? LEGACY_PLAN
-    : undefined;
+  return existsSync(legacy) && statSync(legacy).isFile() ? LEGACY_PLAN : undefined;
 }
 
 /**
@@ -56,9 +43,7 @@ export function planFrontMatter(file: string): Record<string, unknown> {
   if (!match) return {};
   try {
     const front: unknown = parse(match[1] ?? "");
-    return typeof front === "object" && front !== null
-      ? (front as Record<string, unknown>)
-      : {};
+    return typeof front === "object" && front !== null ? (front as Record<string, unknown>) : {};
   } catch {
     return {};
   }
@@ -87,15 +72,13 @@ export function countFailedChecks(rules: readonly string[], root = "."): void {
   if (plan === undefined || rules.length === 0) return;
   const file = join(root, plan);
   const text = readFileSync(file, "utf8");
-  const line =
-    /^(---\n(?:(?!---\n)[^\n]*\n)*?failedChecks:[ \t]*)([^\n]*)/.exec(text);
+  const line = /^(---\n(?:(?!---\n)[^\n]*\n)*?failedChecks:[ \t]*)([^\n]*)/.exec(text);
   if (line === null) return;
   let counts: Record<string, number> = {};
   try {
     const value: unknown = parse(line[2] ?? "");
     if (typeof value === "object" && value !== null && !Array.isArray(value)) {
-      for (const [rule, runs] of Object.entries(value))
-        if (typeof runs === "number") counts[rule] = runs;
+      for (const [rule, runs] of Object.entries(value)) if (typeof runs === "number") counts[rule] = runs;
     }
   } catch {
     counts = {};
@@ -105,8 +88,5 @@ export function countFailedChecks(rules: readonly string[], root = "."): void {
     .sort()
     .map((rule) => `${rule}: ${counts[rule]}`);
   const head = line[1] ?? "";
-  writeFileSync(
-    file,
-    `${head}{ ${entries.join(", ")} }${text.slice(head.length + (line[2] ?? "").length)}`,
-  );
+  writeFileSync(file, `${head}{ ${entries.join(", ")} }${text.slice(head.length + (line[2] ?? "").length)}`);
 }
