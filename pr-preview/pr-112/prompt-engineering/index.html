@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light dark">
+  <title>Prompt engineering – lernapps.net</title>
+  <link rel="canonical" href="https://lernapps.net/tooling/prompt-engineering/">
+  <link rel="stylesheet" href="../stil.css">
+  <style>
+    /* Colours of this page as tokens; the dark values are their own steps, not a flip. The heatmap ramp is one hue
+       (blue), five steps, checked as an ordinal ramp against each surface; the ink in each cell clears 4.5:1. */
+    :root {
+      --ev-bg: #ffffff;
+      --ev-text: var(--la-text, #1e293b);
+      --ev-muted: var(--la-muted, #475569);
+      --ev-link: var(--la-link, #1d4ed8);
+      --ev-panel: var(--la-surface, #f8fafc);
+      --ev-border: var(--la-border, #e2e8f0);
+      --ev-grid: #e2e8f0;
+      --ev-axis: #94a3b8;
+      --ev-dot: #2a78d6;
+      --ev-mean: #1e293b;
+      --ev-h0: #86b6ef; --ev-i0: #0f172a;
+      --ev-h1: #5598e7; --ev-i1: #0f172a;
+      --ev-h2: #256abf; --ev-i2: #ffffff;
+      --ev-h3: #184f95; --ev-i3: #ffffff;
+      --ev-h4: #0d366b; --ev-i4: #ffffff;
+      --ev-tip-bg: #0f172a;
+      --ev-tip-text: #f8fafc;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --ev-bg: #111827;
+        --ev-text: #e5e7eb;
+        --ev-muted: #a3adbd;
+        --ev-link: #93c5fd;
+        --ev-panel: #1b2433;
+        --ev-border: #2c3747;
+        --ev-grid: #273244;
+        --ev-axis: #64748b;
+        --ev-dot: #3987e5;
+        --ev-mean: #e5e7eb;
+        --ev-h0: #184f95; --ev-i0: #f3f4f6;
+        --ev-h1: #256abf; --ev-i1: #f3f4f6;
+        --ev-h2: #3987e5; --ev-i2: #111827;
+        --ev-h3: #6da7ec; --ev-i3: #111827;
+        --ev-h4: #9ec5f4; --ev-i4: #111827;
+        --ev-tip-bg: #f3f4f6;
+        --ev-tip-text: #111827;
+      }
+    }
+    :root[data-theme="dark"] {
+      --ev-bg: #111827; --ev-text: #e5e7eb; --ev-muted: #a3adbd; --ev-link: #93c5fd; --ev-panel: #1b2433;
+      --ev-border: #2c3747; --ev-grid: #273244; --ev-axis: #64748b; --ev-dot: #3987e5; --ev-mean: #e5e7eb;
+      --ev-h0: #184f95; --ev-i0: #f3f4f6; --ev-h1: #256abf; --ev-i1: #f3f4f6; --ev-h2: #3987e5; --ev-i2: #111827;
+      --ev-h3: #6da7ec; --ev-i3: #111827; --ev-h4: #9ec5f4; --ev-i4: #111827; --ev-tip-bg: #f3f4f6; --ev-tip-text: #111827;
+    }
+    body { background: var(--ev-bg); color: var(--ev-text); }
+    main { color: var(--ev-text); max-width: 46rem; }
+    main a { color: var(--ev-link); }
+    main a:focus-visible, summary:focus-visible { outline: 3px solid var(--ev-link); outline-offset: 2px; }
+    h2 { margin-top: 2.5rem; line-height: 1.3; }
+    h3 { margin-top: 1.75rem; }
+    .meta, .note, caption, small { color: var(--ev-muted); }
+    .meta { font-size: 0.875rem; }
+    .note { font-size: 0.9rem; }
+    code { overflow-wrap: anywhere; }
+    th, td { border-color: var(--ev-border); }
+
+    .bottom-line {
+      background: var(--ev-panel);
+      border: 1px solid var(--ev-border);
+      border-left: 4px solid var(--ev-dot);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      margin: 1.5rem 0;
+    }
+    .bottom-line h2 { margin: 0 0 0.25rem; font-size: 1.1rem; }
+    .bottom-line ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+
+    /* stat tiles */
+    .tiles { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+    .tiles li { background: var(--ev-panel); border: 1px solid var(--ev-border); border-radius: 0.5rem;
+      padding: 0.75rem; display: flex; flex-direction: column; gap: 0.25rem; }
+    .tiles strong { font-size: 1.6rem; line-height: 1.1; }
+    .tiles span { font-size: 0.85rem; color: var(--ev-muted); line-height: 1.4; }
+
+    /* heatmap: an HTML table; it scrolls in its own box on a narrow screen, the dimension column stays */
+    .scroll { overflow-x: auto; margin: 1rem 0; }
+    .scroll:focus-visible { outline: 3px solid var(--ev-link); }
+    table.heatmap { border-collapse: separate; border-spacing: 2px; width: 100%; min-width: 36rem; font-size: 0.85rem; }
+    .heatmap caption { text-align: left; font-size: 0.85rem; padding-bottom: 0.5rem; }
+    .heatmap th, .heatmap td { border: 0; padding: 0.3rem 0.25rem; }
+    .heatmap thead th { text-align: center; font-weight: 600; vertical-align: bottom; }
+    .heatmap thead th.m span { display: block; }
+    .heatmap thead th small, .heatmap tbody th small { display: block; font-weight: 400; font-size: 0.75rem; }
+    .heatmap thead th[scope="colgroup"] { border-bottom: 1px solid var(--ev-axis); }
+    .heatmap tbody th[scope="row"] { text-align: left; font-weight: 400; line-height: 1.3; min-width: 10rem; }
+    .heatmap th[scope="row"], .heatmap thead tr:last-child th:first-child, .heatmap thead td {
+      position: sticky; left: 0; background: var(--ev-bg); z-index: 1; }
+    .heatmap tr.group th { text-align: left; font-weight: 600; padding-top: 0.9rem; color: var(--ev-muted);
+      font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; position: static; background: none; }
+    .heatmap td { text-align: center; font-variant-numeric: tabular-nums; min-width: 2.6rem; border-radius: 4px;
+      font-weight: 600; }
+    .heatmap td.first { border-left: 0.5rem solid var(--ev-bg); }
+    .heatmap .h0, .legend .h0 { background: var(--ev-h0); color: var(--ev-i0); }
+    .heatmap .h1, .legend .h1 { background: var(--ev-h1); color: var(--ev-i1); }
+    .heatmap .h2, .legend .h2 { background: var(--ev-h2); color: var(--ev-i2); }
+    .heatmap .h3, .legend .h3 { background: var(--ev-h3); color: var(--ev-i3); }
+    .heatmap .h4, .legend .h4 { background: var(--ev-h4); color: var(--ev-i4); }
+    .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 0.8rem;
+      color: var(--ev-muted); margin: 0.25rem 0 0; }
+    .legend ol { display: flex; list-style: none; margin: 0; padding: 0; gap: 2px; }
+    .legend li { padding: 0.1rem 0.45rem; border-radius: 4px; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+    /* minutes per run: one row per task and model, dots on one shared axis */
+    .strip { position: relative; margin: 1rem 0 0.5rem; font-size: 0.85rem; }
+    .strip-grid { position: absolute; top: 0; bottom: 1.6rem; left: 6rem; right: 3.25rem; pointer-events: none; }
+    .strip-grid span { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--ev-grid); }
+    .strip-group { margin-bottom: 0.4rem; }
+    .strip-task { margin: 0.4rem 0 0.1rem; font-weight: 600; }
+    .strip-row { display: flex; align-items: center; height: 1.6rem; }
+    .strip-label { flex: 0 0 6rem; color: var(--ev-muted); }
+    .track { position: relative; flex: 1 1 auto; height: 100%; }
+    .strip-row:not(.axis) .track { border-bottom: 1px solid var(--ev-grid); }
+    .strip-value { flex: 0 0 3.25rem; text-align: right; font-variant-numeric: tabular-nums; color: var(--ev-text); }
+    .dot { position: absolute; top: 50%; width: 10px; height: 10px; margin: -7px 0 0 -7px; border-radius: 50%;
+      background: var(--ev-dot); border: 2px solid var(--ev-bg); opacity: 0.9; }
+    .dot::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+    .mean { position: absolute; top: 15%; bottom: 15%; width: 2px; margin-left: -1px; background: var(--ev-mean);
+      border-radius: 1px; }
+    .mean::after { content: ""; position: absolute; inset: 0 -6px; }
+    .axis { color: var(--ev-muted); height: 1.6rem; }
+    .axis .track { border-top: 1px solid var(--ev-axis); }
+    .tick { position: absolute; top: 0.15rem; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+    .strip-key { font-size: 0.8rem; color: var(--ev-muted); display: flex; flex-wrap: wrap; gap: 1rem; margin: 0; }
+    .strip-key span::before { content: ""; display: inline-block; vertical-align: middle; margin-right: 0.35rem; }
+    .key-dot::before { width: 10px; height: 10px; border-radius: 50%; background: var(--ev-dot); }
+    .key-mean::before { width: 2px; height: 12px; background: var(--ev-mean); }
+
+    table.numbers { font-size: 0.85rem; min-width: 34rem; }
+    table.numbers td:nth-child(n+3) { font-variant-numeric: tabular-nums; }
+    table.numbers caption { text-align: left; font-size: 0.85rem; padding-bottom: 0.5rem; }
+    details { margin: 0.75rem 0; }
+    summary { cursor: pointer; color: var(--ev-link); }
+
+    /* timeline */
+    .timeline { list-style: none; padding: 0; margin: 1rem 0; border-left: 2px solid var(--ev-border); }
+    .timeline li { position: relative; padding: 0 0 0.9rem 1.1rem; }
+    .timeline li::before { content: ""; position: absolute; left: -6px; top: 0.5rem; width: 10px; height: 10px;
+      border-radius: 50%; background: var(--ev-dot); border: 2px solid var(--ev-bg); box-sizing: border-box; }
+    .timeline time { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    .tip { position: fixed; z-index: 10; max-width: 18rem; padding: 0.35rem 0.55rem; border-radius: 0.375rem;
+      background: var(--ev-tip-bg); color: var(--ev-tip-text); font-size: 0.8rem; line-height: 1.35;
+      pointer-events: none; box-shadow: 0 2px 8px rgb(0 0 0 / 0.2); }
+    .tip[hidden] { display: none; }
+    pre { background: var(--ev-panel); border: 1px solid var(--ev-border); border-radius: 0.375rem; padding: 0.75rem;
+      overflow-x: auto; font-size: 0.85rem; }
+
+    @media (max-width: 30rem) {
+      .strip-label, .strip-grid { flex-basis: 4.75rem; }
+      .strip-grid { left: 4.75rem; right: 2.75rem; }
+      .strip-value { flex-basis: 2.75rem; }
+      .heatmap tbody th[scope="row"] { min-width: 7.5rem; font-size: 0.8rem; }
+    }
+    @media (forced-colors: active) {
+      .heatmap td { border: 1px solid CanvasText; }
+      .dot, .mean { background: CanvasText; }
+    }
+  </style>
+<!-- lernapps-frame -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-112/lernapps-tokens.css">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-112/lernapps-frame.css">
+</head>
+<body>
+<a class="la-skip" href="#main-content">Skip to content</a>
+<p class="la-preview">Preview of a change. The real page: <a href="https://lernapps.net/tooling/prompt-engineering/">lernapps.net/tooling/prompt-engineering/</a></p><header class="la-header">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/en/" aria-label="lernapps.net – home page"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Find apps</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/apps/en/enter/">List an app</a></li><li><a href="/docs/en/">How it is meant</a></li><li><a href="https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" rel="noopener">Get involved</a></li></ul></nav>
+  </div>
+</header>
+  <main id="main-content" tabindex="-1">
+    <h1>Prompt engineering</h1>
+    <p>How we make the guidance work for the creator's assistant: skills, plan templates, AGENTS.md, llms.txt and
+      the messages of the tooling. We judge it by one thing: does the assistant follow the process? An app built by
+      the process is good when its creator knows the subject, so content quality is not scored.</p>
+
+    <h2 id="how-we-work">How we work</h2>
+    <ol>
+      <li><strong>Interactive test.</strong> One real creator session with a person as the creator, on a small app.
+        We read the transcript: which instructions were followed, which ignored, which links never opened, where
+        GitHub got in the way.</li>
+      <li><strong>Evals.</strong> The same scenarios across assistant configurations, several runs each, with a
+        simulated creator; scored per expectation from the app folder and the transcript. Results below.</li>
+      <li><strong>Changes.</strong> Each finding becomes a change to the guidance or the tooling, as short, hard rules
+        where the step happens, or as a check when a rule keeps being skipped.</li>
+      <li><strong>Interactive test of the new guidance.</strong> Before a change is published, a person builds one
+        small app with it. The assistant runs in a separate Claude Code session on the web and gets the unpublished
+        guidance from the orchestrating session: instead of opening a URL on lernapps.net or GitHub, it sends
+        <code>GET &lt;url&gt;</code> to that session and waits for the content. The orchestrator answers from the
+        working copy, can change a file between two requests without publishing, and logs every request. The CLI
+        still comes from npm, so the assistant treats the guidance copied into the app as outdated and asks for it
+        too. Then the evals again, comparing the new guidance with the old in the same configurations.</li>
+    </ol>
+    <p>The assistant knows it is in a test, and each request costs a turn: good enough to iterate fast, not a
+      measurement. Measurements come from the evals.</p>
+
+    <h2 id="evals">First eval results</h2>
+    <p>The evals test an assistant configuration (harness, its version, model) on our guidance: does the creator's
+      assistant follow it from the creator's first prompt to the publish checkpoint? A simulated creator answers from
+      a persona. A verifier scores the app folder at the end (plan, app, git), a second script scores the transcript.</p>
+    <!-- report:date -->
+<p class="meta">Data of 2026-10-18 (runs 2026-10-17 23:13 to 2026-10-18 05:59 UTC) · 33 runs · claude-code 2.1.302 · Harbor 0.24.0 · creator played by Haiku 5.5 · guidance <a href="https://github.com/lernapps/tooling/tree/7ceb8c4c61f120b0d5d66cd05b0c307cee468336">7ceb8c4</a> · <a href="data.json">data.json</a></p>
+<!-- /report:date -->
+
+    <section class="bottom-line" aria-labelledby="bottom-line">
+      <h2 id="bottom-line">Bottom line</h2>
+      <ul>
+        <li>Sonnet 5.5 and Opus 5.5 follow the process nearly fully on all three archetypes.</li>
+        <li>Haiku 5.5 builds apps that pass the check every time, but skips process steps: the content guide stays
+          empty in 12 of 14 runs.</li>
+        <li>Opus 5.5 is not better than Sonnet 5.5 and takes up to 2.5 times as long.</li>
+        <li>No configuration keeps to one or two questions per turn.</li>
+      </ul>
+    </section>
+
+    <h2 id="run-short">How to run an eval</h2>
+<pre tabindex="0"><code>evals/harbor/setup.sh
+evals/harbor/run.sh quiz-fresh anthropic/&lt;model&gt; 3
+node evals/summary.ts ~/.lernapps-evals/jobs</code></pre>
+    <p>Setup once per machine, one job per task and model, then the summary. Details at the
+      <a href="#run">end of this page</a>.</p>
+
+    <h2 id="results">Results</h2>
+    <p>Three scenarios, each from an empty folder: a quiz, an explainer and an interactive app (a typing trainer).
+      Each with three models as the creator's assistant. The simulated creator was always played by Haiku 5.5.</p>
+    <!-- report:tiles -->
+<ul class="tiles"><li><strong>33 of 33</strong><span>runs where <code>lernapps check</code> passed at the end</span></li><li><strong>0</strong><span>runs that bypassed a git hook; 0 failed pre-push runs counted</span></li><li><strong>33 of 33</strong><span>runs that read guidance through a summarising fetch tool at least once (32 also read the plan template word for word)</span></li><li><strong>15 h</strong><span>agent time in all runs; median 7 creator turns per run</span></li></ul>
+<!-- /report:tiles -->
+
+    <h3 id="heatmap">How closely each model follows the guidance</h3>
+    <p>One row per dimension, one column per archetype and model. Hover a cell for min, max and n. The small ids are
+      the expectations each row measures (A1–A34, in the plan of the evals).</p>
+    <div class="scroll" tabindex="0" role="region" aria-label="Heatmap: share per dimension, archetype and model">
+    <!-- report:heatmap -->
+<table class="heatmap">
+<caption>Share per run in percent (0–100), mean over the runs; darker is closer to the guidance. n = runs per cell.</caption>
+<thead><tr><td></td><th scope="colgroup" colspan="3">Quiz</th><th scope="colgroup" colspan="3">Explainer</th><th scope="colgroup" colspan="3">Interactive</th></tr><tr><th scope="col">Dimension <small>expectation</small></th><th scope="col" class="m first"><span>Haiku</span><small>n=6</small></th><th scope="col" class="m"><span>Sonnet</span><small>n=4</small></th><th scope="col" class="m"><span>Opus</span><small>n=3</small></th><th scope="col" class="m first"><span>Haiku</span><small>n=5</small></th><th scope="col" class="m"><span>Sonnet</span><small>n=4</small></th><th scope="col" class="m"><span>Opus</span><small>n=3</small></th><th scope="col" class="m first"><span>Haiku</span><small>n=3</small></th><th scope="col" class="m"><span>Sonnet</span><small>n=3</small></th><th scope="col" class="m"><span>Opus</span><small>n=2</small></th></tr></thead>
+<tbody><tr class="group"><th scope="rowgroup" colspan="10">Process (plan, app, git)</th></tr><tr><th scope="row">Plan boxes ticked <small>A4</small></th><td class="h3 first" data-tip="Quiz · Haiku 5.5 · Plan boxes ticked: mean 70 %, min 21 %, max 100 %, n = 6">70</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · Plan boxes ticked: mean 93 %, min 73 %, max 100 %, n = 4">93</td><td class="h4" data-tip="Quiz · Opus 5.5 · Plan boxes ticked: mean 99 %, min 97 %, max 100 %, n = 3">99</td><td class="h2 first" data-tip="Explainer · Haiku 5.5 · Plan boxes ticked: mean 46 %, min 0 %, max 100 %, n = 5">46</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · Plan boxes ticked: mean 100 %, min 100 %, max 100 %, n = 4">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · Plan boxes ticked: mean 99 %, min 97 %, max 100 %, n = 3">99</td><td class="h0 first" data-tip="Interactive · Haiku 5.5 · Plan boxes ticked: mean 7 %, min 0 %, max 17 %, n = 3">7</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · Plan boxes ticked: mean 97 %, min 91 %, max 100 %, n = 3">97</td><td class="h4" data-tip="Interactive · Opus 5.5 · Plan boxes ticked: mean 100 %, min 100 %, max 100 %, n = 2">100</td></tr><tr><th scope="row">Competencies written (“Ich kann …”) <small>A12</small></th><td class="h4 first" data-tip="Quiz · Haiku 5.5 · Competencies written (“Ich kann …”): 5 of 6 runs">83</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · Competencies written (“Ich kann …”): 4 of 4 runs">100</td><td class="h4" data-tip="Quiz · Opus 5.5 · Competencies written (“Ich kann …”): 3 of 3 runs">100</td><td class="h4 first" data-tip="Explainer · Haiku 5.5 · Competencies written (“Ich kann …”): 4 of 5 runs">80</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · Competencies written (“Ich kann …”): 4 of 4 runs">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · Competencies written (“Ich kann …”): 3 of 3 runs">100</td><td class="h0 first" data-tip="Interactive · Haiku 5.5 · Competencies written (“Ich kann …”): 0 of 3 runs">0</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · Competencies written (“Ich kann …”): 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Opus 5.5 · Competencies written (“Ich kann …”): 2 of 2 runs">100</td></tr><tr><th scope="row">Content guide filled (app-content) <small>A13</small></th><td class="h0 first" data-tip="Quiz · Haiku 5.5 · Content guide filled (app-content): 1 of 6 runs">17</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · Content guide filled (app-content): 4 of 4 runs">100</td><td class="h4" data-tip="Quiz · Opus 5.5 · Content guide filled (app-content): 3 of 3 runs">100</td><td class="h0 first" data-tip="Explainer · Haiku 5.5 · Content guide filled (app-content): 0 of 5 runs">0</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · Content guide filled (app-content): 4 of 4 runs">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · Content guide filled (app-content): 3 of 3 runs">100</td><td class="h1 first" data-tip="Interactive · Haiku 5.5 · Content guide filled (app-content): 1 of 3 runs">33</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · Content guide filled (app-content): 3 of 3 runs">100</td><td class="h2" data-tip="Interactive · Opus 5.5 · Content guide filled (app-content): 1 of 2 runs">50</td></tr><tr><th scope="row">Archetype chosen right <small>A19</small></th><td class="h4 first" data-tip="Quiz · Haiku 5.5 · Archetype chosen right: 6 of 6 runs">100</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · Archetype chosen right: 4 of 4 runs">100</td><td class="h4" data-tip="Quiz · Opus 5.5 · Archetype chosen right: 3 of 3 runs">100</td><td class="h4 first" data-tip="Explainer · Haiku 5.5 · Archetype chosen right: 5 of 5 runs">100</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · Archetype chosen right: 4 of 4 runs">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · Archetype chosen right: 3 of 3 runs">100</td><td class="h3 first" data-tip="Interactive · Haiku 5.5 · Archetype chosen right: 2 of 3 runs">67</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · Archetype chosen right: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Opus 5.5 · Archetype chosen right: 2 of 2 runs">100</td></tr><tr><th scope="row">lernapps check passes <small>A21, A16, A17, A18</small></th><td class="h4 first" data-tip="Quiz · Haiku 5.5 · lernapps check passes: 6 of 6 runs">100</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · lernapps check passes: 4 of 4 runs">100</td><td class="h4" data-tip="Quiz · Opus 5.5 · lernapps check passes: 3 of 3 runs">100</td><td class="h4 first" data-tip="Explainer · Haiku 5.5 · lernapps check passes: 5 of 5 runs">100</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · lernapps check passes: 4 of 4 runs">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · lernapps check passes: 3 of 3 runs">100</td><td class="h4 first" data-tip="Interactive · Haiku 5.5 · lernapps check passes: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · lernapps check passes: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Opus 5.5 · lernapps check passes: 2 of 2 runs">100</td></tr><tr><th scope="row">Phase reached <small>A4</small></th><td class="h4 first" data-tip="Quiz · Haiku 5.5 · Phase reached: mean 100 %, min 100 %, max 100 %, n = 6">100</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · Phase reached: mean 100 %, min 100 %, max 100 %, n = 4">100</td><td class="h4" data-tip="Quiz · Opus 5.5 · Phase reached: mean 100 %, min 100 %, max 100 %, n = 3">100</td><td class="h4 first" data-tip="Explainer · Haiku 5.5 · Phase reached: mean 87 %, min 67 %, max 100 %, n = 5">87</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · Phase reached: mean 100 %, min 100 %, max 100 %, n = 4">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · Phase reached: mean 100 %, min 100 %, max 100 %, n = 3">100</td><td class="h4 first" data-tip="Interactive · Haiku 5.5 · Phase reached: mean 100 %, min 100 %, max 100 %, n = 3">100</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · Phase reached: mean 100 %, min 100 %, max 100 %, n = 3">100</td><td class="h4" data-tip="Interactive · Opus 5.5 · Phase reached: mean 100 %, min 100 %, max 100 %, n = 2">100</td></tr><tr><th scope="row">Committed clean <small>A4</small></th><td class="h4 first" data-tip="Quiz · Haiku 5.5 · Committed clean: 6 of 6 runs">100</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · Committed clean: 4 of 4 runs">100</td><td class="h4" data-tip="Quiz · Opus 5.5 · Committed clean: 3 of 3 runs">100</td><td class="h4 first" data-tip="Explainer · Haiku 5.5 · Committed clean: 5 of 5 runs">100</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · Committed clean: 4 of 4 runs">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · Committed clean: 3 of 3 runs">100</td><td class="h4 first" data-tip="Interactive · Haiku 5.5 · Committed clean: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · Committed clean: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Opus 5.5 · Committed clean: 2 of 2 runs">100</td></tr></tbody><tbody><tr class="group"><th scope="rowgroup" colspan="10">Transcript (what the agent said and did)</th></tr><tr><th scope="row">At most 3 creator turns after the plan <small>A11</small></th><td class="h4 first" data-tip="Quiz · Haiku 5.5 · At most 3 creator turns after the plan: 5 of 6 runs">83</td><td class="h3" data-tip="Quiz · Sonnet 5.5 · At most 3 creator turns after the plan: 3 of 4 runs">75</td><td class="h4" data-tip="Quiz · Opus 5.5 · At most 3 creator turns after the plan: 3 of 3 runs">100</td><td class="h2 first" data-tip="Explainer · Haiku 5.5 · At most 3 creator turns after the plan: 2 of 5 runs">40</td><td class="h3" data-tip="Explainer · Sonnet 5.5 · At most 3 creator turns after the plan: 3 of 4 runs">75</td><td class="h4" data-tip="Explainer · Opus 5.5 · At most 3 creator turns after the plan: 3 of 3 runs">100</td><td class="h1 first" data-tip="Interactive · Haiku 5.5 · At most 3 creator turns after the plan: 1 of 3 runs">33</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · At most 3 creator turns after the plan: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Opus 5.5 · At most 3 creator turns after the plan: 2 of 2 runs">100</td></tr><tr><th scope="row">At most 2 questions in every turn <small>A9</small></th><td class="h0 first" data-tip="Quiz · Haiku 5.5 · At most 2 questions in every turn: 1 of 6 runs">17</td><td class="h0" data-tip="Quiz · Sonnet 5.5 · At most 2 questions in every turn: 0 of 4 runs">0</td><td class="h0" data-tip="Quiz · Opus 5.5 · At most 2 questions in every turn: 0 of 3 runs">0</td><td class="h0 first" data-tip="Explainer · Haiku 5.5 · At most 2 questions in every turn: 0 of 5 runs">0</td><td class="h0" data-tip="Explainer · Sonnet 5.5 · At most 2 questions in every turn: 0 of 4 runs">0</td><td class="h0" data-tip="Explainer · Opus 5.5 · At most 2 questions in every turn: 0 of 3 runs">0</td><td class="h0 first" data-tip="Interactive · Haiku 5.5 · At most 2 questions in every turn: 0 of 3 runs">0</td><td class="h0" data-tip="Interactive · Sonnet 5.5 · At most 2 questions in every turn: 0 of 3 runs">0</td><td class="h0" data-tip="Interactive · Opus 5.5 · At most 2 questions in every turn: 0 of 2 runs">0</td></tr><tr><th scope="row">No app created before the plan was confirmed <small>A3, A5</small></th><td class="h4 first" data-tip="Quiz · Haiku 5.5 · No app created before the plan was confirmed: 5 of 6 runs">83</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · No app created before the plan was confirmed: 4 of 4 runs">100</td><td class="h4" data-tip="Quiz · Opus 5.5 · No app created before the plan was confirmed: 3 of 3 runs">100</td><td class="h4 first" data-tip="Explainer · Haiku 5.5 · No app created before the plan was confirmed: 4 of 5 runs">80</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · No app created before the plan was confirmed: 4 of 4 runs">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · No app created before the plan was confirmed: 3 of 3 runs">100</td><td class="h3 first" data-tip="Interactive · Haiku 5.5 · No app created before the plan was confirmed: 2 of 3 runs">67</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · No app created before the plan was confirmed: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Opus 5.5 · No app created before the plan was confirmed: 2 of 2 runs">100</td></tr><tr><th scope="row">Plan template read word for word <small>A1</small></th><td class="h4 first" data-tip="Quiz · Haiku 5.5 · Plan template read word for word: 6 of 6 runs">100</td><td class="h4" data-tip="Quiz · Sonnet 5.5 · Plan template read word for word: 4 of 4 runs">100</td><td class="h4" data-tip="Quiz · Opus 5.5 · Plan template read word for word: 3 of 3 runs">100</td><td class="h4 first" data-tip="Explainer · Haiku 5.5 · Plan template read word for word: 4 of 5 runs">80</td><td class="h4" data-tip="Explainer · Sonnet 5.5 · Plan template read word for word: 4 of 4 runs">100</td><td class="h4" data-tip="Explainer · Opus 5.5 · Plan template read word for word: 3 of 3 runs">100</td><td class="h4 first" data-tip="Interactive · Haiku 5.5 · Plan template read word for word: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Sonnet 5.5 · Plan template read word for word: 3 of 3 runs">100</td><td class="h4" data-tip="Interactive · Opus 5.5 · Plan template read word for word: 2 of 2 runs">100</td></tr></tbody>
+</table>
+<!-- /report:heatmap -->
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span>Share in %</span>
+      <ol><li class="h0">0–19</li><li class="h1">20–39</li><li class="h2">40–59</li><li class="h3">60–79</li><li class="h4">80–100</li></ol>
+    </div>
+    <p class="note">How the rows are counted: process rows are the verifier's scores (plan boxes and phase as a
+      share, the others 0 or 1 per run). Transcript rows are the share of runs that meet the condition. "No app
+      created" counts only the create command; the transcript score also flagged a fourth run, where the agent only
+      wrote the plan file. The retrospective is left out: the scenarios stop at the publish checkpoint and the plan
+      template fills the retrospective after the listing, so it is n/a in 23 of 33 runs (the old value is kept in
+      <code>reward.orig.json</code>). Whether the skill <code>lernapps-app</code> was read is left out too: the score
+      misses reads in the shell (<code>cat</code>), so its numbers are too low.</p>
+
+    <h3 id="minutes">Minutes per run</h3>
+    <p>Agent time from the first prompt to the end of the run, one dot per run, the bar is the mean.</p>
+    <p class="strip-key" aria-hidden="true"><span class="key-dot">one run</span><span class="key-mean">mean</span></p>
+    <!-- report:durations -->
+<div class="strip"><div class="strip-grid" aria-hidden="true"><span style="left:0%"></span><span style="left:20%"></span><span style="left:40%"></span><span style="left:60%"></span><span style="left:80%"></span><span style="left:100%"></span></div><div class="strip-group"><p class="strip-task">Quiz</p><div class="strip-row"><span class="strip-label">Haiku 5.5</span><span class="track" role="img" aria-label="Quiz, Haiku 5.5: 6 runs, 9.9, 10.6, 15, 17.3, 17.6, 18.5 minutes, mean 14.8"><span class="mean" style="left:19.75%" data-tip="Quiz · Haiku 5.5: mean 14.8 min"></span><span class="dot" style="left:13.2%" data-tip="Quiz · Haiku 5.5: 9.9 min"></span><span class="dot" style="left:14.13%" data-tip="Quiz · Haiku 5.5: 10.6 min"></span><span class="dot" style="left:20%" data-tip="Quiz · Haiku 5.5: 15 min"></span><span class="dot" style="left:23.07%" data-tip="Quiz · Haiku 5.5: 17.3 min"></span><span class="dot" style="left:23.47%" data-tip="Quiz · Haiku 5.5: 17.6 min"></span><span class="dot" style="left:24.67%" data-tip="Quiz · Haiku 5.5: 18.5 min"></span></span><span class="strip-value">⌀ 15</span></div><div class="strip-row"><span class="strip-label">Sonnet 5.5</span><span class="track" role="img" aria-label="Quiz, Sonnet 5.5: 4 runs, 14, 16.2, 17.5, 32.6 minutes, mean 20.1"><span class="mean" style="left:26.74%" data-tip="Quiz · Sonnet 5.5: mean 20.1 min"></span><span class="dot" style="left:18.67%" data-tip="Quiz · Sonnet 5.5: 14 min"></span><span class="dot" style="left:21.6%" data-tip="Quiz · Sonnet 5.5: 16.2 min"></span><span class="dot" style="left:23.33%" data-tip="Quiz · Sonnet 5.5: 17.5 min"></span><span class="dot" style="left:43.47%" data-tip="Quiz · Sonnet 5.5: 32.6 min"></span></span><span class="strip-value">⌀ 20</span></div><div class="strip-row"><span class="strip-label">Opus 5.5</span><span class="track" role="img" aria-label="Quiz, Opus 5.5: 3 runs, 16.1, 19.1, 36.8 minutes, mean 24"><span class="mean" style="left:31.99%" data-tip="Quiz · Opus 5.5: mean 24 min"></span><span class="dot" style="left:21.47%" data-tip="Quiz · Opus 5.5: 16.1 min"></span><span class="dot" style="left:25.47%" data-tip="Quiz · Opus 5.5: 19.1 min"></span><span class="dot" style="left:49.07%" data-tip="Quiz · Opus 5.5: 36.8 min"></span></span><span class="strip-value">⌀ 24</span></div></div><div class="strip-group"><p class="strip-task">Explainer</p><div class="strip-row"><span class="strip-label">Haiku 5.5</span><span class="track" role="img" aria-label="Explainer, Haiku 5.5: 5 runs, 17.3, 18.5, 31.7, 34.2, 36 minutes, mean 27.5"><span class="mean" style="left:36.73%" data-tip="Explainer · Haiku 5.5: mean 27.5 min"></span><span class="dot" style="left:23.07%" data-tip="Explainer · Haiku 5.5: 17.3 min"></span><span class="dot" style="left:24.67%" data-tip="Explainer · Haiku 5.5: 18.5 min"></span><span class="dot" style="left:42.27%" data-tip="Explainer · Haiku 5.5: 31.7 min"></span><span class="dot" style="left:45.6%" data-tip="Explainer · Haiku 5.5: 34.2 min"></span><span class="dot" style="left:48%" data-tip="Explainer · Haiku 5.5: 36 min"></span></span><span class="strip-value">⌀ 28</span></div><div class="strip-row"><span class="strip-label">Sonnet 5.5</span><span class="track" role="img" aria-label="Explainer, Sonnet 5.5: 4 runs, 14.3, 17, 24.4, 39.5 minutes, mean 23.8"><span class="mean" style="left:31.75%" data-tip="Explainer · Sonnet 5.5: mean 23.8 min"></span><span class="dot" style="left:19.07%" data-tip="Explainer · Sonnet 5.5: 14.3 min"></span><span class="dot" style="left:22.67%" data-tip="Explainer · Sonnet 5.5: 17 min"></span><span class="dot" style="left:32.53%" data-tip="Explainer · Sonnet 5.5: 24.4 min"></span><span class="dot" style="left:52.67%" data-tip="Explainer · Sonnet 5.5: 39.5 min"></span></span><span class="strip-value">⌀ 24</span></div><div class="strip-row"><span class="strip-label">Opus 5.5</span><span class="track" role="img" aria-label="Explainer, Opus 5.5: 3 runs, 45.2, 63.5, 70.8 minutes, mean 59.9"><span class="mean" style="left:79.81%" data-tip="Explainer · Opus 5.5: mean 59.9 min"></span><span class="dot" style="left:60.27%" data-tip="Explainer · Opus 5.5: 45.2 min"></span><span class="dot" style="left:84.67%" data-tip="Explainer · Opus 5.5: 63.5 min"></span><span class="dot" style="left:94.4%" data-tip="Explainer · Opus 5.5: 70.8 min"></span></span><span class="strip-value">⌀ 60</span></div></div><div class="strip-group"><p class="strip-task">Interactive</p><div class="strip-row"><span class="strip-label">Haiku 5.5</span><span class="track" role="img" aria-label="Interactive, Haiku 5.5: 3 runs, 16.4, 22.2, 64.5 minutes, mean 34.4"><span class="mean" style="left:45.83%" data-tip="Interactive · Haiku 5.5: mean 34.4 min"></span><span class="dot" style="left:21.87%" data-tip="Interactive · Haiku 5.5: 16.4 min"></span><span class="dot" style="left:29.6%" data-tip="Interactive · Haiku 5.5: 22.2 min"></span><span class="dot" style="left:86%" data-tip="Interactive · Haiku 5.5: 64.5 min"></span></span><span class="strip-value">⌀ 34</span></div><div class="strip-row"><span class="strip-label">Sonnet 5.5</span><span class="track" role="img" aria-label="Interactive, Sonnet 5.5: 3 runs, 16.2, 20, 26.9 minutes, mean 21.1"><span class="mean" style="left:28.08%" data-tip="Interactive · Sonnet 5.5: mean 21.1 min"></span><span class="dot" style="left:21.6%" data-tip="Interactive · Sonnet 5.5: 16.2 min"></span><span class="dot" style="left:26.67%" data-tip="Interactive · Sonnet 5.5: 20 min"></span><span class="dot" style="left:35.87%" data-tip="Interactive · Sonnet 5.5: 26.9 min"></span></span><span class="strip-value">⌀ 21</span></div><div class="strip-row"><span class="strip-label">Opus 5.5</span><span class="track" role="img" aria-label="Interactive, Opus 5.5: 2 runs, 29.7, 51.3 minutes, mean 40.5"><span class="mean" style="left:54.03%" data-tip="Interactive · Opus 5.5: mean 40.5 min"></span><span class="dot" style="left:39.6%" data-tip="Interactive · Opus 5.5: 29.7 min"></span><span class="dot" style="left:68.4%" data-tip="Interactive · Opus 5.5: 51.3 min"></span></span><span class="strip-value">⌀ 41</span></div></div><div class="strip-row axis" aria-hidden="true"><span class="strip-label"></span><span class="track"><span class="tick" style="left:0%">0</span><span class="tick" style="left:20%">15</span><span class="tick" style="left:40%">30</span><span class="tick" style="left:60%">45</span><span class="tick" style="left:80%">60</span><span class="tick" style="left:100%">75</span></span><span class="strip-value">min</span></div></div>
+<details>
+<summary>Table: minutes and transcript numbers per task and model</summary>
+<div class="scroll" tabindex="0" role="region" aria-label="Table of minutes and transcript numbers"><table class="numbers">
+<thead><tr><th scope="col">Task</th><th scope="col">Model</th><th scope="col">n</th><th scope="col">Agent minutes, mean (min–max)</th><th scope="col">Creator turns</th><th scope="col">Creator turns after the plan</th><th scope="col">Most questions in one turn</th></tr></thead>
+<tbody><tr><td>Quiz</td><td>Haiku 5.5</td><td>6</td><td>15 (10–18)</td><td>6.5 (5–8)</td><td>1.5 (1–4)</td><td>3.8 (2–7)</td></tr><tr><td>Quiz</td><td>Sonnet 5.5</td><td>4</td><td>20 (14–33)</td><td>8 (6–11)</td><td>2.5 (1–4)</td><td>6.3 (5–8)</td></tr><tr><td>Quiz</td><td>Opus 5.5</td><td>3</td><td>24 (16–37)</td><td>6.3 (5–8)</td><td>2.3 (2–3)</td><td>5 (4–6)</td></tr><tr><td>Explainer</td><td>Haiku 5.5</td><td>5</td><td>28 (17–36)</td><td>7.8 (7–9)</td><td>3.8 (3–5)</td><td>4.8 (3–7)</td></tr><tr><td>Explainer</td><td>Sonnet 5.5</td><td>4</td><td>24 (14–40)</td><td>7 (6–9)</td><td>2.3 (1–4)</td><td>5 (4–6)</td></tr><tr><td>Explainer</td><td>Opus 5.5</td><td>3</td><td>60 (45–71)</td><td>7 (6–8)</td><td>2 (1–3)</td><td>8.7 (6–12)</td></tr><tr><td>Interactive</td><td>Haiku 5.5</td><td>3</td><td>34 (16–64)</td><td>9.7 (7–11)</td><td>4 (2–6)</td><td>4.7 (3–6)</td></tr><tr><td>Interactive</td><td>Sonnet 5.5</td><td>3</td><td>21 (16–27)</td><td>7.3 (7–8)</td><td>2 (2–2)</td><td>6.3 (6–7)</td></tr><tr><td>Interactive</td><td>Opus 5.5</td><td>2</td><td>41 (30–51)</td><td>8 (8–8)</td><td>3 (3–3)</td><td>5 (4–6)</td></tr></tbody>
+</table></div>
+</details>
+<!-- /report:durations -->
+
+    <h3 id="findings">Findings</h3>
+    <ul>
+      <li><strong>Sonnet 5.5 and Opus 5.5</strong> wrote the competencies, filled the content guide, chose the right
+        archetype, passed the check, reached the commit phase and committed clean in every run, with one exception:
+        Opus 5.5 left the content guide empty in 1 of 2 interactive runs. They ticked 93–100 % of the plan's boxes on
+        average.</li>
+      <li><strong>Haiku 5.5</strong> passed the check in 14 of 14 runs, but:
+        <ul>
+          <li>filled the content guide (app-content) in only 2 of 14 runs;</li>
+          <li>ticked between 0 and 100 % of the plan's boxes per run (mean 70 % quiz, 46 % explainer, 7 %
+            interactive);</li>
+          <li>wrote no competencies ("Ich kann …") in any of the 3 interactive runs, and in 9 of 14 runs overall;</li>
+          <li>chose the wrong archetype once: an explainer for the typing trainer;</li>
+          <li>created the app before the creator confirmed the plan in 3 runs, one per archetype;</li>
+          <li>needed more creator turns after the plan on the explainer (mean 3.8) and the interactive app (4.0) than
+            Sonnet and Opus (2 to 3); on the quiz it needed fewer (1.5);</li>
+          <li>stopped in the code phase in 2 of 5 explainer runs.</li>
+        </ul>
+      </li>
+      <li><strong>Questions:</strong> 32 of 33 runs asked more than two questions in one turn. Haiku 5.5 asked at
+        most 2–7, Sonnet 5.5 4–8, Opus 5.5 4–12. The score counts sentences that end in "?" in the agent's text, so
+        questions inside a plan draft count too.</li>
+      <li><strong>Time and cost:</strong> Opus 5.5 took 60 minutes on the explainer against 24 for Sonnet 5.5 (2.5
+        times), 41 against 21 on the interactive app, 24 against 20 on the quiz, and read 3.5 times as many cached
+        tokens on the explainer. Haiku 5.5 was faster only on the quiz (15 minutes).</li>
+      <li><strong>Reading the guidance:</strong> every run fetched guidance through a summarising fetch tool at least
+        once; 32 of 33 also downloaded the plan template and read it word for word.</li>
+    </ul>
+
+    <h3 id="guidance">What it may mean for the guidance</h3>
+    <p>Candidates, not decisions:</p>
+    <ul>
+      <li>Enforce the content guide: a check or hook that fails while "FILL IN" is left in
+        <code>.agents/skills/app-content/SKILL.md</code>.</li>
+      <li>Make the choice of archetype clearer for the interactive case (a typing game is interactive, not an
+        explainer).</li>
+      <li>Make the plan confirmation a checkpoint before <code>create</code> that is hard to miss.</li>
+      <li>Rethink the rule of one or two questions per turn: no model keeps it today. State it more plainly, or
+        count it differently.</li>
+    </ul>
+
+    <h2 id="next">Next: guidance for agents, not for humans</h2>
+    <p>The goal of the evals is to optimise the guidance for agents. Today the plan template, the skills and the
+      rules are long and written as prose for people. The hypothesis: a much more compact variant (bullet points,
+      less boilerplate, nothing written only for humans) gives similarly good conversations at a much lower cost.</p>
+    <p>How the evals will test it: the same scenarios and configurations, with a compact variant of the guidance as
+      the only change. Then compare the quality dimensions above and the cost: agent tokens, creator turns and
+      minutes. Today's numbers are the baseline:</p>
+    <!-- report:baseline -->
+<div class="scroll" tabindex="0" role="region" aria-label="Cost baseline per task and model"><table class="numbers">
+<caption>Mean per run. Tokens of the agent under test, summed from its session log (not Harbor's numbers); k = thousand.</caption>
+<thead><tr><th scope="col">Task</th><th scope="col">Model</th><th scope="col">n</th><th scope="col">Input tokens</th><th scope="col">Cache-read tokens</th><th scope="col">Output tokens</th><th scope="col">Agent minutes</th><th scope="col">Creator turns</th></tr></thead>
+<tbody><tr><td>Quiz</td><td>Haiku 5.5</td><td>6</td><td>132k</td><td>4,414k</td><td>73k</td><td>14.8</td><td>6.5</td></tr><tr><td>Quiz</td><td>Sonnet 5.5</td><td>4</td><td>121k</td><td>3,702k</td><td>62k</td><td>20.1</td><td>8</td></tr><tr><td>Quiz</td><td>Opus 5.5</td><td>3</td><td>190k</td><td>9,212k</td><td>90k</td><td>24</td><td>6.3</td></tr><tr><td>Explainer</td><td>Haiku 5.5</td><td>5</td><td>193k</td><td>7,941k</td><td>100k</td><td>27.5</td><td>7.8</td></tr><tr><td>Explainer</td><td>Sonnet 5.5</td><td>4</td><td>209k</td><td>9,104k</td><td>99k</td><td>23.8</td><td>7</td></tr><tr><td>Explainer</td><td>Opus 5.5</td><td>3</td><td>371k</td><td>31,915k</td><td>168k</td><td>59.9</td><td>7</td></tr><tr><td>Interactive</td><td>Haiku 5.5</td><td>3</td><td>161k</td><td>7,747k</td><td>95k</td><td>34.4</td><td>9.7</td></tr><tr><td>Interactive</td><td>Sonnet 5.5</td><td>3</td><td>189k</td><td>8,960k</td><td>79k</td><td>21.1</td><td>7.3</td></tr><tr><td>Interactive</td><td>Opus 5.5</td><td>2</td><td>306k</td><td>20,728k</td><td>125k</td><td>40.5</td><td>8</td></tr></tbody>
+</table></div>
+<!-- /report:baseline -->
+
+    <h2 id="how">How we got here</h2>
+    <p>Since the evening of 17 October 2026; times are local (CEST).</p>
+    <ol class="timeline">
+      <li><time>22:16</time> Inventory of the guidance as a chain (build prompt → llms.txt → skill → plan → archetype
+        skill → tool messages → listing) and the expectations A1–A34, each with its evidence.</li>
+      <li><time>22:25</time> ADR with a three-point Pugh matrix (−1, 0, +1 against plain scripts) over six options:
+        scripts and result files, Claude Code's plugin eval, Inspect, Harbor, promptfoo, an own container. First
+        result: scripts and Harbor tied.</li>
+      <li><time>evening</time> A spike without a model: Harbor 0.24.0 runs in the cloud container, with Docker
+        started by hand, the proxy's CA baked into every image and base images from a mirror registry.</li>
+      <li><time>evening</time> Credentials: the platform filters environment variables named
+        <code>ANTHROPIC_*</code>, so the key is stored as <code>EVALS_ANTHROPIC_API_KEY</code>. A subscription token
+        worked, but with Harbor's ACP bridge it did not reach the agent under test. A small local patch fixes it; it
+        is reported upstream.</li>
+      <li><time>evening</time> First real run: a quiz mini-task on Haiku, 2 turns, under 2 minutes.</li>
+      <li><time>01:02</time> ADR accepted: Harbor, the only option with a simulated creator; +2 against 0 for the
+        scripts after the spike.</li>
+      <li><time>01:13</time> The matrix starts: three lanes in parallel overnight. No new runs after 07:00, before
+        the subscription's usage window reset; the last run ended at 07:59.</li>
+      <li><time>during the night</time> Fixes found while running: Harbor's <code>.acpxrc.json</code> in the app
+        folder made <code>lernapps create</code> refuse it, so it moved to the global config. The persona stopped at
+        a GitHub Pages question in Explore; now it stops only at the real publish checkpoint (one run excluded, see
+        below). The transcript score raised false hook-bypass alarms; now only real bypasses count. The
+        retrospective became n/a for runs that stop before the listing.</li>
+    </ol>
+
+    <h2 id="limits">Limits</h2>
+    <ul>
+      <li>Small n: 2 to 6 runs per cell. One creator model (Haiku 5.5), one guidance commit.</li>
+      <li>Fresh scenarios only: no increment, no prepared start states yet.</li>
+      <li>GitHub only as a local remote in the container; the GitHub cases on github.com are not run yet.</li>
+      <li>Claude Code only; Codex and Gemini CLI are not run yet.</li>
+      <li>Harbor's own token and cost numbers are wrong for the agent behind the ACP bridge; the tokens here are
+        summed from the agent's session log.</li>
+      <li>Excluded: one interactive run with Haiku 5.5. The persona took a GitHub Pages question in Explore for the
+        publish checkpoint and ended before the plan, a fault of the harness, not of the agent (fixed since).</li>
+    </ul>
+
+    <h2 id="run">How to run it, in detail</h2>
+    <h3>What it needs</h3>
+    <ul>
+      <li>A machine with Docker (the daemon is started by <code>setup.sh</code> if none runs), <code>uv</code> and
+        Node 22. In a Claude Code cloud container this is all there.</li>
+      <li>A credential in <code>EVALS_ANTHROPIC_API_KEY</code>: an API key, or a subscription token from
+        <code>claude setup-token</code>. In a cloud environment, store it as an environment variable under that name;
+        names starting with <code>ANTHROPIC_</code> are filtered out by the platform.</li>
+      <li>About 2 GB of disk for the task image and up to 1.5 GB per running trial.</li>
+    </ul>
+    <h3>Steps</h3>
+    <ol>
+      <li><code>evals/harbor/setup.sh</code> installs Harbor 0.24.0 into <code>~/.lernapps-evals</code>, applies the
+        patches in <code>evals/harbor/</code> (the subscription token for the ACP bridge, the acpx config outside the
+        app folder) and writes the generated files into each task.</li>
+      <li><code>evals/harbor/run.sh &lt;task&gt; &lt;model&gt; [trials] [concurrency]</code> runs one Harbor job. The
+        tasks are <code>quiz-fresh</code>, <code>explainer-fresh</code> and <code>interactive-fresh</code>; the model is a
+        Harbor name such as <code>anthropic/claude-sonnet-5-5</code>; <code>USER_MODEL</code> sets the simulated
+        creator (default: the same model). Harbor runs through <code>evals/harbor/harbor.sh</code>, which clears the
+        environment, so no other credential reaches the containers. The job lands in
+        <code>~/.lernapps-evals/jobs</code> with its <code>configuration.json</code> and the transcript score.</li>
+      <li>For a matrix, start one <code>run.sh</code> per model in parallel; two or three at a time fit a machine with
+        4 CPUs and 16 GB. Watch the <code>rate_limit_event</code> lines in
+        <code>&lt;trial&gt;/user-agent/claude-code.txt</code> and stop at a limit.</li>
+      <li><code>node evals/summary.ts ~/.lernapps-evals/jobs</code> prints mean, min and max per dimension for each
+        task and configuration; configurations are never mixed. A job with an <code>excluded.txt</code> (its reason
+        inside) is left out.</li>
+      <li><code>node evals/report.ts ~/.lernapps-evals/jobs</code> writes <code>site/prompt-engineering/data.json</code> and the
+        tables and charts of this page.</li>
+    </ol>
+    <ul>
+      <li><a href="https://github.com/lernapps/tooling/blob/main/docs/adr/eval-runs-with-harbor.md">ADR: eval runs
+        with Harbor</a></li>
+      <li><a href="https://github.com/lernapps/tooling/tree/main/evals">evals/ on GitHub</a>: tasks, verifier,
+        scores and the README</li>
+      <li><a href="https://github.com/lernapps/tooling/issues/18">Issue #18</a>: the evals</li>
+    </ul>
+
+    <p><a href="../">Back to the tooling</a></p>
+  </main>
+  <div class="tip" id="tip" role="tooltip" hidden></div>
+  <script>
+    // Tooltips for the heatmap cells and the dots: the numbers are also in the tables, so this is an extra.
+    (() => {
+      const tip = document.getElementById("tip");
+      const show = (el, x, y) => {
+        tip.textContent = el.dataset.tip;
+        tip.hidden = false;
+        const r = tip.getBoundingClientRect();
+        const left = Math.min(Math.max(8, x - r.width / 2), window.innerWidth - r.width - 8);
+        const top = y - r.height - 12 < 8 ? y + 16 : y - r.height - 12;
+        tip.style.left = `${left}px`;
+        tip.style.top = `${top}px`;
+      };
+      document.addEventListener("pointermove", (event) => {
+        const el = event.target.closest && event.target.closest("[data-tip]");
+        if (el) show(el, event.clientX, event.clientY);
+        else tip.hidden = true;
+      });
+      document.addEventListener("keydown", (event) => { if (event.key === "Escape") tip.hidden = true; });
+      window.addEventListener("scroll", () => { tip.hidden = true; }, { passive: true });
+    })();
+  </script>
+<footer class="la-footer">
+  <div class="la-footer__inner">
+    <p>lernapps.net is free and has no ads. It lives on your thanks.</p>
+    <nav aria-label="Footer"><ul><li><a href="/en/privacy/">Privacy</a></li><li><a href="/en/imprint/">Imprint</a></li><li><a href="/docs/platform-design/">Platform design</a></li><li><a href="https://github.com/lernapps/tooling">Source code</a></li></ul></nav>
+  </div>
+</footer>
+</body>
+</html>
