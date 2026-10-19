@@ -108,7 +108,9 @@ function main(): number {
   const code = runLogged(
     log,
     [["run", "--silent", "lernapps", "--", "check"]],
-    heavy.length > 0 ? process.env : { ...process.env, LERNAPPS_TESTS: "fast" },
+    // LERNAPPS_PRE_PUSH=1 tells the tests they run in the hook: a test that is load-dependent there skips itself on
+    // purpose (test/check-app.e2e.test.ts) and runs in CI
+    { ...process.env, LERNAPPS_PRE_PUSH: "1", ...(heavy.length > 0 ? {} : { LERNAPPS_TESTS: "fast" }) },
   );
   if (code !== 0) {
     process.stderr.write(
