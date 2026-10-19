@@ -142,7 +142,9 @@ something, choose, mark it "(guess)" under "Key decisions" and go on.
 ## Commit
 
 <!--
-Publish the increment and update the app's entry, each only after the creator says yes. Then fill the retrospective.
+Publish the increment only after the creator says yes; open the pull requests (to `main`, to the catalog) without
+asking: they publish nothing, and their preview and result are what the creator decides on. Then fill the
+retrospective.
 A push to `main` publishes the app: the workflow `Pages` checks it and, in its job `deploy`, publishes the checked
 bundle. A pull request to `main` runs the same checks without publishing.
 -->
@@ -161,10 +163,11 @@ bundle. A pull request to `main` runs the same checks without publishing.
       shows the new content. Take that address, never one you derive; follow its redirects.
 - [ ] If the app is listed and the increment changes what its entry says (topics, school years, summary): load the
       skill `lernapps-listing` and write the changed entry. Otherwise skip the next task.
-- [ ] **Checkpoint:** list. Ask the creator before you open the pull request to the catalog, and wait for their yes.
 - [ ] Fill the retrospective.
 - [ ] Commit this plan on `main` and push it. A push that changes only `.vibe/` publishes nothing again.
-- [ ] If you opened a pull request to the catalog, see it through to "bestanden" as the skill says.
+- [ ] **Checkpoint:** list. If you wrote a changed entry, open the pull request to the catalog without asking first:
+      the pull request is the review. See it through to "bestanden" as the skill says, then show the creator the
+      pull request and its result.
 - [ ] If this plan changed since its last push, commit it on `main` and push it again.
 
 ### Completed
