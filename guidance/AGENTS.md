@@ -16,25 +16,6 @@ with its creator.
 4. Push only the branch the current plan names: a push to `main` publishes the app. While a check fails, tell the
    creator instead of pushing.
 5. The repo's default branch must be `main`; the plan sets it.
-6. Keep the history of `main` linear: bring a branch into `main` by squash (a squash merge of its pull request, or
-   `git merge --squash`), so that one piece of work is one commit. Never a merge commit.
-7. Every commit message is a conventional commit (`type(scope): summary`, imperative, under 72 characters) with this
-   body, in the language of the repo's history. Say why and what behaves differently, never list files. Squash
-   commits get the same body, written for the whole piece of work:
-
-   ```markdown
-   ## Intent
-
-   What problem does it solve? What was the motivation?
-
-   ## Key changes
-
-   The conceptual overview: how does the system behave differently now?
-
-   ## Dependencies and side effects
-
-   Only if applicable: effects on other parts of the system.
-   ```
 
 ## With the creator
 

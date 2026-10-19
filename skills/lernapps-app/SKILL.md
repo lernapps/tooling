@@ -20,6 +20,9 @@ exactly. Each piece of work gets its own plan, copied complete and unchanged fro
 `increment-template.md` for every later change. Read the plan, this skill, the rule files below and every skill
 they name from their files, in full; never from a summary.
 
+Load the skill `lernapps-commit` before every commit and every merge into `main`: the history stays linear
+(squash) and each commit message is structured.
+
 ## Rules
 
 Each file holds the rules of one concern. Each rule is a section headed by its rule block (`id`, `scope`,
