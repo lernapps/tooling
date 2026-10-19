@@ -210,8 +210,9 @@ it is a click for the creator (skill `lernapps-github`): never push a change onl
 - [ ] **Checkpoint:** publish. Show the creator what the app does and the link to its preview from the comment
       "Vorschau der App" on the pull request, and ask whether it may go online. Wait for their yes. Put the clicks you
       noted into the same question, to make after the first run, so that they cost no extra turn.
-- [ ] Bring `work` into `main` and push it: `git switch main`, `git merge --ff-only work`, `git push origin main`.
-      The pull request closes with it.
+- [ ] Bring `work` into `main` as one commit and push it: squash-merge the pull request, or `git switch main`,
+      `git merge --squash work`, `git commit` (message as in AGENTS.md), `git push origin main`. The pull request
+      closes with it.
       Check that a run of the workflow `Pages` started for this commit:
       `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`. If none is listed a minute after
       the push, start it: `gh workflow run Pages --ref main` (refused: the creator clicks Actions → Pages → Run
