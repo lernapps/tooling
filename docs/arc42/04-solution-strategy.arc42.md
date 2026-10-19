@@ -1,58 +1,67 @@
 # Solution Strategy
 
-The tooling follows the creator's journey. Each step has its own approach; three principles hold across all of
-them: everything the assistant needs is a plain file or a command, everything an app uses comes from one versioned
-package, and nothing leaves the creator's side unless they submit a listing.
+The platform is built around a person's goals. A creator knows what learners should be able to do afterwards. An AI
+assistant can build the app. The platform keeps the two aligned, from the first question to a published app, and asks
+the person only for what is theirs to decide: what the app is for, what it teaches and whether it goes out. The
+technical decisions are taken once, by the platform, and never by the person.
+
+This works because the two sides differ. The app is deterministic: it does the same every time. The assistant that
+builds it is not. So the strategy puts deterministic guardrails around a probabilistic builder, and measures where the
+person was still needed.
+
+The lifecycle has five phases: plan and scope, build, test, roll out and monitor. Process and support run through all of
+them.
 
 ```arc42
 :::solution-strategy
 id: strategy-architecture
-title: Follow the creator's journey; plain files, one package, nothing leaves unasked
+title: Surface the person's goals first, hold them through every phase, measure where the person was still needed
 addresses: qg-simple-to-build, qg-list-in-minutes, qg-findable, qg-checked-not-declared, qg-nothing-collected, qg-few-iterations, qg-any-assistant, qg-guidance-evolves
 :::
 ```
 
-## Clarify: the plan file asks first
+## Plan and scope: surface the goals
 
-The assistant starts a plan file before it writes code and works through its phases (Explore, Plan, Code, Commit).
-In Explore it asks the creator what the app is for and for whom, fetches the entry schema of the app overview and
-asks what the schema needs to help adults find the app. From the answers it chooses the archetype. The creator
-confirms the plan; from then on the assistant works on its own.
+The work starts with the person, not with code. The assistant explores what the app is for, who the learners are and
+what they should be able to do afterwards, and grounds this in the curriculum and in sources it has checked, not in its
+memory. The person confirms the goals before anything is built. The same answers later describe the app to the adults
+who look for it.
 
-## Set up: start from a working app
+## Build: keep the goals consistent
 
-Apps come in a few kinds, called archetypes, named after their character: a quiz, pages that explain and practise a
-topic, one interactive page. The archetype is the variation point: each one brings its own template, preset, skills
-and rules in scope. Which archetypes exist is decided outside this document.
+From the confirmed goals the assistant works on its own. Where the kind of app fixes its form, the goals cannot drift:
+the person writes only content and the platform supplies the behaviour. Where the form is free, a readable architecture
+holds them, and it is checked against the code with every change. The less the form is fixed, the more the
+architecture has to carry. Rules reach the assistant while it works, and every message says how to fix a problem.
 
-The generator writes an app from the archetype's template that already passes every check, with strict types, tests,
-translations and accessibility in place. The app holds only thin files that refer to the tooling package, so it never
-has to be changed to receive a new rule. The assistant changes a working app instead of building one from nothing.
+## Test: decide what can be decided
 
-## Build: one check, run before every commit and push
+Everything a program can decide is decided by one check, the same wherever it runs, with a result tied to one version
+of the app. What no program can decide is judged by an independent review against published criteria. Every one of
+them, a check or a judgment, answers to a goal with an id. A judgment may vary; the goal it judges does not. The goals
+of the app itself, what learners should be able to do, are written in the plan as text and are not machine-readable
+yet. Neither the check nor the review judges whether the content teaches correctly. That stays with the person.
 
-Rules reach the assistant in three forms: as skills it loads when a task needs them, as lint rules that mark the
-code while it writes, and as checks of the built app. One check command runs every deterministic check, from format
-and types to tests in a browser. Git hooks run its fast part before a commit and its heavy part before a push; CI
-runs both. Every message says what to fix, so the assistant fixes it without asking.
+## Roll out: release at the person's yes
 
-## Validate: deterministic first, judgment for the rest
+Release is a chain of approvals, not a date. The person says yes before the app goes online and again before it is
+listed. The app that goes online is the one that was checked, and the platform's owner decides on the listing. A change
+to the platform reaches every app as an update, so a rule changes in one place.
 
-The same check runs once more in the listing validation, against the deployed app, and writes a report bound to
-the commit. When it fails, the report goes back to the creator's assistant as a comment on the listing pull
-request. A review agent in a fresh context starts from the report and judges only what no check can decide.
+## Monitor: learn where the goals were not held
 
-## List: the entry comes from the plan and the report
+The platform collects nothing, so it cannot watch apps in use. It watches the process that makes them. Each piece of
+work ends with a report by the assistant: how far it got, how often the person was needed after the plan, and where it
+had to guess. Failures are counted by the platform, not by the assistant. Every guess marks a missing decision point,
+and the guidance is improved from it. The number of times the person was needed measures the alignment, and the
+platform aims for it to fall as the guidance matures. Two things are planned and not built: reading the sessions of
+the assistant itself, the owner's own and later those that contributors send in, and turning the reports into feedback
+automatically.
 
-The assistant fills the entry from the creator's answers in the plan and from the validation report; it never asks
-the creator to type the entry. The fitness values come from the report. The topics of the entry are deep links into
-the app, and the check confirms that they resolve, so adults land where the entry promises.
+## Across all phases
 
-## Across the journey
-
-- **Plain files and commands.** Process guidance, plan and skills are plain text; generator and check are commands;
-  enforcement sits in git hooks, which every assistant triggers. Nothing depends on one vendor or an agent protocol.
-- **One versioned package.** Templates aside, everything an app uses comes from one package, installed from git and
-  kept current by automatic update pull requests, so a change reaches every app without editing it.
-- **Nothing leaves unasked.** The tooling fetches packages and schemas and sends nothing. What is measured stays in
-  the plan file until the creator submits a listing.
+- **Process and support.** The process is a short, readable plan the assistant follows, and the support is guidance it
+  loads when a task needs it. Both work with any assistant.
+- **One source for the rules.** Each rule is told once, has an id, and is named in every message about it.
+- **Nothing leaves unasked.** The platform sends nothing about a person or an app. What is measured stays with the
+  creator until they submit a listing.

@@ -502,3 +502,24 @@ date: 2026-10-08
 addresses: qg-checked-not-declared
 :::
 ```
+
+## The lifecycle view is described once, drawn by a script and checked against the model
+
+**Context:** readers who decide on the platform do not read the architecture, and a picture of the lifecycle drawn by
+hand drifts from it. A picture generated from the architecture alone would show its structure, not the story: some
+blocks act in more than one phase, and some things are planned and not built. **Decision:** the story is described once
+as data, which phase holds which blocks and what is planned, and a script draws it. Every block it names must exist in
+the architecture, and every block of the creator's path must be drawn, or the documentation build fails and says which.
+Planned items are marked as planned in the text and do not link to a block. **Consequences:** the picture is for
+people and the check keeps it true; changing a phase of a block means changing one description; the script is part of the
+tooling's documentation build and has no other consumer.
+
+```arc42
+:::decision
+id: dec-lifecycle-view
+title: The lifecycle view is described once, drawn by a script and checked against the model
+status: accepted
+date: 2026-10-19
+addresses: qg-checked-not-declared
+:::
+```

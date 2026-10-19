@@ -87,7 +87,7 @@ id: dn-agent-harness
 title: Creator's agent harness, with AGENTS.md and the skill folder
 type: environment
 parent: dn-creator-machine
-hosts: bb-process-guidance, bb-skills
+hosts: bb-process-guidance, bb-skills, bb-skills-process, bb-skills-exploration, bb-skills-conventions
 :::
 ```
 
@@ -134,7 +134,7 @@ id: dn-tooling-repo
 title: lernapps/tooling repository
 type: environment
 parent: dn-github
-hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-app-preview, bb-tooling-build, bb-site-check, bb-site-deploy, bb-site-preview, bb-renovate-preset
+hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-app-preview, bb-tooling-build, bb-lifecycle-view, bb-site-check, bb-site-deploy, bb-site-preview, bb-renovate-preset
 :::
 ```
 

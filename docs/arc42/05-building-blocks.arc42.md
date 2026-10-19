@@ -5,6 +5,11 @@ the shared site frame (decision `dec-one-package`). Next to the package, the rep
 one checks the app, one publishes it, one previews a pull request. Two blocks live in other repos: the archetype templates and runtimes, and the
 listing validation in the catalog. All of these make up the creator's path.
 
+The blocks are grouped by the phase of an app's lifecycle in which they act: what runs through all phases, then plan
+and scope, build, test, roll out and monitor, and last what keeps the platform's own websites in shape. A block is
+described once, where it acts most. The lifecycle view (a block of Platform upkeep) draws which blocks act in which
+phase, a block in more than one phase included; that description, not the heading, decides the phase of a drawn block.
+
 The repo also holds "Platform upkeep", which no creator uses: it builds and documents the tooling itself, checks and
 publishes lernapps.net's own websites, and sets the update policy of every lernapps repo. A site, in this document,
 is always one of lernapps.net's own websites, never an app.
@@ -26,7 +31,11 @@ notation: mermaid
 flowchart TB
     subgraph bb-tooling-package["@lernapps/tooling"]
         bb-process-guidance["Process guidance"]
-        bb-skills["Skills"]
+        subgraph bb-skills["Skills"]
+            bb-skills-process["Process support"]
+            bb-skills-exploration["Exploration"]
+            bb-skills-conventions["Conventions in build"]
+        end
         bb-generator["Generator"]
         bb-archetypes["Archetype presets"]
         bb-lint-rules["Lint rules"]
@@ -39,7 +48,9 @@ flowchart TB
     bb-app-publish["App publish"]
     bb-app-preview["App preview"]
     subgraph bb-platform-upkeep["Platform upkeep (not used by creators)"]
-        bb-tooling-build["Tooling build and docs"]
+        subgraph bb-tooling-build["Tooling build and docs"]
+            bb-lifecycle-view["Lifecycle view"]
+        end
         bb-site-check["Platform site check"]
         bb-site-deploy["Platform site deploy"]
         bb-site-preview["Platform site preview"]
@@ -103,6 +114,16 @@ technology: TypeScript, npm package from git
 implements: concept-stable-contracts
 :::
 ```
+
+```arc42
+:::ignore W026 the phase sections group the package's blocks by the phase they act in; the package is described once, under @lernapps/tooling :::
+```
+
+## Across all phases
+
+The process and the support that run through every phase, whatever the creator builds: the workflow the assistant
+follows and the skills it reads. The skills of all phases are described here, together with the common interface,
+because they are one block with parts.
 
 ### Process guidance
 
@@ -194,6 +215,73 @@ provider: bb-skills
 protocol: Agent skills (agentskills.io)
 :::
 ```
+
+#### Process support
+
+The skills the assistant loads in any phase: what a lernapps.net app is and the rules every app follows, each with its
+id, in files it reads when it needs them; and how to get past a step on GitHub when a tool is missing or a permission
+is not granted. Both say what the assistant may do itself and what it asks the creator for.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-process
+title: Process support
+parent: bb-skills
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog, concept-terse-output
+:::
+```
+
+#### Exploration
+
+The skills for finding out what an app teaches, before its plan and before a new chapter: the curriculum as orientation,
+the competencies as statements of what learners can do, the sources the assistant verified by opening them, and the
+exercise patterns that worked. They act in plan and scope and keep the content independent of the archetype. What one
+app decided about its content is that app's own content guide, which takes precedence.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-exploration
+title: Exploration
+parent: bb-skills
+technology: Markdown (agentskills.io)
+implements: concept-plain-language
+:::
+```
+
+#### Conventions in build
+
+The skills of the archetypes and of growth: how the generated app of an archetype works, what the assistant writes in
+it and what the build checks, and how an app grows after its first version, one competency at a time. They act in
+build. The skill of each archetype says only how the content results are expressed there.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-conventions
+title: Conventions in build
+parent: bb-skills
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+## Plan and scope
+
+The assistant finds out what the app is for before it builds anything. The creator's goals are surfaced and confirmed
+here; the plan file holds the answers and the checkpoint. The blocks that act in this phase are the plan file and the
+exploration skills, both described under all phases.
+
+```arc42
+:::ignore W026 the phase sections group the package's blocks by the phase they act in; the package is described once, under @lernapps/tooling :::
+```
+
+## Build
+
+From the confirmed goals the assistant works on its own, from a working app, under rules that mark a problem while it
+writes. These blocks fix the form of the app and keep it consistent.
 
 ### Generator
 
@@ -320,6 +408,100 @@ protocol: Oxlint / ESLint plugin API
 :::
 ```
 
+### Archetype templates and runtimes
+
+One template per archetype, each a working app that passes every check and can be tried on its own, and the runtime
+the apps of an archetype share. A template holds only thin files and example content. The runtime holds what runs in
+the app. It is accountable for an archetype's promise holding by construction, from the content alone:
+- for the quiz, it renders every question into the page, so the page reads without a script, and runs the quiz in
+  the browser with feedback after each answer;
+- for the explainer, it renders every page of the content at build, readable without a script and in each of the
+  app's languages; it brings the exercises to life in the browser, the quiz's question types among them, and checks
+  and runs the app's own components (concept `concept-components`).
+
+Their own tests run in their repo.
+
+```arc42
+:::building-block
+id: bb-app-templates
+title: Archetype templates and runtimes
+technology: TypeScript, Vite plugin, Vue, Playwright
+requires: if-archetype-preset
+implements: concept-components
+:::
+```
+
+#### Archetype templates interface
+
+The generator copies one template at the commit the package pins, and for an interactive app the templates'
+architecture of that commit. A consumer can rely on templates, runtimes and presets changing together.
+
+```arc42
+:::interface
+id: if-archetype-templates
+title: Archetype templates
+provider: bb-app-templates
+protocol: Files at a pinned commit
+:::
+```
+
+#### Archetype runtime
+
+What an app depends on at runtime, installed at the commit its template came from and moved forward by update pull
+requests. A consumer can rely on one entry point per archetype; it ships no templates.
+
+```arc42
+:::interface
+id: if-archetype-runtime
+title: Archetype runtime
+provider: bb-app-templates
+protocol: npm package from git, subpath exports per archetype
+:::
+```
+
+#### Question bank
+
+The content a quiz is made of: questions of several types, each with an explanation and links for further reading,
+and background knowledge for every option. A consumer can rely on a published schema; the build fails with one
+message per problem. New question types extend the schema without changing the existing ones.
+
+```arc42
+:::interface
+id: if-question-bank
+title: Question bank
+provider: bb-app-templates
+protocol: JSON with a published JSON Schema
+:::
+```
+
+#### Explainer content
+
+The content an explainer is made of: chapters of pages, each a list of blocks from a closed set with an exercise,
+data files, bundled images, and components where no block fits. A consumer can rely on a published schema that
+refers to the question bank's for the quiz's question types, and on the build failing with one line per problem, its
+file and place. New blocks extend the schema without changing the existing ones.
+
+```arc42
+:::interface
+id: if-explainer-content
+title: Explainer content
+provider: bb-app-templates
+protocol: YAML with a published JSON Schema; Vue single-file components
+:::
+```
+
+```arc42
+:::ignore W026 the phase sections group the package's blocks by the phase they act in; the package is described once, under @lernapps/tooling :::
+```
+
+## Test
+
+What decides whether the app holds its promises: one check for what a program can decide, and a review for the rest.
+Every check, deterministic or judged, answers to a goal with an id: a rule of the catalog for a check, an item of the
+rubric for a judgment. A judgment may vary, the goal it judges does not. The goals of the app itself, such as its
+competencies, are text in the plan and not machine-readable yet. The git hooks, described with the presets, run the
+fast and the heavy part of the check on the creator's machine.
+
 ### Check CLI
 
 Runs every deterministic check of an app, from its code to the built app, and is the same command in the hooks, in
@@ -366,6 +548,36 @@ id: if-validation-report
 title: Validation report
 provider: bb-check-cli
 protocol: YAML with a published JSON Schema
+:::
+```
+
+### App check action
+
+Runs in an app's CI exactly what the app's git hooks ran, nothing more. It only sets up the environment around the
+check, and keeps the report, passing or not. On the main line it also keeps the bundle it checked, so the app
+publishes what was checked and builds it once (decision `dec-app-own-hosting`).
+
+```arc42
+:::building-block
+id: bb-app-check-action
+title: App check action
+technology: GitHub composite action
+path: actions/app-check
+requires: if-check-cli
+:::
+```
+
+#### App check action interface
+
+A consumer can rely on the same result as the hooks, the report kept with every run, and on the main line the
+checked bundle for the app publish action. Its inputs are described in the action itself.
+
+```arc42
+:::interface
+id: if-app-check-action
+title: App check action
+provider: bb-app-check-action
+protocol: GitHub Actions, pinned to a commit
 :::
 ```
 
@@ -419,136 +631,12 @@ protocol: YAML with a published JSON Schema
 :::
 ```
 
-### Evals
+## Roll out
 
-Sample creator prompts, at least one per archetype, with the expected result. They test the guidance itself before
-a change to it is merged. They are run by hand with several assistants and scored by the check, the review and the
-plan's counters. Each scenario is a Harbor task in `evals/tasks/` (`dec-eval-runs-with-harbor`).
+The step from a checked app to a listed one. The person says yes before the app goes online and again before it is
+listed, and what goes online is the app that was checked.
 
-```arc42
-:::building-block
-id: bb-evals
-title: Evals
-parent: bb-tooling-package
-technology: Harbor tasks (Markdown, Dockerfile, shell)
-requires: if-generator-cli, if-check-cli, if-validation-report, if-review-procedure
-implements: concept-traceability
-:::
-```
-
-## Archetype templates and runtimes
-
-One template per archetype, each a working app that passes every check and can be tried on its own, and the runtime
-the apps of an archetype share. A template holds only thin files and example content. The runtime holds what runs in
-the app. It is accountable for an archetype's promise holding by construction, from the content alone:
-- for the quiz, it renders every question into the page, so the page reads without a script, and runs the quiz in
-  the browser with feedback after each answer;
-- for the explainer, it renders every page of the content at build, readable without a script and in each of the
-  app's languages; it brings the exercises to life in the browser, the quiz's question types among them, and checks
-  and runs the app's own components (concept `concept-components`).
-
-Their own tests run in their repo.
-
-```arc42
-:::building-block
-id: bb-app-templates
-title: Archetype templates and runtimes
-technology: TypeScript, Vite plugin, Vue, Playwright
-requires: if-archetype-preset
-implements: concept-components
-:::
-```
-
-### Archetype templates interface
-
-The generator copies one template at the commit the package pins, and for an interactive app the templates'
-architecture of that commit. A consumer can rely on templates, runtimes and presets changing together.
-
-```arc42
-:::interface
-id: if-archetype-templates
-title: Archetype templates
-provider: bb-app-templates
-protocol: Files at a pinned commit
-:::
-```
-
-### Archetype runtime
-
-What an app depends on at runtime, installed at the commit its template came from and moved forward by update pull
-requests. A consumer can rely on one entry point per archetype; it ships no templates.
-
-```arc42
-:::interface
-id: if-archetype-runtime
-title: Archetype runtime
-provider: bb-app-templates
-protocol: npm package from git, subpath exports per archetype
-:::
-```
-
-### Question bank
-
-The content a quiz is made of: questions of several types, each with an explanation and links for further reading,
-and background knowledge for every option. A consumer can rely on a published schema; the build fails with one
-message per problem. New question types extend the schema without changing the existing ones.
-
-```arc42
-:::interface
-id: if-question-bank
-title: Question bank
-provider: bb-app-templates
-protocol: JSON with a published JSON Schema
-:::
-```
-
-### Explainer content
-
-The content an explainer is made of: chapters of pages, each a list of blocks from a closed set with an exercise,
-data files, bundled images, and components where no block fits. A consumer can rely on a published schema that
-refers to the question bank's for the quiz's question types, and on the build failing with one line per problem, its
-file and place. New blocks extend the schema without changing the existing ones.
-
-```arc42
-:::interface
-id: if-explainer-content
-title: Explainer content
-provider: bb-app-templates
-protocol: YAML with a published JSON Schema; Vue single-file components
-:::
-```
-
-## App check action
-
-Runs in an app's CI exactly what the app's git hooks ran, nothing more. It only sets up the environment around the
-check, and keeps the report, passing or not. On the main line it also keeps the bundle it checked, so the app
-publishes what was checked and builds it once (decision `dec-app-own-hosting`).
-
-```arc42
-:::building-block
-id: bb-app-check-action
-title: App check action
-technology: GitHub composite action
-path: actions/app-check
-requires: if-check-cli
-:::
-```
-
-### App check action interface
-
-A consumer can rely on the same result as the hooks, the report kept with every run, and on the main line the
-checked bundle for the app publish action. Its inputs are described in the action itself.
-
-```arc42
-:::interface
-id: if-app-check-action
-title: App check action
-provider: bb-app-check-action
-protocol: GitHub Actions, pinned to a commit
-:::
-```
-
-## App publish
+### App publish
 
 Publishes an app's checked bundle to the GitHub Pages of the app's repo, at the developer's own address. It is the
 simple default: the app lives at its developer's hosting, which may be any other host, and lernapps.net only links to
@@ -566,7 +654,7 @@ path: actions/app-publish
 :::
 ```
 
-### App publish interface
+#### App publish interface
 
 A consumer can rely on this: when the action passes, the app's address serves the new bundle, and the action names
 the address. Its inputs, outputs and the permissions it needs are described in the action itself.
@@ -580,7 +668,7 @@ protocol: GitHub Actions, pinned to a commit
 :::
 ```
 
-## App preview
+### App preview
 
 Publishes the checked bundle of a pull request as a temporary preview next to the published app, so that the creator
 can look at an increment in the real app before agreeing to publish it. It is accountable for the preview being the
@@ -597,7 +685,7 @@ path: actions/app-preview
 :::
 ```
 
-### App preview interface
+#### App preview interface
 
 A consumer, the creator's assistant, can rely on one comment on the pull request that links the preview while it
 exists. Its inputs, outputs and the permissions it needs are described in the action itself.
@@ -611,7 +699,7 @@ protocol: GitHub Actions, pinned to a commit; pull request comment
 :::
 ```
 
-## Listing validation
+### Listing validation
 
 Runs on pull requests to the catalog that add or change an entry. It runs the checks of the built app against the
 entry's address, so it also confirms that the entry's topic links resolve and its fitness values match. When checks
@@ -627,7 +715,7 @@ implements: concept-terse-output, concept-traceability
 :::
 ```
 
-### Listing results comment
+#### Listing results comment
 
 The validation report on the pull request. A consumer, the creator's assistant, can rely on it holding enough to fix
 the app and push again.
@@ -638,6 +726,33 @@ id: if-listing-comment
 title: Listing results comment
 provider: bb-listing-validation
 protocol: Pull request comment
+:::
+```
+
+```arc42
+:::ignore W026 the phase sections group the package's blocks by the phase they act in; the package is described once, under @lernapps/tooling :::
+```
+
+## Monitor
+
+What the platform learns from the process that makes apps. It collects nothing from apps in use. The review procedure,
+described under test, also acts here: a guess in the retrospective, or a problem no rule covers, becomes a proposed
+rule.
+
+### Evals
+
+Sample creator prompts, at least one per archetype, with the expected result. They test the guidance itself before
+a change to it is merged. They are run by hand with several assistants and scored by the check, the review and the
+plan's counters. Each scenario is a Harbor task in `evals/tasks/` (`dec-eval-runs-with-harbor`).
+
+```arc42
+:::building-block
+id: bb-evals
+title: Evals
+parent: bb-tooling-package
+technology: Harbor tasks (Markdown, Dockerfile, shell)
+requires: if-generator-cli, if-check-cli, if-validation-report, if-review-procedure
+implements: concept-traceability
 :::
 ```
 
@@ -670,10 +785,41 @@ requires: if-site-check, if-site-deploy, if-site-preview
 :::
 ```
 
+#### Lifecycle view
+
+Draws the lifecycle of an app and the blocks that act in each phase, for readers who decide on the platform and do not
+read the architecture. It is accountable for a picture that stays true: a description of the story, which phase holds
+which blocks, is drawn by a script, every block it names must exist in this chapter, and every block of the creator's
+path must be drawn. When the two disagree the build fails and says which. The view also shows what is planned and not
+built yet, marked as such, and links each block to its place here.
+
+```arc42
+:::building-block
+id: bb-lifecycle-view
+title: Lifecycle view
+parent: bb-tooling-build
+technology: YAML, TypeScript script
+:::
+```
+
+##### Lifecycle page
+
+A consumer, a reader without the architecture, can rely on a page at a stable address on lernapps.net that shows the
+phases in a graphic and as text, and names where the person decides.
+
+```arc42
+:::interface
+id: if-lifecycle-page
+title: Lifecycle page
+provider: bb-lifecycle-view
+protocol: Website on lernapps.net
+:::
+```
+
 #### Tooling documentation
 
 A consumer can rely on the tooling's documentation, rule catalog and schemas at stable addresses on lernapps.net.
-Every check message links its rule there.
+Every check message links its rule there. The lifecycle view has its own page below the same address.
 
 ```arc42
 :::interface
