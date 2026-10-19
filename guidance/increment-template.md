@@ -156,8 +156,7 @@ bundle. A pull request to `main` runs the same checks without publishing.
       load the skill `lernapps-github`.
 - [ ] **Checkpoint:** publish. Show the creator what the increment adds and the link to its preview from the comment
       "Vorschau der App" on the pull request, and ask whether it may go online. Wait for their yes.
-- [ ] Squash-merge the pull request into `main`, with the commit message the skill `lernapps-commit` says (or,
-      without a pull request, `git merge --squash` the branch into `main`, commit and push `main`).
+- [ ] Merge the pull request into `main` (or, without a pull request, merge the branch into `main` and push `main`).
       Watch the run of the workflow `Pages` for that commit until it ends. If it fails, read the message of the
       failed step, fix what you can and push again.
 - [ ] Open the address the job `deploy` printed ("published at ...", also in the run's summary) and confirm that it
