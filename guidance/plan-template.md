@@ -183,7 +183,8 @@ one of them, stop and ask the creator to allow it, then run the command again. N
 ## Commit
 
 <!--
-Publish the app and list it, each only after the creator says yes. Then fill the retrospective.
+Publish the app only after the creator says yes; open the pull requests (to `main`, to the catalog) without asking:
+they publish nothing, and their preview and result are what the creator decides on. Then fill the retrospective.
 A push to `main` publishes the app: the workflow `Pages` checks it and, in its job `deploy`, publishes the checked
 bundle to the repo's GitHub Pages, at the repo's own address (usually https://<owner>.github.io/<repo>/). So work on
 the branch `work` until the creator says yes; the first publish brings `work` into `main`.
@@ -199,14 +200,18 @@ it is a click for the creator (skill `lernapps-github`): never push a change onl
 ### Tasks
 
 - [ ] Push the branch `work` (not `main`): `git push -u origin work`. The pre-push hook runs the heavy checks; fix
-      what fails.
+      what fails. Open a pull request from `work` to `main` right away, without asking: it publishes nothing, and its
+      preview is what the creator needs to decide. See its checks through to green. When a GitHub step fails or is
+      refused, load the skill `lernapps-github`.
 - [ ] Verify the setup from Explore over REST: the default branch is `main`
       (`gh api repos/<owner>/<repo> --jq .default_branch`) and Pages serves `gh-pages` from `/`
       (`gh api repos/<owner>/<repo>/pages`; "Not Found" means it is off). For each one that is not right and that you
       may not change, note the creator's click from the skill `lernapps-github`.
-- [ ] **Checkpoint:** publish. Ask the creator before the app goes online, and wait for their yes. Put the clicks you
+- [ ] **Checkpoint:** publish. Show the creator what the app does and the link to its preview from the comment
+      "Vorschau der App" on the pull request, and ask whether it may go online. Wait for their yes. Put the clicks you
       noted into the same question, to make after the first run, so that they cost no extra turn.
-- [ ] Bring `work` into `main` and push it: `git switch main`, `git merge --ff-only work`, `git push origin main`.
+- [ ] Bring `work` into `main` and push it: `git switch main`, `git merge --squash work`, `git commit`,
+      `git push origin main`. The pull request closes with it.
       Check that a run of the workflow `Pages` started for this commit:
       `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`. If none is listed a minute after
       the push, start it: `gh workflow run Pages --ref main` (refused: the creator clicks Actions → Pages → Run
@@ -220,12 +225,13 @@ it is a click for the creator (skill `lernapps-github`): never push a change onl
       not wait for it yourself; when you open an address, follow its redirects.
 - [ ] Load the skill `lernapps-listing`.
 - [ ] Complete the entry draft with what is known now, such as the app's address.
-- [ ] **Checkpoint:** list. Ask the creator before you open the listing pull request, and wait for their yes.
 - [ ] Fill the retrospective.
 - [ ] Commit this plan on `main` and push it: the listing check and the review read it, with the filled
       retrospective, in the repo. A push that changes only `.vibe/` publishes nothing again.
-- [ ] Open the listing pull request as the skill says, and see it through to "bestanden": when the check passes, the
-      results comment on the pull request says "bestanden" (not "nicht bestanden").
+- [ ] **Checkpoint:** list. Open the listing pull request as the skill says, without asking first: the pull request
+      is the review. See it through to "bestanden": when the check passes, the results comment on the pull request
+      says "bestanden" (not "nicht bestanden"). Then show the creator the pull request and its result, and wait for
+      their word before you change anything in it.
 - [ ] If this plan changed since its last push, commit it on `main` and push it again.
 
 ### Completed
