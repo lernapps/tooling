@@ -82,6 +82,7 @@ An archetype is a kind of app: a template, a runtime, skills and the rules in sc
 
 ## Optional
 
+- [Lifecycle](https://lernapps.net/tooling/lifecycle/): how an app is made from the first question to the listing, which parts of the tooling act in each phase, where the person decides, and what is planned and not built.
 - [Prompt engineering](https://lernapps.net/tooling/prompt-engineering/): how we test and change the guidance, and the eval results: how closely assistant configurations follow this guidance (scenarios, scores per dimension, minutes and tokens), with the data as JSON.
 - [Architecture](https://lernapps.net/tooling/architecture/): how the tooling is built (arc42).
 - [Source](https://github.com/lernapps/tooling): the package, the actions and the Renovate preset.

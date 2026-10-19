@@ -1,0 +1,102 @@
+# The story of the lifecycle page (site/lifecycle/): which phase holds which building blocks of docs/arc42 chapter 5,
+# where the person decides, and what each part does for whom. scripts/lifecycle.ts renders it and fails the build when
+# it and chapter 5 disagree. A block is named by its id and takes its title and link from chapter 5; it may appear in
+# several phases, with its own text there. A planned item is no block: `label`, `planned: true` and `note`.
+#   human   every element, one or both of human and agent: what the person does or is given here. Shown on hover or
+#   agent   focus of the box, and as the icon: the person icon for `human`, the agent icon for `agent`.
+#   groups  a phase may list its elements in titled groups; `optional: true` marks a group not every app goes through,
+#           `goals: true` says every element in it answers to a goal with an id (`goal:`).
+#   person  a phase may name where the person decides; note: a sentence the phase ends on.
+title: The lifecycle of a learning app and the building blocks that act in each phase
+phases:
+  - id: plan
+    title: Plan and scope
+    question: What is the app for, and for whom?
+    person: What the app is for, who the learners are and what they should be able to do. The creator confirms the plan.
+    elements:
+      - block: bb-skills-exploration
+        human: "Brings the domain knowledge: the subject, the grade and their own material."
+        agent: "Proposes options, researches the curriculum and the sources, and applies pedagogical guidance."
+  - id: build
+    title: Build
+    question: How do the goals stay consistent while the assistant builds?
+    elements:
+      - block: bb-generator
+        agent: "Installs the chosen archetype: writes the app from its template once the plan is confirmed and pins the tooling and runtime it came from. The app passes every check from the first commit."
+      - block: bb-archetypes
+        agent: "Is the kind of app: a working template, the runtime that runs it and a preset of toolchain and git hooks that the app imports and never edits. The agent writes only the content, or the code where the kind leaves it free."
+      - block: bb-lint-rules
+        agent: "Marks a problem in the code while it writes, such as a request to another host. Each message says what to fix."
+      - block: bb-skills-conventions
+        agent: "Knows how the chosen kind of app works, what to write in it and what the build checks, and grows the app one competency at a time."
+  - id: release
+    title: Test and roll out
+    question: Does the app hold, and does it go out?
+    person: Whether the app goes online. Neither a check nor the review decides whether the content teaches correctly.
+    note: A judgment may vary. The goal it judges does not.
+    groups:
+      - id: checks
+        title: Decided by a program
+        lead: Same result in the hooks, in CI and at the listing.
+        goals: true
+        elements:
+          - block: bb-check-cli
+            goal: rule id
+            agent: "Runs every check of the app, reads each message and fixes what it says."
+          - block: bb-git-hooks
+            goal: rule id
+            agent: "Run the fast part of the check before a commit and the heavy part before a push, whichever assistant commits."
+          - block: bb-app-check-action
+            goal: rule id
+            agent: "Runs in CI what the hooks ran, and keeps the report and the checked bundle."
+      - id: release
+        title: Released at the person's yes
+        lead: The app that goes online is the one that was checked. It lives at its developer's own address.
+        elements:
+          - block: bb-app-preview
+            human: "Looks at the increment in the real app before saying yes."
+            agent: "Puts the checked bundle of a pull request online as a temporary preview and says where it is."
+          - block: bb-app-publish
+            human: "Looks at the preview of the app and says yes before it goes online, and makes the one click only an admin can make."
+            agent: "Publishes the checked bundle, names the address and says what to change if a setting is missing."
+      - id: listing
+        title: Listed in the app overview
+        optional: true
+        goals: true
+        lead: Tells adults the app exists and puts the platform's name on it. Judged by an agent first, then decided by the owner.
+        elements:
+          - block: bb-listing-validation
+            goal: rule id
+            human: "The creator sees the listing pull request and its result and gives their word before anything in it changes. The owner decides on the listing."
+            agent: "The assistant opens the listing pull request, which is the review, and sees it through to \"bestanden\". The validation runs the checks against the deployed app and comments the report."
+          - block: bb-review-procedure
+            goal: rubric item id
+            human: "The owner starts the review, reads the verdict and decides on the listing."
+            agent: "A fresh agent judges what no check can decide against the rubric. Every finding names a rule id."
+  - id: monitor
+    title: Monitor
+    question: Where were the goals not held?
+    person: Which guesses and problems become rules. The owner decides.
+    elements:
+      - block: bb-process-guidance
+        human: "The owner reads the retrospective when an app asks to be listed: how far the plan got, how often the person was needed after it, and where the agent had to guess."
+        agent: "Writes the retrospective at the end of the plan, and the hooks count the failed checks and pushes in its front matter."
+      - block: bb-evals
+        agent: "Runs sample prompts of a simulated creator against the guidance with several assistants, and scores the result by the check, the review and the plan's counters."
+      - block: bb-review-procedure
+        human: "The owner reads the proposed rules and decides which are taken."
+        agent: "Turns a guess in the retrospective, or a problem no rule covers, into a proposed rule and says where it would act."
+      - label: Evaluating agent sessions
+        planned: true
+        human: "Would let the owner read the sessions they own, and later exports that contributors send in."
+        agent: "Would evaluate a session for where the assistant guessed, stalled or needed the person."
+        note: Starting with the owner's own sessions.
+across:
+  title: Across all phases
+  question: What runs through every phase?
+  elements:
+    - block: bb-process-guidance
+      human: "Reads the compact write-up of the plan and confirms it at the checkpoints."
+      agent: "Keeps the process, works the plan step by step, takes notes and stops for the person at each checkpoint."
+    - block: bb-skills-process
+      agent: "Asks the right questions for the phase it is in, and knows the rules every app follows and how to get past a GitHub step."

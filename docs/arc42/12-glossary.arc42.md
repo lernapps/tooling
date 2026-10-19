@@ -2,13 +2,13 @@
 
 ## Archetype
 
-Not "template": the template is only one part of an archetype. Names describe what the app is like, not what it is used for.
+Not "template": the template is only one part of an archetype, with the preset and the runtime. Names describe what the app is like, not what it is used for.
 
 ```arc42
 :::glossary-term
 id: term-archetype
 title: Archetype
-definition: A kind of app the tooling supports, named after its character; a template, a preset, skills and the rules in scope.
+definition: A kind of app the tooling supports, named after its character; a template, a runtime and a preset that change together, skills and the rules in scope.
 :::
 ```
 
@@ -69,6 +69,18 @@ Written out in the plan template as plain instructions; the workflow server of c
 id: term-epcc
 title: EPCC
 definition: Explore, Plan, Code, Commit - the phases of the plan file, after the workflow of the same name in codemcp/workflows.
+:::
+```
+
+## Generator
+
+The tooling that installs an archetype: it writes a new app from the archetype's template and pins the tooling and the runtime the app came from.
+
+```arc42
+:::glossary-term
+id: term-generator
+title: Generator
+definition: The tooling that installs an archetype: it writes a new app from the archetype's template, pinned to the tooling and runtime it came from.
 :::
 ```
 

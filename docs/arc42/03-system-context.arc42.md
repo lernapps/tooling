@@ -40,7 +40,7 @@ flowchart LR
         bb-generator["Generator"]
         bb-skills["Skills"]
         bb-check-cli["Check CLI"]
-        bb-archetypes["Archetype presets"]
+        bb-archetypes["Archetypes"]
         bb-review-procedure["Review procedure"]
         bb-app-check-action["App check action"]
         bb-app-publish["App publish"]

@@ -73,6 +73,7 @@
     "lernapps": "node src/cli.ts",
     "check": "npm run --silent lernapps -- check",
     "rules": "node scripts/rules.ts list",
+    "lifecycle": "node scripts/lifecycle.ts",
     "verdict": "node scripts/verdict.ts",
     "build": "./scripts/build.sh",
     "check:site": "lernapps-check --site /tooling/",

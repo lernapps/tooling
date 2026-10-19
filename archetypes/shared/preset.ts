@@ -1,4 +1,4 @@
-// The shared base of the archetype presets (docs/arc42 ch. 5, "Archetype presets"): the vite-plus configuration an
+// The shared base of the archetype presets (docs/arc42 ch. 5, "Archetypes"): the vite-plus configuration an
 // app extends and never edits. Its vite.config.ts is
 //
 //   import { lernapps } from "@lernapps/tooling/preset";

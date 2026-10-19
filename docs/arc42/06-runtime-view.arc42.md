@@ -16,7 +16,7 @@ the app's hosting and names the address. Then the assistant lists the app from t
 id: rs-new-app
 title: A new app, from first prompt to listing
 trigger: A creator asks their AI assistant for a learning app
-involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-archetypes, bb-lint-rules, bb-git-hooks, bb-check-cli, bb-app-check-action, bb-app-publish, bb-listing-validation
+involves: bb-process-guidance, bb-generator, bb-skills, bb-archetypes, bb-lint-rules, bb-git-hooks, bb-check-cli, bb-app-check-action, bb-app-publish, bb-listing-validation
 :::
 ```
 
@@ -25,7 +25,7 @@ involves: bb-process-guidance, bb-generator, bb-app-templates, bb-skills, bb-arc
 id: rs-new-app-sequence
 scenario: rs-new-app
 notation: mermaid-sequence
-aliases: creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-app-templates, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, publish=bb-app-publish, listing=bb-listing-validation
+aliases: creator=actor-creator, assistant=actor-assistant, guidance=bb-process-guidance, generator=bb-generator, templates=bb-archetypes, skills=bb-skills, hooks=bb-git-hooks, check=bb-check-cli, ci=bb-app-check-action, publish=bb-app-publish, listing=bb-listing-validation
 :::
 ```
 

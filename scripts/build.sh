@@ -3,7 +3,8 @@
 # GitHub, explained (github/), the eval results (evals/, written by evals/report.ts), llms.txt, the rule page (rules/,
 # read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of the review verdict, of
 # the question bank of a quiz and of the content of an explainer (schemas/; the last two from lernapps/app-templates
-# at the pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
+# at the pinned commit), the lifecycle page (lifecycle/, drawn by scripts/lifecycle.ts) and the architecture (arc42,
+# docs/arc42/) as the arc42 web app.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
 #
@@ -39,6 +40,9 @@ for schema in quiz/quiz.v1.schema.json explainer/explainer.v1.schema.json; do
   git -C "$templates_work" show "FETCH_HEAD:runtime/$schema" > "_site/schemas/$(basename "$schema")"
 done
 node scripts/rules.ts page _site/rules/index.html
+# The lifecycle page: the graphic and the text are drawn from site/lifecycle/lifecycle.yaml and checked against
+# chapter 5 of the architecture (scripts/lifecycle.ts); the build fails when they disagree.
+node scripts/lifecycle.ts page _site/lifecycle
 
 arc42 --dir docs/arc42 validate
 arc42 --dir docs/arc42 build --out _site/architecture --base "${PREFIX}architecture/"

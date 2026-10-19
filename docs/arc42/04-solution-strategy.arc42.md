@@ -9,8 +9,8 @@ This works because the two sides differ. The app is deterministic: it does the s
 builds it is not. So the strategy puts deterministic guardrails around a probabilistic builder, and measures where the
 person was still needed.
 
-The lifecycle has five phases: plan and scope, build, test, roll out and monitor. Process and support run through all of
-them.
+The lifecycle has four phases: plan and scope, build, test and roll out, and monitor. Process and support run through
+all of them.
 
 ```arc42
 :::solution-strategy
@@ -34,25 +34,27 @@ the person writes only content and the platform supplies the behaviour. Where th
 holds them, and it is checked against the code with every change. The less the form is fixed, the more the
 architecture has to carry. Rules reach the assistant while it works, and every message says how to fix a problem.
 
-## Test: decide what can be decided
+## Test and roll out: release what was checked, at the person's yes
 
 Everything a program can decide is decided by one check, the same wherever it runs, with a result tied to one version
-of the app. What no program can decide is judged by an independent review against published criteria. Every one of
-them, a check or a judgment, answers to a goal with an id. A judgment may vary; the goal it judges does not. The goals
+of the app. Once it passes and the person says yes, the app goes online, and the app that goes online is the one that
+was checked. It then lives at its developer's own address; the platform hosts nothing of it.
+
+Listing the app in the app overview is optional. It tells adults that the app exists, and it puts the platform's name
+on it. So before an app is listed, an independent review judges against published criteria what no program can decide,
+and the platform's owner decides on the listing. An app that is released and not listed is checked, not judged.
+
+Every check and every judgment answers to a goal with an id. A judgment may vary; the goal it judges does not. The goals
 of the app itself, what learners should be able to do, are written in the plan as text and are not machine-readable
-yet. Neither the check nor the review judges whether the content teaches correctly. That stays with the person.
-
-## Roll out: release at the person's yes
-
-Release is a chain of approvals, not a date. The person says yes before the app goes online and again before it is
-listed. The app that goes online is the one that was checked, and the platform's owner decides on the listing. A change
-to the platform reaches every app as an update, so a rule changes in one place.
+yet. Neither the check nor the review judges whether the content teaches correctly. That stays with the person. A
+change to the platform reaches every app as an update, so a rule changes in one place.
 
 ## Monitor: learn where the goals were not held
 
 The platform collects nothing, so it cannot watch apps in use. It watches the process that makes them. Each piece of
-work ends with a report by the assistant: how far it got, how often the person was needed after the plan, and where it
-had to guess. Failures are counted by the platform, not by the assistant. Every guess marks a missing decision point,
+work ends with a report by the assistant, the retrospective in the plan: how far it got, how often the person was
+needed after the plan, and where it had to guess. The owner reads it when an app asks to be listed. Failures are counted
+by the platform, not by the assistant. Every guess marks a missing decision point,
 and the guidance is improved from it. The number of times the person was needed measures the alignment, and the
 platform aims for it to fall as the guidance matures. Two things are planned and not built: reading the sessions of
 the assistant itself, the owner's own and later those that contributors send in, and turning the reports into feedback

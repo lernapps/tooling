@@ -17,7 +17,7 @@ from the catalog's CI to the review.
 id: deployment-overview
 view: deployment
 notation: mermaid-architecture
-aliases: creator=dn-creator-machine, agents=dn-lernapps-agents, toolingrepo=dn-tooling-repo, templaterepo=dn-templates-repo, appci=dn-app-ci, appsci=dn-apps-ci, generator=bb-generator, hooks=bb-git-hooks, checklocal=bb-check-cli, skills=bb-skills, guidance=bb-process-guidance, package=bb-tooling-package, templates=bb-app-templates, appcheck=bb-app-check-action, publish=bb-app-publish, listing=bb-listing-validation, review=bb-review-procedure, evals=bb-evals
+aliases: creator=dn-creator-machine, agents=dn-lernapps-agents, toolingrepo=dn-tooling-repo, templaterepo=dn-templates-repo, appci=dn-app-ci, appsci=dn-apps-ci, generator=bb-generator, hooks=bb-git-hooks, checklocal=bb-check-cli, skills=bb-skills, guidance=bb-process-guidance, package=bb-tooling-package, templates=bb-archetypes, appcheck=bb-app-check-action, publish=bb-app-publish, listing=bb-listing-validation, review=bb-review-procedure, evals=bb-evals
 :::
 ```
 
@@ -70,7 +70,7 @@ does not write the app by hand.
 id: dn-creator-machine
 title: Creator's machine or assistant sandbox
 type: device
-hosts: bb-tooling-package, bb-generator, bb-archetypes, bb-git-hooks, bb-lint-rules, bb-check-cli, bb-app-templates
+hosts: bb-tooling-package, bb-generator, bb-archetypes, bb-git-hooks, bb-lint-rules, bb-check-cli
 :::
 ```
 
@@ -149,7 +149,7 @@ id: dn-templates-repo
 title: lernapps/app-templates repository
 type: environment
 parent: dn-github
-hosts: bb-app-templates
+hosts: bb-archetypes
 :::
 ```
 
