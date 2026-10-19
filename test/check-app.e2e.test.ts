@@ -21,6 +21,10 @@ import { app, check, checkAsync, findingsOf, output, report, type Report } from 
 import { repoRoot, runAsync, tempDir, type Result } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
+// The pre-push hook (scripts/pre-push.ts) sets LERNAPPS_PRE_PUSH=1. The test of a browser that cannot start is skipped
+// there on purpose: starting and refusing Playwright's browser takes longer than its 5 s under the hook's load (the
+// whole suite runs in parallel) and failed pushes that did not touch it. CI and every other run play it.
+const inHook = process.env["LERNAPPS_PRE_PUSH"] === "1";
 const SLOW = 5 * 60 * 1000;
 
 const TYPES: Record<string, string> = { ".html": "text/html; charset=utf-8", ".svg": "image/svg+xml" };
@@ -209,22 +213,25 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
     ]);
   });
 
-  test("where no browser can start, the app could not be checked: one finding of app-checkable", async () => {
-    // no Chromium in the browser folder, none to fall back to, and the download refused at once
-    const result = await runAsync("node", [join(repoRoot, "src/cli.ts"), "check", app("passing")], repoRoot, {
-      PLAYWRIGHT_BROWSERS_PATH: tempDir("no-browsers"),
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1",
-      PLAYWRIGHT_DOWNLOAD_HOST: "http://127.0.0.1:9",
-    });
-    expect(result.code, output(result)).toBe(1);
-    const [finding, ...more] = findingsOf(result, "app-checkable");
-    expect(more).toEqual([]);
-    expect(finding).toMatchObject({ severity: "error", where: "browser" });
-    expect(finding?.found).toMatch(/^no browser can run here: /);
-    expect(finding?.fix).toContain("https://github.com/lernapps/tooling/issues");
-    expect(findingsOf(result, "checks-pass")).toEqual([]);
-    expect(report(result).rules).toContain("app-checkable");
-  });
+  test.skipIf(inHook)(
+    "where no browser can start, the app could not be checked: one finding of app-checkable",
+    async () => {
+      // no Chromium in the browser folder, none to fall back to, and the download refused at once
+      const result = await runAsync("node", [join(repoRoot, "src/cli.ts"), "check", app("passing")], repoRoot, {
+        PLAYWRIGHT_BROWSERS_PATH: tempDir("no-browsers"),
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1",
+        PLAYWRIGHT_DOWNLOAD_HOST: "http://127.0.0.1:9",
+      });
+      expect(result.code, output(result)).toBe(1);
+      const [finding, ...more] = findingsOf(result, "app-checkable");
+      expect(more).toEqual([]);
+      expect(finding).toMatchObject({ severity: "error", where: "browser" });
+      expect(finding?.found).toMatch(/^no browser can run here: /);
+      expect(finding?.fix).toContain("https://github.com/lernapps/tooling/issues");
+      expect(findingsOf(result, "checks-pass")).toEqual([]);
+      expect(report(result).rules).toContain("app-checkable");
+    },
+  );
 
   test("a directory without index.html is a usage error", () => {
     const result = check(tempDir("empty"));
