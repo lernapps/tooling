@@ -64,10 +64,17 @@ and an ignored key keeps its default (Tab moves the focus).
 
 ### The frame and a full-screen game
 
-What the runtime gives the app page: a header (the app's name, linked to the start page, and the language switch),
-`<main>` with the title, a `<noscript>` note, the routes as links and the element `.interactive-app` the root
-component is mounted into, and a footer with imprint and privacy notice; at most 44rem wide. The start page is a page
-of its own, static and without script; nothing you do on the app page changes it.
+What the runtime gives the app page: a header with the language switch only (none when the app has one language;
+there is no link with the app's name, the title is the h1), `<main>` with the heading line (the title as the h1, and
+a slot beside it), a `<noscript>` note, the routes as links and the element `.interactive-app` the root component is
+mounted into, and a footer with imprint and privacy notice; at most `--interactive-max-width` wide, 44rem by default.
+The start page is a page of its own, static and without script; nothing you do on the app page changes it.
+
+- **A control in the heading line.** Pass a component as `startInteractive(core, App, { title: Controls })`: the
+  runtime mounts it into the slot beside the h1, with the same props (`state`, `lang`) and the same `input` event as
+  the root component. Do not hide or rebuild the h1. Without `title` the slot stays hidden and empty.
+- **A wider frame.** Set `--interactive-max-width` in the app's own `:root` rule, for example `60rem`; it widens the
+  header, the page and the footer. Do not override the runtime's selectors.
 
 - **Hide the frame only while playing, with an overlay of the app's own.** Give the root element a class from the
   state, for example while `state.phase === "playing"`, and style it `position: fixed; inset: 0` with the page's
