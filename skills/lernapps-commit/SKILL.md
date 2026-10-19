@@ -10,7 +10,13 @@ license: MIT
 
 Bring a branch into `main` by squash: squash-merge its pull request, or `git switch main`, `git merge --squash <branch>`,
 `git commit`. One piece of work is one commit on `main`; never a merge commit. The commit message of the squash
-describes the whole piece of work, not the last step.
+describes the whole piece of work, not the last step. When you merge yourself, you squash and write it.
+
+## Content from the plan
+
+Do not invent the message: take it from the current plan (`.vibe/plans/<NN>-<short name>.md`). Intent comes from
+"Goal", Key changes from "Key decisions" and the content method, Dependencies and side effects from "Notes". Write it
+in the creator's terms, short.
 
 ## Message
 
