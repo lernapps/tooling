@@ -1,7 +1,7 @@
 // The page "A workshop, not a factory" (scripts/workshop.ts): rendered from the elements of docs/arc42 and their x-*
 // attributes.
 import { describe, expect, test } from "vitest";
-import { elements, inPhase, mapping, phasesOf, problems, render, type Element } from "../scripts/workshop.ts";
+import { elements, inPhase, mapping, phasesOf, problems, render, steps, type Element } from "../scripts/workshop.ts";
 
 describe("the workshop page", () => {
   const all = elements();
@@ -43,5 +43,15 @@ describe("the workshop page", () => {
     expect(page).toContain('<span class="t">lernapps-app</span>');
     expect(page).toContain('<span class="t">Plan file</span>');
     expect(page).toContain('<span class="tech">Markdown (agentskills.io)</span>');
+  });
+
+  test("lists the phases of the plan, in order, for the workshop card of the start page", () => {
+    const card = steps(mapping());
+    expect([...card.matchAll(/<strong>([^<]+)<\/strong>/g)].map((m) => m[1])).toEqual([
+      "Explore",
+      "Plan",
+      "Code",
+      "Commit",
+    ]);
   });
 });
