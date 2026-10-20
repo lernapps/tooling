@@ -248,7 +248,7 @@ export const ARCHETYPE_DEV_DEPENDENCIES: Readonly<Record<string, Readonly<Record
   explainer: { typescript: "6.0.3", "vue-tsc": "3.3.11" },
   // an interactive app's UI is Vue components from the start; its architecture (docs/arc42/) is validated by the
   // arc42 CLI, the version this repo validates its own with
-  interactive: { "@doctc/arc42": "0.36.1", typescript: "6.0.3", "vue-tsc": "3.3.11" },
+  interactive: { "@doctc/arc42": "0.38.0", typescript: "6.0.3", "vue-tsc": "3.3.11" },
 };
 
 /** Where an assistant downloads the plan template before the app exists. */

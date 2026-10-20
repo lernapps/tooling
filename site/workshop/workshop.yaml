@@ -1,115 +1,30 @@
-# The page "A workshop, not a factory" (site/workshop/): per phase of the plan, what the person decides, what the agent
-# does, and which building blocks of docs/arc42 chapter 5 support it. scripts/workshop.ts renders it into the
-# template (template.html) and fails the build when a block is not in the model, or when the skills of a phase here
-# and the skill blocks under that phase's group in chapter 5 (bb-skills-<phase>) differ.
-#   kinds     the kinds of components, in the order of the legend; each element names one
-#   phases    in the order of the plan; `you` and `agent` are the phase's own lines, `gate` its checkpoint, if any
-#   tools     building blocks: `block` (or `blocks`, shown as one line), `kind`, `text`; `label` replaces the block's
-#             title where one block appears with a part of it (Git hooks: pre-commit, pre-push)
-#   across    what holds in every phase; `catalog` what follows the listing pull request
-kinds:
-  guidance: the process, the plan file
-  skill: know-how the agent loads when its phase comes
-  cli: commands that create, update, check
-  lint: marks a problem while the agent writes
-  hook: checks before a commit or a push
-  action: checks and publishing on GitHub
-  runtime: what every app of an archetype shares
+# The page "A workshop, not a factory" (site/workshop/): the phases of the plan and what the person decides in each.
+# What supports a phase comes from docs/arc42: every element (building block or interface) with `x-phase` (a list of
+# the ids below), `x-agent` and, where the person works with it, `x-person`. Its box shows its title and its technology
+# (a block) or protocol (an interface), in the order of the chapters, and links its card. scripts/workshop.ts renders
+# the page into its template (template.html) and fails the build when an element names an unknown phase, says nothing
+# for agent or person, or when a skill's phase is not that of its group (bb-skills-<phase>).
+#   across    what runs through every phase, before the timeline; `catalog` what follows the listing pull request
+#   phases    in the order of the plan: `question`, what `you` decide, the checkpoint (`gate`) if any
+across: { label: Across all phases, question: What runs through every phase? }
 phases:
   - id: explore
     title: Explore
     question: What should learners be able to do?
-    attention: { level: 100, label: "you are the expert" }
-    you:
-      - The goal, the learners, your own material
-      - The mistakes your learners make
-      - Whether the research is right
-    agent:
-      - Interviews you, one topic at a time
-      - Proposes the archetype and says what it cannot do
-      - Researches the curriculum, opens every source it cites
-      - Drafts the catalog entry
-    tools:
-      - { block: bb-process-guidance, kind: guidance, label: plan template, text: "interview topics, checkpoints" }
-      - { block: bb-skill-app, kind: skill, text: "what every app must be, choosing the archetype" }
-      - { block: bb-app-templates, kind: runtime, label: template READMEs, text: "what each archetype can and cannot do" }
-      - { block: bb-skill-content-research, kind: skill, text: "curriculum, competencies, sources" }
-      - blocks: [bb-skill-quiz-design, bb-skill-explainer-design, bb-skill-interactive-design]
-        kind: skill
-        label: lernapps-<archetype>-design
-        text: "what to ask, how content maps"
-    gate: { title: "Checkpoint: research", text: "you confirm what the app teaches" }
+    you: "What the app teaches and for whom: the goal, the learners, your own material, the mistakes your learners make."
+    gate: "Checkpoint research: you confirm what the app teaches."
   - id: plan
     title: Plan
     question: How will learners practise?
-    attention: { level: 55, label: "one careful read" }
-    you:
-      - "One read: tasks, sketches, the content method"
-      - Yes, or what to change
-    agent:
-      - Maps the content onto the archetype
-      - Chooses an exercise pattern per competency
-      - Sketches every screen
-      - Cuts later increments into slices for parallel sub-agents
-    tools:
-      - { block: bb-skill-exercise-patterns, kind: skill, text: "patterns by subject, shared data" }
-      - { block: bb-skill-content-growth, kind: skill, text: "slices for an increment" }
-      - { block: bb-process-guidance, kind: guidance, label: sub-agent brief, text: "one slice per sub-agent" }
-    gate: { title: "Checkpoint: confirm the plan", text: "nothing is built before your yes" }
+    you: "In one read: the tasks, the sketches and the content method."
+    gate: "Checkpoint plan: nothing is built before your yes."
   - id: code
     title: Code
     question: Built locally, by the agent
-    attention: { level: 12, label: "hardly any" }
-    you:
-      - Nothing you must do
-      - At most three questions only you can answer
-    agent:
-      - Creates the app from the template
-      - Writes the app's own content guide
-      - Writes the content, commit by commit
-      - Fixes every failed check from its message
-      - Compares screenshots with the sketches
-    tools:
-      - { block: bb-generator, kind: cli, label: "lernapps create, update", text: "the app from its template, kept current" }
-      - { block: bb-skill-check, kind: skill, text: "the CLI, failed checks, the preset" }
-      - blocks: [bb-skill-quiz, bb-skill-explainer, bb-skill-interactive]
-        kind: skill
-        label: lernapps-<archetype>
-        text: "what to write and its notation"
-      - { block: bb-skill-content-questions, kind: skill, text: "options and feedback that teach" }
-      - { block: bb-lint-rules, kind: lint, text: "e.g. no request to another server before a click" }
-      - { block: bb-app-templates, kind: runtime, label: runtime, text: "engine, accessibility, no-JS page, its own tests" }
-      - { block: bb-git-hooks, kind: hook, label: pre-commit, text: "format, lint, types, architecture" }
+    you: "Nothing. Time for a coffee: the agent builds on its own and may come back with a question only you can answer."
   - id: commit
     title: Commit
     question: Online at your yes
-    attention: { level: 35, label: "a look and a yes" }
-    you:
-      - "The preview: is this the app you want?"
-      - Yes to publish
-      - The one click only the repo owner can make
-    agent:
-      - Sets up the repo and Pages
-      - Opens the preview pull request, sees its checks green
-      - Publishes one squash commit, watches the deploy
-      - Opens the listing pull request from your fork
-    tools:
-      - { block: bb-skill-github, kind: skill, text: "repo, preview, publish, fork" }
-      - { block: bb-skill-commit, kind: skill, text: "linear history, message from the plan" }
-      - { block: bb-skill-listing, kind: skill, text: "the entry and its result" }
-      - { block: bb-git-hooks, kind: hook, label: pre-push, text: "build, end-to-end tests" }
-      - { block: bb-app-check-action, kind: action, label: app check, text: "the same checks in CI" }
-      - blocks: [bb-app-preview, bb-app-publish]
-        kind: action
-        label: app preview and app publish
-        text: "the checked bundle"
-      - { block: bb-listing-validation, kind: action, label: listing validation, text: "the entry against the live app" }
-    gate:
-      title: "Checkpoints: publish, list"
-      text: "the app goes online at your yes; the listing pull request is the review"
-across:
-  - { block: bb-process-guidance, kind: guidance, label: AGENTS.md and the plan file, text: "where the work stands, what comes next, where the agent had to guess" }
-  - { block: bb-check-cli, kind: cli, label: lernapps check, text: "one command, the same result in hooks, CI and the listing" }
-catalog:
-  agent: { block: bb-review-procedure, text: "A review agent judges what no check can, against a rubric" }
-  owner: The platform owner reads the verdict and decides on the listing
+    you: "Whether the app goes online: you look at the preview and say yes."
+    gate: "Checkpoints publish and list: the listing pull request is the review."
+catalog: { label: "Then, in the catalog", question: Is it listed? }

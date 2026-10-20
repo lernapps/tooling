@@ -147,7 +147,7 @@ function runStep(planned: Step): Finding | undefined {
         step.command === "vue-tsc"
           ? "The app has Vue components (.vue), which vue-tsc type-checks: add it with npm install --save-dev vue-tsc typescript, then check again"
           : step.command === "arc42"
-            ? `The app has an architecture (${ARCHITECTURE}/), which the arc42 CLI checks: add it with npm install --save-dev @doctc/arc42@0.36.1, then check again`
+            ? `The app has an architecture (${ARCHITECTURE}/), which the arc42 CLI checks: add it with npm install --save-dev @doctc/arc42@0.38.0, then check again`
             : `Install the project's dependencies (npm ci), then check again`,
     });
   }

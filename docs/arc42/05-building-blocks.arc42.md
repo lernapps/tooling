@@ -12,6 +12,10 @@ is always one of lernapps.net's own websites, never an app.
 Rules have no block of their own: each rule lives in the block where it acts, as skill text, lint rule, check or
 rubric item (concept `concept-rule-catalog`).
 
+The blocks and interfaces a creator and their assistant work with carry the phases of the plan they support and what
+each does for the assistant and the person (`x-phase`, `x-agent`, `x-person`). The docs page "A workshop, not a
+factory" is rendered from them, with their technology or protocol.
+
 ## Level 1
 
 ```arc42
@@ -171,6 +175,9 @@ title: Process guidance
 parent: bb-tooling-package
 technology: Markdown
 implements: concept-plain-language, concept-terse-output, concept-traceability, concept-rule-catalog
+x-phase: across
+x-agent: Gives the four phases, the checkpoints, and which skill comes when; a brief for each sub-agent.
+x-person: Answers the interview and confirms at each checkpoint.
 :::
 ```
 
@@ -185,6 +192,8 @@ id: if-agents-md
 title: AGENTS.md
 provider: bb-process-guidance
 protocol: Markdown file at the app's root
+x-phase: across
+x-agent: Reads it on every return: where the current plan is and what holds.
 :::
 ```
 
@@ -203,6 +212,9 @@ id: if-plan-file
 title: Plan file
 provider: bb-process-guidance
 protocol: Markdown with YAML front matter and a versioned JSON Schema
+x-phase: across
+x-agent: Works the plan step by step and notes where it had to guess.
+x-person: Reads where the work stands, in plain words.
 :::
 ```
 
@@ -254,6 +266,8 @@ parent: bb-skills-explore
 path: skills/process/lernapps-app
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-agent: Knows what every app must be, and chooses the archetype from what learners do.
 :::
 ```
 
@@ -270,6 +284,9 @@ parent: bb-skills-explore
 path: skills/content/lernapps-content-research
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-agent: Researches the curriculum, writes the competencies, opens every source it cites.
+x-person: Brings their curriculum and their own material.
 :::
 ```
 
@@ -286,6 +303,8 @@ parent: bb-skills-explore
 path: skills/archetypes/lernapps-quiz-design
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-agent: Knows what to ask for a quiz and how its content maps onto rounds and question types.
 :::
 ```
 
@@ -302,6 +321,8 @@ parent: bb-skills-explore
 path: skills/archetypes/lernapps-explainer-design
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-agent: Knows what to ask for an explainer and how its content maps onto chapters, pages and exercises.
 :::
 ```
 
@@ -318,6 +339,8 @@ parent: bb-skills-explore
 path: skills/archetypes/lernapps-interactive-design
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-agent: Knows what to ask for an interactive app and how its content maps onto core, screens and playthroughs.
 :::
 ```
 
@@ -348,6 +371,8 @@ parent: bb-skills-plan
 path: skills/content/lernapps-exercise-patterns
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: plan
+x-agent: Chooses an exercise per competency from the patterns of the subject, and shares data as files.
 :::
 ```
 
@@ -364,6 +389,8 @@ parent: bb-skills-plan
 path: skills/process/lernapps-content-growth
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: plan
+x-agent: Cuts a later increment into slices, one per competency, for parallel sub-agents.
 :::
 ```
 
@@ -394,6 +421,8 @@ parent: bb-skills-code
 path: skills/tooling/lernapps-check
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-agent: Fixes every failed check from its message and never bypasses one.
 :::
 ```
 
@@ -410,6 +439,8 @@ parent: bb-skills-code
 path: skills/archetypes/lernapps-quiz
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-agent: Writes the question bank of a quiz, the only file it writes there.
 :::
 ```
 
@@ -426,6 +457,8 @@ parent: bb-skills-code
 path: skills/archetypes/lernapps-explainer
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-agent: Writes the chapters and pages of an explainer in its notation; a component only where no block fits.
 :::
 ```
 
@@ -442,6 +475,8 @@ parent: bb-skills-code
 path: skills/archetypes/lernapps-interactive
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-agent: Writes the core, components, data and playthroughs of an interactive app, and its architecture.
 :::
 ```
 
@@ -458,6 +493,8 @@ parent: bb-skills-code
 path: skills/content/lernapps-content-questions
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-agent: Writes options and feedback that teach.
 :::
 ```
 
@@ -488,6 +525,9 @@ parent: bb-skills-commit
 path: skills/process/lernapps-github
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: commit
+x-agent: Sets up repo and Pages, opens the preview pull request, publishes after your yes.
+x-person: Makes the one click only the owner of the repo can make, if one is needed.
 :::
 ```
 
@@ -505,6 +545,8 @@ parent: bb-skills-commit
 path: skills/process/lernapps-commit
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: commit
+x-agent: Publishes one squash commit, its message taken from the plan.
 :::
 ```
 
@@ -521,6 +563,9 @@ parent: bb-skills-commit
 path: skills/process/lernapps-listing
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: commit
+x-agent: Writes the entry and opens the listing pull request from your fork.
+x-person: Sees the listing pull request and its result.
 :::
 ```
 
@@ -556,6 +601,8 @@ parent: bb-tooling-package
 technology: TypeScript CLI
 requires: if-archetype-templates, if-plan-file
 implements: concept-stable-contracts
+x-phase: code
+x-agent: Creates the app from its template, passing every check from the first commit; update brings fixes later.
 :::
 ```
 
@@ -629,6 +676,8 @@ parent: bb-archetypes
 technology: git hooks
 requires: if-check-cli, if-plan-file
 implements: concept-terse-output, concept-traceability
+x-phase: code, commit
+x-agent: Check every commit, and before a push build the app and run the end-to-end tests.
 :::
 ```
 
@@ -647,6 +696,8 @@ title: Lint rules
 parent: bb-tooling-package
 technology: Oxlint JS plugin
 implements: concept-rule-catalog, concept-terse-output, concept-components
+x-phase: code
+x-agent: Marks a problem while it writes, such as a request to another server before a click.
 :::
 ```
 
@@ -680,6 +731,8 @@ title: Check CLI
 parent: bb-tooling-package
 technology: TypeScript CLI, Playwright, axe-core
 implements: concept-rule-catalog, concept-terse-output, concept-traceability, concept-stable-contracts
+x-phase: across
+x-agent: One command, the same result in the hooks, in CI and at the listing.
 :::
 ```
 
@@ -731,6 +784,9 @@ parent: bb-tooling-package
 technology: Markdown, JSON Schema
 requires: if-validation-report
 implements: concept-rule-catalog, concept-plain-language, concept-terse-output, concept-traceability, concept-stable-contracts
+x-phase: catalog
+x-agent: A review agent judges what no check can, against a rubric.
+x-person: The platform owner reads the verdict and decides on the listing.
 :::
 ```
 
@@ -814,6 +870,9 @@ id: if-archetype-templates
 title: Archetype templates
 provider: bb-app-templates
 protocol: Files at a pinned commit
+x-phase: explore
+x-agent: Reads the README of each template before it chooses the archetype.
+x-person: Hears what the chosen archetype can and cannot do.
 :::
 ```
 
@@ -828,6 +887,8 @@ id: if-archetype-runtime
 title: Archetype runtime
 provider: bb-app-templates
 protocol: npm package from git, subpath exports per archetype
+x-phase: code
+x-agent: Runs the app: engine, accessibility, the page without JavaScript, its own tests.
 :::
 ```
 
@@ -875,6 +936,8 @@ title: App check action
 technology: GitHub composite action
 path: actions/app-check
 requires: if-check-cli
+x-phase: commit
+x-agent: Runs the same checks in CI.
 :::
 ```
 
@@ -907,6 +970,8 @@ id: bb-app-publish
 title: App publish
 technology: GitHub composite action, GitHub Pages
 path: actions/app-publish
+x-phase: commit
+x-agent: Publishes the checked bundle at your own address.
 :::
 ```
 
@@ -938,6 +1003,9 @@ id: bb-app-preview
 title: App preview
 technology: GitHub composite action, GitHub Pages
 path: actions/app-preview
+x-phase: commit
+x-agent: Puts the checked bundle of a pull request online as a preview.
+x-person: Looks at the preview before saying yes.
 :::
 ```
 
@@ -968,6 +1036,8 @@ title: Listing validation
 technology: GitHub Actions workflow
 requires: if-check-cli, if-review-procedure, if-validation-report
 implements: concept-terse-output, concept-traceability
+x-phase: commit
+x-agent: Checks the entry against the live app and comments the result.
 :::
 ```
 
