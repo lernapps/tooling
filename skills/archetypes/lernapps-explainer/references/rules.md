@@ -1,7 +1,7 @@
 # Explainer rules
 
 - Quiz-type exercises: the rules of skill `lernapps-content-questions`.
-- The rules for planning pages, figures and numbers: skill `lernapps-explainer-plan`.
+- The rules for planning pages, figures and numbers: skill `lernapps-explainer-design`.
 
 ## `explainer-only-content`: Write only the content
 

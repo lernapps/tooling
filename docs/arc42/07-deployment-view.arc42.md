@@ -78,7 +78,7 @@ hosts: bb-tooling-package, bb-generator, bb-archetypes, bb-git-hooks, bb-lint-ru
 
 The runtime of the creator's assistant, whichever it is. It receives the agent instructions, which the generator
 writes into the app, and the skills, copied from GitHub into the harness and refreshed the same way: those of every
-phase at the start, those of the chosen archetype at the end of Explore. Before the app
+phase at the start, those of the archetype when Explore chooses it. Before the app
 exists, the assistant starts the plan from the published template. The harness decides when to load a skill; its own
 hooks may add convenience but enforce nothing.
 

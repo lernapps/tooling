@@ -6,14 +6,20 @@ license: MIT
 
 # lernapps CLI and checks
 
+## Read when
+
+- [references/platform-rules.md](references/platform-rules.md): a check names a `listing` rule, and before the
+  listing.
+
 ## Create
 
 1. Only after the creator's yes to the plan (`explore-before-code`). In the plan's folder:
-   `npx --yes github:lernapps/tooling#exp/compact-guidance create --archetype <archetype>`, then `npm install`
-   (dependencies, git hooks).
-2. Needs git, Node ≥ 22.18, github.com, codeload.github.com, registry.npmjs.org. Blocked → ask the creator to allow
+   `npx --yes github:lernapps/tooling#exp/compact-guidance create --archetype <archetype>`.
+2. No git repo yet: `git init --initial-branch=work`. Then `npm install` (dependencies, git hooks), and commit
+   everything on `work`.
+3. Needs git, Node ≥ 22.18, github.com, codeload.github.com, registry.npmjs.org. Blocked → ask the creator to allow
    it, run again. Never write the app by hand.
-3. It keeps the plan and the installed skills, and writes the content guide's skeleton.
+4. It keeps the plan and the installed skills, and writes the content guide's skeleton.
 
 ## Update
 

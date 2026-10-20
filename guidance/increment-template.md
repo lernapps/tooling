@@ -26,9 +26,8 @@ a correction.
 5. Each phase names its skills. Load a skill when its task comes, not before. Read it in full, from its file.
 6. Checkpoint: stop, ask, wait for the creator's answer.
 7. At most 2 questions per message, one topic each.
-8. Work on the branch `increment/<NN>-<short name>` until the yes to publish; push only that branch.
-9. Rules of the workflow, with their ids: `@lernapps/tooling/guidance/workflow-rules.md`.
-10. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
+8. Work on the branch `increment/<NN>-<short name>`. Until Commit everything is local: push nothing.
+9. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
 -->
 
 *Started <date>. Explore, Plan, Code, Commit.*
@@ -51,13 +50,15 @@ questions. -->
 <!--
 - All content questions belong here; Plan maps the answers onto the app. Ask; write no code.
 - Skip what earlier answers or the app already tell. Never tick a topic you assumed.
-- Skills: the content guide `app-content`, `lernapps-content-research`.
+- Skills: the content guide `app-content`, `lernapps-content-research`, `lernapps-<archetype>-design`.
 -->
 
 ### Tasks
 
 - [ ] Set `archetype` as in the app's first plan in `.vibe/plans/`.
 - [ ] Skills are in `.agents/skills/`; if missing, install them as the first task of the plan template says.
+- [ ] Read the README of the archetype's template (link in skill `lernapps-app`): what the app can do now. Tell the
+      creator what is new, if it matters for this increment.
 - [ ] Load the content guide `.agents/skills/app-content/SKILL.md`. Read the plans in `.vibe/plans/`: what the app
       teaches, how its content is made, what is open.
 - [ ] Interview: one topic per question, the creator's words under "Answers". No answer → ask once more, then
@@ -66,6 +67,8 @@ questions. -->
 - [ ] Load skill `lernapps-content-research`. Research what the guide's curriculum and sources do not cover. Under
       "Notes": curriculum orientation, new competencies by chapter as "Ich kann …", verified sources.
 - [ ] Under "Notes": the didactic approach per competency and the scope (in, out, data range).
+- [ ] A kind of content the guide does not cover (a new page structure, screen or component) → load skill
+      `lernapps-<archetype>-design`. Else skip this task.
 - [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, new competencies by chapter, didactic
       approach, scope, every "(guess)", sources and how you checked them, what is unchecked. Stop and wait.
       Changes → change, ask again.
@@ -82,16 +85,17 @@ questions. -->
 <!--
 - Map the new content onto the app with the guide's patterns. Confirmable in one read.
 - After the yes, work on your own: at most 3 creator turns until the end.
-- Skills: `lernapps-content-growth`; `lernapps-<archetype>-plan` and `lernapps-exercise-patterns` only for something
-  the guide does not cover.
+- Skills: `lernapps-content-growth`; `lernapps-exercise-patterns` only for something the guide does not cover.
 -->
 
 ### Tasks
 
+- [ ] `grep '^phase:'` prints `phase: plan`; else set it.
 - [ ] Load skill `lernapps-content-growth`. Write the Code tasks as slices, one per competency, in the guide's
       order. Mark the slices sub-agents can write in parallel.
-- [ ] Write "Content method": the guide's patterns, figures and components per slice. Anything new: load skill
-      `lernapps-<archetype>-plan` or `lernapps-exercise-patterns`, and say why the guide's patterns do not fit.
+- [ ] Write "Content method": the guide's patterns, figures and components per slice. Anything new: map it as skill
+      `lernapps-<archetype>-design` says (loaded in Explore), choose its pattern with skill
+      `lernapps-exercise-patterns`, and say why the guide's patterns do not fit.
 - [ ] Each new component or interactive exercise: a sketch (static SVG or image, or the steps). Words alone are not
       enough.
 - [ ] Show the creator, short: goal, new competencies by chapter, slices; in plain words what learners see and do,
@@ -110,23 +114,22 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 ## Code
 
 <!--
-- Commit after each slice; the hooks check. A check fails → skill `lernapps-check`. Fix from the message; never
+- Build locally on the branch. Commit after each slice; the hooks check. A check fails → skill `lernapps-check`. Fix from the message; never
   bypass a hook.
 - Undecidable → choose, mark "(guess)", go on.
 - Creator asks for a change → first say your reading in one sentence; never narrow it silently.
-- Skills: `lernapps-check`, `lernapps-github-setup`, `lernapps-<archetype>`, `lernapps-content-questions`, the content
-  guide.
+- Skills: `lernapps-check`, `lernapps-<archetype>`, `lernapps-content-questions`, the content guide.
 -->
 
 ### Tasks
 
+- [ ] `grep '^phase:'` prints `phase: code`; else set it.
 - [ ] `git switch -c increment/<NN>-<short name>` from `main`. Commit this plan on it.
 - [ ] Load skill `lernapps-check`. Update the app as it says. Commit the update alone; fix its findings before
       content. The update replaces the `lernapps-*` skills: reread those you use.
-- [ ] Push the branch and open its preview pull request as skill `lernapps-github-setup` says.
 - [ ] Load skill `lernapps-<archetype>` and the content guide. Questions with options and feedback: also skill
       `lernapps-content-questions`.
-- [ ] <the slices written in Plan; each: competency, content, exercise, the entry's topic, check, commit, push>
+- [ ] <the slices written in Plan; each: competency, content, exercise, the entry's topic, check, commit>
       Parallel slices: send each sub-agent `@lernapps/tooling/guidance/subagent-brief.md`, filled in.
 - [ ] The content guide describes the app as it is now (`app-content-matches`). `grep -c "FILL IN"
       .agents/skills/app-content/SKILL.md` prints 0.
@@ -145,7 +148,9 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 
 ### Tasks
 
-- [ ] Load skill `lernapps-github`. See the pull request's checks to green as it says.
+- [ ] `grep '^phase:'` prints `phase: commit`; else set it.
+- [ ] Load skill `lernapps-github`. Push the branch, open the preview pull request, see its checks to green as it
+      says.
 - [ ] **Checkpoint:** publish. Show what the increment adds and the preview link; ask whether it may go online. Wait
       for the yes.
 - [ ] Publish as skill `lernapps-github` says: the branch into `main`, the run of `Pages` watched to the end.

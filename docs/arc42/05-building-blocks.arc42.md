@@ -171,8 +171,8 @@ What the assistant needs to know in one phase, and the rules of that phase, each
 exactly one phase; its description says first when it is needed, so a harness offers it at that moment. A skill too
 long to load at once keeps its `SKILL.md` short and links files in its `references/`, each with the moment to read
 it. The skills are grouped on disk (`skills/<group>/<name>/`) by what they hold, and installed flat
-(`.agents/skills/<name>/`): every group at the start of the plan, the archetype skills of the chosen archetype at the
-end of Explore. The skills reach the creator's agent harness for an app from the generator as for one built
+(`.agents/skills/<name>/`): every group at the start of the plan, the archetype skills of the chosen archetype when
+Explore chooses it. The skills reach the creator's agent harness for an app from the generator as for one built
 otherwise.
 
 ```arc42
@@ -188,8 +188,8 @@ implements: concept-rule-catalog, concept-plain-language, concept-terse-output
 #### Process skills
 
 How the assistant gets through the steps of the process that are no content: what a lernapps app must be and which
-archetype fits (Explore), cutting an increment into slices (Plan), putting the app on GitHub (Code), publishing and
-listing it (Commit). The platform rules read on their own, for an app built without the tooling.
+archetype fits (Explore), cutting an increment into slices (Plan), putting the app on GitHub, publishing and listing
+it (Commit). Until Commit an app is local, so the technique does not come before the content.
 
 ```arc42
 :::ignore W002 a part of the skills; the contract is the skills interface :::
@@ -205,7 +205,8 @@ implements: concept-rule-catalog
 #### Tooling skill
 
 How to use the CLI in Code: create and update an app, read a failed check, suppress a finding, keep the preset. It
-changes with the check CLI and the preset.
+changes with the check CLI and the preset. The platform rules, which the checks enforce at the listing, read on their
+own, for an app built without the tooling.
 
 ```arc42
 :::ignore W002 a part of the skills; the contract is the skills interface :::
@@ -237,9 +238,11 @@ implements: concept-rule-catalog
 
 #### Archetype skills
 
-Two per archetype: one for Plan, which maps the confirmed content onto the archetype (structure, blocks or parts,
-the archetype's rules for good content), and one for Code, which says how to use the generated app (what to write,
-its notation, the runtime, the technical rules). They change with the archetype's template and runtime.
+Two per archetype: a design skill for Explore, loaded right after the archetype is chosen, which says how content maps
+onto the archetype (structure, blocks or parts, the archetype's rules for good content) and which the plan applies;
+and one for Code, which says how to use the generated app (what to write, its notation, the runtime, the technical
+rules). What an archetype can and cannot do is not in them: the README of its template in app-templates says it,
+read by URL before the choice, and changes in the same pull request as the feature.
 
 ```arc42
 :::ignore W002 a part of the skills; the contract is the skills interface :::

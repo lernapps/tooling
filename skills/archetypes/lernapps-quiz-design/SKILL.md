@@ -1,16 +1,21 @@
 ---
-name: lernapps-quiz-plan
-description: Use in Plan once the plan says `archetype: quiz` - to map the confirmed content of a lernapps.net quiz onto rounds, question types and question patterns, and to decide languages and what the quiz keeps on the device, before `lernapps create`.
+name: lernapps-quiz-design
+description: Use in Explore right after choosing `archetype: quiz` - how the content of a lernapps.net quiz maps onto rounds, question types and patterns, which the plan then applies.
 license: MIT
 ---
 
-# Planning a quiz
+# Designing a quiz
 
 ## What a quiz is
 
 - One page of questions with options and feedback. The runtime shows one question at a time, then each option's
   background, the explanation and links; the score at the end. Without JavaScript: a worksheet with solutions.
 - You will write only the question bank `src/quiz.json`; no code (`quiz-only-data`).
+
+## Can and cannot
+
+- The README of the template says it: <https://raw.githubusercontent.com/lernapps/app-templates/main/quiz/README.md>.
+  Read it before this skill's mapping, if you have not yet.
 
 ## Map the content
 

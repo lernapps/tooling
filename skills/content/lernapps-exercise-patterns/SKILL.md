@@ -14,7 +14,7 @@ license: MIT
 ## 1. Data files
 
 - Each fact once, as a record with the same fields as its neighbours (elements, circuit parts, events, organs).
-- The skill `lernapps-<archetype>-plan` says where data lives in the archetype.
+- The skill `lernapps-<archetype>-design` says where data lives in the archetype.
 
 ## 2. Patterns
 
@@ -31,14 +31,18 @@ license: MIT
 | read off, interpret | a figure or table given, a value or statement asked |
 | explain | pick the right explanation among plausible wrong ones, each with background |
 
-- Read [references/patterns.md](references/patterns.md) when you look for a pattern for a subject or a page
-  structure.
+- Read the patterns of your subject before you choose: [mathematics](references/mathematics.md),
+  [physics](references/physics.md), [chemistry](references/chemistry.md),
+  [biology and geography](references/biology-geography.md), [history](references/history.md),
+  [computer science](references/computer-science.md). Another subject: the one closest to it.
+- Explainer: read [references/page-structures.md](references/page-structures.md) when you plan the sections of a
+  page; any archetype with figures: [references/figures.md](references/figures.md).
 - Write each pattern into "Content method": name, kind of competency, form in the archetype (what is fixed, what
   varies), one example, data file. In Code it goes into the content guide.
 
 ## 3. Beyond the notation
 
-- What the archetype's notation cannot express: the skill `lernapps-<archetype>-plan` says the way out (a component
+- What the archetype's notation cannot express: the skill `lernapps-<archetype>-design` says the way out (a component
   of the explainer; code of an interactive app). Say in the plan why no pattern fits.
 - A need other apps share (figure kind, block, question type) → an issue at
   <https://github.com/lernapps/app-templates/issues> with an example. Tell the creator; use the nearest pattern.

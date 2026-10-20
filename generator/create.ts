@@ -431,6 +431,8 @@ export function create(args: string[]): number {
   try {
     mkdirSync(dir, { recursive: true });
     cpSync(join(templates, archetype), dir, { recursive: true });
+    // the template's README says what the archetype can do, for choosing one; it is no part of the app
+    rmSync(join(dir, "README.md"), { force: true });
     // the template folder's architecture is the extension of app-templates' own: an interactive app gets the
     // combination as its reference, the other archetypes none
     rmSync(join(dir, ARCHITECTURE), { recursive: true, force: true });

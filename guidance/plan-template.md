@@ -22,9 +22,9 @@ For you, the assistant.
 5. Each phase names its skills. Load a skill when its task comes, not before. Read it in full, from its file.
 6. Checkpoint: stop, ask, wait for the creator's answer. A message sent before the question is no yes.
 7. At most 2 questions per message, one topic each. No questions inside drafts or lists.
-8. Work on the branch `work` until the first publish; push only `work`. Commit brings it into `main`.
-9. Rules of the workflow, with their ids: `@lernapps/tooling/guidance/workflow-rules.md`.
-10. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
+8. Work on the branch `work`, locally: push nothing before Commit. Commit puts the app on GitHub and brings `work`
+   into `main`.
+9. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
 -->
 
 *Started <date>. Explore, Plan, Code, Commit.*
@@ -49,20 +49,22 @@ questions. -->
   maps the answers onto the archetype.
 - Ask. Write no code, run no `create`.
 - An answer counts only in the creator's words under "Answers". Never tick a topic you assumed.
-- Skills: `lernapps-app`, `lernapps-content-research`.
+- Skills: `lernapps-app`, `lernapps-<archetype>-design`, `lernapps-content-research`.
 -->
 
 ### Tasks
 
 - [ ] Install the skills, if missing (the app commits them): `npx --yes skills add
       lernapps/tooling#exp/compact-guidance -y -s lernapps-app lernapps-content-research lernapps-exercise-patterns
-      lernapps-content-growth lernapps-check lernapps-github-setup lernapps-content-questions lernapps-github
-      lernapps-listing`.
-- [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: in
-      their own GitHub repo, free, public, at their own address. Offer to explain GitHub; they need not know it.
-      Example: "Deine App wird über GitHub veröffentlicht, kostenlos und öffentlich, unter deiner eigenen Adresse.
-      Soll ich dir kurz erklären, was GitHub ist?"
-- [ ] Interview: ask the topics of "Answers" in order. Skip a topic only when an earlier answer covers it; note
+      lernapps-content-growth lernapps-check lernapps-content-questions lernapps-github lernapps-listing`.
+- [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
+      their own address, free, public. The technical part (GitHub) comes at the end, and you do it.
+- [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
+- [ ] Choose the archetype as skill `lernapps-app` says: read the README of each archetype in question, tell the
+      creator what the chosen one can and cannot do. Write it and its reason under "Key decisions". Set `archetype`.
+- [ ] Install the archetype's skills: `npx --yes skills add lernapps/tooling#exp/compact-guidance -y -s
+      lernapps-<archetype>-design lernapps-<archetype>`. Load skill `lernapps-<archetype>-design`.
+- [ ] Interview: ask the other topics of "Answers" in order. Skip a topic only when an earlier answer covers it; note
       which. No answer → ask once more; still none → write your assumption with "(guess)". Done when every topic
       has an answer or a guess.
 - [ ] Load skill `lernapps-content-research`. Research as it says. Under "Notes": curriculum orientation,
@@ -74,13 +76,9 @@ questions. -->
 - [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json and read each property's description. Ask what
       helps teachers and parents find the app. Fill "Entry draft". Search words: one or two words each, as people
       type them.
-- [ ] Choose the archetype with skill `lernapps-app`. Write it and its reason under "Key decisions". Set
-      `archetype`.
 - [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, competencies by chapter, didactic
       approach, scope, every "(guess)", sources and how you checked them, what is unchecked, archetype and reason.
       Stop and wait. Changes → change, ask again.
-- [ ] Install the archetype's skills: `npx --yes skills add lernapps/tooling#exp/compact-guidance -y -s
-      lernapps-<archetype>-plan lernapps-<archetype>`.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
 
 ### Answers
@@ -117,13 +115,15 @@ questions. -->
   components.
 - No new content questions. A content gap → back to Explore; say so.
 - Confirmable in one read. After the yes, work on your own: at most 3 creator turns until the listing.
-- Skills: `lernapps-<archetype>-plan`, `lernapps-exercise-patterns`.
+- Skills: `lernapps-<archetype>-design` (loaded in Explore), `lernapps-exercise-patterns`.
 -->
 
 ### Tasks
 
-- [ ] Load skill `lernapps-<archetype>-plan`. Map the content as it says.
-- [ ] Load skill `lernapps-exercise-patterns`. Choose a pattern per competency. Write "Content method".
+- [ ] `grep '^phase:'` prints `phase: plan`; else set it.
+- [ ] Map the content as skill `lernapps-<archetype>-design` says; reread it if it is no longer in view.
+- [ ] Load skill `lernapps-exercise-patterns` and read the patterns of your subject. Choose a pattern per competency.
+      Write "Content method".
 - [ ] Write the Code tasks under "Code": pages or screens, their content, what each shows. Each ends in a commit.
 - [ ] Each screen, component or interactive exercise: a sketch (static SVG or image, or the steps with what
       learners see after each). Words alone are not enough.
@@ -143,28 +143,27 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 ## Code
 
 <!--
-- Build the app from the archetype and the confirmed plan. Work on your own.
+- Build the app from the archetype and the confirmed plan, locally on `work`. Work on your own.
 - Commit after each task; the hooks check. A check fails → skill `lernapps-check`. Fix from the message; never
   bypass a hook.
 - Undecidable → choose, mark "(guess)" under "Key decisions", go on.
 - Creator asks for a change → first say your reading in one sentence ("Ich nehme alle 44 Hauptgruppenelemente
   auf."); never narrow it silently. Content change → update "Notes" too.
-- Skills: `lernapps-check`, `lernapps-github-setup`, `lernapps-<archetype>`, `lernapps-content-questions`, and the
-  app's content guide `app-content`.
+- Skills: `lernapps-check`, `lernapps-<archetype>`, `lernapps-content-questions`, and the app's content guide
+  `app-content`.
 -->
 
 ### Tasks
 
+- [ ] `grep '^phase:'` prints `phase: code`; else set it.
 - [ ] Load skill `lernapps-check`. Create the app in this plan's folder as it says. `create` keeps this plan. Never
       write the app by hand.
-- [ ] Load skill `lernapps-github-setup`. Put the app on GitHub as it says: repo, branches, Pages, the app committed
-      on `work`, the preview pull request. Give the creator the preview link once.
 - [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from "Notes" and "Content method"
       (`app-content-guide`). `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` prints 0. Commit it before
       any content.
 - [ ] Load skill `lernapps-<archetype>` and the content guide. Questions with options and feedback: also skill
       `lernapps-content-questions`.
-- [ ] <the tasks written in Plan; after each, commit and push `work`: the preview shows the current state>
+- [ ] <the tasks written in Plan; after each, commit on `work`>
 - [ ] The content guide matches what was built (`app-content-matches`).
 - [ ] `npx lernapps check` passes.
 - [ ] Look at a screenshot of every screen and state (start, each mode, pause, end), desktop and 360 px. Compare
@@ -177,15 +176,18 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 ## Commit
 
 <!--
-- Publish with the creator's yes, then list the app. A push to `main` publishes.
+- Put the app on GitHub, publish it with the creator's yes, then list it. A push to `main` publishes.
 - Skills: `lernapps-github`, `lernapps-listing`.
 -->
 
 ### Tasks
 
-- [ ] Load skill `lernapps-github`. Push `work` and see the pull request's checks to green as it says.
-- [ ] Verify the default branch and Pages as the skill says. Note each click only the creator can make.
-- [ ] **Checkpoint:** publish. Show the preview link; ask before the app goes online; put the noted clicks into the
+- [ ] `grep '^phase:'` prints `phase: commit`; else set it.
+- [ ] Load skill `lernapps-github`. Repo and Pages as it says: ask the repo name and every click only the creator can
+      make in one message.
+- [ ] Push `work`, open the preview pull request, see its checks to green as the skill says. Give the creator the
+      preview link.
+- [ ] **Checkpoint:** publish. Show the preview link; ask before the app goes online; put any open click into the
       same question. Wait for the yes.
 - [ ] Publish as skill `lernapps-github` says: `work` into `main`, the run of `Pages` watched to the end.
 - [ ] Open the address the job `deploy` printed; confirm the app shows. Use that address, never a derived one.
