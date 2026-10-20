@@ -5,7 +5,7 @@
     "commit": "8c1b3dc0d7b3f9d0a8820ea193efcdb3bce6be7f"
   },
   "head": {
-    "label": "462da4153727475e5ecbd9bebc4deab29323f4dc"
+    "label": "7f7ec54566f979f3ce756c9c1c877c128da92c25"
   },
   "acceptanceBase": "8c1b3dc0d7b3f9d0a8820ea193efcdb3bce6be7f",
   "untracked": [],
@@ -24,7 +24,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 191,
+      "line": 190,
       "elementId": "if-agents-md",
       "message": "Block 'if-agents-md' changed without changing its section prose."
     },
@@ -32,7 +32,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 212,
+      "line": 210,
       "elementId": "if-plan-file",
       "message": "Block 'if-plan-file' changed without changing its section prose."
     },
@@ -40,7 +40,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 265,
+      "line": 262,
       "elementId": "bb-skill-app",
       "message": "Block 'bb-skill-app' changed without changing its section prose."
     },
@@ -48,7 +48,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 284,
+      "line": 280,
       "elementId": "bb-skill-content-research",
       "message": "Block 'bb-skill-content-research' changed without changing its section prose."
     },
@@ -56,7 +56,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 304,
+      "line": 299,
       "elementId": "bb-skill-quiz-design",
       "message": "Block 'bb-skill-quiz-design' changed without changing its section prose."
     },
@@ -64,7 +64,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 323,
+      "line": 317,
       "elementId": "bb-skill-explainer-design",
       "message": "Block 'bb-skill-explainer-design' changed without changing its section prose."
     },
@@ -72,7 +72,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 342,
+      "line": 335,
       "elementId": "bb-skill-interactive-design",
       "message": "Block 'bb-skill-interactive-design' changed without changing its section prose."
     },
@@ -80,7 +80,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 375,
+      "line": 367,
       "elementId": "bb-skill-exercise-patterns",
       "message": "Block 'bb-skill-exercise-patterns' changed without changing its section prose."
     },
@@ -88,7 +88,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 394,
+      "line": 385,
       "elementId": "bb-skill-content-growth",
       "message": "Block 'bb-skill-content-growth' changed without changing its section prose."
     },
@@ -96,7 +96,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 427,
+      "line": 417,
       "elementId": "bb-skill-check",
       "message": "Block 'bb-skill-check' changed without changing its section prose."
     },
@@ -104,7 +104,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 446,
+      "line": 435,
       "elementId": "bb-skill-quiz",
       "message": "Block 'bb-skill-quiz' changed without changing its section prose."
     },
@@ -112,7 +112,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 465,
+      "line": 453,
       "elementId": "bb-skill-explainer",
       "message": "Block 'bb-skill-explainer' changed without changing its section prose."
     },
@@ -120,7 +120,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 484,
+      "line": 471,
       "elementId": "bb-skill-interactive",
       "message": "Block 'bb-skill-interactive' changed without changing its section prose."
     },
@@ -128,7 +128,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 503,
+      "line": 489,
       "elementId": "bb-skill-content-questions",
       "message": "Block 'bb-skill-content-questions' changed without changing its section prose."
     },
@@ -136,7 +136,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 536,
+      "line": 521,
       "elementId": "bb-skill-github",
       "message": "Block 'bb-skill-github' changed without changing its section prose."
     },
@@ -144,7 +144,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 557,
+      "line": 541,
       "elementId": "bb-skill-commit",
       "message": "Block 'bb-skill-commit' changed without changing its section prose."
     },
@@ -152,7 +152,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 576,
+      "line": 559,
       "elementId": "bb-skill-listing",
       "message": "Block 'bb-skill-listing' changed without changing its section prose."
     },
@@ -160,7 +160,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 615,
+      "line": 597,
       "elementId": "bb-generator",
       "message": "Block 'bb-generator' changed without changing its section prose."
     },
@@ -168,7 +168,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 691,
+      "line": 672,
       "elementId": "bb-git-hooks",
       "message": "Block 'bb-git-hooks' changed without changing its section prose."
     },
@@ -176,7 +176,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 713,
+      "line": 693,
       "elementId": "bb-lint-rules",
       "message": "Block 'bb-lint-rules' changed without changing its section prose."
     },
@@ -184,7 +184,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 749,
+      "line": 728,
       "elementId": "bb-check-cli",
       "message": "Block 'bb-check-cli' changed without changing its section prose."
     },
@@ -192,7 +192,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 802,
+      "line": 780,
       "elementId": "bb-review-procedure",
       "message": "Block 'bb-review-procedure' changed without changing its section prose."
     },
@@ -200,7 +200,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 891,
+      "line": 868,
       "elementId": "if-archetype-templates",
       "message": "Block 'if-archetype-templates' changed without changing its section prose."
     },
@@ -208,7 +208,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 909,
+      "line": 885,
       "elementId": "if-archetype-runtime",
       "message": "Block 'if-archetype-runtime' changed without changing its section prose."
     },
@@ -216,7 +216,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 958,
+      "line": 933,
       "elementId": "bb-app-check-action",
       "message": "Block 'bb-app-check-action' changed without changing its section prose."
     },
@@ -224,7 +224,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 994,
+      "line": 968,
       "elementId": "bb-app-publish",
       "message": "Block 'bb-app-publish' changed without changing its section prose."
     },
@@ -232,7 +232,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 1028,
+      "line": 1001,
       "elementId": "bb-app-preview",
       "message": "Block 'bb-app-preview' changed without changing its section prose."
     },
@@ -240,7 +240,7 @@
       "kind": "block-without-prose-change",
       "severity": "warning",
       "file": "docs/arc42/05-building-blocks.arc42.md",
-      "line": 1061,
+      "line": 1033,
       "elementId": "bb-listing-validation",
       "message": "Block 'bb-listing-validation' changed without changing its section prose."
     }
@@ -259,7 +259,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 191,
+        "line": 190,
         "elementId": "if-agents-md",
         "message": "Block 'if-agents-md' changed without changing its section prose."
       },
@@ -267,7 +267,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 212,
+        "line": 210,
         "elementId": "if-plan-file",
         "message": "Block 'if-plan-file' changed without changing its section prose."
       },
@@ -275,7 +275,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 265,
+        "line": 262,
         "elementId": "bb-skill-app",
         "message": "Block 'bb-skill-app' changed without changing its section prose."
       },
@@ -283,7 +283,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 284,
+        "line": 280,
         "elementId": "bb-skill-content-research",
         "message": "Block 'bb-skill-content-research' changed without changing its section prose."
       },
@@ -291,7 +291,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 304,
+        "line": 299,
         "elementId": "bb-skill-quiz-design",
         "message": "Block 'bb-skill-quiz-design' changed without changing its section prose."
       },
@@ -299,7 +299,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 323,
+        "line": 317,
         "elementId": "bb-skill-explainer-design",
         "message": "Block 'bb-skill-explainer-design' changed without changing its section prose."
       },
@@ -307,7 +307,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 342,
+        "line": 335,
         "elementId": "bb-skill-interactive-design",
         "message": "Block 'bb-skill-interactive-design' changed without changing its section prose."
       },
@@ -315,7 +315,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 375,
+        "line": 367,
         "elementId": "bb-skill-exercise-patterns",
         "message": "Block 'bb-skill-exercise-patterns' changed without changing its section prose."
       },
@@ -323,7 +323,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 394,
+        "line": 385,
         "elementId": "bb-skill-content-growth",
         "message": "Block 'bb-skill-content-growth' changed without changing its section prose."
       },
@@ -331,7 +331,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 427,
+        "line": 417,
         "elementId": "bb-skill-check",
         "message": "Block 'bb-skill-check' changed without changing its section prose."
       },
@@ -339,7 +339,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 446,
+        "line": 435,
         "elementId": "bb-skill-quiz",
         "message": "Block 'bb-skill-quiz' changed without changing its section prose."
       },
@@ -347,7 +347,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 465,
+        "line": 453,
         "elementId": "bb-skill-explainer",
         "message": "Block 'bb-skill-explainer' changed without changing its section prose."
       },
@@ -355,7 +355,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 484,
+        "line": 471,
         "elementId": "bb-skill-interactive",
         "message": "Block 'bb-skill-interactive' changed without changing its section prose."
       },
@@ -363,7 +363,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 503,
+        "line": 489,
         "elementId": "bb-skill-content-questions",
         "message": "Block 'bb-skill-content-questions' changed without changing its section prose."
       },
@@ -371,7 +371,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 536,
+        "line": 521,
         "elementId": "bb-skill-github",
         "message": "Block 'bb-skill-github' changed without changing its section prose."
       },
@@ -379,7 +379,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 557,
+        "line": 541,
         "elementId": "bb-skill-commit",
         "message": "Block 'bb-skill-commit' changed without changing its section prose."
       },
@@ -387,7 +387,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 576,
+        "line": 559,
         "elementId": "bb-skill-listing",
         "message": "Block 'bb-skill-listing' changed without changing its section prose."
       },
@@ -395,7 +395,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 615,
+        "line": 597,
         "elementId": "bb-generator",
         "message": "Block 'bb-generator' changed without changing its section prose."
       },
@@ -403,7 +403,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 691,
+        "line": 672,
         "elementId": "bb-git-hooks",
         "message": "Block 'bb-git-hooks' changed without changing its section prose."
       },
@@ -411,7 +411,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 713,
+        "line": 693,
         "elementId": "bb-lint-rules",
         "message": "Block 'bb-lint-rules' changed without changing its section prose."
       },
@@ -419,7 +419,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 749,
+        "line": 728,
         "elementId": "bb-check-cli",
         "message": "Block 'bb-check-cli' changed without changing its section prose."
       },
@@ -427,7 +427,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 802,
+        "line": 780,
         "elementId": "bb-review-procedure",
         "message": "Block 'bb-review-procedure' changed without changing its section prose."
       },
@@ -435,7 +435,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 891,
+        "line": 868,
         "elementId": "if-archetype-templates",
         "message": "Block 'if-archetype-templates' changed without changing its section prose."
       },
@@ -443,7 +443,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 909,
+        "line": 885,
         "elementId": "if-archetype-runtime",
         "message": "Block 'if-archetype-runtime' changed without changing its section prose."
       },
@@ -451,7 +451,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 958,
+        "line": 933,
         "elementId": "bb-app-check-action",
         "message": "Block 'bb-app-check-action' changed without changing its section prose."
       },
@@ -459,7 +459,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 994,
+        "line": 968,
         "elementId": "bb-app-publish",
         "message": "Block 'bb-app-publish' changed without changing its section prose."
       },
@@ -467,7 +467,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 1028,
+        "line": 1001,
         "elementId": "bb-app-preview",
         "message": "Block 'bb-app-preview' changed without changing its section prose."
       },
@@ -475,7 +475,7 @@
         "kind": "block-without-prose-change",
         "severity": "warning",
         "file": "docs/arc42/05-building-blocks.arc42.md",
-        "line": 1061,
+        "line": 1033,
         "elementId": "bb-listing-validation",
         "message": "Block 'bb-listing-validation' changed without changing its section prose."
       }
@@ -495,7 +495,6 @@
             "name": "extensions",
             "after": {
               "phase": "across",
-              "kind": "guidance",
               "agent": "Gives the four phases, the checkpoints, and which skill comes when; a brief for each sub-agent.",
               "person": "Answers the interview and confirms at each checkpoint."
             }
@@ -529,7 +528,6 @@
             "name": "extensions",
             "after": {
               "phase": "across",
-              "kind": "guidance",
               "agent": "Reads it on every return: where the current plan is and what holds."
             }
           }
@@ -541,7 +539,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 191
+          "line": 190
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -563,7 +561,6 @@
             "name": "extensions",
             "after": {
               "phase": "across",
-              "kind": "guidance",
               "agent": "Works the plan step by step and notes where it had to guess.",
               "person": "Reads where the work stands, in plain words."
             }
@@ -576,7 +573,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 212
+          "line": 210
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -598,7 +595,6 @@
             "name": "extensions",
             "after": {
               "phase": "explore",
-              "kind": "skill",
               "agent": "Knows what every app must be, and chooses the archetype from what learners do."
             }
           }
@@ -610,7 +606,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 265
+          "line": 262
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -633,7 +629,6 @@
             "name": "extensions",
             "after": {
               "phase": "explore",
-              "kind": "skill",
               "agent": "Researches the curriculum, writes the competencies, opens every source it cites.",
               "person": "Brings their curriculum and their own material."
             }
@@ -646,7 +641,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 284
+          "line": 280
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -669,7 +664,6 @@
             "name": "extensions",
             "after": {
               "phase": "explore",
-              "kind": "skill",
               "agent": "Knows what to ask for a quiz and how its content maps onto rounds and question types."
             }
           }
@@ -681,7 +675,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 304
+          "line": 299
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -704,7 +698,6 @@
             "name": "extensions",
             "after": {
               "phase": "explore",
-              "kind": "skill",
               "agent": "Knows what to ask for an explainer and how its content maps onto chapters, pages and exercises."
             }
           }
@@ -716,7 +709,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 323
+          "line": 317
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -739,7 +732,6 @@
             "name": "extensions",
             "after": {
               "phase": "explore",
-              "kind": "skill",
               "agent": "Knows what to ask for an interactive app and how its content maps onto core, screens and playthroughs."
             }
           }
@@ -751,7 +743,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 342
+          "line": 335
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -774,7 +766,6 @@
             "name": "extensions",
             "after": {
               "phase": "plan",
-              "kind": "skill",
               "agent": "Chooses an exercise per competency from the patterns of the subject, and shares data as files."
             }
           }
@@ -786,7 +777,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 375
+          "line": 367
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -809,7 +800,6 @@
             "name": "extensions",
             "after": {
               "phase": "plan",
-              "kind": "skill",
               "agent": "Cuts a later increment into slices, one per competency, for parallel sub-agents."
             }
           }
@@ -821,7 +811,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 394
+          "line": 385
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -844,7 +834,6 @@
             "name": "extensions",
             "after": {
               "phase": "code",
-              "kind": "skill",
               "agent": "Fixes every failed check from its message and never bypasses one."
             }
           }
@@ -856,7 +845,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 427
+          "line": 417
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -879,7 +868,6 @@
             "name": "extensions",
             "after": {
               "phase": "code",
-              "kind": "skill",
               "agent": "Writes the question bank of a quiz, the only file it writes there."
             }
           }
@@ -891,7 +879,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 446
+          "line": 435
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -914,7 +902,6 @@
             "name": "extensions",
             "after": {
               "phase": "code",
-              "kind": "skill",
               "agent": "Writes the chapters and pages of an explainer in its notation; a component only where no block fits."
             }
           }
@@ -926,7 +913,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 465
+          "line": 453
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -949,7 +936,6 @@
             "name": "extensions",
             "after": {
               "phase": "code",
-              "kind": "skill",
               "agent": "Writes the core, components, data and playthroughs of an interactive app, and its architecture."
             }
           }
@@ -961,7 +947,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 484
+          "line": 471
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -984,7 +970,6 @@
             "name": "extensions",
             "after": {
               "phase": "code",
-              "kind": "skill",
               "agent": "Writes options and feedback that teach."
             }
           }
@@ -996,7 +981,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 503
+          "line": 489
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1019,7 +1004,6 @@
             "name": "extensions",
             "after": {
               "phase": "commit",
-              "kind": "skill",
               "agent": "Sets up repo and Pages, opens the preview pull request, publishes after your yes.",
               "person": "Makes the one click only the owner of the repo can make, if one is needed."
             }
@@ -1032,7 +1016,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 536
+          "line": 521
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1055,7 +1039,6 @@
             "name": "extensions",
             "after": {
               "phase": "commit",
-              "kind": "skill",
               "agent": "Publishes one squash commit, its message taken from the plan."
             }
           }
@@ -1067,7 +1050,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 557
+          "line": 541
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1090,7 +1073,6 @@
             "name": "extensions",
             "after": {
               "phase": "commit",
-              "kind": "skill",
               "agent": "Writes the entry and opens the listing pull request from your fork.",
               "person": "Sees the listing pull request and its result."
             }
@@ -1103,7 +1085,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 576
+          "line": 559
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1126,7 +1108,6 @@
             "name": "extensions",
             "after": {
               "phase": "code",
-              "kind": "CLI",
               "agent": "Creates the app from its template, passing every check from the first commit; update brings fixes later."
             }
           }
@@ -1138,7 +1119,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 615
+          "line": 597
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1159,7 +1140,6 @@
             "name": "extensions",
             "after": {
               "phase": "code, commit",
-              "kind": "hook",
               "agent": "Check every commit, and before a push build the app and run the end-to-end tests."
             }
           }
@@ -1171,7 +1151,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 691
+          "line": 672
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1193,7 +1173,6 @@
             "name": "extensions",
             "after": {
               "phase": "code",
-              "kind": "lint",
               "agent": "Marks a problem while it writes, such as a request to another server before a click."
             }
           }
@@ -1205,7 +1184,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 713
+          "line": 693
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1226,7 +1205,6 @@
             "name": "extensions",
             "after": {
               "phase": "across",
-              "kind": "CLI",
               "agent": "One command, the same result in the hooks, in CI and at the listing."
             }
           }
@@ -1238,7 +1216,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 749
+          "line": 728
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1259,7 +1237,6 @@
             "name": "extensions",
             "after": {
               "phase": "catalog",
-              "kind": "review",
               "agent": "A review agent judges what no check can, against a rubric.",
               "person": "The platform owner reads the verdict and decides on the listing."
             }
@@ -1272,7 +1249,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 802
+          "line": 780
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1293,7 +1270,6 @@
             "name": "extensions",
             "after": {
               "phase": "explore",
-              "kind": "template",
               "agent": "Reads the README of each template before it chooses the archetype.",
               "person": "Hears what the chosen archetype can and cannot do."
             }
@@ -1306,7 +1282,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 891
+          "line": 868
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1327,7 +1303,6 @@
             "name": "extensions",
             "after": {
               "phase": "code",
-              "kind": "runtime",
               "agent": "Runs the app: engine, accessibility, the page without JavaScript, its own tests."
             }
           }
@@ -1339,7 +1314,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 909
+          "line": 885
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1360,7 +1335,6 @@
             "name": "extensions",
             "after": {
               "phase": "commit",
-              "kind": "action",
               "agent": "Runs the same checks in CI."
             }
           }
@@ -1372,7 +1346,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 958
+          "line": 933
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1392,7 +1366,6 @@
             "name": "extensions",
             "after": {
               "phase": "commit",
-              "kind": "action",
               "agent": "Publishes the checked bundle at your own address."
             }
           }
@@ -1404,7 +1377,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 994
+          "line": 968
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1424,7 +1397,6 @@
             "name": "extensions",
             "after": {
               "phase": "commit",
-              "kind": "action",
               "agent": "Puts the checked bundle of a pull request online as a preview.",
               "person": "Looks at the preview before saying yes."
             }
@@ -1437,7 +1409,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 1028
+          "line": 1001
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -1457,7 +1429,6 @@
             "name": "extensions",
             "after": {
               "phase": "commit",
-              "kind": "action",
               "agent": "Checks the entry against the live app and comments the result."
             }
           }
@@ -1469,7 +1440,7 @@
         },
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 1061
+          "line": 1033
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
