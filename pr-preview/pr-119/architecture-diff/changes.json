@@ -5,24 +5,1327 @@
     "commit": "8c1b3dc0d7b3f9d0a8820ea193efcdb3bce6be7f"
   },
   "head": {
-    "label": "2f7268ecac14a151c9e20bb5d9f6097285d33c0a"
+    "label": "8b76f143c6165b6370b94152e7aa91c9091b3053"
   },
   "acceptanceBase": "8c1b3dc0d7b3f9d0a8820ea193efcdb3bce6be7f",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": false,
-  "findings": [],
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 171,
+      "elementId": "bb-process-guidance",
+      "message": "Block 'bb-process-guidance' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 255,
+      "elementId": "bb-skill-app",
+      "message": "Block 'bb-skill-app' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 273,
+      "elementId": "bb-skill-content-research",
+      "message": "Block 'bb-skill-content-research' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 291,
+      "elementId": "bb-skill-quiz-design",
+      "message": "Block 'bb-skill-quiz-design' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 309,
+      "elementId": "bb-skill-explainer-design",
+      "message": "Block 'bb-skill-explainer-design' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 327,
+      "elementId": "bb-skill-interactive-design",
+      "message": "Block 'bb-skill-interactive-design' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 359,
+      "elementId": "bb-skill-exercise-patterns",
+      "message": "Block 'bb-skill-exercise-patterns' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 377,
+      "elementId": "bb-skill-content-growth",
+      "message": "Block 'bb-skill-content-growth' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 409,
+      "elementId": "bb-skill-check",
+      "message": "Block 'bb-skill-check' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 427,
+      "elementId": "bb-skill-quiz",
+      "message": "Block 'bb-skill-quiz' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 445,
+      "elementId": "bb-skill-explainer",
+      "message": "Block 'bb-skill-explainer' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 463,
+      "elementId": "bb-skill-interactive",
+      "message": "Block 'bb-skill-interactive' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 481,
+      "elementId": "bb-skill-content-questions",
+      "message": "Block 'bb-skill-content-questions' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 513,
+      "elementId": "bb-skill-github",
+      "message": "Block 'bb-skill-github' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 532,
+      "elementId": "bb-skill-commit",
+      "message": "Block 'bb-skill-commit' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 550,
+      "elementId": "bb-skill-listing",
+      "message": "Block 'bb-skill-listing' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 587,
+      "elementId": "bb-generator",
+      "message": "Block 'bb-generator' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 662,
+      "elementId": "bb-git-hooks",
+      "message": "Block 'bb-git-hooks' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 683,
+      "elementId": "bb-lint-rules",
+      "message": "Block 'bb-lint-rules' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 718,
+      "elementId": "bb-check-cli",
+      "message": "Block 'bb-check-cli' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 770,
+      "elementId": "bb-review-procedure",
+      "message": "Block 'bb-review-procedure' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 842,
+      "elementId": "bb-app-templates",
+      "message": "Block 'bb-app-templates' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 919,
+      "elementId": "bb-app-check-action",
+      "message": "Block 'bb-app-check-action' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 954,
+      "elementId": "bb-app-publish",
+      "message": "Block 'bb-app-publish' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 987,
+      "elementId": "bb-app-preview",
+      "message": "Block 'bb-app-preview' changed without changing its section prose."
+    },
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 1018,
+      "elementId": "bb-listing-validation",
+      "message": "Block 'bb-listing-validation' changed without changing its section prose."
+    }
+  ],
   "groups": {
-    "warnings": [],
+    "warnings": [
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 171,
+        "elementId": "bb-process-guidance",
+        "message": "Block 'bb-process-guidance' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 255,
+        "elementId": "bb-skill-app",
+        "message": "Block 'bb-skill-app' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 273,
+        "elementId": "bb-skill-content-research",
+        "message": "Block 'bb-skill-content-research' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 291,
+        "elementId": "bb-skill-quiz-design",
+        "message": "Block 'bb-skill-quiz-design' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 309,
+        "elementId": "bb-skill-explainer-design",
+        "message": "Block 'bb-skill-explainer-design' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 327,
+        "elementId": "bb-skill-interactive-design",
+        "message": "Block 'bb-skill-interactive-design' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 359,
+        "elementId": "bb-skill-exercise-patterns",
+        "message": "Block 'bb-skill-exercise-patterns' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 377,
+        "elementId": "bb-skill-content-growth",
+        "message": "Block 'bb-skill-content-growth' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 409,
+        "elementId": "bb-skill-check",
+        "message": "Block 'bb-skill-check' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 427,
+        "elementId": "bb-skill-quiz",
+        "message": "Block 'bb-skill-quiz' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 445,
+        "elementId": "bb-skill-explainer",
+        "message": "Block 'bb-skill-explainer' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 463,
+        "elementId": "bb-skill-interactive",
+        "message": "Block 'bb-skill-interactive' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 481,
+        "elementId": "bb-skill-content-questions",
+        "message": "Block 'bb-skill-content-questions' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 513,
+        "elementId": "bb-skill-github",
+        "message": "Block 'bb-skill-github' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 532,
+        "elementId": "bb-skill-commit",
+        "message": "Block 'bb-skill-commit' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 550,
+        "elementId": "bb-skill-listing",
+        "message": "Block 'bb-skill-listing' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 587,
+        "elementId": "bb-generator",
+        "message": "Block 'bb-generator' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 662,
+        "elementId": "bb-git-hooks",
+        "message": "Block 'bb-git-hooks' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 683,
+        "elementId": "bb-lint-rules",
+        "message": "Block 'bb-lint-rules' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 718,
+        "elementId": "bb-check-cli",
+        "message": "Block 'bb-check-cli' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 770,
+        "elementId": "bb-review-procedure",
+        "message": "Block 'bb-review-procedure' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 842,
+        "elementId": "bb-app-templates",
+        "message": "Block 'bb-app-templates' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 919,
+        "elementId": "bb-app-check-action",
+        "message": "Block 'bb-app-check-action' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 954,
+        "elementId": "bb-app-publish",
+        "message": "Block 'bb-app-publish' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 987,
+        "elementId": "bb-app-preview",
+        "message": "Block 'bb-app-preview' changed without changing its section prose."
+      },
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 1018,
+        "elementId": "bb-listing-validation",
+        "message": "Block 'bb-listing-validation' changed without changing its section prose."
+      }
+    ],
     "untouched": [],
     "updated": [],
     "uncovered": []
   },
   "architecture": {
-    "elements": [],
+    "elements": [
+      {
+        "id": "bb-process-guidance",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "explore, plan, across",
+              "kind": "guidance"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 168
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 171
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-app",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "explore",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 250
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 255
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-app"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-content-research",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "explore",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 266
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 273
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-content-research"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-quiz-design",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "explore",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 282
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 291
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-quiz-design"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-explainer-design",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "explore",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 298
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 309
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-explainer-design"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-interactive-design",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "explore",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 314
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 327
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-interactive-design"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-exercise-patterns",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "plan",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 344
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 359
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Plan skills",
+            "lernapps-exercise-patterns"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-content-growth",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "plan",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 360
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 377
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Plan skills",
+            "lernapps-content-growth"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-check",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "code",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 390
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 409
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-check"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-quiz",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "code",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 406
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 427
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-quiz"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-explainer",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "code",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 422
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 445
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-explainer"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-interactive",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "code",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 438
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 463
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-interactive"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-content-questions",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "code",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 454
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 481
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-content-questions"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-github",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "commit",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 484
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 513
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Commit skills",
+            "lernapps-github"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-commit",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "commit",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 501
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 532
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Commit skills",
+            "lernapps-commit"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-listing",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "commit",
+              "kind": "skill"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 517
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 550
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Commit skills",
+            "lernapps-listing"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-generator",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "code",
+              "kind": "CLI"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 552
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 587
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Generator"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-git-hooks",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "code, commit",
+              "kind": "hook"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 625
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 662
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Archetype presets",
+            "Git hooks"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-lint-rules",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "code",
+              "kind": "lint"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 644
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 683
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Lint rules"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-check-cli",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "across",
+              "kind": "CLI"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 677
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 718
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Check CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-review-procedure",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "catalog",
+              "kind": "review"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 727
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 770
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Review procedure"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-app-templates",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "explore, code",
+              "kind": "runtime"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 797
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 842
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Archetype templates and runtimes"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-app-check-action",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "commit",
+              "kind": "action"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 872
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 919
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "App check action"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-app-publish",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "commit",
+              "kind": "action"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 905
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 954
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "App publish"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-app-preview",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "commit",
+              "kind": "action"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 936
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 987
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "App preview"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-listing-validation",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "after": {
+              "phase": "commit",
+              "kind": "action"
+            }
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 965
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1018
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Listing validation"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
     "diagrams": [],
     "edges": [],
-    "proseSections": [],
-    "documents": []
+    "proseSections": [
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1
+        }
+      }
+    ],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 27,
+        "removed": 0
+      }
+    ]
   }
 }
