@@ -14,7 +14,7 @@ license: MIT
 ## Create
 
 1. Only after the creator's yes to the plan (`explore-before-code`). In the plan's folder:
-   `npx --yes github:lernapps/tooling#exp/compact-guidance create --archetype <archetype>`.
+   `npx --yes github:lernapps/tooling create --archetype <archetype>`.
 2. No git repo yet: `git init --initial-branch=work`. Then `npm install` (dependencies, git hooks), and commit
    everything on `work`.
 3. Needs git, Node ≥ 22.18, github.com, codeload.github.com, registry.npmjs.org. Blocked → ask the creator to allow
@@ -23,7 +23,7 @@ license: MIT
 
 ## Update
 
-- `npx --yes github:lernapps/tooling#exp/compact-guidance update`, then `npm install`: moves the app to this
+- `npx --yes github:lernapps/tooling update`, then `npm install`: moves the app to this
   tooling's runtime and checks, replaces the `lernapps-*` skills, adds what an older app lacks.
 - `npm update` changes nothing: tooling and runtime are pinned.
 
