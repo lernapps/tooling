@@ -6,64 +6,58 @@ description: Use for any content work in this app - researching, writing, extend
 # Content guide of this app
 
 <!--
-The standing guide to this app's content, for every agent that works on it after you: what the app teaches, from
-which curriculum, and how its content is built. The generator wrote it as a skeleton.
-
-- Fill in every "FILL IN" once the creator has confirmed the plan, before you build the content. Keep the headings:
-  `lernapps check` looks for them (rule app-content-guide), and fails on a "FILL IN" left once the plan is in Commit.
-- Write precise, concrete instructions that a follow-up agent can act on without your conversation: name the files,
-  ids, data files and examples of this app.
-  - Vague: "Use varied exercises with figures where they help."
-  - Concrete: "Every page ends with the section `uebung`: one `generated` exercise of the pattern 'Ohmsches Gesetz'
-    (below), drawing from `src/data/widerstaende.yaml`, and one `matching` block of symbols and parts."
-- When a content decision changes (a new pattern, a figure type, a source rule), change this file in the same
-  commit. The plan file is the record of one run; this file is the guide that stays.
-- Keep it free of personal data and of goals of one learner: it is public, in the app's repo.
+Skeleton. Delete this comment when you fill the guide.
+- When: after the plan is confirmed, before any content. Replace every placeholder comment below; none may remain
+  (`lernapps check`, rule app-content-guide, fails once the plan is in Commit).
+- Keep the headings.
+- Concrete, for an agent without your conversation: files, ids, data files, one example.
+  - No: "Use varied exercises with figures where they help."
+  - Yes: "Every page ends with section `uebung`: one `generated` exercise of pattern 'Ohmsches Gesetz' from
+    `src/data/widerstaende.yaml`, one `matching` of symbols and parts."
+- Content decision changes → update this file in the same commit.
+- Public: no personal data, no goals of one learner.
 -->
 
 ## Curriculum
 
-<!-- FILL IN: Land, Schulform and Jahrgang; the orientation for which content belongs to which grade and in which
-order, e.g. "Orientation: Lehrplan <document, issuer, year, address>, page and unit of each part" (a citation is
-welcome, not required); where the creator's own material differs from it, and which one the app follows. -->
+<!-- FILL IN: Land, Schulform, Jahrgang; orientation (Lehrplan: document, issuer, year, address, page and unit per
+part; welcome, not required); where the creator's material differs, and which one the app follows. -->
 
 ## Competencies
 
-<!-- FILL IN: every competency as "Ich kann …", one observable skill each, grouped into chapters. For each: its
-chapter, the page or round where it is taught and practised (file and id), and its exercise ids. -->
+<!-- FILL IN: every competency as "Ich kann …", grouped by chapter; per competency: page or round (file, id),
+exercise ids. -->
 
 ## Content structure
 
-<!-- FILL IN: how a chapter, page or round of this app is built: the sections or groups of questions in their
-order, with their ids or titles, and what each holds; how long a page or round is. -->
+<!-- FILL IN: how a chapter, page or round is built: sections or question groups in order, ids or titles, what
+each holds; length. -->
 
 ## Terminology
 
-<!-- FILL IN: the terms the app uses and those it avoids (with the reason), units and notation, how learners are
-addressed; which terms go into the glossary, with their wording. -->
+<!-- FILL IN: terms used and avoided (why); units, notation; how learners are addressed; glossary terms with
+wording. -->
 
 ## Exercise patterns
 
-<!-- FILL IN: each pattern the app uses: its name, the competency it practises, how it is expressed in this
-archetype (block or question type, its fixed parts and what varies), one concrete example as it is in the app
-(file and id), and its data file, if any. -->
+<!-- FILL IN: per pattern: name, competency, archetype form (block or question type, fixed parts, what varies),
+one example (file, id), data file. -->
 
 ## Figures
 
-<!-- FILL IN: the figure kinds and images the app uses, and for what; their conventions (colours, labels, units,
-orientation, sizes); how alt texts and captions are written; where bundled images come from, with their licence. -->
+<!-- FILL IN: figure kinds and images, for what; conventions (colours, labels, units, orientation, sizes); alt
+texts and captions; image origin and licence. -->
 
 ## Sources
 
-<!-- FILL IN: which sources the app links or relies on (the Lehrplan, second explanations, videos, articles), how
-each was verified, and what is left out; that the creator's own material stays local and is never committed. -->
+<!-- FILL IN: sources linked or relied on (Lehrplan, second explanations, videos, articles), how verified, what
+is left out; the creator's material stays local, never committed. -->
 
 ## Adding a chapter or round
 
-<!-- FILL IN: the steps to add a new chapter (explainer) or round (quiz) in this app, in order, with the files to
-change: the competencies, the content, the exercises from the patterns above, the entry's topics, the check, the
-commit. -->
+<!-- FILL IN: the steps for a new chapter (explainer) or round (quiz), in order, with the files: competencies,
+content, exercises from the patterns, entry topics, check, commit. -->
 
 ## Rules learned from mistakes
 
-<!-- FILL IN: each rule with the mistake it came from, one line each. "None yet." until the first one. -->
+<!-- FILL IN: one line per rule with the mistake it came from. "None yet." until the first. -->

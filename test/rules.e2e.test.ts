@@ -94,7 +94,7 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
     "the same rule told in a skill, checked by a check and a lint rule, and judged by the rubric, and a check or a rubric item whose rule no skill tells, keep npm run check green",
     { timeout: SLOW },
     () => {
-      plant("skills/planted/SKILL.md", skill("planted", { id: "planted-rule" }));
+      plant("skills/process/planted/SKILL.md", skill("planted", { id: "planted-rule" }));
       plant("check/rules/planted.ts", check({ id: "planted-rule", url: `${RULES}planted-rule` }));
       plant("lint/rules/planted-rule.ts", lintRule(`${RULES}planted-rule`));
       plant("review/planted.md", "# Planted\n\n## The planted item\n\n```rubric\nid: planted-rule\n```\n\nJudge it.\n");
@@ -109,14 +109,14 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
   );
 
   test("a rule id used twice in one skill turns npm run check red and names the id", { timeout: SLOW }, () => {
-    plant("skills/planted/SKILL.md", skill("planted", { id: "planted-twice" }, { id: "planted-twice" }));
+    plant("skills/process/planted/SKILL.md", skill("planted", { id: "planted-twice" }, { id: "planted-twice" }));
     const result = check_();
     expect(result.code, output(result)).not.toBe(0);
     expect(output(result)).toMatch(/planted-twice.*appears twice in a skill/);
   });
 
   test("a rule id used in another skill fails the rule-id test", { timeout: SLOW }, () => {
-    plant("skills/planted/SKILL.md", skill("planted", { id: "learners-act" }));
+    plant("skills/process/planted/SKILL.md", skill("planted", { id: "learners-act" }));
     const result = ruleTest();
     expect(result.code, output(result)).not.toBe(0);
     expect(output(result)).toMatch(/learners-act.*appears twice in a skill/);
@@ -159,13 +159,13 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
   });
 
   test("npm run rules lists every rule grouped by id, with each artifact that carries it", { timeout: SLOW }, () => {
-    plant("skills/planted/SKILL.md", skill("planted", { id: "planted-rule" }));
+    plant("skills/process/planted/SKILL.md", skill("planted", { id: "planted-rule" }));
     plant("check/rules/planted.ts", check({ id: "planted-rule", url: `${RULES}planted-rule` }));
     const result = ok("npm", ["run", "--silent", "rules"], clone);
     const list = parse(result.stdout) as Record<string, { in: string; file: string; text?: string }[]>;
     expect(Object.keys(list)).toContain("no-request-before-click");
     expect(list["planted-rule"]?.map((entry) => [entry.in, entry.file])).toEqual([
-      ["skill", "skills/planted/SKILL.md:10"],
+      ["skill", "skills/process/planted/SKILL.md:10"],
       ["check", "check/rules/planted.ts"],
     ]);
     expect(list["planted-rule"]?.[0]?.text).toBe("Explains the rule planted-rule.");
@@ -174,7 +174,7 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
 
   test("a rule block with an unknown severity fails the rule-id test", { timeout: SLOW }, () => {
     plant(
-      "skills/planted/SKILL.md",
+      "skills/process/planted/SKILL.md",
       skill("planted", { id: "planted-rule" }).replace("severity: error", "severity: fatal"),
     );
     const result = ruleTest();
@@ -183,7 +183,7 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
   });
 
   test("a rule block with scope site fails the rule-id test: apps have no site rules", { timeout: SLOW }, () => {
-    plant("skills/planted/SKILL.md", skill("planted", { id: "planted-rule", scope: "site" }));
+    plant("skills/process/planted/SKILL.md", skill("planted", { id: "planted-rule", scope: "site" }));
     const result = ruleTest();
     expect(result.code, output(result)).not.toBe(0);
     expect(output(result)).toMatch(/planted-rule.*scope "site"/);
@@ -191,7 +191,7 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
 
   test("the rule page lists every rule and passes check:site", { timeout: SLOW }, () => {
     plant(
-      "skills/planted/SKILL.md",
+      "skills/process/planted/SKILL.md",
       skill("planted", { id: "planted-archetype", scope: "archetype:quiz" }, { id: "planted-judged" }),
     );
     const rubric = readFileSync(join(clone, "review/rubric.md"), "utf8");
@@ -222,7 +222,7 @@ describe.skipIf(inner)("the rule catalog in a fresh clone", () => {
     }
     expect(page).toContain("Explains the rule planted-archetype.");
     expect(page).toContain("Explains the rule planted-judged.");
-    expect(page).toContain("skills/planted/SKILL.md");
+    expect(page).toContain("skills/process/planted/SKILL.md");
     expect(page).toContain("review/rubric.md");
     expect(readFileSync(join(clone, "_site/index.html"), "utf8")).toContain('href="rules/"');
     const site = run("npm", ["run", "check:site"], clone);

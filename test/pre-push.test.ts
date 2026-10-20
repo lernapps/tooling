@@ -15,7 +15,7 @@ test("a change to code, the generator or a heavy test runs the heavy tests", () 
 });
 
 test("docs, skills, guidance and the README alone run only the fast tests", () => {
-  for (const path of ["docs/arc42/05-building-blocks.arc42.md", "skills/lernapps-app/SKILL.md", "README.md"]) {
+  for (const path of ["docs/arc42/05-building-blocks.arc42.md", "skills/process/lernapps-app/SKILL.md", "README.md"]) {
     expect(isHeavy(path), path).toBe(false);
   }
   expect(isHeavy("guidance/plan-template.md")).toBe(false);

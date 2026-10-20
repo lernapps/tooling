@@ -215,6 +215,7 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
 
   test.skipIf(inHook)(
     "where no browser can start, the app could not be checked: one finding of app-checkable",
+    { timeout: SLOW },
     async () => {
       // no Chromium in the browser folder, none to fall back to, and the download refused at once
       const result = await runAsync("node", [join(repoRoot, "src/cli.ts"), "check", app("passing")], repoRoot, {
