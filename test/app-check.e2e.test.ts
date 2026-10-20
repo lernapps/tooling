@@ -40,6 +40,8 @@ describe.skipIf(inner)("the app check action and the hooks, on a passing app", (
     const hooks = (name: string) =>
       readFileSync(join(passing, "node_modules/@lernapps/tooling/archetypes/shared/hooks", name), "utf8");
     expect(hooks("pre-commit")).toMatch(/ lernapps check --pre-commit$/m);
+    // an empty commit (the start commits of main and gh-pages) has nothing to check: the hook lets it pass
+    expect(hooks("pre-commit")).toContain("git diff --cached --quiet && exit 0");
     expect(hooks("pre-push")).toMatch(/^lernapps check --pre-push$/m);
     const uploads = actionSteps.filter((step) => step.uses?.startsWith("actions/upload-artifact@"));
     expect(uploads.map((step) => step.with?.["path"])).toContain(`\${{ inputs.working-directory }}/${REPORT}`);

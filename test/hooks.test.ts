@@ -1,27 +1,14 @@
-// The contract of `lernapps hooks` (archetypes/shared/install-hooks.ts): the hooks keep running after npm replaced the
-// tooling's package folder, as it does when the app moves to another commit of the tooling.
-import { mkdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+// The git hooks of an app (archetypes/shared/hooks/), where their behaviour needs no installed app.
+import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { HOOKS_DIR } from "../archetypes/shared/install-hooks.ts";
-import { ok, repoRoot, run, tempDir } from "./support.ts";
+import { ok, PRE_COMMIT_LOG, repoRoot, run, tempDir } from "./support.ts";
 
-test("the hooks run after npm replaced the package folder", () => {
-  const app = tempDir("hooks");
-  ok("git", ["init", "--quiet"], app);
-  mkdirSync(join(app, "node_modules/.bin"), { recursive: true });
-  symlinkSync(join(repoRoot, "node_modules/.bin/vp"), join(app, "node_modules/.bin/vp"));
-  const installPackage = () => {
-    rmSync(join(app, "node_modules/@lernapps"), { recursive: true, force: true });
-    mkdirSync(join(app, HOOKS_DIR), { recursive: true });
-    writeFileSync(join(app, HOOKS_DIR, "pre-commit"), 'echo "the hook of the package ran" >&2\nexit 1\n');
-  };
-  installPackage();
-  ok("node", [join(repoRoot, "src/cli.ts"), "hooks"], app);
-  installPackage(); // npm install --save-dev @lernapps/tooling@<another commit>, which runs no prepare script
-  writeFileSync(join(app, "file.txt"), "a change\n");
-  ok("git", ["add", "file.txt"], app);
-  const commit = run("git", ["-c", "commit.gpgsign=false", "commit", "--quiet", "-m", "a change"], app);
-  expect(commit.code).not.toBe(0);
-  expect(commit.stderr).toContain("the hook of the package ran");
+test("the pre-commit hook lets a commit with nothing staged pass, without running a step", () => {
+  // the empty start commits of main and gh-pages: no tool is installed there, and nothing is there to check
+  const dir = tempDir("empty-commit");
+  ok("git", ["init", "--quiet", "--initial-branch=main"], dir);
+  const result = run("sh", [join(repoRoot, "archetypes/shared/hooks/pre-commit")], dir);
+  expect(result.code, result.stderr).toBe(0);
+  expect(existsSync(join(dir, PRE_COMMIT_LOG))).toBe(false);
 });

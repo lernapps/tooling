@@ -99,20 +99,23 @@ describe("the plan's sections", () => {
     expect(github).toContain("gh workflow run Pages --ref main");
   });
 
-  test("the GitHub setup creates main, gh-pages and work and the Pages source before the app is pushed", () => {
+  test("the GitHub skill creates main, gh-pages and the Pages source before work is pushed, in Commit", () => {
     // the first push sets the default branch; Pages from gh-pages from the start lets the first publish deploy
-    const setup = read("skills/process/lernapps-github-setup/SKILL.md");
+    const setup = read("skills/process/lernapps-github/SKILL.md");
     const at = (text: string) => setup.indexOf(text);
     expect(at("git switch --orphan main")).toBeGreaterThan(0);
     expect(at("git switch --orphan gh-pages")).toBeGreaterThan(at("git push -u origin main"));
-    expect(at("git switch -c work main")).toBeGreaterThan(at("git push -u origin main"));
+    expect(at("git rebase --root --onto main")).toBeGreaterThan(at("git push -u origin gh-pages"));
+    expect(at("git push -u origin <branch>")).toBeGreaterThan(at("-f build_type=legacy"));
     expect(setup).toContain("pages-from-gh-pages");
     expect(setup).toContain("https://lernapps.net/tooling/github/");
     // GraphQL may be blocked where the assistant runs: guidance and skills use REST (gh api) for writes
     for (const path of [TEMPLATE, INCREMENT, "skills/process/lernapps-github/SKILL.md"]) {
       expect(read(path), path).not.toMatch(/gh repo (view|edit)|gh pr (create|ready)/);
     }
-    expect(section(read(TEMPLATE), "## Code")).toContain("skill `lernapps-github-setup`");
+    // until Commit the app is local: the technique does not get in the way of the content
+    expect(section(read(TEMPLATE), "## Code")).not.toMatch(/push|lernapps-github/);
+    expect(section(read(TEMPLATE), "## Commit")).toContain("Load skill `lernapps-github`");
   });
 
   test("the template pushes the plan with the filled retrospective before the listing pull request", () => {
@@ -228,7 +231,7 @@ describe("the skills", () => {
     }
   });
 
-  test("the plan template installs every skill but the archetypes' at the start, and those at the end of Explore", () => {
+  test("the plan template installs every skill but the archetypes' at the start, and those when Explore chooses one", () => {
     const explore = section(read(TEMPLATE), "## Explore");
     const [base, archetype] = [...explore.matchAll(/npx --yes skills add[\s\S]*?`/g)].map((match) => match[0]);
     const groups = (...names: string[]) =>
@@ -239,8 +242,8 @@ describe("the skills", () => {
         .filter((name) => skills.includes(name))
         .sort(),
     ).toEqual(groups("process", "tooling", "content"));
-    expect(archetype).toContain("lernapps-<archetype>-plan lernapps-<archetype>");
-    for (const name of groups("archetypes")) expect(name).toMatch(/^lernapps-(quiz|explainer|interactive)(-plan)?$/);
+    expect(archetype).toContain("lernapps-<archetype>-design lernapps-<archetype>");
+    for (const name of groups("archetypes")) expect(name).toMatch(/^lernapps-(quiz|explainer|interactive)(-design)?$/);
   });
 
   test("the listing skill points to the entry schema and the catalog's listing guide instead of repeating them", () => {

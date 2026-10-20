@@ -1,10 +1,10 @@
 ---
-name: lernapps-interactive-plan
-description: Use in Plan once the plan says `archetype: interactive` - to map the confirmed content of a lernapps.net interactive app (game, trainer, simulation) onto its parts - core, user interface, data, playthroughs - and to decide inputs, timing, storage, accessibility limits and look and feel, before `lernapps create`.
+name: lernapps-interactive-design
+description: Use in Explore right after choosing `archetype: interactive` - how the content of a lernapps.net interactive app maps onto core, user interface, data and playthroughs, which the plan then applies.
 license: MIT
 ---
 
-# Planning an interactive app
+# Designing an interactive app
 
 ## What an interactive app is
 
@@ -12,6 +12,11 @@ license: MIT
   what it is.
 - The code is yours. The runtime renders the frame, owns state and clock, and feeds inputs to your core.
 - Write in "Content method" one line per part below; the architecture in Code follows it.
+
+## Can and cannot
+
+- The README of the template says it: <https://raw.githubusercontent.com/lernapps/app-templates/main/interactive/README.md>.
+  Read it before this skill's mapping, if you have not yet.
 
 ## Parts
 

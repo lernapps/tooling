@@ -1,10 +1,10 @@
 ---
-name: lernapps-explainer-plan
-description: Use in Plan once the plan says `archetype: explainer` - to map the confirmed content of a lernapps.net explainer onto chapters, pages and sections, choose blocks, figures and exercises, and decide where a component is justified, before `lernapps create`. Includes the explainer's rules for good figures, numbers, mistakes and quotes.
+name: lernapps-explainer-design
+description: Use in Explore right after choosing `archetype: explainer` - how the content of a lernapps.net explainer maps onto chapters, pages, blocks and exercises, which the plan then applies.
 license: MIT
 ---
 
-# Planning an explainer
+# Designing an explainer
 
 ## What an explainer is
 
@@ -12,6 +12,11 @@ license: MIT
   with it, exercises check answers and give feedback.
 - Generated around your content: navigation, contents, glossary, a tutor prompt per page, other languages.
 - You will write the content as YAML; a Vue component only where no block fits.
+
+## Can and cannot
+
+- The README of the template says it: <https://raw.githubusercontent.com/lernapps/app-templates/main/explainer/README.md>.
+  Read it before this skill's mapping, if you have not yet.
 
 ## Map the content
 
@@ -32,13 +37,17 @@ license: MIT
   `labelled-figure` with numbered markers, a `table`, a `timeline`.
 - Exercises: the six question types of the quiz; `generated` (a new task per seed, with drawn values, typical
   mistakes, hint and steps); a component.
-- Something no block can show or check (label a figure, drag into place) → a component, with a text for readers
-  without JavaScript.
+- Something no block can show or check → a component: read a value off a scale, label a figure, drag into place,
+  build a circuit. Logic in its own module, tested; a text for readers without JavaScript.
 
 ## Decide
 
 - Languages: German; English as a second language is supported. Each declared language complete.
 - The tutor: the build writes it from the content. Plan only app-specific tutor rules, if any.
+
+## Gotchas
+
+- Each component costs a module, a test and a no-JS text: plan one only where it teaches what no block can.
 
 ## Read when
 

@@ -138,7 +138,7 @@ describe("lernapps", { timeout: 20_000 }, () => {
     write(join(source, "process/lernapps-app/SKILL.md"), "---\nname: lernapps-app\n---\nnew\n");
     write(join(source, "process/lernapps-app/references/platform-rules.md"), "# Platform rules\n");
     write(join(source, "process/lernapps-listing/SKILL.md"), "---\nname: lernapps-listing\n---\n");
-    for (const name of ["lernapps-quiz", "lernapps-quiz-plan", "lernapps-explainer", "lernapps-explainer-plan"]) {
+    for (const name of ["lernapps-quiz", "lernapps-quiz-design", "lernapps-explainer", "lernapps-explainer-design"]) {
       write(join(source, "archetypes", name, "SKILL.md"), `---\nname: ${name}\n---\n`);
     }
     write(join(source, "process/planted/SKILL.md"), "---\nname: planted\n---\n");
@@ -166,7 +166,7 @@ describe("lernapps", { timeout: 20_000 }, () => {
     writeFileSync(join(dir, ".gitignore"), `node_modules/\n\n${IGNORED_SKILLS_LINES.join("\n")}\n`);
 
     expect(replaceSkills(dir, source)).toEqual([
-      "skills: replaced lernapps-app; added lernapps-listing, lernapps-quiz, lernapps-quiz-plan; removed " +
+      "skills: replaced lernapps-app; added lernapps-listing, lernapps-quiz, lernapps-quiz-design; removed " +
         "lernapps-explainer, lernapps-gone: not of this tooling, or of another archetype: " +
         `the lernapps-* skills of this tooling, in ${join(".agents", "skills")}/ and ${join(".claude", "skills")}/`,
     ]);
@@ -187,7 +187,7 @@ describe("lernapps", { timeout: 20_000 }, () => {
       "lernapps-app",
       "lernapps-listing",
       "lernapps-quiz",
-      "lernapps-quiz-plan",
+      "lernapps-quiz-design",
     ]);
     expect(readFileSync(join(dir, ".claude/skills/lernapps-app/references/platform-rules.md"), "utf8")).toBe(
       "# Platform rules\n",
@@ -202,7 +202,7 @@ describe("lernapps", { timeout: 20_000 }, () => {
       "lernapps-app",
       "lernapps-listing",
       "lernapps-quiz",
-      "lernapps-quiz-plan",
+      "lernapps-quiz-design",
     ]);
     expect(written.skills["lernapps-app"]?.skillPath).toBe("skills/process/lernapps-app/SKILL.md");
     expect(written.skills["lernapps-app"]?.computedHash).toMatch(/^[0-9a-f]{64}$/);

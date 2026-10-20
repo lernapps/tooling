@@ -27,6 +27,7 @@
 ## Exercise contract
 
 - Emits `answered` with `{ correct, reason }` → exercise; the page shows feedback and `reason` below.
+- Does not count as the page's required exercise: the page also needs a question or a `generated` exercise.
 - `<Name>.ts`, pure: `generate(seed, props)`, `check(task, answer)` (boolean), `solution(task)`, `wrong(task)`, plus
   a reason function. Check the asked property, not equality with `solution`.
 - Build tests 50 fixed seeds per block: same task per seed, solution passes, wrong fails, nothing throws.
