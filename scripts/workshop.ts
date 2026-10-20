@@ -1,8 +1,9 @@
 // Renders the page "A workshop, not a factory" of the docs site (site/workshop/) from the elements of docs/arc42, as
 // `arc42 get` reports them, and the phases of site/workshop/workshop.yaml. An element (building block or interface)
-// supports the phases its `x-phase` names, is of the kind `x-kind`, and says what it does for the agent (`x-agent`) and
-// the person (`x-person`); its box shows its title and links its card in the architecture app. Fails, with one line
-// per problem, when an element names an unknown phase or kind, says nothing for agent or person, or when a skill's
+// supports the phases its `x-phase` names and says what it does for the agent (`x-agent`) and
+// the person (`x-person`); its box shows its title and technology (a block) or protocol (an interface), and links its
+// card in the architecture app. Fails, with one line
+// per problem, when an element names an unknown phase, says nothing for agent or person, or when a skill's
 // phase is not the phase of its group (bb-skills-<phase>).
 //
 //   node scripts/workshop.ts test          the check alone (test/workshop.test.ts)
@@ -21,6 +22,10 @@ export interface Element {
   id: string;
   kind: string;
   title: string;
+  /** What a building block is built with. */
+  technology?: string;
+  /** How an interface is used. */
+  protocol?: string;
   parent?: string;
   loc: { file: string; line: number };
   /** The element's `x-*` attributes, without the prefix, as written (arc42 ≥ 0.38). */
@@ -41,7 +46,6 @@ interface Phase {
 }
 
 export interface Mapping {
-  kinds: string[];
   across: Section;
   phases: Phase[];
   catalog: Section;
@@ -88,9 +92,6 @@ export function problems(map: Mapping, all: Element[]): string[] {
     for (const phase of phases.filter((phase) => !ids.includes(phase))) {
       found.push(`${element.id}: x-phase names ${phase}, which is no phase of the page`);
     }
-    if (!map.kinds.includes(ext(element, "kind"))) {
-      found.push(`${element.id}: x-kind "${ext(element, "kind")}" is not one of the kinds`);
-    }
     if (!ext(element, "agent") && !ext(element, "person"))
       found.push(`${element.id}: says nothing in x-agent or x-person`);
     if (skill && phases.join() !== element.parent?.slice("bb-skills-".length)) {
@@ -105,12 +106,11 @@ export function problems(map: Mapping, all: Element[]): string[] {
   return found;
 }
 
-/** The elements of one phase, by kind in the order of `kinds`, then as chapter 5 orders them. */
-export function inPhase(map: Mapping, all: Element[], phase: string): Element[] {
-  const rank = (element: Element) => map.kinds.indexOf(ext(element, "kind"));
+/** The elements of one phase, in the order of the chapters. */
+export function inPhase(all: Element[], phase: string): Element[] {
   return all
     .filter((element) => phasesOf(element).includes(phase))
-    .sort((a, b) => rank(a) - rank(b) || a.loc.file.localeCompare(b.loc.file) || a.loc.line - b.loc.line);
+    .sort((a, b) => a.loc.file.localeCompare(b.loc.file) || a.loc.line - b.loc.line);
 }
 
 const esc = (text: string) =>
@@ -133,7 +133,7 @@ const actor = (who: "person" | "agent", label = true) =>
 /** The element's card in the architecture app of this site, which opens an element at `#<chapter file>:el-<id>`. */
 const href = (element: Element) => `../architecture/#${basename(element.loc.file)}:el-${element.id}`;
 
-/** A box: its link with title, kind and who works with it; what it does for whom opens on hover and focus. */
+/** A box: its link with title, technology or protocol, and who works with it; what it does for whom opens on hover and focus. */
 function box(element: Element, id: string): string {
   const person = ext(element, "person");
   const agent = ext(element, "agent");
@@ -144,8 +144,8 @@ function box(element: Element, id: string): string {
   ].join("");
   return (
     `<li class="chip" data-element="${element.id}"><a href="${esc(href(element))}" aria-describedby="${id}">` +
-    `<span class="t">${esc(element.title)}</span><span class="meta"><span class="kind">${esc(ext(element, "kind"))}</span>` +
-    `<span class="actors">${who}</span><span class="go">${GO}</span></span></a>` +
+    `<span class="t">${esc(element.title)}</span><span class="meta"><span class="actors">${who}</span>` +
+    `<span class="go">${GO}</span></span><span class="tech">${esc(element.technology ?? element.protocol ?? "")}</span></a>` +
     `<div class="how" id="${id}" role="tooltip">${rows}</div></li>`
   );
 }
@@ -158,17 +158,16 @@ function band(map: Mapping, all: Element[], phase: "across" | "catalog"): string
   const id = `phase-${phase}`;
   return (
     `<section class="band" id="${id}" aria-labelledby="${id}-h"><h3 id="${id}-h"><span class="label">${esc(label)}</span>` +
-    `<span class="question">${esc(question)}</span></h3>${boxes(inPhase(map, all, phase), phase)}</section>`
+    `<span class="question">${esc(question)}</span></h3>${boxes(inPhase(all, phase), phase)}</section>`
   );
 }
 
-/** The key under the introduction: who works with a box, and the kinds. */
-export function key(map: Mapping): string {
+/** The key under the introduction: who works with a box. */
+export function key(): string {
   return (
-    '<ul class="key" aria-label="Who works with a part, and its kind">' +
+    '<ul class="key" aria-label="Who works with a part">' +
     `<li>${actor("person", false)}<span><strong>Person</strong> decides or is asked</span></li>` +
-    `<li>${actor("agent", false)}<span><strong>AI agent</strong> works from it</span></li>` +
-    `<li><span>${map.kinds.map((kind) => `<span class="kind">${esc(kind)}</span>`).join(" ")}</span></li></ul>`
+    `<li>${actor("agent", false)}<span><strong>AI agent</strong> works from it</span></li></ul>`
   );
 }
 
@@ -182,7 +181,7 @@ export function render(map: Mapping, all: Element[]): string {
         `<span class="dot" aria-hidden="true">${i + 1}</span><span class="big" aria-hidden="true">0${i + 1}</span>` +
         `<h3 id="phase-${p.id}-h"><span class="label">${esc(p.title)}</span><span class="question">${esc(p.question)}</span></h3>` +
         `<div class="decides"><p class="who">${DECIDES}You decide</p><p>${esc(p.you)}</p>${gate}</div>` +
-        `${boxes(inPhase(map, all, p.id), p.id)}</section>`
+        `${boxes(inPhase(all, p.id), p.id)}</section>`
       );
     })
     .join("\n");
@@ -210,7 +209,7 @@ function main(argv: string[]): number {
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(
       out,
-      template.replace("<!-- workshop:key -->", key(map)).replace("<!-- workshop:board -->", render(map, all)),
+      template.replace("<!-- workshop:key -->", key()).replace("<!-- workshop:board -->", render(map, all)),
     );
   }
   return 0;
