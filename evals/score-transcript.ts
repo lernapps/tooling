@@ -159,8 +159,8 @@ export function scoreTurns(all: Turn[]): TranscriptScore {
     (fetch) => LERNAPPS_REPO.test(fetch.url) && !GUIDANCE.some((pattern) => pattern.test(fetch.url)),
   );
   const skillRead = (name: string) =>
-    readFiles.some((file) => file.path === `skill:${name}` || file.path.includes(`skills/${name}/SKILL.md`)) ||
-    guidanceFetches.some((fetch) => fetch.via === "raw" && fetch.url.includes(`skills/${name}/SKILL.md`));
+    readFiles.some((file) => file.path === `skill:${name}` || file.path.includes(`/${name}/SKILL.md`)) ||
+    guidanceFetches.some((fetch) => fetch.via === "raw" && fetch.url.includes(`/${name}/SKILL.md`));
   const planTemplateRaw =
     guidanceFetches.some((fetch) => fetch.via === "raw" && fetch.url.includes("plan-template.md")) ||
     readFiles.some((file) => file.path.includes("plan-template.md"));
@@ -171,7 +171,7 @@ export function scoreTurns(all: Turn[]): TranscriptScore {
         ...guidanceFetches.filter((f) => f.via === "raw").map((f) => ({ path: f.url, turn: f.turn })),
       ]
         .sort((a, b) => a.turn - b.turn)
-        .map(({ path }) => /skill:([\w-]+)|skills\/([\w-]+)\/SKILL\.md/.exec(path))
+        .map(({ path }) => /skill:([\w-]+)|skills\/(?:[\w-]+\/)?([\w-]+)\/SKILL\.md/.exec(path))
         .filter((match) => match !== null)
         .map((match) => match[1] ?? match[2] ?? ""),
     ),

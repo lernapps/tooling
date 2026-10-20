@@ -284,7 +284,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
       const plan = readFileSync(join(repoRoot, "test/fixtures/plans/filled.md"), "utf8");
       writeFileSync(join(dir, ".vibe/plans/01-naturwunder.md"), plan);
       // as `npx skills add lernapps/tooling --yes` installs a skill: the folder, a link for Claude Code, the lock file
-      const skill = readFileSync(join(repoRoot, "skills/lernapps-app/SKILL.md"), "utf8");
+      const skill = readFileSync(join(repoRoot, "skills/process/lernapps-app/SKILL.md"), "utf8");
       mkdirSync(join(dir, ".agents/skills/lernapps-app"), { recursive: true });
       writeFileSync(join(dir, ".agents/skills/lernapps-app/SKILL.md"), skill);
       mkdirSync(join(dir, ".claude/skills"), { recursive: true });

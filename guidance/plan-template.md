@@ -15,87 +15,77 @@ failedChecks: {}
 
 <!--
 For you, the assistant.
-- Path: .vibe/plans/01-<short name>.md. Later changes: increment template, own plan.
-- Read this plan before each step. One phase at a time, tasks in order.
-- Done → tick `[x]` at once, move it to "Completed" of its phase. Unticked boxes count as not done.
-- New task found → add it.
-- Read every skill and page named here in full, from its file (curl, cat). Never a summarising fetch tool.
-- Checkpoint task: stop, ask, wait for the creator's answer.
-- Work on the branch `work` until the first publish; push only `work`. Commit brings `work` into `main`.
-- GitHub step fails → skill `lernapps-github`.
-- Plan in the creator's language. Keep headings and front matter keys.
-- Delete a comment once its part is filled.
+1. Path: `.vibe/plans/01-<short name>.md`. Every later change gets its own plan from the increment template.
+2. Read this plan before each step. One phase at a time, tasks in order.
+3. Task done → tick `[x]` at once and move it to "Completed" of its phase. An unticked box counts as not done.
+4. New task found → add it.
+5. Each phase names its skills. Load a skill when its task comes, not before. Read it in full, from its file.
+6. Checkpoint: stop, ask, wait for the creator's answer. A message sent before the question is no yes.
+7. At most 2 questions per message, one topic each. No questions inside drafts or lists.
+8. Work on the branch `work` until the first publish; push only `work`. Commit brings it into `main`.
+9. Rules of the workflow, with their ids: `@lernapps/tooling/guidance/workflow-rules.md`.
+10. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
 -->
 
 *Started <date>. Explore, Plan, Code, Commit.*
 
 ## Goal
 
-<!-- 1–2 sentences: what learners do, what they learn. Explore. -->
+<!-- 1–2 sentences: what learners do, what they learn. -->
 
 ## Key decisions
 
-<!-- One line each: decision, reason. Archetype first. Own choice without the creator: mark "(guess)". -->
+<!-- One line each: decision and reason. Archetype first. Your own choice without the creator: mark "(guess)". -->
 
 ## Notes
 
-<!-- Sources and licences, links, open questions, curriculum, competencies by chapter. -->
+<!-- Curriculum orientation, competencies by chapter, didactic approach, scope, sources and licences, open
+questions. -->
 
 ## Explore
 
 <!--
-- All content questions belong here: what, for whom, scope, didactics, look and feel. Plan only maps them onto the
-  scaffold.
-- Ask; write no code; run no `create`.
-- One topic per question, max 2 questions per message. Never bundle topics into one question.
-- An answer counts only in the creator's words under "Answers"; never tick a question you assumed.
+- Find out what the app teaches, for whom, how much and how it looks. All content questions belong here; Plan only
+  maps the answers onto the archetype.
+- Ask. Write no code, run no `create`.
+- An answer counts only in the creator's words under "Answers". Never tick a topic you assumed.
+- Skills: `lernapps-app`, `lernapps-content-research`.
 -->
 
 ### Tasks
 
-- [ ] Install the skills, if missing: `npx skills add lernapps/tooling#exp/compact-guidance`. The app commits them.
-- [ ] Tell the creator where the app lives: GitHub Pages of their own repo, free, public, own address (usually
-      `https://<owner>.github.io/<repo>/`). Offer a short explanation of GitHub; say they need not know it. Page for
-      them: <https://lernapps.net/tooling/github/>. Example: "Deine App wird über GitHub veröffentlicht, kostenlos
-      und öffentlich, unter deiner eigenen Adresse. Soll ich dir kurz erklären, was GitHub ist?"
-- [ ] Set up the branches before anything else is pushed:
-      - settle the repo name with the creator first (a rename can cost your access);
-      - no git repo: `git init --initial-branch=main`;
-      - no `main` (`git ls-remote --heads origin main`, `git branch --list main` empty): `git switch --orphan main`,
-        `git commit --allow-empty -m "chore: start"`, `git push -u origin main`;
-      - missing `gh-pages`: `git switch --orphan gh-pages`, `git commit --allow-empty -m "chore: gh-pages"`;
-      - missing `work`: `git switch -c work main`;
-      - `git push -u origin gh-pages work`. No remote yet: push all three later, `main` first;
-      - Pages from `gh-pages`, root (`pages-from-gh-pages`): `gh api -X POST repos/<owner>/<repo>/pages
-        -f build_type=legacy -f "source[branch]=gh-pages" -f "source[path]=/"`; refused → put the click from skill
-        `lernapps-github` into your next question;
-      - default branch not `main` (`gh api repos/<owner>/<repo> --jq .default_branch`) → skill `lernapps-github`.
-- [ ] Load skill `lernapps-content-research` before the first question about learners or curriculum.
-- [ ] Interview: ask every topic of "Answers", in order. Skip a topic only when an earlier answer already
-      covers it; note which. No answer → ask once more; still none → write your assumption with "(guess)" and
-      show it at the checkpoint. Done only when every topic has an answer or a shown guess.
-- [ ] Research: follow skill `lernapps-content-research` (filled-in `app-content` first). Write under "Notes":
-      curriculum orientation (Lehrplan cited where used), competencies by chapter as Ich-kann-Sätze, verified
-      sources. No competencies written = task not done.
-- [ ] Didactic approach under "Notes", one line per competency: how learners get there (derive, not only read off;
-      e.g. a tree diagram shows how a probability comes about), which misconception the feedback catches.
-- [ ] Scope under "Notes": what is in, what is out (and why), data range (e.g. "all main-group elements", not a
-      silent "1–20"), languages.
-- [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json; read every property's description. Ask what
-      helps teachers and parents find the app. Fill "Entry draft". Search words: short, one or two words each, as
-      people type them into a search.
-- [ ] Choose the archetype; write it with its reason under "Key decisions"; set `archetype`:
-      - `interactive`: learners act in one app page (game, trainer, simulation; e.g. a typing game);
-      - `explainer`: many pages of explanation, each with exercises;
-      - `quiz`: questions with options and feedback.
+- [ ] Install the skills, if missing (the app commits them): `npx --yes skills add
+      lernapps/tooling#exp/compact-guidance -y -s lernapps-app lernapps-content-research lernapps-exercise-patterns
+      lernapps-content-growth lernapps-check lernapps-github-setup lernapps-content-questions lernapps-github
+      lernapps-listing`.
+- [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: in
+      their own GitHub repo, free, public, at their own address. Offer to explain GitHub; they need not know it.
+      Example: "Deine App wird über GitHub veröffentlicht, kostenlos und öffentlich, unter deiner eigenen Adresse.
+      Soll ich dir kurz erklären, was GitHub ist?"
+- [ ] Interview: ask the topics of "Answers" in order. Skip a topic only when an earlier answer covers it; note
+      which. No answer → ask once more; still none → write your assumption with "(guess)". Done when every topic
+      has an answer or a guess.
+- [ ] Load skill `lernapps-content-research`. Research as it says. Under "Notes": curriculum orientation,
+      competencies by chapter as "Ich kann …", verified sources. No competencies → not done.
+- [ ] Under "Notes", one line per competency: how learners get there (derive, not only read off; e.g. a tree diagram
+      shows how a probability comes about), which misconception the feedback catches.
+- [ ] Under "Notes", the scope: what is in, what is out and why, the data range (e.g. "all main-group elements",
+      never a silent "1–20"), the languages.
+- [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json and read each property's description. Ask what
+      helps teachers and parents find the app. Fill "Entry draft". Search words: one or two words each, as people
+      type them.
+- [ ] Choose the archetype with skill `lernapps-app`. Write it and its reason under "Key decisions". Set
+      `archetype`.
 - [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, competencies by chapter, didactic
-      approach, scope (in, out, data range, languages), every "(guess)" of the interview, sources and how checked,
-      what is unchecked, archetype and reason. Stop and wait. Changes → change, ask again.
+      approach, scope, every "(guess)", sources and how you checked them, what is unchecked, archetype and reason.
+      Stop and wait. Changes → change, ask again.
+- [ ] Install the archetype's skills: `npx --yes skills add lernapps/tooling#exp/compact-guidance -y -s
+      lernapps-<archetype>-plan lernapps-<archetype>`.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
 
 ### Answers
 
-<!-- The interview: per topic the creator's answer, their words. Keep the topics. -->
+<!-- The interview: per topic the creator's answer, in their words. Keep the topics. -->
 
 - Goal: what learners do in the app, what they learn.
 - Learners: subject, school year, prior knowledge. Land and Schulform only if the creator names a school or class,
@@ -104,16 +94,16 @@ For you, the assistant.
   (exercises, visualisations, game feel).
 - Hurdles: misconceptions and mistakes of the learners; the creator's examples and experiments.
 - Content: who writes it (creator, you, from sources); own material (worksheets, tests); how it is made (sources,
-  research, a skill or data format for producing it).
-- Amount: how much content per level or chapter in the first version (e.g. "one text per school year"); what
-  comes later.
+  research, a data format).
+- Amount: how much content per level or chapter in the first version (e.g. "one text per school year"); what comes
+  later.
 - Languages: German only, or more (texts, code).
 - Look and feel: calm like a worksheet, or like a game (colours, praise, effects); dark mode.
 - Terms: the creator's words for the main things in the app, used everywhere.
 
 ### Entry draft
 
-<!-- YAML valid against the entry schema; its property names. Only known values, never invented. -->
+<!-- YAML valid against the entry schema, with its property names. Only known values, never invented. -->
 
 ```yaml
 ```
@@ -123,65 +113,62 @@ For you, the assistant.
 ## Plan
 
 <!--
-- Map the confirmed content onto the scaffold: the archetype's blocks, components, data files, patterns.
-- No new content questions; a content gap → back to Explore, say so.
-- Confirmable in one read. After the confirmation: work on your own (creator turns to the listing: max 3).
+- Map the confirmed content onto the archetype: structure, screens or pages, exercise patterns, data files,
+  components.
+- No new content questions. A content gap → back to Explore; say so.
+- Confirmable in one read. After the yes, work on your own: at most 3 creator turns until the listing.
+- Skills: `lernapps-<archetype>-plan`, `lernapps-exercise-patterns`.
 -->
 
 ### Tasks
 
-- [ ] Write the Code tasks under "Code": pages or screens, content, what each shows; each ends in a commit.
-- [ ] Load the archetype's skill with all its references, `lernapps-app/references/archetype-rules.md`, skill
-      `lernapps-exercise-patterns` with `references/patterns.md` and `references/success.md`. Explainer with
-      quiz-type exercises: also skill `lernapps-quiz`. Write "Content method".
-- [ ] Show the creator, short: goal, competencies by chapter, entry draft, tasks; the content method in plain words
-      (what learners see and do, what it cannot do). Max 2 questions.
-- [ ] Each screen, component or interactive exercise: show a sketch (static SVG or image, or the steps with what
+- [ ] Load skill `lernapps-<archetype>-plan`. Map the content as it says.
+- [ ] Load skill `lernapps-exercise-patterns`. Choose a pattern per competency. Write "Content method".
+- [ ] Write the Code tasks under "Code": pages or screens, their content, what each shows. Each ends in a commit.
+- [ ] Each screen, component or interactive exercise: a sketch (static SVG or image, or the steps with what
       learners see after each). Words alone are not enough.
-- [ ] **Checkpoint:** confirm the plan and the content method. Only with the sketches shown. Stop and wait for an
+- [ ] Show the creator, short: goal, competencies by chapter, entry draft, tasks, sketches; the content method in
+      plain words (what learners see and do, what it cannot do). At most 2 questions.
+- [ ] **Checkpoint:** confirm the plan and the content method, with the sketches shown. Stop and wait for an
       explicit yes. Changes → change, ask again. No `create` before the yes.
 - [ ] Set `phase: code`: change the value line (`grep '^phase:'` prints `phase: code`).
 
 ### Content method
 
-<!-- One line each: exercise patterns and where; figures and how made; data files; each component, what it checks
-and cannot; how a later agent adds a chapter. Becomes the content guide in Code. -->
+<!-- One line each: exercise patterns and where; figures and how they are made; data files; each component, what it
+checks and cannot; how a later agent adds a chapter. Becomes the content guide in Code. -->
 
 ### Completed
 
 ## Code
 
 <!--
-- Commit after each task; the hooks check. Pre-commit fails → read node_modules/.cache/lernapps/pre-commit.log.
-- Fix from the message; never bypass a hook.
+- Build the app from the archetype and the confirmed plan. Work on your own.
+- Commit after each task; the hooks check. A check fails → skill `lernapps-check`. Fix from the message; never
+  bypass a hook.
 - Undecidable → choose, mark "(guess)" under "Key decisions", go on.
 - Creator asks for a change → first say your reading in one sentence ("Ich nehme alle 44 Hauptgruppenelemente
   auf."); never narrow it silently. Content change → update "Notes" too.
-- Test fails at runtime → read the archetype's `references/runtime.md` first.
-- Push `work` after each task: the pull request's preview shows the creator the current state. Never push `main`.
-- `create` needs git, Node ≥ 22.18, github.com, codeload.github.com, registry.npmjs.org. Blocked → ask the creator
-  to allow it, rerun. Never write the app by hand.
+- Skills: `lernapps-check`, `lernapps-github-setup`, `lernapps-<archetype>`, `lernapps-content-questions`, and the
+  app's content guide `app-content`.
 -->
 
 ### Tasks
 
-- [ ] Only after the confirmation: in this plan's folder, `npx --yes github:lernapps/tooling#exp/compact-guidance create
-      --archetype <archetype>`. Keeps this plan.
-- [ ] `git switch work`, then `npm install` (dependencies, git hooks). From now on: `npx lernapps check`.
-- [ ] Commit the generated app with this plan on `work`.
-- [ ] `git push -u origin work`; open a pull request `work` → `main` over REST (`gh api repos/<owner>/<repo>/pulls
-      -f base=main -f head=work -f title="Erste Version" -f body="Vorschau"`; `gh pr create` needs GraphQL, which
-      may be blocked). The comment "Vorschau der App" links the preview; give the creator the link once. Refused →
-      skill `lernapps-github`.
-- [ ] Load skill `lernapps-app` and the archetype's skill.
-- [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from the plan and its content method: replace
-      every placeholder comment with concrete instructions (files, ids, data files, one example). Delete its top
-      comment. `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` must print 0. Commit it before any content.
-- [ ] <the tasks written in Plan>
-- [ ] Content guide still matches what was built (`app-content-matches`); `grep -c "FILL IN"` prints 0.
+- [ ] Load skill `lernapps-check`. Create the app in this plan's folder as it says. `create` keeps this plan. Never
+      write the app by hand.
+- [ ] Load skill `lernapps-github-setup`. Put the app on GitHub as it says: repo, branches, Pages, the app committed
+      on `work`, the preview pull request. Give the creator the preview link once.
+- [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from "Notes" and "Content method"
+      (`app-content-guide`). `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` prints 0. Commit it before
+      any content.
+- [ ] Load skill `lernapps-<archetype>` and the content guide. Questions with options and feedback: also skill
+      `lernapps-content-questions`.
+- [ ] <the tasks written in Plan; after each, commit and push `work`: the preview shows the current state>
+- [ ] The content guide matches what was built (`app-content-matches`).
 - [ ] `npx lernapps check` passes.
-- [ ] Look at a screenshot of every screen and state (start, each mode, pause, end), desktop and 360 px; check each
-      against the confirmed sketches and the archetype's rules (interactive: `references/frame.md`).
+- [ ] Look at a screenshot of every screen and state (start, each mode, pause, end), desktop and 360 px. Compare
+      each with the confirmed sketches.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
 
@@ -190,40 +177,24 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 ## Commit
 
 <!--
-- Push to `main` = publish (workflow `Pages`, job `deploy`). Until the creator's yes: branch `work`.
-- Only `main` publishes; it must be the default branch. Explore set up branches and Pages; here: verify.
-- A push of only `.vibe/` publishes nothing; push the plan when a task says so.
-- Every push to `main` needs a run of `Pages`: none after a minute
-  (`gh run list --workflow Pages --branch main --commit <commit>`) → `gh workflow run Pages --ref main`.
-- "403 Resource not accessible by integration" → a click for the creator (skill `lernapps-github`). Never push to
-  trigger a run.
+- Publish with the creator's yes, then list the app. A push to `main` publishes.
+- Skills: `lernapps-github`, `lernapps-listing`.
 -->
 
 ### Tasks
 
-- [ ] `git push origin work` (not `main`). Pre-push runs the heavy checks; fix failures. See the pull request's
-      checks to green.
-- [ ] Verify over REST: default branch `main` (`gh api repos/<owner>/<repo> --jq .default_branch`); Pages serves
-      `gh-pages` from `/` (`gh api repos/<owner>/<repo>/pages`; "Not Found" = off). Not right and not yours to
-      change → note the creator's click (skill `lernapps-github`).
-- [ ] **Checkpoint:** publish. Show the preview link from the comment "Vorschau der App"; ask before the app goes
-      online; wait for the yes. Put the noted clicks into the same question.
-- [ ] `git switch main`, `git merge --ff-only work`, `git push origin main` (GitHub marks the pull request merged
-      and removes the preview). Run started?
-      `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`; none after a minute →
-      `gh workflow run Pages --ref main` (refused: creator clicks Actions → Pages → Run workflow). Watch it
-      (`gh run watch`). Fails → read the failed step, fix, push. Admin-only Pages setting → the run deployed
-      anyway; after the creator's click the app appears without a new run.
-- [ ] Open the address the job `deploy` printed ("published at ...", also in the run summary); confirm the app shows.
-      Use that address, never a derived one; follow redirects. Do not wait for it yourself.
-- [ ] Load skill `lernapps-listing`.
-- [ ] Complete the entry draft (e.g. the address).
+- [ ] Load skill `lernapps-github`. Push `work` and see the pull request's checks to green as it says.
+- [ ] Verify the default branch and Pages as the skill says. Note each click only the creator can make.
+- [ ] **Checkpoint:** publish. Show the preview link; ask before the app goes online; put the noted clicks into the
+      same question. Wait for the yes.
+- [ ] Publish as skill `lernapps-github` says: `work` into `main`, the run of `Pages` watched to the end.
+- [ ] Open the address the job `deploy` printed; confirm the app shows. Use that address, never a derived one.
+- [ ] Load skill `lernapps-listing`. Complete the entry draft (e.g. the address).
 - [ ] **Checkpoint:** list. Ask before opening the listing pull request; wait for the yes.
 - [ ] Fill the retrospective.
-- [ ] Commit this plan on `main` and push it (listing check and review read it there).
-- [ ] Open the listing pull request as the skill says; see it to "bestanden" (not "nicht bestanden") in the results
-      comment.
-- [ ] Plan changed since its last push → commit on `main`, push again.
+- [ ] Commit this plan on `main` and push it: the listing check and the review read it there.
+- [ ] Open the listing pull request as the skill says; see it to "bestanden".
+- [ ] Plan changed since its last push → commit it on `main`, push again.
 
 ### Completed
 
@@ -237,7 +208,7 @@ and cannot; how a later agent adds a chapter. Becomes the content guide in Code.
 
 ### Creator turns after the plan
 
-<!-- Number of creator messages after the confirmation, topic of each. Target: max 3. -->
+<!-- Number of creator messages after the confirmation, topic of each. Target: at most 3. -->
 
 ### Where I had to guess
 

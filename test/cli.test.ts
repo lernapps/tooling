@@ -127,21 +127,25 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(readFileSync(join(dir, ".vibe/plans/01-first-version.md"), "utf8")).toBe(plan);
   });
 
-  test("update's skills step replaces the lernapps-* skills, keeps the app's own, and removes the old ignore lines", () => {
-    // the tooling's skills: a changed lernapps-app with a file in a subfolder, a new lernapps-listing, and a folder of
-    // another name
+  test("update's skills step installs those of every phase and of the plan's archetype, keeps the app's own", () => {
+    // the tooling's skills, by group: a changed lernapps-app with a file in a subfolder, a new lernapps-listing, the
+    // two skills of two archetypes, and a folder of another name
     const source = tempDir("skills");
     const write = (file: string, text: string) => {
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, text);
     };
-    write(join(source, "lernapps-app/SKILL.md"), "---\nname: lernapps-app\n---\nnew\n");
-    write(join(source, "lernapps-app/references/platform-rules.md"), "# Platform rules\n");
-    write(join(source, "lernapps-listing/SKILL.md"), "---\nname: lernapps-listing\n---\n");
-    write(join(source, "planted/SKILL.md"), "---\nname: planted\n---\n");
-    // the app: an older lernapps-app and one the tooling no longer has, as npx skills add installed them, next to
-    // the app's own guide; an older generator had git ignore them
+    write(join(source, "process/lernapps-app/SKILL.md"), "---\nname: lernapps-app\n---\nnew\n");
+    write(join(source, "process/lernapps-app/references/platform-rules.md"), "# Platform rules\n");
+    write(join(source, "process/lernapps-listing/SKILL.md"), "---\nname: lernapps-listing\n---\n");
+    for (const name of ["lernapps-quiz", "lernapps-quiz-plan", "lernapps-explainer", "lernapps-explainer-plan"]) {
+      write(join(source, "archetypes", name, "SKILL.md"), `---\nname: ${name}\n---\n`);
+    }
+    write(join(source, "process/planted/SKILL.md"), "---\nname: planted\n---\n");
+    // the app, a quiz: an older lernapps-app, one the tooling no longer has and one of another archetype, as npx
+    // skills add installed them, next to the app's own guide; an older generator had git ignore them
     const dir = tempDir("app");
+    write(join(dir, ".vibe/plans/01-first-version.md"), "---\narchetype: quiz\nphase: code\n---\n");
     const installed = (name: string, text: string) => {
       write(join(dir, ".agents/skills", name, "SKILL.md"), text);
       mkdirSync(join(dir, ".claude/skills"), { recursive: true });
@@ -149,6 +153,7 @@ describe("lernapps", { timeout: 20_000 }, () => {
     };
     installed("lernapps-app", "---\nname: lernapps-app\n---\nold\n");
     installed("lernapps-gone", "---\nname: lernapps-gone\n---\n");
+    installed("lernapps-explainer", "---\nname: lernapps-explainer\n---\n");
     installed("app-content", "---\nname: app-content\n---\nthe app's own\n");
     const lock = {
       "lernapps-app": {
@@ -161,14 +166,19 @@ describe("lernapps", { timeout: 20_000 }, () => {
     writeFileSync(join(dir, ".gitignore"), `node_modules/\n\n${IGNORED_SKILLS_LINES.join("\n")}\n`);
 
     expect(replaceSkills(dir, source)).toEqual([
-      "skills: replaced lernapps-app; added lernapps-listing; removed lernapps-gone, which this tooling no longer has: " +
+      "skills: replaced lernapps-app; added lernapps-listing, lernapps-quiz, lernapps-quiz-plan; removed " +
+        "lernapps-explainer, lernapps-gone: not of this tooling, or of another archetype: " +
         `the lernapps-* skills of this tooling, in ${join(".agents", "skills")}/ and ${join(".claude", "skills")}/`,
     ]);
     expect(unignoreSkills(dir)).toEqual([
       "skills: removed the lines from .gitignore that had git ignore them: the app commits its skills",
     ]);
-    for (const name of ["lernapps-app", "lernapps-listing"]) {
-      const ours = readFileSync(join(source, name, "SKILL.md"), "utf8");
+    for (const [name, group] of [
+      ["lernapps-app", "process"],
+      ["lernapps-listing", "process"],
+      ["lernapps-quiz", "archetypes"],
+    ] as const) {
+      const ours = readFileSync(join(source, group, name, "SKILL.md"), "utf8");
       expect(readFileSync(join(dir, ".claude/skills", name, "SKILL.md"), "utf8"), name).toBe(ours);
       expect(readlinkSync(join(dir, ".claude/skills", name))).toBe(`../../.agents/skills/${name}`);
     }
@@ -176,22 +186,43 @@ describe("lernapps", { timeout: 20_000 }, () => {
       "app-content",
       "lernapps-app",
       "lernapps-listing",
+      "lernapps-quiz",
+      "lernapps-quiz-plan",
     ]);
     expect(readFileSync(join(dir, ".claude/skills/lernapps-app/references/platform-rules.md"), "utf8")).toBe(
       "# Platform rules\n",
     );
     expect(() => lstatSync(join(dir, ".claude/skills/lernapps-gone"))).toThrow();
+    expect(() => lstatSync(join(dir, ".claude/skills/lernapps-explainer"))).toThrow();
     expect(readFileSync(join(dir, ".claude/skills/app-content/SKILL.md"), "utf8")).toContain("the app's own");
     const written = JSON.parse(readFileSync(join(dir, "skills-lock.json"), "utf8")) as {
       skills: Record<string, { source: string; skillPath: string; computedHash: string }>;
     };
-    expect(Object.keys(written.skills)).toEqual(["lernapps-app", "lernapps-listing"]);
-    expect(written.skills["lernapps-app"]?.skillPath).toBe("skills/lernapps-app/SKILL.md");
+    expect(Object.keys(written.skills)).toEqual([
+      "lernapps-app",
+      "lernapps-listing",
+      "lernapps-quiz",
+      "lernapps-quiz-plan",
+    ]);
+    expect(written.skills["lernapps-app"]?.skillPath).toBe("skills/process/lernapps-app/SKILL.md");
     expect(written.skills["lernapps-app"]?.computedHash).toMatch(/^[0-9a-f]{64}$/);
     expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe("node_modules/\n");
     // a second run finds them as they are
-    expect(replaceSkills(dir, source)).toEqual(["skills: the lernapps-* skills are those of this tooling already (2)"]);
+    expect(replaceSkills(dir, source)).toEqual(["skills: the lernapps-* skills are those of this tooling already (4)"]);
     expect(unignoreSkills(dir)).toEqual([]);
+  });
+
+  test("update's skills step keeps the archetype skills an app has when its plan names no archetype", () => {
+    const source = tempDir("skills");
+    for (const name of ["lernapps-quiz", "lernapps-explainer"]) {
+      mkdirSync(join(source, "archetypes", name), { recursive: true });
+      writeFileSync(join(source, "archetypes", name, "SKILL.md"), `---\nname: ${name}\n---\n`);
+    }
+    const dir = tempDir("app");
+    mkdirSync(join(dir, ".agents/skills/lernapps-quiz"), { recursive: true });
+    writeFileSync(join(dir, ".agents/skills/lernapps-quiz/SKILL.md"), "---\nname: lernapps-quiz\n---\nold\n");
+    replaceSkills(dir, source);
+    expect(readdirSync(join(dir, ".agents/skills"))).toEqual(["lernapps-quiz"]);
   });
 
   test("a failed check --pre-push counts in the current plan, the highest number; else in .vibe/plan.md", () => {
