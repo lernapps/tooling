@@ -179,6 +179,39 @@
           "items": {
             "$ref": "#/$defs/source"
           }
+        },
+        "tutor": {
+          "description": "Optional: what the app adds for a KI tutor, an assistant the learner brings. The build writes, per language tree, tutor.md (a ready prompt for a tutor: its role and approach, the app's pages as a checklist, the rules for the app's links), a section \"Mit einem KI-Tutor lernen\" on the start page (a button that copies the prompt, a link per provider that opens the assistant with it, nothing loaded before a click), llms.txt with a part of generic rules for a tutor (link concrete tasks, ask for the task number, never reveal a solution before the learner has committed to an answer, the app reports nothing back) and a tutor file next to every page (<chapter>/<page>/tutor.md: its sections, every exercise with task, answer format, solution, hint and typical mistakes, and for a seeded exercise all its task numbers (its distinct tasks, at most 67) with their tasks, solutions and links ?seed=<n>#<id>).",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rules": {
+              "description": "The app's own rules for a tutor, after the generic ones in llms.txt: what matters in this subject, e.g. \"Rechenwege auf Papier, das Ergebnis in die App\". Restricted Markdown, in the app's languages.",
+              "$ref": "#/$defs/markdown"
+            },
+            "providers": {
+              "description": "The assistants the start page offers to open with the prompt, in this order. Without it: Claude (https://claude.ai/new?q={prompt}); an empty list offers only the button that copies the prompt. A link carries the whole prompt while its address stays within 8000 characters, else a short prompt that points to tutor.md, and the page copies the whole prompt as well.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "url"],
+                "properties": {
+                  "name": {
+                    "description": "The assistant's name, as the link says it: \"Mit <name> öffnen\".",
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "url": {
+                    "description": "The address that opens the assistant, https, with {prompt} where the prompt goes (URL-encoded), e.g. https://claude.ai/new?q={prompt}; without {prompt} the link opens the assistant and the page copies the prompt.",
+                    "type": "string",
+                    "pattern": "^https://\\S+$"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -1090,7 +1123,7 @@
       }
     },
     "generated": {
-      "description": "An exercise drawn from a seed, property-based: given draws the values, where filters them, task is the text with placeholders ({{G}}, {{e.name}}; {{answer}} in the steps) and an optional figure, answer is an expression with its comparator, mistakes are typical wrong answers each with a message saying what went wrong, hint and steps help. A placeholder is always two braces around a declared name or its field, nothing else inside, in prose and in formulas alike ($\\frac{{{W}}}{{{G}}}$); one brace is never a placeholder, so in a formula G and {G} are the letter. The build checks that every placeholder names a variable of given (or answer), that no prose has a placeholder with one brace or spaces inside, and that every variable of given is used in a placeholder or in an expression of the figure, answer or mistakes; then it checks it over 200 fixed seeds: where holds in at least 1 of 10 draws; the answer is defined, in its format and passes its comparator; no mistake equals it; the task is the same each time and keeps no placeholder; the figure does not show the answer. Without JavaScript the page shows three worked tasks (seeds 1, 2, 3) with their solution; with JavaScript a live task, Neue Aufgabe, and the deep link ?seed=<n>#<id>.",
+      "description": "An exercise drawn from a seed, property-based: given draws the values, where filters them, task is the text with placeholders ({{G}}, {{e.name}}; {{answer}} in the steps) and an optional figure, answer is an expression with its comparator, mistakes are typical wrong answers each with a message saying what went wrong, hint and steps help. A placeholder is always two braces around a declared name or its field, nothing else inside, in prose and in formulas alike ($\\frac{{{W}}}{{{G}}}$); one brace is never a placeholder, so in a formula G and {G} are the letter. The build checks that every placeholder names a variable of given (or answer), that no prose has a placeholder with one brace or spaces inside, and that every variable of given is used in a placeholder or in an expression of the figure, answer or mistakes; then it checks it over 200 fixed seeds: where holds in at least 1 of 10 draws; the answer is defined, in its format and passes its comparator; no mistake equals it; the task is the same each time and keeps no placeholder; the figure does not show the answer. Its tasks are numbered: the build walks the seeds 1, 2, 3, … and numbers only the distinct tasks, Aufgabe Nr. 1 to N (N at most 67; fewer when the exercise has fewer distinct tasks, noted in the build output). The number is what the page shows, what a learner names to a tutor, and what the address carries: ?seed=<n>#<id> opens task number n (a number above N wraps around). Without JavaScript the page shows the tasks 1, 2 and 3 as worked tasks with their solution; with JavaScript a live task of a random number, Neue Aufgabe, which moves to the next number (after N back to 1) and writes it into the address, and the deep link: a wrong answer gets the message of the mistake it matches (else a line to look again, with the hint above) and may be tried again; the solution and the steps show after the right answer or Lösung zeigen (the worked tasks too, when workedTasks is \"always\").",
       "required": ["id", "given", "task", "answer"],
       "properties": {
         "id": {
@@ -1143,7 +1176,7 @@
           }
         },
         "mistakes": {
-          "description": "Typical mistakes: the wrong answer as an expression, and a message (plain text) that says what went wrong.",
+          "description": "Typical mistakes: the wrong answer as an expression, and a message (plain text) that says what went wrong. A learner who gives that answer reads the message with the feedback, and may try again.",
           "type": "array",
           "minItems": 1,
           "items": {
@@ -1160,8 +1193,16 @@
             }
           }
         },
+        "practice": {
+          "description": "Optional: the sentence above the live task, plain text, in the app's languages. Without it the page says \"Übe selbst, mit immer neuen Aufgaben:\"; write your own when the tasks change something other than tasks in general, e.g. \"Übe selbst, mit immer neuen Stoffen:\".",
+          "$ref": "#/$defs/text"
+        },
+        "workedTasks": {
+          "description": "Optional: whether the three worked tasks with their solutions show with JavaScript. \"without-javascript\" (the default): only without it; a learner with JavaScript gets as many new tasks as they like, so the worked tasks are redundant. \"always\": they show below the live task once the learner has solved it or asked for its solution.",
+          "enum": ["without-javascript", "always"]
+        },
         "hint": {
-          "description": "A hint before the answer, restricted Markdown with placeholders.",
+          "description": "A hint before the answer, restricted Markdown with placeholders; with JavaScript it stays folded under the live task until the learner opens it.",
           "$ref": "#/$defs/markdown"
         },
         "steps": {
@@ -1171,14 +1212,42 @@
           "items": {
             "$ref": "#/$defs/markdown"
           }
+        },
+        "examples": {
+          "description": "Optional: test cases for the build, never shown to learners. Before you write the exercise, note which answers fulfil its text and which typical wrong answers there are; write the other correct answers the text allows into accepted (e.g. the answer rounded as the text permits: \"round(W / G * 100, 0)\"), the typical wrong ones into rejected. Each is an expression like answer.value, of the variables of given and of answer, the task's right answer, e.g. \"answer + 1\", \"reverse(answer)\". The build evaluates each for every seed it checks and runs it through the same check the page uses: an accepted one the check rejects, or a rejected one it accepts, fails the build; then the exercise checks something other than what its text asks, so change its comparator (e.g. set instead of order), its tolerance or its text. The mistakes already count as rejected.",
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "accepted": {
+              "description": "Answers the text allows, each of which the check must accept for every seed.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/expression"
+              }
+            },
+            "rejected": {
+              "description": "Typical wrong answers, each of which the check must reject for every seed.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/expression"
+              }
+            }
+          }
         }
       },
       "type": "object"
     },
     "vueComponent": {
-      "description": "A Vue single-file component of the app, src/components/<component>.vue, for what no built-in block or generated exercise can express. The build renders it into the page and checks it (what it may do, its test file, and for an exercise, one that emits answered, its logic module <component>.ts); in the browser it hydrates in place. Without JavaScript the page shows its nojs text instead.",
-      "required": ["component", "nojs"],
+      "description": "A Vue single-file component of the app, src/components/<component>.vue, for what no built-in block or generated exercise can express. The build renders it into the page and checks it (what it may do, its test file, and for an exercise, one that emits answered { correct, reason? }, its logic module <component>.ts; reason, a text in the page's language, says what went wrong in a wrong answer and shows under the feedback); in the browser it hydrates in place. An exercise component declares the prop seed: number, which the explainer gives it and no block does: its task number. The build numbers its distinct tasks like a generated exercise's (seeds 1, 2, 3, …, tasks compared as the JSON of generate(seed, props), Aufgabe Nr. 1 to N, N at most 67); the page shows \"Aufgabe Nr. <n>\" and \"Neue Aufgabe\", the address ?seed=<n>#<id> opens task number n, and the component gets that task's seed and shows generate(seed, props). Its logic module exports generate(seed, props), check(task, answer), solution(task), wrong(task), describe(task, props, lang) and about: describe gives { task, solution }, the task as a learner sees it and its solution, each restricted Markdown in the language lang (props come in that language); about = { task, answer, correct, mistakes } says what the learner does, the answer's format, what counts as right and the typical mistakes, each a text (a map by language when the app has more than one). The build checks describe for every task number, and writes the no-JS text of an exercise component from the task of number 1 with its solution folded. Without JavaScript the page shows the nojs text instead of the component.",
+      "required": ["component"],
       "properties": {
+        "id": {
+          "description": "The block's anchor on the page, a lowercase id: the address ?seed=<n>#<id> opens the task <n> of an exercise component. Optional: an exercise component without one has its name in kebab case (AssignLabels: assign-labels, assign-labels-2 for a second one on the page). Give one when the default would clash with a section or another exercise.",
+          "$ref": "#/$defs/id"
+        },
         "component": {
           "description": "The component's name, in PascalCase: src/components/<component>.vue.",
           "type": "string",
@@ -1189,11 +1258,48 @@
           "type": "object"
         },
         "nojs": {
-          "description": "What the component shows and does, for readers without JavaScript, with its content: the labelled diagram described, or the task with its solution. Restricted Markdown, rendered in place; once the component runs, it replaces this text, or keeps it as its caption.",
+          "description": "What the component shows and does, for readers without JavaScript, with its content: the labelled diagram described. Required for a component that is no exercise. Restricted Markdown, rendered in place; once the component runs, it replaces this text, or, when the component declares defineOptions({ nojs: \"caption\" }), keeps it folded under it as a text description that one click opens. An exercise component needs none: the build writes its no-JS text from describe, the task of number 1 with its solution folded, so the page without JavaScript shows the same task as the component with seed 1; a nojs text it has goes above that task, e.g. what the figure shows.",
           "$ref": "#/$defs/markdown"
+        },
+        "examples": {
+          "description": "Required for an exercise component (one that emits answered), else not allowed: test cases for the build, never shown to learners. Its check is the component's own code, so before you write it, note which answers fulfil the task's text and which typical wrong answers there are: at least one answer the check must accept, other than the one solution(task) gives where the text allows another (e.g. a circuit with one lamp and a switch, when the text asks for one lamp), and at least one it must reject. Each answer is written as check(task, answer) of <component>.ts takes it. The build runs each through check, for the task of its seed, or of every seed the property test draws when it gives none, and fails when an accepted one fails or a rejected one passes.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "accepted": {
+              "description": "Answers the text allows, each of which check must accept.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/componentExample"
+              }
+            },
+            "rejected": {
+              "description": "Typical wrong answers, each of which check must reject.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/componentExample"
+              }
+            }
+          }
         }
       },
       "type": "object"
+    },
+    "componentExample": {
+      "description": "One answer of an exercise component's examples.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["answer"],
+      "properties": {
+        "answer": {
+          "description": "The answer as check(task, answer) of the component's logic module takes it, e.g. a list or a record."
+        },
+        "seed": {
+          "description": "Optional: the seed of the task to check it against, when the right answer depends on the task; without it, the answer is checked against the task of every seed.",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
     }
   }
 }

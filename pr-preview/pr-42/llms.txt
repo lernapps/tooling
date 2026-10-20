@@ -17,7 +17,11 @@ Everything here is also in the package `@lernapps/tooling`.
 
 - [lernapps.net](https://lernapps.net/llms.txt): the vision and the overall picture.
 - [Docs](https://lernapps.net/docs/llms.txt): the platform and organisation docs, and how to read them (biz42, pdt42 and their CLIs).
-- [Apps](https://lernapps.net/apps/llms.txt): listing an app in the catalog.
+- [Apps](https://lernapps.net/apps/llms.txt): the catalog; [listing an app](https://lernapps.net/apps/enter/llms.txt): the steps, the entry and the validation comment.
+
+## GitHub
+
+An app lives in its creator's GitHub repo and is published with GitHub Pages: the branches `main` (published), `work` (until the first publish) and `gh-pages` (served), set up at the start of the plan; Actions check and publish. [GitHub, explained for creators](https://lernapps.net/tooling/github/): what it is and which parts the tooling uses. The creator need not know it; tell them in plain words.
 
 ## Commands
 
@@ -38,14 +42,16 @@ Every command lists its options with `--help`: `npx lernapps check --help` in an
 
 ## Skills
 
-Install them into your harness with `npx skills add lernapps/tooling`.
+Install them into your harness with `npx skills add lernapps/tooling`. An app commits them; `lernapps update` replaces its `lernapps-*` skills with those of the tooling it moves the app to, and leaves the app's own skills alone.
 
-- [lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): the rules every app follows, each with its id.
+- [lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): the rules every app follows, each with its id, in files by concern that it links. The [platform rules](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/references/platform-rules.md) hold for every app, however it is built: give them to a tool that builds without this tooling.
 - [lernapps-listing](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-listing/SKILL.md): how to open the listing pull request and act on its results comment.
 - [lernapps-quiz](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-quiz/SKILL.md): how the quiz works and how to write its questions.
 - [lernapps-explainer](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-explainer/SKILL.md): how the explainer works: its structure, blocks, formulas, languages, exercises and components.
-- [lernapps-content-research](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-research/SKILL.md): what the app teaches: the curriculum with its Lehrplan cited, the competencies as "Ich kann …" grouped into chapters, second sources verified by opening them. For every archetype.
+- [lernapps-interactive](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-interactive/SKILL.md): the principles of an interactive app's code, and what of its archetype is not built yet.
+- [lernapps-content-research](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-research/SKILL.md): what the app teaches: the curriculum, with the Lehrplan as orientation for grade and order, the competencies as "Ich kann …" grouped into chapters, second sources verified by opening them. For every archetype.
 - [lernapps-exercise-patterns](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-exercise-patterns/SKILL.md): exercises from shared data files, patterns written down once and varied, and a component or an issue for the rest; with a [catalogue of patterns by subject](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-exercise-patterns/references/patterns.md).
+- [lernapps-github](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-github/SKILL.md): GitHub access when the obvious path fails: which tools in which order (gh over REST, GitHub MCP tools, curl for public reads), "403 Resource not accessible by integration" as a click for the creator (never a dummy push), the REST checks of default branch and Pages, the listing pull request from a fork.
 - [lernapps-content-growth](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-content-growth/SKILL.md): how an app grows after its first version, one competency per slice, with a brief for parallel sub-agents.
 
 Every app from the generator also has its own content guide, `.agents/skills/app-content/SKILL.md` (linked for Claude Code as `.claude/skills/app-content`): the skeleton the assistant fills in once the plan is confirmed. Where it is filled in, it takes precedence over the skills above.
@@ -72,9 +78,10 @@ An archetype is a kind of app: a template, a runtime, skills and the rules in sc
 
 - quiz: questions with options and feedback; the assistant writes only the question bank. [Template](https://github.com/lernapps/app-templates/tree/main/quiz), skill lernapps-quiz, [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md).
 - explainer: chapters of pages that explain and practise, readable without JavaScript; the assistant writes the content as YAML, and Vue components only where no block fits. [Template](https://github.com/lernapps/app-templates/tree/main/explainer), skill lernapps-explainer, [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md).
-- interactive: one app page plus a static start page. Rules and [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md); no template yet.
+- interactive: one app page plus a static start page. Skill lernapps-interactive, rules and [rubric](https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md); not in the tooling yet.
 
 ## Optional
 
+- [Prompt engineering](https://lernapps.net/tooling/prompt-engineering/): how we test and change the guidance, and the eval results: how closely assistant configurations follow this guidance (scenarios, scores per dimension, minutes and tokens), with the data as JSON.
 - [Architecture](https://lernapps.net/tooling/architecture/): how the tooling is built (arc42).
 - [Source](https://github.com/lernapps/tooling): the package, the actions and the Renovate preset.
