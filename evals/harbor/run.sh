@@ -6,9 +6,10 @@
 #   <model>  a Harbor model name, e.g. anthropic/claude-sonnet-5-5; the creator plays on the same model unless
 #            USER_MODEL names another
 # Afterwards it writes <job>/configuration.json (harness and version, Harbor version, models, commits) and scores the
-# transcripts (evals/score-transcript.ts). Run evals/harbor/setup.sh first.
+# transcripts (evals/score-transcript.ts) against the skills of the guidance by phase (evals/skills-by-phase.ts).
+# Run evals/harbor/setup.sh first.
 set -euo pipefail
-[ $# -ge 2 ] || { sed -n '2,9p' "$0" >&2; exit 2; }
+[ $# -ge 2 ] || { sed -n '2,10p' "$0" >&2; exit 2; }
 task="$1" model="$2" trials="${3:-1}" concurrency="${4:-1}"
 user_model="${USER_MODEL:-$model}"
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -59,6 +60,8 @@ const configuration = {
 writeFileSync(join(dir, "configuration.json"), JSON.stringify(configuration, null, 2) + "\n");
 console.log(JSON.stringify(configuration));
 '
+# The skills the guidance under test loads in each phase, from its architecture (A2), then the transcripts
+node "$evals/skills-by-phase.ts" "$guidance" "$jobs/$job/skills-by-phase.json" || echo "skills by phase failed" >&2
 node "$evals/score-transcript.ts" "$jobs/$job" || echo "transcript scoring failed" >&2
 # The token must not appear in what the job wrote.
 if grep -rlE 'sk-ant-[A-Za-z0-9_-]{8,}' "$jobs/$job" > /dev/null 2>&1; then
