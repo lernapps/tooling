@@ -9,11 +9,18 @@ case "$req" in
   https://lernapps.net/tooling/llms.txt) path=site/llms.txt ;;
   https://raw.githubusercontent.com/lernapps/tooling/*) path="${req#https://raw.githubusercontent.com/lernapps/tooling/}" ;;
   https://github.com/lernapps/tooling/blob/*) path="${req#https://github.com/lernapps/tooling/blob/}" ;;
+  *@lernapps/tooling/*) path="${req#*@lernapps/tooling/}" ;;
   http*) path="" ;;
   *) path="${req#/}" ;;
 esac
 # strip the branch, which may hold slashes: drop leading parts until a file matches
 while [[ "$req" == http* && -n "$path" && ! -f "$root/$path" && "$path" == */* ]]; do path="${path#*/}"; done
+# a skill by name or a path inside it (lernapps-app, lernapps-app/references/x.md): find it below skills/<group>/
+if [[ -n "$path" && ! -f "$root/$path" ]]; then
+  for candidate in "$root"/skills/*/"$path" "$root"/skills/*/"$path"/SKILL.md "$root"/skills/*/"${path#skills/}"; do
+    if [[ -f "$candidate" ]]; then path="${candidate#"$root"/}"; break; fi
+  done
+fi
 file="$root/$path"
 if [ -n "$path" ] && [ -f "$file" ]; then
   echo "$(date -u +%FT%T) SERVED $req -> $path ($(wc -w < "$file") words)" >> "$log"
