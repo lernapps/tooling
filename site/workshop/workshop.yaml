@@ -1,111 +1,32 @@
-# The page "A workshop, not a factory" (site/workshop/): the texts of its phases and boxes. Which building block of
-# docs/arc42 supports which phase, and its kind, the model says: `x-phase` (a list) and `x-kind` on the block.
-# scripts/workshop.ts renders the page into its template (template.html) and fails the build when a phase here and the
-# blocks with that phase in the model differ, when a block has no or an unknown kind, or when a skill's `x-phase` is
-# not the phase of its group (bb-skills-<phase>).
-#   kinds     the kinds of components, in the order of the key
-#   phases    in the order of the plan: `question`, what `you` decide, the checkpoint (`gate`) if any, and the boxes
-#   boxes     in the order shown: `block` (or `blocks`, neighbours of one kind shown as one box that links the first),
-#             what it does for the `agent` and, where the person works with it, for the `person`; `label` replaces the
-#             block's title where a box shows a part of a block (Git hooks: pre-commit, pre-push)
-#   across    the phase `across`, what holds in every phase; `catalog` the phase `catalog`, after the listing
-kinds: [guidance, skill, CLI, lint, hook, action, runtime, review]
+# The page "A workshop, not a factory" (site/workshop/): the phases of the plan and what the person decides in each.
+# What supports a phase comes from docs/arc42: every element (building block or interface) with `x-phase` (a list of
+# the ids below), `x-kind` (one of the kinds), `x-agent` and, where the person works with it, `x-person`. Its box shows
+# its title and links its card. scripts/workshop.ts renders the page into its template (template.html) and fails the
+# build when an element names an unknown phase or kind, says nothing for agent or person, or when a skill's phase is
+# not that of its group (bb-skills-<phase>).
+#   kinds     the kinds, in the order of the key and of the boxes in a phase
+#   across    what runs through every phase, before the timeline; `catalog` what follows the listing pull request
+#   phases    in the order of the plan: `question`, what `you` decide, the checkpoint (`gate`) if any
+kinds: [guidance, skill, CLI, lint, hook, action, template, runtime, review]
+across: { label: Across all phases, question: What runs through every phase? }
 phases:
   - id: explore
     title: Explore
     question: What should learners be able to do?
     you: "What the app teaches and for whom: the goal, the learners, your own material, the mistakes your learners make."
     gate: "Checkpoint research: you confirm what the app teaches."
-    boxes:
-      - block: bb-process-guidance
-        label: Plan template
-        person: Answers the interview, one topic at a time.
-        agent: Asks the topics in order and keeps the answers in your words.
-      - block: bb-skill-app
-        agent: Knows what every app must be, and chooses the archetype from what learners do.
-      - block: bb-app-templates
-        label: Template READMEs
-        person: Hears what the chosen archetype can and cannot do.
-        agent: Reads what each archetype can and cannot do before it chooses.
-      - block: bb-skill-content-research
-        person: Brings their curriculum and their own material.
-        agent: Researches the curriculum, writes the competencies, opens every source it cites.
-      - blocks: [bb-skill-quiz-design, bb-skill-explainer-design, bb-skill-interactive-design]
-        label: lernapps-<archetype>-design
-        agent: Knows what to ask for the chosen archetype and how the content maps onto it.
   - id: plan
     title: Plan
     question: How will learners practise?
     you: "In one read: the tasks, the sketches and the content method."
     gate: "Checkpoint plan: nothing is built before your yes."
-    boxes:
-      - block: bb-skill-exercise-patterns
-        agent: Chooses an exercise per competency from the patterns of the subject, and shares data as files.
-      - block: bb-skill-content-growth
-        agent: Cuts a later increment into slices, one per competency.
-      - block: bb-process-guidance
-        label: Sub-agent brief
-        agent: Gives each sub-agent its slice and keeps them off each other's files.
   - id: code
     title: Code
     question: Built locally, by the agent
     you: "Nothing you must do. The agent asks at most three questions only you can answer."
-    boxes:
-      - block: bb-generator
-        label: "lernapps create, update"
-        agent: Creates the app from its template, passing every check from the first commit; update brings fixes later.
-      - block: bb-skill-check
-        agent: Fixes every failed check from its message and never bypasses one.
-      - blocks: [bb-skill-quiz, bb-skill-explainer, bb-skill-interactive]
-        label: lernapps-<archetype>
-        agent: Knows what to write for the archetype, and its notation.
-      - block: bb-skill-content-questions
-        agent: Writes options and feedback that teach.
-      - block: bb-lint-rules
-        agent: Marks a problem while it writes, such as a request to another server before a click.
-      - block: bb-app-templates
-        label: Runtime
-        agent: "Runs the app: engine, accessibility, the page without JavaScript, its own tests."
-      - block: bb-git-hooks
-        label: Pre-commit
-        agent: Formats and checks every commit.
   - id: commit
     title: Commit
     question: Online at your yes
     you: "Whether the app goes online: you look at the preview and say yes."
     gate: "Checkpoints publish and list: the listing pull request is the review."
-    boxes:
-      - block: bb-skill-github
-        person: Makes the one click only the owner of the repo can make, if one is needed.
-        agent: Sets up repo and Pages, opens the preview pull request, publishes after your yes.
-      - block: bb-skill-commit
-        agent: Publishes one squash commit, its message taken from the plan.
-      - block: bb-skill-listing
-        person: Sees the listing pull request and its result.
-        agent: Writes the entry and opens the listing pull request from your fork.
-      - block: bb-git-hooks
-        label: Pre-push
-        agent: Runs the build and the end-to-end tests before a push.
-      - block: bb-app-check-action
-        label: App check
-        agent: Runs the same checks in CI.
-      - blocks: [bb-app-preview, bb-app-publish]
-        label: App preview and publish
-        person: Looks at the preview before saying yes.
-        agent: Puts the checked bundle online, first as a preview.
-      - block: bb-listing-validation
-        label: Listing validation
-        agent: Checks the entry against the live app and comments the result.
-across:
-  - block: bb-process-guidance
-    label: AGENTS.md and the plan file
-    person: Reads where the work stands and confirms at the checkpoints.
-    agent: Works the plan step by step, notes where it had to guess, stops at each checkpoint.
-  - block: bb-check-cli
-    label: lernapps check
-    agent: One command, the same result in the hooks, in CI and at the listing.
-catalog:
-  - block: bb-review-procedure
-    label: Review
-    person: The platform owner reads the verdict and decides on the listing.
-    agent: A review agent judges what no check can, against a rubric.
+catalog: { label: "Then, in the catalog", question: Is it listed? }
