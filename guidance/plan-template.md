@@ -55,14 +55,14 @@ questions. -->
 ### Tasks
 
 - [ ] Install the skills, if missing (the app commits them): `npx --yes skills add
-      lernapps/tooling#exp/compact-guidance -y -s lernapps-app lernapps-content-research lernapps-exercise-patterns
+      lernapps/tooling -y -s lernapps-app lernapps-content-research lernapps-exercise-patterns
       lernapps-content-growth lernapps-check lernapps-content-questions lernapps-github lernapps-listing`.
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
       their own address, free, public. The technical part (GitHub) comes at the end, and you do it.
 - [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
 - [ ] Choose the archetype as skill `lernapps-app` says: read the README of each archetype in question, tell the
       creator what the chosen one can and cannot do. Write it and its reason under "Key decisions". Set `archetype`.
-- [ ] Install the archetype's skills: `npx --yes skills add lernapps/tooling#exp/compact-guidance -y -s
+- [ ] Install the archetype's skills: `npx --yes skills add lernapps/tooling -y -s
       lernapps-<archetype>-design lernapps-<archetype>`. Load skill `lernapps-<archetype>-design`.
 - [ ] Interview: ask the other topics of "Answers" in order. Skip a topic only when an earlier answer covers it; note
       which. No answer → ask once more; still none → write your assumption with "(guess)". Done when every topic

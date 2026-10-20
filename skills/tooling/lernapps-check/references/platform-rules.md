@@ -2,7 +2,7 @@
 
 - Every app on lernapps.net, however built (this tooling, by hand, another framework, Lovable, bolt.new).
 - Scope `listing`: every listed app, wherever hosted. Severity `error` never break; `hint` advice.
-- Check a built or published app: `npx --yes github:lernapps/tooling#exp/compact-guidance check <dir|url>` (= `lernapps check`);
+- Check a built or published app: `npx --yes github:lernapps/tooling check <dir|url>` (= `lernapps check`);
   `--entry <file>` checks the catalog entry against it.
 - The app lives at its own address (e.g. `https://<owner>.github.io/<repo>/`); the catalog links to it.
 - All rules: <https://lernapps.net/tooling/rules/>.

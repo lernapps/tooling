@@ -7,7 +7,7 @@ Learning app for lernapps.net: static, runs in the browser, collects nothing, ac
 1. Current plan: `.vibe/plans/<NN>-<short name>.md` with the highest NN.
 2. No plan, or its Commit is completed: start a new plan. Copy a template complete and unchanged from
    `@lernapps/tooling/guidance/` (in `node_modules/`; before the app exists:
-   <https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/>):
+   <https://raw.githubusercontent.com/lernapps/tooling/main/guidance/>):
    - `plan-template.md`: the first version;
    - `increment-template.md`: every later change.
 3. Read the plan before each step. Do its tasks in order. Each phase names its skills.
