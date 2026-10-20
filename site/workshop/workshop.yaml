@@ -21,7 +21,7 @@ phases:
   - id: code
     title: Code
     question: Built locally, by the agent
-    you: "Nothing you must do. The agent asks at most three questions only you can answer."
+    you: "Nothing. Time for a coffee: the agent builds on its own and may come back with a question only you can answer."
   - id: commit
     title: Commit
     question: Online at your yes
