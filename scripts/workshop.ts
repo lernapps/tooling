@@ -8,6 +8,7 @@
 //
 //   node scripts/workshop.ts test          the check alone (test/workshop.test.ts)
 //   node scripts/workshop.ts page <file>   writes the page (scripts/build.sh); fails like test
+//   node scripts/workshop.ts home <file>   fills the phases of the workshop card into the start page (<file>, built)
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
@@ -188,13 +189,33 @@ export function render(map: Mapping, all: Element[]): string {
   return [band(map, all, "across"), `<div class="timeline">\n${phases}\n</div>`, band(map, all, "catalog")].join("\n");
 }
 
+/** The phases of the plan for the workshop card of the start page: number, title and question. */
+export function steps(map: Mapping): string {
+  const items = map.phases.map(
+    (p, i) =>
+      `<li><span class="n" aria-hidden="true">${i + 1}</span><strong>${esc(p.title)}</strong>` +
+      `<span class="q">${esc(p.question)}</span></li>`,
+  );
+  return `<ol class="steps">${items.join("")}</ol>`;
+}
+
+const fill = (file: string, marker: string, html: string) => {
+  const text = readFileSync(file, "utf8");
+  if (!text.includes(marker)) throw new Error(`${file}: the marker ${marker} is missing`);
+  return text.replace(marker, html);
+};
+
 function main(argv: string[]): number {
   const [command, out] = argv;
-  if (command !== "test" && !(command === "page" && out)) {
-    process.stderr.write("usage: node scripts/workshop.ts test | page <file>\n");
+  if (command !== "test" && !((command === "page" || command === "home") && out)) {
+    process.stderr.write("usage: node scripts/workshop.ts test | page <file> | home <file>\n");
     return 2;
   }
   const map = mapping();
+  if (command === "home" && out) {
+    writeFileSync(out, fill(out, "<!-- workshop:phases -->", steps(map)));
+    return 0;
+  }
   const all = elements();
   const found = problems(map, all);
   if (found.length > 0) {

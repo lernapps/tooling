@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, the page
-# A workshop, not a factory (workshop/: who does what in which phase, rendered by scripts/workshop.ts from the
+# Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: the start page (the phases of its
+# workshop card from workshop.yaml), the page A workshop, not a factory (workshop/: who does what in which phase,
+# rendered by scripts/workshop.ts from the
 # building blocks), the page GitHub, explained (github/), the eval results (evals/, written by evals/report.ts),
 # llms.txt, the rule page (rules/,
 # read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of the review verdict, of
@@ -42,6 +43,7 @@ for schema in quiz/quiz.v1.schema.json explainer/explainer.v1.schema.json; do
 done
 node scripts/rules.ts page _site/rules/index.html
 node scripts/workshop.ts page _site/workshop/index.html
+node scripts/workshop.ts home _site/index.html
 
 arc42 --dir docs/arc42 validate
 arc42 --dir docs/arc42 build --out _site/architecture --base "${PREFIX}architecture/"
