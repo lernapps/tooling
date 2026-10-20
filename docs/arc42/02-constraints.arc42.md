@@ -22,10 +22,12 @@ source: Platform design; listing criteria of the app overview
 ## Rules for every page
 
 Every page in every repo of the organisation sets no cookies, does no tracking and sends no requests to other servers
-before a click. The pages of the platform (the site frame, the catalog, the overview pages) also meet WCAG 2.1 AA, are
-usable at 360 px and are readable without JavaScript. An app meets WCAG 2.1 AA and 360 px by default and may deviate
-where its idea needs it, saying so in its entry. Linking the imprint and the privacy notice belongs to the shared site
-frame.
+before a click. The one exception is the usage counter of the platform's own sites (home, catalog, docs, tooling), which
+counts visits as totals to see whether the apps are used at all; it is not part of the site frame, so an app never
+carries it, and nothing is counted inside an app. The pages of the platform (the site frame, the catalog, the overview
+pages) also meet WCAG 2.1 AA, are usable at 360 px and are readable without JavaScript. An app meets WCAG 2.1 AA and
+360 px by default and may deviate where its idea needs it, saying so in its entry. Linking the imprint and the privacy
+notice belongs to the shared site frame.
 
 ```arc42
 :::constraint
