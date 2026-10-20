@@ -258,7 +258,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
       devDependencies: Record<string, string>;
     };
     expect(manifest.devDependencies["vue-tsc"]).toMatch(/^\d+\.\d+\.\d+$/);
-    expect(manifest.devDependencies["@doctc/arc42"]).toBe("0.36.1");
+    expect(manifest.devDependencies["@doctc/arc42"]).toBe("0.38.0");
     // the generic part and the interactive extension, combined chapter by chapter, with the app's paths
     const chapters = readdirSync(join(dir, "docs/arc42")).sort();
     expect(chapters).toHaveLength(12);

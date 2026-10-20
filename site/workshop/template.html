@@ -4,143 +4,240 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light dark">
   <title>A workshop, not a factory – lernapps.net</title>
   <link rel="canonical" href="https://lernapps.net/tooling/workshop/">
   <link rel="stylesheet" href="../stil.css">
   <style>
-    /* This page only: the phase board. Light only, like every lernapps.net site; the shared tokens, with fallbacks. */
+    /* One accent, the platform's blue; everything else is slate from the shared tokens (lernapps-tokens.css). The dark
+       values are their own steps, not a flip. The timeline is rendered by scripts/workshop.ts from workshop.yaml. */
     :root {
-      --ink: var(--la-text, #1f2933);
-      --muted: var(--la-muted, #5b6672);
-      --surface: var(--la-surface, #f3f5f7);
-      --line: var(--la-border, #e2e8f0);
-      --human: #b4462b;
-      --human-soft: #fbece7;
-      --agent: #2f5d8a;
-      --agent-soft: #e8f0f8;
-      --k-guidance: #6b4fa0;
-      --k-skill: #2f7d5b;
-      --k-cli: #2f5d8a;
-      --k-hook: #a0661b;
-      --k-action: #8a2f6b;
-      --k-runtime: #4a5866;
-      --k-lint: #6b6b1f;
+      --lc-bg: var(--la-surface, #f8fafc);
+      --lc-card: #ffffff;
+      --lc-text: var(--la-text, #1e293b);
+      --lc-muted: var(--la-muted, #475569);
+      --lc-border: var(--la-border, #e2e8f0);
+      --lc-line: #cbd5e1;
+      --lc-accent: var(--la-link, #1d4ed8);
+      --lc-tint: #eaf0fd;
+      --lc-on: #ffffff;
+      --lc-hero: var(--la-ink, #0f172a);
+      --lc-shadow: 0 1px 2px rgb(15 23 42 / 0.06), 0 6px 18px rgb(15 23 42 / 0.06);
     }
-    main.wide { max-width: 76rem; }
-    .lead { font-size: 1.15rem; max-width: 46rem; }
-    .contrast { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-    .contrast > div { border: 1px solid var(--line); border-radius: 0.5rem; padding: 0.75rem 1rem; }
-    .contrast h2 { font-size: 1.05rem; margin: 0 0 0.25rem; }
-    .contrast p { margin: 0; }
-    .contrast .yes { border-color: var(--human); }
-
-    .attention { margin: 2rem 0 0.5rem; }
-    .attention > p { margin: 0 0 0.3rem; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.06em;
-      text-transform: uppercase; }
-    .meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
-    .meter span { position: relative; border-radius: 0.3rem; padding: 0.15rem 0.6rem; font-size: 0.8rem;
-      font-weight: 700; color: var(--human); background: var(--human-soft); overflow: hidden; }
-    .meter span::before { content: ""; position: absolute; inset: auto 0 0 0; height: 0.25rem; background: var(--human);
-      width: var(--level); }
-    .phase > header { position: relative; }
-    .phase .n { position: absolute; right: 0.7rem; top: 0.1rem; font-size: 2.6rem; font-weight: 800; line-height: 1;
-      color: var(--line); }
-
-    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 0.5rem; }
-    .phase { border: 1px solid var(--line); border-radius: 0.6rem; display: flex; flex-direction: column; overflow: hidden; }
-    .phase > header { padding: 0.6rem 0.8rem; background: var(--surface); border-bottom: 1px solid var(--line); }
-    .phase h2 { margin: 0; font-size: 1.25rem; }
-    .phase .q { margin: 0; color: var(--muted); font-size: 0.9rem; }
-    .lane { padding: 0.6rem 0.8rem; }
-    .lane h3 { margin: 0 0 0.3rem; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
-    .lane ul { margin: 0; padding-left: 1.1rem; font-size: 0.92rem; }
-    .lane li { margin: 0.15rem 0; }
-    .you { background: var(--human-soft); }
-    .you h3 { color: var(--human); }
-    .agent { background: var(--agent-soft); }
-    .agent h3 { color: var(--agent); }
-    .tools { flex: 1; }
-    .tools h3 { color: var(--muted); }
-    .tools ul { list-style: none; padding: 0; }
-    .tools li { display: flex; gap: 0.4rem; align-items: baseline; font-size: 0.88rem; }
-    .tools a, .across a { color: inherit; text-decoration-color: var(--la-link, #1d4ed8); text-underline-offset: 0.15em; }
-    .tools a:hover, .across a:hover { color: var(--la-link, #1d4ed8); }
-    .kind { flex: none; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
-      border: 1.5px solid currentColor; border-radius: 0.25rem; padding: 0 0.3rem; line-height: 1.4; }
-    .kind.guidance { color: var(--k-guidance); }
-    .kind.skill { color: var(--k-skill); }
-    .kind.cli { color: var(--k-cli); }
-    .kind.hook { color: var(--k-hook); }
-    .kind.action { color: var(--k-action); }
-    .kind.runtime { color: var(--k-runtime); }
-    .kind.lint { color: var(--k-lint); }
-    .gate { margin: 0; padding: 0.55rem 0.8rem; border-top: 2px dashed var(--human); color: var(--human);
-      font-weight: 700; font-size: 0.9rem; }
-    .gate span { font-weight: 400; color: var(--ink); }
-
-    .across { border: 1px solid var(--line); border-radius: 0.6rem; margin-top: 0.5rem; padding: 0.6rem 0.8rem;
-      display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; align-items: baseline; font-size: 0.9rem; }
-    .across strong { font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
-    .catalog { border-color: var(--human); }
-    .owner { color: var(--human); font-weight: 700; }
-
-    .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin: 1rem 0; font-size: 0.88rem; }
-    .legend span.item { display: inline-flex; gap: 0.35rem; align-items: baseline; }
-    .never { border-left: 4px solid var(--human); padding: 0.25rem 1rem; margin: 2rem 0; }
-    .never h2 { margin-top: 0; }
-
-    @media (max-width: 60rem) {
-      .board { grid-template-columns: 1fr 1fr; }
-      .meter { grid-template-columns: 1fr 1fr; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --lc-bg: #0b1220;
+        --lc-card: #111a2e;
+        --lc-text: #e5e7eb;
+        --lc-muted: #a3adbd;
+        --lc-border: #243049;
+        --lc-line: #334155;
+        --lc-accent: #8fb8ff;
+        --lc-tint: #14213d;
+        --lc-on: #0b1220;
+        --lc-hero: #0a101d;
+        --lc-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.3);
+      }
     }
-    @media (max-width: 36rem) {
-      .board, .meter { grid-template-columns: 1fr; }
+    :root[data-theme="dark"] {
+      --lc-bg: #0b1220; --lc-card: #111a2e; --lc-text: #e5e7eb; --lc-muted: #a3adbd; --lc-border: #243049;
+      --lc-line: #334155; --lc-accent: #8fb8ff; --lc-tint: #14213d; --lc-on: #0b1220; --lc-hero: #0a101d;
+      --lc-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.3);
     }
+    body { background: var(--lc-bg); color: var(--lc-text); }
+    main { max-width: none; padding: 0; color: var(--lc-text); }
+    main a { color: var(--lc-accent); }
+    main a:focus-visible { outline: 3px solid var(--lc-accent); outline-offset: 2px; border-radius: 0.25rem; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    .wrap { max-width: 58rem; margin: 0 auto; padding: 0 var(--la-gutter, 1rem); }
+
+    /* Hero: dark slate like the header of every lernapps.net site, one soft blue glow. */
+    .hero {
+      background: radial-gradient(48rem 22rem at 12% -30%, rgb(96 165 250 / 0.28), transparent 65%), var(--lc-hero);
+      color: #f1f5f9;
+      padding: 3.5rem 0 3rem;
+    }
+    .hero .eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #93c5fd; }
+    .hero h1 { font-size: clamp(2rem, 5.6vw, 3.4rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0.6rem 0 1rem; max-width: 18ch; }
+    .hero p { max-width: 40rem; font-size: 1.1rem; color: #cbd5e1; margin: 0 0 0.9rem; }
+    .hero p:last-child { margin-bottom: 0; }
+    .hero a { color: #93c5fd; }
+
+    .intro { padding-top: 2.5rem; }
+    .intro p { max-width: 40rem; color: var(--lc-muted); margin: 0; }
+
+    /* Timeline */
+    .timeline { position: relative; margin: 1.5rem 0 0; padding-left: 4.4rem; }
+    .timeline::before { content: ""; position: absolute; left: calc(1.45rem - 2px); top: 1.2rem; bottom: 2rem; width: 4px; border-radius: 4px; background: linear-gradient(var(--lc-accent), var(--lc-line)); }
+    .phase { position: relative; padding: 2.2rem 0 2.4rem; }
+    .dot { position: absolute; left: -4.4rem; top: 2.4rem; width: 2.9rem; height: 2.9rem; border-radius: 50%; display: grid; place-items: center; background: var(--lc-accent); color: var(--lc-on); font-weight: 800; font-size: 1.2rem; box-shadow: 0 0 0 7px var(--lc-bg); }
+    .big { position: absolute; right: 0; top: 0.6rem; font-size: clamp(3.4rem, 10vw, 6.5rem); font-weight: 900; line-height: 1; letter-spacing: -0.05em; color: transparent; -webkit-text-stroke: 2px var(--lc-line); pointer-events: none; }
+    .phase h3 { margin: 0 0 1.1rem; position: relative; }
+    .label { display: block; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lc-accent); }
+    .question { display: block; font-size: clamp(1.5rem, 3.6vw, 2.2rem); line-height: 1.15; letter-spacing: -0.02em; margin-top: 0.3rem; max-width: 20ch; }
+
+    .decides { max-width: 38rem; margin: 0 0 1.2rem; padding: 0.9rem 1.1rem 0.9rem 1.2rem; border-left: 5px solid var(--lc-accent); border-radius: 0 0.75rem 0.75rem 0; background: var(--lc-tint); position: relative; }
+    .decides p { margin: 0; }
+    .decides .who { display: flex; align-items: center; gap: 0.4rem; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--lc-accent); margin-bottom: 0.2rem; }
+
+    .chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 0.55rem; position: relative; }
+    .chip a { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.5rem; min-height: 3.2rem; padding: 0.6rem 0.8rem; border-radius: 0.75rem; background: var(--lc-card); border: 1px solid var(--lc-border); box-shadow: var(--lc-shadow); color: var(--lc-text); text-decoration: none; line-height: 1.3; transition: border-color 0.15s, transform 0.15s; }
+    .chip a:hover { border-color: var(--lc-accent); transform: translateY(-1px); }
+    .chip a:focus-visible { outline: 3px solid var(--lc-accent); outline-offset: 2px; }
+    .t { flex: 1 1 0; min-width: 0; overflow-wrap: break-word; font-weight: 600; }
+    .go { display: inline-flex; color: var(--lc-muted); }
+
+
+
+    /* Who works with a part: two outline icons on one grid, never colour alone. */
+    .actors { display: inline-flex; gap: 0.3rem; flex: none; }
+    .meta { display: inline-flex; align-items: center; gap: 0.5rem; margin-left: auto; flex: none; }
+    .actor { display: inline-grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; color: var(--lc-muted); border: 1.5px solid var(--lc-line); background: var(--lc-card); }
+    .actor.human { color: var(--lc-accent); border-color: var(--lc-accent); }
+    .actor svg { display: block; }
+    .key { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: 0.9rem; color: var(--lc-muted); font-size: 0.92rem; }
+    .key li { display: inline-flex; align-items: center; gap: 0.5rem; }
+    .key strong { color: var(--lc-text); }
+    .chip .row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.5rem; }
+    .chip .row .t { flex: 1 1 7.5rem; }
+
+    /* What runs through every phase, above the timeline. */
+    .band { margin: 1.5rem 0 0; padding: 1.1rem 1.2rem 1.2rem; border-radius: 1rem; border: 1px solid var(--lc-border); background: var(--lc-tint); }
+    .band h3 { margin: 0 0 0.8rem; }
+    .band .question { font-size: 1.15rem; margin-top: 0.15rem; max-width: none; }
+    .band .label { color: var(--lc-muted); }
+
+
+    /* What a part does for whom: opens on hover and keyboard focus, stays while the pointer is on it, closes on Escape
+       (WCAG 1.4.13). The text is in the DOM and tied to the box, so assistive technology reads it too. */
+    .chip { position: relative; }
+    .how { position: absolute; z-index: 5; left: 0; right: 0; top: 100%; margin-top: 0.15rem; padding: 0.6rem 0.75rem; border-radius: 0.75rem; background: var(--lc-card); border: 1px solid var(--lc-accent); box-shadow: 0 10px 28px rgb(15 23 42 / 0.22); font-size: 0.88rem; line-height: 1.45; color: var(--lc-text); visibility: hidden; opacity: 0; transform: translateY(-2px); transition: opacity 0.12s, transform 0.12s, visibility 0s 0.12s; min-width: 16rem; }
+    .how::before { content: ""; position: absolute; left: 0; right: 0; top: -0.5rem; height: 0.5rem; }
+    .chip:hover > .how, .chip:focus-within > .how, .chip:focus > .how { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+    .chip.dismissed > .how { visibility: hidden; opacity: 0; }
+    .how-row { display: flex; gap: 0.5rem; align-items: flex-start; margin: 0; }
+    .how-row + .how-row { margin-top: 0.4rem; }
+    .how-row .actor { flex: none; margin-top: 0.1rem; }
+    .how-row strong { display: block; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lc-muted); }
+    .chip.planned:focus-visible { outline: 3px solid var(--lc-accent); outline-offset: 2px; }
+    /* Where hover does not exist, the text is part of the page. */
+    @media (hover: none) {
+      /* Without hover the box is one card: the link and, inside it, what the part does for whom. */
+      .chip { background: var(--lc-card); border: 1px solid var(--lc-border); border-radius: 0.75rem; box-shadow: var(--lc-shadow); }
+      .chip a { border: 0; box-shadow: none; background: transparent; min-height: 0; }
+      .how { position: static; visibility: visible; opacity: 1; transform: none; box-shadow: none; border: 0; border-radius: 0; margin: 0; padding: 0 0.8rem 0.7rem; min-width: 0; background: transparent; }
+      .how::before { display: none; }
+      .chip.dismissed > .how { visibility: visible; opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) { .how { transition: none; } }
+
+    /* Sections after the timeline */
+    section.block { padding: 2.2rem 0 0; }
+    section.block h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 0.7rem; line-height: 1.2; }
+    section.block p, section.block li { max-width: 40rem; }
+    .meta { font-size: 0.88rem; color: var(--lc-muted); }
+
+    @media (max-width: 48rem) {
+      .timeline { padding-left: 3.6rem; }
+      .timeline::before { left: calc(1.1rem - 2px); }
+      .dot { left: -3.6rem; width: 2.3rem; height: 2.3rem; font-size: 1rem; top: 2.5rem; }
+      .big { font-size: 3.4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .chip a { transition: none; } }
+    .tech { flex: 1 1 100%; font-size: 0.8rem; color: var(--lc-muted); line-height: 1.35; }
+    .decides .gate { margin-top: 0.5rem; font-weight: 700; color: var(--lc-accent); }
+    .band + .band { margin-top: 1rem; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin: 0.8rem 0; }
+    .tile { background: var(--lc-card); border: 1px solid var(--lc-border); border-radius: 1rem; padding: 1rem 1.1rem; box-shadow: var(--lc-shadow); }
+    .tile strong { display: block; margin-bottom: 0.3rem; }
+    .tile span { color: var(--lc-muted); font-size: 0.95rem; }
+    .never li { padding: 0.2rem 0; list-style: disc; margin-left: 1.2rem; }
+    .next { padding-bottom: 3rem; }
   </style>
 </head>
 <body>
-  <main id="main-content" class="wide" tabindex="-1">
-    <h1>A workshop, not a factory</h1>
-    <p class="lead">A software factory takes people out of the line and turns specifications into output.
-      lernapps.net is a <em>Manufaktur</em>: one person who knows their subject makes one learning app. An AI agent
-      does the handwork, and programs hold the rules. The person keeps every decision that needs judgement.</p>
+  <main id="main-content" tabindex="-1">
+    <header class="hero">
+      <div class="wrap">
+        <div class="eyebrow">lernapps.net tooling</div>
+        <h1>A workshop, not a factory</h1>
+        <p>A software factory takes people out of the line and turns specifications into output. lernapps.net is a
+          <em>Manufaktur</em>: one person who knows their subject makes one learning app, for their learners, from
+          their own material.</p>
+        <p>An AI agent does the handwork and programs hold the rules. The person keeps every decision that needs
+          judgement: what the app teaches, whether it is right, whether it goes online.</p>
+      </div>
+    </header>
 
-    <div class="contrast">
-      <div>
-        <h2>Factory</h2>
-        <p>Many products from one specification. Quality means the output matches the spec. People supervise the
-          line.</p>
-      </div>
-      <div class="yes">
-        <h2>Workshop (Manufaktur)</h2>
-        <p>One app from one person's knowledge: their subject, their learners, their material. Quality means learners
-          learn. The person decides; the tools make the rest repeatable.</p>
-      </div>
-      <div>
-        <h2>What a developer gets</h2>
-        <p>No toolchain to fight: a template that passes every check from its first commit, error messages that say
-          what to fix, and the same checks in the hooks, in CI and at the listing.</p>
-      </div>
-      <div>
-        <h2>What a manager gets</h2>
-        <p>Rules with ids, enforced by programs at fixed points, not by trust. Every app shows where it deviates and
-          why. Content quality stays a human judgement, on purpose.</p>
-      </div>
+    <div class="wrap intro">
+      <p>What runs through every phase comes first, then the four phases of the plan. Each box is a part of the tooling,
+        names what it is built with and links to its place in the <a href="../architecture/">architecture</a>. Hover over a box, or
+        move to it with the keyboard, to read what it does for whom.</p>
+    <!-- workshop:key -->
     </div>
 
-    <!-- workshop: legend, attention, board, across, catalog; rendered by scripts/workshop.ts from workshop.yaml -->
+    <div class="wrap">
+    <!-- workshop:board -->
+    </div>
 
-    <section class="never">
-      <h2>What no machine decides</h2>
-      <ul>
-        <li>What the app teaches, and for whom.</li>
-        <li>Whether the content teaches correctly: no check and no review proves that.</li>
-        <li>Whether the app goes online, and under whose name.</li>
-      </ul>
-    </section>
+    <div class="wrap">
+      <section class="block" id="gets">
+        <h2>What you get from it</h2>
+        <ul class="tiles">
+          <li class="tile"><strong>As a developer</strong><span>No toolchain to fight: a template that passes every
+            check from its first commit, messages that say what to fix, and the same checks in the hooks, in CI and at
+            the listing.</span></li>
+          <li class="tile"><strong>As a manager</strong><span>Rules with ids, enforced by programs at fixed points,
+            not by trust. Every app says where it deviates and why. Content quality stays a human judgement, on
+            purpose.</span></li>
+        </ul>
+      </section>
 
-    <p>More: <a href="../architecture/">architecture</a> (the skills by phase are in chapter 5),
-      <a href="../rules/">rules</a>, <a href="../github/">GitHub, explained</a>.</p>
+      <section class="block never" id="never">
+        <h2>What no machine decides</h2>
+        <ul>
+          <li>What the app teaches, and for whom.</li>
+          <li>Whether the content teaches correctly: no check and no review proves that.</li>
+          <li>Whether the app goes online, and under whose name.</li>
+        </ul>
+      </section>
+
+      <section class="block next" id="next">
+        <h2>Next</h2>
+        <ul>
+          <li><a href="../architecture/">Architecture</a>: chapter 5 groups the skills by phase, as here.</li>
+          <li><a href="../rules/">Rules</a>: what every app must meet.</li>
+          <li><a href="../github/">GitHub, explained</a>: for creators who do not know GitHub.</li>
+        </ul>
+        <p class="meta">The page is rendered from the building blocks and interfaces of the architecture, so it cannot
+          disagree with it.</p>
+      </section>
+    </div>
   </main>
+  <script>
+    /* Escape closes an open explanation and keeps the focus where it is. It opens again once neither the pointer nor the
+       focus is on the box any more and one of them comes back. */
+    (function () {
+      var dismissed = null;
+      function release() {
+        setTimeout(function () {
+          if (dismissed && !dismissed.matches(":hover, :focus-within")) {
+            dismissed.classList.remove("dismissed");
+            dismissed = null;
+          }
+        }, 0);
+      }
+      document.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape") return;
+        var chip = document.querySelector(".chip:hover, .chip:focus-within");
+        if (!chip) return;
+        if (dismissed && dismissed !== chip) dismissed.classList.remove("dismissed");
+        chip.classList.add("dismissed");
+        dismissed = chip;
+      });
+      document.addEventListener("mouseout", release);
+      document.addEventListener("focusout", release);
+    })();
+  </script>
 </body>
 </html>

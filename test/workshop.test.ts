@@ -1,36 +1,47 @@
-// The page "A workshop, not a factory" (scripts/workshop.ts): its mapping and the building blocks of docs/arc42 agree.
+// The page "A workshop, not a factory" (scripts/workshop.ts): rendered from the elements of docs/arc42 and their x-*
+// attributes.
 import { describe, expect, test } from "vitest";
-import { blocks, mapping, problems, render } from "../scripts/workshop.ts";
+import { elements, inPhase, mapping, phasesOf, problems, render, type Element } from "../scripts/workshop.ts";
 
 describe("the workshop page", () => {
-  const model = blocks();
+  const all = elements();
+  const byId = (id: string) => {
+    const element = all.find((e) => e.id === id);
+    if (!element) throw new Error(`${id} is missing`);
+    return element;
+  };
+  const changed = (id: string, extensions: Record<string, string>): Element[] =>
+    all.map((e) => (e.id === id ? { ...e, extensions: { ...e.extensions, ...extensions } } : e));
 
-  test("names only blocks of the model, and per phase exactly the skills of its group", () => {
-    expect(problems(mapping(), model)).toEqual([]);
+  test("every element with x-phase fits the page: known phases and kinds, a text, a skill in its group's phase", () => {
+    expect(problems(mapping(), all)).toEqual([]);
   });
 
-  test("finds a skill the model puts into another phase, and a block the model lacks", () => {
-    const map = mapping();
-    const [explore, plan] = map.phases;
-    if (!explore || !plan) throw new Error("the mapping has no phases");
-    const moved = explore.tools.find((tool) => tool.block === "bb-skill-app");
-    if (!moved) throw new Error("bb-skill-app is not in Explore");
-    explore.tools = explore.tools.filter((tool) => tool !== moved);
-    plan.tools.push(moved, { block: "bb-nowhere", kind: "skill", text: "planted" });
-    expect(problems(map, model)).toEqual([
-      "bb-nowhere: no such building block in docs/arc42",
-      "bb-skill-app: a skill of explore in docs/arc42, missing in the phase's tools",
-      "bb-skill-app: listed in plan, but its group in docs/arc42 is bb-skills-explore",
+  test("takes the phases from the element's x-phase, interfaces included", () => {
+    expect(phasesOf(byId("bb-git-hooks"))).toEqual(["code", "commit"]);
+    expect(inPhase(all, "across").map((e) => e.id)).toContain("if-plan-file");
+    expect(inPhase(all, "explore").map((e) => e.id)).toContain("bb-skill-app");
+  });
+
+  test("finds a skill outside its group's phase, an unknown phase, and an element that says nothing", () => {
+    expect(problems(mapping(), changed("bb-skill-app", { phase: "plan" }))).toEqual([
+      "bb-skill-app: x-phase plan, but its group is bb-skills-explore",
+    ]);
+    expect(problems(mapping(), changed("bb-generator", { phase: "deploy" }))).toEqual([
+      "bb-generator: x-phase names deploy, which is no phase of the page",
+    ]);
+    expect(problems(mapping(), changed("bb-generator", { agent: "", person: "" }))).toEqual([
+      "bb-generator: says nothing in x-agent or x-person",
     ]);
   });
 
-  test("links each block to its card in the architecture, with the title the model gives it or the mapping's label", () => {
-    const page = render(mapping(), model);
+  test("links each box to its card in the architecture, with the element's title", () => {
+    const page = render(mapping(), all);
     expect(page).toContain(
-      '<li><span class="kind skill">Skill</span> <span><a href="../architecture/#05-building-blocks.arc42.md:el-bb-skill-app"' +
-        ' data-blocks="bb-skill-app">lernapps-app</a>: ',
+      '<li class="chip" data-element="bb-skill-app"><a href="../architecture/#05-building-blocks.arc42.md:el-bb-skill-app"',
     );
-    expect(page).toContain('data-blocks="bb-git-hooks">pre-push</a>: ');
-    expect(page).toContain("lernapps-&lt;archetype&gt;-design");
+    expect(page).toContain('<span class="t">lernapps-app</span>');
+    expect(page).toContain('<span class="t">Plan file</span>');
+    expect(page).toContain('<span class="tech">Markdown (agentskills.io)</span>');
   });
 });
