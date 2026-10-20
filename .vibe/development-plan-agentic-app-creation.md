@@ -303,7 +303,7 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
   parents in German.
 - **Language of this plan**: English, as all shared infrastructure.
 - **Issue #12** asked for a single app-template with `AGENTS.md`, the site frame and the site actions. KD-02 and
-  KD-05 widen that to archetypes and a generator; update the issue once the architecture is agreed.
+  KD-05 widen that to archetypes and a generator; closed on 2026-10-20 with what was built.
 
 ## Explore
 
@@ -352,7 +352,7 @@ first run. Next (owner, 2026-10-13): an MVP of the explainer archetype based on 
 principles hold there (11, sketch below), before the evals (10); then 10 and 12. Step 11 is done, with the first full
 explainer run (see Completed). Next (owner, 2026-10-16): the interactive archetype (12) before the evals (10), so the
 evals cover all three archetypes.*
-- [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20)): sketched below and decided
+- [x] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20)): sketched below and decided
   by the owner (2026-10-16, 2026-10-17). Done in Code:
   - step 1, app-templates: the runtime and the template ([lernapps/app-templates#33](https://github.com/lernapps/app-templates/pull/33),
     [#34](https://github.com/lernapps/app-templates/pull/34)); typed inputs, ticks in playthroughs, libraries from the
@@ -368,35 +368,36 @@ evals cover all three archetypes.*
   dependencies; typed inputs and ticks; storage quota 100 kB; WCAG and 360 px as platform rules with declared limits;
   the architecture only in interactive apps, copied and replaced by the tooling, the app's own part in marked
   sections, not user-facing, gated by `arc42 diff --staged --strict` and `arc42 validate --strict`; Vue stays.
-  Next: the first full run with a pilot app (step 4 of the sketch).
+  The pilot run is through (owner, 2026-10-20); #20 closed.
 - [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
-  and an increment each: inventory and expected behaviour in the sketch below (2026-10-17); scenarios and scoring next
+  and an increment each: inventory and expected behaviour in the sketch below (2026-10-17); scenarios and scoring next.
+  Before closing this increment: the Harbor comparison of the guidance of #118 with the runs of 2026-10-18 (the
+  owner decides on the run)
   - How the eval runs are built: ADR [`docs/adr/eval-runs-with-harbor.md`](../docs/adr/eval-runs-with-harbor.md), short form `dec-eval-runs-with-harbor` in chapter 9 (accepted
     2026-10-17 by the owner: Harbor, single-step tasks with a simulated creator, a scoring verifier; spike and first real run `real-5` done)
 - [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),
   the templates' build into `dist/` ([lernapps/app-templates#32](https://github.com/lernapps/app-templates/issues/32)),
   tutor support for the quiz, later ([#86](https://github.com/lernapps/tooling/issues/86))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
-- [ ] `lernapps update` cannot be committed when the templates' reference of the architecture changes a block but not
+- [ ] Next increment: `lernapps update` cannot be committed when the templates' reference of the architecture changes a block but not
   its prose: the staged-diff check of the hook also judges the generic part the update rewrote
-  ([#117](https://github.com/lernapps/tooling/issues/117); preferred fix: judge only the app's own sections)
-- [ ] The rework of the skills ([#115](https://github.com/lernapps/tooling/issues/115)) is done in #118 except: a
-  claim check (every skill folder in exactly one block's `path`), and the evals' comparison of old and new guidance
-  for the three archetypes; close #115 with that or move the rest into a new issue
+  ([#117](https://github.com/lernapps/tooling/issues/117), with the proposed fix: judge only the app's own sections)
+- [x] The rework of the skills ([#115](https://github.com/lernapps/tooling/issues/115)) is done in #118 and closed;
+  not done: a claim check (every skill folder in exactly one block's `path`); its acceptance by the evals is in #18
 - [ ] Later, outside this increment: the agent-based check of listed apps
   ([#1](https://github.com/lernapps/tooling/issues/1); the review agent and `lernapps check --entry` cover parts of
   it), re-validation and dead links of listed apps (KD-15, [lernapps/apps#57](https://github.com/lernapps/apps/issues/57)),
   copies of listed apps under lernapps.net ([lernapps/apps#58](https://github.com/lernapps/apps/issues/58)), agent
   feedback on the guidance ([#8](https://github.com/lernapps/tooling/issues/8)), quiz categories and multiplayer
   (lernapps/app-templates#8, #12)
-- [ ] Issue lernapps/.github#12 still asks for one app-template: comment there how KD-02 and KD-05 widened it
-  (archetypes, a generator) and link the tracking issue #9; the content-error issue form it asks for is open
+- [x] lernapps/.github#12 closed with what was built instead of one app-template; its issue form for content errors
+  is [lernapps/app-templates#57](https://github.com/lernapps/app-templates/issues/57) (next increment)
 - [ ] Follow-ups of the workshop page and the start pages (2026-10-20):
   - an issue on docToolchain/arc42-language: `arc42 diff` reports a change of `x-*` attributes alone as a block
     changed without prose (29 warnings on #119), and a deep link from outside lands about 1300 px early because
     mermaid renders after the scroll
-  - app-templates: arc42 from 0.36.1 to 0.38.0, as the generator pins it
-  - close the test listing pull request lernapps/apps#60 (planeten-quiz, from the manual eval)
+  - [x] app-templates: arc42 from 0.36.1 to 0.38.0, as the generator pins it (lernapps/app-templates#58)
+  - [x] close the test listing pull request lernapps/apps#60 (planeten-quiz, from the manual eval)
   - the vision's tagline (`docs/vision.md` in lernapps/docs) in the words of its new card: "Many small solutions.
     One real change.", personal software becoming a change for many, used without worry
 
