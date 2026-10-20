@@ -372,7 +372,11 @@ evals cover all three archetypes.*
 - [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
   and an increment each: inventory and expected behaviour in the sketch below (2026-10-17); scenarios and scoring next.
   Before closing this increment: the Harbor comparison of the guidance of #118 with the runs of 2026-10-18 (the
-  owner decides on the run)
+  owner decides on the run). New for A2 (owner, 2026-10-20): `skills_in_phase` (the share of the skills the guidance
+  loads in a phase that the trial loaded in it, in full) and `skills_out_of_place` (a skill of another archetype or
+  loaded before its phase), expected from the `x-phase` of the skills' building blocks at the job's guidance commit
+  (`evals/skills-by-phase.ts`). Only for new runs: the runs of 2026-10-18 had other skills and no phases in the
+  architecture, so they are not scored again; the other dimensions stay as they were and compare.
   - How the eval runs are built: ADR [`docs/adr/eval-runs-with-harbor.md`](../docs/adr/eval-runs-with-harbor.md), short form `dec-eval-runs-with-harbor` in chapter 9 (accepted
     2026-10-17 by the owner: Harbor, single-step tasks with a simulated creator, a scoring verifier; spike and first real run `real-5` done)
 - [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),

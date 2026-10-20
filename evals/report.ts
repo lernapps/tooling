@@ -101,6 +101,23 @@ ROWS.push(
     kind: "runs",
     value: (trial) => trial.numbers["t_plan_template_read_raw"],
   },
+  // A2, from the guidance whose architecture gives its skills a phase (skills-by-phase.json of the job); empty before
+  {
+    id: "skills_in_phase",
+    label: "Skills loaded in their phase",
+    group: "transcript",
+    source: "skills_in_phase",
+    kind: "share",
+    value: (trial) => trial.numbers["t_skills_in_phase"],
+  },
+  {
+    id: "no_skill_out_of_place",
+    label: "No skill of another archetype or before its phase",
+    group: "transcript",
+    source: "skills_out_of_place",
+    kind: "runs",
+    value: threshold("t_skills_out_of_place", 0),
+  },
 );
 
 /** The numbers with min, mean and max per cell beside the heatmap. */

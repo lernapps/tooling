@@ -4,7 +4,9 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { scoreTrial } from "../evals/score-transcript.ts";
+import { scoreTrial, scoreTurns, type SkillContext } from "../evals/score-transcript.ts";
+import { skillsByPhase } from "../evals/skills-by-phase.ts";
+import { elements } from "../scripts/workshop.ts";
 import { fill, report } from "../evals/report.ts";
 import { summarise } from "../evals/summary.ts";
 import { boxes, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
@@ -73,6 +75,84 @@ test("the transcript score of a recorded trial (quiz-fresh, trimmed): the plan c
     "app-content",
     "lernapps-app",
   ]);
+});
+
+test("the skills by phase come from the skills' building blocks and their x-phase", () => {
+  const { phases, archetypes } = skillsByPhase(elements());
+  expect(phases["explore"]).toContain("lernapps-app");
+  expect(phases["code"]).toContain("lernapps-check");
+  expect(phases["commit"]?.toSorted()).toEqual(["lernapps-commit", "lernapps-github", "lernapps-listing"]);
+  expect(archetypes).toMatchObject({
+    "lernapps-quiz": "quiz",
+    "lernapps-quiz-design": "quiz",
+    "lernapps-explainer": "explainer",
+  });
+  expect(archetypes["lernapps-app"]).toBeUndefined();
+});
+
+test("the skill score counts the skills loaded in their phase, and those of another archetype or loaded early", () => {
+  const context: SkillContext = {
+    phases: {
+      explore: ["lernapps-app", "lernapps-content-research", "lernapps-quiz-design", "lernapps-explainer-design"],
+      plan: ["lernapps-exercise-patterns", "lernapps-content-growth"],
+      code: ["lernapps-check", "lernapps-quiz", "lernapps-explainer", "lernapps-content-questions"],
+      commit: ["lernapps-github", "lernapps-commit", "lernapps-listing"],
+    },
+    archetypes: {
+      "lernapps-quiz": "quiz",
+      "lernapps-quiz-design": "quiz",
+      "lernapps-explainer": "explainer",
+      "lernapps-explainer-design": "explainer",
+    },
+    archetype: "quiz",
+    conditional: ["lernapps-content-growth"],
+  };
+  const raw = "https://raw.githubusercontent.com/lernapps/tooling/main/skills";
+  const turn = (tools: { name: string; input: Record<string, unknown> }[]) => ({ creator: "weiter", text: "", tools });
+  const score = scoreTurns(
+    [
+      turn([
+        { name: "Skill", input: { skill: "lernapps-app" } },
+        { name: "Read", input: { file_path: "/app/.agents/skills/lernapps-quiz-design/SKILL.md" } },
+        { name: "Bash", input: { command: `curl -sL ${raw}/process/lernapps-github/SKILL.md` } },
+      ]),
+      turn([
+        { name: "Write", input: { file_path: "/app/.vibe/plans/01-quiz.md", content: "---\nphase: plan\n---\n" } },
+        { name: "Bash", input: { command: "cd .agents/skills/lernapps-exercise-patterns && cat SKILL.md" } },
+      ]),
+      turn([
+        {
+          name: "Edit",
+          input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+        },
+        { name: "Bash", input: { command: "cat .agents/skills/lernapps-check/SKILL.md" } },
+        { name: "Skill", input: { skill: "lernapps-explainer" } },
+      ]),
+    ],
+    context,
+  );
+  // explore 2 of 3 (no research), plan 1 of 1 (growth is conditional), code 1 of 3; commit not reached
+  expect(score.dimensions["skills_in_phase"]).toBe(0.57);
+  expect(score.dimensions["skills_out_of_place"]).toBe(2);
+  expect(score.evidence["skillsOutOfPlace"]).toEqual(["lernapps-github", "lernapps-explainer"]);
+  expect(score.evidence["skillsByPhase"]).toEqual([
+    {
+      phase: "explore",
+      expected: ["lernapps-app", "lernapps-content-research", "lernapps-quiz-design"],
+      loaded: ["lernapps-app", "lernapps-quiz-design"],
+      missing: ["lernapps-content-research"],
+    },
+    { phase: "plan", expected: ["lernapps-exercise-patterns"], loaded: ["lernapps-exercise-patterns"], missing: [] },
+    {
+      phase: "code",
+      expected: ["lernapps-check", "lernapps-quiz", "lernapps-content-questions"],
+      loaded: ["lernapps-check"],
+      missing: ["lernapps-quiz", "lernapps-content-questions"],
+    },
+  ]);
+  expect(scoreTurns([turn([{ name: "Skill", input: { skill: "lernapps-app" } }])]).dimensions).not.toHaveProperty(
+    "skills_in_phase",
+  );
 });
 
 const plan = `---
