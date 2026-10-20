@@ -23,6 +23,8 @@
     "turns_over_two_questions": ["A9"],
     "approvals_after_question": ["A6"],
     "skill_read_raw": ["A1"],
+    "skills_in_phase": ["A2"],
+    "skills_out_of_place": ["A2"],
     "plan_template_read_raw": ["A1"],
     "guidance_summary_fetches": ["A1", "A2"],
     "reads_outside_guidance": ["A2"],

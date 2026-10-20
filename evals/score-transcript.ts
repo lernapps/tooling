@@ -1,9 +1,12 @@
 // Scores the transcript of a finished eval trial: what the creator's agent read, asked and ran, from the session log
 // of the agent (Claude Code, <trial>/agent/sessions/projects/*/*.jsonl). Writes <trial>/transcript-score.json with
-// numbers (the dimensions, evals/expectations.json maps each to its expectation) and the evidence behind them.
+// numbers (the dimensions, evals/expectations.json maps each to its expectation) and the evidence behind them. The
+// skills loaded in their phase (A2) are scored against the job's skills-by-phase.json (evals/skills-by-phase.ts).
 //   node evals/score-transcript.ts <trial or job dir>...
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
-import { basename, join } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import type { SkillsByPhase } from "./skills-by-phase.ts";
 
 /** One entry of a Claude Code session log, as far as the score reads it. */
 interface Entry {
@@ -25,6 +28,18 @@ interface Turn {
   creator: string;
   text: string;
   tools: { name: string; input: Record<string, unknown> }[];
+}
+
+/** What the skill score of a trial needs: the guidance's skills by phase, and the task's archetype and conditions. */
+export interface SkillContext {
+  /** Phase → the skills the guidance loads in it (skills-by-phase.json of the job). */
+  phases: Record<string, string[]>;
+  /** Skill → its archetype, for the skills of one archetype. */
+  archetypes: Record<string, string>;
+  /** The archetype the task expects. */
+  archetype: string;
+  /** Skills the guidance loads only on a condition the task may not meet (task.toml `skills_conditional`). */
+  conditional: string[];
 }
 
 export interface TranscriptScore {
@@ -100,17 +115,96 @@ const commandOf = (tool: Turn["tools"][number]) =>
 const pathOf = (tool: Turn["tools"][number]) =>
   typeof tool.input["file_path"] === "string" ? tool.input["file_path"] : "";
 
-/** Whether a tool call sets `phase: code` in a plan file: the agent's sign that the plan was confirmed. */
-const setsPhaseCode = (tool: Turn["tools"][number]) => {
+const PHASES = ["explore", "plan", "code", "commit"];
+
+/** The phase a tool call sets in a plan file (`phase: <name>` written into `.vibe/`), if any. */
+const phaseSet = (tool: Turn["tools"][number]): string | undefined => {
   const written = [tool.input["new_string"], tool.input["content"]].filter((value) => typeof value === "string");
   const command = commandOf(tool);
-  return (
-    (written.some((value) => /^phase:\s*code\b/m.test(value as string)) && /\.vibe\//.test(pathOf(tool))) ||
-    (/phase:\s*code/.test(command) && /\.vibe\//.test(command))
-  );
+  const inFile = /\.vibe\//.test(pathOf(tool))
+    ? written.map((value) => /^phase:\s*(explore|plan|code|commit)\b/m.exec(value as string)?.[1]).find(Boolean)
+    : undefined;
+  const inCommand = /\.vibe\//.test(command) ? /phase:\s*(explore|plan|code|commit)\b/.exec(command)?.[1] : undefined;
+  return inFile ?? inCommand;
 };
 
-export function scoreTurns(all: Turn[]): TranscriptScore {
+/** Whether a tool call sets `phase: code` in a plan file: the agent's sign that the plan was confirmed. */
+const setsPhaseCode = (tool: Turn["tools"][number]) => phaseSet(tool) === "code";
+
+/** The skills a tool call loads in full: the Skill tool, a read of its SKILL.md, or a raw download of it. */
+const skillsLoaded = (tool: Turn["tools"][number]): string[] => {
+  const fromPath = (path: string) => /(?:^|\/)([\w-]+)\/SKILL\.md\b/.exec(path)?.[1];
+  if (tool.name === "Skill" && typeof tool.input["skill"] === "string")
+    return [tool.input["skill"].replace(/^.*:/, "")];
+  if (tool.name === "Read") return [fromPath(pathOf(tool))].filter((name) => name !== undefined);
+  const command = commandOf(tool);
+  const reads = [...command.matchAll(/\b(?:cat|head|tail|less|sed -n [^ ]+)\s+([^\s;&|]+\/SKILL\.md)\b/g)].map(
+    (match) => match[1] ?? "",
+  );
+  // `cd <skill folder> && cat SKILL.md`: the folder names the skill
+  const folder = /\bcd\s+([^\s;&|]+)/.exec(command)?.[1]?.replace(/\/+$/, "");
+  const inFolder =
+    folder && /\b(?:cat|head|tail|less|sed -n [^ ]+)\s+SKILL\.md\b/.test(command) ? [`${folder}/SKILL.md`] : [];
+  const downloads = /\b(curl|wget)\b/.test(command) ? urlsIn(command).filter((url) => url.endsWith("/SKILL.md")) : [];
+  return [...reads, ...inFolder, ...downloads].map(fromPath).filter((name) => name !== undefined);
+};
+
+/**
+ * A2: the skills of the guidance, loaded in their phase. A phase runs from the call that sets it in the plan
+ * (Explore from the start) to the call that sets the next one; only phases the trial reached count. Expected in a
+ * phase: its skills, without those of another archetype and those the task leaves to a condition. Out of place: a
+ * skill of another archetype, or one loaded before its phase.
+ */
+export function scoreSkills(
+  loads: { name: string; seq: number }[],
+  starts: { phase: string; seq: number }[],
+  context: SkillContext,
+): { dimensions: Record<string, number>; evidence: Record<string, unknown> } {
+  const reached = PHASES.map((phase) => ({
+    phase,
+    seq: phase === "explore" ? 0 : starts.find((start) => start.phase === phase)?.seq,
+  })).filter((entry): entry is { phase: string; seq: number } => entry.seq !== undefined);
+  reached.sort((a, b) => a.seq - b.seq);
+  const otherArchetype = (name: string) => {
+    const archetype = context.archetypes[name];
+    return archetype !== undefined && archetype !== context.archetype;
+  };
+  const perPhase = reached.map(({ phase, seq }, index) => {
+    const end = reached[index + 1]?.seq ?? Number.POSITIVE_INFINITY;
+    const expected = (context.phases[phase] ?? []).filter(
+      (name) => !otherArchetype(name) && !context.conditional.includes(name),
+    );
+    const loaded = expected.filter((name) =>
+      loads.some((load) => load.name === name && load.seq >= seq && load.seq < end),
+    );
+    return { phase, expected, loaded, missing: expected.filter((name) => !loaded.includes(name)) };
+  });
+  const firstPhaseStart = (name: string) =>
+    Math.min(
+      ...Object.entries(context.phases)
+        .filter(([, names]) => names.includes(name))
+        .map(([phase]) => reached.find((entry) => entry.phase === phase)?.seq ?? Number.POSITIVE_INFINITY),
+    );
+  const known = new Set(Object.values(context.phases).flat());
+  const outOfPlace = [
+    ...new Set(
+      loads
+        .filter((load) => known.has(load.name) && (otherArchetype(load.name) || load.seq < firstPhaseStart(load.name)))
+        .map((load) => load.name),
+    ),
+  ];
+  const expected = perPhase.reduce((sum, phase) => sum + phase.expected.length, 0);
+  const loaded = perPhase.reduce((sum, phase) => sum + phase.loaded.length, 0);
+  return {
+    dimensions: {
+      ...(expected > 0 ? { skills_in_phase: Math.round((loaded / expected) * 100) / 100 } : {}),
+      skills_out_of_place: outOfPlace.length,
+    },
+    evidence: { skillsByPhase: perPhase, skillsOutOfPlace: outOfPlace },
+  };
+}
+
+export function scoreTurns(all: Turn[], skillContext?: SkillContext): TranscriptScore {
   // A11: creator turns after the confirmation of the plan (the last creator message before `phase: code` is set).
   const codeAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
   const confirmedAt = codeAt;
@@ -212,6 +306,21 @@ export function scoreTurns(all: Turn[]): TranscriptScore {
     }),
   );
 
+  // A2: the skills loaded, and the phases set, in the order of the tool calls.
+  const loads: { name: string; seq: number }[] = [];
+  const starts: { phase: string; seq: number }[] = [];
+  let seq = 0;
+  for (const turn of all) {
+    for (const tool of turn.tools) {
+      seq += 1;
+      for (const name of skillsLoaded(tool)) loads.push({ name, seq });
+      const phase = phaseSet(tool);
+      if (phase && !starts.some((start) => start.phase === phase)) starts.push({ phase, seq });
+    }
+  }
+  const skillScore =
+    skillContext && Object.keys(skillContext.phases).length > 0 ? scoreSkills(loads, starts, skillContext) : undefined;
+
   const dimensions: Record<string, number> = {
     creator_turns: creatorTurns,
     plan_confirmed: confirmedAt >= 0 ? 1 : 0,
@@ -231,9 +340,11 @@ export function scoreTurns(all: Turn[]): TranscriptScore {
     pre_push_counter_edits: counterEdits.length,
   };
   if (afterPlan !== undefined) dimensions["creator_turns_after_plan"] = afterPlan;
+  Object.assign(dimensions, skillScore?.dimensions);
   return {
     dimensions,
     evidence: {
+      ...skillScore?.evidence,
       planConfirmedAtCreatorTurn: confirmedAt >= 0 ? confirmedAt + 1 : null,
       creatorMessages: all.map((turn, index) => ({
         turn: index + 1,
@@ -275,8 +386,29 @@ export function usage(entries: Entry[]): Record<string, number> {
   return sum;
 }
 
+/**
+ * The skill context of a trial: its job's skills-by-phase.json (written by evals/harbor/run.sh) and the archetype and
+ * conditional skills of the job's task (evals/tasks/<task>/task.toml); undefined for a job without them.
+ */
+export function skillContext(trial: string): SkillContext | undefined {
+  const job = dirname(trial);
+  const file = join(job, "skills-by-phase.json");
+  const configuration = join(job, "configuration.json");
+  if (!existsSync(file) || !existsSync(configuration)) return undefined;
+  const { phases, archetypes } = JSON.parse(readFileSync(file, "utf8")) as SkillsByPhase;
+  const { task } = JSON.parse(readFileSync(configuration, "utf8")) as { task?: string };
+  const toml = join(resolve(dirname(fileURLToPath(import.meta.url))), "tasks", task ?? "", "task.toml");
+  if (!task || !existsSync(toml)) return undefined;
+  const text = readFileSync(toml, "utf8");
+  const archetype = /^archetype\s*=\s*"([\w-]+)"/m.exec(text)?.[1] ?? "";
+  const conditional = [
+    ...(/^skills_conditional\s*=\s*\[([^\]]*)\]/m.exec(text)?.[1] ?? "").matchAll(/"([\w-]+)"/g),
+  ].map((match) => match[1] ?? "");
+  return { phases, archetypes, archetype, conditional };
+}
+
 /** Scores one trial directory and writes its transcript-score.json; undefined when it has no session log. */
-export function scoreTrial(trial: string): TranscriptScore | undefined {
+export function scoreTrial(trial: string, skills = skillContext(trial)): TranscriptScore | undefined {
   const logs = sessionLogs(trial);
   if (logs.length === 0) return undefined;
   const entries = logs
@@ -287,7 +419,7 @@ export function scoreTrial(trial: string): TranscriptScore | undefined {
         .map((line) => JSON.parse(line) as Entry),
     )
     .sort((a, b) => (a.timestamp ?? "").localeCompare(b.timestamp ?? ""));
-  const score = scoreTurns(turns(entries));
+  const score = scoreTurns(turns(entries), skills);
   Object.assign(score.dimensions, usage(entries));
   writeFileSync(join(trial, "transcript-score.json"), `${JSON.stringify(score, null, 2)}\n`);
   return score;
