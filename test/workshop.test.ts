@@ -1,6 +1,6 @@
 // The page "A workshop, not a factory" (scripts/workshop.ts): its mapping and the building blocks of docs/arc42 agree.
 import { describe, expect, test } from "vitest";
-import { blocks, mapping, problems, render } from "../scripts/workshop.ts";
+import { blocks, kindOf, mapping, phasesOf, problems, render } from "../scripts/workshop.ts";
 
 describe("the workshop page", () => {
   const model = blocks();
@@ -9,19 +9,29 @@ describe("the workshop page", () => {
     expect(problems(mapping(), model)).toEqual([]);
   });
 
-  test("finds a skill the model puts into another phase, and a block the model lacks", () => {
+  test("finds a box whose block the model puts into another phase, a block without its box, an unknown block", () => {
     const map = mapping();
     const [explore, plan] = map.phases;
     if (!explore || !plan) throw new Error("the mapping has no phases");
     const moved = explore.boxes.find((box) => box.block === "bb-skill-app");
     if (!moved) throw new Error("bb-skill-app is not in Explore");
     explore.boxes = explore.boxes.filter((box) => box !== moved);
-    plan.boxes.push(moved, { block: "bb-nowhere", kind: "skill", agent: "planted" });
+    plan.boxes.push(moved, { block: "bb-nowhere", agent: "planted" });
     expect(problems(map, model)).toEqual([
+      "bb-skill-app: its x-phase names explore, but the page has no box for it there",
+      "bb-skill-app: shown in plan, but its x-phase does not name it",
       "bb-nowhere: no such building block in docs/arc42",
-      "bb-skill-app: a skill of explore in docs/arc42, missing in the phase's boxes",
-      "bb-skill-app: listed in plan, but its group in docs/arc42 is bb-skills-explore",
     ]);
+  });
+
+  test("takes phase and kind from the block's x-* attributes", () => {
+    const hooks = model.get("bb-git-hooks");
+    expect(phasesOf(hooks)).toEqual(["code", "commit"]);
+    expect(kindOf(hooks)).toBe("hook");
+    const skill = model.get("bb-skill-app");
+    if (!skill) throw new Error("bb-skill-app is missing");
+    const moved = new Map(model).set(skill.id, { ...skill, extensions: { phase: "plan", kind: "skill" } });
+    expect(problems(mapping(), moved)).toContain("bb-skill-app: x-phase plan, but its group is bb-skills-explore");
   });
 
   test("links each box to its card in the architecture, with the title the model gives it or the mapping's label", () => {

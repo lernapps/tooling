@@ -1,17 +1,14 @@
 // Renders the page "A workshop, not a factory" of the docs site (site/workshop/) from its mapping
 // (site/workshop/workshop.yaml) and the building blocks of docs/arc42, as `arc42 get` reports them. The mapping says
-// per phase what the person decides and which blocks support it, for whom; the model gives each block its title and its
-// place in the architecture app, and says which skills belong to which phase
-// (the skill blocks under bb-skills-<phase>). Fails, with one line per problem, when the mapping names a block the
-// model lacks, or when the skills of a phase in the mapping and in the model differ.
+// per phase what the person decides and what each block does there, for whom; the model gives each block its title,
+// its place in the architecture app, its phases (`x-phase`, a list) and its kind (`x-kind`). Fails, with one line per
+// problem, when a phase's boxes and the blocks with that phase in the model differ, when a block has no or an unknown
+// kind, or when a skill's phase is not that of its group (bb-skills-<phase>).
 //
 //   node scripts/workshop.ts test          the check alone (test/workshop.test.ts)
 //   node scripts/workshop.ts page <file>   writes the page (scripts/build.sh); fails like test
-//
-// arc42 cannot carry the phase in a block yet (no custom attributes), so the mapping is explicit here.
-import { spawnSync } from "node:child_process";
-import { closeSync, mkdirSync, mkdtempSync, openSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { execFileSync } from "node:child_process";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
@@ -25,13 +22,14 @@ interface Block {
   title: string;
   parent?: string;
   loc: { file: string };
+  /** The block's `x-*` attributes, without the prefix, as written (arc42 ≥ 0.38). */
+  extensions?: Record<string, string>;
 }
 
 /** One box: a block, or neighbouring blocks shown as one, and what it does for the agent and the person. */
 interface Box {
   block?: string;
   blocks?: string[];
-  kind: string;
   label?: string;
   agent?: string;
   person?: string;
@@ -53,27 +51,15 @@ interface Mapping {
   catalog: Box[];
 }
 
-/**
- * The building blocks of docs/arc42. The JSON goes to a file, not a pipe: on a pipe `arc42 get` cuts its output
- * after 64 KiB.
- */
+/** The building blocks of docs/arc42, as `arc42 get` reports them. */
 export function blocks(): Map<string, Block> {
-  const dir = mkdtempSync(join(tmpdir(), "workshop-"));
-  try {
-    const file = join(dir, "blocks.json");
-    const out = openSync(file, "w");
-    const result = spawnSync(
-      join(ROOT, "node_modules/.bin/arc42"),
-      ["--dir", join(ROOT, "docs/arc42"), "get", "--type", "building-block", "--format", "json"],
-      { stdio: ["ignore", out, "inherit"] },
-    );
-    closeSync(out);
-    if (result.status !== 0) throw new Error(`arc42 get failed (exit ${result.status ?? result.signal})`);
-    const { elements } = JSON.parse(readFileSync(file, "utf8")) as { elements: Block[] };
-    return new Map(elements.map((block) => [block.id, block]));
-  } finally {
-    rmSync(dir, { recursive: true, force: true });
-  }
+  const json = execFileSync(
+    join(ROOT, "node_modules/.bin/arc42"),
+    ["--dir", join(ROOT, "docs/arc42"), "get", "--type", "building-block", "--format", "json"],
+    { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
+  );
+  const { elements } = JSON.parse(json) as { elements: Block[] };
+  return new Map(elements.map((block) => [block.id, block]));
 }
 
 export function mapping(): Mapping {
@@ -82,30 +68,63 @@ export function mapping(): Mapping {
 
 const idsOf = (box: Box) => box.blocks ?? (box.block === undefined ? [] : [box.block]);
 
+/** The phases a block supports (`x-phase`), and its kind (`x-kind`). */
+export const phasesOf = (block: Block | undefined) =>
+  (block?.extensions?.["phase"] ?? "")
+    .split(",")
+    .map((phase) => phase.trim())
+    .filter(Boolean);
+export const kindOf = (block: Block | undefined) => block?.extensions?.["kind"]?.trim() ?? "";
+
+/** The boxes of each phase of the page, including `across` and `catalog`. */
+const sections = (map: Mapping): [string, Box[]][] => [
+  ...map.phases.map((phase): [string, Box[]] => [phase.id, phase.boxes]),
+  ["across", map.across],
+  ["catalog", map.catalog],
+];
+
 /** One line per problem; none when mapping and model agree. */
 export function problems(map: Mapping, model: Map<string, Block>): string[] {
   const found: string[] = [];
-  for (const box of [...map.phases.flatMap((phase) => phase.boxes), ...map.across, ...map.catalog]) {
-    const ids = idsOf(box);
-    if (ids.length === 0) found.push(`a box without block: "${box.label ?? box.agent ?? box.person}"`);
-    for (const id of ids) if (!model.has(id)) found.push(`${id}: no such building block in docs/arc42`);
-    if (!map.kinds.includes(box.kind)) found.push(`${ids.join(", ")}: kind "${box.kind}" is not in kinds`);
-    if (!box.agent && !box.person) found.push(`${ids.join(", ")}: says nothing for the agent or the person`);
+  const shown = new Set(sections(map).map(([id]) => id));
+  for (const [phase, list] of sections(map)) {
+    const here = new Set<string>();
+    for (const box of list) {
+      const ids = idsOf(box);
+      if (ids.length === 0) found.push(`${phase}: a box without block: "${box.label ?? box.agent ?? box.person}"`);
+      if (!box.agent && !box.person) found.push(`${phase}: ${ids.join(", ")} says nothing for the agent or the person`);
+      const kinds = new Set(ids.map((id) => kindOf(model.get(id))));
+      if (kinds.size > 1)
+        found.push(`${phase}: ${ids.join(", ")} are one box but of the kinds ${[...kinds].join(", ")}`);
+      for (const id of ids) {
+        here.add(id);
+        const block = model.get(id);
+        if (!block) found.push(`${id}: no such building block in docs/arc42`);
+        else if (!phasesOf(block).includes(phase))
+          found.push(`${id}: shown in ${phase}, but its x-phase does not name it`);
+      }
+    }
+    for (const block of model.values()) {
+      if (phasesOf(block).includes(phase) && !here.has(block.id)) {
+        found.push(`${block.id}: its x-phase names ${phase}, but the page has no box for it there`);
+      }
+    }
+  }
+  for (const block of model.values()) {
+    const phases = phasesOf(block);
+    if (phases.length === 0) continue;
+    for (const phase of phases.filter((phase) => !shown.has(phase))) {
+      found.push(`${block.id}: x-phase names ${phase}, which is no phase of the page`);
+    }
+    if (!map.kinds.includes(kindOf(block)))
+      found.push(`${block.id}: x-kind "${kindOf(block)}" is not one of the kinds`);
+    if (block.parent?.startsWith("bb-skills-") && phases.join() !== block.parent.slice("bb-skills-".length)) {
+      found.push(`${block.id}: x-phase ${phases.join(", ")}, but its group is ${block.parent}`);
+    }
   }
   for (const phase of map.phases) {
-    const group = `bb-skills-${phase.id}`;
-    if (!model.has(group)) {
-      found.push(`${group}: the phase ${phase.id} has no skill group in docs/arc42`);
-      continue;
-    }
-    const inModel = [...model.values()].filter((block) => block.parent === group).map((block) => block.id);
-    const here = phase.boxes.flatMap(idsOf).filter((id) => model.get(id)?.parent?.startsWith("bb-skills-"));
-    for (const id of inModel.filter((id) => !here.includes(id))) {
-      found.push(`${id}: a skill of ${phase.id} in docs/arc42, missing in the phase's boxes`);
-    }
-    for (const id of here.filter((id) => !inModel.includes(id))) {
-      found.push(`${id}: listed in ${phase.id}, but its group in docs/arc42 is ${model.get(id)?.parent}`);
-    }
+    if (!model.has(`bb-skills-${phase.id}`))
+      found.push(`bb-skills-${phase.id}: the phase ${phase.id} has no skill group`);
   }
   return found;
 }
@@ -151,7 +170,7 @@ function box(b: Box, id: string, model: Map<string, Block>): string {
   ].join("");
   return (
     `<li class="chip" data-blocks="${ids.join(" ")}"><a href="${esc(href(ids, model))}" aria-describedby="${id}">` +
-    `<span class="t">${esc(title)}</span><span class="meta"><span class="kind">${esc(b.kind)}</span>` +
+    `<span class="t">${esc(title)}</span><span class="meta"><span class="kind">${esc(kindOf(model.get(ids[0] ?? "")))}</span>` +
     `<span class="actors">${who}</span><span class="go">${GO}</span></span></a>` +
     `<div class="how" id="${id}" role="tooltip">${rows}</div></li>`
   );
