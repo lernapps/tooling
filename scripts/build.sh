@@ -59,6 +59,12 @@ if [ -n "${ARC42_DIFF_BASE:-}" ]; then
 fi
 
 lernapps-frame --site /tooling/ --source https://github.com/lernapps/tooling --out _site
+# The usage counter of the platform sites (/lernapps-count.js, served by lernapps.github.io, see "Usage counter" in
+# its README): this site's pages count their visits, never in a preview. Not part of the site frame: apps use the
+# frame too, and apps are never counted.
+if [ -z "${SITE_PREVIEW:-}" ]; then
+  find _site -name '*.html' -exec sed -i '0,/<\/head>/s||<script src="/lernapps-count.js" defer></script>\n</head>|' {} +
+fi
 # The arc42 app comes with the shared header above it: keep its fixed controls off the header (site/spa.css).
 for app in _site/architecture/index.html _site/architecture-diff/index.html; do
   [ -f "$app" ] && sed -i 's|</head>|<link rel="stylesheet" href="../spa.css">\n</head>|' "$app"
