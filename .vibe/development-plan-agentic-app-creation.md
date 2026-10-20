@@ -377,6 +377,20 @@ evals cover all three archetypes.*
   the templates' build into `dist/` ([lernapps/app-templates#32](https://github.com/lernapps/app-templates/issues/32)),
   tutor support for the quiz, later ([#86](https://github.com/lernapps/tooling/issues/86))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
+- [ ] `lernapps update` cannot be committed when the templates' reference of the architecture changes a block but not
+  its prose: the staged-diff check of the hook also judges the generic part the update rewrote
+  ([#117](https://github.com/lernapps/tooling/issues/117); preferred fix: judge only the app's own sections)
+- [ ] The rework of the skills ([#115](https://github.com/lernapps/tooling/issues/115)) is done in #118 except: a
+  claim check (every skill folder in exactly one block's `path`), and the evals' comparison of old and new guidance
+  for the three archetypes; close #115 with that or move the rest into a new issue
+- [ ] Later, outside this increment: the agent-based check of listed apps
+  ([#1](https://github.com/lernapps/tooling/issues/1); the review agent and `lernapps check --entry` cover parts of
+  it), re-validation and dead links of listed apps (KD-15, [lernapps/apps#57](https://github.com/lernapps/apps/issues/57)),
+  copies of listed apps under lernapps.net ([lernapps/apps#58](https://github.com/lernapps/apps/issues/58)), agent
+  feedback on the guidance ([#8](https://github.com/lernapps/tooling/issues/8)), quiz categories and multiplayer
+  (lernapps/app-templates#8, #12)
+- [ ] Issue lernapps/.github#12 still asks for one app-template: comment there how KD-02 and KD-05 widened it
+  (archetypes, a generator) and link the tracking issue #9; the content-error issue form it asks for is open
 - [ ] Follow-ups of the workshop page and the start pages (2026-10-20):
   - an issue on docToolchain/arc42-language: `arc42 diff` reports a change of `x-*` attributes alone as a block
     changed without prose (29 warnings on #119), and a deep link from outside lands about 1300 px early because
