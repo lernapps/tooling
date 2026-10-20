@@ -84,7 +84,7 @@
     .chip a { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.5rem; min-height: 3.2rem; padding: 0.6rem 0.8rem; border-radius: 0.75rem; background: var(--lc-card); border: 1px solid var(--lc-border); box-shadow: var(--lc-shadow); color: var(--lc-text); text-decoration: none; line-height: 1.3; transition: border-color 0.15s, transform 0.15s; }
     .chip a:hover { border-color: var(--lc-accent); transform: translateY(-1px); }
     .chip a:focus-visible { outline: 3px solid var(--lc-accent); outline-offset: 2px; }
-    .t { flex: 1 1 100%; min-width: 0; overflow-wrap: break-word; font-weight: 600; }
+    .t { flex: 1 1 0; min-width: 0; overflow-wrap: break-word; font-weight: 600; }
     .go { display: inline-flex; color: var(--lc-muted); }
 
 
@@ -142,8 +142,7 @@
       .big { font-size: 3.4rem; }
     }
     @media (prefers-reduced-motion: reduce) { .chip a { transition: none; } }
-      .kind { font: 600 0.66rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; padding: 0.25rem 0.4rem; border-radius: 0.35rem; background: var(--lc-tint); color: var(--lc-muted); white-space: nowrap; }
-    .key .kind { color: var(--lc-text); }
+    .tech { flex: 1 1 100%; font-size: 0.8rem; color: var(--lc-muted); line-height: 1.35; }
     .decides .gate { margin-top: 0.5rem; font-weight: 700; color: var(--lc-accent); }
     .band + .band { margin-top: 1rem; }
     .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin: 0.8rem 0; }
@@ -170,7 +169,7 @@
 
     <div class="wrap intro">
       <p>What runs through every phase comes first, then the four phases of the plan. Each box is a part of the tooling,
-        names its kind and links to its place in the <a href="../architecture/">architecture</a>. Hover over a box, or
+        names what it is built with and links to its place in the <a href="../architecture/">architecture</a>. Hover over a box, or
         move to it with the keyboard, to read what it does for whom.</p>
     <!-- workshop:key -->
     </div>

@@ -17,19 +17,18 @@ describe("the workshop page", () => {
     expect(problems(mapping(), all)).toEqual([]);
   });
 
-  test("takes phase and kind from the element's x-* attributes, interfaces included", () => {
+  test("takes the phases from the element's x-phase, interfaces included", () => {
     expect(phasesOf(byId("bb-git-hooks"))).toEqual(["code", "commit"]);
-    expect(inPhase(mapping(), all, "across").map((e) => e.id)).toContain("if-plan-file");
-    expect(inPhase(mapping(), all, "explore").map((e) => e.id)).toContain("bb-skill-app");
+    expect(inPhase(all, "across").map((e) => e.id)).toContain("if-plan-file");
+    expect(inPhase(all, "explore").map((e) => e.id)).toContain("bb-skill-app");
   });
 
-  test("finds a skill outside its group's phase, an unknown phase or kind, and an element that says nothing", () => {
+  test("finds a skill outside its group's phase, an unknown phase, and an element that says nothing", () => {
     expect(problems(mapping(), changed("bb-skill-app", { phase: "plan" }))).toEqual([
       "bb-skill-app: x-phase plan, but its group is bb-skills-explore",
     ]);
-    expect(problems(mapping(), changed("bb-generator", { phase: "deploy", kind: "tool" }))).toEqual([
+    expect(problems(mapping(), changed("bb-generator", { phase: "deploy" }))).toEqual([
       "bb-generator: x-phase names deploy, which is no phase of the page",
-      'bb-generator: x-kind "tool" is not one of the kinds',
     ]);
     expect(problems(mapping(), changed("bb-generator", { agent: "", person: "" }))).toEqual([
       "bb-generator: says nothing in x-agent or x-person",
@@ -43,5 +42,6 @@ describe("the workshop page", () => {
     );
     expect(page).toContain('<span class="t">lernapps-app</span>');
     expect(page).toContain('<span class="t">Plan file</span>');
+    expect(page).toContain('<span class="tech">Markdown (agentskills.io)</span>');
   });
 });

@@ -1,13 +1,11 @@
 # The page "A workshop, not a factory" (site/workshop/): the phases of the plan and what the person decides in each.
 # What supports a phase comes from docs/arc42: every element (building block or interface) with `x-phase` (a list of
-# the ids below), `x-kind` (one of the kinds), `x-agent` and, where the person works with it, `x-person`. Its box shows
-# its title and links its card. scripts/workshop.ts renders the page into its template (template.html) and fails the
-# build when an element names an unknown phase or kind, says nothing for agent or person, or when a skill's phase is
-# not that of its group (bb-skills-<phase>).
-#   kinds     the kinds, in the order of the key and of the boxes in a phase
+# the ids below), `x-agent` and, where the person works with it, `x-person`. Its box shows its title and its technology
+# (a block) or protocol (an interface), in the order of the chapters, and links its card. scripts/workshop.ts renders
+# the page into its template (template.html) and fails the build when an element names an unknown phase, says nothing
+# for agent or person, or when a skill's phase is not that of its group (bb-skills-<phase>).
 #   across    what runs through every phase, before the timeline; `catalog` what follows the listing pull request
 #   phases    in the order of the plan: `question`, what `you` decide, the checkpoint (`gate`) if any
-kinds: [guidance, skill, CLI, lint, hook, action, template, runtime, review]
 across: { label: Across all phases, question: What runs through every phase? }
 phases:
   - id: explore
