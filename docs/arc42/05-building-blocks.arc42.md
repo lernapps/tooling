@@ -26,7 +26,12 @@ notation: mermaid
 flowchart TB
     subgraph bb-tooling-package["@lernapps/tooling"]
         bb-process-guidance["Process guidance"]
-        bb-skills["Skills"]
+        subgraph bb-skills["Skills"]
+            bb-skills-process["Process skills"]
+            bb-skills-tooling["Tooling skill"]
+            bb-skills-content["Content skills"]
+            bb-skills-archetypes["Archetype skills"]
+        end
         bb-generator["Generator"]
         bb-archetypes["Archetype presets"]
         bb-lint-rules["Lint rules"]
@@ -107,13 +112,16 @@ implements: concept-stable-contracts
 ### Process guidance
 
 The workflow for the creator's assistant: four phases, Explore, Plan, Code and Commit, with the creator's
-checkpoints. It decides the order of the work and when the assistant stops for the creator. It states no rule of
-its own.
+checkpoints. It decides the order of the work, when the assistant stops for the creator, and which skill it loads in
+which phase. It is the only guidance that holds in every phase: the entry `llms.txt` of the tooling site, which
+starts the build with the plan template and nothing else, `AGENTS.md`, the two plan templates, the workflow rules
+with their ids, and the brief for sub-agents.
 
 The plan starts with the questions for the creator, including what the catalog needs to help adults find the app,
 and keeps the answers for the listing. It ends with a retrospective: phases reached, the creator's turns after the
-plan, and where the assistant had to guess; the failed checks the check itself counts in the front matter. Comments in the template explain each part, so the
-template itself guides the assistant.
+plan, and where the assistant had to guess; the failed checks the check itself counts in the front matter. Comments
+in the template explain each part, so the template itself guides the assistant. Commands, rules and know-how are in
+the skills it names.
 
 ```arc42
 :::building-block
@@ -127,8 +135,8 @@ implements: concept-plain-language, concept-terse-output, concept-traceability
 
 #### AGENTS.md
 
-The entry point every assistant reads in the app repo. A consumer can rely on it to stay short and to point to the
-plan and the skills; it holds nothing else.
+The entry point every assistant reads in the app repo, on every return. A consumer can rely on it to stay short and
+to point to the current plan and the templates; it holds nothing else.
 
 ```arc42
 :::interface
@@ -159,17 +167,13 @@ protocol: Markdown with YAML front matter and a versioned JSON Schema
 
 ### Skills
 
-The rules as the assistant reads them, and the know-how around them: one general skill, one per archetype, topic
-skills such as third-party content, and one for listing. Each skill section that states a rule names its rule id.
-A skill too long to load at once keeps its `SKILL.md` short and links files in its `references/`, which the assistant
-reads when it needs them: the general skill holds its rules there by concern, and its platform rules read on their
-own, for an app built without the tooling. The skills reach the creator's agent harness for an app from the
-generator as for one built otherwise.
-
-The content skills are the know-how of what an app teaches, independent of the archetype: researching the curriculum
-and its sources, exercise patterns, and growing an app after its first version. The skill of each archetype says
-only how their results are expressed there. What one app decided about its content is that app's own: its content
-guide, which takes precedence over the content skills and stays with the app for the agents after the first run.
+What the assistant needs to know in one phase, and the rules of that phase, each with its id. Every skill belongs to
+exactly one phase; its description says first when it is needed, so a harness offers it at that moment. A skill too
+long to load at once keeps its `SKILL.md` short and links files in its `references/`, each with the moment to read
+it. The skills are grouped on disk (`skills/<group>/<name>/`) by what they hold, and installed flat
+(`.agents/skills/<name>/`): every group at the start of the plan, the archetype skills of the chosen archetype at the
+end of Explore. The skills reach the creator's agent harness for an app from the generator as for one built
+otherwise.
 
 ```arc42
 :::building-block
@@ -181,10 +185,78 @@ implements: concept-rule-catalog, concept-plain-language, concept-terse-output
 :::
 ```
 
+#### Process skills
+
+How the assistant gets through the steps of the process that are no content: what a lernapps app must be and which
+archetype fits (Explore), cutting an increment into slices (Plan), putting the app on GitHub (Code), publishing and
+listing it (Commit). The platform rules read on their own, for an app built without the tooling.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-process
+title: Process skills
+parent: bb-skills
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+#### Tooling skill
+
+How to use the CLI in Code: create and update an app, read a failed check, suppress a finding, keep the preset. It
+changes with the check CLI and the preset.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-tooling
+title: Tooling skill
+parent: bb-skills
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+#### Content skills
+
+The know-how of what an app teaches, the same for every archetype: researching the curriculum and its sources
+(Explore), exercise patterns (Plan), writing questions with options and feedback, their fields included (Code). What
+one app decided about its content is that app's own content guide, which takes precedence and stays with the app.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-content
+title: Content skills
+parent: bb-skills
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+#### Archetype skills
+
+Two per archetype: one for Plan, which maps the confirmed content onto the archetype (structure, blocks or parts,
+the archetype's rules for good content), and one for Code, which says how to use the generated app (what to write,
+its notation, the runtime, the technical rules). They change with the archetype's template and runtime.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-archetypes
+title: Archetype skills
+parent: bb-skills
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
 #### Skills interface
 
-A consumer can rely on one skill per concern, in the open skill format, loadable by any harness when a task needs
-it. Each rule a skill states keeps its id.
+A consumer can rely on one skill per phase and concern, in the open skill format, loadable by any harness when its
+description matches the task. Each rule a skill states keeps its id. The names keep the prefix `lernapps-`, which
+`lernapps update` replaces.
 
 ```arc42
 :::interface

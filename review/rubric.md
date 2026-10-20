@@ -3,7 +3,7 @@
 The rules no program decides. The review agent judges each item below for every app that asks to be listed, then
 the items of the app's archetype (`review/archetypes/<archetype>.md`). It starts from the validation report: a rule
 the checks already decided is not judged again. Each item's `rubric` block names its rule id; the skill section of
-the same id (in `skills/lernapps-app/references/`, or the skill of the archetype) says the rule's scope and severity, and a finding has that severity.
+the same id (in `skills/` or `guidance/workflow-rules.md`) says the rule's scope and severity, and a finding has that severity.
 It judges an item only when its rule is in scope for the app (`npm run --silent rules -- --app <app dir>` lists those).
 A rule of scope `tooling` is in scope only for an app built with the tooling: its `package.json` lists
 `@lernapps/tooling` in `dependencies` or `devDependencies`. An app built freely, without it, is not judged by them.

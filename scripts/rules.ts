@@ -9,7 +9,8 @@
 //   node scripts/rules.ts page <file>   writes the rule page of the docs site (scripts/build.sh); fails like test
 //
 // The artifacts, each one deployment unit with its own ids:
-//   - skills/**/*.md   a section of a skill, headed by a rule block (id, scope, severity)
+//   - skills/**/*.md   a section of a skill, headed by a rule block (id, scope, severity); the same in
+//     guidance/*.md    the rules of the workflow, which hold in every phase (kind "skill": told to the assistant)
 //   - check/rules/*.ts a check of the check CLI, default export { id, url, description, severity, run }
 //   - lint/rules/*.ts  a lint rule (ESLint-compatible), file name = id, meta.docs.url
 //   - review/**/*.md   an item of the review rubric, headed by a `rubric` block (id); in the rubric files
@@ -267,7 +268,7 @@ async function readCatalog(root: string): Promise<Catalog> {
     }
   };
 
-  for (const path of filesBelow(join(root, "skills"), ".md")) {
+  for (const path of [...filesBelow(join(root, "skills"), ".md"), ...filesBelow(join(root, "guidance"), ".md")]) {
     for (const block of readBlocks(root, path, "rule", problems)) entries.push(fromRuleBlock(block, problems));
   }
   for (const path of filesBelow(join(root, "check", "rules"), ".ts")) {
@@ -427,7 +428,7 @@ function blocks(markdown: string): string {
 const source = (file: string) => `<a href="${SOURCE}${escape(file)}"><code>${escape(file)}</code></a>`;
 
 const LABEL: Record<Kind, string> = {
-  skill: "told in the skill",
+  skill: "told in",
   check: "checked by the check",
   "lint rule": "checked by the lint rule",
   "rubric item": "judged by the rubric item in",

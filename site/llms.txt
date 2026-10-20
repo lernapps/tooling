@@ -2,81 +2,42 @@
 
 > Build, check and list learning apps for lernapps.net with an AI assistant. Installed from git, not npm.
 
-## Must read first
+## Build an app
 
-Download each (curl) and read the file in full. Never a summarising fetch tool.
-
-1. AGENTS.md: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/AGENTS.md
-2. Plan template, save unchanged as `.vibe/plans/01-<short name>.md`, then follow it:
+1. Download the plan template into the app's folder as `.vibe/plans/01-<short name>.md`, complete and unchanged:
    https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/plan-template.md
-3. Skill lernapps-app: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-app/SKILL.md
-4. Its rules, platform first:
-   - https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-app/references/platform-rules.md
-   - https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-app/references/workflow-rules.md
-   - https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-app/references/tooling-rules.md
+2. Read it in full. Follow it task by task: it installs the skills, names the skills of each phase and holds the
+   creator's checkpoints.
 
-## Hard rules
+Read guidance from the file, in full: download it (curl), then read it. A fetch tool that summarises loses tasks and
+rules.
 
-- No `create`, no code before the creator confirmed the plan.
-- At most 2 questions per message.
-- Tick every plan box when done.
+## Change a published app
 
-## Commands
+- In the app's repo, `AGENTS.md` leads to the current plan and the increment template.
 
-- Install skills: `npx skills add lernapps/tooling#exp/compact-guidance`
-- Create (after confirmation): `npx --yes github:lernapps/tooling#exp/compact-guidance create --archetype <archetype> [<dir>]`;
-  then `npm install`. Needs git, github.com, codeload.github.com, registry.npmjs.org.
-- Check, in the app: `npx lernapps check` (`--pre-commit`, `--pre-push` for one part).
-- Check any built or published app: `npx --yes github:lernapps/tooling#exp/compact-guidance check <dir|url>` (`--entry <file>`).
-- Update an app (tooling, runtime, `lernapps-*` skills): `npx --yes github:lernapps/tooling#exp/compact-guidance update`.
-- Options: `--help`.
-- Publish: push to `main` → workflow `Pages` (action: https://github.com/lernapps/tooling/blob/exp/compact-guidance/actions/app-publish/action.yml) → branch `gh-pages`, at the address it prints. Any host works; the entry links to it.
+## Reference
 
-## Guidance
+Look things up here when you need them. Not needed for building.
 
-- Increment template (later changes): https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/increment-template.md
-- Plan front matter schema: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/guidance/plan-front-matter.v1.schema.json
-- GitHub for creators: https://lernapps.net/tooling/github/
+- Rules by id: https://lernapps.net/tooling/rules/ (check messages link `#<id>`).
+- Platform rules for an app built without this tooling (by hand, another framework, an app builder):
+  https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/process/lernapps-app/references/platform-rules.md
+- Check a built or published app: `npx --yes github:lernapps/tooling#exp/compact-guidance check <dir|url>`. Every
+  command lists its options with `--help`.
+- Schemas: validation report https://lernapps.net/tooling/schemas/validation-report.v1.schema.json, quiz bank
+  https://lernapps.net/tooling/schemas/quiz.v1.schema.json, explainer content
+  https://lernapps.net/tooling/schemas/explainer.v1.schema.json, review verdict
+  https://lernapps.net/tooling/schemas/verdict.v1.schema.json, catalog entry
+  https://lernapps.net/apps/schemas/entry.v1.schema.json.
+- Review: prompt https://github.com/lernapps/tooling/blob/exp/compact-guidance/review/prompt.md, rubric
+  https://github.com/lernapps/tooling/blob/exp/compact-guidance/review/rubric.md.
+- GitHub, explained for creators: https://lernapps.net/tooling/github/
+- How we test the guidance, with eval results: https://lernapps.net/tooling/prompt-engineering/
+- Architecture: https://lernapps.net/tooling/architecture/. Source: https://github.com/lernapps/tooling.
 
-## Skills
+## Other llms.txt of lernapps.net
 
-- lernapps-quiz: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-quiz/SKILL.md
-- lernapps-explainer: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-explainer/SKILL.md
-- lernapps-interactive: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-interactive/SKILL.md
-- lernapps-content-research: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-content-research/SKILL.md
-- lernapps-exercise-patterns: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-exercise-patterns/SKILL.md
-- lernapps-content-growth: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-content-growth/SKILL.md
-- lernapps-github: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-github/SKILL.md
-- lernapps-listing: https://raw.githubusercontent.com/lernapps/tooling/exp/compact-guidance/skills/lernapps-listing/SKILL.md
-- App's own guide `.agents/skills/app-content/SKILL.md`: takes precedence once filled.
-
-## Archetypes
-
-- quiz: questions with options and feedback; only the bank `src/quiz.json`.
-- explainer: chapters of pages with exercises, readable without JS; YAML content.
-- interactive: one app page (game, trainer, simulation, e.g. typing) plus a static start page.
-
-## Schemas
-
-- Rules by id: https://lernapps.net/tooling/rules/ (check messages link `#<id>`)
-- Validation report: https://lernapps.net/tooling/schemas/validation-report.v1.schema.json
-- Quiz bank: https://lernapps.net/tooling/schemas/quiz.v1.schema.json
-- Explainer content: https://lernapps.net/tooling/schemas/explainer.v1.schema.json
-- Review verdict: https://lernapps.net/tooling/schemas/verdict.v1.schema.json
-- Catalog entry: https://lernapps.net/apps/schemas/entry.v1.schema.json
-
-## Review
-
-- Prompt: https://github.com/lernapps/tooling/blob/exp/compact-guidance/review/prompt.md
-- Rubric: https://github.com/lernapps/tooling/blob/exp/compact-guidance/review/rubric.md
-- Archetype rubrics: https://github.com/lernapps/tooling/tree/exp/compact-guidance/review/archetypes
-
-## Other
-
-- lernapps.net: https://lernapps.net/llms.txt
+- lernapps.net, where to find what: https://lernapps.net/llms.txt
 - Docs: https://lernapps.net/docs/llms.txt
-- Catalog: https://lernapps.net/apps/llms.txt; listing guide: https://lernapps.net/apps/enter/llms.txt
-- Templates: https://github.com/lernapps/app-templates
-- Prompt engineering (how we test the guidance, eval results): https://lernapps.net/tooling/prompt-engineering/
-- Architecture: https://lernapps.net/tooling/architecture/
-- Source: https://github.com/lernapps/tooling
+- Catalog: https://lernapps.net/apps/llms.txt; listing an app: https://lernapps.net/apps/enter/llms.txt
