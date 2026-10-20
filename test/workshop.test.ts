@@ -24,10 +24,13 @@ describe("the workshop page", () => {
     ]);
   });
 
-  test("shows each block with the title the model gives it, unless the mapping labels a part of it", () => {
+  test("links each block to its card in the architecture, with the title the model gives it or the mapping's label", () => {
     const page = render(mapping(), model);
-    expect(page).toContain('<li data-blocks="bb-skill-app"><span class="kind skill">Skill</span> lernapps-app: ');
-    expect(page).toContain('data-blocks="bb-git-hooks"><span class="kind hook">Hook</span> pre-push: ');
+    expect(page).toContain(
+      '<li><span class="kind skill">Skill</span> <span><a href="../architecture/#05-building-blocks.arc42.md:el-bb-skill-app"' +
+        ' data-blocks="bb-skill-app">lernapps-app</a>: ',
+    );
+    expect(page).toContain('data-blocks="bb-git-hooks">pre-push</a>: ');
     expect(page).toContain("lernapps-&lt;archetype&gt;-design");
   });
 });

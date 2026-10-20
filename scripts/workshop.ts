@@ -11,7 +11,7 @@
 import { spawnSync } from "node:child_process";
 import { closeSync, mkdirSync, mkdtempSync, openSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
 
@@ -24,6 +24,7 @@ interface Block {
   id: string;
   title: string;
   parent?: string;
+  loc: { file: string };
 }
 
 interface Tool {
@@ -115,14 +116,25 @@ const esc = (text: string) =>
 const capital = (kind: string) => (kind === "cli" ? "CLI" : kind[0]?.toUpperCase() + kind.slice(1));
 const chip = (kind: string) => `<span class="kind ${kind}">${capital(kind)}</span>`;
 
+/**
+ * The block's card in the architecture app of this site, which opens an element at `#<chapter file>:el-<id>`. A line
+ * of several blocks links the first; they are neighbours in chapter 5.
+ */
+function href(ids: string[], model: Map<string, Block>): string {
+  const block = model.get(ids[0] ?? "");
+  return block ? `../architecture/#${basename(block.loc.file)}:el-${block.id}` : "../architecture/";
+}
+
+const linked = (text: string, ids: string[], model: Map<string, Block>) =>
+  `<a href="${esc(href(ids, model))}" data-blocks="${ids.join(" ")}">${esc(text)}</a>`;
+
 function tool(t: Tool, model: Map<string, Block>): string {
   const name =
     t.label ??
     idsOf(t)
       .map((id) => model.get(id)?.title ?? id)
       .join(", ");
-  const ids = idsOf(t).join(" ");
-  return `<li data-blocks="${ids}">${chip(t.kind)} ${esc(name)}: ${esc(t.text)}</li>`;
+  return `<li>${chip(t.kind)} <span>${linked(name, idsOf(t), model)}: ${esc(t.text)}</span></li>`;
 }
 
 const list = (items: string[]) => items.map((item) => `            <li>${esc(item)}</li>`).join("\n");
@@ -172,7 +184,7 @@ ${p.tools.map((t) => `            ${tool(t, model)}`).join("\n")}
   const across = map.across
     .map(
       (t) =>
-        `      <span data-blocks="${idsOf(t).join(" ")}">${chip(t.kind)} ${esc(t.label ?? "")}: ${esc(t.text)}</span>`,
+        `      <span>${chip(t.kind)} ${linked(t.label ?? model.get(idsOf(t)[0] ?? "")?.title ?? "", idsOf(t), model)}: ${esc(t.text)}</span>`,
     )
     .join("\n");
   return `    <div class="legend" aria-label="Kinds of components">
@@ -197,7 +209,7 @@ ${across}
 
     <div class="across catalog">
       <strong>Then, in the catalog</strong>
-      <span data-blocks="${map.catalog.agent.block}">${esc(map.catalog.agent.text)}</span>
+      <span>${linked(map.catalog.agent.text, [map.catalog.agent.block], model)}</span>
       <span class="owner">${esc(map.catalog.owner)}</span>
     </div>
 `;
