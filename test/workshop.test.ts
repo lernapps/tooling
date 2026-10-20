@@ -13,24 +13,24 @@ describe("the workshop page", () => {
     const map = mapping();
     const [explore, plan] = map.phases;
     if (!explore || !plan) throw new Error("the mapping has no phases");
-    const moved = explore.tools.find((tool) => tool.block === "bb-skill-app");
+    const moved = explore.boxes.find((box) => box.block === "bb-skill-app");
     if (!moved) throw new Error("bb-skill-app is not in Explore");
-    explore.tools = explore.tools.filter((tool) => tool !== moved);
-    plan.tools.push(moved, { block: "bb-nowhere", kind: "skill", text: "planted" });
+    explore.boxes = explore.boxes.filter((box) => box !== moved);
+    plan.boxes.push(moved, { block: "bb-nowhere", kind: "skill", agent: "planted" });
     expect(problems(map, model)).toEqual([
       "bb-nowhere: no such building block in docs/arc42",
-      "bb-skill-app: a skill of explore in docs/arc42, missing in the phase's tools",
+      "bb-skill-app: a skill of explore in docs/arc42, missing in the phase's boxes",
       "bb-skill-app: listed in plan, but its group in docs/arc42 is bb-skills-explore",
     ]);
   });
 
-  test("links each block to its card in the architecture, with the title the model gives it or the mapping's label", () => {
+  test("links each box to its card in the architecture, with the title the model gives it or the mapping's label", () => {
     const page = render(mapping(), model);
     expect(page).toContain(
-      '<li><span class="kind skill">Skill</span> <span><a href="../architecture/#05-building-blocks.arc42.md:el-bb-skill-app"' +
-        ' data-blocks="bb-skill-app">lernapps-app</a>: ',
+      '<li class="chip" data-blocks="bb-skill-app"><a href="../architecture/#05-building-blocks.arc42.md:el-bb-skill-app"',
     );
-    expect(page).toContain('data-blocks="bb-git-hooks">pre-push</a>: ');
+    expect(page).toContain('<span class="t">lernapps-app</span>');
+    expect(page).toContain('<span class="t">Pre-push</span>');
     expect(page).toContain("lernapps-&lt;archetype&gt;-design");
   });
 });
