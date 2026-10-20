@@ -23,7 +23,7 @@ export interface DeviceStorage {
   remove(key: string): void;
 }
 
-/** The storage of the app named `app` (a stable name, e.g. its path on lernapps.net: "brueche"). */
+/** The storage of the app named `app`: its id in the catalog (entries/<id>.yaml, rule own-data-only), e.g. "brueche". */
 export function createStorage(app: string): DeviceStorage {
   const prefix = `lernapps:${app}:`;
   /** The bytes the app's values take, without the one under `except`. */

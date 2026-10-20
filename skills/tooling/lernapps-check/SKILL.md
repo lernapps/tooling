@@ -119,8 +119,8 @@ scope: [archetype:explainer, archetype:interactive, archetype:quiz]
 severity: error
 ```
 
-- Only `createStorage` from `@lernapps/tooling/storage`, named after the app (own prefix; works when storage is
-  blocked).
+- Only `createStorage` from `@lernapps/tooling/storage`, named after the app's id in the catalog (own prefix
+  `lernapps:<id>:`, rule `own-data-only`; works when storage is blocked).
 - At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, `save` returns false and the
   app keeps working.
 - Keep the learning state, not growing histories.

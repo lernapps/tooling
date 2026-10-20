@@ -13,6 +13,7 @@ const PAGE: PageVisit = {
   requests: [],
   cookies: [],
   storage: [],
+  access: [],
   overflow: { width: 720, elements: ["main > .keyboard"] },
   axe: [
     { id: "label", help: "Form elements must have labels", helpUrl: "https://example.org/label", targets: ["#input"] },
