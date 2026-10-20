@@ -24,6 +24,7 @@
       --k-hook: #a0661b;
       --k-action: #8a2f6b;
       --k-runtime: #4a5866;
+      --k-lint: #6b6b1f;
     }
     main.wide { max-width: 76rem; }
     .lead { font-size: 1.15rem; max-width: 46rem; }
@@ -70,6 +71,7 @@
     .kind.hook { color: var(--k-hook); }
     .kind.action { color: var(--k-action); }
     .kind.runtime { color: var(--k-runtime); }
+    .kind.lint { color: var(--k-lint); }
     .gate { margin: 0; padding: 0.55rem 0.8rem; border-top: 2px dashed var(--human); color: var(--human);
       font-weight: 700; font-size: 0.9rem; }
     .gate span { font-weight: 400; color: var(--ink); }
@@ -142,6 +144,7 @@
       <span class="item"><span class="kind guidance">Guidance</span> the process, the plan file</span>
       <span class="item"><span class="kind skill">Skill</span> know-how the agent loads when its phase comes</span>
       <span class="item"><span class="kind cli">CLI</span> commands that create, update, check</span>
+      <span class="item"><span class="kind lint">Lint</span> marks a problem while the agent writes</span>
       <span class="item"><span class="kind hook">Hook</span> checks before a commit or a push</span>
       <span class="item"><span class="kind action">Action</span> checks and publishing on GitHub</span>
       <span class="item"><span class="kind runtime">Runtime</span> what every app of an archetype shares</span>
@@ -184,11 +187,11 @@
         <div class="lane tools">
           <h3>Supported by</h3>
           <ul>
-            <li><span class="kind guidance">Guidance</span> plan template, interview topics</li>
-            <li><span class="kind skill">Skill</span> lernapps-app: what every app must be, choosing the archetype</li>
-            <li><span class="kind runtime">Runtime</span> template READMEs: what each archetype can and cannot do</li>
-            <li><span class="kind skill">Skill</span> lernapps-content-research: curriculum, competencies, sources</li>
-            <li><span class="kind skill">Skill</span> lernapps-&lt;archetype&gt;-design: what to ask, how content maps</li>
+            <li data-blocks="bb-process-guidance"><span class="kind guidance">Guidance</span> plan template: interview topics, checkpoints</li>
+            <li data-blocks="bb-skill-app"><span class="kind skill">Skill</span> lernapps-app: what every app must be, choosing the archetype</li>
+            <li data-blocks="bb-app-templates"><span class="kind runtime">Runtime</span> template READMEs: what each archetype can and cannot do</li>
+            <li data-blocks="bb-skill-content-research"><span class="kind skill">Skill</span> lernapps-content-research: curriculum, competencies, sources</li>
+            <li data-blocks="bb-skill-quiz-design bb-skill-explainer-design bb-skill-interactive-design"><span class="kind skill">Skill</span> lernapps-&lt;archetype&gt;-design: what to ask, how content maps</li>
           </ul>
         </div>
         <p class="gate">Checkpoint: research <span>– you confirm what the app teaches</span></p>
@@ -219,9 +222,9 @@
         <div class="lane tools">
           <h3>Supported by</h3>
           <ul>
-            <li><span class="kind skill">Skill</span> lernapps-exercise-patterns: patterns by subject, shared data</li>
-            <li><span class="kind skill">Skill</span> lernapps-content-growth: slices for an increment</li>
-            <li><span class="kind guidance">Guidance</span> sub-agent brief</li>
+            <li data-blocks="bb-skill-exercise-patterns"><span class="kind skill">Skill</span> lernapps-exercise-patterns: patterns by subject, shared data</li>
+            <li data-blocks="bb-skill-content-growth"><span class="kind skill">Skill</span> lernapps-content-growth: slices for an increment</li>
+            <li data-blocks="bb-process-guidance"><span class="kind guidance">Guidance</span> sub-agent brief: one slice per sub-agent</li>
           </ul>
         </div>
         <p class="gate">Checkpoint: confirm the plan <span>– nothing is built before your yes</span></p>
@@ -253,12 +256,13 @@
         <div class="lane tools">
           <h3>Supported by</h3>
           <ul>
-            <li><span class="kind cli">CLI</span> lernapps create, update, check</li>
-            <li><span class="kind skill">Skill</span> lernapps-check: the CLI, failed checks, the preset</li>
-            <li><span class="kind skill">Skill</span> lernapps-&lt;archetype&gt;: what to write and its notation</li>
-            <li><span class="kind skill">Skill</span> lernapps-content-questions: options and feedback that teach</li>
-            <li><span class="kind runtime">Runtime</span> engine, accessibility, no-JS page, its own tests</li>
-            <li><span class="kind hook">Hook</span> pre-commit: format, lint, types, architecture</li>
+            <li data-blocks="bb-generator"><span class="kind cli">CLI</span> lernapps create, update: the app from its template, kept current</li>
+            <li data-blocks="bb-skill-check"><span class="kind skill">Skill</span> lernapps-check: the CLI, failed checks, the preset</li>
+            <li data-blocks="bb-skill-quiz bb-skill-explainer bb-skill-interactive"><span class="kind skill">Skill</span> lernapps-&lt;archetype&gt;: what to write and its notation</li>
+            <li data-blocks="bb-skill-content-questions"><span class="kind skill">Skill</span> lernapps-content-questions: options and feedback that teach</li>
+            <li data-blocks="bb-lint-rules"><span class="kind lint">Lint</span> Lint rules: e.g. no request to another server before a click</li>
+            <li data-blocks="bb-app-templates"><span class="kind runtime">Runtime</span> runtime: engine, accessibility, no-JS page, its own tests</li>
+            <li data-blocks="bb-git-hooks"><span class="kind hook">Hook</span> pre-commit: format, lint, types, architecture</li>
           </ul>
         </div>
       </section>
@@ -289,30 +293,28 @@
         <div class="lane tools">
           <h3>Supported by</h3>
           <ul>
-            <li><span class="kind skill">Skill</span> lernapps-github: repo, preview, publish, fork</li>
-            <li><span class="kind skill">Skill</span> lernapps-commit: linear history, message from the plan</li>
-            <li><span class="kind skill">Skill</span> lernapps-listing: the entry and its result</li>
-            <li><span class="kind hook">Hook</span> pre-push: build, end-to-end tests</li>
-            <li><span class="kind action">Action</span> app check: the same checks in CI</li>
-            <li><span class="kind action">Action</span> app preview and app publish: the checked bundle</li>
-            <li><span class="kind action">Action</span> listing validation: the entry against the live app</li>
+            <li data-blocks="bb-skill-github"><span class="kind skill">Skill</span> lernapps-github: repo, preview, publish, fork</li>
+            <li data-blocks="bb-skill-commit"><span class="kind skill">Skill</span> lernapps-commit: linear history, message from the plan</li>
+            <li data-blocks="bb-skill-listing"><span class="kind skill">Skill</span> lernapps-listing: the entry and its result</li>
+            <li data-blocks="bb-git-hooks"><span class="kind hook">Hook</span> pre-push: build, end-to-end tests</li>
+            <li data-blocks="bb-app-check-action"><span class="kind action">Action</span> app check: the same checks in CI</li>
+            <li data-blocks="bb-app-preview bb-app-publish"><span class="kind action">Action</span> app preview and app publish: the checked bundle</li>
+            <li data-blocks="bb-listing-validation"><span class="kind action">Action</span> listing validation: the entry against the live app</li>
           </ul>
         </div>
-        <p class="gate">Checkpoints: publish, list <span>– the app goes online at your yes; the listing pull request is
-          the review</span></p>
+        <p class="gate">Checkpoints: publish, list <span>– the app goes online at your yes; the listing pull request is the review</span></p>
       </section>
     </div>
 
     <div class="across">
       <strong>In every phase</strong>
-      <span><span class="kind guidance">Guidance</span> AGENTS.md and the plan file: where the work stands, what comes
-        next, where the agent had to guess</span>
-      <span><span class="kind cli">CLI</span> lernapps check: one command, the same result everywhere</span>
+      <span data-blocks="bb-process-guidance"><span class="kind guidance">Guidance</span> AGENTS.md and the plan file: where the work stands, what comes next, where the agent had to guess</span>
+      <span data-blocks="bb-check-cli"><span class="kind cli">CLI</span> lernapps check: one command, the same result in hooks, CI and the listing</span>
     </div>
 
     <div class="across catalog">
       <strong>Then, in the catalog</strong>
-      <span>A review agent judges what no check can, against a rubric</span>
+      <span data-blocks="bb-review-procedure">A review agent judges what no check can, against a rubric</span>
       <span class="owner">The platform owner reads the verdict and decides on the listing</span>
     </div>
 
