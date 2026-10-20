@@ -4,6 +4,8 @@
 # writes it: lernapps hooks (archetypes/shared/install-hooks.ts)
 # Quiet: everything the steps print goes to the log below. On success the hook prints nothing; on a failure it prints
 # one line: the step, its exit code and the log, which holds the full output. CI runs the same command and prints it.
+# A commit with nothing staged (the empty start commits of main and gh-pages) has nothing to format or check.
+git diff --cached --quiet && exit 0
 log=node_modules/.cache/lernapps/pre-commit.log
 mkdir -p "$(dirname "$log")"
 : >"$log"

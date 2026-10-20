@@ -35,7 +35,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
-import { LEGACY_PLAN, MIGRATED_PLAN, plans } from "../src/plan.ts";
+import { currentPlan, LEGACY_PLAN, MIGRATED_PLAN, planFrontMatter, plans } from "../src/plan.ts";
 import { ARCHITECTURE, architectureArchetype, ArchitectureError, writeArchitecture } from "./architecture.ts";
 import { UsageError } from "../src/usage.ts";
 import {
@@ -74,9 +74,9 @@ runtime @lernapps/app-templates and @lernapps/tooling to git commits, so npm upd
   .vibe/plan.md            the plan of an app made before the plans had a folder: moved to
                            .vibe/plans/01-first-version.md, the first of its plans (one per piece of work)
   .agents/skills/lernapps-*, .claude/skills/lernapps-*, skills-lock.json
-                           replaced with the skills of this tooling, as npx skills add lays them out; a lernapps-*
-                           skill this tooling no longer has is removed. The app's own skills (app-content, any
-                           other) stay. The lines of an earlier generator that had git ignore them are removed
+                           replaced with the skills of this tooling, as npx skills add lays them out: those of
+                           every phase, and of the archetypes only those of the current plan's archetype; every
+                           other lernapps-* skill is removed. The app's own skills (app-content, any other) stay. The lines of an earlier generator that had git ignore them are removed
                            from .gitignore: the app commits its skills
   docs/arc42/              of an interactive app: replaced with the generic part and the interactive extension of
                            app-templates at the commit of the app's runtime, except the app sections (between
@@ -200,8 +200,13 @@ function migratePlan(): string[] {
   ];
 }
 
-/** The skills every app has, as this tooling ships them (skills/<name>/), and as the app keeps them. */
+/**
+ * The skills of this tooling, as it ships them (skills/<group>/<name>/), and as the app keeps them (flat, by name).
+ * Every app has those of the groups process, tooling and content; of the group archetypes only those of its own
+ * archetype (lernapps-<archetype>-design, lernapps-<archetype>), which the plan installs when Explore chooses it.
+ */
 const SKILL_PREFIX = "lernapps-";
+const ARCHETYPE_GROUP = "archetypes";
 const SKILLS = join(".agents", "skills");
 const SKILL_LINKS = join(".claude", "skills");
 
@@ -229,20 +234,45 @@ interface SkillsLock {
   [key: string]: unknown;
 }
 
+/** The lernapps-* skills below `source`: each folder with a SKILL.md, its group and its path relative to `source`. */
+function shippedSkills(source: string): { name: string; group: string; path: string }[] {
+  const found: { name: string; group: string; path: string }[] = [];
+  for (const group of readdirSync(source, { withFileTypes: true })) {
+    if (!group.isDirectory()) continue;
+    for (const skill of readdirSync(join(source, group.name), { withFileTypes: true })) {
+      if (
+        skill.isDirectory() &&
+        skill.name.startsWith(SKILL_PREFIX) &&
+        existsSync(join(source, group.name, skill.name, "SKILL.md"))
+      ) {
+        found.push({ name: skill.name, group: group.name, path: `${group.name}/${skill.name}` });
+      }
+    }
+  }
+  return found;
+}
+
 /**
  * Replaces the app's lernapps-* skills with those of this tooling, as `npx skills add lernapps/tooling` lays them out:
  * the folder in .agents/skills/, a relative link to it in .claude/skills/ (a copy where the system allows no link), and
- * its entry in skills-lock.json with the hash of the new files. Removes a lernapps-* skill this tooling no longer has.
+ * its entry in skills-lock.json with the hash of the new files. Of the archetypes' skills only those of the archetype
+ * the current plan names; without one, those the app has. Removes every other lernapps-* skill.
  * Never touches another skill. What it did, as lines of the output.
  */
 export function replaceSkills(dir = ".", source = fromPackage("skills")): string[] {
   const skillsDir = join(dir, SKILLS);
   const linksDir = join(dir, SKILL_LINKS);
   const lockFile = join(dir, SKILLS_LOCK);
-  const ours = readdirSync(source)
-    .filter((name) => name.startsWith(SKILL_PREFIX) && existsSync(join(source, name, "SKILL.md")))
-    .sort();
   const present = existsSync(skillsDir) ? readdirSync(skillsDir).filter((name) => name.startsWith(SKILL_PREFIX)) : [];
+  const plan = currentPlan(dir);
+  const archetype = plan === undefined ? undefined : planFrontMatter(join(dir, plan))["archetype"];
+  const own = (name: string) =>
+    typeof archetype === "string"
+      ? name === `${SKILL_PREFIX}${archetype}` || name === `${SKILL_PREFIX}${archetype}-design`
+      : present.includes(name);
+  const shipped = shippedSkills(source).filter(({ name, group }) => group !== ARCHETYPE_GROUP || own(name));
+  const folder = new Map(shipped.map(({ name, path }) => [name, path]));
+  const ours = [...folder.keys()].sort();
   let lock: SkillsLock = { version: 1, skills: {} };
   try {
     lock = JSON.parse(readFileSync(lockFile, "utf8")) as SkillsLock;
@@ -263,7 +293,7 @@ export function replaceSkills(dir = ".", source = fromPackage("skills")): string
     const before = existsSync(target) ? skillHash(target) : undefined;
     rmSync(target, { recursive: true, force: true });
     mkdirSync(skillsDir, { recursive: true });
-    cpSync(join(source, name), target, { recursive: true });
+    cpSync(join(source, folder.get(name) ?? name), target, { recursive: true });
     const hash = skillHash(target);
     if (before === undefined) added.push(name);
     else if (before !== hash) changed.push(name);
@@ -288,7 +318,7 @@ export function replaceSkills(dir = ".", source = fromPackage("skills")): string
       source: "lernapps/tooling",
       sourceType: "github",
       ...entries[name],
-      skillPath: `skills/${name}/SKILL.md`,
+      skillPath: `skills/${folder.get(name) ?? name}/SKILL.md`,
       computedHash: hash,
     };
   }
@@ -312,7 +342,7 @@ export function replaceSkills(dir = ".", source = fromPackage("skills")): string
     const parts = [
       ...(changed.length > 0 ? [`replaced ${list(changed)}`] : []),
       ...(added.length > 0 ? [`added ${list(added)}`] : []),
-      ...(removed.length > 0 ? [`removed ${list(removed)}, which this tooling no longer has`] : []),
+      ...(removed.length > 0 ? [`removed ${list(removed)}: not of this tooling, or of another archetype`] : []),
     ];
     lines.push(
       `skills: ${parts.join("; ")}: the ${SKILL_PREFIX}* skills of this tooling, in ${SKILLS}/ and ${SKILL_LINKS}/`,

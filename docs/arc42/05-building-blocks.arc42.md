@@ -26,7 +26,12 @@ notation: mermaid
 flowchart TB
     subgraph bb-tooling-package["@lernapps/tooling"]
         bb-process-guidance["Process guidance"]
-        bb-skills["Skills"]
+        subgraph bb-skills["Skills"]
+            bb-skills-explore["Explore skills"]
+            bb-skills-plan["Plan skills"]
+            bb-skills-code["Code skills"]
+            bb-skills-commit["Commit skills"]
+        end
         bb-generator["Generator"]
         bb-archetypes["Archetype presets"]
         bb-lint-rules["Lint rules"]
@@ -88,6 +93,47 @@ flowchart TB
     bb-archetypes -->|"if-lint-plugin"| bb-lint-rules
 ```
 
+## Level 2: skills by phase
+
+```arc42
+:::diagram
+id: building-blocks-skills
+view: building-block
+notation: mermaid
+roots: bb-skills
+:::
+```
+
+```mermaid
+flowchart LR
+    subgraph bb-skills["Skills"]
+        subgraph bb-skills-explore["Explore"]
+            bb-skill-app["lernapps-app"]
+            bb-skill-content-research["lernapps-content-research"]
+            bb-skill-quiz-design["lernapps-quiz-design"]
+            bb-skill-explainer-design["lernapps-explainer-design"]
+            bb-skill-interactive-design["lernapps-interactive-design"]
+        end
+        subgraph bb-skills-plan["Plan"]
+            bb-skill-exercise-patterns["lernapps-exercise-patterns"]
+            bb-skill-content-growth["lernapps-content-growth"]
+        end
+        subgraph bb-skills-code["Code"]
+            bb-skill-check["lernapps-check"]
+            bb-skill-quiz["lernapps-quiz"]
+            bb-skill-explainer["lernapps-explainer"]
+            bb-skill-interactive["lernapps-interactive"]
+            bb-skill-content-questions["lernapps-content-questions"]
+        end
+        subgraph bb-skills-commit["Commit"]
+            bb-skill-github["lernapps-github"]
+            bb-skill-commit["lernapps-commit"]
+            bb-skill-listing["lernapps-listing"]
+        end
+        bb-skills-explore ~~~ bb-skills-plan ~~~ bb-skills-code ~~~ bb-skills-commit
+    end
+```
+
 ## @lernapps/tooling
 
 The one package every app depends on. It is accountable for carrying every rule, check and piece of guidance to every
@@ -107,13 +153,16 @@ implements: concept-stable-contracts
 ### Process guidance
 
 The workflow for the creator's assistant: four phases, Explore, Plan, Code and Commit, with the creator's
-checkpoints. It decides the order of the work and when the assistant stops for the creator. It states no rule of
-its own.
+checkpoints. It decides the order of the work, when the assistant stops for the creator, and which skill it loads in
+which phase. It is the only guidance that holds in every phase: the entry `llms.txt` of the tooling site, which
+starts the build with the plan template and nothing else, `AGENTS.md`, the two plan templates, the workflow rules
+with their ids, and the brief for sub-agents.
 
 The plan starts with the questions for the creator, including what the catalog needs to help adults find the app,
 and keeps the answers for the listing. It ends with a retrospective: phases reached, the creator's turns after the
-plan, and where the assistant had to guess; the failed checks the check itself counts in the front matter. Comments in the template explain each part, so the
-template itself guides the assistant.
+plan, and where the assistant had to guess; the failed checks the check itself counts in the front matter. Comments
+in the template explain each part, so the template itself guides the assistant. Commands, rules and know-how are in
+the skills it names.
 
 ```arc42
 :::building-block
@@ -121,14 +170,14 @@ id: bb-process-guidance
 title: Process guidance
 parent: bb-tooling-package
 technology: Markdown
-implements: concept-plain-language, concept-terse-output, concept-traceability
+implements: concept-plain-language, concept-terse-output, concept-traceability, concept-rule-catalog
 :::
 ```
 
 #### AGENTS.md
 
-The entry point every assistant reads in the app repo. A consumer can rely on it to stay short and to point to the
-plan and the skills; it holds nothing else.
+The entry point every assistant reads in the app repo, on every return. A consumer can rely on it to stay short and
+to point to the current plan and the templates; it holds nothing else.
 
 ```arc42
 :::interface
@@ -159,17 +208,14 @@ protocol: Markdown with YAML front matter and a versioned JSON Schema
 
 ### Skills
 
-The rules as the assistant reads them, and the know-how around them: one general skill, one per archetype, topic
-skills such as third-party content, and one for listing. Each skill section that states a rule names its rule id.
-A skill too long to load at once keeps its `SKILL.md` short and links files in its `references/`, which the assistant
-reads when it needs them: the general skill holds its rules there by concern, and its platform rules read on their
-own, for an app built without the tooling. The skills reach the creator's agent harness for an app from the
-generator as for one built otherwise.
-
-The content skills are the know-how of what an app teaches, independent of the archetype: researching the curriculum
-and its sources, exercise patterns, and growing an app after its first version. The skill of each archetype says
-only how their results are expressed there. What one app decided about its content is that app's own: its content
-guide, which takes precedence over the content skills and stays with the app for the agents after the first run.
+What the assistant needs to know in one phase, and the rules of that phase, each with its id. Every skill is a block
+of its own with one goal, and belongs to exactly one phase; its description says first when it is needed, so a harness
+offers it at that moment. A skill too long to load at once keeps its `SKILL.md` short and links files in its
+`references/`, each with the moment to read it. On disk the skills are grouped by what they hold
+(`skills/<process|tooling|content|archetypes>/<name>/`), which says who changes them: the process, the CLI, the
+know-how of content, or an archetype's template. They are installed flat (`.agents/skills/<name>/`): all but the
+archetypes' at the start of the plan, the two of the chosen archetype when Explore chooses it. The skills reach the
+creator's agent harness for an app from the generator as for one built otherwise.
 
 ```arc42
 :::building-block
@@ -181,10 +227,308 @@ implements: concept-rule-catalog, concept-plain-language, concept-terse-output
 :::
 ```
 
+#### Explore skills
+
+The skills that find out what the app teaches and which archetype fits, before anything is planned or built.
+
+```arc42
+:::ignore W002 a group of skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-explore
+title: Explore skills
+parent: bb-skills
+technology: Markdown (agentskills.io)
+:::
+```
+
+##### lernapps-app
+
+Goal: The assistant knows what every app on lernapps.net must be and chooses the archetype from what learners do, after reading what each archetype can and cannot do in the README of its template.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-app
+title: lernapps-app
+parent: bb-skills-explore
+path: skills/process/lernapps-app
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-content-research
+
+Goal: The app teaches competencies grounded in the curriculum and checked against sources the assistant opened itself.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-content-research
+title: lernapps-content-research
+parent: bb-skills-explore
+path: skills/content/lernapps-content-research
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-quiz-design
+
+Goal: The interview asks what a quiz needs, and the plan maps the content onto its rounds, question types and patterns.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-quiz-design
+title: lernapps-quiz-design
+parent: bb-skills-explore
+path: skills/archetypes/lernapps-quiz-design
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-explainer-design
+
+Goal: The interview asks what an explainer needs, and the plan maps the content onto its chapters, pages, blocks and exercises.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-explainer-design
+title: lernapps-explainer-design
+parent: bb-skills-explore
+path: skills/archetypes/lernapps-explainer-design
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-interactive-design
+
+Goal: The interview asks what an interactive app needs, and the plan maps the content onto its core, user interface, data and playthroughs.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-interactive-design
+title: lernapps-interactive-design
+parent: bb-skills-explore
+path: skills/archetypes/lernapps-interactive-design
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+#### Plan skills
+
+The skills that turn the confirmed content into tasks the assistant can build without asking again.
+
+```arc42
+:::ignore W002 a group of skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-plan
+title: Plan skills
+parent: bb-skills
+technology: Markdown (agentskills.io)
+:::
+```
+
+##### lernapps-exercise-patterns
+
+Goal: Each competency gets an exercise that makes learners derive, not only read off, with the patterns of its subject, data shared as files, and feedback on the typical mistakes.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-exercise-patterns
+title: lernapps-exercise-patterns
+parent: bb-skills-plan
+path: skills/content/lernapps-exercise-patterns
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-content-growth
+
+Goal: An increment is cut into slices, one per competency, that sub-agents can build in parallel without touching each other's files.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-content-growth
+title: lernapps-content-growth
+parent: bb-skills-plan
+path: skills/process/lernapps-content-growth
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+#### Code skills
+
+The skills that build the app locally from the template and keep its checks green.
+
+```arc42
+:::ignore W002 a group of skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-code
+title: Code skills
+parent: bb-skills
+technology: Markdown (agentskills.io)
+:::
+```
+
+##### lernapps-check
+
+Goal: The app is created and updated with the CLI only, and every failed check is fixed from its message, never bypassed. Its references hold the platform rules, which read on their own for an app built without the tooling.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-check
+title: lernapps-check
+parent: bb-skills-code
+path: skills/tooling/lernapps-check
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-quiz
+
+Goal: The assistant writes only the question bank of a quiz, in the languages it declares, and knows what the runtime does with it.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-quiz
+title: lernapps-quiz
+parent: bb-skills-code
+path: skills/archetypes/lernapps-quiz
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-explainer
+
+Goal: The assistant writes the content of an explainer in its notation and adds a component only where no block fits.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-explainer
+title: lernapps-explainer
+parent: bb-skills-code
+path: skills/archetypes/lernapps-explainer
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-interactive
+
+Goal: The assistant writes an interactive app's core, components, data and playthroughs to the runtime's contract, and keeps its architecture current.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-interactive
+title: lernapps-interactive
+parent: bb-skills-code
+path: skills/archetypes/lernapps-interactive
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-content-questions
+
+Goal: Every question with options teaches: plausible wrong options, background on each, an explanation and links.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-content-questions
+title: lernapps-content-questions
+parent: bb-skills-code
+path: skills/content/lernapps-content-questions
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+#### Commit skills
+
+The skills that bring the finished app to GitHub, online and into the catalog. Until then the app is local, so the technique does not come before the content.
+
+```arc42
+:::ignore W002 a group of skills; the contract is the skills interface :::
+:::building-block
+id: bb-skills-commit
+title: Commit skills
+parent: bb-skills
+technology: Markdown (agentskills.io)
+:::
+```
+
+##### lernapps-github
+
+Goal: The app gets its repo, preview, checks and publish without the creator having to know GitHub; the assistant asks only for the clicks the token cannot make.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-github
+title: lernapps-github
+parent: bb-skills-commit
+path: skills/process/lernapps-github
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-commit
+
+Goal: The history of `main` stays linear, one squash commit per piece of work, with a structured message taken from
+the plan.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-commit
+title: lernapps-commit
+parent: bb-skills-commit
+path: skills/process/lernapps-commit
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-listing
+
+Goal: The app's entry reaches the catalog through a pull request from the creator's fork that passes the listing check.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-listing
+title: lernapps-listing
+parent: bb-skills-commit
+path: skills/process/lernapps-listing
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
 #### Skills interface
 
-A consumer can rely on one skill per concern, in the open skill format, loadable by any harness when a task needs
-it. Each rule a skill states keeps its id.
+A consumer can rely on one skill per phase and concern, in the open skill format, loadable by any harness when its
+description matches the task. Each rule a skill states keeps its id. The names keep the prefix `lernapps-`, which
+`lernapps update` replaces.
 
 ```arc42
 :::interface

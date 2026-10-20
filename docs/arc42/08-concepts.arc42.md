@@ -38,7 +38,7 @@ The review judges what no program decides. No artifact refers to the others:
 
 | Artifact | Building block | Takes effect in |
 |---|---|---|
-| section of a skill, headed by the rule's id, scope and severity | `bb-skills` | the creator's agent harness |
+| section of a skill or of the workflow rules, headed by the rule's id, scope and severity | `bb-skills`, `bb-process-guidance` | the creator's agent harness |
 | lint rule, named by the rule's id | `bb-lint-rules`, `bb-archetypes` | the editor and the commit; CI |
 | check of the built app, carrying the rule's id and severity | `bb-check-cli` | the push; CI; the listing validation |
 | item of the review rubric, headed by the rule's id | `bb-review-procedure` | the environment where lernapps agents run |

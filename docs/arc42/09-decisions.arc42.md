@@ -468,6 +468,30 @@ addresses: qg-guidance-evolves, qg-few-iterations, qg-any-assistant
 :::
 ```
 
+## One skill, one phase
+
+**Context:** the skills mixed process, the use of the tooling and content know-how, and each held parts for several
+phases. Agents read whole skills too early (the tooling's rules in Explore) and missed others when they were needed
+(the brief for sub-agents, the source checks); the building blocks could not be mapped to the phases.
+**Decision:** the process guidance alone holds in every phase. Every skill belongs to one phase of Explore, Plan, Code
+and Commit, and its description says first when it is needed (agentskills.io: the description triggers the skill).
+The skills are grouped on disk by what they hold: process, tooling, content, archetypes. Each archetype has a design
+skill for Explore and one for Code. Every skill but the archetypes' is installed at the start; the archetype's two
+right after its choice in Explore. What an archetype can do is read from its template's README in app-templates,
+never copied into a skill. GitHub comes in Commit only; Code is local. A reference is linked with the moment to read it. **Consequences:** an agent reads less and later; a
+harness offers a skill when its phase comes; the templates load each skill at its task, and a test checks that the
+phase of the task and of the description agree. `lernapps update` installs the skills of the app's archetype only.
+
+```arc42
+:::decision
+id: dec-one-skill-one-phase
+title: One skill, one phase
+status: accepted
+date: 2026-10-20
+addresses: qg-guidance-evolves, qg-few-iterations, qg-any-assistant
+:::
+```
+
 ## The tooling sends nothing
 
 **Context:** sessions that never reach a listing stay invisible, but the platform collects nothing in secret.

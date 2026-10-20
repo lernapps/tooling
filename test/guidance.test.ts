@@ -18,7 +18,7 @@ const TEMPLATE = "guidance/plan-template.md";
 const INCREMENT = "guidance/increment-template.md";
 const TEMPLATES = [TEMPLATE, INCREMENT];
 const AGENTS = "guidance/AGENTS.md";
-const SKILL = "skills/lernapps-app/SKILL.md";
+const PHASES = ["Explore", "Plan", "Code", "Commit"] as const;
 const fixture = (name: string) => `test/fixtures/plans/${name}.md`;
 /** A level-2 section of a plan, up to the next one. */
 const section = (plan: string, heading: string) => plan.slice(plan.indexOf(`\n${heading}\n`)).split(/\n## /)[1] ?? "";
@@ -85,7 +85,8 @@ describe("the plan's sections", () => {
 
   test("the first publish starts the workflow the generator writes, also when GitHub starts no run for the push", () => {
     // pages.yml has no paths filter (its actions skip a push of only .vibe/), but a push that creates main from
-    // commits GitHub already has may still start no run: the template has the run started by hand, as a safety net
+    // commits GitHub already has may still start no run: the skill of Commit has the run started by hand, as a
+    // safety net
     const workflow = parse(read("generator/app/.github/workflows/pages.yml")) as {
       name: string;
       on: Record<string, unknown>;
@@ -93,22 +94,28 @@ describe("the plan's sections", () => {
     expect(workflow.name).toBe("Pages");
     expect(workflow.on).toHaveProperty("workflow_dispatch");
     expect(JSON.stringify(workflow.on)).not.toContain("paths");
-    const commit = section(read(TEMPLATE), "## Commit");
-    expect(commit).toContain("gh run list --workflow Pages --branch main --commit");
-    expect(commit).toContain("gh workflow run Pages --ref main");
+    const github = read("skills/process/lernapps-github/SKILL.md");
+    expect(github).toContain("gh run list --workflow Pages --branch main --commit");
+    expect(github).toContain("gh workflow run Pages --ref main");
   });
 
-  test("the template sets up main, gh-pages and work and the Pages source in Explore, before anything else is pushed", () => {
+  test("the GitHub skill creates main, gh-pages and the Pages source before work is pushed, in Commit", () => {
     // the first push sets the default branch; Pages from gh-pages from the start lets the first publish deploy
-    const explore = section(read(TEMPLATE), "## Explore");
-    const at = (text: string) => explore.indexOf(text);
+    const setup = read("skills/process/lernapps-github/SKILL.md");
+    const at = (text: string) => setup.indexOf(text);
     expect(at("git switch --orphan main")).toBeGreaterThan(0);
     expect(at("git switch --orphan gh-pages")).toBeGreaterThan(at("git push -u origin main"));
-    expect(at("git switch -c work main")).toBeGreaterThan(at("git push -u origin main"));
-    expect(explore).toContain("pages-from-gh-pages");
-    expect(explore).toContain("https://lernapps.net/tooling/github/");
-    // GraphQL may be blocked where the assistant runs: the template uses REST (gh api) only
-    expect(read(TEMPLATE)).not.toMatch(/gh repo (view|edit)/);
+    expect(at("git rebase --root --onto main")).toBeGreaterThan(at("git push -u origin gh-pages"));
+    expect(at("git push -u origin <branch>")).toBeGreaterThan(at("-f build_type=legacy"));
+    expect(setup).toContain("pages-from-gh-pages");
+    expect(setup).toContain("https://lernapps.net/tooling/github/");
+    // GraphQL may be blocked where the assistant runs: guidance and skills use REST (gh api) for writes
+    for (const path of [TEMPLATE, INCREMENT, "skills/process/lernapps-github/SKILL.md"]) {
+      expect(read(path), path).not.toMatch(/gh repo (view|edit)|gh pr (create|ready)/);
+    }
+    // until Commit the app is local: the technique does not get in the way of the content
+    expect(section(read(TEMPLATE), "## Code")).not.toMatch(/push|lernapps-github/);
+    expect(section(read(TEMPLATE), "## Commit")).toContain("Load skill `lernapps-github`");
   });
 
   test("the template pushes the plan with the filled retrospective before the listing pull request", () => {
@@ -138,7 +145,7 @@ describe("AGENTS.md", () => {
     expect(read(INCREMENT)).toContain("Work on the branch `increment/<NN>-<short name>`");
   });
 
-  test("points to the plans, both templates and the skill, which exist in the package", () => {
+  test("points to the plans and both templates, which exist in the package", () => {
     const agents = read(AGENTS);
     expect(agents).toContain(".vibe/plans/<NN>-<short name>.md");
     expect(agents).toContain("@lernapps/tooling/guidance/");
@@ -146,55 +153,101 @@ describe("AGENTS.md", () => {
       expect(agents).toContain(template.replace("guidance/", "`") + "`");
       expect(read(template)).toMatch(/^---\n/);
     }
-    expect(agents).toContain("lernapps-app");
-    expect(read(SKILL)).toMatch(/^---\nname: lernapps-app\n/);
   });
 });
 
 describe("the skills", () => {
   // Names in backticks after "skill": `lernapps-app`; the "Not installed" hint names a repo, not a skill.
   const named = (text: string) => [...text.matchAll(/skills?\s+`([a-z][a-z0-9-]*)`/g)].map((match) => match[1]);
-  const skills = readdirSync(file("skills"));
+  /** Each skill's folder below skills/, by name: skills/<group>/<name>/. Only lernapps-* skills ship to apps. */
+  const folders = new Map(
+    readdirSync(file("skills")).flatMap((group) =>
+      readdirSync(file(`skills/${group}`))
+        .filter((name) => name.startsWith("lernapps-"))
+        .map((name) => [name, `skills/${group}/${name}`] as const),
+    ),
+  );
+  const skills = [...folders.keys()];
+  const folder = (name: string) => folders.get(name) ?? `skills/?/${name}`;
   /** The files of a skill besides its SKILL.md, relative to its folder, e.g. references/platform-rules.md. */
   const filesOf = (name: string) =>
-    readdirSync(file(`skills/${name}`), { recursive: true, withFileTypes: true })
+    readdirSync(file(folder(name)), { recursive: true, withFileTypes: true })
       .filter((entry) => entry.isFile())
       .map((entry) =>
-        relative(file(`skills/${name}`), join(entry.parentPath, entry.name))
+        relative(file(folder(name)), join(entry.parentPath, entry.name))
           .split("\\")
           .join("/"),
       )
       .filter((path) => path !== "SKILL.md");
   const exported = () => (JSON.parse(read("package.json")) as { exports: Record<string, string> }).exports;
+  const description = (name: string) => /^description: (.*)$/m.exec(read(`${folder(name)}/SKILL.md`))?.[1] ?? "";
+
+  test("the skills are grouped by what they hold: process, tooling, content, archetypes", () => {
+    expect(readdirSync(file("skills")).sort()).toEqual(["archetypes", "content", "process", "tooling"]);
+  });
 
   test.each(skills)("the skill %s links each of its files from SKILL.md and exports them", (name) => {
     // progressive disclosure (agentskills.io): SKILL.md is the entry and links the files an assistant reads on demand
-    const skill = read(`skills/${name}/SKILL.md`);
+    const skill = read(`${folder(name)}/SKILL.md`);
     const links = [...skill.matchAll(/\]\(([^)#\s]+)\)/g)]
       .map((match) => match[1] ?? "")
       .filter((link) => !/^[a-z]+:/.test(link));
-    for (const link of links) expect(existsSync(file(`skills/${name}/${link}`)), `${name} links ${link}`).toBe(true);
+    for (const link of links) expect(existsSync(file(`${folder(name)}/${link}`)), `${name} links ${link}`).toBe(true);
     for (const path of filesOf(name)) {
       expect(links, `SKILL.md of ${name} links ${path}`).toContain(path);
-      expect(exported(), `package.json exports ${name}/${path}`).toHaveProperty(`./skills/${name}/${path}`);
+      expect(exported(), `package.json exports ${name}/${path}`).toHaveProperty(`./${folder(name)}/${path}`);
+    }
+  });
+
+  test.each(skills)("the skill %s belongs to one phase: its description starts with when, in that phase", (name) => {
+    // skills are found by their description (agentskills.io): it says first when the skill is needed
+    expect(description(name)).toMatch(/^Use (?:at the start of |right after |)in (Explore|Plan|Code|Commit)\b/);
+    expect(description(name).length).toBeLessThanOrEqual(1024);
+  });
+
+  test.each(TEMPLATES)("%s loads each skill in the phase its description names", (template) => {
+    const plan = read(template);
+    for (const phase of PHASES) {
+      for (const name of named(section(plan, `## ${phase}`))) {
+        const skill = name ?? "";
+        if (!skills.includes(skill)) continue; // a name that is no skill: the next test fails on it
+        expect(description(skill), `${template}: ${phase} names ${name}`).toMatch(new RegExp(`^Use .*?in ${phase}\\b`));
+      }
     }
   });
 
   test.each([
     TEMPLATE,
+    INCREMENT,
     AGENTS,
-    ...skills.flatMap((name) => ["SKILL.md", ...filesOf(name)].map((path) => `skills/${name}/${path}`)),
+    ...skills.flatMap((name) => ["SKILL.md", ...filesOf(name)].map((path) => `${folder(name)}/${path}`)),
   ])("every skill %s names exists, with its name, and a consumer can resolve it", (path) => {
     const exports = exported();
     for (const name of named(read(path))) {
+      if (name === undefined) continue;
       expect(skills, `${path} names the skill ${name}`).toContain(name);
-      expect(read(`skills/${name}/SKILL.md`)).toMatch(new RegExp(`^---\\nname: ${name}\\n`));
-      expect(exports, `package.json exports ${name}`).toHaveProperty(`./skills/${name}/SKILL.md`);
+      expect(read(`${folder(name)}/SKILL.md`)).toMatch(new RegExp(`^---\\nname: ${name}\\n`));
+      expect(exports, `package.json exports ${name}`).toHaveProperty(`./${folder(name)}/SKILL.md`);
     }
   });
 
+  test("the plan template installs every skill but the archetypes' at the start, and those when Explore chooses one", () => {
+    const explore = section(read(TEMPLATE), "## Explore");
+    const [base, archetype] = [...explore.matchAll(/npx --yes skills add[\s\S]*?`/g)].map((match) => match[0]);
+    const groups = (...names: string[]) =>
+      skills.filter((name) => names.includes(folder(name).split("/")[1] ?? "")).sort();
+    expect(
+      [...(base ?? "").matchAll(/lernapps-[a-z-]+/g)]
+        .map((match) => match[0])
+        .filter((name) => skills.includes(name))
+        .sort(),
+    ).toEqual(groups("process", "tooling", "content"));
+    expect(archetype).toContain("lernapps-<archetype>-design lernapps-<archetype>");
+    for (const name of groups("archetypes")) expect(name).toMatch(/^lernapps-(quiz|explainer|interactive)(-design)?$/);
+  });
+
   test("the listing skill points to the entry schema and the catalog's listing guide instead of repeating them", () => {
-    const skill = read("skills/lernapps-listing/SKILL.md");
+    const skill = read("skills/process/lernapps-listing/SKILL.md");
     expect(skill).toContain("https://lernapps.net/apps/schemas/entry.v1.schema.json");
     expect(skill).toContain("https://lernapps.net/apps/enter/llms.txt");
     for (const field of ["grades", "thirdParty", "keywords", "topics"]) expect(skill).not.toContain(field);
