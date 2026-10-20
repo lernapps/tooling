@@ -12,8 +12,9 @@ is always one of lernapps.net's own websites, never an app.
 Rules have no block of their own: each rule lives in the block where it acts, as skill text, lint rule, check or
 rubric item (concept `concept-rule-catalog`).
 
-The blocks a creator's assistant works with carry the phases of the plan they support and their kind (`x-phase`,
-`x-kind`). The docs page "A workshop, not a factory" is rendered from them.
+The blocks and interfaces a creator and their assistant work with carry the phases of the plan they support, their
+kind, and what each does for the assistant and the person (`x-phase`, `x-kind`, `x-agent`, `x-person`). The docs page
+"A workshop, not a factory" is rendered from them.
 
 ## Level 1
 
@@ -174,8 +175,10 @@ title: Process guidance
 parent: bb-tooling-package
 technology: Markdown
 implements: concept-plain-language, concept-terse-output, concept-traceability, concept-rule-catalog
-x-phase: explore, plan, across
+x-phase: across
 x-kind: guidance
+x-agent: Gives the four phases, the checkpoints, and which skill comes when; a brief for each sub-agent.
+x-person: Answers the interview and confirms at each checkpoint.
 :::
 ```
 
@@ -190,6 +193,9 @@ id: if-agents-md
 title: AGENTS.md
 provider: bb-process-guidance
 protocol: Markdown file at the app's root
+x-phase: across
+x-kind: guidance
+x-agent: Reads it on every return: where the current plan is and what holds.
 :::
 ```
 
@@ -208,6 +214,10 @@ id: if-plan-file
 title: Plan file
 provider: bb-process-guidance
 protocol: Markdown with YAML front matter and a versioned JSON Schema
+x-phase: across
+x-kind: guidance
+x-agent: Works the plan step by step and notes where it had to guess.
+x-person: Reads where the work stands, in plain words.
 :::
 ```
 
@@ -261,6 +271,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: explore
 x-kind: skill
+x-agent: Knows what every app must be, and chooses the archetype from what learners do.
 :::
 ```
 
@@ -279,6 +290,8 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: explore
 x-kind: skill
+x-agent: Researches the curriculum, writes the competencies, opens every source it cites.
+x-person: Brings their curriculum and their own material.
 :::
 ```
 
@@ -297,6 +310,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: explore
 x-kind: skill
+x-agent: Knows what to ask for a quiz and how its content maps onto rounds and question types.
 :::
 ```
 
@@ -315,6 +329,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: explore
 x-kind: skill
+x-agent: Knows what to ask for an explainer and how its content maps onto chapters, pages and exercises.
 :::
 ```
 
@@ -333,6 +348,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: explore
 x-kind: skill
+x-agent: Knows what to ask for an interactive app and how its content maps onto core, screens and playthroughs.
 :::
 ```
 
@@ -365,6 +381,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: plan
 x-kind: skill
+x-agent: Chooses an exercise per competency from the patterns of the subject, and shares data as files.
 :::
 ```
 
@@ -383,6 +400,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: plan
 x-kind: skill
+x-agent: Cuts a later increment into slices, one per competency, for parallel sub-agents.
 :::
 ```
 
@@ -415,6 +433,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
 x-kind: skill
+x-agent: Fixes every failed check from its message and never bypasses one.
 :::
 ```
 
@@ -433,6 +452,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
 x-kind: skill
+x-agent: Writes the question bank of a quiz, the only file it writes there.
 :::
 ```
 
@@ -451,6 +471,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
 x-kind: skill
+x-agent: Writes the chapters and pages of an explainer in its notation; a component only where no block fits.
 :::
 ```
 
@@ -469,6 +490,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
 x-kind: skill
+x-agent: Writes the core, components, data and playthroughs of an interactive app, and its architecture.
 :::
 ```
 
@@ -487,6 +509,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
 x-kind: skill
+x-agent: Writes options and feedback that teach.
 :::
 ```
 
@@ -519,6 +542,8 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: commit
 x-kind: skill
+x-agent: Sets up repo and Pages, opens the preview pull request, publishes after your yes.
+x-person: Makes the one click only the owner of the repo can make, if one is needed.
 :::
 ```
 
@@ -538,6 +563,7 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: commit
 x-kind: skill
+x-agent: Publishes one squash commit, its message taken from the plan.
 :::
 ```
 
@@ -556,6 +582,8 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: commit
 x-kind: skill
+x-agent: Writes the entry and opens the listing pull request from your fork.
+x-person: Sees the listing pull request and its result.
 :::
 ```
 
@@ -593,6 +621,7 @@ requires: if-archetype-templates, if-plan-file
 implements: concept-stable-contracts
 x-phase: code
 x-kind: CLI
+x-agent: Creates the app from its template, passing every check from the first commit; update brings fixes later.
 :::
 ```
 
@@ -668,6 +697,7 @@ requires: if-check-cli, if-plan-file
 implements: concept-terse-output, concept-traceability
 x-phase: code, commit
 x-kind: hook
+x-agent: Check every commit, and before a push build the app and run the end-to-end tests.
 :::
 ```
 
@@ -688,6 +718,7 @@ technology: Oxlint JS plugin
 implements: concept-rule-catalog, concept-terse-output, concept-components
 x-phase: code
 x-kind: lint
+x-agent: Marks a problem while it writes, such as a request to another server before a click.
 :::
 ```
 
@@ -723,6 +754,7 @@ technology: TypeScript CLI, Playwright, axe-core
 implements: concept-rule-catalog, concept-terse-output, concept-traceability, concept-stable-contracts
 x-phase: across
 x-kind: CLI
+x-agent: One command, the same result in the hooks, in CI and at the listing.
 :::
 ```
 
@@ -776,6 +808,8 @@ requires: if-validation-report
 implements: concept-rule-catalog, concept-plain-language, concept-terse-output, concept-traceability, concept-stable-contracts
 x-phase: catalog
 x-kind: review
+x-agent: A review agent judges what no check can, against a rubric.
+x-person: The platform owner reads the verdict and decides on the listing.
 :::
 ```
 
@@ -845,8 +879,6 @@ title: Archetype templates and runtimes
 technology: TypeScript, Vite plugin, Vue, Playwright
 requires: if-archetype-preset
 implements: concept-components
-x-phase: explore, code
-x-kind: runtime
 :::
 ```
 
@@ -861,6 +893,10 @@ id: if-archetype-templates
 title: Archetype templates
 provider: bb-app-templates
 protocol: Files at a pinned commit
+x-phase: explore
+x-kind: template
+x-agent: Reads the README of each template before it chooses the archetype.
+x-person: Hears what the chosen archetype can and cannot do.
 :::
 ```
 
@@ -875,6 +911,9 @@ id: if-archetype-runtime
 title: Archetype runtime
 provider: bb-app-templates
 protocol: npm package from git, subpath exports per archetype
+x-phase: code
+x-kind: runtime
+x-agent: Runs the app: engine, accessibility, the page without JavaScript, its own tests.
 :::
 ```
 
@@ -924,6 +963,7 @@ path: actions/app-check
 requires: if-check-cli
 x-phase: commit
 x-kind: action
+x-agent: Runs the same checks in CI.
 :::
 ```
 
@@ -958,6 +998,7 @@ technology: GitHub composite action, GitHub Pages
 path: actions/app-publish
 x-phase: commit
 x-kind: action
+x-agent: Publishes the checked bundle at your own address.
 :::
 ```
 
@@ -991,6 +1032,8 @@ technology: GitHub composite action, GitHub Pages
 path: actions/app-preview
 x-phase: commit
 x-kind: action
+x-agent: Puts the checked bundle of a pull request online as a preview.
+x-person: Looks at the preview before saying yes.
 :::
 ```
 
@@ -1023,6 +1066,7 @@ requires: if-check-cli, if-review-procedure, if-validation-report
 implements: concept-terse-output, concept-traceability
 x-phase: commit
 x-kind: action
+x-agent: Checks the entry against the live app and comments the result.
 :::
 ```
 

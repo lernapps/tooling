@@ -1,9 +1,9 @@
-// Renders the page "A workshop, not a factory" of the docs site (site/workshop/) from its mapping
-// (site/workshop/workshop.yaml) and the building blocks of docs/arc42, as `arc42 get` reports them. The mapping says
-// per phase what the person decides and what each block does there, for whom; the model gives each block its title,
-// its place in the architecture app, its phases (`x-phase`, a list) and its kind (`x-kind`). Fails, with one line per
-// problem, when a phase's boxes and the blocks with that phase in the model differ, when a block has no or an unknown
-// kind, or when a skill's phase is not that of its group (bb-skills-<phase>).
+// Renders the page "A workshop, not a factory" of the docs site (site/workshop/) from the elements of docs/arc42, as
+// `arc42 get` reports them, and the phases of site/workshop/workshop.yaml. An element (building block or interface)
+// supports the phases its `x-phase` names, is of the kind `x-kind`, and says what it does for the agent (`x-agent`) and
+// the person (`x-person`); its box shows its title and links its card in the architecture app. Fails, with one line
+// per problem, when an element names an unknown phase or kind, says nothing for agent or person, or when a skill's
+// phase is not the phase of its group (bb-skills-<phase>).
 //
 //   node scripts/workshop.ts test          the check alone (test/workshop.test.ts)
 //   node scripts/workshop.ts page <file>   writes the page (scripts/build.sh); fails like test
@@ -17,22 +17,19 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const MAPPING = join(ROOT, "site/workshop/workshop.yaml");
 const TEMPLATE = join(ROOT, "site/workshop/template.html");
 
-interface Block {
+export interface Element {
   id: string;
+  kind: string;
   title: string;
   parent?: string;
-  loc: { file: string };
-  /** The block's `x-*` attributes, without the prefix, as written (arc42 ≥ 0.38). */
+  loc: { file: string; line: number };
+  /** The element's `x-*` attributes, without the prefix, as written (arc42 ≥ 0.38). */
   extensions?: Record<string, string>;
 }
 
-/** One box: a block, or neighbouring blocks shown as one, and what it does for the agent and the person. */
-interface Box {
-  block?: string;
-  blocks?: string[];
-  label?: string;
-  agent?: string;
-  person?: string;
+interface Section {
+  label: string;
+  question: string;
 }
 
 interface Phase {
@@ -41,92 +38,79 @@ interface Phase {
   question: string;
   you: string;
   gate?: string;
-  boxes: Box[];
 }
 
-interface Mapping {
+export interface Mapping {
   kinds: string[];
+  across: Section;
   phases: Phase[];
-  across: Box[];
-  catalog: Box[];
+  catalog: Section;
 }
 
-/** The building blocks of docs/arc42, as `arc42 get` reports them. */
-export function blocks(): Map<string, Block> {
+/** The building blocks and interfaces of docs/arc42, as `arc42 get` reports them. */
+export function elements(): Element[] {
   const json = execFileSync(
     join(ROOT, "node_modules/.bin/arc42"),
-    ["--dir", join(ROOT, "docs/arc42"), "get", "--type", "building-block", "--format", "json"],
-    { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
+    ["--dir", join(ROOT, "docs/arc42"), "get", "--format", "json"],
+    {
+      encoding: "utf8",
+      maxBuffer: 64 * 1024 * 1024,
+    },
   );
-  const { elements } = JSON.parse(json) as { elements: Block[] };
-  return new Map(elements.map((block) => [block.id, block]));
+  const { elements: all } = JSON.parse(json) as { elements: Element[] };
+  return all.filter((element) => element.kind === "building-block" || element.kind === "interface");
 }
 
 export function mapping(): Mapping {
   return parse(readFileSync(MAPPING, "utf8")) as Mapping;
 }
 
-const idsOf = (box: Box) => box.blocks ?? (box.block === undefined ? [] : [box.block]);
-
-/** The phases a block supports (`x-phase`), and its kind (`x-kind`). */
-export const phasesOf = (block: Block | undefined) =>
-  (block?.extensions?.["phase"] ?? "")
+const ext = (element: Element, key: string) => element.extensions?.[key]?.trim() ?? "";
+/** The phases an element supports (`x-phase`, a list). */
+export const phasesOf = (element: Element) =>
+  ext(element, "phase")
     .split(",")
     .map((phase) => phase.trim())
     .filter(Boolean);
-export const kindOf = (block: Block | undefined) => block?.extensions?.["kind"]?.trim() ?? "";
+const PHASE_IDS = (map: Mapping) => ["across", ...map.phases.map((phase) => phase.id), "catalog"];
 
-/** The boxes of each phase of the page, including `across` and `catalog`. */
-const sections = (map: Mapping): [string, Box[]][] => [
-  ...map.phases.map((phase): [string, Box[]] => [phase.id, phase.boxes]),
-  ["across", map.across],
-  ["catalog", map.catalog],
-];
-
-/** One line per problem; none when mapping and model agree. */
-export function problems(map: Mapping, model: Map<string, Block>): string[] {
+/** One line per problem; none when the elements fit the page. */
+export function problems(map: Mapping, all: Element[]): string[] {
   const found: string[] = [];
-  const shown = new Set(sections(map).map(([id]) => id));
-  for (const [phase, list] of sections(map)) {
-    const here = new Set<string>();
-    for (const box of list) {
-      const ids = idsOf(box);
-      if (ids.length === 0) found.push(`${phase}: a box without block: "${box.label ?? box.agent ?? box.person}"`);
-      if (!box.agent && !box.person) found.push(`${phase}: ${ids.join(", ")} says nothing for the agent or the person`);
-      const kinds = new Set(ids.map((id) => kindOf(model.get(id))));
-      if (kinds.size > 1)
-        found.push(`${phase}: ${ids.join(", ")} are one box but of the kinds ${[...kinds].join(", ")}`);
-      for (const id of ids) {
-        here.add(id);
-        const block = model.get(id);
-        if (!block) found.push(`${id}: no such building block in docs/arc42`);
-        else if (!phasesOf(block).includes(phase))
-          found.push(`${id}: shown in ${phase}, but its x-phase does not name it`);
-      }
+  const ids = PHASE_IDS(map);
+  for (const element of all) {
+    const phases = phasesOf(element);
+    const skill = element.parent?.startsWith("bb-skills-");
+    if (phases.length === 0) {
+      if (skill) found.push(`${element.id}: a skill without x-phase`);
+      continue;
     }
-    for (const block of model.values()) {
-      if (phasesOf(block).includes(phase) && !here.has(block.id)) {
-        found.push(`${block.id}: its x-phase names ${phase}, but the page has no box for it there`);
-      }
+    for (const phase of phases.filter((phase) => !ids.includes(phase))) {
+      found.push(`${element.id}: x-phase names ${phase}, which is no phase of the page`);
     }
-  }
-  for (const block of model.values()) {
-    const phases = phasesOf(block);
-    if (phases.length === 0) continue;
-    for (const phase of phases.filter((phase) => !shown.has(phase))) {
-      found.push(`${block.id}: x-phase names ${phase}, which is no phase of the page`);
+    if (!map.kinds.includes(ext(element, "kind"))) {
+      found.push(`${element.id}: x-kind "${ext(element, "kind")}" is not one of the kinds`);
     }
-    if (!map.kinds.includes(kindOf(block)))
-      found.push(`${block.id}: x-kind "${kindOf(block)}" is not one of the kinds`);
-    if (block.parent?.startsWith("bb-skills-") && phases.join() !== block.parent.slice("bb-skills-".length)) {
-      found.push(`${block.id}: x-phase ${phases.join(", ")}, but its group is ${block.parent}`);
+    if (!ext(element, "agent") && !ext(element, "person"))
+      found.push(`${element.id}: says nothing in x-agent or x-person`);
+    if (skill && phases.join() !== element.parent?.slice("bb-skills-".length)) {
+      found.push(`${element.id}: x-phase ${phases.join(", ")}, but its group is ${element.parent}`);
     }
   }
   for (const phase of map.phases) {
-    if (!model.has(`bb-skills-${phase.id}`))
+    if (!all.some((element) => element.id === `bb-skills-${phase.id}`)) {
       found.push(`bb-skills-${phase.id}: the phase ${phase.id} has no skill group`);
+    }
   }
   return found;
+}
+
+/** The elements of one phase, by kind in the order of `kinds`, then as chapter 5 orders them. */
+export function inPhase(map: Mapping, all: Element[], phase: string): Element[] {
+  const rank = (element: Element) => map.kinds.indexOf(ext(element, "kind"));
+  return all
+    .filter((element) => phasesOf(element).includes(phase))
+    .sort((a, b) => rank(a) - rank(b) || a.loc.file.localeCompare(b.loc.file) || a.loc.line - b.loc.line);
 }
 
 const esc = (text: string) =>
@@ -146,43 +130,35 @@ const actor = (who: "person" | "agent", label = true) =>
     ? `<span class="actor human"${label ? ' role="img" aria-label="Person" title="Person"' : ' aria-hidden="true"'}>${PERSON}</span>`
     : `<span class="actor agent"${label ? ' role="img" aria-label="AI agent" title="AI agent"' : ' aria-hidden="true"'}>${AGENT}</span>`;
 
-/**
- * The block's card in the architecture app of this site, which opens an element at `#<chapter file>:el-<id>`. A box
- * of several blocks links the first; they are neighbours in chapter 5.
- */
-function href(ids: string[], model: Map<string, Block>): string {
-  const block = model.get(ids[0] ?? "");
-  return block ? `../architecture/#${basename(block.loc.file)}:el-${block.id}` : "../architecture/";
-}
+/** The element's card in the architecture app of this site, which opens an element at `#<chapter file>:el-<id>`. */
+const href = (element: Element) => `../architecture/#${basename(element.loc.file)}:el-${element.id}`;
 
 /** A box: its link with title, kind and who works with it; what it does for whom opens on hover and focus. */
-function box(b: Box, id: string, model: Map<string, Block>): string {
-  const ids = idsOf(b);
-  const title = b.label ?? ids.map((block) => model.get(block)?.title ?? block).join(", ");
-  const who = [b.person ? actor("person") : "", b.agent ? actor("agent") : ""].join("");
+function box(element: Element, id: string): string {
+  const person = ext(element, "person");
+  const agent = ext(element, "agent");
+  const who = [person ? actor("person") : "", agent ? actor("agent") : ""].join("");
   const rows = [
-    b.person
-      ? `<p class="how-row">${actor("person", false)}<span><strong>Person</strong> ${esc(b.person)}</span></p>`
-      : "",
-    b.agent
-      ? `<p class="how-row">${actor("agent", false)}<span><strong>AI agent</strong> ${esc(b.agent)}</span></p>`
-      : "",
+    person ? `<p class="how-row">${actor("person", false)}<span><strong>Person</strong> ${esc(person)}</span></p>` : "",
+    agent ? `<p class="how-row">${actor("agent", false)}<span><strong>AI agent</strong> ${esc(agent)}</span></p>` : "",
   ].join("");
   return (
-    `<li class="chip" data-blocks="${ids.join(" ")}"><a href="${esc(href(ids, model))}" aria-describedby="${id}">` +
-    `<span class="t">${esc(title)}</span><span class="meta"><span class="kind">${esc(kindOf(model.get(ids[0] ?? "")))}</span>` +
+    `<li class="chip" data-element="${element.id}"><a href="${esc(href(element))}" aria-describedby="${id}">` +
+    `<span class="t">${esc(element.title)}</span><span class="meta"><span class="kind">${esc(ext(element, "kind"))}</span>` +
     `<span class="actors">${who}</span><span class="go">${GO}</span></span></a>` +
     `<div class="how" id="${id}" role="tooltip">${rows}</div></li>`
   );
 }
 
-const boxes = (list: Box[], prefix: string, model: Map<string, Block>) =>
-  `<ul class="chips">${list.map((b, i) => box(b, `how-${prefix}-${i + 1}`, model)).join("")}</ul>`;
+const boxes = (list: Element[], phase: string) =>
+  `<ul class="chips">${list.map((element, i) => box(element, `how-${phase}-${i + 1}`)).join("")}</ul>`;
 
-function band(id: string, label: string, question: string, list: Box[], model: Map<string, Block>): string {
+function band(map: Mapping, all: Element[], phase: "across" | "catalog"): string {
+  const { label, question } = map[phase];
+  const id = `phase-${phase}`;
   return (
     `<section class="band" id="${id}" aria-labelledby="${id}-h"><h3 id="${id}-h"><span class="label">${esc(label)}</span>` +
-    `<span class="question">${esc(question)}</span></h3>${boxes(list, id, model)}</section>`
+    `<span class="question">${esc(question)}</span></h3>${boxes(inPhase(map, all, phase), phase)}</section>`
   );
 }
 
@@ -196,8 +172,8 @@ export function key(map: Mapping): string {
   );
 }
 
-/** The board: what runs through every phase, the four phases, then the catalog. */
-export function render(map: Mapping, model: Map<string, Block>): string {
+/** The board: what runs through every phase, the phases of the plan, then the catalog. */
+export function render(map: Mapping, all: Element[]): string {
   const phases = map.phases
     .map((p, i) => {
       const gate = p.gate ? `<p class="gate">${esc(p.gate)}</p>` : "";
@@ -206,15 +182,11 @@ export function render(map: Mapping, model: Map<string, Block>): string {
         `<span class="dot" aria-hidden="true">${i + 1}</span><span class="big" aria-hidden="true">0${i + 1}</span>` +
         `<h3 id="phase-${p.id}-h"><span class="label">${esc(p.title)}</span><span class="question">${esc(p.question)}</span></h3>` +
         `<div class="decides"><p class="who">${DECIDES}You decide</p><p>${esc(p.you)}</p>${gate}</div>` +
-        `${boxes(p.boxes, p.id, model)}</section>`
+        `${boxes(inPhase(map, all, p.id), p.id)}</section>`
       );
     })
     .join("\n");
-  return [
-    band("phase-across", "Across all phases", "What runs through every phase?", map.across, model),
-    `<div class="timeline">\n${phases}\n</div>`,
-    band("phase-catalog", "Then, in the catalog", "Is it listed?", map.catalog, model),
-  ].join("\n");
+  return [band(map, all, "across"), `<div class="timeline">\n${phases}\n</div>`, band(map, all, "catalog")].join("\n");
 }
 
 function main(argv: string[]): number {
@@ -224,8 +196,8 @@ function main(argv: string[]): number {
     return 2;
   }
   const map = mapping();
-  const model = blocks();
-  const found = problems(map, model);
+  const all = elements();
+  const found = problems(map, all);
   if (found.length > 0) {
     process.stderr.write(`${found.map((line) => `workshop: ${line}`).join("\n")}\n`);
     return 1;
@@ -236,10 +208,10 @@ function main(argv: string[]): number {
       if (!template.includes(marker)) throw new Error(`${TEMPLATE}: the marker ${marker} is missing`);
     }
     mkdirSync(dirname(out), { recursive: true });
-    const page = template
-      .replace("<!-- workshop:key -->", key(map))
-      .replace("<!-- workshop:board -->", render(map, model));
-    writeFileSync(out, page);
+    writeFileSync(
+      out,
+      template.replace("<!-- workshop:key -->", key(map)).replace("<!-- workshop:board -->", render(map, all)),
+    );
   }
   return 0;
 }
