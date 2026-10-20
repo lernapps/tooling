@@ -127,6 +127,7 @@ flowchart LR
         end
         subgraph bb-skills-commit["Commit"]
             bb-skill-github["lernapps-github"]
+            bb-skill-commit["lernapps-commit"]
             bb-skill-listing["lernapps-listing"]
         end
         bb-skills-explore ~~~ bb-skills-plan ~~~ bb-skills-code ~~~ bb-skills-commit
@@ -485,6 +486,23 @@ id: bb-skill-github
 title: lernapps-github
 parent: bb-skills-commit
 path: skills/process/lernapps-github
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+:::
+```
+
+##### lernapps-commit
+
+Goal: The history of `main` stays linear, one squash commit per piece of work, with a structured message taken from
+the plan.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-commit
+title: lernapps-commit
+parent: bb-skills-commit
+path: skills/process/lernapps-commit
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 :::

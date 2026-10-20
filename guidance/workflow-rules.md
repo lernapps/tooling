@@ -35,8 +35,8 @@ scope: tooling
 severity: error
 ```
 
-- Checkpoints: research, confirm the plan and the content method, publish, list. Stop at each and wait for the
-  answer.
+- Checkpoints: research, confirm the plan and the content method, publish. Stop at each and wait for the answer.
+- Checkpoint list: open the listing pull request first (it publishes nothing), then show it and its result and wait.
 - A message sent before the checkpoint's question is no yes.
 - Example: "Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?"
 

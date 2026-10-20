@@ -83,6 +83,7 @@
     "./skills/content/lernapps-exercise-patterns/references/physics.md": "./skills/content/lernapps-exercise-patterns/references/physics.md",
     "./skills/content/lernapps-exercise-patterns/references/success.md": "./skills/content/lernapps-exercise-patterns/references/success.md",
     "./skills/process/lernapps-app/SKILL.md": "./skills/process/lernapps-app/SKILL.md",
+    "./skills/process/lernapps-commit/SKILL.md": "./skills/process/lernapps-commit/SKILL.md",
     "./skills/process/lernapps-content-growth/SKILL.md": "./skills/process/lernapps-content-growth/SKILL.md",
     "./skills/process/lernapps-github/SKILL.md": "./skills/process/lernapps-github/SKILL.md",
     "./skills/process/lernapps-listing/SKILL.md": "./skills/process/lernapps-listing/SKILL.md",
@@ -127,7 +128,7 @@
   },
   "appTemplates": {
     "repository": "https://github.com/lernapps/app-templates.git",
-    "commit": "f28d02036d0fdff868a56c5e5458a56de1a684c5",
+    "commit": "5df076371b0177c7aa32fc98d4056be16b1d36f4",
     "archetypes": [
       "explainer",
       "interactive",

@@ -21,6 +21,10 @@ import { app, check, checkAsync, findingsOf, output, report, type Report } from 
 import { repoRoot, runAsync, tempDir, type Result } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
+// The pre-push hook (scripts/pre-push.ts) sets LERNAPPS_PRE_PUSH=1. The test of a browser that cannot start is skipped
+// there on purpose: starting and refusing Playwright's browser takes longer than its 5 s under the hook's load (the
+// whole suite runs in parallel) and failed pushes that did not touch it. CI and every other run play it.
+const inHook = process.env["LERNAPPS_PRE_PUSH"] === "1";
 const SLOW = 5 * 60 * 1000;
 
 const TYPES: Record<string, string> = { ".html": "text/html; charset=utf-8", ".svg": "image/svg+xml" };
@@ -209,7 +213,7 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
     ]);
   });
 
-  test(
+  test.skipIf(inHook)(
     "where no browser can start, the app could not be checked: one finding of app-checkable",
     { timeout: SLOW },
     async () => {

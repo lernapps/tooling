@@ -12,7 +12,8 @@ license: MIT
 
 ## Open the pull request
 
-Only after the creator's yes at the checkpoint "list".
+At the checkpoint "list", without asking first: the pull request publishes nothing and is the review. After
+"bestanden", show the creator the pull request and its result; change nothing in it without their word.
 
 1. Follow the listing guide <https://lernapps.net/apps/enter/llms.txt> step by step: where the entry goes, how to
    check it, how to open the pull request.
