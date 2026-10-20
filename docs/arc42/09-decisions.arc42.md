@@ -281,6 +281,30 @@ addresses: qg-few-iterations, qg-checked-not-declared, qg-simple-to-build
 :::
 ```
 
+## A listed app touches only its own data
+
+**Context:** lernapps.net serves a copy of every listed app under its own address (lernapps/docs KD-21,
+lernapps/apps#58), so all listed apps share one browser origin with each other and with the platform; an app could
+read or erase what another app or the platform keeps on the device. **Decision:** the listing rule `own-data-only`
+(error): an app names every key of localStorage and sessionStorage, IndexedDB database and cache with the prefix
+`lernapps:<id>:`, its id in the catalog (the name of its entry), and touches nothing else. The check puts another
+app's data into the browser before a page loads and records every access by name; the review rubric covers what
+happens after a click; apps built with the tooling get the prefix from `createStorage("<id>")`. **Rejected:** one
+subdomain per app, which isolates storage by the browser but splits the one address the copies are for.
+**Consequences:** an app whose keys carry no prefix fails the listing until it renames them, and its learners'
+saved progress under the old keys is not carried over unless the app migrates it. Serving the copies changes
+`dec-app-own-hosting`; that follows in its own change.
+
+```arc42
+:::decision
+id: dec-own-data-only
+title: A listed app touches only its own data
+status: accepted
+date: 2026-10-20
+addresses: qg-checked-not-declared, qg-nothing-collected
+:::
+```
+
 ## Conventions as skills
 
 **Context:** guidance must be loaded when needed, not all at once. **Decision:** skills in the agentskills.io

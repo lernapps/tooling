@@ -82,6 +82,7 @@ const BROKEN = [
   ["overflow", "usable-at-360px", "index.html"],
   ["inaccessible", "accessible", "img"],
   ["broken-link", "links-resolve", "erweitern/"],
+  ["foreign-data", "own-data-only", "lernapps:andere-app:fortschritt"],
 ] as const;
 
 describe.skipIf(inner)("lernapps check on a built app", () => {
@@ -134,6 +135,7 @@ describe.skipIf(inner)("lernapps check on a built app", () => {
         "usable-at-360px",
         "accessible",
         "links-resolve",
+        "own-data-only",
       ]),
     );
     expect(written.rules).not.toContain("readable-without-javascript");
