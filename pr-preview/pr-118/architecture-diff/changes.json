@@ -1,0 +1,1208 @@
+{
+  "version": 1,
+  "base": {
+    "label": "1618e1200db04b39fd4493fc4ed8d55d55a1ef76",
+    "commit": "1618e1200db04b39fd4493fc4ed8d55d55a1ef76"
+  },
+  "head": {
+    "label": "ce017449f7b953b3b00974716704ef78c858bc49"
+  },
+  "acceptanceBase": "1618e1200db04b39fd4493fc4ed8d55d55a1ef76",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/05-building-blocks.arc42.md",
+      "line": 168,
+      "elementId": "bb-process-guidance",
+      "message": "Section prose changed without changing block 'bb-process-guidance' — it names 'Skills'."
+    },
+    {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/08-concepts.arc42.md",
+      "line": 57,
+      "elementId": "concept-rule-catalog",
+      "message": "Section prose changed without changing block 'concept-rule-catalog' — it names 'bb-process-guidance'."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "line": 168,
+        "elementId": "bb-process-guidance",
+        "message": "Section prose changed without changing block 'bb-process-guidance' — it names 'Skills'."
+      },
+      {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "line": 57,
+        "elementId": "concept-rule-catalog",
+        "message": "Section prose changed without changing block 'concept-rule-catalog' — it names 'bb-process-guidance'."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-process-guidance",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [
+          {
+            "term": "Skills",
+            "element": "if-skills",
+            "source": "element"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 119
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 168
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-agents-md",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 134
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 183
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Process guidance",
+            "AGENTS.md"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skills",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 175
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 221
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skills-explore",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 236
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-app",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 250
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-app"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-content-research",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 266
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-content-research"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-quiz-design",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 282
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-quiz-design"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-explainer-design",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 298
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-explainer-design"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-interactive-design",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 314
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-interactive-design"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skills-plan",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 330
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Plan skills"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-exercise-patterns",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 344
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Plan skills",
+            "lernapps-exercise-patterns"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-content-growth",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 360
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Plan skills",
+            "lernapps-content-growth"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skills-code",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 376
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-check",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 390
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-check"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-quiz",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 406
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-quiz"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-explainer",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 422
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-explainer"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-interactive",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 438
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-interactive"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-content-questions",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 454
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-content-questions"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skills-commit",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 470
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Commit skills"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-github",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 484
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Commit skills",
+            "lernapps-github"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-commit",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 501
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Commit skills",
+            "lernapps-commit"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-listing",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 517
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Commit skills",
+            "lernapps-listing"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-skills",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 190
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 534
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Skills interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-agent-harness",
+        "kind": "deployment-node",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "hosts",
+            "before": [
+              "bb-process-guidance",
+              "bb-skills"
+            ],
+            "after": [
+              "bb-process-guidance",
+              "bb-skills",
+              "bb-skills-explore",
+              "bb-skills-plan",
+              "bb-skills-code",
+              "bb-skills-commit",
+              "bb-skill-app",
+              "bb-skill-content-research",
+              "bb-skill-quiz-design",
+              "bb-skill-explainer-design",
+              "bb-skill-interactive-design",
+              "bb-skill-exercise-patterns",
+              "bb-skill-content-growth",
+              "bb-skill-check",
+              "bb-skill-quiz",
+              "bb-skill-explainer",
+              "bb-skill-interactive",
+              "bb-skill-content-questions",
+              "bb-skill-github",
+              "bb-skill-commit",
+              "bb-skill-listing"
+            ]
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 85
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 86
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "Creator's machine",
+            "Creator's agent harness"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "concept-rule-catalog",
+        "kind": "concept",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [
+          {
+            "term": "bb-process-guidance",
+            "element": "bb-process-guidance",
+            "source": "element"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 57
+        },
+        "head": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "line": 57
+        },
+        "section": {
+          "file": "docs/arc42/08-concepts.arc42.md",
+          "headingPath": [
+            "Cross-cutting Concepts",
+            "Rule catalog"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-one-skill-one-phase",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 486
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "One skill, one phase"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "building-blocks-level-1",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-skills[\"Skills\"]\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-app-publish[\"App publish\"]\n    bb-app-preview[\"App preview\"]\n    subgraph bb-platform-upkeep[\"Platform upkeep (not used by creators)\"]\n        bb-tooling-build[\"Tooling build and docs\"]\n        bb-site-check[\"Platform site check\"]\n        bb-site-deploy[\"Platform site deploy\"]\n        bb-site-preview[\"Platform site preview\"]\n        bb-renovate-preset[\"Renovate preset\"]\n    end\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli\n    bb-tooling-build -->|\"if-site-check\"| bb-site-check\n    bb-tooling-build -->|\"if-site-deploy\"| bb-site-deploy\n    bb-tooling-build -->|\"if-site-preview\"| bb-site-preview",
+            "after": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        subgraph bb-skills[\"Skills\"]\n            bb-skills-explore[\"Explore skills\"]\n            bb-skills-plan[\"Plan skills\"]\n            bb-skills-code[\"Code skills\"]\n            bb-skills-commit[\"Commit skills\"]\n        end\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-app-publish[\"App publish\"]\n    bb-app-preview[\"App preview\"]\n    subgraph bb-platform-upkeep[\"Platform upkeep (not used by creators)\"]\n        bb-tooling-build[\"Tooling build and docs\"]\n        bb-site-check[\"Platform site check\"]\n        bb-site-deploy[\"Platform site deploy\"]\n        bb-site-preview[\"Platform site preview\"]\n        bb-renovate-preset[\"Renovate preset\"]\n    end\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli\n    bb-tooling-build -->|\"if-site-check\"| bb-site-check\n    bb-tooling-build -->|\"if-site-deploy\"| bb-site-deploy\n    bb-tooling-build -->|\"if-site-preview\"| bb-site-preview"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 18
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 18
+        }
+      },
+      {
+        "id": "building-blocks-skills",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 99
+        }
+      }
+    ],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-app",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-app",
+          "to": "bb-skills-explore",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-check",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-check",
+          "to": "bb-skills-code",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-commit",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-commit",
+          "to": "bb-skills-commit",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-content-growth",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-content-growth",
+          "to": "bb-skills-plan",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-content-questions",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-content-questions",
+          "to": "bb-skills-code",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-content-research",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-content-research",
+          "to": "bb-skills-explore",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-exercise-patterns",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-exercise-patterns",
+          "to": "bb-skills-plan",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-explainer",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-explainer",
+          "to": "bb-skills-code",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-explainer-design",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-explainer-design",
+          "to": "bb-skills-explore",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-github",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-github",
+          "to": "bb-skills-commit",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-interactive",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-interactive",
+          "to": "bb-skills-code",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-interactive-design",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-interactive-design",
+          "to": "bb-skills-explore",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-listing",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-listing",
+          "to": "bb-skills-commit",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-quiz",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-quiz",
+          "to": "bb-skills-code",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-quiz-design",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-quiz-design",
+          "to": "bb-skills-explore",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills-code",
+          "to": "bb-skills",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills-commit",
+          "to": "bb-skills",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills-explore",
+          "to": "bb-skills",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skills-plan",
+          "to": "bb-skills",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-one-skill-one-phase",
+          "to": "qg-any-assistant",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-one-skill-one-phase",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-one-skill-one-phase",
+          "to": "qg-guidance-evolves",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-app",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-check",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-commit",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-content-growth",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-content-questions",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-content-research",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-exercise-patterns",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-explainer",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-explainer-design",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-github",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-interactive",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-interactive-design",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-listing",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-quiz",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-quiz-design",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skills-code",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skills-commit",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skills-explore",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skills-plan",
+          "relation": "hosts"
+        }
+      }
+    ],
+    "proseSections": [
+      {
+        "status": "added",
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Level 2: skills by phase"
+          ],
+          "occurrence": 1
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 96
+        }
+      }
+    ],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 21,
+        "modified": 5,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/08-concepts.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
+        "added": 1,
+        "modified": 0,
+        "removed": 0
+      }
+    ]
+  }
+}
