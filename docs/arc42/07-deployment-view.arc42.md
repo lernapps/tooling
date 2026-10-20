@@ -88,7 +88,7 @@ id: dn-agent-harness
 title: Creator's agent harness, with AGENTS.md and the skill folder
 type: environment
 parent: dn-creator-machine
-hosts: bb-process-guidance, bb-skills, bb-skills-process, bb-skills-tooling, bb-skills-content, bb-skills-archetypes
+hosts: bb-process-guidance, bb-skills, bb-skills-explore, bb-skills-plan, bb-skills-code, bb-skills-commit, bb-skill-app, bb-skill-content-research, bb-skill-quiz-design, bb-skill-explainer-design, bb-skill-interactive-design, bb-skill-exercise-patterns, bb-skill-content-growth, bb-skill-check, bb-skill-quiz, bb-skill-explainer, bb-skill-interactive, bb-skill-content-questions, bb-skill-github, bb-skill-listing
 :::
 ```
 
