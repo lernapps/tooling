@@ -19,7 +19,8 @@ license: MIT
 
 ## Read when
 
-- [references/frame.md](references/frame.md): before you build full-screen play, keys or focus.
+- [references/frame.md](references/frame.md): before you build a control in the heading line, a wider frame,
+  full-screen play, keys or focus.
 
 ## Gotchas
 

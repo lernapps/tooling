@@ -143,7 +143,9 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 
 <!--
 - Publish with the creator's yes. A push to `main` publishes.
-- Skills: `lernapps-github`, `lernapps-listing`.
+- Open the pull requests (to `main`, to the catalog) without asking: they publish nothing; their preview and result
+  are what the creator decides on.
+- Skills: `lernapps-github`, `lernapps-commit`, `lernapps-listing`.
 -->
 
 ### Tasks
@@ -153,14 +155,15 @@ cannot. Something new goes into the guide in the slice that adds it. -->
       says.
 - [ ] **Checkpoint:** publish. Show what the increment adds and the preview link; ask whether it may go online. Wait
       for the yes.
-- [ ] Publish as skill `lernapps-github` says: the branch into `main`, the run of `Pages` watched to the end.
+- [ ] Load skill `lernapps-commit`. Publish as skill `lernapps-github` says: the pull request squash-merged into
+      `main` with the message from this plan, the run of `Pages` watched to the end.
 - [ ] Open the address the job `deploy` printed; confirm the new content. Never a derived address.
 - [ ] App listed and its entry changes (topics, school years, summary) → load skill `lernapps-listing` and write the
-      changed entry. Else skip the next task.
-- [ ] **Checkpoint:** list. Ask before opening the pull request to the catalog; wait for the yes.
+      changed entry. Else skip the checkpoint "list".
 - [ ] Fill the retrospective.
 - [ ] Commit this plan on `main` and push it. A push of only `.vibe/` publishes nothing.
-- [ ] Catalog pull request opened → see it to "bestanden" as the skill says.
+- [ ] **Checkpoint:** list. Open the pull request to the catalog without asking first: the pull request is the
+      review. See it to "bestanden" as the skill says, then show the creator the pull request and its result.
 - [ ] Plan changed since its last push → commit it on `main`, push again.
 
 ### Completed

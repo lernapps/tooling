@@ -56,7 +56,8 @@ questions. -->
 
 - [ ] Install the skills, if missing (the app commits them): `npx --yes skills add
       lernapps/tooling -y -s lernapps-app lernapps-content-research lernapps-exercise-patterns
-      lernapps-content-growth lernapps-check lernapps-content-questions lernapps-github lernapps-listing`.
+      lernapps-content-growth lernapps-check lernapps-content-questions lernapps-github lernapps-commit
+      lernapps-listing`.
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
       their own address, free, public. The technical part (GitHub) comes at the end, and you do it.
 - [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
@@ -177,7 +178,9 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 
 <!--
 - Put the app on GitHub, publish it with the creator's yes, then list it. A push to `main` publishes.
-- Skills: `lernapps-github`, `lernapps-listing`.
+- Open the pull requests (to `main`, to the catalog) without asking: they publish nothing; their preview and result
+  are what the creator decides on.
+- Skills: `lernapps-github`, `lernapps-commit`, `lernapps-listing`.
 -->
 
 ### Tasks
@@ -185,17 +188,18 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 - [ ] `grep '^phase:'` prints `phase: commit`; else set it.
 - [ ] Load skill `lernapps-github`. Repo and Pages as it says: ask the repo name and every click only the creator can
       make in one message.
-- [ ] Push `work`, open the preview pull request, see its checks to green as the skill says. Give the creator the
-      preview link.
-- [ ] **Checkpoint:** publish. Show the preview link; ask before the app goes online; put any open click into the
-      same question. Wait for the yes.
-- [ ] Publish as skill `lernapps-github` says: `work` into `main`, the run of `Pages` watched to the end.
+- [ ] Push `work`, open the preview pull request, see its checks to green as the skill says.
+- [ ] **Checkpoint:** publish. Show what the app does and the preview link from the comment "Vorschau der App"; ask
+      whether it may go online; put any open click into the same question. Wait for the yes.
+- [ ] Load skill `lernapps-commit`. Publish as skill `lernapps-github` says: `work` into `main` as one squash commit
+      with the message from this plan, the run of `Pages` watched to the end.
 - [ ] Open the address the job `deploy` printed; confirm the app shows. Use that address, never a derived one.
 - [ ] Load skill `lernapps-listing`. Complete the entry draft (e.g. the address).
-- [ ] **Checkpoint:** list. Ask before opening the listing pull request; wait for the yes.
 - [ ] Fill the retrospective.
 - [ ] Commit this plan on `main` and push it: the listing check and the review read it there.
-- [ ] Open the listing pull request as the skill says; see it to "bestanden".
+- [ ] **Checkpoint:** list. Open the listing pull request as the skill says, without asking first: the pull request
+      is the review. See it to "bestanden", then show the creator the pull request and its result; change nothing in
+      it without their word.
 - [ ] Plan changed since its last push → commit it on `main`, push again.
 
 ### Completed

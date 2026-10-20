@@ -50,8 +50,10 @@ license: MIT
 ## 3. Publish
 
 1. Only after the creator's yes at the checkpoint "publish".
-2. First version: `git switch main`, `git merge --ff-only work`, `git push origin main`. Increment: merge its pull
-   request (`gh api -X PUT repos/<owner>/<repo>/pulls/<n>/merge`).
+2. One squash commit on `main`, its message as skill `lernapps-commit` says; never a merge commit.
+   First version: `git switch main`, `git merge --squash work`, `git commit`, `git push origin main`; the pull
+   request closes with it. Increment: squash-merge its pull request
+   (`gh api -X PUT repos/<owner>/<repo>/pulls/<n>/merge -f merge_method=squash -f commit_title=… -f commit_message=…`).
 3. Run started? `gh run list --workflow Pages --branch main --commit "$(git rev-parse HEAD)"`. None after a minute
    → `gh workflow run Pages --ref main`.
 4. Watch it: `gh run watch <id>`. It fails → read the failed step, fix, push.
@@ -69,13 +71,13 @@ license: MIT
 
 ## 4. Listing pull request from a fork
 
-- Never push a branch to lernapps/apps, even if allowed. You open the pull request from the creator's fork, after
-  their yes at the checkpoint "list".
+- Never push a branch to lernapps/apps, even if allowed. You open the pull request from the creator's fork at the
+  checkpoint "list", without asking first: it publishes nothing.
 - Find the fork by its owner, never by its name (it may be renamed):
   `curl -s "https://api.github.com/repos/lernapps/apps/forks?per_page=100" | jq -r '.[] | select(.owner.login=="<owner>") | .clone_url'`.
 - No fork, or no access to it: first add the repos your environment needs (e.g. `add_repo` with push access for the
   fork and lernapps/apps); then `gh repo fork lernapps/apps --clone=false`, or MCP. Only when both fail: the creator's
-  click (github.com/lernapps/apps → Fork), in the checkpoint question.
+  click (github.com/lernapps/apps → Fork), asked for once.
 - Push `add-<id>` to the fork; open the pull request over REST:
   `gh api repos/lernapps/apps/pulls -f base=main -f head=<owner>:add-<id> -f title=… -f body=…`.
 - From a fork the pull request gets the results comment, but no preview.
