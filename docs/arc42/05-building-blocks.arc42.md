@@ -170,7 +170,7 @@ id: bb-process-guidance
 title: Process guidance
 parent: bb-tooling-package
 technology: Markdown
-implements: concept-plain-language, concept-terse-output, concept-traceability
+implements: concept-plain-language, concept-terse-output, concept-traceability, concept-rule-catalog
 :::
 ```
 
