@@ -12,6 +12,9 @@ is always one of lernapps.net's own websites, never an app.
 Rules have no block of their own: each rule lives in the block where it acts, as skill text, lint rule, check or
 rubric item (concept `concept-rule-catalog`).
 
+The blocks a creator's assistant works with carry the phases of the plan they support and their kind (`x-phase`,
+`x-kind`). The docs page "A workshop, not a factory" is rendered from them.
+
 ## Level 1
 
 ```arc42
@@ -171,6 +174,8 @@ title: Process guidance
 parent: bb-tooling-package
 technology: Markdown
 implements: concept-plain-language, concept-terse-output, concept-traceability, concept-rule-catalog
+x-phase: explore, plan, across
+x-kind: guidance
 :::
 ```
 
@@ -254,6 +259,8 @@ parent: bb-skills-explore
 path: skills/process/lernapps-app
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-kind: skill
 :::
 ```
 
@@ -270,6 +277,8 @@ parent: bb-skills-explore
 path: skills/content/lernapps-content-research
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-kind: skill
 :::
 ```
 
@@ -286,6 +295,8 @@ parent: bb-skills-explore
 path: skills/archetypes/lernapps-quiz-design
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-kind: skill
 :::
 ```
 
@@ -302,6 +313,8 @@ parent: bb-skills-explore
 path: skills/archetypes/lernapps-explainer-design
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-kind: skill
 :::
 ```
 
@@ -318,6 +331,8 @@ parent: bb-skills-explore
 path: skills/archetypes/lernapps-interactive-design
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: explore
+x-kind: skill
 :::
 ```
 
@@ -348,6 +363,8 @@ parent: bb-skills-plan
 path: skills/content/lernapps-exercise-patterns
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: plan
+x-kind: skill
 :::
 ```
 
@@ -364,6 +381,8 @@ parent: bb-skills-plan
 path: skills/process/lernapps-content-growth
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: plan
+x-kind: skill
 :::
 ```
 
@@ -394,6 +413,8 @@ parent: bb-skills-code
 path: skills/tooling/lernapps-check
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-kind: skill
 :::
 ```
 
@@ -410,6 +431,8 @@ parent: bb-skills-code
 path: skills/archetypes/lernapps-quiz
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-kind: skill
 :::
 ```
 
@@ -426,6 +449,8 @@ parent: bb-skills-code
 path: skills/archetypes/lernapps-explainer
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-kind: skill
 :::
 ```
 
@@ -442,6 +467,8 @@ parent: bb-skills-code
 path: skills/archetypes/lernapps-interactive
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-kind: skill
 :::
 ```
 
@@ -458,6 +485,8 @@ parent: bb-skills-code
 path: skills/content/lernapps-content-questions
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: code
+x-kind: skill
 :::
 ```
 
@@ -488,6 +517,8 @@ parent: bb-skills-commit
 path: skills/process/lernapps-github
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: commit
+x-kind: skill
 :::
 ```
 
@@ -505,6 +536,8 @@ parent: bb-skills-commit
 path: skills/process/lernapps-commit
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: commit
+x-kind: skill
 :::
 ```
 
@@ -521,6 +554,8 @@ parent: bb-skills-commit
 path: skills/process/lernapps-listing
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
+x-phase: commit
+x-kind: skill
 :::
 ```
 
@@ -556,6 +591,8 @@ parent: bb-tooling-package
 technology: TypeScript CLI
 requires: if-archetype-templates, if-plan-file
 implements: concept-stable-contracts
+x-phase: code
+x-kind: CLI
 :::
 ```
 
@@ -629,6 +666,8 @@ parent: bb-archetypes
 technology: git hooks
 requires: if-check-cli, if-plan-file
 implements: concept-terse-output, concept-traceability
+x-phase: code, commit
+x-kind: hook
 :::
 ```
 
@@ -647,6 +686,8 @@ title: Lint rules
 parent: bb-tooling-package
 technology: Oxlint JS plugin
 implements: concept-rule-catalog, concept-terse-output, concept-components
+x-phase: code
+x-kind: lint
 :::
 ```
 
@@ -680,6 +721,8 @@ title: Check CLI
 parent: bb-tooling-package
 technology: TypeScript CLI, Playwright, axe-core
 implements: concept-rule-catalog, concept-terse-output, concept-traceability, concept-stable-contracts
+x-phase: across
+x-kind: CLI
 :::
 ```
 
@@ -731,6 +774,8 @@ parent: bb-tooling-package
 technology: Markdown, JSON Schema
 requires: if-validation-report
 implements: concept-rule-catalog, concept-plain-language, concept-terse-output, concept-traceability, concept-stable-contracts
+x-phase: catalog
+x-kind: review
 :::
 ```
 
@@ -800,6 +845,8 @@ title: Archetype templates and runtimes
 technology: TypeScript, Vite plugin, Vue, Playwright
 requires: if-archetype-preset
 implements: concept-components
+x-phase: explore, code
+x-kind: runtime
 :::
 ```
 
@@ -875,6 +922,8 @@ title: App check action
 technology: GitHub composite action
 path: actions/app-check
 requires: if-check-cli
+x-phase: commit
+x-kind: action
 :::
 ```
 
@@ -907,6 +956,8 @@ id: bb-app-publish
 title: App publish
 technology: GitHub composite action, GitHub Pages
 path: actions/app-publish
+x-phase: commit
+x-kind: action
 :::
 ```
 
@@ -938,6 +989,8 @@ id: bb-app-preview
 title: App preview
 technology: GitHub composite action, GitHub Pages
 path: actions/app-preview
+x-phase: commit
+x-kind: action
 :::
 ```
 
@@ -968,6 +1021,8 @@ title: Listing validation
 technology: GitHub Actions workflow
 requires: if-check-cli, if-review-procedure, if-validation-report
 implements: concept-terse-output, concept-traceability
+x-phase: commit
+x-kind: action
 :::
 ```
 
