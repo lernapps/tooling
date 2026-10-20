@@ -88,6 +88,17 @@ The check sees the app only before a click. Read the bundle's scripts and the de
 file) for what happens after one. A finding: an analytics or tracking library, a request that sends what learners
 enter or do to a server, an identifier stored to recognise a learner, a form that submits to another server.
 
+## Touches only its own data, also after a click
+
+```rubric
+id: own-data-only
+```
+
+The check sees the app only before a click. Read the bundle's scripts for what they do with stored data after one. A
+finding: a key of `localStorage` or `sessionStorage`, an IndexedDB database or a cache whose name does not start with
+`lernapps:<id>:` (`<id>` the name of the entry, `entries/<id>.yaml`), a loop that reads every key, `clear()`, or
+`caches.match()` without `cacheName`.
+
 ## Content of others named, with its licence
 
 ```rubric
