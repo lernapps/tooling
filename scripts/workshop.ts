@@ -1,6 +1,7 @@
 // Renders the page "A workshop, not a factory" of the docs site (site/workshop/) from its mapping
 // (site/workshop/workshop.yaml) and the building blocks of docs/arc42, as `arc42 get` reports them. The mapping says
-// per phase which blocks support it; the model gives each block its title and says which skills belong to which phase
+// per phase what the person decides and which blocks support it, for whom; the model gives each block its title and its
+// place in the architecture app, and says which skills belong to which phase
 // (the skill blocks under bb-skills-<phase>). Fails, with one line per problem, when the mapping names a block the
 // model lacks, or when the skills of a phase in the mapping and in the model differ.
 //
@@ -18,7 +19,6 @@ import { parse } from "yaml";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const MAPPING = join(ROOT, "site/workshop/workshop.yaml");
 const TEMPLATE = join(ROOT, "site/workshop/template.html");
-const MARKER = /^ *<!-- workshop: .*-->$/m;
 
 interface Block {
   id: string;
@@ -27,30 +27,30 @@ interface Block {
   loc: { file: string };
 }
 
-interface Tool {
+/** One box: a block, or neighbouring blocks shown as one, and what it does for the agent and the person. */
+interface Box {
   block?: string;
   blocks?: string[];
   kind: string;
   label?: string;
-  text: string;
+  agent?: string;
+  person?: string;
 }
 
 interface Phase {
   id: string;
   title: string;
   question: string;
-  attention: { level: number; label: string };
-  you: string[];
-  agent: string[];
-  tools: Tool[];
-  gate?: { title: string; text: string };
+  you: string;
+  gate?: string;
+  boxes: Box[];
 }
 
 interface Mapping {
-  kinds: Record<string, string>;
+  kinds: string[];
   phases: Phase[];
-  across: Tool[];
-  catalog: { agent: { block: string; text: string }; owner: string };
+  across: Box[];
+  catalog: Box[];
 }
 
 /**
@@ -80,19 +80,18 @@ export function mapping(): Mapping {
   return parse(readFileSync(MAPPING, "utf8")) as Mapping;
 }
 
-const idsOf = (tool: Tool) => tool.blocks ?? (tool.block === undefined ? [] : [tool.block]);
+const idsOf = (box: Box) => box.blocks ?? (box.block === undefined ? [] : [box.block]);
 
 /** One line per problem; none when mapping and model agree. */
 export function problems(map: Mapping, model: Map<string, Block>): string[] {
   const found: string[] = [];
-  const tools = [...map.phases.flatMap((phase) => phase.tools), ...map.across];
-  for (const tool of tools) {
-    if (idsOf(tool).length === 0) found.push(`a tool without block: "${tool.text}"`);
-    for (const id of idsOf(tool)) if (!model.has(id)) found.push(`${id}: no such building block in docs/arc42`);
-    if (!(tool.kind in map.kinds)) found.push(`${idsOf(tool).join(", ")}: kind "${tool.kind}" is not in kinds`);
+  for (const box of [...map.phases.flatMap((phase) => phase.boxes), ...map.across, ...map.catalog]) {
+    const ids = idsOf(box);
+    if (ids.length === 0) found.push(`a box without block: "${box.label ?? box.agent ?? box.person}"`);
+    for (const id of ids) if (!model.has(id)) found.push(`${id}: no such building block in docs/arc42`);
+    if (!map.kinds.includes(box.kind)) found.push(`${ids.join(", ")}: kind "${box.kind}" is not in kinds`);
+    if (!box.agent && !box.person) found.push(`${ids.join(", ")}: says nothing for the agent or the person`);
   }
-  if (!model.has(map.catalog.agent.block))
-    found.push(`${map.catalog.agent.block}: no such building block in docs/arc42`);
   for (const phase of map.phases) {
     const group = `bb-skills-${phase.id}`;
     if (!model.has(group)) {
@@ -100,9 +99,9 @@ export function problems(map: Mapping, model: Map<string, Block>): string[] {
       continue;
     }
     const inModel = [...model.values()].filter((block) => block.parent === group).map((block) => block.id);
-    const here = phase.tools.flatMap(idsOf).filter((id) => model.get(id)?.parent?.startsWith("bb-skills-"));
+    const here = phase.boxes.flatMap(idsOf).filter((id) => model.get(id)?.parent?.startsWith("bb-skills-"));
     for (const id of inModel.filter((id) => !here.includes(id))) {
-      found.push(`${id}: a skill of ${phase.id} in docs/arc42, missing in the phase's tools`);
+      found.push(`${id}: a skill of ${phase.id} in docs/arc42, missing in the phase's boxes`);
     }
     for (const id of here.filter((id) => !inModel.includes(id))) {
       found.push(`${id}: listed in ${phase.id}, but its group in docs/arc42 is ${model.get(id)?.parent}`);
@@ -113,11 +112,23 @@ export function problems(map: Mapping, model: Map<string, Block>): string[] {
 
 const esc = (text: string) =>
   text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-const capital = (kind: string) => (kind === "cli" ? "CLI" : kind[0]?.toUpperCase() + kind.slice(1));
-const chip = (kind: string) => `<span class="kind ${kind}">${capital(kind)}</span>`;
+
+// Who works with a part: two outline icons, never colour alone; the arrow says the box is a link.
+const PERSON =
+  '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.6-3.9 3.3-6 7-6s6.4 2.1 7 6"/></g></svg>';
+const AGENT =
+  '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M12 4c.7 5 2.8 7.3 8 8-5.2.7-7.3 3-8 8-.7-5-2.8-7.3-8-8 5.2-.7 7.3-3 8-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+const DECIDES =
+  '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z" fill="currentColor"/></svg>';
+const GO =
+  '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const actor = (who: "person" | "agent", label = true) =>
+  who === "person"
+    ? `<span class="actor human"${label ? ' role="img" aria-label="Person" title="Person"' : ' aria-hidden="true"'}>${PERSON}</span>`
+    : `<span class="actor agent"${label ? ' role="img" aria-label="AI agent" title="AI agent"' : ' aria-hidden="true"'}>${AGENT}</span>`;
 
 /**
- * The block's card in the architecture app of this site, which opens an element at `#<chapter file>:el-<id>`. A line
+ * The block's card in the architecture app of this site, which opens an element at `#<chapter file>:el-<id>`. A box
  * of several blocks links the first; they are neighbours in chapter 5.
  */
 function href(ids: string[], model: Map<string, Block>): string {
@@ -125,94 +136,66 @@ function href(ids: string[], model: Map<string, Block>): string {
   return block ? `../architecture/#${basename(block.loc.file)}:el-${block.id}` : "../architecture/";
 }
 
-const linked = (text: string, ids: string[], model: Map<string, Block>) =>
-  `<a href="${esc(href(ids, model))}" data-blocks="${ids.join(" ")}">${esc(text)}</a>`;
-
-function tool(t: Tool, model: Map<string, Block>): string {
-  const name =
-    t.label ??
-    idsOf(t)
-      .map((id) => model.get(id)?.title ?? id)
-      .join(", ");
-  return `<li>${chip(t.kind)} <span>${linked(name, idsOf(t), model)}: ${esc(t.text)}</span></li>`;
+/** A box: its link with title, kind and who works with it; what it does for whom opens on hover and focus. */
+function box(b: Box, id: string, model: Map<string, Block>): string {
+  const ids = idsOf(b);
+  const title = b.label ?? ids.map((block) => model.get(block)?.title ?? block).join(", ");
+  const who = [b.person ? actor("person") : "", b.agent ? actor("agent") : ""].join("");
+  const rows = [
+    b.person
+      ? `<p class="how-row">${actor("person", false)}<span><strong>Person</strong> ${esc(b.person)}</span></p>`
+      : "",
+    b.agent
+      ? `<p class="how-row">${actor("agent", false)}<span><strong>AI agent</strong> ${esc(b.agent)}</span></p>`
+      : "",
+  ].join("");
+  return (
+    `<li class="chip" data-blocks="${ids.join(" ")}"><a href="${esc(href(ids, model))}" aria-describedby="${id}">` +
+    `<span class="t">${esc(title)}</span><span class="meta"><span class="kind">${esc(b.kind)}</span>` +
+    `<span class="actors">${who}</span><span class="go">${GO}</span></span></a>` +
+    `<div class="how" id="${id}" role="tooltip">${rows}</div></li>`
+  );
 }
 
-const list = (items: string[]) => items.map((item) => `            <li>${esc(item)}</li>`).join("\n");
+const boxes = (list: Box[], prefix: string, model: Map<string, Block>) =>
+  `<ul class="chips">${list.map((b, i) => box(b, `how-${prefix}-${i + 1}`, model)).join("")}</ul>`;
 
-/** The generated part of the page: legend, attention, board, across, catalog. */
+function band(id: string, label: string, question: string, list: Box[], model: Map<string, Block>): string {
+  return (
+    `<section class="band" id="${id}" aria-labelledby="${id}-h"><h3 id="${id}-h"><span class="label">${esc(label)}</span>` +
+    `<span class="question">${esc(question)}</span></h3>${boxes(list, id, model)}</section>`
+  );
+}
+
+/** The key under the introduction: who works with a box, and the kinds. */
+export function key(map: Mapping): string {
+  return (
+    '<ul class="key" aria-label="Who works with a part, and its kind">' +
+    `<li>${actor("person", false)}<span><strong>Person</strong> decides or is asked</span></li>` +
+    `<li>${actor("agent", false)}<span><strong>AI agent</strong> works from it</span></li>` +
+    `<li><span>${map.kinds.map((kind) => `<span class="kind">${esc(kind)}</span>`).join(" ")}</span></li></ul>`
+  );
+}
+
+/** The board: what runs through every phase, the four phases, then the catalog. */
 export function render(map: Mapping, model: Map<string, Block>): string {
-  const legend = Object.entries(map.kinds)
-    .map(([kind, text]) => `      <span class="item">${chip(kind)} ${esc(text)}</span>`)
-    .join("\n");
-  const meter = map.phases
-    .map(
-      (p) => `        <span style="--level: ${p.attention.level}%">${esc(p.title)}: ${esc(p.attention.label)}</span>`,
-    )
-    .join("\n");
-  const board = map.phases
+  const phases = map.phases
     .map((p, i) => {
-      const gate = p.gate
-        ? `\n        <p class="gate">${esc(p.gate.title)} <span>– ${esc(p.gate.text)}</span></p>`
-        : "";
-      return `      <section class="phase" aria-labelledby="${p.id}">
-        <header>
-          <span class="n" aria-hidden="true">${i + 1}</span>
-          <h2 id="${p.id}">${esc(p.title)}</h2>
-          <p class="q">${esc(p.question)}</p>
-        </header>
-        <div class="lane you">
-          <h3>You focus on</h3>
-          <ul>
-${list(p.you)}
-          </ul>
-        </div>
-        <div class="lane agent">
-          <h3>The agent</h3>
-          <ul>
-${list(p.agent)}
-          </ul>
-        </div>
-        <div class="lane tools">
-          <h3>Supported by</h3>
-          <ul>
-${p.tools.map((t) => `            ${tool(t, model)}`).join("\n")}
-          </ul>
-        </div>${gate}
-      </section>`;
+      const gate = p.gate ? `<p class="gate">${esc(p.gate)}</p>` : "";
+      return (
+        `<section class="phase" id="phase-${p.id}" aria-labelledby="phase-${p.id}-h">` +
+        `<span class="dot" aria-hidden="true">${i + 1}</span><span class="big" aria-hidden="true">0${i + 1}</span>` +
+        `<h3 id="phase-${p.id}-h"><span class="label">${esc(p.title)}</span><span class="question">${esc(p.question)}</span></h3>` +
+        `<div class="decides"><p class="who">${DECIDES}You decide</p><p>${esc(p.you)}</p>${gate}</div>` +
+        `${boxes(p.boxes, p.id, model)}</section>`
+      );
     })
-    .join("\n\n");
-  const across = map.across
-    .map(
-      (t) =>
-        `      <span>${chip(t.kind)} ${linked(t.label ?? model.get(idsOf(t)[0] ?? "")?.title ?? "", idsOf(t), model)}: ${esc(t.text)}</span>`,
-    )
     .join("\n");
-  return `    <div class="legend" aria-label="Kinds of components">
-${legend}
-    </div>
-
-    <div class="attention">
-      <p>Your attention</p>
-      <div class="meter">
-${meter}
-      </div>
-    </div>
-
-    <div class="board">
-${board}
-    </div>
-
-    <div class="across">
-      <strong>In every phase</strong>
-${across}
-    </div>
-
-    <div class="across catalog">
-      <strong>Then, in the catalog</strong>
-      <span>${linked(map.catalog.agent.text, [map.catalog.agent.block], model)}</span>
-      <span class="owner">${esc(map.catalog.owner)}</span>
-    </div>
-`;
+  return [
+    band("phase-across", "Across all phases", "What runs through every phase?", map.across, model),
+    `<div class="timeline">\n${phases}\n</div>`,
+    band("phase-catalog", "Then, in the catalog", "Is it listed?", map.catalog, model),
+  ].join("\n");
 }
 
 function main(argv: string[]): number {
@@ -230,9 +213,14 @@ function main(argv: string[]): number {
   }
   if (command === "page" && out) {
     const template = readFileSync(TEMPLATE, "utf8");
-    if (!MARKER.test(template)) throw new Error(`${TEMPLATE}: the marker <!-- workshop: … --> is missing`);
+    for (const marker of ["<!-- workshop:key -->", "<!-- workshop:board -->"]) {
+      if (!template.includes(marker)) throw new Error(`${TEMPLATE}: the marker ${marker} is missing`);
+    }
     mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out, template.replace(MARKER, render(map, model).trimEnd()));
+    const page = template
+      .replace("<!-- workshop:key -->", key(map))
+      .replace("<!-- workshop:board -->", render(map, model));
+    writeFileSync(out, page);
   }
   return 0;
 }
