@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>A workshop, not a factory – lernapps.net</title>
+  <link rel="canonical" href="https://lernapps.net/tooling/workshop/">
+  <link rel="stylesheet" href="../stil.css">
+  <style>
+    /* This page only: the phase board. Light only, like every lernapps.net site; the shared tokens, with fallbacks. */
+    :root {
+      --ink: var(--la-text, #1f2933);
+      --muted: var(--la-muted, #5b6672);
+      --surface: var(--la-surface, #f3f5f7);
+      --line: var(--la-border, #e2e8f0);
+      --human: #b4462b;
+      --human-soft: #fbece7;
+      --agent: #2f5d8a;
+      --agent-soft: #e8f0f8;
+      --k-guidance: #6b4fa0;
+      --k-skill: #2f7d5b;
+      --k-cli: #2f5d8a;
+      --k-hook: #a0661b;
+      --k-action: #8a2f6b;
+      --k-runtime: #4a5866;
+      --k-lint: #6b6b1f;
+    }
+    main.wide { max-width: 76rem; }
+    .lead { font-size: 1.15rem; max-width: 46rem; }
+    .contrast { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+    .contrast > div { border: 1px solid var(--line); border-radius: 0.5rem; padding: 0.75rem 1rem; }
+    .contrast h2 { font-size: 1.05rem; margin: 0 0 0.25rem; }
+    .contrast p { margin: 0; }
+    .contrast .yes { border-color: var(--human); }
+
+    .attention { margin: 2rem 0 0.5rem; }
+    .attention > p { margin: 0 0 0.3rem; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.06em;
+      text-transform: uppercase; }
+    .meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+    .meter span { position: relative; border-radius: 0.3rem; padding: 0.15rem 0.6rem; font-size: 0.8rem;
+      font-weight: 700; color: var(--human); background: var(--human-soft); overflow: hidden; }
+    .meter span::before { content: ""; position: absolute; inset: auto 0 0 0; height: 0.25rem; background: var(--human);
+      width: var(--level); }
+    .phase > header { position: relative; }
+    .phase .n { position: absolute; right: 0.7rem; top: 0.1rem; font-size: 2.6rem; font-weight: 800; line-height: 1;
+      color: var(--line); }
+
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 0.5rem; }
+    .phase { border: 1px solid var(--line); border-radius: 0.6rem; display: flex; flex-direction: column; overflow: hidden; }
+    .phase > header { padding: 0.6rem 0.8rem; background: var(--surface); border-bottom: 1px solid var(--line); }
+    .phase h2 { margin: 0; font-size: 1.25rem; }
+    .phase .q { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .lane { padding: 0.6rem 0.8rem; }
+    .lane h3 { margin: 0 0 0.3rem; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .lane ul { margin: 0; padding-left: 1.1rem; font-size: 0.92rem; }
+    .lane li { margin: 0.15rem 0; }
+    .you { background: var(--human-soft); }
+    .you h3 { color: var(--human); }
+    .agent { background: var(--agent-soft); }
+    .agent h3 { color: var(--agent); }
+    .tools { flex: 1; }
+    .tools h3 { color: var(--muted); }
+    .tools ul { list-style: none; padding: 0; }
+    .tools li { display: flex; gap: 0.4rem; align-items: baseline; font-size: 0.88rem; }
+    .kind { flex: none; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      border: 1.5px solid currentColor; border-radius: 0.25rem; padding: 0 0.3rem; line-height: 1.4; }
+    .kind.guidance { color: var(--k-guidance); }
+    .kind.skill { color: var(--k-skill); }
+    .kind.cli { color: var(--k-cli); }
+    .kind.hook { color: var(--k-hook); }
+    .kind.action { color: var(--k-action); }
+    .kind.runtime { color: var(--k-runtime); }
+    .kind.lint { color: var(--k-lint); }
+    .gate { margin: 0; padding: 0.55rem 0.8rem; border-top: 2px dashed var(--human); color: var(--human);
+      font-weight: 700; font-size: 0.9rem; }
+    .gate span { font-weight: 400; color: var(--ink); }
+
+    .across { border: 1px solid var(--line); border-radius: 0.6rem; margin-top: 0.5rem; padding: 0.6rem 0.8rem;
+      display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; align-items: baseline; font-size: 0.9rem; }
+    .across strong { font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .catalog { border-color: var(--human); }
+    .owner { color: var(--human); font-weight: 700; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin: 1rem 0; font-size: 0.88rem; }
+    .legend span.item { display: inline-flex; gap: 0.35rem; align-items: baseline; }
+    .never { border-left: 4px solid var(--human); padding: 0.25rem 1rem; margin: 2rem 0; }
+    .never h2 { margin-top: 0; }
+
+    @media (max-width: 60rem) {
+      .board { grid-template-columns: 1fr 1fr; }
+      .meter { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 36rem) {
+      .board, .meter { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main id="main-content" class="wide" tabindex="-1">
+    <h1>A workshop, not a factory</h1>
+    <p class="lead">A software factory takes people out of the line and turns specifications into output.
+      lernapps.net is a <em>Manufaktur</em>: one person who knows their subject makes one learning app. An AI agent
+      does the handwork, and programs hold the rules. The person keeps every decision that needs judgement.</p>
+
+    <div class="contrast">
+      <div>
+        <h2>Factory</h2>
+        <p>Many products from one specification. Quality means the output matches the spec. People supervise the
+          line.</p>
+      </div>
+      <div class="yes">
+        <h2>Workshop (Manufaktur)</h2>
+        <p>One app from one person's knowledge: their subject, their learners, their material. Quality means learners
+          learn. The person decides; the tools make the rest repeatable.</p>
+      </div>
+      <div>
+        <h2>What a developer gets</h2>
+        <p>No toolchain to fight: a template that passes every check from its first commit, error messages that say
+          what to fix, and the same checks in the hooks, in CI and at the listing.</p>
+      </div>
+      <div>
+        <h2>What a manager gets</h2>
+        <p>Rules with ids, enforced by programs at fixed points, not by trust. Every app shows where it deviates and
+          why. Content quality stays a human judgement, on purpose.</p>
+      </div>
+    </div>
+
+    <!-- workshop: legend, attention, board, across, catalog; rendered by scripts/workshop.ts from workshop.yaml -->
+
+    <section class="never">
+      <h2>What no machine decides</h2>
+      <ul>
+        <li>What the app teaches, and for whom.</li>
+        <li>Whether the content teaches correctly: no check and no review proves that.</li>
+        <li>Whether the app goes online, and under whose name.</li>
+      </ul>
+    </section>
+
+    <p>More: <a href="../architecture/">architecture</a> (the skills by phase are in chapter 5),
+      <a href="../rules/">rules</a>, <a href="../github/">GitHub, explained</a>.</p>
+  </main>
+</body>
+</html>
