@@ -156,10 +156,12 @@ describe("AGENTS.md", () => {
 describe("the skills", () => {
   // Names in backticks after "skill": `lernapps-app`; the "Not installed" hint names a repo, not a skill.
   const named = (text: string) => [...text.matchAll(/skills?\s+`([a-z][a-z0-9-]*)`/g)].map((match) => match[1]);
-  /** Each skill's folder below skills/, by name: skills/<group>/<name>/. */
+  /** Each skill's folder below skills/, by name: skills/<group>/<name>/. Only lernapps-* skills ship to apps. */
   const folders = new Map(
     readdirSync(file("skills")).flatMap((group) =>
-      readdirSync(file(`skills/${group}`)).map((name) => [name, `skills/${group}/${name}`] as const),
+      readdirSync(file(`skills/${group}`))
+        .filter((name) => name.startsWith("lernapps-"))
+        .map((name) => [name, `skills/${group}/${name}`] as const),
     ),
   );
   const skills = [...folders.keys()];
