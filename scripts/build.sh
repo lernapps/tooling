@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: a short start page, the page
-# GitHub, explained (github/), the eval results (evals/, written by evals/report.ts), llms.txt, the rule page (rules/,
+# A workshop, not a factory (workshop/: who does what in which phase), the page GitHub, explained (github/), the eval results (evals/, written by evals/report.ts), llms.txt, the rule page (rules/,
 # read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of the review verdict, of
 # the question bank of a quiz and of the content of an explainer (schemas/; the last two from lernapps/app-templates
 # at the pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
@@ -19,8 +19,9 @@ PREFIX="${SITE_PATH_PREFIX:-/tooling/}"
 rm -rf _site
 mkdir -p _site
 cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
-mkdir -p _site/github
+mkdir -p _site/github _site/workshop
 cp site/github/index.html _site/github/
+cp site/workshop/index.html _site/workshop/
 mkdir -p _site/prompt-engineering _site/evals
 cp site/prompt-engineering/index.html site/prompt-engineering/data.json _site/prompt-engineering/
 cp site/evals/index.html _site/evals/
