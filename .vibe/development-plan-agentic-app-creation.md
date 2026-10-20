@@ -270,6 +270,22 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
     The rubric item `app-content-matches`: the guide says what was built and is concrete enough. No freshness check.
   - **E.** The architecture at the level of responsibilities (`dec-app-content-guide`).
 
+### KD-24: One skill per phase; the guidance holds only the process; the workshop page comes from the architecture
+- **Decision** (2026-10-19/20, owner), from the compact-guidance experiment and its manual eval:
+  - Skills are grouped by kind (`skills/process`, `tooling`, `content`, `archetypes`) and installed flat into
+    `.agents/skills`; each description starts "Use in <phase>". The plan templates carry only the process: which skill
+    to load when, the checkpoints, the phase in the front matter. Skills are preventive; the messages of checks and
+    hooks explain themselves and get no skill text.
+  - The archetype is chosen from the templates' READMEs (what each can do), with no example apps. GitHub comes only in
+    Commit (`lernapps-github`: repo, Pages, preview pull request); Code works locally on `work`; the publish is a
+    squash (`lernapps-commit`); the listing pull request is opened without asking and is the review.
+  - Every skill is a building block of its own with its goal, under one group per phase (`bb-skills-<phase>`).
+    Building blocks and interfaces carry `x-phase`, `x-agent` and `x-person` (arc42 ≥ 0.38); the page "A workshop,
+    not a factory" (lernapps.net/tooling/workshop/) is rendered from them and fails the build when one does not fit.
+    Its message: a Manufaktur, not a software factory; in Code the person has nothing to do.
+- **Rejected**: an explicit mapping kept next to the architecture (`workshop.yaml` now holds only the phases and what
+  the person decides); a kind of its own per box (`x-kind`), since a block's technology says it.
+
 ## Notes
 
 - **Existing building blocks**: site actions and Renovate preset (this repo); site frame with `lernapps-check`
@@ -287,7 +303,7 @@ also by the tooling (KD-18, `ch-feedback`); with medium priority fewer iteration
   parents in German.
 - **Language of this plan**: English, as all shared infrastructure.
 - **Issue #12** asked for a single app-template with `AGENTS.md`, the site frame and the site actions. KD-02 and
-  KD-05 widen that to archetypes and a generator; update the issue once the architecture is agreed.
+  KD-05 widen that to archetypes and a generator; closed on 2026-10-20 with what was built.
 
 ## Explore
 
@@ -336,7 +352,7 @@ first run. Next (owner, 2026-10-13): an MVP of the explainer archetype based on 
 principles hold there (11, sketch below), before the evals (10); then 10 and 12. Step 11 is done, with the first full
 explainer run (see Completed). Next (owner, 2026-10-16): the interactive archetype (12) before the evals (10), so the
 evals cover all three archetypes.*
-- [ ] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20)): sketched below and decided
+- [x] 12 · The interactive archetype ([#20](https://github.com/lernapps/tooling/issues/20)): sketched below and decided
   by the owner (2026-10-16, 2026-10-17). Done in Code:
   - step 1, app-templates: the runtime and the template ([lernapps/app-templates#33](https://github.com/lernapps/app-templates/pull/33),
     [#34](https://github.com/lernapps/app-templates/pull/34)); typed inputs, ticks in playthroughs, libraries from the
@@ -352,15 +368,38 @@ evals cover all three archetypes.*
   dependencies; typed inputs and ticks; storage quota 100 kB; WCAG and 360 px as platform rules with declared limits;
   the architecture only in interactive apps, copied and replaced by the tooling, the app's own part in marked
   sections, not user-facing, gated by `arc42 diff --staged --strict` and `arc42 validate --strict`; Vue stays.
-  Next: the first full run with a pilot app (step 4 of the sketch).
+  The pilot run is through (owner, 2026-10-20); #20 closed.
 - [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
-  and an increment each: inventory and expected behaviour in the sketch below (2026-10-17); scenarios and scoring next
+  and an increment each: inventory and expected behaviour in the sketch below (2026-10-17); scenarios and scoring next.
+  Before closing this increment: the Harbor comparison of the guidance of #118 with the runs of 2026-10-18 (the
+  owner decides on the run)
   - How the eval runs are built: ADR [`docs/adr/eval-runs-with-harbor.md`](../docs/adr/eval-runs-with-harbor.md), short form `dec-eval-runs-with-harbor` in chapter 9 (accepted
     2026-10-17 by the owner: Harbor, single-step tasks with a simulated creator, a scoring verifier; spike and first real run `real-5` done)
 - [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),
   the templates' build into `dist/` ([lernapps/app-templates#32](https://github.com/lernapps/app-templates/issues/32)),
   tutor support for the quiz, later ([#86](https://github.com/lernapps/tooling/issues/86))
 - [ ] Open points of the documentation site ([#6](https://github.com/lernapps/tooling/issues/6))
+- [ ] Next increment: `lernapps update` cannot be committed when the templates' reference of the architecture changes a block but not
+  its prose: the staged-diff check of the hook also judges the generic part the update rewrote
+  ([#117](https://github.com/lernapps/tooling/issues/117), with the proposed fix: judge only the app's own sections)
+- [x] The rework of the skills ([#115](https://github.com/lernapps/tooling/issues/115)) is done in #118 and closed;
+  not done: a claim check (every skill folder in exactly one block's `path`); its acceptance by the evals is in #18
+- [ ] Later, outside this increment: the agent-based check of listed apps
+  ([#1](https://github.com/lernapps/tooling/issues/1); the review agent and `lernapps check --entry` cover parts of
+  it), re-validation and dead links of listed apps (KD-15, [lernapps/apps#57](https://github.com/lernapps/apps/issues/57)),
+  copies of listed apps under lernapps.net ([lernapps/apps#58](https://github.com/lernapps/apps/issues/58)), agent
+  feedback on the guidance ([#8](https://github.com/lernapps/tooling/issues/8)), quiz categories and multiplayer
+  (lernapps/app-templates#8, #12)
+- [x] lernapps/.github#12 closed with what was built instead of one app-template; its issue form for content errors
+  is [lernapps/app-templates#57](https://github.com/lernapps/app-templates/issues/57) (next increment)
+- [ ] Follow-ups of the workshop page and the start pages (2026-10-20):
+  - an issue on docToolchain/arc42-language: `arc42 diff` reports a change of `x-*` attributes alone as a block
+    changed without prose (29 warnings on #119), and a deep link from outside lands about 1300 px early because
+    mermaid renders after the scroll
+  - [x] app-templates: arc42 from 0.36.1 to 0.38.0, as the generator pins it (lernapps/app-templates#58)
+  - [x] close the test listing pull request lernapps/apps#60 (planeten-quiz, from the manual eval)
+  - the vision's tagline (`docs/vision.md` in lernapps/docs) in the words of its new card: "Many small solutions.
+    One real change.", personal software becoming a change for many, used without worry
 
 ### Sketch: the evals (step 10, inventory and expectations, 2026-10-17)
 *The text an agent reads on its way from a creator's first prompt to a listed app, and what we expect it to do with
@@ -499,6 +538,10 @@ Overall:
   scored: an app the agent built by the guidance is good when its creator knows the subject.
 - First results (2026-10-18, 33 runs, three archetypes × Haiku, Sonnet, Opus 5.5): [lernapps.net/tooling/prompt-engineering/](https://lernapps.net/tooling/prompt-engineering/).
   Next (owner): optimise the guidance for agents (compact, bullets, less boilerplate) and compare quality and cost.
+- Compact guidance (2026-10-19/20): the guidance rewritten by phase (KD-24) on `exp/compact-guidance`, tried with the
+  internal skill `manual-eval` in three test sessions (a small quiz, an explainer on gravitation, an interactive
+  mental-arithmetic app with a timer). Findings: the archetype from the templates' READMEs, GitHub only in Commit,
+  the plan path stated once. Merged in #118; a Harbor comparison of old and new guidance is still open.
 
 ### Sketch: the interactive archetype (step 12, decided by the owner)
 *From the owner's examples and answers, decided by the owner (2026-10-16).*
@@ -1258,6 +1301,22 @@ The open questions of the earlier versions, decided:
     every exercise's number is in the address; exercise components take `seed` and export `describe` and `about`;
     `tutor.md` per page, a tutor part in `llms.txt`, a tutor prompt that names every address the tutor may fetch, and
     the tutor button (lernapps/app-templates#26–#28, #30, #31; #82–#84)
+- [x] Guidance by phase and the workshop page (2026-10-19/20, KD-24):
+  - Before: the plan's front matter counts failed rules (#110); pins of app-templates with the heading slot of the
+    interactive archetype and the formula count (#112, #113); `.nojekyll` in the publish bundle and internal skills
+    left out of `npx skills add` (#108); the listing skill follows the listing guide of lernapps/apps (#109); pull
+    requests opened without asking, a squash with a structured message (1618e12)
+  - One skill per phase, skills grouped by kind, the archetype from the templates' READMEs, GitHub only in Commit,
+    one building block per skill (#118, with lernapps/apps#62 and lernapps/app-templates#52)
+  - The page "A workshop, not a factory", rendered from the building blocks' `x-*` attributes (#119). The attributes
+    needed `arc42 get` to report them: issue docToolchain/arc42-language#130, fixed in mrsimpson/cli42#13
+    (`@cli42/lib` 0.9.0) and docToolchain/arc42-language#131, released as arc42 0.38.0
+  - The start page of /tooling/ in the workshop's look: the workshop first, its phases from `workshop.yaml`, then
+    prompt engineering, architecture and GitHub (#120)
+  - Across the sites: the header has Tooling and "Darum!" (en "That's why") for /docs/ (lernapps/lernapps.github.io#56;
+    pinned in #120, lernapps/docs#38, lernapps/apps#63); the start page of /docs/ is "Die Konzepte hinter
+    lernapps.net" with the vision "Viele kleine Lösungen. Eine große Veränderung." as its big card, platform (pdt42),
+    the non-profit organisation (biz42) and the way in for agents (llms.txt) (lernapps/docs#38)
 
 ## Commit
 
