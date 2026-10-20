@@ -122,10 +122,12 @@
     .chip.planned:focus-visible { outline: 3px solid var(--lc-accent); outline-offset: 2px; }
     /* Where hover does not exist, the text is part of the page. */
     @media (hover: none) {
-      .how { position: static; visibility: visible; opacity: 1; transform: none; box-shadow: none; border: 0; border-top: 1px solid var(--lc-border); border-radius: 0; margin-top: 0.5rem; padding: 0.5rem 0 0; min-width: 0; background: transparent; flex-basis: 100%; }
+      /* Without hover the box is one card: the link and, inside it, what the part does for whom. */
+      .chip { background: var(--lc-card); border: 1px solid var(--lc-border); border-radius: 0.75rem; box-shadow: var(--lc-shadow); }
+      .chip a { border: 0; box-shadow: none; background: transparent; min-height: 0; }
+      .how { position: static; visibility: visible; opacity: 1; transform: none; box-shadow: none; border: 0; border-radius: 0; margin: 0; padding: 0 0.8rem 0.7rem; min-width: 0; background: transparent; }
       .how::before { display: none; }
       .chip.dismissed > .how { visibility: visible; opacity: 1; }
-      .chip a { margin-bottom: 0; }
     }
     @media (prefers-reduced-motion: reduce) { .how { transition: none; } }
 
