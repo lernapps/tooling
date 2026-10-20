@@ -11,6 +11,9 @@ start = "fresh"
 entry_point = "E1"
 # The dimensions of reward.json and transcript-score.json and their expectations: evals/expectations.json.
 expectations = ["A1", "A2", "A3", "A4", "A6", "A7", "A9", "A11", "A12", "A13", "A19", "A21", "A22", "A23"]
+# Skills the guidance loads only on a condition this task does not set (scored with A2: neither expected nor
+# missing): content growth is for an increment; the question skill is for questions with options.
+skills_conditional = ["lernapps-content-growth", "lernapps-content-questions"]
 
 [agent]
 timeout_sec = 7200

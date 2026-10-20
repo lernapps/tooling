@@ -16,7 +16,11 @@ What is tested is an assistant configuration (harness and version, model, Harbor
   - `tests/test.sh`: runs the shared verifier in a separate container on the collected `/app`.
   - `task.toml`: timeouts, the separate verifier, the expected archetype, the expectations scored.
 - `verifier/verify.ts`: the verifier; writes `reward.json` (numbers only), `evidence.md` and the check report.
-- `score-transcript.ts`: scores a trial's transcript (turns, questions, what was read and how, bypasses).
+- `score-transcript.ts`: scores a trial's transcript (turns, questions, what was read and how, bypasses, and the
+  skills loaded in their phase).
+- `skills-by-phase.ts`: the skills the guidance under test loads in each phase, from the `x-phase` of the skills'
+  building blocks in its architecture (`docs/arc42` at the job's guidance commit); `run.sh` writes it into the job as
+  `skills-by-phase.json`. A task names the skills it leaves to a condition in `task.toml` (`skills_conditional`).
 - `summary.ts`: aggregates jobs per task and configuration (mean, min, max, n).
 - `expectations.json`: which expectation each dimension measures.
 - `harbor/`: `setup.sh` (installs Harbor 0.24.0 outside the repo and patches it), `harbor.sh` (runs Harbor with a
