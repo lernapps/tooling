@@ -511,7 +511,7 @@ const EXPLAINER_MARKER = 'meta[name="lernapps-archetype"][content="explainer"]';
  * The parts of an explainer page that only JavaScript shows, hidden without it: a component's island, a generated
  * exercise's live task, a question's controls and its reveal after "Prüfen". What is inside is not read.
  */
-const ONLY_WITH_JAVASCRIPT = [".explainer-island", ".explainer-live", ".quiz-reveal", ".quiz-actions"];
+const ONLY_WITH_JAVASCRIPT = [".explainer-island", ".explainer-live", ".question-reveal", ".question-actions"];
 
 /**
  * What an explainer page shows with JavaScript off (in `context`, made with JavaScript disabled): its h1, headings,

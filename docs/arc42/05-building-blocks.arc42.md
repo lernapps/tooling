@@ -428,7 +428,7 @@ x-agent: Fixes every failed check from its message and never bypasses one.
 
 ##### lernapps-quiz
 
-Goal: The assistant writes only the question bank of a quiz, in the languages it declares, and knows what the runtime does with it.
+Goal: The assistant writes only the question bank of a quiz and the images its questions show, in the languages it declares, and knows what the runtime does with it.
 
 ```arc42
 :::ignore W002 a part of the skills; the contract is the skills interface :::
@@ -440,7 +440,7 @@ path: skills/archetypes/lernapps-quiz
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
-x-agent: Writes the question bank of a quiz, the only file it writes there.
+x-agent: Writes the question bank of a quiz and adds the images its questions show, the only files it writes there.
 :::
 ```
 
@@ -895,31 +895,32 @@ x-agent: Runs the app: engine, accessibility, the page without JavaScript, its o
 ### Question bank
 
 The content a quiz is made of: questions of several types, each with an explanation and links for further reading,
-and background knowledge for every option. A consumer can rely on a published schema; the build fails with one
-message per problem. New question types extend the schema without changing the existing ones.
+and background knowledge for every option, and the content a question shows (figures, tables, quotations, code, with
+the images in `src/images/`). A consumer can rely on the schema in the runtime, which an app's file points to; the
+build fails with one message per problem. New question types extend the schema without changing the existing ones.
 
 ```arc42
 :::interface
 id: if-question-bank
 title: Question bank
 provider: bb-app-templates
-protocol: JSON with a published JSON Schema
+protocol: JSON with a JSON Schema in the runtime; image files
 :::
 ```
 
 ### Explainer content
 
 The content an explainer is made of: chapters of pages, each a list of blocks from a closed set with an exercise,
-data files, bundled images, and components where no block fits. A consumer can rely on a published schema that
-refers to the question bank's for the quiz's question types, and on the build failing with one line per problem, its
-file and place. New blocks extend the schema without changing the existing ones.
+data files, bundled images, and components where no block fits. A consumer can rely on the schema in the
+runtime, which refers to the shared schemas of the questions and blocks, and on the build failing with one line per
+problem, its file and place. New blocks extend the schema without changing the existing ones.
 
 ```arc42
 :::interface
 id: if-explainer-content
 title: Explainer content
 provider: bb-app-templates
-protocol: YAML with a published JSON Schema; Vue single-file components
+protocol: YAML with a JSON Schema in the runtime; Vue single-file components
 :::
 ```
 

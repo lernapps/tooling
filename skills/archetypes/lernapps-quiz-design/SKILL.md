@@ -10,7 +10,8 @@ license: MIT
 
 - One page of questions with options and feedback. The runtime shows one question at a time, then each option's
   background, the explanation and links; the score at the end. Without JavaScript: a worksheet with solutions.
-- You will write only the question bank `src/quiz.json`; no code (`quiz-only-data`).
+- You will write the question bank `src/quiz.json` and, for what a question shows, image files in `src/images/`;
+  no code (`quiz-only-data`).
 
 ## Can and cannot
 

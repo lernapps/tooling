@@ -6,9 +6,9 @@ license: MIT
 
 # Quiz
 
-- You write only `src/quiz.json`. Engine, question types, feedback, scoring, order, accessibility and the no-JS page
-  come from the runtime `@lernapps/app-templates`.
-- Schema: <https://lernapps.net/tooling/schemas/quiz.v1.schema.json>.
+- You write `src/quiz.json` and, for the content of its questions, the image files in `src/images/`. Engine, question
+  types, feedback, scoring, order, accessibility and the no-JS page come from the runtime `@lernapps/app-templates`.
+- Schema: `node_modules/@lernapps/app-templates/runtime/quiz/quiz.v1.schema.json`.
 - `create` writes the example bank "Naturwunder der Welt": replace it with the planned questions.
 - The fields of each question type and how to write good questions: skill `lernapps-content-questions`.
 
@@ -21,7 +21,8 @@ license: MIT
 
 ### Build and page
 
-- Build reads, validates, renders every question into `index.html`.
+- Build reads, validates, renders every question into `index.html`, with the content it shows (`material`), and
+  carries the images of `src/images/` to `images/`.
 - No JS: a worksheet; all questions, then solutions with background and links.
 - JS: one question at a time, right or wrong shown; then each option's `info` (right ones and the choice marked),
   the explanation, the links. Score and solutions at the end.
@@ -42,6 +43,7 @@ license: MIT
 
 - Bank validates (build passes) but a runtime test fails = template bug: act as skill `lernapps-check` says.
 - Never change the runtime in `node_modules` (`quiz-only-data`). Go on with the questions.
+- A question shows an image or a table with `material`: skill `lernapps-content-questions`, its reference question-types.
 
 ### Languages
 
@@ -74,7 +76,7 @@ license: MIT
 
 ## Rules
 
-### `quiz-only-data`: Write only the question bank
+### `quiz-only-data`: Write only the question bank and its images
 
 ```rule
 id: quiz-only-data
@@ -82,8 +84,8 @@ scope: archetype:quiz
 severity: error
 ```
 
-- Change only `src/quiz.json`. `index.html`, `src/main.ts`, `e2e/quiz.e2e.ts`, config as generated
-  (`keep-the-preset`).
+- Change only `src/quiz.json` and add image files to `src/images/`. `index.html`, `src/main.ts`, `e2e/quiz.e2e.ts`,
+  config as generated (`keep-the-preset`).
 - Bank cannot say it → "Where I had to guess", never code around the runtime.
 
 ### `quiz-stable-ids`: Keep the ids
