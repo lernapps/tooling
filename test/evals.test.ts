@@ -1,6 +1,6 @@
 // The scoring of the eval tasks (evals/): the transcript score of a trial, the verifier's parsing of a plan, and the
 // summary across jobs. The trials are fixtures: a synthetic one that exercises each dimension, and a trimmed real one.
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
@@ -10,7 +10,7 @@ import { elements } from "../scripts/workshop.ts";
 import { results } from "../evals/results.ts";
 import { problems, render, runs } from "../evals/site.ts";
 import { summarise } from "../evals/summary.ts";
-import { boxes, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
+import { boxes, findVibeDirs, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
 import { repoRoot } from "./support.ts";
 
 const fixtures = join(repoRoot, "test", "fixtures", "evals");
@@ -448,4 +448,12 @@ test("the eval runs on the page: every conclusion names cells, rows and findings
   expect(html).toContain('id="run-2026-10-18-first-run"');
   expect(html).toContain('href="#2026-10-18-first-run--quiz-fresh--haiku-5-5--c1--app_content_filled"');
   expect(html).toContain('id="2026-10-18-first-run--quiz-fresh--haiku-5-5--c1--app_content_filled"');
+});
+
+test("the verifier finds the plan's folder past a symlink whose target is gone", () => {
+  const app = mkdtempSync(join(tmpdir(), "verify-"));
+  mkdirSync(join(app, "quiz", ".vibe", "plans"), { recursive: true });
+  mkdirSync(join(app, ".claude", "skills"), { recursive: true });
+  symlinkSync(join(app, ".agents", "skills", "lernapps-quiz"), join(app, ".claude", "skills", "lernapps-quiz"));
+  expect(findVibeDirs(app)).toEqual([join(app, "quiz")]);
 });

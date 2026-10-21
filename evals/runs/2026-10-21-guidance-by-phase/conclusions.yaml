@@ -54,7 +54,8 @@ findings:
       New in this run (A2, scored from the phases of the skills' building blocks in the architecture). Sonnet and Opus
       load 61–86 % of the skills a phase names by the end of that phase, Haiku 27–35 %. Many loads come before their
       phase, mostly `lernapps-exercise-patterns` (Plan) and the Code skills, read already in Explore. In Commit,
-      `lernapps-listing` and `lernapps-commit` are the skills that stay missing.
+      `lernapps-listing` and `lernapps-commit` stay missing, but by the scenario, not the agent: their tasks come
+      after the publish checkpoint, where the simulated creator stops; the score expected them anyway.
     evidence:
       - { task: interactive-fresh, model: Sonnet 5.5, row: skills_in_phase }
       - { task: explainer-fresh, model: Haiku 5.5, row: skills_in_phase }
@@ -101,14 +102,16 @@ actions:
     findings: [skills-in-phase]
   - text: Leave out trials that hit the usage limit (HTTP 429) or broke off before the agent started, in the results file of a run.
     status: done
-  - text: Make `lernapps-commit` and `lernapps-listing` hard to skip in Commit (the plan's Commit tasks, or a check).
-    status: open
+  - text: >-
+      Make `lernapps-commit` and `lernapps-listing` hard to skip in Commit. Dropped: the scenario ends before their
+      tasks; the fresh tasks now leave them to that condition (`skills_conditional`).
+    status: dropped
     findings: [skills-in-phase]
   - text: >-
-      Decide where `lernapps-exercise-patterns` belongs: the agents use it while drafting in Explore, the plan template
-      names it in Plan.
-    status: open
-    findings: [skills-in-phase]
+      Move `lernapps-exercise-patterns` to Explore, where the agents read it anyway: the kind of practice it shows
+      points to the archetype, so the plan loads it before the archetype is chosen.
+    status: done
+    findings: [skills-in-phase, haiku-falls-behind]
   - text: Check whether "created before the plan" counts right with the phase set at the start of Code.
     status: open
     findings: [created-before-plan]
@@ -116,7 +119,7 @@ actions:
     status: open
     findings: [haiku-falls-behind]
   - text: The verifier skips a dangling symlink under `.claude/skills/` instead of crashing (verify.ts, findVibeDirs).
-    status: open
+    status: done
     findings: [rerun-newer-guidance]
   - text: Rethink the rule of one or two questions per turn (carried over from 2026-10-18).
     status: open

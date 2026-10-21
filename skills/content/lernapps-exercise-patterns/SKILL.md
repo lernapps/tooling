@@ -1,6 +1,6 @@
 ---
 name: lernapps-exercise-patterns
-description: Use in Plan when you decide how learners of a lernapps.net app practise - which kind of exercise fits each competency, which material is shared as data, what counts as right and what a wrong answer is told - and in Plan of an increment that needs a pattern the app's content guide lacks. For every archetype.
+description: Use in Explore, after the goal and the learners are known and before you choose the archetype - how learners of a lernapps.net app practise each kind of competency, which points to the archetype - and again in Plan to choose a pattern per competency, share material as data and say what a wrong answer is told. In an increment, for a kind of exercise the app's content guide lacks. For every archetype.
 license: MIT
 ---
 
@@ -10,6 +10,18 @@ license: MIT
 - Learners derive, not only read off: show how a value comes about (tree diagram, step, model), then let them do it.
 - The content guide `.agents/skills/app-content/SKILL.md` names the app's patterns. It takes precedence.
 - Three levels. Take the next level only when the one before cannot express the competency.
+
+## The kind of practice and the archetype
+
+- In Explore, read the patterns of the subject before the archetype is chosen. How learners practise points to the
+  archetype; the README of each template decides:
+  - every competency fits a question with options or an input and feedback per answer, no page needs to explain
+    first → `quiz`;
+  - learners need explanations, figures or derivations on pages before they practise, with exercises in between →
+    `explainer`;
+  - learners act in a model of their own: a game, a simulation, a timed drill, something they move or build →
+    `interactive`.
+- Mixed: the kind most competencies need decides; tell the creator what the others become.
 
 ## 1. Data files
 
