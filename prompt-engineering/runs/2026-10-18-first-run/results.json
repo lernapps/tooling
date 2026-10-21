@@ -70,7 +70,7 @@
     },
     {
       "id": "phase_reached",
-      "label": "Phase reached",
+      "label": "Phase in the plan at the end (commit = 100 %)",
       "group": "process",
       "source": "phase_reached",
       "kind": "share",
@@ -96,6 +96,16 @@
       "kind": "runs",
       "expectations": [
         "A11"
+      ]
+    },
+    {
+      "id": "code_done",
+      "label": "Code done: check green and the scenario ended after the plan",
+      "group": "transcript",
+      "source": "scenario_end",
+      "kind": "runs",
+      "expectations": [
+        "A4"
       ]
     },
     {
@@ -200,8 +210,14 @@
           "n": 6
         },
         "turns_after_plan_max_3": {
-          "mean": 0.833,
-          "min": 0,
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 6
+        },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
           "max": 1,
           "n": 6
         },
@@ -238,9 +254,9 @@
           "n": 6
         },
         "creator_turns_after_plan": {
-          "mean": 1.5,
+          "mean": 1.333,
           "min": 1,
-          "max": 4,
+          "max": 3,
           "n": 6
         },
         "questions_per_turn_max": {
@@ -334,6 +350,12 @@
         "turns_after_plan_max_3": {
           "mean": 0.75,
           "min": 0,
+          "max": 1,
+          "n": 4
+        },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
           "max": 1,
           "n": 4
         },
@@ -462,6 +484,12 @@
           "n": 3
         },
         "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "code_done": {
           "mean": 1,
           "min": 1,
           "max": 1,
@@ -596,6 +624,12 @@
           "max": 1,
           "n": 5
         },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 5
+        },
         "questions_max_2": {
           "mean": 0,
           "min": 0,
@@ -629,8 +663,8 @@
           "n": 5
         },
         "creator_turns_after_plan": {
-          "mean": 3.8,
-          "min": 3,
+          "mean": 3.6,
+          "min": 2,
           "max": 5,
           "n": 5
         },
@@ -724,6 +758,12 @@
         "turns_after_plan_max_3": {
           "mean": 0.75,
           "min": 0,
+          "max": 1,
+          "n": 4
+        },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
           "max": 1,
           "n": 4
         },
@@ -852,6 +892,12 @@
           "n": 3
         },
         "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "code_done": {
           "mean": 1,
           "min": 1,
           "max": 1,
@@ -986,6 +1032,12 @@
           "max": 1,
           "n": 3
         },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
         "questions_max_2": {
           "mean": 0,
           "min": 0,
@@ -993,7 +1045,7 @@
           "n": 3
         },
         "not_created_before_plan": {
-          "mean": 0.667,
+          "mean": 0.333,
           "min": 0,
           "max": 1,
           "n": 3
@@ -1019,9 +1071,9 @@
           "n": 3
         },
         "creator_turns_after_plan": {
-          "mean": 4,
+          "mean": 3.667,
           "min": 2,
-          "max": 6,
+          "max": 5,
           "n": 3
         },
         "questions_per_turn_max": {
@@ -1110,6 +1162,12 @@
           "n": 3
         },
         "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "code_done": {
           "mean": 1,
           "min": 1,
           "max": 1,
@@ -1244,6 +1302,12 @@
           "max": 1,
           "n": 2
         },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
         "questions_max_2": {
           "mean": 0,
           "min": 0,
@@ -1354,6 +1418,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 203871,
         "t_agent_cache_read_tokens": 7529939,
@@ -1395,11 +1460,12 @@
         "t_plan_template_read_raw": 1,
         "t_guidance_summary_fetches": 1,
         "t_reads_outside_guidance": 0,
-        "t_installs_before_plan": 0,
+        "t_installs_before_plan": 1,
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
-        "t_creator_turns_after_plan": 4,
+        "t_scenario_end": 1,
+        "t_creator_turns_after_plan": 3,
         "t_agent_input_tokens": 110966,
         "t_agent_cache_read_tokens": 4173765,
         "t_agent_output_tokens": 69242,
@@ -1444,6 +1510,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 123105,
         "t_agent_cache_read_tokens": 3225669,
@@ -1489,6 +1556,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 155421,
         "t_agent_cache_read_tokens": 6349289,
@@ -1534,6 +1602,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 295074,
         "t_agent_cache_read_tokens": 22562350,
@@ -1579,6 +1648,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 203820,
         "t_agent_cache_read_tokens": 7533725,
@@ -1625,6 +1695,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 4,
         "t_agent_input_tokens": 187039,
         "t_agent_cache_read_tokens": 7540963,
@@ -1671,6 +1742,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 262585,
         "t_agent_cache_read_tokens": 11666266,
@@ -1716,6 +1788,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 120751,
         "t_agent_cache_read_tokens": 5333512,
@@ -1761,6 +1834,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 115404,
         "t_agent_cache_read_tokens": 2447271,
@@ -1806,6 +1880,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 3,
         "t_agent_input_tokens": 301955,
         "t_agent_cache_read_tokens": 19862103,
@@ -1851,6 +1926,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 5,
         "t_agent_input_tokens": 215775,
         "t_agent_cache_read_tokens": 6450928,
@@ -1896,6 +1972,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 4,
         "t_agent_input_tokens": 131162,
         "t_agent_cache_read_tokens": 4821237,
@@ -1941,6 +2018,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 3,
         "t_agent_input_tokens": 248718,
         "t_agent_cache_read_tokens": 15872057,
@@ -1986,6 +2064,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 136219,
         "t_agent_cache_read_tokens": 5671313,
@@ -2032,7 +2111,8 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
-        "t_creator_turns_after_plan": 3,
+        "t_scenario_end": 1,
+        "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 211199,
         "t_agent_cache_read_tokens": 8552024,
         "t_agent_output_tokens": 123347,
@@ -2077,6 +2157,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 3,
         "t_agent_input_tokens": 178296,
         "t_agent_cache_read_tokens": 6256824,
@@ -2122,6 +2203,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 3,
         "t_agent_input_tokens": 417740,
         "t_agent_cache_read_tokens": 42055183,
@@ -2168,6 +2250,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 4,
         "t_agent_input_tokens": 158476,
         "t_agent_cache_read_tokens": 8267710,
@@ -2213,6 +2296,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 139887,
         "t_agent_cache_read_tokens": 6533745,
@@ -2259,6 +2343,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 109672,
         "t_agent_cache_read_tokens": 2905607,
@@ -2304,6 +2389,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 3,
         "t_agent_input_tokens": 110125,
         "t_agent_cache_read_tokens": 3092611,
@@ -2350,6 +2436,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 3,
         "t_agent_input_tokens": 179600,
         "t_agent_cache_read_tokens": 7795159,
@@ -2395,6 +2482,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 199001,
         "t_agent_cache_read_tokens": 6481862,
@@ -2440,6 +2528,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 3,
         "t_agent_input_tokens": 309987,
         "t_agent_cache_read_tokens": 21594614,
@@ -2482,11 +2571,12 @@
         "t_plan_template_read_raw": 1,
         "t_guidance_summary_fetches": 3,
         "t_reads_outside_guidance": 2,
-        "t_installs_before_plan": 0,
+        "t_installs_before_plan": 2,
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
-        "t_creator_turns_after_plan": 6,
+        "t_scenario_end": 1,
+        "t_creator_turns_after_plan": 5,
         "t_agent_input_tokens": 202525,
         "t_agent_cache_read_tokens": 9639669,
         "t_agent_output_tokens": 114046,
@@ -2531,6 +2621,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 165585,
         "t_agent_cache_read_tokens": 8680646,
@@ -2576,6 +2667,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 118718,
         "t_agent_cache_read_tokens": 3667430,
@@ -2621,6 +2713,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 2,
         "t_agent_input_tokens": 164868,
         "t_agent_cache_read_tokens": 5414896,
@@ -2666,6 +2759,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 4,
         "t_agent_input_tokens": 252953,
         "t_agent_cache_read_tokens": 16142652,
@@ -2712,6 +2806,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 400195,
         "t_agent_cache_read_tokens": 31127011,
@@ -2758,6 +2853,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 1,
         "t_agent_input_tokens": 116660,
         "t_agent_cache_read_tokens": 3757008,
@@ -2804,6 +2900,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
         "t_creator_turns_after_plan": 4,
         "t_agent_input_tokens": 170017,
         "t_agent_cache_read_tokens": 9364678,
@@ -2829,6 +2926,8 @@
     "excludedTrials": 0,
     "partialTrials": 0,
     "checkPasses": 33,
+    "createdBeforePlanRuns": 4,
+    "installsBeforePlanRuns": 6,
     "agentHours": 15
   }
 }

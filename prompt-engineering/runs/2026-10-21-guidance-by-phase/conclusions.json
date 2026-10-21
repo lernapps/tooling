@@ -3,9 +3,9 @@
   "question": "Does the guidance by phase (one skill per phase, the archetype chosen from the templates' READMEs, GitHub only in Commit; #118) keep the process as well as the guidance of 2026-10-18, and does the agent load each skill in the phase it belongs to?",
   "bottomLine": [
     "Sonnet 5.5 and Opus 5.5 pass the check in every run and tick nearly all plan boxes; the content guide is now filled in every run.",
-    "Haiku 5.5 falls behind: the interactive app passes the check in 1 of 3 runs, every Haiku cell stops in Code, and it loads only about a third of the skills a phase names.",
-    "Sonnet and Opus load 61–86 % of a phase's skills by its end, but often too early, and rarely `lernapps-commit` and `lernapps-listing` in Commit.",
-    "More apps are created before the creator confirms the plan, and creators need more turns after it; whether part of this is the measure is open."
+    "Haiku 5.5 reaches the scenario's end with a green check in every quiz and explainer run, but the interactive app passes the check in 1 of 3 runs, and Haiku loads only about a third of the skills a phase names.",
+    "Sonnet and Opus load 76–95 % of a phase's skills by its end, but often too early.",
+    "Creators need more turns after the plan. Apps created before the plan are rare in the score (3 runs), but the transcripts show more: agents that took a yes to an early draft for the plan's yes."
   ],
   "findings": [
     {
@@ -50,7 +50,7 @@
     {
       "id": "haiku-falls-behind",
       "title": "Haiku 5.5 falls behind on the rest",
-      "text": "The interactive app passes the check in 1 of 3 runs (its own tests fail; on 2026-10-18 in 3 of 3). Every Haiku cell ends in Code (phase 67 %). One explainer run chose the interactive archetype. Haiku needs the most turns after the plan: in no interactive run were there three or fewer.",
+      "text": "The interactive app passes the check in 1 of 3 runs (its browser tests fail on ö and ü; on 2026-10-18 in 3 of 3). One explainer run chose the interactive archetype. Haiku needs the most turns after the plan: in no interactive run were there three or fewer. Every Haiku cell ends with `phase: code` (67 %), but every quiz and explainer run reached the scenario's end with a green check (\"Code done\"): Haiku asked about GitHub or publishing without setting `phase: commit` first, and the creator ends the scenario there. So the phase row measures only whether the agent set the phase before that question, which Sonnet and Opus mostly do and Haiku does not.",
       "evidence": [
         {
           "task": "interactive-fresh",
@@ -61,6 +61,16 @@
           "task": "quiz-fresh",
           "model": "Haiku 5.5",
           "row": "phase_reached"
+        },
+        {
+          "task": "quiz-fresh",
+          "model": "Haiku 5.5",
+          "row": "code_done"
+        },
+        {
+          "task": "interactive-fresh",
+          "model": "Haiku 5.5",
+          "row": "code_done"
         },
         {
           "task": "explainer-fresh",
@@ -76,8 +86,8 @@
     },
     {
       "id": "skills-in-phase",
-      "title": "The skills of a phase are mostly loaded, often too early, and rarely in Commit",
-      "text": "New in this run (A2, scored from the phases of the skills' building blocks in the architecture). Sonnet and Opus load 61–86 % of the skills a phase names by the end of that phase, Haiku 27–35 %. Many loads come before their phase, mostly `lernapps-exercise-patterns` (Plan) and the Code skills, read already in Explore. In Commit, `lernapps-listing` and `lernapps-commit` are the skills that stay missing.",
+      "title": "The skills of a phase are mostly loaded, often too early",
+      "text": "New in this run (A2, scored from the phases of the skills' building blocks in the architecture). Sonnet and Opus load 76–95 % of the skills a phase names by the end of that phase, Haiku 20–38 %. Many loads come before their phase, mostly `lernapps-exercise-patterns` (then in Plan) and the Code skills, read already in Explore. `lernapps-listing` and `lernapps-commit` are not expected: their tasks come after the scenario's end.",
       "evidence": [
         {
           "task": "interactive-fresh",
@@ -98,8 +108,8 @@
     },
     {
       "id": "created-before-plan",
-      "title": "More apps are created before the plan is confirmed",
-      "text": "Sonnet and Opus created the app before the creator confirmed the plan in 1–2 of 3 runs per cell, except the quiz with Sonnet, where on 2026-10-18 they never did. The new plan template asks the agent to check the phase at the start of Code and set it if needed; an agent that creates the app before it writes `phase: code` counts as early. Whether the agents or the measure changed is not yet checked.",
+      "title": "Some agents take a yes to an early draft for the plan's yes",
+      "text": "The row counts 3 runs that created the app before the plan was confirmed (explainer and interactive with Sonnet, interactive with Haiku); on 2026-10-18 Sonnet and Opus had none. It counts a create before the agent sets `phase: code` after the creator's yes, so it misses the other kind the transcripts show: 5 times the agent took a yes to an early draft without sketches as the plan's yes, set the phase and created before the Plan phase was worked through (3 with Haiku, 2 with Sonnet).",
       "evidence": [
         {
           "task": "interactive-fresh",
@@ -112,8 +122,8 @@
           "row": "not_created_before_plan"
         },
         {
-          "task": "quiz-fresh",
-          "model": "Opus 5.5",
+          "task": "interactive-fresh",
+          "model": "Haiku 5.5",
           "row": "not_created_before_plan"
         }
       ]
@@ -155,7 +165,7 @@
     {
       "id": "rerun-newer-guidance",
       "title": "The re-run at guidance 1e4ba59 looks like the run at b20b514",
-      "text": "The quiz with Sonnet 5.5 was run again after the usage limit, by then at a newer guidance (listing rule \"own data only\", questions and page frame after the runtime). It passes the check in every run and loads 70 % of the skills by their phase; its verifier did not crash again.",
+      "text": "The quiz with Sonnet 5.5 was run again after the usage limit, by then at a newer guidance (listing rule \"own data only\", questions and page frame after the runtime). It passes the check in every run and loads 79 % of the skills by their phase; its verifier did not crash again.",
       "evidence": [
         {
           "task": "quiz-fresh",
@@ -185,36 +195,74 @@
       "status": "done"
     },
     {
-      "text": "Make `lernapps-commit` and `lernapps-listing` hard to skip in Commit (the plan's Commit tasks, or a check).",
-      "status": "open",
+      "text": "Make `lernapps-commit` and `lernapps-listing` hard to skip in Commit. Dropped: the scenario ends before their tasks; the fresh tasks now leave them to that condition (`skills_conditional`).",
+      "status": "dropped",
       "findings": [
         "skills-in-phase"
       ]
     },
     {
-      "text": "Decide where `lernapps-exercise-patterns` belongs: the agents use it while drafting in Explore, the plan template names it in Plan.",
-      "status": "open",
+      "text": "Move `lernapps-exercise-patterns` to Explore, where the agents read it anyway: the kind of practice it shows points to the archetype, so the plan loads it before the archetype is chosen.",
+      "status": "done",
       "findings": [
-        "skills-in-phase"
+        "skills-in-phase",
+        "haiku-falls-behind"
       ]
     },
     {
-      "text": "Check whether \"created before the plan\" counts right with the phase set at the start of Code.",
-      "status": "open",
+      "text": "Check whether \"created before the plan\" counts right. It did not: the score now reads the phase a `sed` or one-liner writes (the new value) and the output of the template's `grep '^phase:'`, which covers helper scripts.",
+      "status": "done",
       "findings": [
         "created-before-plan"
       ]
     },
     {
-      "text": "Decide whether the guidance must carry Haiku 5.5, and if so, what it needs.",
+      "text": "The plan's yes is the one at the Plan checkpoint, with the sketches: a yes to a draft in Explore never lets the agent run `create`.",
+      "status": "open",
+      "findings": [
+        "created-before-plan",
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Measure the scenario's end as such: the row \"Code done\" counts a green check and a conversation that ended after the plan with the creator's stop at publishing or its thanks when the agent is done; the phase row stays beside it. Run 2 is re-scored with it and with the phase detection above.",
+      "status": "done",
+      "findings": [
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Say plainly that only a checkpoint waits: a phase's last box sets the next phase and goes on in the same message, and Code has no checkpoint before Commit.",
+      "status": "done",
+      "findings": [
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Find out why the interactive app's browser tests fail on ö and ü with Haiku 5.5.",
       "status": "open",
       "findings": [
         "haiku-falls-behind"
       ]
     },
     {
+      "text": "The simulated creator marks its last message with the end (`[Ende: veröffentlichen]`, `fertig`, `festgefahren`), so that the end is read, not guessed from its sentences, which took three fixes in the re-score.",
+      "status": "done",
+      "findings": [
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Each reply begins with the phase in `phase:` (\"**Plan · Checkpoint**\"), so that the creator always knows where the agent is, and a yes to a draft is not taken for the plan's yes. Scored from the next run: replies that begin with the phase, and whether it is the plan's.",
+      "status": "done",
+      "findings": [
+        "haiku-falls-behind",
+        "created-before-plan"
+      ]
+    },
+    {
       "text": "The verifier skips a dangling symlink under `.claude/skills/` instead of crashing (verify.ts, findVibeDirs).",
-      "status": "open",
+      "status": "done",
       "findings": [
         "rerun-newer-guidance"
       ]
