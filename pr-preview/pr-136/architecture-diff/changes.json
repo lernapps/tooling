@@ -1,0 +1,558 @@
+{
+  "version": 1,
+  "base": {
+    "label": "b13799b1d81f127d77bcf5fb3e88cd6564d62add",
+    "commit": "b13799b1d81f127d77bcf5fb3e88cd6564d62add"
+  },
+  "head": {
+    "label": "87e068dc13267369baa1b11c40b1ead77ccb8b9e"
+  },
+  "acceptanceBase": "b13799b1d81f127d77bcf5fb3e88cd6564d62add",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "prose-without-block-change",
+      "severity": "warning",
+      "file": "docs/arc42/07-deployment-view.arc42.md",
+      "line": 199,
+      "elementId": "dn-app-hosting",
+      "message": "Section prose changed without changing block 'dn-app-hosting' — it names 'Listing validation'."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "prose-without-block-change",
+        "severity": "warning",
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "line": 199,
+        "elementId": "dn-app-hosting",
+        "message": "Section prose changed without changing block 'dn-app-hosting' — it names 'Listing validation'."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "actor-app-overview",
+        "kind": "actor",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 183
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "App overview"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-generator-cli",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 621
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 622
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Generator",
+            "Generator CLI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-app-publish",
+        "kind": "interface",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 986
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 988
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "App publish",
+            "App publish interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-listing-validation",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1035
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1038
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Listing validation"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-listing-validated",
+        "kind": "runtime-scenario",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 117
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 119
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A listing is validated"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-new-version",
+        "kind": "runtime-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 176
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A new version of a listed app reaches its copy"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-apps-ci",
+        "kind": "deployment-node",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "hosts",
+            "before": [
+              "bb-listing-validation",
+              "bb-check-cli"
+            ],
+            "after": [
+              "bb-listing-validation",
+              "bb-check-cli",
+              "bb-generator"
+            ]
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 182
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 183
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "lernapps/apps CI"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-app-hosting",
+        "kind": "deployment-node",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [
+          {
+            "term": "Listing validation",
+            "element": "bb-listing-validation",
+            "source": "element"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 197
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 199
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "The app's hosting"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-copies-served",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 330
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 329
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "lernapps.net serves a copy of every listed app"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dec-update-replay",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 360
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "An update merges itself when it is what lernapps update would have done"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-copy",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 56
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Copy"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "term-update-pull-request",
+        "kind": "glossary-term",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "line": 203
+        },
+        "section": {
+          "file": "docs/arc42/12-glossary.arc42.md",
+          "headingPath": [
+            "Glossary",
+            "Update pull request"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "context-overview",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "flowchart LR\n    actor-creator[\"Creator\"]\n    actor-assistant[\"Creator's AI assistant\"]\n    actor-owner[\"Platform owner\"]\n    actor-review-agent[\"Review agent\"]\n    actor-github-actions[\"GitHub Actions (external system)\"]\n    actor-github-pages[\"GitHub Pages (external system)\"]\n    actor-renovate[\"Renovate (external system)\"]\n    subgraph tooling[\"Tooling for agentic app creation\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-generator[\"Generator\"]\n        bb-skills[\"Skills\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-app-check-action[\"App check action\"]\n        bb-app-publish[\"App publish\"]\n        bb-app-preview[\"App preview\"]\n        bb-listing-validation[\"Listing validation\"]\n        bb-renovate-preset[\"Renovate preset\"]\n    end\n    actor-creator -->|\"plan file, checkpoints\"| tooling\n    actor-assistant -->|\"agent instructions, plan, skills, generator, check, listing comment\"| tooling\n    actor-review-agent -->|\"review procedure, check CLI\"| tooling\n    actor-owner -->|\"validation report, review procedure\"| tooling\n    actor-github-actions -->|\"app check action, app publish, app preview, check CLI\"| tooling\n    actor-github-pages -->|\"checked bundle from app publish and app preview\"| tooling\n    actor-renovate -->|\"update policy, package updates\"| tooling",
+            "after": "flowchart LR\n    actor-creator[\"Creator\"]\n    actor-assistant[\"Creator's AI assistant\"]\n    actor-owner[\"Platform owner\"]\n    actor-review-agent[\"Review agent\"]\n    actor-github-actions[\"GitHub Actions (external system)\"]\n    actor-github-pages[\"GitHub Pages (external system)\"]\n    actor-renovate[\"Renovate (external system)\"]\n    actor-app-overview[\"App overview, lernapps/apps (external system)\"]\n    subgraph tooling[\"Tooling for agentic app creation\"]\n        bb-process-guidance[\"Process guidance\"]\n        bb-generator[\"Generator\"]\n        bb-skills[\"Skills\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-app-check-action[\"App check action\"]\n        bb-app-publish[\"App publish\"]\n        bb-app-preview[\"App preview\"]\n        bb-listing-validation[\"Listing validation\"]\n        bb-renovate-preset[\"Renovate preset\"]\n    end\n    actor-creator -->|\"plan file, checkpoints\"| tooling\n    actor-assistant -->|\"agent instructions, plan, skills, generator, check, listing comment\"| tooling\n    actor-review-agent -->|\"review procedure, check CLI\"| tooling\n    actor-owner -->|\"validation report, review procedure\"| tooling\n    actor-github-actions -->|\"app check action, app publish, app preview, check CLI\"| tooling\n    actor-github-pages -->|\"checked bundle from app publish and app preview\"| tooling\n    actor-renovate -->|\"update policy, package updates\"| tooling\n    actor-app-overview -->|\"check CLI on entries and copies, served commit, lernapps update to classify updates\"| tooling"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 22
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 26
+        }
+      },
+      {
+        "id": "rs-listing-validated-sequence",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "aliases",
+            "before": "assistant=actor-assistant, listing=bb-listing-validation, check=bb-check-cli, review=actor-review-agent, procedure=bb-review-procedure, owner=actor-owner",
+            "after": "assistant=actor-assistant, listing=bb-listing-validation, check=bb-check-cli, review=actor-review-agent, procedure=bb-review-procedure, owner=actor-owner, overview=actor-app-overview"
+          },
+          {
+            "name": "source",
+            "before": "sequenceDiagram\n    participant assistant as Creator's assistant\n    participant listing as Listing validation\n    participant check as Check CLI\n    participant review as Review agent\n    participant procedure as Review procedure\n    participant owner as Owner\n    assistant->>listing: pull request with the entry\n    listing->>check: check the app at the entry's address, with the entry\n    check-->>listing: validation report\n    listing-->>assistant: comment with the report (on failure)\n    assistant->>listing: fix, push again\n    listing->>check: second run\n    check-->>listing: report: rules kept, topic links resolve, fitness values match\n    owner->>review: start the review of the pull request\n    review->>procedure: prompt, rubric of the archetype, rule catalog\n    review->>check: validation report of the commit\n    review->>procedure: check the verdict against its schema and the catalog\n    review-->>owner: verdict for the reviewed commit\n    owner->>listing: verdict as a comment, merge or decline",
+            "after": "sequenceDiagram\n    participant assistant as Creator's assistant\n    participant listing as Listing validation\n    participant check as Check CLI\n    participant review as Review agent\n    participant procedure as Review procedure\n    participant owner as Owner\n    participant overview as App overview\n    assistant->>listing: pull request with the entry\n    listing->>check: check the app at the entry's address, with the entry\n    check-->>listing: validation report\n    listing-->>assistant: comment with the report (on failure)\n    assistant->>listing: fix, push again\n    listing->>check: second run\n    check-->>listing: report: rules kept, topic links resolve, fitness values match\n    owner->>review: start the review of the pull request\n    review->>procedure: prompt, rubric of the archetype, rule catalog\n    review->>check: validation report of the commit\n    review->>procedure: check the verdict against its schema and the catalog\n    review-->>owner: verdict for the reviewed commit\n    owner->>listing: verdict as a comment, merge or decline\n    listing-->>overview: merged: the entry is on the main line\n    overview->>overview: build every app whose copy is missing or at another commit (no secrets)\n    overview->>check: check the build\n    overview->>overview: copy into start/<id>/, list it in start/copies.txt\n    overview->>check: check the copy where lernapps.net serves it\n    overview->>overview: the catalog links the copy"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 126
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 128
+        }
+      },
+      {
+        "id": "rs-new-version-sequence",
+        "status": "added",
+        "attributes": [],
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 185
+        }
+      }
+    ],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-app-overview",
+          "to": "if-app-publish",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-app-overview",
+          "to": "if-check-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-app-overview",
+          "to": "if-generator-cli",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "actor-app-overview",
+          "to": "if-listing-comment",
+          "relation": "requires"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-update-replay",
+          "to": "qg-checked-not-declared",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-update-replay",
+          "to": "qg-few-iterations",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-apps-ci",
+          "to": "bb-generator",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-version",
+          "to": "bb-app-check-action",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-version",
+          "to": "bb-app-publish",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-version",
+          "to": "bb-check-cli",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-version",
+          "to": "bb-generator",
+          "relation": "involves"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "rs-new-version",
+          "to": "bb-listing-validation",
+          "relation": "involves"
+        }
+      }
+    ],
+    "proseSections": [
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "How updates arrive"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 233
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 235
+        }
+      }
+    ],
+    "documents": [
+      {
+        "file": "docs/arc42/03-system-context.arc42.md",
+        "added": 1,
+        "modified": 2,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 3,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/06-runtime-view.arc42.md",
+        "added": 2,
+        "modified": 2,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 0,
+        "modified": 3,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
+        "added": 1,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/12-glossary.arc42.md",
+        "added": 2,
+        "modified": 0,
+        "removed": 0
+      }
+    ]
+  }
+}
