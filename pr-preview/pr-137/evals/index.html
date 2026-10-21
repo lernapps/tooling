@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prompt engineering – lernapps.net</title>
+  <link rel="canonical" href="https://lernapps.net/tooling/prompt-engineering/">
+  <meta http-equiv="refresh" content="0; url=../prompt-engineering/">
+  <link rel="stylesheet" href="../stil.css">
+<!-- lernapps-frame -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-137/lernapps-tokens.css">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-137/lernapps-frame.css">
+<link rel="alternate" hreflang="de" href="/tooling/pr-preview/pr-137/evals/">
+<link rel="alternate" hreflang="en" href="/tooling/pr-preview/pr-137/en/evals/">
+<script>(() => {
+  const key = "lernapps-lang", here = "de", pages = {"en":"/tooling/pr-preview/pr-137/en/evals/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
+</head>
+<body>
+<a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
+<p class="la-preview" lang="de">Vorschau einer Änderung. Die echte Seite: <a href="https://lernapps.net/tooling/evals/">lernapps.net/tooling/evals/</a></p><header class="la-header" lang="de">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Apps finden</a></li><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-137/" aria-current="page">Tooling</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Darum!</a></li><li><a href="/join/">Mitmachen</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-137/en/evals/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav>
+  </div>
+</header>
+<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch.</p>
+  <main id="main-content" tabindex="-1">
+    <h1>Moved</h1>
+    <p>The eval results are now part of <a href="../prompt-engineering/">Prompt engineering</a>.</p>
+  </main>
+<footer class="la-footer" lang="de">
+  <div class="la-footer__inner">
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/tooling">Quellcode</a></li></ul></nav>
+  </div>
+</footer>
+</body>
+</html>

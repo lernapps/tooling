@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Rules – Tooling – lernapps.net</title>
+  <link rel="canonical" href="https://lernapps.net/tooling/rules/">
+  <link rel="stylesheet" href="/tooling/pr-preview/pr-137/stil.css">
+<!-- lernapps-frame -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-137/lernapps-tokens.css">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-137/lernapps-frame.css">
+<link rel="alternate" hreflang="en" href="/tooling/pr-preview/pr-137/en/rules/">
+<link rel="alternate" hreflang="de" href="/tooling/pr-preview/pr-137/rules/">
+<script>(() => {
+  const key = "lernapps-lang", here = "en", pages = {"de":"/tooling/pr-preview/pr-137/rules/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
+</head>
+<body>
+<a class="la-skip" href="#main-content" lang="en">Skip to content</a>
+<p class="la-preview" lang="en">Preview of a change. The real page: <a href="https://lernapps.net/tooling/en/rules/">lernapps.net/tooling/en/rules/</a></p><header class="la-header" lang="en">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/en/" aria-label="lernapps.net – home page"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Find apps</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/pr-preview/pr-137/en/" aria-current="page">Tooling</a></li><li><a href="/en/features/">Features</a></li><li><a href="/docs/en/">That's why</a></li><li><a href="/en/join/">Get involved</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-137/rules/" hreflang="de" lang="de" data-la-lang="de" aria-label="Sprache: Deutsch">Deutsch</a></li></ul></nav>
+  </div>
+</header>
+  <main id="main-content" tabindex="-1">
+    <h1>Rules</h1>
+    <p>Each rule is one requirement on a learning app. It lives where it acts: as a section of a skill for AI
+      assistants, as a check, as a lint rule or as an item of the review rubric. The same rule can live in several of
+      them, always under the same id. This page reads them from there.</p>
+    <ul>
+      <li><strong>Scope:</strong> <code>listing</code> applies to every app in the app overview, however it is built
+        and wherever it is hosted; <code>tooling</code> to apps built with this tooling (their
+        <code>package.json</code> lists <code>@lernapps/tooling</code>), because the rule presupposes its plan workflow or its
+        checks; <code>archetype:…</code> to apps of that archetype.</li>
+      <li><strong>Severity:</strong> <code>error</code> must not be broken; <code>warning</code> only with a reason
+        recorded in place; <code>hint</code> is a recommendation. A <code>tooling</code> rule never blocks a listing:
+        in the listing validation and the review its findings are warnings at most, advice for the creator; in the
+        app's repo its severity holds.</li>
+    </ul>
+    <p>Every message of a check links to its rule here, by its id: <code>https://lernapps.net/tooling/rules/#&lt;id&gt;</code>.</p>
+    <table>
+      <thead><tr><th>Rule</th><th>Scope</th><th>Severity</th></tr></thead>
+      <tbody>
+<tr><td><a href="#accessible"><code>accessible</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#app-checkable"><code>app-checkable</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#correct-content-support"><code>correct-content-support</code></a></td><td>listing</td><td>hint</td></tr>
+<tr><td><a href="#dependency-licence"><code>dependency-licence</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#entry-fitness-matches"><code>entry-fitness-matches</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#entry-from-schema"><code>entry-from-schema</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#entry-links-resolve"><code>entry-links-resolve</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#free-of-charge"><code>free-of-charge</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#learner-text-german"><code>learner-text-german</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#learners-act"><code>learners-act</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#links-resolve"><code>links-resolve</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#no-account"><code>no-account</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#no-ads"><code>no-ads</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#no-learner-data-in-texts"><code>no-learner-data-in-texts</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#no-request-before-click"><code>no-request-before-click</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#no-tracking"><code>no-tracking</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#own-data-only"><code>own-data-only</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#pages-reachable"><code>pages-reachable</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#runs-in-browser"><code>runs-in-browser</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#third-party-licence"><code>third-party-licence</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#usable-at-360px"><code>usable-at-360px</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#app-content-guide"><code>app-content-guide</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#app-content-matches"><code>app-content-matches</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#checks-pass"><code>checks-pass</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#explore-before-code"><code>explore-before-code</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#few-turns-after-plan"><code>few-turns-after-plan</code></a></td><td>tooling</td><td>hint</td></tr>
+<tr><td><a href="#fix-from-message"><code>fix-from-message</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#stop-at-checkpoints"><code>stop-at-checkpoints</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#suppression-reason"><code>suppression-reason</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#explainer-content-valid"><code>explainer-content-valid</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-figure-explains"><code>explainer-figure-explains</code></a></td><td>archetype:explainer</td><td>hint</td></tr>
+<tr><td><a href="#explainer-figure-hides-answer"><code>explainer-figure-hides-answer</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-formulas-static"><code>explainer-formulas-static</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-generated-sound"><code>explainer-generated-sound</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-languages"><code>explainer-languages</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-mistakes-diagnosed"><code>explainer-mistakes-diagnosed</code></a></td><td>archetype:explainer</td><td>hint</td></tr>
+<tr><td><a href="#explainer-navigation"><code>explainer-navigation</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-only-content"><code>explainer-only-content</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-plausible-numbers"><code>explainer-plausible-numbers</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
+<tr><td><a href="#explainer-quote-sourced"><code>explainer-quote-sourced</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
+<tr><td><a href="#explainer-readable-without-js"><code>explainer-readable-without-js</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-stable-ids"><code>explainer-stable-ids</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
+<tr><td><a href="#explainer-structure-by-sections"><code>explainer-structure-by-sections</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-structure-complete"><code>explainer-structure-complete</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-structure-depth"><code>explainer-structure-depth</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#interactive-app-valid"><code>interactive-app-valid</code></a></td><td>archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#interactive-architecture-current"><code>interactive-architecture-current</code></a></td><td>archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#interactive-core-contract"><code>interactive-core-contract</code></a></td><td>archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#interactive-playthroughs-pass"><code>interactive-playthroughs-pass</code></a></td><td>archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#keep-the-preset"><code>keep-the-preset</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#pages-from-gh-pages"><code>pages-from-gh-pages</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#prefer-built-in-block"><code>prefer-built-in-block</code></a></td><td>archetype:explainer</td><td>hint</td></tr>
+<tr><td><a href="#quiz-answers-checked"><code>quiz-answers-checked</code></a></td><td>archetype:quiz</td><td>hint</td></tr>
+<tr><td><a href="#quiz-bank-valid"><code>quiz-bank-valid</code></a></td><td>archetype:quiz, archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#quiz-clear-question"><code>quiz-clear-question</code></a></td><td>archetype:quiz, archetype:explainer</td><td>warning</td></tr>
+<tr><td><a href="#quiz-feedback-explains"><code>quiz-feedback-explains</code></a></td><td>archetype:quiz, archetype:explainer</td><td>hint</td></tr>
+<tr><td><a href="#quiz-fitting-type"><code>quiz-fitting-type</code></a></td><td>archetype:quiz, archetype:explainer</td><td>hint</td></tr>
+<tr><td><a href="#quiz-further-reading"><code>quiz-further-reading</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
+<tr><td><a href="#quiz-number-precision"><code>quiz-number-precision</code></a></td><td>archetype:quiz, archetype:explainer</td><td>warning</td></tr>
+<tr><td><a href="#quiz-only-data"><code>quiz-only-data</code></a></td><td>archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#quiz-own-words"><code>quiz-own-words</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
+<tr><td><a href="#quiz-plausible-options"><code>quiz-plausible-options</code></a></td><td>archetype:quiz, archetype:explainer</td><td>warning</td></tr>
+<tr><td><a href="#quiz-stable-ids"><code>quiz-stable-ids</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
+<tr><td><a href="#start-page-explains"><code>start-page-explains</code></a></td><td>archetype:interactive</td><td>hint</td></tr>
+<tr><td><a href="#storage-through-wrapper"><code>storage-through-wrapper</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#strict-typescript"><code>strict-typescript</code></a></td><td>archetype:explainer, archetype:interactive, archetype:quiz</td><td>error</td></tr>
+<tr><td><a href="#topic-has-exercises"><code>topic-has-exercises</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#vue-component-browser-globals"><code>vue-component-browser-globals</code></a></td><td>archetype:explainer, archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#vue-component-exercise-contract"><code>vue-component-exercise-contract</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#vue-component-imports"><code>vue-component-imports</code></a></td><td>archetype:explainer, archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#vue-component-no-html-injection"><code>vue-component-no-html-injection</code></a></td><td>archetype:explainer, archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#vue-component-no-network"><code>vue-component-no-network</code></a></td><td>archetype:explainer, archetype:interactive</td><td>error</td></tr>
+<tr><td><a href="#vue-component-nojs"><code>vue-component-nojs</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#vue-component-props-valid"><code>vue-component-props-valid</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#vue-component-size"><code>vue-component-size</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#vue-component-tested"><code>vue-component-tested</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+      </tbody>
+    </table>
+<section id="accessible">
+<h2>Accessible to WCAG 2.1 AA</h2>
+<p><code>accessible</code> · listing · error</p>
+<div>
+<ul>
+<li>WCAG 2.1 AA: labels, contrast, keyboard, text alternatives.</li>
+<li>Deviate only where the idea needs it (typing game against the clock); then say what is missing, in plain German, in the entry's <code>limits</code>.</li>
+<li>With <code>limits</code>: <code>lernapps check --entry</code> reports warnings; without: errors.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/accessible.ts"><code>check/rules/accessible.ts</code></a>.</p>
+</section>
+
+<section id="app-checkable">
+<h2>The published app can be opened and checked</h2>
+<p><code>app-checkable</code> · listing · error</p>
+<div>
+<ul>
+<li>Opens at the entry's <code>url</code>; a built app from its bundle (<code>index.html</code>).</li>
+<li>Page does not load, build fails, no browser, check stops → only this rule is reported. Fix, check again.</li>
+<li>Opens in a browser but the check fails → issue at <a href="https://github.com/lernapps/tooling/issues">https://github.com/lernapps/tooling/issues</a> with the message.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>.</p>
+</section>
+
+<section id="correct-content-support">
+<h2>Help keep the content correct</h2>
+<p><code>correct-content-support</code> · listing · hint</p>
+<div>
+<ul>
+<li>Computable answers: generate exercises, test answers with a checker.</li>
+<li>Name a source for facts. Where it fits; never a listing condition.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="dependency-licence">
+<h2>Only dependencies with an open licence</h2>
+<p><code>dependency-licence</code> · listing · error</p>
+<div>
+<ul>
+<li><code>dependencies</code> only with these licences, transitively: MIT, MIT-0, ISC, 0BSD, BSD-2-Clause, BSD-3-Clause, Apache-2.0, MPL-2.0, BlueOak-1.0.0, Zlib, Unlicense, CC0-1.0, CC-BY-4.0, Python-2.0.</li>
+<li>Build tools: <code>devDependencies</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/dependency-licence.ts"><code>check/rules/dependency-licence.ts</code></a>.</p>
+</section>
+
+<section id="entry-fitness-matches">
+<h2>Fitness values as measured</h2>
+<p><code>entry-fitness-matches</code> · listing · error</p>
+<div>
+<ul>
+<li><code>fitness.storage</code>, <code>fitness.thirdParty</code> from what the app does; <code>lernapps check --report &lt;file&gt;</code> measures it.</li>
+<li>Anything in <code>localStorage</code> → <code>storage: device</code>; loads from another server after a click → <code>thirdParty: on-click</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-fitness-matches.ts"><code>check/rules/entry-fitness-matches.ts</code></a>.</p>
+</section>
+
+<section id="entry-from-schema">
+<h2>Fill the entry from the published schema</h2>
+<p><code>entry-from-schema</code> · listing · error</p>
+<div>
+<ul>
+<li>Fetch the entry schema each time; never from memory or another app.</li>
+<li>Every value from the creator's answers, the plan or the app; never invented.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>.</p>
+</section>
+
+<section id="entry-links-resolve">
+<h2>Every link of the entry resolves</h2>
+<p><code>entry-links-resolve</code> · listing · error</p>
+<div>
+<ul>
+<li>Each topic: path of an existing page, relative to the app's <code>url</code>; <code>&lt;page&gt;#&lt;section&gt;</code> names an element id there.</li>
+<li>Check against the deployed app: <code>lernapps check --entry &lt;file&gt;</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-links-resolve.ts"><code>check/rules/entry-links-resolve.ts</code></a>.</p>
+</section>
+
+<section id="free-of-charge">
+<h2>Free of charge</h2>
+<p><code>free-of-charge</code> · listing · error</p>
+<div>
+<ul>
+<li>Every part free: no payment, paid upgrade or ending trial.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="learner-text-german">
+<h2>German always, every declared language complete</h2>
+<p><code>learner-text-german</code> · listing · error</p>
+<div>
+<ul>
+<li>Texts for learners, teachers, parents: German, plain (short sentences, active voice, no jargon).</li>
+<li>More languages only where the archetype supports them (explainer, quiz: <code>languages</code>, German first); each declared language complete, no other.</li>
+<li>Texts out of code: in the content (explainer YAML, quiz bank) or message files (<code>src/messages/de.json</code>, shown with <code>translator</code> from <code>@lernapps/tooling/i18n</code>).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/learner-text-german.ts"><code>lint/rules/learner-text-german.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="learners-act">
+<h2>Learners do something themselves</h2>
+<p><code>learners-act</code> · listing · error</p>
+<div>
+<ul>
+<li>Every page or screen asks learners to try, practise or decide. Reading alone is not enough.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="links-resolve">
+<h2>Every link resolves</h2>
+<p><code>links-resolve</code> · listing · error</p>
+<div>
+<ul>
+<li>Every link and resource points to a page or file the build writes. Relative links inside the app.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/links-resolve.ts"><code>check/rules/links-resolve.ts</code></a>.</p>
+</section>
+
+<section id="no-account">
+<h2>No account</h2>
+<p><code>no-account</code> · listing · error</p>
+<div>
+<ul>
+<li>Whole app usable without sign-up or login.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="no-ads">
+<h2>No ads</h2>
+<p><code>no-ads</code> · listing · error</p>
+<div>
+<ul>
+<li>No advertising, sponsored content or product placement.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="no-learner-data-in-texts">
+<h2>Nothing about a particular learner in public texts</h2>
+<p><code>no-learner-data-in-texts</code> · listing · error</p>
+<div>
+<ul>
+<li>No name, class, school, grade, picture or other detail of a real learner in app, entry, README, plan or commit message, even if the creator mentions one. Made-up names in exercises.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="no-request-before-click">
+<h2>No request to another server before a click</h2>
+<p><code>no-request-before-click</code> · listing · error</p>
+<div>
+<ul>
+<li>Bundle fonts, scripts, pictures at build time.</li>
+<li>Other servers (video, map) only after the learner's click.</li>
+<li>No other servers' URLs in code; at a click-to-load line suppress the lint message with this reason.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-request-before-click.ts"><code>check/rules/no-request-before-click.ts</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/no-request-before-click.ts"><code>lint/rules/no-request-before-click.ts</code></a>.</p>
+</section>
+
+<section id="no-tracking">
+<h2>Collect nothing, set no cookies</h2>
+<p><code>no-tracking</code> · listing · error</p>
+<div>
+<ul>
+<li>No cookies, analytics, tracking pixels, server storing data.</li>
+<li>Stored data stays on the device (<code>localStorage</code>) and serves only the app.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="own-data-only">
+<h2>Touch only the app's own data in the browser</h2>
+<p><code>own-data-only</code> · listing · error</p>
+<div>
+<ul>
+<li>Every app on lernapps.net shares one origin with the other apps and the platform.</li>
+<li>Own data: keys of <code>localStorage</code> and <code>sessionStorage</code>, IndexedDB databases and caches named <code>lernapps:&lt;id&gt;:…</code>, <code>&lt;id&gt;</code> the app's id in the catalog (<code>entries/&lt;id&gt;.yaml</code>).</li>
+<li>Never read, write or remove other keys; never <code>clear()</code>; never <code>caches.match()</code> without <code>cacheName</code>.</li>
+<li>Built with this tooling: <code>createStorage(&quot;&lt;id&gt;&quot;)</code> from <code>@lernapps/tooling/storage</code>.</li>
+<li><code>lernapps check</code> puts another app's data into the browser and reports every access to it, before a click.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/own-data-only.ts"><code>check/rules/own-data-only.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="pages-reachable">
+<h2>Every page is reachable from the start page</h2>
+<p><code>pages-reachable</code> · listing · error</p>
+<div>
+<ul>
+<li>Every built page linked from the start page or a page it leads to; the listing checks only those.</li>
+<li>Pages nobody should reach: out of the build. Reached otherwise on purpose: <code>&lt;meta name=&quot;robots&quot; content=&quot;noindex&quot;&gt;</code>.</li>
+<li><code>404.html</code> at the root needs no link.</li>
+<li>On a URL the checks visit at most 100 pages (hint); check the bundle for all.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/pages-reachable.ts"><code>check/rules/pages-reachable.ts</code></a>.</p>
+</section>
+
+<section id="runs-in-browser">
+<h2>Runs in the browser, without installation</h2>
+<p><code>runs-in-browser</code> · listing · error</p>
+<div>
+<ul>
+<li>Opens and works at its URL in a current browser. No app store, download or extension.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="third-party-licence">
+<h2>Name source and licence of others' content</h2>
+<p><code>third-party-licence</code> · listing · error</p>
+<div>
+<ul>
+<li>Others' content (texts, pictures, quotes) only with a licence that allows it; source and licence next to it.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="usable-at-360px">
+<h2>Usable at 360 px</h2>
+<p><code>usable-at-360px</code> · listing · error</p>
+<div>
+<ul>
+<li>Every page at 360 px width: no horizontal scrolling, every control reachable.</li>
+<li>Deviate only where the idea needs it (keyboard required), in <code>limits</code> as under <code>accessible</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/usable-at-360px.ts"><code>check/rules/usable-at-360px.ts</code></a>.</p>
+</section>
+
+<section id="app-content-guide">
+<h2>Keep the app's content guide</h2>
+<p><code>app-content-guide</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>Keep <code>.agents/skills/app-content/SKILL.md</code> with its fixed headings.</li>
+<li>After the plan is confirmed and before content: replace every placeholder (&quot;FILL IN&quot;) with concrete instructions for writing new content: files, ids, data files, an example of this app. Not how the app works, no general advice.</li>
+<li>A content decision changes (pattern, figure type, source rule) → change the guide in the same commit.</li>
+<li><code>lernapps check</code> checks the file and its headings always, and that no placeholder is left once the plan is in Commit.</li>
+<li>App older than the guide: <code>lernapps update</code> adds the skeleton (skill <code>lernapps-check</code>).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/app-content-guide.ts"><code>check/rules/app-content-guide.ts</code></a>.</p>
+</section>
+
+<section id="app-content-matches">
+<h2>The content guide says what was built</h2>
+<p><code>app-content-matches</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>Every pattern it names is used; no pattern is used that it does not name.</li>
+<li>Curriculum, competencies, chapters, pages or rounds match the content.</li>
+<li>Its procedure for a new chapter or round names the current files.</li>
+<li>An agent without your conversation can add the next chapter or round from it alone.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="checks-pass">
+<h2>Run the checks before you push</h2>
+<p><code>checks-pass</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li><code>lernapps check</code> passes before every push. The hooks run it too; CI runs the same command and keeps its report as the artifact <code>validation-report</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/SKILL.md"><code>skills/tooling/lernapps-check/SKILL.md</code></a>.</p>
+</section>
+
+<section id="explore-before-code">
+<h2>No code before the plan is confirmed</h2>
+<p><code>explore-before-code</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>No code and no <code>lernapps create</code> until the creator has confirmed the plan with a yes.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>.</p>
+</section>
+
+<section id="few-turns-after-plan">
+<h2>Work on your own after the plan</h2>
+<p><code>few-turns-after-plan</code> · tooling · hint</p>
+<div>
+<ul>
+<li>After the confirmation, ask only what you cannot decide.</li>
+<li>Else choose, mark &quot;(guess)&quot; under &quot;Key decisions&quot; and list it in the retrospective.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>.</p>
+</section>
+
+<section id="fix-from-message">
+<h2>Fix failed checks, never bypass them</h2>
+<p><code>fix-from-message</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>Fix the cause the message names.</li>
+<li>Never bypass a hook: no <code>--no-verify</code>, no acceptance such as <code>ARC42_CONSISTENT</code> without a finding shown.</li>
+<li>Never delete a test to make it pass.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/SKILL.md"><code>skills/tooling/lernapps-check/SKILL.md</code></a>.</p>
+</section>
+
+<section id="plan-file">
+<h2>Keep the plan file</h2>
+<p><code>plan-file</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>Each plan in <code>.vibe/plans/</code>, with every section and front matter key of its template.</li>
+<li>Never change the plan of an earlier piece of work.</li>
+<li>Set <code>phase</code> when you enter a phase. Tick each task box when it is done.</li>
+<li>Never edit <code>prePushFailures</code> or <code>failedChecks</code>: the hook and the check write them.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="retrospective-filled">
+<h2>Fill the retrospective</h2>
+<p><code>retrospective-filled</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>At the end of Commit, fill every part with facts: phases reached, creator turns after the plan, where you guessed. No names.</li>
+<li>Failed checks need no entry: the check counts them in <code>failedChecks</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="stop-at-checkpoints">
+<h2>Stop at the creator's checkpoints</h2>
+<p><code>stop-at-checkpoints</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>Checkpoints: research, confirm the plan and the content method, publish. Stop at each and wait for the answer.</li>
+<li>Checkpoint list: open the listing pull request first (it publishes nothing), then show it and its result and wait.</li>
+<li>A message sent before the checkpoint's question is no yes.</li>
+<li>Example: &quot;Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?&quot;</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>.</p>
+</section>
+
+<section id="suppression-reason">
+<h2>Suppress only in place, with the reason</h2>
+<p><code>suppression-reason</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>Lint: only on the line, with the rule named and the reason after <code>--</code>: <code>// oxlint-disable-next-line lernapps/no-request-before-click -- the video loads after a click</code>.</li>
+<li>Types: only <code>// @ts-expect-error -- &lt;reason&gt;</code>; never <code>@ts-ignore</code> or <code>@ts-nocheck</code>.</li>
+<li>The review reads every suppression.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/SKILL.md"><code>skills/tooling/lernapps-check/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/suppression-reason.ts"><code>lint/rules/suppression-reason.ts</code></a>.</p>
+</section>
+
+<section id="explainer-content-valid">
+<h2>The content validates</h2>
+<p><code>explainer-content-valid</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Schema-valid; ids unique per level; references exist (data file, image, component, page or section link); placeholders declared; formulas only from the command list.</li>
+<li>Build names each problem with file, line, block path.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="explainer-figure-explains">
+<h2>The figure shows what the text says</h2>
+<p><code>explainer-figure-explains</code> · archetype:explainer · hint</p>
+<div>
+<ul>
+<li>Each figure shows what the text next to it explains. The caption says what to look at; <code>alt</code> says what it shows.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-figure-hides-answer">
+<h2>The figure does not give the answer away</h2>
+<p><code>explainer-figure-hides-answer</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>A task's figure shows the given values, never the answer.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>.</p>
+</section>
+
+<section id="explainer-formulas-static">
+<h2>Formulas as formulas</h2>
+<p><code>explainer-formulas-static</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Every formula in a <code>formula</code> block or <code>$…$</code>; never plain text (<code>W = G * p / 100</code>) or a picture. MathML for screen readers.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-generated-sound">
+<h2>The property test passes</h2>
+<p><code>explainer-generated-sound</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li><code>given</code>, <code>where</code>: <code>where</code> holds often; answer defined and in format for every draw; no mistake can equal it.</li>
+<li>Failure names the seed: narrow <code>given</code> or change the mistake; never the comparator.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="explainer-languages">
+<h2>German first, every language complete</h2>
+<p><code>explainer-languages</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li><code>languages</code>, German first.</li>
+<li>Every learner text (content, data files, component props) in each, no other. Build fails otherwise.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="explainer-mistakes-diagnosed">
+<h2>Typical mistakes with their message</h2>
+<p><code>explainer-mistakes-diagnosed</code> · archetype:explainer · hint</p>
+<div>
+<ul>
+<li>Computed tasks list real mistakes. Each message says what went wrong and how to fix it (&quot;Du hast vergessen, durch 100 zu teilen&quot;, not &quot;Falsch&quot;).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-navigation">
+<h2>Every page in one chain</h2>
+<p><code>explainer-navigation</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Navigation is the runtime's: from the order lists; every page in one chain, reachable from the start page.</li>
+<li>Prose links: paths from the app root.</li>
+<li><code>lernapps check</code> finds unreachable pages (<code>pages-reachable</code>) and entry topics with a missing <code>#&lt;section&gt;</code> (<code>entry-links-resolve</code>).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="explainer-only-content">
+<h2>Write only the content</h2>
+<p><code>explainer-only-content</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Write: YAML of app, chapters, pages, data; images in <code>src/images/</code>; components with logic and tests in <code>src/components/</code>.</li>
+<li><code>src/main.ts</code>, <code>index.html</code>, <code>e2e/explainer.e2e.ts</code>, config as generated (<code>keep-the-preset</code>). Any other file in <code>src/</code> fails the build.</li>
+<li>Not expressible → &quot;Where I had to guess&quot;, never code around the runtime.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="explainer-plausible-numbers">
+<h2>Numbers that fit the story</h2>
+<p><code>explainer-plausible-numbers</code> · archetype:explainer · warning</p>
+<div>
+<ul>
+<li>Ranges fit the thing: prices in whole cents, people whole, a bicycle 150–1500 €.</li>
+<li>Preconditions rule out misfits (90.91 people).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-quote-sourced">
+<h2>Quotes exact, with their origin</h2>
+<p><code>explainer-quote-sourced</code> · archetype:explainer · warning</p>
+<div>
+<ul>
+<li>Quote exactly. Name its origin (author, work, year), source and licence.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-readable-without-js">
+<h2>Every page readable without JavaScript</h2>
+<p><code>explainer-readable-without-js</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Every fact in a block, visible without JS. No meaning only inside an exercise or component.</li>
+<li>Every component a <code>nojs</code> text: what it shows, its content.</li>
+<li><code>lernapps check</code> opens every explainer page again with JS off, bundle and deployed (listing and review too): headings, formulas, figures visible, figures named; every &quot;Lösung&quot; and <code>nojs</code> text not empty.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-readable-without-js.ts"><code>check/rules/explainer-readable-without-js.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-stable-ids">
+<h2>Keep the ids</h2>
+<p><code>explainer-stable-ids</code> · archetype:explainer · warning</p>
+<div>
+<ul>
+<li>Short, telling ids (&quot;prozentwert&quot;, &quot;regel&quot;) for chapters, pages, sections, exercises; keep them when texts change (entry topics, teachers' links).</li>
+<li>New content, new ids; never reuse a removed one.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-structure-by-sections">
+<h2>Structure only by sections</h2>
+<p><code>explainer-structure-by-sections</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Every heading = a <code>section</code> block with <code>id</code>, <code>title</code>.</li>
+<li>A Markdown heading (<code>#</code>, <code>##</code>, underlined) in a text fails the build.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="explainer-structure-complete">
+<h2>Every chapter and page listed once</h2>
+<p><code>explainer-structure-complete</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>At least one chapter.</li>
+<li>Every chapter folder in <code>chapters</code> of <code>src/app.yaml</code>, every page file in <code>pages</code> of its <code>chapter.yaml</code>, exactly once, in reading order.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="explainer-structure-depth">
+<h2>Chapter, page, two section levels</h2>
+<p><code>explainer-structure-depth</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Sections at most two deep. No heading levels set: they follow from nesting. More levels = two apps.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="interactive-app-valid">
+<h2>The description and the playthroughs validate</h2>
+<p><code>interactive-app-valid</code> · archetype:interactive · error</p>
+<div>
+<ul>
+<li><code>src/app.yaml</code> and every playthrough valid against their schemas; German first, every language complete.</li>
+<li>Unique ids; at least one playthrough; each step expects a state or an announcement; playthrough routes exist.</li>
+<li>Build names each problem with file and line.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-interactive/SKILL.md"><code>skills/archetypes/lernapps-interactive/SKILL.md</code></a>.</p>
+</section>
+
+<section id="interactive-architecture-current">
+<h2>The architecture is valid and current</h2>
+<p><code>interactive-architecture-current</code> · archetype:interactive · error</p>
+<div>
+<ul>
+<li><code>docs/arc42/</code>: generic part and extension as <code>create</code>/<code>update</code> wrote them, unchanged outside the app sections.</li>
+<li>App part describes the code: every part of <code>src/</code> has its block, every block its code.</li>
+<li><code>arc42 validate --strict</code> and <code>arc42 diff --staged</code> pass; the review checks it says what the code does.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-interactive/SKILL.md"><code>skills/archetypes/lernapps-interactive/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md"><code>review/archetypes/interactive.md</code></a>.</p>
+</section>
+
+<section id="interactive-core-contract">
+<h2>The core keeps its contract</h2>
+<p><code>interactive-core-contract</code> · archetype:interactive · error</p>
+<div>
+<ul>
+<li><code>src/core/index.ts</code> exports <code>start(seed, route)</code>, <code>step(state, input)</code>; <code>tick(state, dt)</code> as a function if it moves on its own.</li>
+<li>Every route starts; nothing throws; same seed, route, inputs, ticks → same states.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-interactive/SKILL.md"><code>skills/archetypes/lernapps-interactive/SKILL.md</code></a>.</p>
+</section>
+
+<section id="interactive-playthroughs-pass">
+<h2>Every playthrough plays as written</h2>
+<p><code>interactive-playthroughs-pass</code> · archetype:interactive · error</p>
+<div>
+<ul>
+<li>After each step the state has the expected fields; the browser shows the expected announcement.</li>
+<li>Failure → fix core or playthrough, whichever is wrong; never delete a playthrough.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-interactive/SKILL.md"><code>skills/archetypes/lernapps-interactive/SKILL.md</code></a>.</p>
+</section>
+
+<section id="keep-the-preset">
+<h2>Extend the preset, change nothing of it</h2>
+<p><code>keep-the-preset</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
+<div>
+<ul>
+<li><code>vite.config.ts</code> is <code>export default lernapps()</code>, with only the app's own settings as generated (<code>lernapps({ plugins: [quiz()] })</code>).</li>
+<li><code>tsconfig.json</code> extends <code>@lernapps/tooling/tsconfig.json</code> as generated.</li>
+<li>The hooks come from the package (<code>prepare</code> in <code>package.json</code>); never replace one.</li>
+<li>Never turn a lint rule off or lower its severity.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/SKILL.md"><code>skills/tooling/lernapps-check/SKILL.md</code></a>.</p>
+</section>
+
+<section id="pages-from-gh-pages">
+<h2>Publish from <code>gh-pages</code>, served from its root</h2>
+<p><code>pages-from-gh-pages</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
+<div>
+<ul>
+<li>GitHub Pages serves the branch <code>gh-pages</code> from <code>/</code>: usually <code>https://&lt;owner&gt;.github.io/&lt;repo&gt;/</code>; only repos of the lernapps organisation at <code>https://lernapps.net/&lt;repo&gt;/</code>.</li>
+<li>Previews of pull requests go below <code>pr-preview/</code> on that branch: leave the setting.</li>
+<li>Hosted elsewhere → the entry's <code>url</code> points there.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/process/lernapps-github/SKILL.md"><code>skills/process/lernapps-github/SKILL.md</code></a>.</p>
+</section>
+
+<section id="prefer-built-in-block">
+<h2>A component only where no block fits</h2>
+<p><code>prefer-built-in-block</code> · archetype:explainer · hint</p>
+<div>
+<ul>
+<li>Built-in blocks and exercises first. A component only for what none can express; say why in the plan.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="quiz-answers-checked">
+<h2>Check every fact</h2>
+<p><code>quiz-answers-checked</code> · archetype:quiz · hint</p>
+<div>
+<ul>
+<li>Check every marked option, number and <code>info</code> against the linked article before you commit.</li>
+<li>A source does not open → say so in the plan, mark it &quot;not checked&quot;; never fill it from memory.</li>
+<li>Learners report errors through <code>.github/ISSUE_TEMPLATE/inhaltsfehler.yml</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-bank-valid">
+<h2>The question bank validates</h2>
+<p><code>quiz-bank-valid</code> · archetype:quiz, archetype:explainer · error</p>
+<div>
+<ul>
+<li>Valid against the schema. Build also checks: exactly one correct in single choice, at least one in multiple choice; unique ids and options.</li>
+<li>Broken bank: one line per problem (position, id); fix in <code>src/quiz.json</code>. Explainer exercise: named by file and block path.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-clear-question">
+<h2>One clear question at a time</h2>
+<p><code>quiz-clear-question</code> · archetype:quiz, archetype:explainer · warning</p>
+<div>
+<ul>
+<li>One thing per question, answerable before reading the options.</li>
+<li>Positive; avoid &quot;nicht&quot;, never two negations. No trick questions.</li>
+<li>Plain, short sentences in every language (<code>learner-text-german</code>).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-feedback-explains">
+<h2>Background and explanation say why</h2>
+<p><code>quiz-feedback-explains</code> · archetype:quiz, archetype:explainer · hint</p>
+<div>
+<ul>
+<li>Every option has an <code>info</code> of 1–3 sentences about the option, true either way (&quot;Der Nil fließt durch mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer.&quot;). A wrong option's <code>info</code> also says why it does not fit.</li>
+<li><code>explanation</code>: 1–3 sentences why the answer is right; for true-false, number, ordering and matching also the background.</li>
+<li><code>number</code>: typical wrong numbers as <code>mistakes</code> (<code>answer</code>, <code>message</code>). Any question: an optional <code>hint</code>, not the answer.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md"><code>review/archetypes/quiz.md</code></a>.</p>
+</section>
+
+<section id="quiz-fitting-type">
+<h2>The type that fits the question</h2>
+<p><code>quiz-fitting-type</code> · archetype:quiz, archetype:explainer · hint</p>
+<div>
+<ul>
+<li>One fact among things of a kind: <code>single-choice</code>; several facts: <code>multiple-choice</code>; estimate a size: <code>number</code>; compare sizes or dates: <code>ordering</code>; connect: <code>matching</code>; judge a statement: <code>true-false</code>.</li>
+<li>Mix the types. The type must accept every answer the text allows (<code>ordering</code> only for a fixed order).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-further-reading">
+<h2>Every question links to further reading</h2>
+<p><code>quiz-further-reading</code> · archetype:quiz · warning</p>
+<div>
+<ul>
+<li>At least one link per question, best the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>).</li>
+<li><code>title</code> names the page (&quot;Uluru (Wikipedia)&quot;).</li>
+<li>HTTP 429 → tell the creator which; mark the facts &quot;not checked&quot; in the plan; go on.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-number-precision">
+<h2>Numbers with unit and rounding</h2>
+<p><code>quiz-number-precision</code> · archetype:quiz, archetype:explainer · warning</p>
+<div>
+<ul>
+<li>The text says how exact the answer must be (&quot;Bis zu 100 m daneben zählt noch als richtig&quot;); <code>tolerance</code> matches it.</li>
+<li>The unit goes into <code>unit</code>, not into the answer.</li>
+<li>Sources differ → the tolerance covers them.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-only-data">
+<h2>Write only the question bank and its images</h2>
+<p><code>quiz-only-data</code> · archetype:quiz · error</p>
+<div>
+<ul>
+<li>Change only <code>src/quiz.json</code> and add image files to <code>src/images/</code>. <code>index.html</code>, <code>src/main.ts</code>, <code>e2e/quiz.e2e.ts</code>, config as generated (<code>keep-the-preset</code>).</li>
+<li>Bank cannot say it → &quot;Where I had to guess&quot;, never code around the runtime.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-quiz/SKILL.md"><code>skills/archetypes/lernapps-quiz/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-own-words">
+<h2>Write in your own words</h2>
+<p><code>quiz-own-words</code> · archetype:quiz · warning</p>
+<div>
+<ul>
+<li>Take facts, never sentences: Wikipedia is CC BY-SA (copying needs attribution and relicenses).</li>
+<li><code>info</code> and <code>explanation</code>: new, shorter, plainer, for the app's school year. Sources in <code>sources</code> (<code>third-party-licence</code>).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-plausible-options">
+<h2>Options a learner could believe</h2>
+<p><code>quiz-plausible-options</code> · archetype:quiz, archetype:explainer · warning</p>
+<div>
+<ul>
+<li>Wrong options are real things of the same kind (a river for a river), with true background.</li>
+<li>Options alike in length and form. No &quot;Alle genannten&quot;, &quot;Keine davon&quot; or jokes. Three or four options.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>.</p>
+</section>
+
+<section id="quiz-stable-ids">
+<h2>Keep the ids</h2>
+<p><code>quiz-stable-ids</code> · archetype:quiz · warning</p>
+<div>
+<ul>
+<li>Short, telling <code>id</code> (&quot;grand-canyon&quot;); keep it when the text changes (shared links <code>#frage-&lt;id&gt;</code>).</li>
+<li>New question, new id; never reuse a removed one.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-quiz/SKILL.md"><code>skills/archetypes/lernapps-quiz/SKILL.md</code></a>.</p>
+</section>
+
+<section id="start-page-explains">
+<h2>The start page explains the app</h2>
+<p><code>start-page-explains</code> · archetype:interactive · hint</p>
+<div>
+<ul>
+<li>The static start page says what learners train, for whom, and how to begin.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-interactive-design/SKILL.md"><code>skills/archetypes/lernapps-interactive-design/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/interactive.md"><code>review/archetypes/interactive.md</code></a>.</p>
+</section>
+
+<section id="storage-through-wrapper">
+<h2>Store only through the preset's storage</h2>
+<p><code>storage-through-wrapper</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
+<div>
+<ul>
+<li>Only <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app's id in the catalog (own prefix <code>lernapps:&lt;id&gt;:</code>, rule <code>own-data-only</code>; works when storage is blocked).</li>
+<li>At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, <code>save</code> returns false and the app keeps working.</li>
+<li>Keep the learning state, not growing histories.</li>
+<li>Never <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/SKILL.md"><code>skills/tooling/lernapps-check/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/storage-through-wrapper.ts"><code>lint/rules/storage-through-wrapper.ts</code></a>.</p>
+</section>
+
+<section id="strict-typescript">
+<h2>TypeScript only, strict</h2>
+<p><code>strict-typescript</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
+<div>
+<ul>
+<li>Every source file is TypeScript; no JavaScript files.</li>
+<li>Never <code>any</code>: use <code>unknown</code> and narrow it, or write the type.</li>
+<li>Type the creator's data; validate it at build time.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/SKILL.md"><code>skills/tooling/lernapps-check/SKILL.md</code></a>.</p>
+</section>
+
+<section id="topic-has-exercises">
+<h2>Every page has exercises</h2>
+<p><code>topic-has-exercises</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Every page has at least one exercise that practises what the page explains, with solution or feedback; best in a last section &quot;Übung&quot;.</li>
+<li>The schema requires it; start, chapter and glossary pages are generated. The review judges the fit.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="vue-component-browser-globals">
+<h2>Browser globals only once mounted</h2>
+<p><code>vue-component-browser-globals</code> · archetype:explainer, archetype:interactive · error</p>
+<div>
+<ul>
+<li><code>window</code>, <code>document</code>, <code>localStorage</code> etc. only in <code>onMounted</code> or later unmount hooks (server render has none).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-browser-globals.ts"><code>lint/rules/vue-component-browser-globals.ts</code></a>.</p>
+</section>
+
+<section id="vue-component-exercise-contract">
+<h2>An exercise component has its logic module</h2>
+<p><code>vue-component-exercise-contract</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Emits <code>answered</code> → <code>src/components/&lt;Name&gt;.ts</code> with pure, deterministic <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code>, <code>wrong(task)</code>; property test passes.</li>
+<li>Block lists <code>examples</code> with at least one <code>accepted</code> and one <code>rejected</code>, <code>{ answer, seed? }</code> in the shape of <code>check</code> (no seed: seeds 1–50), incl. another correct answer where the text allows.</li>
+<li>Declares prop <code>seed: number</code>, shows <code>generate(seed, props)</code>. The explainer gives the seed, shows &quot;Aufgabe Nr.&quot;, &quot;Neue Aufgabe&quot;, keeps <code>?&lt;id&gt;=&lt;n&gt;</code>: never draw a seed or offer &quot;next&quot; inside.</li>
+<li>Also exports <code>describe(task, props, lang)</code> → <code>{ task, solution }</code> (restricted Markdown, task exactly as shown) and <code>about = { task, answer, correct, mistakes }</code> (texts by language). The tutor reads only these (<code>tutor.md</code>, no-JS text).</li>
+<li>Any exercise may carry <code>examples: { accepted, rejected }</code>; <code>generated</code>: expressions of <code>given</code> and <code>answer</code>, per seed (e.g. <code>reverse(answer)</code>).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="vue-component-imports">
+<h2>Imports only from the allowed packages</h2>
+<p><code>vue-component-imports</code> · archetype:explainer, archetype:interactive · error</p>
+<div>
+<ul>
+<li>Only <code>vue</code>, <code>@lernapps/app-templates</code>, <code>@lernapps/tooling/storage</code>, <code>i18n</code>, <code>a11y</code>, own folder. Types from anywhere.</li>
+<li>Interactive: also the app's <code>src/</code> files and its <code>dependencies</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-imports.ts"><code>lint/rules/vue-component-imports.ts</code></a>.</p>
+</section>
+
+<section id="vue-component-no-html-injection">
+<h2>No code or HTML from strings</h2>
+<p><code>vue-component-no-html-injection</code> · archetype:explainer, archetype:interactive · error</p>
+<div>
+<ul>
+<li>No <code>eval</code>, <code>new Function</code>, <code>innerHTML</code>, <code>v-html</code>: the template renders.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-no-html-injection.ts"><code>lint/rules/vue-component-no-html-injection.ts</code></a>.</p>
+</section>
+
+<section id="vue-component-no-network">
+<h2>No network</h2>
+<p><code>vue-component-no-network</code> · archetype:explainer, archetype:interactive · error</p>
+<div>
+<ul>
+<li>No request, no URL import: props or bundle.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-no-network.ts"><code>lint/rules/vue-component-no-network.ts</code></a>.</p>
+</section>
+
+<section id="vue-component-nojs">
+<h2>Every component block has its <code>nojs</code> text</h2>
+<p><code>vue-component-nojs</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Every non-exercise <code>vue-component</code> block: <code>nojs</code> in every language (exercise: from <code>describe</code>): what it shows and does, with content; same meaning without JS.</li>
+<li>Schema requires it; <code>lernapps check</code> finds empty or hidden ones (<code>explainer-readable-without-js</code>).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="vue-component-props-valid">
+<h2>Props as the component declares them</h2>
+<p><code>vue-component-props-valid</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li><code>defineProps&lt;{ … }&gt;()</code> with types; each block passes exactly the declared props, of their types.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="vue-component-size">
+<h2>Within 20 kB</h2>
+<p><code>vue-component-size</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li>Own code max 20 kB gzip. More → split, or a new block: write it into the retrospective.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="vue-component-tested">
+<h2>A test per component</h2>
+<p><code>vue-component-tested</code> · archetype:explainer · error</p>
+<div>
+<ul>
+<li><code>src/components/&lt;Name&gt;.test.ts</code> per component, testing its logic: other right answers the text allows, typical wrong ones with reasons, edge cases. Run by <code>lernapps check</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+  </main>
+<footer class="la-footer" lang="en">
+  <div class="la-footer__inner">
+    <p>lernapps.net is free and has no ads. It lives on your thanks.</p>
+    <nav aria-label="Footer"><ul><li><a href="/en/privacy/">Privacy</a></li><li><a href="/en/imprint/">Imprint</a></li><li><a href="/docs/en/platform-design/">Platform design</a></li><li><a href="https://github.com/lernapps/tooling">Source code</a></li></ul></nav>
+  </div>
+</footer>
+</body>
+</html>
