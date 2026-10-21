@@ -4,7 +4,8 @@
 - Scope `listing`: every listed app, wherever hosted. Severity `error` never break; `hint` advice.
 - Check a built or published app: `npx --yes github:lernapps/tooling check <dir|url>` (= `lernapps check`);
   `--entry <file>` checks the catalog entry against it.
-- The app lives at its own address (e.g. `https://<owner>.github.io/<repo>/`); the catalog links to it.
+- Published at its own address (e.g. `https://<owner>.github.io/<repo>/`); once listed, lernapps.net serves a copy at
+  `https://lernapps.net/<id>/`, built from the entry's `commit`.
 - All rules: <https://lernapps.net/tooling/rules/>.
 
 ## App
@@ -19,6 +20,21 @@ severity: error
 
 - No cookies, analytics, tracking pixels, server storing data.
 - Stored data stays on the device (`localStorage`) and serves only the app.
+
+### `own-data-only`: Touch only the app's own data in the browser
+
+```rule
+id: own-data-only
+scope: listing
+severity: error
+```
+
+- Every app on lernapps.net shares one origin with the other apps and the platform.
+- Own data: keys of `localStorage` and `sessionStorage`, IndexedDB databases and caches named `lernapps:<id>:…`,
+  `<id>` the app's id in the catalog (`entries/<id>.yaml`).
+- Never read, write or remove other keys; never `clear()`; never `caches.match()` without `cacheName`.
+- Built with this tooling: `createStorage("<id>")` from `@lernapps/tooling/storage`.
+- `lernapps check` puts another app's data into the browser and reports every access to it, before a click.
 
 ### `runs-in-browser`: Runs in the browser, without installation
 

@@ -927,7 +927,7 @@ protocol: YAML with a published JSON Schema; Vue single-file components
 
 Runs in an app's CI exactly what the app's git hooks ran, nothing more. It only sets up the environment around the
 check, and keeps the report, passing or not. On the main line it also keeps the bundle it checked, so the app
-publishes what was checked and builds it once (decision `dec-app-own-hosting`).
+publishes what was checked and builds it once.
 
 ```arc42
 :::building-block
@@ -958,8 +958,9 @@ protocol: GitHub Actions, pinned to a commit
 ## App publish
 
 Publishes an app's checked bundle to the GitHub Pages of the app's repo, at the developer's own address. It is the
-simple default: the app lives at its developer's hosting, which may be any other host, and lernapps.net only links to
-it (decision `dec-app-own-hosting`). It is accountable for a
+simple default for the developer's own address, which may be any other host; the listing check of a pull request
+opens the app there, and lernapps.net serves its own copy, built from the entry's commit (decision
+`dec-copies-served`). It is accountable for a
 setup that later previews of pull requests can share. Before the deploy it checks that setup and fixes it where it
 may; where it may not, it deploys anyway and fails after the deploy with a message for the creator's assistant that
 says what to change and why, so that the admin's one click shows the newest app without a new run.

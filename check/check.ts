@@ -3,6 +3,13 @@
 // Check`. The CLI runs every check there; a check returns undefined when what it needs does not exist (no built
 // app, no repo, no entry), and the report then leaves its rule out of the rules checked.
 
+/**
+ * Data of another app, put into localStorage and sessionStorage before a page loads: on lernapps.net every app shares
+ * one origin, so an app that reads what is not its own finds it (rule own-data-only). Left out of the storage a visit
+ * records.
+ */
+export const FOREIGN_KEY = "lernapps:andere-app:fortschritt";
+
 export type Severity = "error" | "warning" | "hint";
 
 /** One problem, in the shape of every message: the CLI adds the rule id, severity and link. */
@@ -28,8 +35,14 @@ export interface PageVisit {
   requests: { url: string; method: string }[];
   /** Names of the cookies the page set. */
   cookies: string[];
-  /** Keys in localStorage and sessionStorage, names of IndexedDB databases. */
+  /** Keys in localStorage and sessionStorage, names of IndexedDB databases and of caches (Cache API). */
   storage: string[];
+  /**
+   * What the page's scripts did with stored data while loading, by name (check/visit.ts records it): read, write or
+   * remove a key of localStorage or sessionStorage, clear one of them, open or delete an IndexedDB database or a
+   * cache, look something up in every cache. Listing the keys is not recorded: the app's own storage needs it.
+   */
+  access: StorageAccess[];
   /** At 360 px width: the document's width, and the elements that reach beyond 360 px. */
   overflow: { width: number; elements: string[] };
   /** Violations of WCAG 2.1 A and AA found by axe-core. */
@@ -41,6 +54,13 @@ export interface PageVisit {
    * what it shows with JavaScript off, from a second visit (check/visit.ts). Other pages get no such visit.
    */
   withoutJavaScript?: WithoutJavaScript;
+}
+
+/** One access of a page to stored data, by name; `name` is "" for `clear` and for a lookup in every cache. */
+export interface StorageAccess {
+  area: "localStorage" | "sessionStorage" | "IndexedDB" | "Cache";
+  action: "read" | "write" | "remove" | "clear" | "open" | "delete" | "match";
+  name: string;
 }
 
 /**
