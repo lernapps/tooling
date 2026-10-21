@@ -3,7 +3,7 @@
 The tooling with which a creator and their AI assistant build a learning app for
 [lernapps.net](https://lernapps.net/): an app that runs in the browser, collects nothing, is accessible, and is
 listed in the app overview within minutes. The creator publishes the app at their own address, by default their own
-GitHub Pages; once listed, lernapps.net serves a copy of it at `lernapps.net/<id>/`.
+GitHub Pages; once listed, lernapps.net serves a copy of it at `lernapps.net/apps/start/<id>/`.
 
 The tooling is responsible for helping builders get their apps out. The [app overview](https://github.com/lernapps/apps)
 explains building and listing, and provides the apps themselves: the catalog.

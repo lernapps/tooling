@@ -312,16 +312,18 @@ addresses: qg-checked-not-declared, qg-nothing-collected
 **Context:** for an app at its developer's address, the provider of that address answers to a school's data
 protection officer, a link breaks when the app moves, and `name.github.io` reads as a private account
 (lernapps/apps#58, lernapps/docs KD-21). **Decision:** lernapps.net serves a copy of every listed app, its own apps
-included, at `https://lernapps.net/<id>/`, `<id>` the catalog id. The copy is the bundle built from the commit the
-entry names (`source`, `commit`), in a container without secrets, and checked with `lernapps check --entry`; a
-workflow of lernapps/apps pushes it into its directory of the root site's `gh-pages` with a token of the
-organisation's GitHub App, keeps the list `copies.txt`, and the site deploy action leaves the copies alone. The
+included, at `https://lernapps.net/apps/start/<id>/`, `<id>` the catalog id. The copy is the bundle built from the
+commit the entry names (`source`, `commit`), in a container without secrets, and checked with `lernapps check
+--entry`; a workflow of lernapps/apps pushes it into `start/<id>/` of its own `gh-pages`, keeps the list
+`start/copies.txt`, and the site deploy action leaves `start/` alone (its input `keep`). The
 developer keeps the repo, the licence and their own address, where the app publish action still puts the app and the
 listing check of a pull request opens it. **Rejected:** a repo per app (a GitHub App that creates repos);
-`lernapps.net/apps/<id>/app/` (a long address with "app" three times, and new addresses for the organisation's apps).
+`lernapps.net/apps/<id>/app/` (a long address with "app" three times); `lernapps.net/<id>/` in the root site, tried
+first: a repo of the organisation keeps its path `lernapps.net/<id>/` even with its Pages switched off, so the copy
+answered 404, and those repos need their Pages for the previews of their pull requests.
 **Consequences:** one provider, one privacy notice, one address that keeps working; all apps share one origin, so
-`dec-own-data-only`; an app must reference its files relatively; ids must not collide with the root site's paths or
-the organisation's repos; an update of an app is a new commit in its entry, merged automatically only when nothing
+`dec-own-data-only`; an app must reference its files relatively; ids must not collide with the top-level paths of the
+app overview's site; an update of an app is a new commit in its entry, merged automatically only when nothing
 but versions of existing npm dependencies changed.
 
 ```arc42

@@ -2,9 +2,15 @@ name: lernapps site deploy
 description: >-
   Publishes the artifact "site" (from site-check) to the root of the gh-pages branch, which GitHub Pages
   serves (Settings → Pages → Deploy from a branch → gh-pages, / (root)), at lernapps.net/<repo>/. Leaves the previews
-  alone, and the copies of listed apps that lernapps/apps publishes into the root site (copies.txt, one "<id> <commit>"
-  per line, and a directory <id>/ per copy). Use it in the job "deploy" of the site's pages.yml, on main, after the job "site" (needs: site), pinned to
+  alone, and whatever the input keep names (lernapps/apps: start/, the copies of the listed apps). Use it in the job "deploy" of the site's pages.yml, on main, after the job "site" (needs: site), pinned to
   a commit. The job needs permissions: contents: write.
+inputs:
+  keep:
+    description: >-
+      Paths of gh-pages that the deploy leaves alone besides pr-preview/, one per line, e.g. "start/": what another
+      workflow of the repo publishes there.
+    required: false
+    default: ""
 runs:
   using: composite
   steps:
@@ -16,14 +22,14 @@ runs:
     - name: What the deploy keeps
       id: keep
       shell: bash
+      env:
+        KEEP: ${{ inputs.keep }}
       run: |
         {
           echo "patterns<<KEEP"
           echo "pr-preview/"
-          if git fetch --quiet --depth=1 origin gh-pages 2>/dev/null && git cat-file -e FETCH_HEAD:copies.txt 2>/dev/null; then
-            echo "copies.txt"
-            git show FETCH_HEAD:copies.txt | awk '$1 ~ /^[a-z0-9]+(-[a-z0-9]+)*$/ { print $1 "/" }'
-          fi
+          # only relative paths below gh-pages
+          grep -E '^[A-Za-z0-9._-]+(/[A-Za-z0-9._-]+)*/?$' <<< "$KEEP" | grep -v '\.\.' || true
           echo "KEEP"
         } >> "$GITHUB_OUTPUT"
     - uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
