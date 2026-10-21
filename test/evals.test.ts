@@ -41,6 +41,7 @@ test("the transcript score counts turns, questions, reads and bypasses of a synt
     created_with_plan_command: 1,
     no_verify_bypass: 0,
     pre_push_counter_edits: 1,
+    reached_commit: 1,
     agent_input_tokens: 0,
     agent_cache_read_tokens: 0,
     agent_output_tokens: 0,
@@ -497,6 +498,34 @@ test("the plan counts as confirmed when sed, a helper script or a write sets pha
     ]),
   ]);
   expect(early.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 1 });
+});
+
+test("the scenario ends at Commit when the creator answers a GitHub question or stops at publishing after the plan", () => {
+  const setCode = {
+    name: "Edit",
+    input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+  };
+  const github =
+    "Ich habe dir kein GitHub-Repo angelegt; arbeite lokal mit git. Veröffentlichen und Eintragen machen wir später.";
+  const turn = (creator: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
+    creator,
+    text: "",
+    tools,
+  });
+  // The GitHub line while planning is not the end; after the plan's yes it is, with or without `phase: commit`.
+  const planning = scoreTurns([turn("Ein Quiz"), turn(github), turn("Ja, passt so.", [setCode]), turn("Danke!")]);
+  expect(planning.dimensions).toMatchObject({ reached_commit: 0 });
+  const asked = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn(github), turn("Danke!")]);
+  expect(asked.dimensions).toMatchObject({ reached_commit: 1 });
+  expect(asked.evidence).toMatchObject({ commitReachedAtCreatorTurn: 3 });
+  const stopped = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn("Stopp, das reicht für heute."),
+  ]);
+  expect(stopped.dimensions).toMatchObject({ reached_commit: 1 });
+  const stuck = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn("Danke, wir hören hier auf.")]);
+  expect(stuck.dimensions).toMatchObject({ reached_commit: 0 });
 });
 
 test("a tool call keeps what it returned, so that the grep of the phase can be read", () => {

@@ -60,7 +60,13 @@ export const ROWS: Row[] = [
     kind: "runs",
   },
   { id: "check_passes", label: "lernapps check passes", group: "process", source: "check_passes", kind: "runs" },
-  { id: "phase_reached", label: "Phase reached", group: "process", source: "phase_reached", kind: "share" },
+  {
+    id: "phase_reached",
+    label: "Phase in the plan at the end (commit = 100 %)",
+    group: "process",
+    source: "phase_reached",
+    kind: "share",
+  },
   { id: "committed_clean", label: "Committed clean", group: "process", source: "committed_clean", kind: "runs" },
 ].map((row): Row => ({ ...(row as Omit<Row, "value">), value: (trial: Trial) => trial.numbers[row.source] }));
 ROWS.push(
@@ -71,6 +77,19 @@ ROWS.push(
     source: "creator_turns_after_plan",
     kind: "runs",
     value: threshold("t_creator_turns_after_plan", 3),
+  },
+  // The scenarios end at the first question about GitHub or publishing; this is the end the process should reach.
+  {
+    id: "code_done",
+    label: "Code done: check green, then asked about GitHub or publishing",
+    group: "transcript",
+    source: "reached_commit",
+    kind: "runs",
+    value: (trial) => {
+      const check = trial.numbers["check_passes"];
+      const door = trial.numbers["t_reached_commit"];
+      return check === undefined || door === undefined ? undefined : Math.min(check, door);
+    },
   },
   {
     id: "questions_max_2",
