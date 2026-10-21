@@ -114,39 +114,52 @@
     details { margin: 0.75rem 0; }
     summary { cursor: pointer; color: var(--ev-link); }
 
-    /* the eval runs: a list to choose from, then one article per run (all of them without JavaScript) */
+    /* the eval runs: a list of runs, then one article per run. Without JavaScript the list is a table of contents
+       and every run follows; with it the list is a row of tabs and the chosen run is the panel attached to them. */
     .run-list { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.6rem;
       grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
     .run-list a { display: flex; flex-direction: column; gap: 0.2rem; height: 100%; box-sizing: border-box;
       padding: 0.7rem 0.85rem; border: 1px solid var(--ev-border); border-radius: 0.6rem; background: var(--ev-panel);
       color: var(--ev-text); text-decoration: none; }
     .run-list a:hover { border-color: var(--ev-link); }
-    .run-list a[aria-current="true"] { border-color: var(--ev-link); box-shadow: inset 0 0 0 1px var(--ev-link); }
     .run-list time { font-size: 0.8rem; color: var(--ev-muted); font-variant-numeric: tabular-nums; }
     .run-list span { font-size: 0.85rem; color: var(--ev-muted); }
     .run-list .headline { color: var(--ev-text); }
-    .compare { font-size: 0.9rem; }
-    .compare select { font: inherit; margin-left: 0.35rem; }
-    .compare small { display: block; margin-top: 0.25rem; }
     .run { border-top: 2px solid var(--ev-border); margin-top: 2rem; padding-top: 0.5rem; }
+    .js .run-list { display: flex; gap: 0.4rem; margin: 1rem 0 0; align-items: stretch; overflow-x: auto; }
+    .js .run-list li { flex: 0 1 15rem; min-width: 11rem; }
+    .js .run-list a { border-radius: 0.6rem 0.6rem 0 0; border-bottom: 0; background: var(--ev-panel); }
+    .js .run-list a[aria-current="true"] { background: var(--ev-bg); border: 2px solid var(--ev-link); border-bottom: 0;
+      position: relative; z-index: 1; margin-bottom: -2px; padding-bottom: calc(0.7rem + 2px); }
+    .js .run-list a[aria-current="true"] time::after { content: " · shown below"; color: var(--ev-link); font-weight: 600; }
+    .js .run:not(.shown) { display: none; }
+    .js .run { margin-top: 0; border: 2px solid var(--ev-link); border-radius: 0 0.6rem 0.6rem 0.6rem; padding: 0.25rem 1.1rem 1rem; }
     .run h3 small { font-weight: 400; color: var(--ev-muted); font-size: 0.9rem; }
-    .run h4 { margin: 1.5rem 0 0.4rem; }
+    .run h4 { margin: 1.75rem 0 0.4rem; }
+    .run h4 + .note { margin-top: 0; }
     .run .question { margin: 0.75rem 0; }
+    .compare { margin: 1.5rem 0 0.5rem; padding: 0.6rem 0.8rem; border: 1px dashed var(--ev-border); border-radius: 0.5rem;
+      font-size: 0.9rem; }
+    .compare label { font-weight: 600; }
+    .compare select { font: inherit; font-weight: 400; margin-left: 0.35rem; max-width: 100%; }
+    .compare-key { margin: 0.4rem 0 0; color: var(--ev-muted); }
+    .compare-key .up, .compare-key .down { color: var(--ev-text); }
     .findings li { margin-bottom: 0.75rem; }
     .findings p { margin: 0.2rem 0; }
     .evidence { font-size: 0.85rem; color: var(--ev-muted); }
-    .actions { list-style: none; padding: 0; }
-    .actions li { display: flex; gap: 0.6rem; align-items: baseline; margin-bottom: 0.5rem; }
+    .actions h5 { display: flex; align-items: center; gap: 0.45rem; margin: 1rem 0 0.3rem; font-size: 0.95rem; }
+    .actions .mark { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%;
+      font-size: 0.8rem; border: 2px solid currentColor; }
+    .actions .count { font-weight: 400; color: var(--ev-muted); }
+    .actions.done h5 { color: var(--ev-link); }
+    .actions.done .mark { background: var(--ev-link); border-color: var(--ev-link); color: var(--ev-bg); }
+    .actions.dropped h5 { color: var(--ev-muted); }
+    .actions ul { margin: 0; padding-left: 2.1rem; }
+    .actions li { margin-bottom: 0.45rem; }
+    .actions.dropped li { color: var(--ev-muted); text-decoration: line-through; }
     .actions small { display: block; color: var(--ev-muted); }
-    .status { flex: none; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
-      padding: 0.05rem 0.45rem; border-radius: 999px; border: 1px solid currentColor; }
-    .action.done .status { color: var(--ev-link); }
-    .action.open .status { color: var(--ev-text); }
-    .action.dropped .status { color: var(--ev-muted); }
     .heatmap td:target, .numbers td:target { outline: 3px solid var(--ev-text); outline-offset: 1px; }
     .heatmap td .delta { display: block; font-size: 0.7rem; font-weight: 600; }
-    .js .run:not(.shown) { display: none; }
-    .js .run { border-top: 0; margin-top: 0; }
 
     .tip { position: fixed; z-index: 10; max-width: 18rem; padding: 0.35rem 0.55rem; border-radius: 0.375rem;
       background: var(--ev-tip-bg); color: var(--ev-tip-text); font-size: 0.8rem; line-height: 1.35;
@@ -217,8 +230,9 @@
     </ul>
 
     <h2 id="runs">Eval runs</h2>
-    <p>Newest first. Choose a run to see its results, findings and what we did about them; compare it with another
-      run to see what changed. Hover a cell for min, max and n.</p>
+    <p>Newest first. Choose a run: everything inside the frame below belongs to it, its question, results, findings
+      and what we did about them. In a run, compare its heatmap with another run to see what changed. Hover a cell
+      for min, max and n.</p>
     <div class="legend" aria-hidden="true">
       <span>Share in %</span>
       <ol><li class="h0">0–19</li><li class="h1">20–39</li><li class="h2">40–59</li><li class="h3">60–79</li><li class="h4">80–100</li></ol>
@@ -310,8 +324,6 @@
       document.documentElement.classList.add("js");
       const runs = [...root.querySelectorAll("article.run")];
       const links = [...root.querySelectorAll(".run-list a")];
-      const compare = root.querySelector("[data-compare]");
-      root.querySelector(".compare").hidden = false;
       const runOf = (hash) => {
         const id = decodeURIComponent(hash.replace(/^#/, ""));
         const target = id && document.getElementById(id);
@@ -326,9 +338,14 @@
         }
         return map;
       };
-      const paint = (run) => {
-        const other = compare.value && compare.value !== run ? means(compare.value) : null;
-        const article = runs.find((a) => a.dataset.run === run);
+      const paint = (article) => {
+        const select = article.querySelector("[data-compare]");
+        const key = article.querySelector("[data-compare-key]");
+        const other = select && select.value ? means(select.value) : null;
+        if (key) {
+          key.hidden = !other;
+          if (other) key.querySelector("[data-compare-name]").textContent = select.selectedOptions[0].textContent;
+        }
         for (const td of article.querySelectorAll("td[data-key]")) {
           td.querySelector(".delta")?.remove();
           if (!other || !other.has(td.dataset.key)) continue;
@@ -340,17 +357,17 @@
           td.append(delta);
         }
       };
+      for (const article of runs) {
+        const compare = article.querySelector(".compare");
+        if (!compare) continue;
+        compare.hidden = false;
+        compare.querySelector("[data-compare]").addEventListener("change", () => paint(article));
+        paint(article);
+      }
       const select = (run) => {
         for (const article of runs) article.classList.toggle("shown", article.dataset.run === run);
         for (const link of links) link.setAttribute("aria-current", String(link.dataset.run === run));
-        const index = runs.findIndex((a) => a.dataset.run === run);
-        if (!compare.dataset.touched) compare.value = runs[index + 1] ? runs[index + 1].dataset.run : "";
-        paint(run);
       };
-      compare.addEventListener("change", () => {
-        compare.dataset.touched = "1";
-        paint(runOf(location.hash));
-      });
       window.addEventListener("hashchange", () => select(runOf(location.hash)));
       select(runOf(location.hash));
       const target = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
