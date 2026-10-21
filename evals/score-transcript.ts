@@ -67,7 +67,7 @@ const QUESTION = /[^?.!\n]{3,}\?/g;
  * these. Its other end, "Danke, wir hören hier auf.", is for an agent that is stuck.
  */
 const SCENARIO_END = /kein GitHub-Repo angelegt|Stopp, das reicht|Danke!/i;
-const STUCK = /wir hören hier auf/i;
+const STUCK = /^\s*Danke, wir hören hier auf/i;
 
 const toolName = (name: string) => name.replace(/^mcp__acp__/, "");
 /** The URLs in a command; a closing parenthesis belongs to a URL only when the URL opened one. */

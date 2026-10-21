@@ -544,6 +544,12 @@ test("the scenario ends regularly when the creator's last message after the plan
     turn("Danke, wir legen hier eine Pause ein. Veröffentlichen machen wir später. Danke!"),
   ]);
   expect(pause.dimensions).toMatchObject({ scenario_end: 1 });
+  const doneStop = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn("Danke! Die App ist lokal fertig und geprüft. Wir hören hier auf."),
+  ]);
+  expect(doneStop.dimensions).toMatchObject({ scenario_end: 1 });
   const stopped = scoreTurns([
     turn("Ein Quiz"),
     turn("Ja, passt so.", [setCode]),
