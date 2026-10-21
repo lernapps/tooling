@@ -11,8 +11,8 @@ bottomLine:
     Sonnet 5.5 and Opus 5.5 pass the check in every run and tick nearly all plan boxes; the content guide is now
     filled in every run.
   - >-
-    Haiku 5.5 falls behind: the interactive app passes the check in 1 of 3 runs, every Haiku cell stops in Code, and
-    it loads only about a third of the skills a phase names.
+    Haiku 5.5 falls behind: the interactive app passes the check in 1 of 3 runs, and it loads only about a third of
+    the skills a phase names. That every Haiku cell stops in Code is mostly the scenario's end, not Haiku's.
   - >-
     Sonnet and Opus load 61–86 % of a phase's skills by its end, but often too early, and rarely `lernapps-commit`
     and `lernapps-listing` in Commit.
@@ -40,9 +40,12 @@ findings:
   - id: haiku-falls-behind
     title: Haiku 5.5 falls behind on the rest
     text: >-
-      The interactive app passes the check in 1 of 3 runs (its own tests fail; on 2026-10-18 in 3 of 3). Every Haiku
-      cell ends in Code (phase 67 %). One explainer run chose the interactive archetype. Haiku needs the most turns
-      after the plan: in no interactive run were there three or fewer.
+      The interactive app passes the check in 1 of 3 runs (its browser tests fail on ö and ü; on 2026-10-18 in 3 of
+      3). One explainer run chose the interactive archetype. Haiku needs the most turns after the plan: in no
+      interactive run were there three or fewer. Every Haiku cell ends with `phase: code` (67 %), but read in the
+      transcripts, 7 of 9 runs built a green app and then asked about GitHub or publishing without setting
+      `phase: commit` first; the creator answers that question with the scenario's end. So the phase row measures
+      only whether the agent set the phase before that question, which Sonnet and Opus do and Haiku does not.
     evidence:
       - { task: interactive-fresh, model: Haiku 5.5, row: check_passes }
       - { task: quiz-fresh, model: Haiku 5.5, row: phase_reached }
@@ -123,7 +126,23 @@ actions:
       agent run `create`.
     status: open
     findings: [created-before-plan, haiku-falls-behind]
-  - text: Decide whether the guidance must carry Haiku 5.5, and if so, what it needs.
+  - text: >-
+      Measure the scenario's end as such: the row "Code done" counts a green check followed by a question about GitHub
+      or publishing, which the creator answers with the end; the phase row stays beside it. Run 2 still needs a
+      re-score with it.
+    status: done
+    findings: [haiku-falls-behind]
+  - text: >-
+      Say plainly that only a checkpoint waits: a phase's last box sets the next phase and goes on in the same
+      message, and Code has no checkpoint before Commit.
+    status: done
+    findings: [haiku-falls-behind]
+  - text: Find out why the interactive app's browser tests fail on ö and ü with Haiku 5.5.
+    status: open
+    findings: [haiku-falls-behind]
+  - text: >-
+      Let the simulated creator decide in structured output (what the agent asked, the reply, the end and why), so
+      that the scenario's end and the creator's own mistakes are read, not guessed from its sentences.
     status: open
     findings: [haiku-falls-behind]
   - text: The verifier skips a dangling symlink under `.claude/skills/` instead of crashing (verify.ts, findVibeDirs).

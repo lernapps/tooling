@@ -21,6 +21,7 @@ For you, the assistant.
 4. New task found → add it.
 5. Each phase names its skills. Load a skill when its task comes, not before. Read it in full, from its file.
 6. Checkpoint: stop, ask, wait for the creator's answer. A message sent before the question is no yes.
+   Only a checkpoint waits. A phase's last box → set the next phase and go on in the same message.
 7. At most 2 questions per message, one topic each. No questions inside drafts or lists.
 8. Work on the branch `work`, locally: push nothing before Commit. Commit puts the app on GitHub and brings `work`
    into `main`.
@@ -174,6 +175,7 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
       each with the confirmed sketches.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
+      No checkpoint here: set it before you ask or report anything, then start Commit in the same message.
 
 ### Completed
 

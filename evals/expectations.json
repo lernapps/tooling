@@ -18,6 +18,7 @@
     "creator_turns": ["A11"],
     "plan_confirmed": ["A6"],
     "creator_turns_after_plan": ["A11"],
+    "reached_commit": ["A4"],
     "questions_per_turn_mean": ["A9"],
     "questions_per_turn_max": ["A9"],
     "turns_over_two_questions": ["A9"],

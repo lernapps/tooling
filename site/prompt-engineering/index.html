@@ -214,7 +214,9 @@
     <ul>
       <li><strong>Scenarios:</strong> each starts from an empty folder with the build prompt of
         <a href="/apps/build/">lernapps.net/apps/build</a>: a quiz, an explainer and an interactive app (a typing
-        trainer). A simulated creator answers from a persona and stops at the publish checkpoint.</li>
+        trainer). A simulated creator answers from a persona and stops at Commit: at its first question about GitHub
+        it answers that it has no repo, at the question to publish it stops. The row “Code done” counts reaching that
+        end with a green check.</li>
       <li><strong>Scores:</strong> a verifier scores the app folder at the end (plan, app, git); a second script
         scores the transcript (what the agent read, asked and ran, and which skills it loaded in which phase). Each
         row measures one or more expectations (A1–A34 in the plan of the evals).</li>
@@ -244,6 +246,8 @@
     <h2 id="limits">Limits</h2>
     <ul>
       <li>Small n: 2 to 6 runs per cell. One creator model (Haiku 5.5).</li>
+      <li>The creator answers in free text: where the scenario ended and why is read from its sentences, and its own
+        mistakes are not counted apart from the agent's.</li>
       <li>Fresh scenarios only: no increment, no prepared start states yet.</li>
       <li>GitHub only as a local remote in the container; the GitHub cases on github.com are not run yet.</li>
       <li>Claude Code only; Codex and Gemini CLI are not run yet.</li>

@@ -25,6 +25,7 @@ a correction.
 4. Task done → tick `[x]` at once and move it to "Completed" of its phase. New task found → add it.
 5. Each phase names its skills. Load a skill when its task comes, not before. Read it in full, from its file.
 6. Checkpoint: stop, ask, wait for the creator's answer.
+   Only a checkpoint waits. A phase's last box → set the next phase and go on in the same message.
 7. At most 2 questions per message, one topic each.
 8. Work on the branch `increment/<NN>-<short name>`. Until Commit everything is local: push nothing.
 9. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
@@ -136,6 +137,7 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 - [ ] `npx lernapps check` passes.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
+      No checkpoint here: set it before you ask or report anything, then start Commit in the same message.
 
 ### Completed
 
