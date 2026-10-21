@@ -58,6 +58,7 @@
 <tr><td><a href="#no-learner-data-in-texts"><code>no-learner-data-in-texts</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-request-before-click"><code>no-request-before-click</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-tracking"><code>no-tracking</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#own-data-only"><code>own-data-only</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#pages-reachable"><code>pages-reachable</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#runs-in-browser"><code>runs-in-browser</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#third-party-licence"><code>third-party-licence</code></a></td><td>listing</td><td>error</td></tr>
@@ -309,6 +310,21 @@
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="own-data-only">
+<h2>Touch only the app's own data in the browser</h2>
+<p><code>own-data-only</code> · listing · error</p>
+<div>
+<ul>
+<li>Every app on lernapps.net shares one origin with the other apps and the platform.</li>
+<li>Own data: keys of <code>localStorage</code> and <code>sessionStorage</code>, IndexedDB databases and caches named <code>lernapps:&lt;id&gt;:…</code>, <code>&lt;id&gt;</code> the app's id in the catalog (<code>entries/&lt;id&gt;.yaml</code>).</li>
+<li>Never read, write or remove other keys; never <code>clear()</code>; never <code>caches.match()</code> without <code>cacheName</code>.</li>
+<li>Built with this tooling: <code>createStorage(&quot;&lt;id&gt;&quot;)</code> from <code>@lernapps/tooling/storage</code>.</li>
+<li><code>lernapps check</code> puts another app's data into the browser and reports every access to it, before a click.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/own-data-only.ts"><code>check/rules/own-data-only.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="pages-reachable">
@@ -918,7 +934,7 @@
 <p><code>storage-through-wrapper</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
 <div>
 <ul>
-<li>Only <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app (own prefix; works when storage is blocked).</li>
+<li>Only <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app's id in the catalog (own prefix <code>lernapps:&lt;id&gt;:</code>, rule <code>own-data-only</code>; works when storage is blocked).</li>
 <li>At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, <code>save</code> returns false and the app keeps working.</li>
 <li>Keep the learning state, not growing histories.</li>
 <li>Never <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</li>
