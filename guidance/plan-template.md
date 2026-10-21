@@ -49,7 +49,7 @@ questions. -->
   maps the answers onto the archetype.
 - Ask. Write no code, run no `create`.
 - An answer counts only in the creator's words under "Answers". Never tick a topic you assumed.
-- Skills: `lernapps-app`, `lernapps-<archetype>-design`, `lernapps-content-research`.
+- Skills: `lernapps-app`, `lernapps-exercise-patterns`, `lernapps-<archetype>-design`, `lernapps-content-research`.
 -->
 
 ### Tasks
@@ -61,8 +61,11 @@ questions. -->
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
       their own address, free, public, and once listed as a copy on lernapps.net. The technical part (GitHub) comes at the end, and you do it.
 - [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
-- [ ] Choose the archetype as skill `lernapps-app` says: read the README of each archetype in question, tell the
-      creator what the chosen one can and cannot do. Write it and its reason under "Key decisions". Set `archetype`.
+- [ ] Load skill `lernapps-exercise-patterns` and read the patterns of the subject: how will learners practise what
+      the goal names? The kind of practice points to the archetype, as the skill says.
+- [ ] Choose the archetype as skill `lernapps-app` says, from the kind of practice: read the README of each
+      archetype in question, tell the creator what the chosen one can and cannot do. Write it and its reason under
+      "Key decisions". Set `archetype`.
 - [ ] Install the archetype's skills: `npx --yes skills add lernapps/tooling -y -s
       lernapps-<archetype>-design lernapps-<archetype>`. Load skill `lernapps-<archetype>-design`.
 - [ ] Interview: ask the other topics of "Answers" in order. Skip a topic only when an earlier answer covers it; note
@@ -116,15 +119,15 @@ questions. -->
   components.
 - No new content questions. A content gap → back to Explore; say so.
 - Confirmable in one read. After the yes, work on your own: at most 3 creator turns until the listing.
-- Skills: `lernapps-<archetype>-design` (loaded in Explore), `lernapps-exercise-patterns`.
+- Skills: `lernapps-<archetype>-design` and `lernapps-exercise-patterns`, both loaded in Explore.
 -->
 
 ### Tasks
 
 - [ ] `grep '^phase:'` prints `phase: plan`; else set it.
 - [ ] Map the content as skill `lernapps-<archetype>-design` says; reread it if it is no longer in view.
-- [ ] Load skill `lernapps-exercise-patterns` and read the patterns of your subject. Choose a pattern per competency.
-      Write "Content method".
+- [ ] Choose a pattern per competency as skill `lernapps-exercise-patterns` says (loaded in Explore; reread it if it
+      is no longer in view). Write "Content method".
 - [ ] Write the Code tasks under "Code": pages or screens, their content, what each shows. Each ends in a commit.
 - [ ] Each screen, component or interactive exercise: a sketch (static SVG or image, or the steps with what
       learners see after each). Words alone are not enough.

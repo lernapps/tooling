@@ -36,14 +36,17 @@ const run = (command: string, args: string[], cwd: string, timeoutMs = 120_000) 
   });
 const git = (cwd: string, ...args: string[]) => run("git", ["-c", "safe.directory=*", ...args], cwd);
 
-/** The folders under the workspace that hold a `.vibe/` folder (the agent may create the app in a subfolder). */
-function findVibeDirs(dir: string, depth = 0): string[] {
+/**
+ * The folders under the workspace that hold a `.vibe/` folder (the agent may create the app in a subfolder). An entry
+ * that cannot be read, such as a symlink whose target the agent left out, is skipped.
+ */
+export function findVibeDirs(dir: string, depth = 0): string[] {
   if (depth > 4 || !existsSync(dir)) return [];
   const found: string[] = [];
   for (const name of readdirSync(dir)) {
     if (name === "node_modules" || name === ".git") continue;
     const path = join(dir, name);
-    if (!statSync(path).isDirectory()) continue;
+    if (!statSync(path, { throwIfNoEntry: false })?.isDirectory()) continue;
     if (name === ".vibe") found.push(dir);
     else found.push(...findVibeDirs(path, depth + 1));
   }

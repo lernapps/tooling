@@ -35,7 +35,8 @@ license: MIT
 
 ## Choose the archetype
 
-- Choose after the interview topics "Goal" and "Learners", from what learners do.
+- Choose after the interview topics "Goal" and "Learners", from what learners do. Read the patterns of the subject
+  first (skill `lernapps-exercise-patterns`): how learners practise points to the archetype.
 - Before you choose, read the README of each archetype in question, in full. Tell the creator in plain words what the
   chosen one can and cannot do, before you ask about content, amount and look.
 - A few background sections on the start page keep an app `interactive`.
