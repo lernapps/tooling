@@ -150,10 +150,10 @@ const skillsLoaded = (tool: Turn["tools"][number]): string[] => {
 };
 
 /**
- * A2: the skills of the guidance, loaded in their phase. A phase runs from the call that sets it in the plan
- * (Explore from the start) to the call that sets the next one; only phases the trial reached count. Expected in a
- * phase: its skills, without those of another archetype and those the task leaves to a condition. Out of place: a
- * skill of another archetype, or one loaded before its phase.
+ * A2: the skills of the guidance, loaded by the end of their phase. A phase runs from the call that sets it in the
+ * plan (Explore from the start) to the call that sets the next one; only phases the trial reached count. Expected in
+ * a phase: its skills, without those of another archetype and those the task leaves to a condition. A skill loaded
+ * before its phase counts as loaded, and once as out of place, together with a skill of another archetype.
  */
 export function scoreSkills(
   loads: { name: string; seq: number }[],
@@ -169,14 +169,12 @@ export function scoreSkills(
     const archetype = context.archetypes[name];
     return archetype !== undefined && archetype !== context.archetype;
   };
-  const perPhase = reached.map(({ phase, seq }, index) => {
+  const perPhase = reached.map(({ phase }, index) => {
     const end = reached[index + 1]?.seq ?? Number.POSITIVE_INFINITY;
     const expected = (context.phases[phase] ?? []).filter(
       (name) => !otherArchetype(name) && !context.conditional.includes(name),
     );
-    const loaded = expected.filter((name) =>
-      loads.some((load) => load.name === name && load.seq >= seq && load.seq < end),
-    );
+    const loaded = expected.filter((name) => loads.some((load) => load.name === name && load.seq < end));
     return { phase, expected, loaded, missing: expected.filter((name) => !loaded.includes(name)) };
   });
   const firstPhaseStart = (name: string) =>

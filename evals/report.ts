@@ -28,7 +28,7 @@ interface Row {
   value: (trial: Trial) => number | undefined;
 }
 
-interface Trial {
+export interface Trial {
   numbers: Record<string, number>;
   /** An app was created (the create command ran) before the creator confirmed the plan. */
   createdBeforePlan: boolean;
@@ -121,7 +121,7 @@ ROWS.push(
 );
 
 /** The numbers with min, mean and max per cell beside the heatmap. */
-const METRICS: Record<string, string> = {
+export const METRICS: Record<string, string> = {
   agent_minutes: "agent_minutes",
   creator_turns: "t_creator_turns",
   creator_turns_after_plan: "t_creator_turns_after_plan",
@@ -132,7 +132,7 @@ const METRICS: Record<string, string> = {
   cache_read_tokens: "t_agent_cache_read_tokens",
 };
 
-interface Stat {
+export interface Stat {
   mean: number;
   min: number;
   max: number;
@@ -162,8 +162,8 @@ export interface Report {
 
 const readJson = <T>(path: string): T | undefined =>
   existsSync(path) ? (JSON.parse(readFileSync(path, "utf8")) as T) : undefined;
-const round = (value: number, digits = 3) => Math.round(value * 10 ** digits) / 10 ** digits;
-const stat = (values: number[]): Stat | undefined =>
+export const round = (value: number, digits = 3) => Math.round(value * 10 ** digits) / 10 ** digits;
+export const stat = (values: number[]): Stat | undefined =>
   values.length === 0
     ? undefined
     : {
@@ -177,13 +177,13 @@ export const modelLabel = (model: string) => {
   const match = /claude-([a-z]+)-(\d+)-(\d+)/.exec(model);
   return match ? `${match[1]![0]!.toUpperCase()}${match[1]!.slice(1)} ${match[2]}.${match[3]}` : model;
 };
-const MODEL_ORDER = ["haiku", "sonnet", "opus"];
-const modelRank = (model: string) => {
+export const MODEL_ORDER = ["haiku", "sonnet", "opus"];
+export const modelRank = (model: string) => {
   const rank = MODEL_ORDER.findIndex((name) => model.includes(name));
   return rank < 0 ? MODEL_ORDER.length : rank;
 };
 
-function readTrial(dir: string): Trial {
+export function readTrial(dir: string): Trial {
   const numbers = trialNumbers(dir);
   const transcript = readJson<{ evidence?: { installsBeforePlan?: string[] } }>(join(dir, "transcript-score.json"));
   // The transcript score counts every install before the plan; here only the create command counts, judged by the
