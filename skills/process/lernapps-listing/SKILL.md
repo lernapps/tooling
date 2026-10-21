@@ -27,3 +27,15 @@ At the checkpoint "list", without asking first: the pull request publishes nothi
 - The listing guide says how to read it. Repeat until "bestanden".
 - A fix of the app counts only once it is published (plan, Commit); then push to the pull request's branch.
 - Then the owner of lernapps.net reviews and decides. Wait; tell the creator the comment and the decision.
+
+## After the merge
+
+- lernapps.net builds a copy of the app from the entry's `commit` and serves it at
+  `https://lernapps.net/apps/start/<id>/`; the catalog links it once it is checked there. Tell the creator: the app
+  stays theirs, at their own address too.
+- A new version needs no new pull request from you. Publish it as usual (plan, Commit). Once the app's address
+  serves the new commit, lernapps/apps opens an update pull request for the entry within about 30 minutes; the
+  listing check runs on it.
+- It merges itself when nothing else changed than what `lernapps update` makes, versions of npm dependencies and
+  Markdown outside `src/` and `public/`. Anything else (content, code, workflows edited by hand, the licence) waits
+  for the owner's review. Tell the creator which of the two to expect.

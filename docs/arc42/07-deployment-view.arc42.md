@@ -176,7 +176,8 @@ hosts: bb-app-check-action, bb-app-publish, bb-app-preview, bb-check-cli
 ### lernapps/apps CI
 
 The CI of the catalog. It receives the package at a commit and runs the listing validation on every pull request that
-adds or changes an entry. When the owner merges a listing, the catalog publishes it, and the entry links to the app.
+adds or changes an entry. The catalog's own workflows also run the check CLI on the copies and the generator's
+update on the entries' new commits (decisions `dec-copies-served`, `dec-update-replay`).
 
 ```arc42
 :::deployment-node
@@ -184,14 +185,15 @@ id: dn-apps-ci
 title: lernapps/apps CI (GitHub Actions)
 type: container
 parent: dn-github
-hosts: bb-listing-validation, bb-check-cli
+hosts: bb-listing-validation, bb-check-cli, bb-generator
 :::
 ```
 
 ### The app's hosting
 
-Where the app is served: the developer's choice. lernapps.net hosts nothing of an app; the catalog entry links to its
-address. Nothing of the tooling runs here.
+Where the developer publishes the app: the developer's choice. The listing validation opens the app there, and its
+address names the commit it serves. Learners use the copy lernapps.net serves at `lernapps.net/apps/start/<id>/`,
+built from the commit the entry names (decision `dec-copies-served`). Nothing of the tooling runs here.
 
 ```arc42
 :::deployment-node
@@ -237,3 +239,6 @@ package, the runtime or the actions have a newer commit. The app check action ru
 it merges. The creator's assistant can also move the app to the pins of the newest tooling at once, with the
 generator. The template an app was created from does not change afterwards; new features reach the app through the
 runtime. The skills in the harness change when they are copied again.
+
+A new version reaches the copy on lernapps.net through an update of the app's entry (chapter 6, "A new version of a
+listed app reaches its copy").

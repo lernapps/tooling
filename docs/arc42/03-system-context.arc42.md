@@ -2,15 +2,19 @@
 
 The system is the tooling for building, validating and listing apps: process guidance, generator and archetype
 presets, skills, checks, the review and the validation report. Most of it is one package in lernapps/tooling. The
-archetype templates live in lernapps/app-templates and the listing validation in lernapps/apps (chapter 5).
+archetype templates live in lernapps/app-templates and the listing validation in lernapps/apps (chapter 5): it is the
+check the app overview runs on every pull request that adds or changes an entry.
 
 Outside the system are the parties who use it, the external systems it runs on, and the parts of lernapps.net it
 depends on but does not own. The parties have intentions: the creator, their assistant, the owner and the review
-agent. The external systems only do what they are configured to do: GitHub Actions, GitHub Pages and Renovate. The
-DSL models both as actors; the external systems have the type system. The shared site frame gives pages on lernapps.net their header, footer and site check.
-The app overview in lernapps/apps explains building and listing and provides the apps; the entry schema belongs to it. Developers publish their apps where they choose: by default on the GitHub
-Pages of the developer's own repo, at the developer's address, or on any other host. lernapps.net serves a copy of
-every listed app at `lernapps.net/apps/start/<id>/`, built from the commit its entry names (decision `dec-copies-served`).
+agent. The external systems only do what they are configured to do: GitHub Actions, GitHub Pages, Renovate and the
+app overview. The DSL models both as actors; the external systems have the type system. The shared site frame gives pages on lernapps.net their header, footer and site check.
+The app overview in lernapps/apps explains building and listing and holds the entries and their schema; it uses the
+tooling but is not part of it. Developers
+publish their apps where they choose: by default on the GitHub Pages of the developer's own repo, at the developer's
+address, or on any other host. lernapps.net serves a copy of every listed app at `lernapps.net/apps/start/<id>/`,
+built from the commit its entry names (decision `dec-copies-served`); a new commit reaches the copy as an update pull
+request (decision `dec-update-replay`).
 
 The tooling's repo also holds "Platform upkeep" (chapter 5): the build of the tooling's own docs, the actions for
 lernapps.net's own websites and the update policy of every lernapps repo. No creator uses it, and it is not part of
@@ -35,6 +39,7 @@ flowchart LR
     actor-github-actions["GitHub Actions (external system)"]
     actor-github-pages["GitHub Pages (external system)"]
     actor-renovate["Renovate (external system)"]
+    actor-app-overview["App overview, lernapps/apps (external system)"]
     subgraph tooling["Tooling for agentic app creation"]
         bb-process-guidance["Process guidance"]
         bb-generator["Generator"]
@@ -55,6 +60,7 @@ flowchart LR
     actor-github-actions -->|"app check action, app publish, app preview, check CLI"| tooling
     actor-github-pages -->|"checked bundle from app publish and app preview"| tooling
     actor-renovate -->|"update policy, package updates"| tooling
+    actor-app-overview -->|"check CLI on entries and copies, served commit, lernapps update to classify updates"| tooling
 ```
 
 ## Creator
@@ -162,5 +168,23 @@ title: Renovate
 type: system
 description: External system; applies the update policy and proposes updates of the tooling package to every app
 requires: if-update-policy, if-archetype-preset
+:::
+```
+
+## App overview
+
+An external system: lernapps/apps, the catalog of lernapps.net. It holds the entries, serves a checked copy of every
+listed app and proposes an entry's update when the app has a new version (decisions `dec-copies-served`,
+`dec-update-replay`). From the tooling it takes the listing validation and its results comment, the check CLI for the
+copies, the commit an app's address serves, and `lernapps update` to tell a routine update from one the owner
+reviews.
+
+```arc42
+:::actor
+id: actor-app-overview
+title: App overview (lernapps/apps)
+type: system
+description: External system; the catalog of lernapps.net, holds the entries, runs the listing validation, serves a copy of every listed app and proposes its updates
+requires: if-check-cli, if-app-publish, if-generator-cli, if-listing-comment
 :::
 ```
