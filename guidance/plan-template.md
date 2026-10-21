@@ -59,7 +59,7 @@ questions. -->
       lernapps-content-growth lernapps-check lernapps-content-questions lernapps-github lernapps-commit
       lernapps-listing`.
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
-      their own address, free, public. The technical part (GitHub) comes at the end, and you do it.
+      their own address, free, public, and once listed as a copy on lernapps.net. The technical part (GitHub) comes at the end, and you do it.
 - [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
 - [ ] Choose the archetype as skill `lernapps-app` says: read the README of each archetype in question, tell the
       creator what the chosen one can and cannot do. Write it and its reason under "Key decisions". Set `archetype`.
