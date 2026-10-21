@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "base": {
+    "label": "eba4388c1a2c9673060e4b1ccc2830c472e6adb8",
+    "commit": "eba4388c1a2c9673060e4b1ccc2830c472e6adb8"
+  },
+  "head": {
+    "label": "92cef09b6b9c19d8fa52cbaeb02db1ba56f18ec2"
+  },
+  "acceptanceBase": "eba4388c1a2c9673060e4b1ccc2830c472e6adb8",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-skills-explore",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 248
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 248
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-exercise-patterns",
+        "kind": "building-block",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "extensions",
+            "before": {
+              "phase": "plan",
+              "agent": "Chooses an exercise per competency from the patterns of the subject, and shares data as files."
+            },
+            "after": {
+              "phase": "explore",
+              "agent": "Reads how learners of the subject practise, which points to the archetype; in Plan chooses an exercise per competency and shares data as files."
+            }
+          },
+          {
+            "name": "parent",
+            "before": "bb-skills-plan",
+            "after": "bb-skills-explore"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 367
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 299
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-exercise-patterns"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "building-blocks-skills",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "flowchart LR\n    subgraph bb-skills[\"Skills\"]\n        subgraph bb-skills-explore[\"Explore\"]\n            bb-skill-app[\"lernapps-app\"]\n            bb-skill-content-research[\"lernapps-content-research\"]\n            bb-skill-quiz-design[\"lernapps-quiz-design\"]\n            bb-skill-explainer-design[\"lernapps-explainer-design\"]\n            bb-skill-interactive-design[\"lernapps-interactive-design\"]\n        end\n        subgraph bb-skills-plan[\"Plan\"]\n            bb-skill-exercise-patterns[\"lernapps-exercise-patterns\"]\n            bb-skill-content-growth[\"lernapps-content-growth\"]\n        end\n        subgraph bb-skills-code[\"Code\"]\n            bb-skill-check[\"lernapps-check\"]\n            bb-skill-quiz[\"lernapps-quiz\"]\n            bb-skill-explainer[\"lernapps-explainer\"]\n            bb-skill-interactive[\"lernapps-interactive\"]\n            bb-skill-content-questions[\"lernapps-content-questions\"]\n        end\n        subgraph bb-skills-commit[\"Commit\"]\n            bb-skill-github[\"lernapps-github\"]\n            bb-skill-commit[\"lernapps-commit\"]\n            bb-skill-listing[\"lernapps-listing\"]\n        end\n        bb-skills-explore ~~~ bb-skills-plan ~~~ bb-skills-code ~~~ bb-skills-commit\n    end",
+            "after": "flowchart LR\n    subgraph bb-skills[\"Skills\"]\n        subgraph bb-skills-explore[\"Explore\"]\n            bb-skill-app[\"lernapps-app\"]\n            bb-skill-content-research[\"lernapps-content-research\"]\n            bb-skill-exercise-patterns[\"lernapps-exercise-patterns\"]\n            bb-skill-quiz-design[\"lernapps-quiz-design\"]\n            bb-skill-explainer-design[\"lernapps-explainer-design\"]\n            bb-skill-interactive-design[\"lernapps-interactive-design\"]\n        end\n        subgraph bb-skills-plan[\"Plan\"]\n            bb-skill-content-growth[\"lernapps-content-growth\"]\n        end\n        subgraph bb-skills-code[\"Code\"]\n            bb-skill-check[\"lernapps-check\"]\n            bb-skill-quiz[\"lernapps-quiz\"]\n            bb-skill-explainer[\"lernapps-explainer\"]\n            bb-skill-interactive[\"lernapps-interactive\"]\n            bb-skill-content-questions[\"lernapps-content-questions\"]\n        end\n        subgraph bb-skills-commit[\"Commit\"]\n            bb-skill-github[\"lernapps-github\"]\n            bb-skill-commit[\"lernapps-commit\"]\n            bb-skill-listing[\"lernapps-listing\"]\n        end\n        bb-skills-explore ~~~ bb-skills-plan ~~~ bb-skills-code ~~~ bb-skills-commit\n    end"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 103
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 103
+        }
+      }
+    ],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-exercise-patterns",
+          "to": "bb-skills-explore",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "removed",
+        "edge": {
+          "from": "bb-skill-exercise-patterns",
+          "to": "bb-skills-plan",
+          "relation": "parent"
+        }
+      }
+    ],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 3,
+        "removed": 0
+      }
+    ]
+  }
+}
