@@ -1,0 +1,135 @@
+# What we concluded from the eval run of 2026-10-20/21 (results.json beside this file). Written by people, reviewed in
+# the pull request; the numbers are only in results.json. Evidence names a cell (task and model, and the configuration
+# when the run has several for that cell) and one of its rows or metrics.
+title: Guidance by phase
+question: >-
+  Does the guidance by phase (one skill per phase, the archetype chosen from the templates' READMEs, GitHub only in
+  Commit; #118) keep the process as well as the guidance of 2026-10-18, and does the agent load each skill in the
+  phase it belongs to?
+bottomLine:
+  - >-
+    Sonnet 5.5 and Opus 5.5 pass the check in every run and tick nearly all plan boxes; the content guide is now
+    filled in every run.
+  - >-
+    Haiku 5.5 falls behind: the interactive app passes the check in 1 of 3 runs, every Haiku cell stops in Code, and
+    it loads only about a third of the skills a phase names.
+  - >-
+    Sonnet and Opus load 61–86 % of a phase's skills by its end, but often too early, and rarely `lernapps-commit`
+    and `lernapps-listing` in Commit.
+  - >-
+    More apps are created before the creator confirms the plan, and creators need more turns after it; whether part
+    of this is the measure is open.
+findings:
+  - id: big-models-follow
+    title: Sonnet 5.5 and Opus 5.5 still follow the process, and fill the content guide
+    text: >-
+      Both pass the check in every run and tick 99–100 % of the plan's boxes. The content guide is filled in every
+      run, also where Opus left it empty on 2026-10-18 (interactive, 1 of 2).
+    evidence:
+      - { task: interactive-fresh, model: Opus 5.5, row: app_content_filled }
+      - { task: explainer-fresh, model: Sonnet 5.5, row: plan_boxes_ticked }
+      - { task: interactive-fresh, model: Sonnet 5.5, row: check_passes }
+  - id: haiku-content-guide
+    title: Haiku 5.5 fills the content guide far more often
+    text: >-
+      The content guide was filled in 3 of 3 quiz and interactive runs and 2 of 3 explainer runs, against 2 of 14
+      runs on 2026-10-18.
+    evidence:
+      - { task: quiz-fresh, model: Haiku 5.5, row: app_content_filled }
+      - { task: explainer-fresh, model: Haiku 5.5, row: app_content_filled }
+  - id: haiku-falls-behind
+    title: Haiku 5.5 falls behind on the rest
+    text: >-
+      The interactive app passes the check in 1 of 3 runs (its own tests fail; on 2026-10-18 in 3 of 3). Every Haiku
+      cell ends in Code (phase 67 %). One explainer run chose the interactive archetype. Haiku needs the most turns
+      after the plan: in no interactive run were there three or fewer.
+    evidence:
+      - { task: interactive-fresh, model: Haiku 5.5, row: check_passes }
+      - { task: quiz-fresh, model: Haiku 5.5, row: phase_reached }
+      - { task: explainer-fresh, model: Haiku 5.5, row: archetype_expected }
+      - { task: interactive-fresh, model: Haiku 5.5, row: turns_after_plan_max_3 }
+  - id: skills-in-phase
+    title: The skills of a phase are mostly loaded, often too early, and rarely in Commit
+    text: >-
+      New in this run (A2, scored from the phases of the skills' building blocks in the architecture). Sonnet and Opus
+      load 61–86 % of the skills a phase names by the end of that phase, Haiku 27–35 %. Many loads come before their
+      phase, mostly `lernapps-exercise-patterns` (Plan) and the Code skills, read already in Explore. In Commit,
+      `lernapps-listing` and `lernapps-commit` are the skills that stay missing.
+    evidence:
+      - { task: interactive-fresh, model: Sonnet 5.5, row: skills_in_phase }
+      - { task: explainer-fresh, model: Haiku 5.5, row: skills_in_phase }
+      - { task: quiz-fresh, model: Opus 5.5, row: no_skill_out_of_place }
+  - id: created-before-plan
+    title: More apps are created before the plan is confirmed
+    text: >-
+      Sonnet and Opus created the app before the creator confirmed the plan in 1–2 of 3 runs per cell, except the quiz
+      with Sonnet, where on 2026-10-18 they never did. The new plan template asks the agent to check the phase at the start of Code and set
+      it if needed; an agent that creates the app before it writes `phase: code` counts as early. Whether the agents
+      or the measure changed is not yet checked.
+    evidence:
+      - { task: interactive-fresh, model: Sonnet 5.5, row: not_created_before_plan }
+      - { task: explainer-fresh, model: Sonnet 5.5, row: not_created_before_plan }
+      - { task: quiz-fresh, model: Opus 5.5, row: not_created_before_plan }
+  - id: turns-after-plan
+    title: Creators need more turns after the plan
+    text: >-
+      Three or fewer turns after the plan in half of the runs or less in five cells, where on 2026-10-18 most cells
+      stayed within three.
+    evidence:
+      - { task: explainer-fresh, model: Sonnet 5.5, row: turns_after_plan_max_3 }
+      - { task: quiz-fresh, model: Opus 5.5, row: turns_after_plan_max_3 }
+  - id: questions
+    title: Still no model keeps to one or two questions per turn
+    text: >-
+      Sonnet 5.5 and Opus 5.5 ask more than two questions in a turn in every run; Haiku 5.5 keeps to two in 1 of 3
+      runs per archetype.
+    evidence:
+      - { task: quiz-fresh, model: Sonnet 5.5, row: questions_max_2 }
+      - { task: quiz-fresh, model: Haiku 5.5, row: questions_max_2 }
+  - id: rerun-newer-guidance
+    title: The re-run at guidance 1e4ba59 looks like the run at b20b514
+    text: >-
+      The quiz with Sonnet 5.5 was run again after the usage limit, by then at a newer guidance (listing rule "own
+      data only", questions and page frame after the runtime). It passes the check in every run and loads 70 % of the
+      skills by their phase; its verifier did not crash again.
+    evidence:
+      - { task: quiz-fresh, model: Sonnet 5.5, configuration: c3, row: check_passes }
+      - { task: quiz-fresh, model: Sonnet 5.5, configuration: c3, row: skills_in_phase }
+actions:
+  - text: Score a skill as loaded when it was loaded by the end of its phase; loading it before counts once, as out of place.
+    status: done
+    findings: [skills-in-phase]
+  - text: Leave out trials that hit the usage limit (HTTP 429) or broke off before the agent started, in the results file of a run.
+    status: done
+  - text: Make `lernapps-commit` and `lernapps-listing` hard to skip in Commit (the plan's Commit tasks, or a check).
+    status: open
+    findings: [skills-in-phase]
+  - text: >-
+      Decide where `lernapps-exercise-patterns` belongs: the agents use it while drafting in Explore, the plan template
+      names it in Plan.
+    status: open
+    findings: [skills-in-phase]
+  - text: Check whether "created before the plan" counts right with the phase set at the start of Code.
+    status: open
+    findings: [created-before-plan]
+  - text: Decide whether the guidance must carry Haiku 5.5, and if so, what it needs.
+    status: open
+    findings: [haiku-falls-behind]
+  - text: The verifier skips a dangling symlink under `.claude/skills/` instead of crashing (verify.ts, findVibeDirs).
+    status: open
+    findings: [rerun-newer-guidance]
+  - text: Rethink the rule of one or two questions per turn (carried over from 2026-10-18).
+    status: open
+    findings: [questions]
+notes:
+  - >-
+    The creator was played by Haiku 5.5 for every model, as on 2026-10-18. Claude Code was updated during the run
+    (2.1.305 to 2.1.306): the interactive jobs ran on the newer version, which makes them a configuration of their
+    own; they share no cell with the others, so the table shows them together.
+  - >-
+    The subscription's usage limit hit after eight jobs: the interactive job with Opus 5.5 (3 runs, broken off after
+    about 34 minutes) and a first re-run of the quiz with Sonnet 5.5 (3 runs, before the agent started) are left
+    out. The first was run again at the same guidance, the second at the newer guidance 1e4ba59.
+  - >-
+    One quiz run with Sonnet 5.5 kept its transcript scores but lost the verifier's: the verifier crashed on a
+    dangling symlink the agent left in `.claude/skills/`.
