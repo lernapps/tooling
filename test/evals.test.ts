@@ -4,7 +4,7 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSyn
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { scoreTrial, scoreTurns, type SkillContext } from "../evals/score-transcript.ts";
+import { scoreTrial, scoreTurns, turns, type SkillContext } from "../evals/score-transcript.ts";
 import { skillsByPhase } from "../evals/skills-by-phase.ts";
 import { elements } from "../scripts/workshop.ts";
 import { results } from "../evals/results.ts";
@@ -456,4 +456,59 @@ test("the verifier finds the plan's folder past a symlink whose target is gone",
   mkdirSync(join(app, ".claude", "skills"), { recursive: true });
   symlinkSync(join(app, ".agents", "skills", "lernapps-quiz"), join(app, ".claude", "skills", "lernapps-quiz"));
   expect(findVibeDirs(app)).toEqual([join(app, "quiz")]);
+});
+
+test("the plan counts as confirmed when sed, a helper script or a write sets phase: code; an earlier create is early", () => {
+  const create = {
+    name: "Bash",
+    input: { command: "npx --yes github:lernapps/tooling#main create --archetype quiz ." },
+  };
+  const turn = (creator: string, tools: { name: string; input: Record<string, unknown>; result?: string }[]) => ({
+    creator,
+    text: "",
+    tools,
+  });
+  const bySed = scoreTurns([
+    turn("Ein Quiz zu Brüchen", []),
+    turn("Ja, passt so.", [
+      { name: "Bash", input: { command: "sed -i 's/^phase: plan$/phase: code/' .vibe/plans/01-quiz.md" } },
+      create,
+    ]),
+  ]);
+  expect(bySed.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 0 });
+  const byScript = scoreTurns([
+    turn("Ein Quiz zu Brüchen", []),
+    turn("Ja, passt so.", [
+      { name: "Write", input: { file_path: "/app/.edit-plan.cjs", content: "/* sets the phase */" } },
+      { name: "Bash", input: { command: "node .edit-plan.cjs" } },
+      { name: "Bash", input: { command: "grep '^phase:' .vibe/plans/01-quiz.md" }, result: "phase: code" },
+      create,
+    ]),
+  ]);
+  expect(byScript.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 0 });
+  const early = scoreTurns([
+    turn("Ein Quiz zu Brüchen", []),
+    turn("Ja, passt so.", [create]),
+    turn("Ja", [
+      {
+        name: "Edit",
+        input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+      },
+    ]),
+  ]);
+  expect(early.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 1 });
+});
+
+test("a tool call keeps what it returned, so that the grep of the phase can be read", () => {
+  const all = turns([
+    { type: "user", message: { content: "Los" } },
+    {
+      type: "assistant",
+      message: {
+        content: [{ type: "tool_use", id: "t1", name: "Bash", input: { command: "grep '^phase:' .vibe/plans/01.md" } }],
+      },
+    },
+    { type: "user", message: { content: [{ type: "tool_result", tool_use_id: "t1", content: "phase: code" }] } },
+  ]);
+  expect(all[0]?.tools[0]?.result).toBe("phase: code");
 });

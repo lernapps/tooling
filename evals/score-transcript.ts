@@ -20,6 +20,9 @@ interface Block {
   type: string;
   text?: string;
   name?: string;
+  id?: string;
+  tool_use_id?: string;
+  content?: string | Block[];
   input?: Record<string, unknown>;
 }
 
@@ -27,7 +30,8 @@ interface Block {
 interface Turn {
   creator: string;
   text: string;
-  tools: { name: string; input: Record<string, unknown> }[];
+  /** The agent's tool calls, each with what it returned (the text of its tool result). */
+  tools: { name: string; input: Record<string, unknown>; id?: string; result?: string }[];
 }
 
 /** What the skill score of a trial needs: the guidance's skills by phase, and the task's archetype and conditions. */
@@ -98,12 +102,26 @@ export function turns(entries: Entry[]): Turn[] {
               .join("\n");
       const isToolResult = Array.isArray(content) && content.some((block) => block.type === "tool_result");
       if (text.trim() !== "" && !isToolResult) result.push({ creator: text, text: "", tools: [] });
+      for (const block of Array.isArray(content) ? content : []) {
+        if (block.type !== "tool_result") continue;
+        const tool = result.at(-1)?.tools.find((call) => call.id !== undefined && call.id === block.tool_use_id);
+        if (!tool) continue;
+        tool.result =
+          typeof block.content === "string"
+            ? block.content
+            : (block.content ?? []).map((part) => part.text ?? "").join("\n");
+      }
     } else if (entry.type === "assistant" && Array.isArray(content)) {
       const turn = result.at(-1);
       if (!turn) continue;
       for (const block of content) {
         if (block.type === "text") turn.text += `${turn.text ? "\n" : ""}${block.text ?? ""}`;
-        if (block.type === "tool_use") turn.tools.push({ name: toolName(block.name ?? ""), input: block.input ?? {} });
+        if (block.type === "tool_use")
+          turn.tools.push({
+            name: toolName(block.name ?? ""),
+            input: block.input ?? {},
+            ...(block.id ? { id: block.id } : {}),
+          });
       }
     }
   }
@@ -117,15 +135,26 @@ const pathOf = (tool: Turn["tools"][number]) =>
 
 const PHASES = ["explore", "plan", "code", "commit"];
 
-/** The phase a tool call sets in a plan file (`phase: <name>` written into `.vibe/`), if any. */
+const lastOf = (text: string, pattern: RegExp) => [...text.matchAll(pattern)].at(-1)?.[1];
+
+/**
+ * The phase a plan holds after a tool call, if the call shows it: `phase: <name>` written into `.vibe/` (the last such
+ * line), a command on `.vibe/` that writes it (`sed 's/^phase: plan$/phase: code/'` or a one-liner: the last value
+ * named, which is the new one), or the output of the `grep '^phase:'` the plan template prescribes, which also covers
+ * a helper script that changed the plan.
+ */
 const phaseSet = (tool: Turn["tools"][number]): string | undefined => {
   const written = [tool.input["new_string"], tool.input["content"]].filter((value) => typeof value === "string");
   const command = commandOf(tool);
   const inFile = /\.vibe\//.test(pathOf(tool))
-    ? written.map((value) => /^phase:\s*(explore|plan|code|commit)\b/m.exec(value as string)?.[1]).find(Boolean)
+    ? written.map((value) => lastOf(value as string, /^phase:\s*(explore|plan|code|commit)\b/gm)).find(Boolean)
     : undefined;
-  const inCommand = /\.vibe\//.test(command) ? /phase:\s*(explore|plan|code|commit)\b/.exec(command)?.[1] : undefined;
-  return inFile ?? inCommand;
+  const inCommand = /\.vibe\//.test(command) ? lastOf(command, /phase:\s*(explore|plan|code|commit)\b/g) : undefined;
+  const shown =
+    /\bgrep\b/.test(command) && /phase/.test(command) && tool.result
+      ? lastOf(tool.result, /^(?:[^\n:]*:)?phase:\s*(explore|plan|code|commit)\b/gm)
+      : undefined;
+  return inFile ?? inCommand ?? shown;
 };
 
 /** Whether a tool call sets `phase: code` in a plan file: the agent's sign that the plan was confirmed. */
@@ -204,8 +233,8 @@ export function scoreSkills(
 
 export function scoreTurns(all: Turn[], skillContext?: SkillContext): TranscriptScore {
   // A11: creator turns after the confirmation of the plan (the last creator message before `phase: code` is set).
-  const codeAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
-  const confirmedAt = codeAt;
+  // The creator's message that opens that turn is the confirmation, so a command in the same turn comes after it.
+  const confirmedAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
   const creatorTurns = all.length;
   const afterPlan = confirmedAt >= 0 ? creatorTurns - confirmedAt - 1 : undefined;
 
