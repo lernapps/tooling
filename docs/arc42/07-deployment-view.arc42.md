@@ -191,8 +191,8 @@ hosts: bb-listing-validation, bb-check-cli, bb-generator
 
 ### The app's hosting
 
-Where the developer publishes the app: the developer's choice. The listing validation opens the app there, and its
-address names the commit it serves. Learners use the copy lernapps.net serves at `lernapps.net/apps/start/<id>/`,
+Where the developer publishes the app: the developer's choice. A pull request to the catalog checks the app there,
+and its address names the commit it serves. Learners use the copy lernapps.net serves at `lernapps.net/apps/start/<id>/`,
 built from the commit the entry names (decision `dec-copies-served`). Nothing of the tooling runs here.
 
 ```arc42
