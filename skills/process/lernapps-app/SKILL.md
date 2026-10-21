@@ -13,7 +13,7 @@ license: MIT
   catalog entry then says it in `limits`.
 - Other servers (video, map) only after the learner's click. Nothing about a real learner in any text.
 - Published at its creator's own address, usually `https://<owner>.github.io/<repo>/`. Once listed, lernapps.net
-  serves a copy at `https://lernapps.net/<id>/`, built from the commit the entry names; the creator stays the author.
+  serves a copy at `https://lernapps.net/apps/start/<id>/`, built from the commit the entry names; the creator stays the author.
 - Licence that allows the copy (MIT or Apache 2.0 for code, CC BY 4.0 for content); files referenced relatively.
 
 ## Rules
