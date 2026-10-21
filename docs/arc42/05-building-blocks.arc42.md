@@ -114,12 +114,12 @@ flowchart LR
         subgraph bb-skills-explore["Explore"]
             bb-skill-app["lernapps-app"]
             bb-skill-content-research["lernapps-content-research"]
+            bb-skill-exercise-patterns["lernapps-exercise-patterns"]
             bb-skill-quiz-design["lernapps-quiz-design"]
             bb-skill-explainer-design["lernapps-explainer-design"]
             bb-skill-interactive-design["lernapps-interactive-design"]
         end
         subgraph bb-skills-plan["Plan"]
-            bb-skill-exercise-patterns["lernapps-exercise-patterns"]
             bb-skill-content-growth["lernapps-content-growth"]
         end
         subgraph bb-skills-code["Code"]
@@ -241,7 +241,7 @@ implements: concept-rule-catalog, concept-plain-language, concept-terse-output
 
 #### Explore skills
 
-The skills that find out what the app teaches and which archetype fits, before anything is planned or built.
+The skills that find out what the app teaches, how learners practise it and which archetype fits, before anything is planned or built.
 
 ```arc42
 :::ignore W002 a group of skills; the contract is the skills interface :::
@@ -287,6 +287,24 @@ implements: concept-rule-catalog
 x-phase: explore
 x-agent: Researches the curriculum, writes the competencies, opens every source it cites.
 x-person: Brings their curriculum and their own material.
+:::
+```
+
+##### lernapps-exercise-patterns
+
+Goal: How learners practise is clear before the archetype is chosen, from the patterns of the subject, and points to the archetype; in Plan each competency gets an exercise that makes learners derive, not only read off, with data shared as files and feedback on the typical mistakes.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-exercise-patterns
+title: lernapps-exercise-patterns
+parent: bb-skills-explore
+path: skills/content/lernapps-exercise-patterns
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+x-phase: explore
+x-agent: Reads how learners of the subject practise, which points to the archetype; in Plan chooses an exercise per competency and shares data as files.
 :::
 ```
 
@@ -355,24 +373,6 @@ id: bb-skills-plan
 title: Plan skills
 parent: bb-skills
 technology: Markdown (agentskills.io)
-:::
-```
-
-##### lernapps-exercise-patterns
-
-Goal: Each competency gets an exercise that makes learners derive, not only read off, with the patterns of its subject, data shared as files, and feedback on the typical mistakes.
-
-```arc42
-:::ignore W002 a part of the skills; the contract is the skills interface :::
-:::building-block
-id: bb-skill-exercise-patterns
-title: lernapps-exercise-patterns
-parent: bb-skills-plan
-path: skills/content/lernapps-exercise-patterns
-technology: Markdown (agentskills.io)
-implements: concept-rule-catalog
-x-phase: plan
-x-agent: Chooses an exercise per competency from the patterns of the subject, and shares data as files.
 :::
 ```
 

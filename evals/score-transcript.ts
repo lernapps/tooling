@@ -20,6 +20,9 @@ interface Block {
   type: string;
   text?: string;
   name?: string;
+  id?: string;
+  tool_use_id?: string;
+  content?: string | Block[];
   input?: Record<string, unknown>;
 }
 
@@ -27,7 +30,10 @@ interface Block {
 interface Turn {
   creator: string;
   text: string;
-  tools: { name: string; input: Record<string, unknown> }[];
+  /** The agent's last text in the turn: the reply the creator answers. */
+  reply?: string;
+  /** The agent's tool calls, each with what it returned (the text of its tool result). */
+  tools: { name: string; input: Record<string, unknown>; id?: string; result?: string }[];
 }
 
 /** What the skill score of a trial needs: the guidance's skills by phase, and the task's archetype and conditions. */
@@ -57,6 +63,17 @@ const GUIDANCE = [
 const LERNAPPS_REPO = /^https:\/\/(raw\.githubusercontent\.com|github\.com)\/lernapps\//;
 const APPROVAL = /^\s*(ja\b|passt\b|ok\b|okay\b|einverstanden|gerne)/i;
 const QUESTION = /[^?.!\n]{3,}\?/g;
+/**
+ * The scenario's regular end, as the persona's last message states it: its answer to a GitHub question, its "Stopp" at
+ * the question to publish, or its "Danke!" when the agent says it is done; the persona may word them freely around
+ * these. Its other end, "Danke, wir hören hier auf.", is for an agent that is stuck.
+ */
+const SCENARIO_END = /kein GitHub-Repo angelegt|Stopp, das reicht|Danke!/i;
+const STUCK = /^\s*Danke, wir hören hier auf/i;
+/** The persona's marker of its end (since 2026-10-21); a run without it falls back to the sentences above. */
+const END_MARKER = /\[Ende:\s*(veröffentlichen|fertig|festgefahren)\]/i;
+/** The phase a reply begins with ("**Plan · Checkpoint**"), as the plan template asks. */
+const ANNOUNCED = /^[\s*_#>]*(explore|plan|code|commit)\b/i;
 
 const toolName = (name: string) => name.replace(/^mcp__acp__/, "");
 /** The URLs in a command; a closing parenthesis belongs to a URL only when the URL opened one. */
@@ -98,12 +115,29 @@ export function turns(entries: Entry[]): Turn[] {
               .join("\n");
       const isToolResult = Array.isArray(content) && content.some((block) => block.type === "tool_result");
       if (text.trim() !== "" && !isToolResult) result.push({ creator: text, text: "", tools: [] });
+      for (const block of Array.isArray(content) ? content : []) {
+        if (block.type !== "tool_result") continue;
+        const tool = result.at(-1)?.tools.find((call) => call.id !== undefined && call.id === block.tool_use_id);
+        if (!tool) continue;
+        tool.result =
+          typeof block.content === "string"
+            ? block.content
+            : (block.content ?? []).map((part) => part.text ?? "").join("\n");
+      }
     } else if (entry.type === "assistant" && Array.isArray(content)) {
       const turn = result.at(-1);
       if (!turn) continue;
       for (const block of content) {
-        if (block.type === "text") turn.text += `${turn.text ? "\n" : ""}${block.text ?? ""}`;
-        if (block.type === "tool_use") turn.tools.push({ name: toolName(block.name ?? ""), input: block.input ?? {} });
+        if (block.type === "text") {
+          turn.text += `${turn.text ? "\n" : ""}${block.text ?? ""}`;
+          if ((block.text ?? "").trim() !== "") turn.reply = block.text ?? "";
+        }
+        if (block.type === "tool_use")
+          turn.tools.push({
+            name: toolName(block.name ?? ""),
+            input: block.input ?? {},
+            ...(block.id ? { id: block.id } : {}),
+          });
       }
     }
   }
@@ -117,15 +151,26 @@ const pathOf = (tool: Turn["tools"][number]) =>
 
 const PHASES = ["explore", "plan", "code", "commit"];
 
-/** The phase a tool call sets in a plan file (`phase: <name>` written into `.vibe/`), if any. */
+const lastOf = (text: string, pattern: RegExp) => [...text.matchAll(pattern)].at(-1)?.[1];
+
+/**
+ * The phase a plan holds after a tool call, if the call shows it: `phase: <name>` written into `.vibe/` (the last such
+ * line), a command on `.vibe/` that writes it (`sed 's/^phase: plan$/phase: code/'` or a one-liner: the last value
+ * named, which is the new one), or the output of the `grep '^phase:'` the plan template prescribes, which also covers
+ * a helper script that changed the plan.
+ */
 const phaseSet = (tool: Turn["tools"][number]): string | undefined => {
   const written = [tool.input["new_string"], tool.input["content"]].filter((value) => typeof value === "string");
   const command = commandOf(tool);
   const inFile = /\.vibe\//.test(pathOf(tool))
-    ? written.map((value) => /^phase:\s*(explore|plan|code|commit)\b/m.exec(value as string)?.[1]).find(Boolean)
+    ? written.map((value) => lastOf(value as string, /^phase:\s*(explore|plan|code|commit)\b/gm)).find(Boolean)
     : undefined;
-  const inCommand = /\.vibe\//.test(command) ? /phase:\s*(explore|plan|code|commit)\b/.exec(command)?.[1] : undefined;
-  return inFile ?? inCommand;
+  const inCommand = /\.vibe\//.test(command) ? lastOf(command, /phase:\s*(explore|plan|code|commit)\b/g) : undefined;
+  const shown =
+    /\bgrep\b/.test(command) && /phase/.test(command) && tool.result
+      ? lastOf(tool.result, /^(?:[^\n:]*:)?phase:\s*(explore|plan|code|commit)\b/gm)
+      : undefined;
+  return inFile ?? inCommand ?? shown;
 };
 
 /** Whether a tool call sets `phase: code` in a plan file: the agent's sign that the plan was confirmed. */
@@ -204,10 +249,26 @@ export function scoreSkills(
 
 export function scoreTurns(all: Turn[], skillContext?: SkillContext): TranscriptScore {
   // A11: creator turns after the confirmation of the plan (the last creator message before `phase: code` is set).
-  const codeAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
-  const confirmedAt = codeAt;
+  // The creator's message that opens that turn is the confirmation, so a command in the same turn comes after it.
+  const confirmedAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
   const creatorTurns = all.length;
   const afterPlan = confirmedAt >= 0 ? creatorTurns - confirmedAt - 1 : undefined;
+  // After the plan's yes, the creator's last message ends the scenario regularly (whether the agent had set
+  // `phase: commit` or not). An answer to a GitHub question in the middle of Code is no end.
+  const last = all.at(-1)?.creator ?? "";
+  const marker = last.match(END_MARKER)?.[1]?.toLowerCase();
+  const regular = marker ? marker !== "festgefahren" : SCENARIO_END.test(last) && !STUCK.test(last);
+  const endAt = confirmedAt >= 0 && creatorTurns - 1 > confirmedAt && regular ? creatorTurns - 1 : -1;
+
+  // The phase each reply announces, against the phase the plan holds at the end of that turn.
+  let held = "explore";
+  const announced = all.map((turn) => {
+    for (const tool of turn.tools) held = phaseSet(tool) ?? held;
+    const phase = turn.reply?.match(ANNOUNCED)?.[1]?.toLowerCase();
+    return { phase, held, replied: turn.reply !== undefined };
+  });
+  const replies = announced.filter((turn) => turn.replied);
+  const withPhase = announced.filter((turn) => turn.phase !== undefined);
 
   // A9: questions per agent turn (sentences ending in "?" in the text the creator saw).
   const questions = all.map((turn) => (turn.text.match(QUESTION) ?? []).length);
@@ -336,14 +397,26 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
     created_with_plan_command: createdWith ? 1 : 0,
     no_verify_bypass: bypasses.length === 0 ? 1 : 0,
     pre_push_counter_edits: counterEdits.length,
+    scenario_end: endAt >= 0 ? 1 : 0,
+    phase_announced: replies.length ? Math.round((withPhase.length / replies.length) * 100) / 100 : 0,
   };
   if (afterPlan !== undefined) dimensions["creator_turns_after_plan"] = afterPlan;
+  if (withPhase.length)
+    dimensions["phase_announced_right"] =
+      Math.round((withPhase.filter((turn) => turn.phase === turn.held).length / withPhase.length) * 100) / 100;
   Object.assign(dimensions, skillScore?.dimensions);
   return {
     dimensions,
     evidence: {
       ...skillScore?.evidence,
       planConfirmedAtCreatorTurn: confirmedAt >= 0 ? confirmedAt + 1 : null,
+      scenarioEndAtCreatorTurn: endAt >= 0 ? endAt + 1 : null,
+      scenarioEnd: marker ?? null,
+      phasesAnnounced: announced.map((turn, index) => ({
+        turn: index + 1,
+        announced: turn.phase ?? null,
+        plan: turn.held,
+      })),
       creatorMessages: all.map((turn, index) => ({
         turn: index + 1,
         creator: turn.creator.slice(0, 200),

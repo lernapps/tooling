@@ -60,7 +60,13 @@ export const ROWS: Row[] = [
     kind: "runs",
   },
   { id: "check_passes", label: "lernapps check passes", group: "process", source: "check_passes", kind: "runs" },
-  { id: "phase_reached", label: "Phase reached", group: "process", source: "phase_reached", kind: "share" },
+  {
+    id: "phase_reached",
+    label: "Phase in the plan at the end (commit = 100 %)",
+    group: "process",
+    source: "phase_reached",
+    kind: "share",
+  },
   { id: "committed_clean", label: "Committed clean", group: "process", source: "committed_clean", kind: "runs" },
 ].map((row): Row => ({ ...(row as Omit<Row, "value">), value: (trial: Trial) => trial.numbers[row.source] }));
 ROWS.push(
@@ -71,6 +77,36 @@ ROWS.push(
     source: "creator_turns_after_plan",
     kind: "runs",
     value: threshold("t_creator_turns_after_plan", 3),
+  },
+  // The scenarios end before Commit's pushes (no repo, no publishing); this is the end the process should reach.
+  {
+    id: "code_done",
+    label: "Code done: check green and the scenario ended after the plan",
+    group: "transcript",
+    source: "scenario_end",
+    kind: "runs",
+    value: (trial) => {
+      const check = trial.numbers["check_passes"];
+      const end = trial.numbers["t_scenario_end"];
+      return check === undefined || end === undefined ? undefined : Math.min(check, end);
+    },
+  },
+  // Since the plan template asks each reply to begin with the phase (2026-10-21); runs before have no such row.
+  {
+    id: "phase_announced",
+    label: "Replies that begin with the phase",
+    group: "transcript",
+    source: "phase_announced",
+    kind: "share",
+    value: (trial) => trial.numbers["t_phase_announced"],
+  },
+  {
+    id: "phase_announced_right",
+    label: "Announced phase is the plan's",
+    group: "transcript",
+    source: "phase_announced_right",
+    kind: "share",
+    value: (trial) => trial.numbers["t_phase_announced_right"],
   },
   {
     id: "questions_max_2",

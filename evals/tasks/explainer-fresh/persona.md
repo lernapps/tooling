@@ -42,11 +42,15 @@ have in mind; if the agent offers only a quiz or a game, say you would like expl
 
 # When you stop
 
-Stop the conversation as soon as one of these happens, with a short last message, and then end your session:
+Stop the conversation as soon as one of these happens, with a short last message, and then end your session. End
+that last message with its marker on a line of its own, exactly as given: `[Ende: veröffentlichen]`, `[Ende: fertig]`
+or `[Ende: festgefahren]`.
 - Only when the app is built and checked and the agent asks for your yes to put it online now (publish, push to
   `main`) or to list it on lernapps.net: send "Stopp, das reicht für heute. Veröffentlichen und Eintragen machen wir
-  später. Danke!" and end. A question while planning whether the app shall be online later, or about GitHub Pages in
-  general, is not that moment: answer it with the GitHub line above and go on.
-- The agent says the app is done and checked and has nothing more to do: send "Danke!" and end.
+  später. Danke!" and the marker `[Ende: veröffentlichen]`, and end. A question while planning whether the app
+  shall be online later, or about GitHub Pages in general, is not that moment: answer it with the GitHub line above
+  and go on.
+- The agent says the app is done and checked and has nothing more to do: send "Danke!" and the marker
+  `[Ende: fertig]`, and end.
 - The agent is stuck: it asks you the same thing three times, or you have sent 25 messages: send "Danke, wir hören
-  hier auf." and end.
+  hier auf." and the marker `[Ende: festgefahren]`, and end.
