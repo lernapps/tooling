@@ -500,7 +500,7 @@ test("the plan counts as confirmed when sed, a helper script or a write sets pha
   expect(early.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 1 });
 });
 
-test("the scenario ends regularly when the creator's last message after the plan stops at publishing or thanks the agent for being done", () => {
+test("the scenario ends regularly when the creator's last message after the plan is a GitHub answer, a stop or thanks, not the stuck line", () => {
   const setCode = {
     name: "Edit",
     input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
@@ -531,6 +531,19 @@ test("the scenario ends regularly when the creator's last message after the plan
     turn("Danke, wir hören hier auf."),
   ]);
   expect(midCode.dimensions).toMatchObject({ scenario_end: 0 });
+  // The persona words its ends freely: the GitHub line as the last message, or thanks around a pause.
+  const lastGithub = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn(`${github} Ich melde mich.`),
+  ]);
+  expect(lastGithub.dimensions).toMatchObject({ scenario_end: 1 });
+  const pause = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn("Danke, wir legen hier eine Pause ein. Veröffentlichen machen wir später. Danke!"),
+  ]);
+  expect(pause.dimensions).toMatchObject({ scenario_end: 1 });
   const stopped = scoreTurns([
     turn("Ein Quiz"),
     turn("Ja, passt so.", [setCode]),
