@@ -12,8 +12,9 @@ license: MIT
 - Accessible (WCAG 2.1 AA) and usable at 360 px. A deviation the idea needs (a time limit, a keyboard) is allowed; the
   catalog entry then says it in `limits`.
 - Other servers (video, map) only after the learner's click. Nothing about a real learner in any text.
-- Lives at its creator's own address, usually `https://<owner>.github.io/<repo>/`. The catalog on lernapps.net links
-  to it.
+- Published at its creator's own address, usually `https://<owner>.github.io/<repo>/`. Once listed, lernapps.net
+  serves a copy at `https://lernapps.net/<id>/`, built from the commit the entry names; the creator stays the author.
+- Licence that allows the copy (MIT or Apache 2.0 for code, CC BY 4.0 for content); files referenced relatively.
 
 ## Rules
 

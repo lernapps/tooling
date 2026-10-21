@@ -271,11 +271,13 @@ repo in the lernapps organisation is served below lernapps.net. A creator who ho
 and the entry's address. A workflow's default token cannot change the Pages settings, so a repository admin may have to set
 them once.
 
+Superseded by `dec-copies-served`: the developer's own address stays, but the catalog no longer only links to it.
+
 ```arc42
 :::decision
 id: dec-app-own-hosting
 title: Each app lives at its developer's hosting
-status: accepted
+status: superseded
 date: 2026-10-11
 addresses: qg-few-iterations, qg-checked-not-declared, qg-simple-to-build
 :::
@@ -301,6 +303,34 @@ id: dec-own-data-only
 title: A listed app touches only its own data
 status: accepted
 date: 2026-10-20
+addresses: qg-checked-not-declared, qg-nothing-collected
+:::
+```
+
+## lernapps.net serves a copy of every listed app
+
+**Context:** for an app at its developer's address, the provider of that address answers to a school's data
+protection officer, a link breaks when the app moves, and `name.github.io` reads as a private account
+(lernapps/apps#58, lernapps/docs KD-21). **Decision:** lernapps.net serves a copy of every listed app, its own apps
+included, at `https://lernapps.net/<id>/`, `<id>` the catalog id. The copy is the bundle built from the commit the
+entry names (`source`, `commit`), in a container without secrets, and checked with `lernapps check --entry`; a
+workflow of lernapps/apps pushes it into its directory of the root site's `gh-pages` with a token of the
+organisation's GitHub App, keeps the list `copies.txt`, and the site deploy action leaves the copies alone. The
+developer keeps the repo, the licence and their own address, where the app publish action still puts the app and the
+listing check of a pull request opens it. **Rejected:** a repo per app (a GitHub App that creates repos);
+`lernapps.net/apps/<id>/app/` (a long address with "app" three times, and new addresses for the organisation's apps).
+**Consequences:** one provider, one privacy notice, one address that keeps working; all apps share one origin, so
+`dec-own-data-only`; an app must reference its files relatively; ids must not collide with the root site's paths or
+the organisation's repos; an update of an app is a new commit in its entry, merged automatically only when nothing
+but versions of existing npm dependencies changed.
+
+```arc42
+:::decision
+id: dec-copies-served
+title: lernapps.net serves a copy of every listed app
+status: accepted
+date: 2026-10-21
+supersedes: dec-app-own-hosting
 addresses: qg-checked-not-declared, qg-nothing-collected
 :::
 ```
