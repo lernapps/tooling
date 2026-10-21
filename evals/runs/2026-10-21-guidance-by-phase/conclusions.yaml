@@ -17,8 +17,8 @@ bottomLine:
     Sonnet and Opus load 61–86 % of a phase's skills by its end, but often too early, and rarely `lernapps-commit`
     and `lernapps-listing` in Commit.
   - >-
-    More apps are created before the creator confirms the plan, and creators need more turns after it; whether part
-    of this is the measure is open.
+    Creators need more turns after the plan. Of the apps counted as created before the plan was confirmed, about half
+    were a gap in the measure; the rest took a yes to an early draft for the plan's yes.
 findings:
   - id: big-models-follow
     title: Sonnet 5.5 and Opus 5.5 still follow the process, and fill the content guide
@@ -61,12 +61,13 @@ findings:
       - { task: explainer-fresh, model: Haiku 5.5, row: skills_in_phase }
       - { task: quiz-fresh, model: Opus 5.5, row: no_skill_out_of_place }
   - id: created-before-plan
-    title: More apps are created before the plan is confirmed
+    title: More apps are created before the plan is confirmed, partly
     text: >-
-      Sonnet and Opus created the app before the creator confirmed the plan in 1–2 of 3 runs per cell, except the quiz
-      with Sonnet, where on 2026-10-18 they never did. The new plan template asks the agent to check the phase at the start of Code and set
-      it if needed; an agent that creates the app before it writes `phase: code` counts as early. Whether the agents
-      or the measure changed is not yet checked.
+      The row counted 13 creates before the plan was confirmed; on 2026-10-18 Sonnet and Opus had none. Read in the
+      transcripts, 7 were none: the creator had confirmed and the agent set `phase: code` first, but with `sed` or a
+      helper script the score did not see. 6 were real: 5 times the agent took a yes to an early draft without
+      sketches as the plan's yes and created before the Plan phase (3 with Haiku, 2 with Sonnet), once Haiku created
+      without any confirmation.
     evidence:
       - { task: interactive-fresh, model: Sonnet 5.5, row: not_created_before_plan }
       - { task: explainer-fresh, model: Sonnet 5.5, row: not_created_before_plan }
@@ -112,9 +113,16 @@ actions:
       points to the archetype, so the plan loads it before the archetype is chosen.
     status: done
     findings: [skills-in-phase, haiku-falls-behind]
-  - text: Check whether "created before the plan" counts right with the phase set at the start of Code.
-    status: open
+  - text: >-
+      Check whether "created before the plan" counts right. It did not: the score now reads the phase a `sed` or
+      one-liner writes (the new value) and the output of the template's `grep '^phase:'`, which covers helper scripts.
+    status: done
     findings: [created-before-plan]
+  - text: >-
+      The plan's yes is the one at the Plan checkpoint, with the sketches: a yes to a draft in Explore never lets the
+      agent run `create`.
+    status: open
+    findings: [created-before-plan, haiku-falls-behind]
   - text: Decide whether the guidance must carry Haiku 5.5, and if so, what it needs.
     status: open
     findings: [haiku-falls-behind]
