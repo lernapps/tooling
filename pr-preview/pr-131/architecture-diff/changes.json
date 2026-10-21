@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "base": {
+    "label": "e80d3cfd41ce6b81501cc4725b606b433e2c5e48",
+    "commit": "e80d3cfd41ce6b81501cc4725b606b433e2c5e48"
+  },
+  "head": {
+    "label": "d1c770600ae466634239025e533f28ac11586c4a"
+  },
+  "acceptanceBase": "e80d3cfd41ce6b81501cc4725b606b433e2c5e48",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "dec-copies-served",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 328
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 330
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "lernapps.net serves a copy of every listed app"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 1
+        }
+      },
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 1
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 1
+        }
+      }
+    ],
+    "documents": [
+      {
+        "file": "docs/arc42/03-system-context.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
