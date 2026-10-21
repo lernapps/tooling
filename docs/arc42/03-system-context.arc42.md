@@ -8,9 +8,9 @@ Outside the system are the parties who use it, the external systems it runs on, 
 depends on but does not own. The parties have intentions: the creator, their assistant, the owner and the review
 agent. The external systems only do what they are configured to do: GitHub Actions, GitHub Pages and Renovate. The
 DSL models both as actors; the external systems have the type system. The shared site frame gives pages on lernapps.net their header, footer and site check.
-The app overview in lernapps/apps explains building and listing and provides the apps; the entry schema belongs to it. Apps are hosted where their developers choose: by default on the GitHub
-Pages of the developer's own repo, at the developer's address, or on any other host. Only an app whose repo belongs to
-the lernapps organisation is served below lernapps.net.
+The app overview in lernapps/apps explains building and listing and provides the apps; the entry schema belongs to it. Developers publish their apps where they choose: by default on the GitHub
+Pages of the developer's own repo, at the developer's address, or on any other host. lernapps.net serves a copy of
+every listed app at `lernapps.net/<id>/`, built from the commit its entry names (decision `dec-copies-served`).
 
 The tooling's repo also holds "Platform upkeep" (chapter 5): the build of the tooling's own docs, the actions for
 lernapps.net's own websites and the update policy of every lernapps repo. No creator uses it, and it is not part of
@@ -136,15 +136,16 @@ requires: if-app-check-action, if-app-publish, if-app-preview, if-check-cli
 
 ## GitHub Pages
 
-An external system: the default hosting of an app, and optional. It serves the checked bundle that the app publish
-action puts in the developer's repo, at the developer's own address. A developer may use any other host instead.
+An external system: the default hosting of an app at the developer's own address, and optional. It serves the
+checked bundle that the app publish action puts in the developer's repo; a developer may use any other host instead.
+It also serves lernapps.net, with the copy of every listed app (decision `dec-copies-served`).
 
 ```arc42
 :::actor
 id: actor-github-pages
 title: GitHub Pages
 type: system
-description: External system; the default and optional hosting of an app, at the developer's own address
+description: External system; the default hosting of an app at the developer's own address, and lernapps.net with the copies of the listed apps
 requires: if-app-publish
 :::
 ```

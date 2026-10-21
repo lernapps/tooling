@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 // Opens the built app in a browser, as a learner would, and records what each page does before any click: requests,
-// cookies and storage, width at 360 px, axe-core's findings, its links. A page the explainer runtime marks as its own
+// cookies, storage and what its scripts did with stored data, width at 360 px, axe-core's findings, its links. A page the explainer runtime marks as its own
 // (<meta name="lernapps-archetype" content="explainer">) is opened a second time with JavaScript off, in one more
 // browser context for all of them, to read what it shows without it; other pages get no second visit. A bundle is
 // served on 127.0.0.1 under its base path; an app on a URL is opened there. Requests to other hosts are recorded
@@ -13,11 +13,85 @@ import { homedir } from "node:os";
 import type { AddressInfo } from "node:net";
 import { dirname, extname, join, relative, resolve, sep } from "node:path";
 import { chromium, type Browser, type BrowserContext } from "playwright";
-import type { PageVisit, WithoutJavaScript } from "./check.ts";
+import { FOREIGN_KEY, type PageVisit, type StorageAccess, type WithoutJavaScript } from "./check.ts";
 import { linkStatus } from "./status.ts";
 
 const require = createRequire(import.meta.url);
 const WIDTH = 360;
+/** Where the page keeps what its scripts did with stored data (recordStorageAccess). */
+const ACCESS_LOG = "__lernappsStorageAccess";
+
+/**
+ * Runs in the page before its own scripts (an init script, serialized: it uses nothing from outside): puts the data
+ * of another app into the browser, and records every access by name to localStorage, sessionStorage, IndexedDB and
+ * the Cache API in window[log]. Listing the keys is not recorded; the app's own storage needs it to keep its quota.
+ */
+function recordStorageAccess({ foreign, log }: { foreign: string; log: string }) {
+  const accesses: StorageAccess[] = [];
+  Object.defineProperty(window, log, { value: accesses });
+  const record = (area: StorageAccess["area"], action: StorageAccess["action"], name: unknown) => {
+    accesses.push({ area, action, name: String(name) });
+  };
+  for (const area of ["localStorage", "sessionStorage"] as const) {
+    let target: Storage;
+    try {
+      target = window[area];
+      if (target.getItem(foreign) === null) target.setItem(foreign, "3");
+    } catch {
+      continue; // the browser blocks storage: there is nothing to record
+    }
+    const methods: Record<string, unknown> = {
+      getItem: (key: string) => (record(area, "read", key), target.getItem(key)),
+      setItem: (key: string, value: string) => (record(area, "write", key), target.setItem(key, value)),
+      removeItem: (key: string) => (record(area, "remove", key), target.removeItem(key)),
+      clear: () => (record(area, "clear", ""), target.clear()),
+      key: (index: number) => target.key(index),
+    };
+    const own = (property: string | symbol): property is string =>
+      typeof property === "string" && !(property in Storage.prototype);
+    const proxy = new Proxy(target, {
+      get(_, property) {
+        if (property === "length") return target.length;
+        if (typeof property === "string" && Object.hasOwn(methods, property)) return methods[property];
+        if (!own(property)) return Reflect.get(target, property);
+        record(area, "read", property);
+        return target.getItem(property) ?? undefined;
+      },
+      set(_, property, value) {
+        if (!own(property)) return Reflect.set(target, property, value);
+        record(area, "write", property);
+        target.setItem(property, String(value));
+        return true;
+      },
+      deleteProperty(_, property) {
+        if (!own(property)) return Reflect.deleteProperty(target, property);
+        record(area, "remove", property);
+        target.removeItem(property);
+        return true;
+      },
+    });
+    Object.defineProperty(window, area, { get: () => proxy, configurable: true });
+  }
+  /** Calls `before` with the arguments of every call of `method` of `target`, before it runs. */
+  const wrap = <T extends object>(target: T, method: keyof T & string, before: (args: unknown[]) => void) => {
+    const original = Reflect.get(target, method) as (...args: unknown[]) => unknown;
+    Reflect.set(target, method, function (this: unknown, ...args: unknown[]) {
+      before(args);
+      return Reflect.apply(original, this, args);
+    });
+  };
+  wrap(IDBFactory.prototype, "open", ([name]) => record("IndexedDB", "open", name));
+  wrap(IDBFactory.prototype, "deleteDatabase", ([name]) => record("IndexedDB", "delete", name));
+  if (typeof CacheStorage === "undefined") return;
+  wrap(CacheStorage.prototype, "open", ([name]) => record("Cache", "open", name));
+  wrap(CacheStorage.prototype, "delete", ([name]) => record("Cache", "delete", name));
+  wrap(CacheStorage.prototype, "has", ([name]) => record("Cache", "read", name));
+  wrap(CacheStorage.prototype, "match", ([, options]) => {
+    const name = (options as MultiCacheQueryOptions | undefined)?.cacheName;
+    if (name === undefined) record("Cache", "match", "");
+    else record("Cache", "read", name);
+  });
+}
 const WCAG_21_AA = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 
 /** A browser cannot start here; the message says how to make it run. */
@@ -305,6 +379,7 @@ export async function visitApp(
 
 async function newContext(browser: Browser, origin: string, requests: PageVisit["requests"], javaScriptEnabled = true) {
   const context = await browser.newContext({ viewport: { width: WIDTH, height: 800 }, javaScriptEnabled });
+  if (javaScriptEnabled) await context.addInitScript(recordStorageAccess, { foreign: FOREIGN_KEY, log: ACCESS_LOG });
   await context.route("**/*", async (route) => {
     const request = route.request();
     requests.push({ url: request.url(), method: request.method() });
@@ -342,14 +417,30 @@ async function visitPage(
     withoutJavaScript?.catch(() => undefined); // awaited below; not unhandled when this visit fails first
     const loaded = [...requests];
     const cookies = (await context.cookies()).map((cookie) => cookie.name).sort();
-    const storage = await page.evaluate(async () => {
-      const databases = typeof indexedDB.databases === "function" ? await indexedDB.databases() : [];
-      return [
-        ...Object.keys(localStorage).map((key) => `localStorage ${key}`),
-        ...Object.keys(sessionStorage).map((key) => `sessionStorage ${key}`),
-        ...databases.map((database) => `IndexedDB ${database.name ?? ""}`),
-      ].sort();
-    });
+    const { storage, access } = await page.evaluate(
+      async ({ foreign, log }: { foreign: string; log: string }) => {
+        const databases = typeof indexedDB.databases === "function" ? await indexedDB.databases() : [];
+        const cacheNames = typeof caches === "undefined" ? [] : await caches.keys();
+        const own = (key: string) => key !== foreign;
+        const accesses = ((window as unknown as Record<string, StorageAccess[] | undefined>)[log] ?? []).map((entry) =>
+          JSON.stringify([entry.area, entry.action, entry.name]),
+        );
+        return {
+          storage: [
+            ...Object.keys(localStorage)
+              .filter(own)
+              .map((key) => `localStorage ${key}`),
+            ...Object.keys(sessionStorage)
+              .filter(own)
+              .map((key) => `sessionStorage ${key}`),
+            ...databases.map((database) => `IndexedDB ${database.name ?? ""}`),
+            ...cacheNames.map((name) => `Cache ${name}`),
+          ].sort(),
+          access: [...new Set(accesses)].sort((a, b) => a.localeCompare(b)),
+        };
+      },
+      { foreign: FOREIGN_KEY, log: ACCESS_LOG },
+    );
     const overflow = await page.evaluate((width) => {
       const selector = (element: Element): string => {
         const id = element.id === "" ? "" : `#${element.id}`;
@@ -399,6 +490,10 @@ async function visitPage(
       requests: loaded,
       cookies,
       storage,
+      access: access.map((entry) => {
+        const [area, action, name] = JSON.parse(entry) as [StorageAccess["area"], StorageAccess["action"], string];
+        return { area, action, name };
+      }),
       overflow,
       axe: violations.sort((a, b) => a.id.localeCompare(b.id)),
       links: statuses,

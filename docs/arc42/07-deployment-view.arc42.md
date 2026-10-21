@@ -2,9 +2,10 @@
 
 The tooling has no server of its own. Its parts are files in git repos on GitHub, and they reach the places where
 they run as git commits. Update pull requests move those commits forward. This chapter says, per node, what it
-receives and what it hosts; what each part does is in chapter 5. lernapps.net hosts nothing of an app: the app lives
-at its developer's hosting, by default the developer's own GitHub Pages, and the catalog links to it (decision
-`dec-app-own-hosting`).
+receives and what it hosts; what each part does is in chapter 5. An app is published at its developer's hosting,
+by default the developer's own GitHub Pages; lernapps.net serves a copy of every listed app at `lernapps.net/<id>/`,
+built in the catalog's CI from the commit its entry names and pushed into the root site (decision
+`dec-copies-served`).
 
 ## Deployment overview
 
