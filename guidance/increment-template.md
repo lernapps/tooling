@@ -25,9 +25,12 @@ a correction.
 4. Task done → tick `[x]` at once and move it to "Completed" of its phase. New task found → add it.
 5. Each phase names its skills. Load a skill when its task comes, not before. Read it in full, from its file.
 6. Checkpoint: stop, ask, wait for the creator's answer.
+   Only a checkpoint waits. A phase's last box → set the next phase and go on in the same message.
 7. At most 2 questions per message, one topic each.
 8. Work on the branch `increment/<NN>-<short name>`. Until Commit everything is local: push nothing.
 9. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
+10. Begin each reply to the creator with the phase in `phase:`, and at a checkpoint the word checkpoint:
+    "**Plan · Checkpoint**", "**Code**". The creator always knows where you are.
 -->
 
 *Started <date>. Explore, Plan, Code, Commit.*
@@ -67,8 +70,8 @@ questions. -->
 - [ ] Load skill `lernapps-content-research`. Research what the guide's curriculum and sources do not cover. Under
       "Notes": curriculum orientation, new competencies by chapter as "Ich kann …", verified sources.
 - [ ] Under "Notes": the didactic approach per competency and the scope (in, out, data range).
-- [ ] A kind of content the guide does not cover (a new page structure, screen or component) → load skill
-      `lernapps-<archetype>-design`. Else skip this task.
+- [ ] A kind of content the guide does not cover (a new page structure, screen, component or kind of exercise) →
+      load skills `lernapps-<archetype>-design` and `lernapps-exercise-patterns`. Else skip this task.
 - [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, new competencies by chapter, didactic
       approach, scope, every "(guess)", sources and how you checked them, what is unchecked. Stop and wait.
       Changes → change, ask again.
@@ -85,7 +88,7 @@ questions. -->
 <!--
 - Map the new content onto the app with the guide's patterns. Confirmable in one read.
 - After the yes, work on your own: at most 3 creator turns until the end.
-- Skills: `lernapps-content-growth`; `lernapps-exercise-patterns` only for something the guide does not cover.
+- Skills: `lernapps-content-growth`; for something the guide does not cover, the skills loaded in Explore.
 -->
 
 ### Tasks
@@ -94,8 +97,8 @@ questions. -->
 - [ ] Load skill `lernapps-content-growth`. Write the Code tasks as slices, one per competency, in the guide's
       order. Mark the slices sub-agents can write in parallel.
 - [ ] Write "Content method": the guide's patterns, figures and components per slice. Anything new: map it as skill
-      `lernapps-<archetype>-design` says (loaded in Explore), choose its pattern with skill
-      `lernapps-exercise-patterns`, and say why the guide's patterns do not fit.
+      `lernapps-<archetype>-design` says, choose its pattern with skill `lernapps-exercise-patterns` (both loaded
+      in Explore), and say why the guide's patterns do not fit.
 - [ ] Each new component or interactive exercise: a sketch (static SVG or image, or the steps). Words alone are not
       enough.
 - [ ] Show the creator, short: goal, new competencies by chapter, slices; in plain words what learners see and do,
@@ -136,6 +139,7 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 - [ ] `npx lernapps check` passes.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
+      No checkpoint here: set it before you ask or report anything, then start Commit in the same message.
 
 ### Completed
 

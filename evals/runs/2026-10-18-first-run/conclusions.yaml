@@ -26,13 +26,15 @@ findings:
     text: >-
       Haiku 5.5 passed the check in 14 of 14 runs, but filled the content guide in only 2, ticked between 0 and 100 %
       of the plan's boxes per run (mean 70 % quiz, 46 % explainer, 7 % interactive), wrote no competencies in any
-      interactive run, chose the wrong archetype once (an explainer for the typing trainer), created the app before
-      the creator confirmed the plan in 3 runs and stopped in the code phase in 2 of 5 explainer runs.
+      interactive run, chose the wrong archetype once (an explainer for the typing trainer) and created the app before
+      the creator confirmed the plan in 4 runs (2 of 3 interactive, 1 of 5 explainer, 1 of 6 quiz). Every run reached the scenario's end
+      with a green check ("Code done"); in 2 of 5 explainer runs it did so without setting `phase: commit`.
     evidence:
       - { task: quiz-fresh, model: Haiku 5.5, row: app_content_filled }
       - { task: interactive-fresh, model: Haiku 5.5, row: plan_boxes_ticked }
       - { task: interactive-fresh, model: Haiku 5.5, row: archetype_expected }
       - { task: explainer-fresh, model: Haiku 5.5, row: phase_reached }
+      - { task: explainer-fresh, model: Haiku 5.5, row: code_done }
       - { task: interactive-fresh, model: Haiku 5.5, row: not_created_before_plan }
   - id: too-many-questions
     title: No model keeps to one or two questions per turn
@@ -82,6 +84,10 @@ notes:
     Measuring: the retrospective is left out, since the scenarios stop at the publish checkpoint and the plan template
     fills it after the listing (n/a in 23 of 33 runs). Whether the skill `lernapps-app` was read is left out too: the
     score of that run missed reads in the shell (`cat`).
+  - >-
+    Re-scored on 21 October from the same transcripts, with the scenario's end ("Code done") and the phase read from
+    `sed`, one-liners and `grep '^phase:'`: two Haiku runs moved, one interactive run now counts as created before the
+    plan, and the turns after the plan dropped by one in three runs. The rest is unchanged.
   - >-
     How we got there, on the evening of 17 October: an inventory of the guidance as a chain and the expectations
     A1–A34; an ADR over six options, decided for Harbor, the only one with a simulated creator; a spike without a

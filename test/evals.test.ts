@@ -1,16 +1,16 @@
 // The scoring of the eval tasks (evals/): the transcript score of a trial, the verifier's parsing of a plan, and the
 // summary across jobs. The trials are fixtures: a synthetic one that exercises each dimension, and a trimmed real one.
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { scoreTrial, scoreTurns, type SkillContext } from "../evals/score-transcript.ts";
+import { scoreTrial, scoreTurns, turns, type SkillContext } from "../evals/score-transcript.ts";
 import { skillsByPhase } from "../evals/skills-by-phase.ts";
 import { elements } from "../scripts/workshop.ts";
 import { results } from "../evals/results.ts";
 import { problems, render, runs } from "../evals/site.ts";
 import { summarise } from "../evals/summary.ts";
-import { boxes, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
+import { boxes, findVibeDirs, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
 import { repoRoot } from "./support.ts";
 
 const fixtures = join(repoRoot, "test", "fixtures", "evals");
@@ -41,6 +41,8 @@ test("the transcript score counts turns, questions, reads and bypasses of a synt
     created_with_plan_command: 1,
     no_verify_bypass: 0,
     pre_push_counter_edits: 1,
+    scenario_end: 1,
+    phase_announced: 0,
     agent_input_tokens: 0,
     agent_cache_read_tokens: 0,
     agent_output_tokens: 0,
@@ -448,4 +450,158 @@ test("the eval runs on the page: every conclusion names cells, rows and findings
   expect(html).toContain('id="run-2026-10-18-first-run"');
   expect(html).toContain('href="#2026-10-18-first-run--quiz-fresh--haiku-5-5--c1--app_content_filled"');
   expect(html).toContain('id="2026-10-18-first-run--quiz-fresh--haiku-5-5--c1--app_content_filled"');
+});
+
+test("the verifier finds the plan's folder past a symlink whose target is gone", () => {
+  const app = mkdtempSync(join(tmpdir(), "verify-"));
+  mkdirSync(join(app, "quiz", ".vibe", "plans"), { recursive: true });
+  mkdirSync(join(app, ".claude", "skills"), { recursive: true });
+  symlinkSync(join(app, ".agents", "skills", "lernapps-quiz"), join(app, ".claude", "skills", "lernapps-quiz"));
+  expect(findVibeDirs(app)).toEqual([join(app, "quiz")]);
+});
+
+test("the plan counts as confirmed when sed, a helper script or a write sets phase: code; an earlier create is early", () => {
+  const create = {
+    name: "Bash",
+    input: { command: "npx --yes github:lernapps/tooling#main create --archetype quiz ." },
+  };
+  const turn = (creator: string, tools: { name: string; input: Record<string, unknown>; result?: string }[]) => ({
+    creator,
+    text: "",
+    tools,
+  });
+  const bySed = scoreTurns([
+    turn("Ein Quiz zu Brüchen", []),
+    turn("Ja, passt so.", [
+      { name: "Bash", input: { command: "sed -i 's/^phase: plan$/phase: code/' .vibe/plans/01-quiz.md" } },
+      create,
+    ]),
+  ]);
+  expect(bySed.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 0 });
+  const byScript = scoreTurns([
+    turn("Ein Quiz zu Brüchen", []),
+    turn("Ja, passt so.", [
+      { name: "Write", input: { file_path: "/app/.edit-plan.cjs", content: "/* sets the phase */" } },
+      { name: "Bash", input: { command: "node .edit-plan.cjs" } },
+      { name: "Bash", input: { command: "grep '^phase:' .vibe/plans/01-quiz.md" }, result: "phase: code" },
+      create,
+    ]),
+  ]);
+  expect(byScript.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 0 });
+  const early = scoreTurns([
+    turn("Ein Quiz zu Brüchen", []),
+    turn("Ja, passt so.", [create]),
+    turn("Ja", [
+      {
+        name: "Edit",
+        input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+      },
+    ]),
+  ]);
+  expect(early.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 1 });
+});
+
+test("the scenario ends regularly when the creator's last message after the plan is a GitHub answer, a stop or thanks, not the stuck line", () => {
+  const setCode = {
+    name: "Edit",
+    input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+  };
+  const github =
+    "Ich habe dir kein GitHub-Repo angelegt; arbeite lokal mit git. Veröffentlichen und Eintragen machen wir später.";
+  const turn = (creator: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
+    creator,
+    text: "",
+    tools,
+  });
+  // The GitHub line while planning is not the end; after the plan's yes it is, with or without `phase: commit`.
+  const planning = scoreTurns([
+    turn("Ein Quiz"),
+    turn(github),
+    turn("Ja, passt so.", [setCode]),
+    turn("Danke, wir hören hier auf."),
+  ]);
+  expect(planning.dimensions).toMatchObject({ scenario_end: 0 });
+  const asked = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn(github), turn("Danke!")]);
+  expect(asked.dimensions).toMatchObject({ scenario_end: 1 });
+  expect(asked.evidence).toMatchObject({ scenarioEndAtCreatorTurn: 4 });
+  // A GitHub answer in the middle of Code, then stuck: no regular end.
+  const midCode = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn(github),
+    turn("Danke, wir hören hier auf."),
+  ]);
+  expect(midCode.dimensions).toMatchObject({ scenario_end: 0 });
+  // The persona words its ends freely: the GitHub line as the last message, or thanks around a pause.
+  const lastGithub = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn(`${github} Ich melde mich.`),
+  ]);
+  expect(lastGithub.dimensions).toMatchObject({ scenario_end: 1 });
+  const pause = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn("Danke, wir legen hier eine Pause ein. Veröffentlichen machen wir später. Danke!"),
+  ]);
+  expect(pause.dimensions).toMatchObject({ scenario_end: 1 });
+  const doneStop = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn("Danke! Die App ist lokal fertig und geprüft. Wir hören hier auf."),
+  ]);
+  expect(doneStop.dimensions).toMatchObject({ scenario_end: 1 });
+  const stopped = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn("Stopp, das reicht für heute."),
+  ]);
+  expect(stopped.dimensions).toMatchObject({ scenario_end: 1 });
+  const done = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn("Danke!")]);
+  expect(done.dimensions).toMatchObject({ scenario_end: 1 });
+  const stuck = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn("Danke, wir hören hier auf.")]);
+  expect(stuck.dimensions).toMatchObject({ scenario_end: 0 });
+});
+
+test("the creator's end marker decides the end; each reply's announced phase is checked against the plan's", () => {
+  const setCode = {
+    name: "Edit",
+    input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+  };
+  const turn = (creator: string, reply: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
+    creator,
+    text: reply,
+    reply,
+    tools,
+  });
+  const score = scoreTurns([
+    turn("Ein Quiz", "**Explore** Was sollen sie können?"),
+    turn("Brüche addieren", "**Plan · Checkpoint** Passt der Plan?"),
+    turn("Ja, passt so.", "**Plan** Ich lege an.", [setCode]),
+    turn("Danke, wir hören hier auf. Die App ist fertig.\n[Ende: fertig]", "Gern."),
+  ]);
+  // The marker wins over the sentence. Three of four replies name a phase; only the first is the plan's: the plan was
+  // never set to plan, and the third reply says Plan after it was set to code.
+  expect(score.dimensions).toMatchObject({ scenario_end: 1, phase_announced: 0.75, phase_announced_right: 0.33 });
+  expect(score.evidence).toMatchObject({ scenarioEnd: "fertig" });
+  const stuck = scoreTurns([
+    turn("Ein Quiz", ""),
+    turn("Ja, passt so.", "", [setCode]),
+    turn("Danke!\n[Ende: festgefahren]", ""),
+  ]);
+  expect(stuck.dimensions).toMatchObject({ scenario_end: 0 });
+});
+
+test("a tool call keeps what it returned, so that the grep of the phase can be read", () => {
+  const all = turns([
+    { type: "user", message: { content: "Los" } },
+    {
+      type: "assistant",
+      message: {
+        content: [{ type: "tool_use", id: "t1", name: "Bash", input: { command: "grep '^phase:' .vibe/plans/01.md" } }],
+      },
+    },
+    { type: "user", message: { content: [{ type: "tool_result", tool_use_id: "t1", content: "phase: code" }] } },
+  ]);
+  expect(all[0]?.tools[0]?.result).toBe("phase: code");
 });
