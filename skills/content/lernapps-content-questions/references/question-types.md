@@ -11,9 +11,39 @@
 
 - Every question: `id`, `text`, `explanation`, at least one link in `links`. Optional quiz `sources`.
 - Types without options carry their background in `explanation`.
+- Optional `material`: what the question shows between its text and its answers, a list of blocks: `text` (restricted
+  Markdown), `formula`, `figure`, `labelled-figure`, `table`, `quote`, `code`. A `figure` is `image: images/<name>.svg`
+  (or `.png`, `.jpg`, `.webp`; the file is in `src/images/`) or drawn from numbers (`draw`), with `alt` (what it
+  shows), `caption` (what to look at) and, for an image, `source` and `licence` (`third-party-licence`). Use it where
+  the question needs the content (what does the image show, what does the table say); not as decoration. The build
+  fails for a missing file, a text missing in a language, raw HTML or a link to a page of the app.
 - Optional `examples: { accepted, rejected }`: options and items by index from 0 or German text; numbers as number or
   as typed (`"12,5"`; point = decimal mark: `8900`, never `8.900`). Build checks them; learners never see them.
   Mistakes and wrong options' `info` already count as rejected.
+
+```json
+{
+  "id": "ring",
+  "type": "single-choice",
+  "text": "Welche Form zeigt das Bild?",
+  "material": [
+    {
+      "type": "figure",
+      "image": "images/kreis.svg",
+      "alt": "Ein blauer Kreis mit einem weißen Kreis in der Mitte",
+      "caption": "Zwei Kreise mit demselben Mittelpunkt.",
+      "source": "eigene Zeichnung",
+      "licence": "CC0-1.0"
+    }
+  ],
+  "options": [
+    { "text": "Ein Ring", "correct": true, "info": "Ein Ring liegt zwischen zwei Kreisen mit demselben Mittelpunkt." },
+    { "text": "Eine Ellipse", "correct": false, "info": "Eine Ellipse hat zwei Brennpunkte." }
+  ],
+  "explanation": "Die weiße Fläche in der Mitte macht aus der Kreisscheibe einen Ring.",
+  "links": [{ "title": "Kreisring (Wikipedia)", "url": "https://de.wikipedia.org/wiki/Kreisring" }]
+}
+```
 
 ```json
 {
