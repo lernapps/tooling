@@ -239,7 +239,10 @@ function evidenceLink(run: Run, evidence: Evidence): string {
   return `<a href="#${esc(cellId(run.id, cell.task, cell.model, cell.configuration, key))}">${esc(label)}</a>`;
 }
 
-function article(run: Run, previous: Run | undefined): string {
+const STATUS_LABELS = { done: "Done", open: "Open", dropped: "Dropped" } as const;
+const STATUS_MARKS = { done: "✓", open: "○", dropped: "✕" } as const;
+
+function article(run: Run, previous: Run | undefined, all: Run[]): string {
   const { results, conclusions: c } = run;
   const configs = Object.entries(results.configurations);
   const [, first] = configs[0] ?? ["", {}];
@@ -270,23 +273,35 @@ function article(run: Run, previous: Run | undefined): string {
         `<li id="${esc(`${run.id}--finding--${f.id}`)}"><strong>${inline(f.title)}</strong><p>${inline(f.text)}</p>${f.evidence.length ? `<p class="evidence">Evidence: ${f.evidence.map((e) => evidenceLink(run, e)).join(" · ")}</p>` : ""}</li>`,
     )
     .join("");
-  const actions = c.actions
-    .map((a) => {
-      const refs = (a.findings ?? [])
-        .map(
-          (id) =>
-            `<a href="#${esc(`${run.id}--finding--${id}`)}">${esc(c.findings.find((f) => f.id === id)?.title ?? id)}</a>`,
-        )
-        .join(", ");
-      return `<li class="action ${a.status}"><span class="status">${a.status}</span> <span>${inline(a.text)}${a.link ? ` <a href="${esc(a.link)}">${esc(a.link.replace(/^https:\/\/github\.com\/lernapps\//, ""))}</a>` : ""}${refs ? `<small>from: ${refs}</small>` : ""}</span></li>`;
-    })
+  const action = (a: Conclusions["actions"][number]) => {
+    const refs = (a.findings ?? [])
+      .map(
+        (id) =>
+          `<a href="#${esc(`${run.id}--finding--${id}`)}">${esc(c.findings.find((f) => f.id === id)?.title ?? id)}</a>`,
+      )
+      .join(", ");
+    return `<li>${inline(a.text)}${a.link ? ` <a href="${esc(a.link)}">${esc(a.link.replace(/^https:\/\/github\.com\/lernapps\//, ""))}</a>` : ""}${refs ? `<small>Because of: ${refs}</small>` : ""}</li>`;
+  };
+  const counts = STATUSES.map((status) => [status, c.actions.filter((a) => a.status === status)] as const).filter(
+    ([, list]) => list.length > 0,
+  );
+  const actions = counts
+    .map(
+      ([status, list]) =>
+        `<section class="actions ${status}" aria-label="${STATUS_LABELS[status]}"><h5><span class="mark" aria-hidden="true">${STATUS_MARKS[status]}</span>${STATUS_LABELS[status]} <span class="count">${list.length}</span></h5><ul>${list.map(action).join("")}</ul></section>`,
+    )
     .join("");
+  const others = all.filter((other) => other.id !== run.id);
+  const compare = others.length
+    ? `<div class="compare" hidden><label>Compare the heatmap with <select data-compare><option value="">no other run</option>${others.map((other) => `<option value="${esc(other.id)}"${other === previous ? " selected" : ""}>${esc(other.results.dataDate)} · ${esc(other.conclusions.title)}</option>`).join("")}</select></label><p class="compare-key" data-compare-key hidden>Each cell shows its value in this run and, below it, the change against <strong data-compare-name></strong> in points: <span class="up">▲</span> closer to the guidance, <span class="down">▼</span> further from it. A cell without a change has no value in the other run.</p></div>`
+    : "";
   const cfg = first;
   return `<article class="run" id="run-${esc(run.id)}" data-run="${esc(run.id)}" aria-labelledby="run-${esc(run.id)}-h">
 <h3 id="run-${esc(run.id)}-h">${esc(c.title)} <small>${esc(results.dataDate)}</small></h3>
 <p class="meta">${results.totals["trials"]} runs · runs ${esc(results.runsFrom.slice(0, 16).replace("T", " "))} to ${esc(results.runsTo.slice(0, 16).replace("T", " "))} UTC · ${esc(cfg.harness ?? "?")} ${esc(versions)} · Harbor ${esc(cfg.harbor ?? "?")} · creator played by ${esc((cfg.userModel ?? "?").replace(/^.*claude-([a-z]+)-(\d+)-(\d+)$/, (_, m: string, a: string, b: string) => `${m[0]!.toUpperCase()}${m.slice(1)} ${a}.${b}`))} · guidance ${guidance}${diff} · <a href="runs/${esc(run.id)}/results.json">results.json</a> · <a href="runs/${esc(run.id)}/conclusions.json">conclusions.json</a></p>
 <p class="question"><strong>Question:</strong> ${inline(c.question)}</p>
 <section class="bottom-line" aria-label="Bottom line"><h4>Bottom line</h4><ul>${c.bottomLine.map((line) => `<li>${inline(line)}</li>`).join("")}</ul></section>
+${compare}
 ${tablesOf(results)
   .map(
     (ids, _index, all) =>
@@ -294,8 +309,8 @@ ${tablesOf(results)
   )
   .join("\n")}
 ${numbers(run)}
-<h4>Findings</h4><ol class="findings">${findings}</ol>
-<h4>What we did about it</h4><ul class="actions">${actions}</ul>
+<h4>Findings</h4><p class="note">What the numbers show. Each finding links the cells it rests on.</p><ol class="findings">${findings}</ol>
+<h4>What we did about it</h4><p class="note">The changes these findings led to, and those still to do.</p>${actions}
 ${left.length ? `<h4>Left out</h4><ul class="left-out">${left.join("")}</ul>` : ""}
 ${c.notes?.length ? `<h4>Notes</h4><ul class="notes">${c.notes.map((note) => `<li>${inline(note)}</li>`).join("")}</ul>` : ""}
 </article>`;
@@ -311,15 +326,9 @@ export function render(all: Run[]): string {
       return `<li><a href="#run-${esc(run.id)}" data-run="${esc(run.id)}"><time datetime="${esc(r.dataDate)}">${esc(r.dataDate)}</time><strong>${esc(run.conclusions.title)}</strong><span>${r.totals["trials"]} runs · guidance ${esc(commits)} · ${open} open ${open === 1 ? "action" : "actions"}</span><span class="headline">${inline(run.conclusions.bottomLine[0] ?? "")}</span></a></li>`;
     })
     .join("");
-  const options = all
-    .map(
-      (run) => `<option value="${esc(run.id)}">${esc(run.results.dataDate)} · ${esc(run.conclusions.title)}</option>`,
-    )
-    .join("");
   return `<div class="runs" data-runs>
-<ol class="run-list">${list}</ol>
-<p class="compare" hidden><label>Compare with <select data-compare><option value="">no other run</option>${options}</select></label> <small>The heatmap then shows the difference in points; ▲ closer to the guidance, ▼ further from it. Only rows both runs have.</small></p>
-${all.map((run, index) => article(run, all[index + 1])).join("\n")}
+<ol class="run-list" aria-label="Eval runs">${list}</ol>
+${all.map((run, index) => article(run, all[index + 1], all)).join("\n")}
 </div>`;
 }
 
