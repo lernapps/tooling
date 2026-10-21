@@ -62,10 +62,11 @@ const LERNAPPS_REPO = /^https:\/\/(raw\.githubusercontent\.com|github\.com)\/ler
 const APPROVAL = /^\s*(ja\b|passt\b|ok\b|okay\b|einverstanden|gerne)/i;
 const QUESTION = /[^?.!\n]{3,}\?/g;
 /**
- * The scenario's end at the door of Commit: the persona's answer to a question about GitHub or the repo, or its "Stopp"
- * at the question to publish. The scenarios stop there; reaching it is no abort.
+ * The scenario's regular end, as the persona states it: its answer to a question about GitHub or the repo, its "Stopp"
+ * at the question to publish, or its "Danke!" when the agent says it is done. Its other end, "Danke, wir hören hier
+ * auf.", is for an agent that is stuck.
  */
-const COMMIT_DOOR = /kein GitHub-Repo angelegt|^\s*Stopp, das reicht/i;
+const SCENARIO_END = /kein GitHub-Repo angelegt|^\s*Stopp, das reicht|^\s*Danke!\s*$/i;
 
 const toolName = (name: string) => name.replace(/^mcp__acp__/, "");
 /** The URLs in a command; a closing parenthesis belongs to a URL only when the URL opened one. */
@@ -242,10 +243,9 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
   const confirmedAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
   const creatorTurns = all.length;
   const afterPlan = confirmedAt >= 0 ? creatorTurns - confirmedAt - 1 : undefined;
-  // After the plan's yes, the agent asked about GitHub or publishing, and the creator answered with the scenario's end
-  // (whether the agent had set `phase: commit` before or not).
-  const doorAt =
-    confirmedAt >= 0 ? all.findIndex((turn, index) => index > confirmedAt && COMMIT_DOOR.test(turn.creator)) : -1;
+  // After the plan's yes, the creator ended the scenario regularly (whether the agent had set `phase: commit` or not).
+  const endAt =
+    confirmedAt >= 0 ? all.findIndex((turn, index) => index > confirmedAt && SCENARIO_END.test(turn.creator)) : -1;
 
   // A9: questions per agent turn (sentences ending in "?" in the text the creator saw).
   const questions = all.map((turn) => (turn.text.match(QUESTION) ?? []).length);
@@ -374,7 +374,7 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
     created_with_plan_command: createdWith ? 1 : 0,
     no_verify_bypass: bypasses.length === 0 ? 1 : 0,
     pre_push_counter_edits: counterEdits.length,
-    reached_commit: doorAt >= 0 ? 1 : 0,
+    scenario_end: endAt >= 0 ? 1 : 0,
   };
   if (afterPlan !== undefined) dimensions["creator_turns_after_plan"] = afterPlan;
   Object.assign(dimensions, skillScore?.dimensions);
@@ -383,7 +383,7 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
     evidence: {
       ...skillScore?.evidence,
       planConfirmedAtCreatorTurn: confirmedAt >= 0 ? confirmedAt + 1 : null,
-      commitReachedAtCreatorTurn: doorAt >= 0 ? doorAt + 1 : null,
+      scenarioEndAtCreatorTurn: endAt >= 0 ? endAt + 1 : null,
       creatorMessages: all.map((turn, index) => ({
         turn: index + 1,
         creator: turn.creator.slice(0, 200),

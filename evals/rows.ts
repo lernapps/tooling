@@ -78,17 +78,17 @@ ROWS.push(
     kind: "runs",
     value: threshold("t_creator_turns_after_plan", 3),
   },
-  // The scenarios end at the first question about GitHub or publishing; this is the end the process should reach.
+  // The scenarios end before Commit's pushes (no repo, no publishing); this is the end the process should reach.
   {
     id: "code_done",
-    label: "Code done: check green, then asked about GitHub or publishing",
+    label: "Code done: check green and the scenario ended after the plan",
     group: "transcript",
-    source: "reached_commit",
+    source: "scenario_end",
     kind: "runs",
     value: (trial) => {
       const check = trial.numbers["check_passes"];
-      const door = trial.numbers["t_reached_commit"];
-      return check === undefined || door === undefined ? undefined : Math.min(check, door);
+      const end = trial.numbers["t_scenario_end"];
+      return check === undefined || end === undefined ? undefined : Math.min(check, end);
     },
   },
   {
