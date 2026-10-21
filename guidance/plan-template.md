@@ -26,6 +26,8 @@ For you, the assistant.
 8. Work on the branch `work`, locally: push nothing before Commit. Commit puts the app on GitHub and brings `work`
    into `main`.
 9. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
+10. Begin each reply to the creator with the phase in `phase:`, and at a checkpoint the word checkpoint:
+    "**Plan · Checkpoint**", "**Code**". The creator always knows where you are.
 -->
 
 *Started <date>. Explore, Plan, Code, Commit.*

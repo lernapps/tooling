@@ -29,6 +29,8 @@ a correction.
 7. At most 2 questions per message, one topic each.
 8. Work on the branch `increment/<NN>-<short name>`. Until Commit everything is local: push nothing.
 9. Plan in the creator's language. Keep headings and front matter keys. Delete a comment once its part is filled.
+10. Begin each reply to the creator with the phase in `phase:`, and at a checkpoint the word checkpoint:
+    "**Plan · Checkpoint**", "**Code**". The creator always knows where you are.
 -->
 
 *Started <date>. Explore, Plan, Code, Commit.*

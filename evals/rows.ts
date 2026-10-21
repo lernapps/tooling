@@ -91,6 +91,23 @@ ROWS.push(
       return check === undefined || end === undefined ? undefined : Math.min(check, end);
     },
   },
+  // Since the plan template asks each reply to begin with the phase (2026-10-21); runs before have no such row.
+  {
+    id: "phase_announced",
+    label: "Replies that begin with the phase",
+    group: "transcript",
+    source: "phase_announced",
+    kind: "share",
+    value: (trial) => trial.numbers["t_phase_announced"],
+  },
+  {
+    id: "phase_announced_right",
+    label: "Announced phase is the plan's",
+    group: "transcript",
+    source: "phase_announced_right",
+    kind: "share",
+    value: (trial) => trial.numbers["t_phase_announced_right"],
+  },
   {
     id: "questions_max_2",
     label: "At most 2 questions in every turn",
