@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 # Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: the start page (the phases of its
 # workshop card from workshop.yaml), the page A workshop, not a factory (workshop/: who does what in which phase,
-# rendered by scripts/workshop.ts from the
-# building blocks), the page GitHub, explained (github/), the eval results (evals/, written by evals/report.ts),
-# llms.txt, the rule page (rules/,
-# read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report and of the review verdict
-# (schemas/) and the architecture (arc42, docs/arc42/) as the arc42 web app. The schemas of a quiz's question bank and of
-# an explainer's content are not published: they live with their runtimes in lernapps/app-templates, in the app's
-# node_modules, where its YAML and JSON files point to them.
+# rendered by scripts/workshop.ts from the building blocks), the page GitHub, explained (github/), the page Prompt
+# engineering with the eval runs (prompt-engineering/, rendered by evals/site.ts from evals/runs/; evals/ redirects
+# to it), llms.txt, the rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the
+# validation report and of the review verdict (schemas/) and the architecture (arc42, docs/arc42/) as the arc42 web
+# app. The schemas of a quiz's question bank and of an explainer's content are not published: they live with their
+# runtimes in lernapps/app-templates, in the app's node_modules, where its YAML and JSON files point to them.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
 #
@@ -26,7 +25,7 @@ cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
 mkdir -p _site/github
 cp site/github/index.html _site/github/
 mkdir -p _site/prompt-engineering _site/evals
-cp site/prompt-engineering/index.html site/prompt-engineering/data.json _site/prompt-engineering/
+node evals/site.ts page _site/prompt-engineering
 cp site/evals/index.html _site/evals/
 mkdir -p _site/schemas
 cp check/validation-report.v1.schema.json review/verdict.v1.schema.json _site/schemas/
