@@ -46,6 +46,11 @@ if [ -n "${ARC42_DIFF_BASE:-}" ]; then
   arc42 --dir docs/arc42 diff "$range" --format json > _site/architecture-diff/changes.json || [ -s _site/architecture-diff/changes.json ]
 fi
 
+# The arc42 app comes with the shared header above it: keep its fixed controls off the header (site/spa.css).
+# Before the frame: it copies the pages into /tooling/en/, which then get it too.
+for app in _site/architecture/index.html _site/architecture-diff/index.html; do
+  [ -f "$app" ] && sed -i 's|</head>|<link rel="stylesheet" href="../spa.css">\n</head>|' "$app"
+done
 lernapps-frame --site /tooling/ --source https://github.com/lernapps/tooling --out _site
 # The usage counter of the platform sites (/lernapps-count.js, served by lernapps.github.io, see "Usage counter" in
 # its README): this site's pages count their visits, never in a preview. Not part of the site frame: apps use the
@@ -53,10 +58,6 @@ lernapps-frame --site /tooling/ --source https://github.com/lernapps/tooling --o
 if [ -z "${SITE_PREVIEW:-}" ]; then
   find _site -name '*.html' -exec sed -i '0,/<\/head>/s||<script src="/lernapps-count.js" defer></script>\n</head>|' {} +
 fi
-# The arc42 app comes with the shared header above it: keep its fixed controls off the header (site/spa.css).
-for app in _site/architecture/index.html _site/architecture-diff/index.html; do
-  [ -f "$app" ] && sed -i 's|</head>|<link rel="stylesheet" href="../spa.css">\n</head>|' "$app"
-done
 
 touch _site/.nojekyll
 echo "built _site/"
