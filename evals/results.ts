@@ -27,7 +27,7 @@ import {
   stat,
   type Stat,
   type Trial,
-} from "./report.ts";
+} from "./rows.ts";
 import { type Configuration, jobsOf } from "./summary.ts";
 
 export const SCHEMA = "results.v1";
@@ -265,6 +265,8 @@ export function results(
       excludedTrials: trials.filter((trial) => trial.status === "excluded").length,
       partialTrials: trials.filter((trial) => trial.status === "partial").length,
       checkPasses: count((trial) => trial.numbers["check_passes"] === 1),
+      createdBeforePlanRuns: count((trial) => trial.createdBeforePlan),
+      installsBeforePlanRuns: count((trial) => (trial.numbers["t_installs_before_plan"] ?? 0) > 0),
       agentHours: round(all.reduce((sum, trial) => sum + (trial.numbers["agent_minutes"] ?? 0), 0) / 60, 1),
     },
   };

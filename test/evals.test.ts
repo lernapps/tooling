@@ -7,8 +7,8 @@ import { expect, test } from "vite-plus/test";
 import { scoreTrial, scoreTurns, type SkillContext } from "../evals/score-transcript.ts";
 import { skillsByPhase } from "../evals/skills-by-phase.ts";
 import { elements } from "../scripts/workshop.ts";
-import { fill, report } from "../evals/report.ts";
 import { results } from "../evals/results.ts";
+import { problems, render, runs } from "../evals/site.ts";
 import { summarise } from "../evals/summary.ts";
 import { boxes, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
 import { repoRoot } from "./support.ts";
@@ -269,7 +269,7 @@ test("the summary aggregates trials per task and configuration and never mixes c
   ]);
 });
 
-test("the report of the results page: one cell per task and model, excluded jobs listed, only create commands count", () => {
+test("the results of a run: one cell per task and model, excluded jobs listed, only create commands count", () => {
   const jobs = mkdtempSync(join(tmpdir(), "evals-report-"));
   const job = (name: string, model: string, trials: { reward: Record<string, number>; early?: string[] }[]) => {
     const dir = join(jobs, name);
@@ -312,7 +312,8 @@ test("the report of the results page: one cell per task and model, excluded jobs
   };
   const excluded = job("x", "anthropic/claude-opus-5-5", [{ reward: { check_passes: 0 } }]);
   writeFileSync(join(excluded, "excluded.txt"), "a harness fault\n");
-  const data = report(
+  const data = results(
+    "test-run",
     [
       job("a", "anthropic/claude-haiku-5-5", [
         {
@@ -341,7 +342,7 @@ test("the report of the results page: one cell per task and model, excluded jobs
     max: 1,
     n: 2,
   });
-  expect(data.excluded).toEqual([{ task: "quiz-fresh", model: "Opus 5.5", reason: "a harness fault" }]);
+  expect(data.excludedJobs).toEqual([{ job: "x", task: "quiz-fresh", model: "Opus 5.5", reason: "a harness fault" }]);
   expect(data.totals).toMatchObject({
     trials: 2,
     checkPasses: 2,
@@ -349,9 +350,6 @@ test("the report of the results page: one cell per task and model, excluded jobs
     installsBeforePlanRuns: 2,
   });
   expect(data.rows.find((row) => row.id === "check_passes")?.expectations).toEqual(["A21"]);
-  expect(fill("a<!-- report:x -->old<!-- /report:x -->b", { x: "new" })).toBe(
-    "a<!-- report:x -->\nnew\n<!-- /report:x -->b",
-  );
 });
 
 test("the results of a run leave out trials that hit the usage limit or broke off, and keep a crashed verifier's trial partly", () => {
@@ -419,4 +417,35 @@ test("the results of a run leave out trials that hit the usage limit or broke of
     ["c2", 1, 1],
   ]);
   expect(data.totals).toMatchObject({ trials: 4, excludedTrials: 2, partialTrials: 1 });
+});
+
+test("the eval runs on the page: every conclusion names cells, rows and findings its run has", () => {
+  const all = runs();
+  expect(all.map((run) => run.id)).toContain("2026-10-18-first-run");
+  expect(all.flatMap(problems)).toEqual([]);
+  const [run] = all.filter((r) => r.id === "2026-10-18-first-run");
+  if (!run) throw new Error("the first run is missing");
+  const broken = {
+    ...run,
+    conclusions: {
+      ...run.conclusions,
+      findings: [
+        ...run.conclusions.findings,
+        { id: "x", title: "X", text: "x", evidence: [{ task: "quiz-fresh", model: "Haiku 5.5", row: "no_such_row" }] },
+        { id: "x", title: "Y", text: "y", evidence: [{ task: "quiz-fresh", model: "Gemini", row: "check_passes" }] },
+      ],
+      actions: [{ text: "a", status: "later" as "open", findings: ["missing"] }],
+    },
+  };
+  expect(problems(broken)).toEqual([
+    "2026-10-18-first-run: finding x: quiz-fresh · Haiku 5.5 has no row no_such_row",
+    "2026-10-18-first-run: finding x: its id is used twice",
+    "2026-10-18-first-run: finding x: no cell quiz-fresh · Gemini",
+    '2026-10-18-first-run: action "a": status later',
+    '2026-10-18-first-run: action "a": no finding missing',
+  ]);
+  const html = render(all);
+  expect(html).toContain('id="run-2026-10-18-first-run"');
+  expect(html).toContain('href="#2026-10-18-first-run--quiz-fresh--haiku-5-5--c1--app_content_filled"');
+  expect(html).toContain('id="2026-10-18-first-run--quiz-fresh--haiku-5-5--c1--app_content_filled"');
 });
