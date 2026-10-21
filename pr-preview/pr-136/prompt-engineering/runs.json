@@ -1,5 +1,16 @@
 [
   {
+    "id": "2026-10-21-phase-announced",
+    "title": "Phase announced",
+    "dataDate": "2026-10-21",
+    "guidanceCommits": [
+      "cbe3b299143d16215983edeeb1d264989e65e931"
+    ],
+    "trials": 3,
+    "results": "runs/2026-10-21-phase-announced/results.json",
+    "conclusions": "runs/2026-10-21-phase-announced/conclusions.json"
+  },
+  {
     "id": "2026-10-21-guidance-by-phase",
     "title": "Guidance by phase",
     "dataDate": "2026-10-21",

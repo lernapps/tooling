@@ -1,37 +1,19 @@
 {
   "version": 1,
   "base": {
-    "label": "b13799b1d81f127d77bcf5fb3e88cd6564d62add",
-    "commit": "b13799b1d81f127d77bcf5fb3e88cd6564d62add"
+    "label": "1f3b0aef4115fc2f2108cbed8632893ded9afc1c",
+    "commit": "1f3b0aef4115fc2f2108cbed8632893ded9afc1c"
   },
   "head": {
-    "label": "87e068dc13267369baa1b11c40b1ead77ccb8b9e"
+    "label": "0c59289362f0030d2a6d86b10aba41551026f959"
   },
-  "acceptanceBase": "b13799b1d81f127d77bcf5fb3e88cd6564d62add",
+  "acceptanceBase": "1f3b0aef4115fc2f2108cbed8632893ded9afc1c",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": true,
-  "findings": [
-    {
-      "kind": "prose-without-block-change",
-      "severity": "warning",
-      "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 199,
-      "elementId": "dn-app-hosting",
-      "message": "Section prose changed without changing block 'dn-app-hosting' — it names 'Listing validation'."
-    }
-  ],
+  "hasBlockingFindings": false,
+  "findings": [],
   "groups": {
-    "warnings": [
-      {
-        "kind": "prose-without-block-change",
-        "severity": "warning",
-        "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 199,
-        "elementId": "dn-app-hosting",
-        "message": "Section prose changed without changing block 'dn-app-hosting' — it names 'Listing validation'."
-      }
-    ],
+    "warnings": [],
     "untouched": [],
     "updated": [],
     "uncovered": []
@@ -218,13 +200,7 @@
         "status": "unchanged",
         "attributes": [],
         "proseChanged": true,
-        "proseMentions": [
-          {
-            "term": "Listing validation",
-            "element": "bb-listing-validation",
-            "source": "element"
-          }
-        ],
+        "proseMentions": [],
         "base": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "line": 197
