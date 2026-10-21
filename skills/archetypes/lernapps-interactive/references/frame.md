@@ -4,11 +4,11 @@
 
 - App page: header (language switch only; none with one language), `<main>` (heading line: the title as h1 and a
   slot beside it; `<noscript>` note, route links, `.interactive-app` mount), footer (imprint, privacy). At most
-  `--interactive-max-width` wide, 44rem by default.
+  `--page-max-width` wide, 44rem by default.
 - A control in the heading line: `startInteractive(core, App, { title: Controls })`. The runtime mounts it into the
   slot, with the root component's props (`state`, `lang`) and `input` event. Never hide or rebuild the h1. Without
   `title` the slot stays hidden.
-- A wider frame: `--interactive-max-width` (e.g. `60rem`) in the app's own `:root` rule; it widens header, page and
+- A wider frame: `--page-max-width` (e.g. `60rem`) in the app's own `:root` rule; it widens header, page and
   footer. Never override the runtime's selectors.
 - Start page: own static page, no script; the app page never changes it.
 

@@ -6,3 +6,5 @@
   licence (`third-party-licence`).
 - Works at 360 px: trees top to bottom; too wide → table, or split by stage.
 - Same conventions (colours, labels, units, orientation) across the app; write them into the guide, "Figures".
+- The same figures work in a quiz question (`material`, skill `lernapps-content-questions`): an image of `src/images/` with
+  `alt`, `caption`, `source` and `licence`.

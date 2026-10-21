@@ -4,9 +4,10 @@
 # rendered by scripts/workshop.ts from the
 # building blocks), the page GitHub, explained (github/), the eval results (evals/, written by evals/report.ts),
 # llms.txt, the rule page (rules/,
-# read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report, of the review verdict, of
-# the question bank of a quiz and of the content of an explainer (schemas/; the last two from lernapps/app-templates
-# at the pinned commit) and the architecture (arc42, docs/arc42/) as the arc42 web app.
+# read from the artifacts by scripts/rules.ts), the JSON Schemas of the validation report and of the review verdict
+# (schemas/) and the architecture (arc42, docs/arc42/) as the arc42 web app. The schemas of a quiz's question bank and of
+# an explainer's content are not published: they live with their runtimes in lernapps/app-templates, in the app's
+# node_modules, where its YAML and JSON files point to them.
 # A pull request preview (pr-preview.yml) sets SITE_PATH_PREFIX=/tooling/pr-preview/pr-<number>/ and
 # SITE_PREVIEW=1. The tools (arc42, the shared site frame) are pinned in package.json: run `npm ci` first.
 #
@@ -29,18 +30,6 @@ cp site/prompt-engineering/index.html site/prompt-engineering/data.json _site/pr
 cp site/evals/index.html _site/evals/
 mkdir -p _site/schemas
 cp check/validation-report.v1.schema.json review/verdict.v1.schema.json _site/schemas/
-# The schemas of a quiz's question bank and of an explainer's content live with their runtimes in
-# lernapps/app-templates: published from the commit pinned in package.json, read from the local clone named by
-# LERNAPPS_TEMPLATES or fetched with git. The explainer's refers to the quiz's for its question exercises.
-templates_commit=$(node -p 'require("./package.json").appTemplates.commit')
-templates_repo="${LERNAPPS_TEMPLATES:-$(node -p 'require("./package.json").appTemplates.repository')}"
-templates_work=$(mktemp -d)
-trap 'rm -rf "$templates_work"' EXIT
-git init --quiet "$templates_work"
-git -C "$templates_work" fetch --quiet --depth 1 "$templates_repo" "$templates_commit"
-for schema in quiz/quiz.v1.schema.json explainer/explainer.v1.schema.json; do
-  git -C "$templates_work" show "FETCH_HEAD:runtime/$schema" > "_site/schemas/$(basename "$schema")"
-done
 node scripts/rules.ts page _site/rules/index.html
 node scripts/workshop.ts page _site/workshop/index.html
 node scripts/workshop.ts home _site/index.html
