@@ -41,7 +41,7 @@ test("the transcript score counts turns, questions, reads and bypasses of a synt
     created_with_plan_command: 1,
     no_verify_bypass: 0,
     pre_push_counter_edits: 1,
-    reached_commit: 1,
+    scenario_end: 1,
     agent_input_tokens: 0,
     agent_cache_read_tokens: 0,
     agent_output_tokens: 0,
@@ -500,7 +500,7 @@ test("the plan counts as confirmed when sed, a helper script or a write sets pha
   expect(early.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 1 });
 });
 
-test("the scenario ends at Commit when the creator answers a GitHub question or stops at publishing after the plan", () => {
+test("the scenario ends regularly when the creator's last message after the plan is a GitHub answer, a stop or thanks, not the stuck line", () => {
   const setCode = {
     name: "Edit",
     input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
@@ -513,19 +513,53 @@ test("the scenario ends at Commit when the creator answers a GitHub question or 
     tools,
   });
   // The GitHub line while planning is not the end; after the plan's yes it is, with or without `phase: commit`.
-  const planning = scoreTurns([turn("Ein Quiz"), turn(github), turn("Ja, passt so.", [setCode]), turn("Danke!")]);
-  expect(planning.dimensions).toMatchObject({ reached_commit: 0 });
+  const planning = scoreTurns([
+    turn("Ein Quiz"),
+    turn(github),
+    turn("Ja, passt so.", [setCode]),
+    turn("Danke, wir hören hier auf."),
+  ]);
+  expect(planning.dimensions).toMatchObject({ scenario_end: 0 });
   const asked = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn(github), turn("Danke!")]);
-  expect(asked.dimensions).toMatchObject({ reached_commit: 1 });
-  expect(asked.evidence).toMatchObject({ commitReachedAtCreatorTurn: 3 });
+  expect(asked.dimensions).toMatchObject({ scenario_end: 1 });
+  expect(asked.evidence).toMatchObject({ scenarioEndAtCreatorTurn: 4 });
+  // A GitHub answer in the middle of Code, then stuck: no regular end.
+  const midCode = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn(github),
+    turn("Danke, wir hören hier auf."),
+  ]);
+  expect(midCode.dimensions).toMatchObject({ scenario_end: 0 });
+  // The persona words its ends freely: the GitHub line as the last message, or thanks around a pause.
+  const lastGithub = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn(`${github} Ich melde mich.`),
+  ]);
+  expect(lastGithub.dimensions).toMatchObject({ scenario_end: 1 });
+  const pause = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn("Danke, wir legen hier eine Pause ein. Veröffentlichen machen wir später. Danke!"),
+  ]);
+  expect(pause.dimensions).toMatchObject({ scenario_end: 1 });
+  const doneStop = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn("Danke! Die App ist lokal fertig und geprüft. Wir hören hier auf."),
+  ]);
+  expect(doneStop.dimensions).toMatchObject({ scenario_end: 1 });
   const stopped = scoreTurns([
     turn("Ein Quiz"),
     turn("Ja, passt so.", [setCode]),
     turn("Stopp, das reicht für heute."),
   ]);
-  expect(stopped.dimensions).toMatchObject({ reached_commit: 1 });
+  expect(stopped.dimensions).toMatchObject({ scenario_end: 1 });
+  const done = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn("Danke!")]);
+  expect(done.dimensions).toMatchObject({ scenario_end: 1 });
   const stuck = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn("Danke, wir hören hier auf.")]);
-  expect(stuck.dimensions).toMatchObject({ reached_commit: 0 });
+  expect(stuck.dimensions).toMatchObject({ scenario_end: 0 });
 });
 
 test("a tool call keeps what it returned, so that the grep of the phase can be read", () => {

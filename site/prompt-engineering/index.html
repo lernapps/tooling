@@ -214,9 +214,10 @@
     <ul>
       <li><strong>Scenarios:</strong> each starts from an empty folder with the build prompt of
         <a href="/apps/build/">lernapps.net/apps/build</a>: a quiz, an explainer and an interactive app (a typing
-        trainer). A simulated creator answers from a persona and stops at Commit: at its first question about GitHub
-        it answers that it has no repo, at the question to publish it stops. The row “Code done” counts reaching that
-        end with a green check.</li>
+        trainer). A simulated creator answers from a persona and ends before anything is pushed: a question about
+        GitHub gets “no repo, work locally”, the question to publish gets “stop”, an agent that says it is done gets
+        “thanks”. The row “Code done” counts a green check and a conversation that ended after the plan with the stop or
+        the thanks.</li>
       <li><strong>Scores:</strong> a verifier scores the app folder at the end (plan, app, git); a second script
         scores the transcript (what the agent read, asked and ran, and which skills it loaded in which phase). Each
         row measures one or more expectations (A1–A34 in the plan of the evals).</li>
