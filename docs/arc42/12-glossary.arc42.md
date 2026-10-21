@@ -48,6 +48,18 @@ definition: The app's own decisions about its content - curriculum, competencies
 :::
 ```
 
+## Copy
+
+What learners use. The developer's own address stays, but the catalog links the copy (decision `dec-copies-served`).
+
+```arc42
+:::glossary-term
+id: term-copy
+title: Copy
+definition: The bundle of a listed app that lernapps.net serves at lernapps.net/apps/start/<id>/, built and checked from the commit its entry names.
+:::
+```
+
 ## Creator
 
 Not "developer": most creators are not professional developers.
@@ -179,6 +191,19 @@ A site's own rules belong to the shared site frame; no rule of the catalog has a
 id: term-site
 title: Site
 definition: One of lernapps.net's own websites (the start page, the docs, the app catalog, the tooling docs); an app is never called a site.
+:::
+```
+
+## Update pull request
+
+Two kinds share the name. In an app repo, Renovate proposes a newer tooling, runtime or actions. In lernapps/apps, the
+app overview proposes a new commit of a listed app for its entry (decision `dec-update-replay`).
+
+```arc42
+:::glossary-term
+id: term-update-pull-request
+title: Update pull request
+definition: A pull request that moves a pin forward; in lernapps/apps, the one that sets an entry's commit to the app's new commit and, when routine, merges itself.
 :::
 ```
 
