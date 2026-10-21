@@ -142,10 +142,16 @@ actions:
     status: open
     findings: [haiku-falls-behind]
   - text: >-
-      Let the simulated creator decide in structured output (what the agent asked, the reply, the end and why), so
-      that the scenario's end and the creator's own mistakes are read, not guessed from its sentences.
-    status: open
+      The simulated creator marks its last message with the end (`[Ende: veröffentlichen]`, `fertig`, `festgefahren`),
+      so that the end is read, not guessed from its sentences, which took three fixes in the re-score.
+    status: done
     findings: [haiku-falls-behind]
+  - text: >-
+      Each reply begins with the phase in `phase:` ("**Plan · Checkpoint**"), so that the creator always knows where
+      the agent is, and a yes to a draft is not taken for the plan's yes. Scored from the next run: replies that
+      begin with the phase, and whether it is the plan's.
+    status: done
+    findings: [haiku-falls-behind, created-before-plan]
   - text: The verifier skips a dangling symlink under `.claude/skills/` instead of crashing (verify.ts, findVibeDirs).
     status: done
     findings: [rerun-newer-guidance]

@@ -42,6 +42,7 @@ test("the transcript score counts turns, questions, reads and bypasses of a synt
     no_verify_bypass: 0,
     pre_push_counter_edits: 1,
     scenario_end: 1,
+    phase_announced: 0,
     agent_input_tokens: 0,
     agent_cache_read_tokens: 0,
     agent_output_tokens: 0,
@@ -559,6 +560,35 @@ test("the scenario ends regularly when the creator's last message after the plan
   const done = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn("Danke!")]);
   expect(done.dimensions).toMatchObject({ scenario_end: 1 });
   const stuck = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn("Danke, wir hören hier auf.")]);
+  expect(stuck.dimensions).toMatchObject({ scenario_end: 0 });
+});
+
+test("the creator's end marker decides the end; each reply's announced phase is checked against the plan's", () => {
+  const setCode = {
+    name: "Edit",
+    input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+  };
+  const turn = (creator: string, reply: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
+    creator,
+    text: reply,
+    reply,
+    tools,
+  });
+  const score = scoreTurns([
+    turn("Ein Quiz", "**Explore** Was sollen sie können?"),
+    turn("Brüche addieren", "**Plan · Checkpoint** Passt der Plan?"),
+    turn("Ja, passt so.", "**Plan** Ich lege an.", [setCode]),
+    turn("Danke, wir hören hier auf. Die App ist fertig.\n[Ende: fertig]", "Gern."),
+  ]);
+  // The marker wins over the sentence. Three of four replies name a phase; only the first is the plan's: the plan was
+  // never set to plan, and the third reply says Plan after it was set to code.
+  expect(score.dimensions).toMatchObject({ scenario_end: 1, phase_announced: 0.75, phase_announced_right: 0.33 });
+  expect(score.evidence).toMatchObject({ scenarioEnd: "fertig" });
+  const stuck = scoreTurns([
+    turn("Ein Quiz", ""),
+    turn("Ja, passt so.", "", [setCode]),
+    turn("Danke!\n[Ende: festgefahren]", ""),
+  ]);
   expect(stuck.dimensions).toMatchObject({ scenario_end: 0 });
 });
 

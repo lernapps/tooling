@@ -30,6 +30,8 @@ interface Block {
 interface Turn {
   creator: string;
   text: string;
+  /** The agent's last text in the turn: the reply the creator answers. */
+  reply?: string;
   /** The agent's tool calls, each with what it returned (the text of its tool result). */
   tools: { name: string; input: Record<string, unknown>; id?: string; result?: string }[];
 }
@@ -68,6 +70,10 @@ const QUESTION = /[^?.!\n]{3,}\?/g;
  */
 const SCENARIO_END = /kein GitHub-Repo angelegt|Stopp, das reicht|Danke!/i;
 const STUCK = /^\s*Danke, wir hören hier auf/i;
+/** The persona's marker of its end (since 2026-10-21); a run without it falls back to the sentences above. */
+const END_MARKER = /\[Ende:\s*(veröffentlichen|fertig|festgefahren)\]/i;
+/** The phase a reply begins with ("**Plan · Checkpoint**"), as the plan template asks. */
+const ANNOUNCED = /^[\s*_#>]*(explore|plan|code|commit)\b/i;
 
 const toolName = (name: string) => name.replace(/^mcp__acp__/, "");
 /** The URLs in a command; a closing parenthesis belongs to a URL only when the URL opened one. */
@@ -122,7 +128,10 @@ export function turns(entries: Entry[]): Turn[] {
       const turn = result.at(-1);
       if (!turn) continue;
       for (const block of content) {
-        if (block.type === "text") turn.text += `${turn.text ? "\n" : ""}${block.text ?? ""}`;
+        if (block.type === "text") {
+          turn.text += `${turn.text ? "\n" : ""}${block.text ?? ""}`;
+          if ((block.text ?? "").trim() !== "") turn.reply = block.text ?? "";
+        }
         if (block.type === "tool_use")
           turn.tools.push({
             name: toolName(block.name ?? ""),
@@ -246,13 +255,20 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
   const afterPlan = confirmedAt >= 0 ? creatorTurns - confirmedAt - 1 : undefined;
   // After the plan's yes, the creator's last message ends the scenario regularly (whether the agent had set
   // `phase: commit` or not). An answer to a GitHub question in the middle of Code is no end.
-  const endAt =
-    confirmedAt >= 0 &&
-    creatorTurns - 1 > confirmedAt &&
-    SCENARIO_END.test(all.at(-1)?.creator ?? "") &&
-    !STUCK.test(all.at(-1)?.creator ?? "")
-      ? creatorTurns - 1
-      : -1;
+  const last = all.at(-1)?.creator ?? "";
+  const marker = last.match(END_MARKER)?.[1]?.toLowerCase();
+  const regular = marker ? marker !== "festgefahren" : SCENARIO_END.test(last) && !STUCK.test(last);
+  const endAt = confirmedAt >= 0 && creatorTurns - 1 > confirmedAt && regular ? creatorTurns - 1 : -1;
+
+  // The phase each reply announces, against the phase the plan holds at the end of that turn.
+  let held = "explore";
+  const announced = all.map((turn) => {
+    for (const tool of turn.tools) held = phaseSet(tool) ?? held;
+    const phase = turn.reply?.match(ANNOUNCED)?.[1]?.toLowerCase();
+    return { phase, held, replied: turn.reply !== undefined };
+  });
+  const replies = announced.filter((turn) => turn.replied);
+  const withPhase = announced.filter((turn) => turn.phase !== undefined);
 
   // A9: questions per agent turn (sentences ending in "?" in the text the creator saw).
   const questions = all.map((turn) => (turn.text.match(QUESTION) ?? []).length);
@@ -382,8 +398,12 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
     no_verify_bypass: bypasses.length === 0 ? 1 : 0,
     pre_push_counter_edits: counterEdits.length,
     scenario_end: endAt >= 0 ? 1 : 0,
+    phase_announced: replies.length ? Math.round((withPhase.length / replies.length) * 100) / 100 : 0,
   };
   if (afterPlan !== undefined) dimensions["creator_turns_after_plan"] = afterPlan;
+  if (withPhase.length)
+    dimensions["phase_announced_right"] =
+      Math.round((withPhase.filter((turn) => turn.phase === turn.held).length / withPhase.length) * 100) / 100;
   Object.assign(dimensions, skillScore?.dimensions);
   return {
     dimensions,
@@ -391,6 +411,12 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
       ...skillScore?.evidence,
       planConfirmedAtCreatorTurn: confirmedAt >= 0 ? confirmedAt + 1 : null,
       scenarioEndAtCreatorTurn: endAt >= 0 ? endAt + 1 : null,
+      scenarioEnd: marker ?? null,
+      phasesAnnounced: announced.map((turn, index) => ({
+        turn: index + 1,
+        announced: turn.phase ?? null,
+        plan: turn.held,
+      })),
       creatorMessages: all.map((turn, index) => ({
         turn: index + 1,
         creator: turn.creator.slice(0, 200),
