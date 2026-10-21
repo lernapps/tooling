@@ -128,9 +128,38 @@ const cfgLabel = (results: Results, id: string) => {
 const number = (value: number, digits = 0) =>
   value.toLocaleString("en", { maximumFractionDigits: digits, minimumFractionDigits: digits });
 
-function heatmap(run: Run, configuration: string): string {
+/**
+ * The tables of a run: one per guidance commit (with its creator model and Harbor), so that a harness updated during
+ * the run does not split a table. Configurations stay apart where they share a task and model: no cell is mixed.
+ */
+export function tablesOf(results: Results): string[][] {
+  const tables: string[][] = [];
+  const keyOf = (id: string) => {
+    const { harness: _h, harnessVersion: _v, ...rest } = results.configurations[id] ?? {};
+    return JSON.stringify(rest);
+  };
+  const cellsOf = (ids: string[]) =>
+    results.cells.filter((cell) => ids.includes(cell.configuration)).map((cell) => `${cell.task}|${cell.model}`);
+  for (const id of Object.keys(results.configurations)) {
+    const own = cellsOf([id]);
+    const table = tables.find(
+      (ids) => keyOf(ids[0] ?? "") === keyOf(id) && !cellsOf(ids).some((cell) => own.includes(cell)),
+    );
+    if (table) table.push(id);
+    else tables.push([id]);
+  }
+  return tables;
+}
+
+const tableLabel = (results: Results, ids: string[]) => {
+  const first = results.configurations[ids[0] ?? ""] ?? {};
+  const versions = [...new Set(ids.map((id) => results.configurations[id]?.harnessVersion).flat())].join(", ");
+  return `guidance ${short(first.guidanceCommit)} · ${first.harness ?? "?"} ${versions}`;
+};
+
+function heatmap(run: Run, ids: string[]): string {
   const { results } = run;
-  const cells = results.cells.filter((cell) => cell.configuration === configuration);
+  const cells = results.cells.filter((cell) => ids.includes(cell.configuration));
   const tasks = [...new Set(cells.map((cell) => cell.task))];
   const models = [...new Set(cells.map((cell) => cell.model))];
   const head1 = tasks
@@ -165,7 +194,7 @@ function heatmap(run: Run, configuration: string): string {
                 row.kind === "runs"
                   ? `${TASK_LABELS[task] ?? task} · ${model} · ${row.label}: ${Math.round(s.mean * s.n)} of ${s.n} runs`
                   : `${TASK_LABELS[task] ?? task} · ${model} · ${row.label}: mean ${pct(s.mean)} %, min ${pct(s.min)} %, max ${pct(s.max)} %, n = ${s.n}`;
-              return `<td id="${esc(cellId(run.id, task, model, configuration, row.id))}" class="h${step(s.mean)}${first}" data-key="${esc(`${task}|${model}|${row.id}`)}" data-mean="${s.mean}" data-tip="${esc(tip)}">${pct(s.mean)}</td>`;
+              return `<td id="${esc(cellId(run.id, task, model, cell.configuration, row.id))}" class="h${step(s.mean)}${first}" data-key="${esc(`${task}|${model}|${row.id}`)}" data-mean="${s.mean}" data-tip="${esc(tip)}">${pct(s.mean)}</td>`;
             })
             .join("");
           return `<tr><th scope="row">${esc(row.label)} <small>${esc(row.expectations.join(", "))}</small></th>${tds}</tr>`;
@@ -174,7 +203,7 @@ function heatmap(run: Run, configuration: string): string {
       return `<tbody><tr class="group"><th scope="rowgroup" colspan="${1 + columns.length}">${title}</th></tr>${rows.join("")}</tbody>`;
     })
     .join("");
-  return `<div class="scroll" tabindex="0" role="region" aria-label="${esc(`Heatmap of ${run.conclusions.title}, ${cfgLabel(results, configuration)}`)}"><table class="heatmap">
+  return `<div class="scroll" tabindex="0" role="region" aria-label="${esc(`Heatmap of ${run.conclusions.title}, ${tableLabel(results, ids)}`)}"><table class="heatmap">
 <caption>Share per run in percent (0–100), mean over the runs; darker is closer to the guidance. n = runs per cell.</caption>
 <thead><tr><td></td>${head1}</tr><tr><th scope="col">Dimension <small>expectation</small></th>${head2}</tr></thead>
 ${body}
@@ -214,9 +243,10 @@ function article(run: Run, previous: Run | undefined): string {
   const { results, conclusions: c } = run;
   const configs = Object.entries(results.configurations);
   const [, first] = configs[0] ?? ["", {}];
-  const guidance = configs
-    .map(([, cfg]) => `<a href="${GITHUB}/tree/${esc(cfg.guidanceCommit ?? "")}">${esc(short(cfg.guidanceCommit))}</a>`)
+  const guidance = [...new Set(configs.map(([, cfg]) => cfg.guidanceCommit ?? ""))]
+    .map((commit) => `<a href="${GITHUB}/tree/${esc(commit)}">${esc(short(commit))}</a>`)
     .join(", ");
+  const versions = [...new Set(configs.flatMap(([, cfg]) => [cfg.harnessVersion ?? ""].flat()))].join(", ");
   const compareWith = previous?.results.configurations["c1"]?.guidanceCommit;
   const diff =
     compareWith && first.guidanceCommit
@@ -254,10 +284,15 @@ function article(run: Run, previous: Run | undefined): string {
   const cfg = first;
   return `<article class="run" id="run-${esc(run.id)}" data-run="${esc(run.id)}" aria-labelledby="run-${esc(run.id)}-h">
 <h3 id="run-${esc(run.id)}-h">${esc(c.title)} <small>${esc(results.dataDate)}</small></h3>
-<p class="meta">${results.totals["trials"]} runs · runs ${esc(results.runsFrom.slice(0, 16).replace("T", " "))} to ${esc(results.runsTo.slice(0, 16).replace("T", " "))} UTC · ${esc(cfg.harness ?? "?")} ${esc([cfg.harnessVersion].flat().join("/"))} · Harbor ${esc(cfg.harbor ?? "?")} · creator played by ${esc((cfg.userModel ?? "?").replace(/^.*claude-([a-z]+)-(\d+)-(\d+)$/, (_, m: string, a: string, b: string) => `${m[0]!.toUpperCase()}${m.slice(1)} ${a}.${b}`))} · guidance ${guidance}${diff} · <a href="runs/${esc(run.id)}/results.json">results.json</a> · <a href="runs/${esc(run.id)}/conclusions.json">conclusions.json</a></p>
+<p class="meta">${results.totals["trials"]} runs · runs ${esc(results.runsFrom.slice(0, 16).replace("T", " "))} to ${esc(results.runsTo.slice(0, 16).replace("T", " "))} UTC · ${esc(cfg.harness ?? "?")} ${esc(versions)} · Harbor ${esc(cfg.harbor ?? "?")} · creator played by ${esc((cfg.userModel ?? "?").replace(/^.*claude-([a-z]+)-(\d+)-(\d+)$/, (_, m: string, a: string, b: string) => `${m[0]!.toUpperCase()}${m.slice(1)} ${a}.${b}`))} · guidance ${guidance}${diff} · <a href="runs/${esc(run.id)}/results.json">results.json</a> · <a href="runs/${esc(run.id)}/conclusions.json">conclusions.json</a></p>
 <p class="question"><strong>Question:</strong> ${inline(c.question)}</p>
 <section class="bottom-line" aria-label="Bottom line"><h4>Bottom line</h4><ul>${c.bottomLine.map((line) => `<li>${inline(line)}</li>`).join("")}</ul></section>
-${configs.map(([id]) => `${configs.length > 1 ? `<h4>Results at ${esc(cfgLabel(results, id))}</h4>` : "<h4>Results</h4>"}${heatmap(run, id)}`).join("\n")}
+${tablesOf(results)
+  .map(
+    (ids, _index, all) =>
+      `<h4>${all.length > 1 ? `Results at ${esc(tableLabel(results, ids))}` : "Results"}</h4>${heatmap(run, ids)}`,
+  )
+  .join("\n")}
 ${numbers(run)}
 <h4>Findings</h4><ol class="findings">${findings}</ol>
 <h4>What we did about it</h4><ul class="actions">${actions}</ul>
@@ -271,9 +306,7 @@ export function render(all: Run[]): string {
   const list = all
     .map((run) => {
       const r = run.results;
-      const commits = Object.values(r.configurations)
-        .map((cfg) => short(cfg.guidanceCommit))
-        .join(", ");
+      const commits = [...new Set(Object.values(r.configurations).map((cfg) => short(cfg.guidanceCommit)))].join(", ");
       const open = run.conclusions.actions.filter((a) => a.status === "open").length;
       return `<li><a href="#run-${esc(run.id)}" data-run="${esc(run.id)}"><time datetime="${esc(r.dataDate)}">${esc(r.dataDate)}</time><strong>${esc(run.conclusions.title)}</strong><span>${r.totals["trials"]} runs · guidance ${esc(commits)} · ${open} open ${open === 1 ? "action" : "actions"}</span><span class="headline">${inline(run.conclusions.bottomLine[0] ?? "")}</span></a></li>`;
     })
@@ -300,7 +333,7 @@ export function writePage(out: string, all = runs()): void {
     id: run.id,
     title: run.conclusions.title,
     dataDate: run.results.dataDate,
-    guidanceCommits: Object.values(run.results.configurations).map((cfg) => cfg.guidanceCommit),
+    guidanceCommits: [...new Set(Object.values(run.results.configurations).map((cfg) => cfg.guidanceCommit))],
     trials: run.results.totals["trials"],
     results: `runs/${run.id}/results.json`,
     conclusions: `runs/${run.id}/conclusions.json`,

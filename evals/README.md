@@ -22,6 +22,13 @@ What is tested is an assistant configuration (harness and version, model, Harbor
   building blocks in its architecture (`docs/arc42` at the job's guidance commit); `run.sh` writes it into the job as
   `skills-by-phase.json`. A task names the skills it leaves to a condition in `task.toml` (`skills_conditional`).
 - `summary.ts`: aggregates jobs per task and configuration (mean, min, max, n).
+- `results.ts`: the results of one eval run as `runs/<run>/results.json` (schema results.v1): configurations, a cell
+  per task, model and configuration, every trial with its status, and what was left out and why (a job with
+  `excluded.txt`, a trial that hit the usage limit or broke off before its agent started; a crashed verifier keeps the
+  trial without its numbers). `rows.ts` holds the rows and metrics it sums up.
+- `runs/<run>/conclusions.yaml`: what we concluded from a run, written by people: the question, the bottom line,
+  findings with the cells they rest on, and what we did about them. `site.ts` renders every run onto the page
+  Prompt engineering (lernapps.net/tooling/prompt-engineering/) and fails when a finding names a cell the run has not.
 - `expectations.json`: which expectation each dimension measures.
 - `harbor/`: `setup.sh` (installs Harbor 0.24.0 outside the repo and patches it), `harbor.sh` (runs Harbor with a
   scrubbed environment and the subscription token), `run.sh` (one job per task and model), the patch and the prompt
@@ -33,6 +40,7 @@ What is tested is an assistant configuration (harness and version, model, Harbor
 evals/harbor/setup.sh                                   # once per machine; again after a pull
 EVALS_ANTHROPIC_API_KEY=… evals/harbor/run.sh quiz-fresh anthropic/<model> [trials] [concurrency]
 node evals/summary.ts ~/.lernapps-evals/jobs
+node evals/results.ts <run> ~/.lernapps-evals/jobs     # then write evals/runs/<run>/conclusions.yaml
 ```
 
 `EVALS_ANTHROPIC_API_KEY` holds a Claude subscription token; `harbor.sh` hands it to Harbor as
