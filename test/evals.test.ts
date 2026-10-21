@@ -8,6 +8,7 @@ import { scoreTrial, scoreTurns, type SkillContext } from "../evals/score-transc
 import { skillsByPhase } from "../evals/skills-by-phase.ts";
 import { elements } from "../scripts/workshop.ts";
 import { fill, report } from "../evals/report.ts";
+import { results } from "../evals/results.ts";
 import { summarise } from "../evals/summary.ts";
 import { boxes, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
 import { repoRoot } from "./support.ts";
@@ -90,7 +91,7 @@ test("the skills by phase come from the skills' building blocks and their x-phas
   expect(archetypes["lernapps-app"]).toBeUndefined();
 });
 
-test("the skill score counts the skills loaded in their phase, and those of another archetype or loaded early", () => {
+test("the skill score counts the skills loaded by the end of their phase, and those of another archetype or loaded early", () => {
   const context: SkillContext = {
     phases: {
       explore: ["lernapps-app", "lernapps-content-research", "lernapps-quiz-design", "lernapps-explainer-design"],
@@ -115,6 +116,7 @@ test("the skill score counts the skills loaded in their phase, and those of anot
         { name: "Skill", input: { skill: "lernapps-app" } },
         { name: "Read", input: { file_path: "/app/.agents/skills/lernapps-quiz-design/SKILL.md" } },
         { name: "Bash", input: { command: `curl -sL ${raw}/process/lernapps-github/SKILL.md` } },
+        { name: "Read", input: { file_path: "/app/.agents/skills/lernapps-quiz/SKILL.md" } },
       ]),
       turn([
         { name: "Write", input: { file_path: "/app/.vibe/plans/01-quiz.md", content: "---\nphase: plan\n---\n" } },
@@ -131,10 +133,11 @@ test("the skill score counts the skills loaded in their phase, and those of anot
     ],
     context,
   );
-  // explore 2 of 3 (no research), plan 1 of 1 (growth is conditional), code 1 of 3; commit not reached
-  expect(score.dimensions["skills_in_phase"]).toBe(0.57);
-  expect(score.dimensions["skills_out_of_place"]).toBe(2);
-  expect(score.evidence["skillsOutOfPlace"]).toEqual(["lernapps-github", "lernapps-explainer"]);
+  // explore 2 of 3 (no research), plan 1 of 1 (growth is conditional), code 2 of 3 (quiz, loaded early, counts);
+  // commit not reached. Out of place: github and quiz before their phase, explainer of another archetype.
+  expect(score.dimensions["skills_in_phase"]).toBe(0.71);
+  expect(score.dimensions["skills_out_of_place"]).toBe(3);
+  expect(score.evidence["skillsOutOfPlace"]).toEqual(["lernapps-github", "lernapps-quiz", "lernapps-explainer"]);
   expect(score.evidence["skillsByPhase"]).toEqual([
     {
       phase: "explore",
@@ -146,8 +149,8 @@ test("the skill score counts the skills loaded in their phase, and those of anot
     {
       phase: "code",
       expected: ["lernapps-check", "lernapps-quiz", "lernapps-content-questions"],
-      loaded: ["lernapps-check"],
-      missing: ["lernapps-quiz", "lernapps-content-questions"],
+      loaded: ["lernapps-check", "lernapps-quiz"],
+      missing: ["lernapps-content-questions"],
     },
   ]);
   expect(scoreTurns([turn([{ name: "Skill", input: { skill: "lernapps-app" } }])]).dimensions).not.toHaveProperty(
@@ -349,4 +352,71 @@ test("the report of the results page: one cell per task and model, excluded jobs
   expect(fill("a<!-- report:x -->old<!-- /report:x -->b", { x: "new" })).toBe(
     "a<!-- report:x -->\nnew\n<!-- /report:x -->b",
   );
+});
+
+test("the results of a run leave out trials that hit the usage limit or broke off, and keep a crashed verifier's trial partly", () => {
+  const root = mkdtempSync(join(tmpdir(), "results-"));
+  const job = (name: string, configuration: Record<string, string>) => {
+    mkdirSync(join(root, name), { recursive: true });
+    writeFileSync(join(root, name, "configuration.json"), JSON.stringify(configuration));
+    return join(root, name);
+  };
+  const trial = (jobDir: string, name: string, reward: Record<string, number> | undefined, extra: object, log = "") => {
+    const dir = join(jobDir, name);
+    mkdirSync(join(dir, "verifier"), { recursive: true });
+    mkdirSync(join(dir, "agent", "sessions"), { recursive: true });
+    writeFileSync(
+      join(dir, "result.json"),
+      JSON.stringify({
+        started_at: "2026-10-20T22:40:00Z",
+        finished_at: "2026-10-20T23:00:00Z",
+        agent_execution: { started_at: "2026-10-20T22:41:00Z", finished_at: "2026-10-20T22:59:00Z" },
+        ...extra,
+      }),
+    );
+    if (reward) writeFileSync(join(dir, "verifier", "reward.json"), JSON.stringify(reward));
+    writeFileSync(join(dir, "agent", "sessions", "log.jsonl"), log);
+  };
+  const configuration = { task: "quiz-fresh", model: "anthropic/claude-sonnet-5-5", guidanceCommit: "b20b514" };
+  const first = job("quiz-fresh__claude-sonnet-5-5__gb20b514__20261020T224000Z", configuration);
+  trial(first, "a", { check_passes: 1, phase_reached: 1 }, {});
+  trial(first, "b", { verifier_error: 1 }, {});
+  const limited = job("quiz-fresh__claude-sonnet-5-5__gb20b514__20261021T052214Z", configuration);
+  trial(limited, "c", { check_passes: 0 }, {}, '{"error":{"type":"usage_limit_reached"}}\n');
+  trial(limited, "d", undefined, { exception_info: { exception_type: "DockerError" }, agent_execution: null });
+  const again = job("quiz-fresh__claude-sonnet-5-5__gb20b514__20261021T061000Z", configuration);
+  trial(again, "e", { check_passes: 1, phase_reached: 0.667 }, {});
+  const other = job("quiz-fresh__claude-sonnet-5-5__g1e4ba59__20261021T070000Z", {
+    ...configuration,
+    guidanceCommit: "1e4ba59",
+  });
+  trial(other, "f", { check_passes: 1, phase_reached: 1 }, {});
+
+  const data = results("test-run", [first, limited, again, other], { reward: {}, transcript: {} });
+  expect(Object.values(data.configurations).map((c) => c.guidanceCommit)).toEqual(["b20b514", "1e4ba59"]);
+  expect(data.trials.map((t) => [t.trial, t.status, t.reason])).toEqual([
+    ["a", "valid", undefined],
+    ["b", "partial", "the verifier crashed; its numbers are left out"],
+    ["c", "excluded", "the subscription's usage limit (HTTP 429)"],
+    ["d", "excluded", "broke off before the agent started (DockerError)"],
+    ["e", "valid", undefined],
+    ["f", "valid", undefined],
+  ]);
+  expect(data.trials.find((t) => t.trial === "b")?.numbers).toHaveProperty("agent_minutes", 18);
+  expect(data.trials.find((t) => t.trial === "b")?.numbers).not.toHaveProperty("verifier_error");
+  expect(data.excludedJobs).toEqual([
+    {
+      job: "quiz-fresh__claude-sonnet-5-5__gb20b514__20261021T052214Z",
+      task: "quiz-fresh",
+      model: "Sonnet 5.5",
+      reason: "the subscription's usage limit (HTTP 429)",
+      replacedBy: "quiz-fresh__claude-sonnet-5-5__gb20b514__20261021T061000Z",
+    },
+  ]);
+  // one cell per configuration: the trials of b20b514 (a, b partly, e) and those of 1e4ba59 (f) are never mixed
+  expect(data.cells.map((c) => [c.configuration, c.n, c.rows["check_passes"]?.n])).toEqual([
+    ["c1", 3, 2],
+    ["c2", 1, 1],
+  ]);
+  expect(data.totals).toMatchObject({ trials: 4, excludedTrials: 2, partialTrials: 1 });
 });

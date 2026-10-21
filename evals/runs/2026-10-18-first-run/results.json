@@ -1,0 +1,2762 @@
+{
+  "schema": "results.v1",
+  "run": "2026-10-18-first-run",
+  "dataDate": "2026-10-18",
+  "runsFrom": "2026-10-17T23:13:19.032479Z",
+  "runsTo": "2026-10-18T05:59:53.274461Z",
+  "configurations": {
+    "c1": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.302",
+      "harbor": "0.24.0",
+      "bridge": "acp",
+      "userModel": "anthropic/claude-haiku-5-5",
+      "guidanceCommit": "7ceb8c4c61f120b0d5d66cd05b0c307cee468336"
+    }
+  },
+  "rows": [
+    {
+      "id": "plan_boxes_ticked",
+      "label": "Plan boxes ticked",
+      "group": "process",
+      "source": "plan_boxes_ticked",
+      "kind": "share",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "competencies_written",
+      "label": "Competencies written (“Ich kann …”)",
+      "group": "process",
+      "source": "competencies_written",
+      "kind": "runs",
+      "expectations": ["A12"]
+    },
+    {
+      "id": "app_content_filled",
+      "label": "Content guide filled (app-content)",
+      "group": "process",
+      "source": "app_content_filled",
+      "kind": "runs",
+      "expectations": ["A13"]
+    },
+    {
+      "id": "archetype_expected",
+      "label": "Archetype chosen right",
+      "group": "process",
+      "source": "archetype_expected",
+      "kind": "runs",
+      "expectations": ["A19"]
+    },
+    {
+      "id": "check_passes",
+      "label": "lernapps check passes",
+      "group": "process",
+      "source": "check_passes",
+      "kind": "runs",
+      "expectations": ["A21", "A16", "A17", "A18"]
+    },
+    {
+      "id": "phase_reached",
+      "label": "Phase reached",
+      "group": "process",
+      "source": "phase_reached",
+      "kind": "share",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "committed_clean",
+      "label": "Committed clean",
+      "group": "process",
+      "source": "committed_clean",
+      "kind": "runs",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "turns_after_plan_max_3",
+      "label": "At most 3 creator turns after the plan",
+      "group": "transcript",
+      "source": "creator_turns_after_plan",
+      "kind": "runs",
+      "expectations": ["A11"]
+    },
+    {
+      "id": "questions_max_2",
+      "label": "At most 2 questions in every turn",
+      "group": "transcript",
+      "source": "questions_per_turn_max",
+      "kind": "runs",
+      "expectations": ["A9"]
+    },
+    {
+      "id": "not_created_before_plan",
+      "label": "No app created before the plan was confirmed",
+      "group": "transcript",
+      "source": "installs_before_plan",
+      "kind": "runs",
+      "expectations": ["A3", "A5"]
+    },
+    {
+      "id": "plan_template_read_raw",
+      "label": "Plan template read word for word",
+      "group": "transcript",
+      "source": "plan_template_read_raw",
+      "kind": "runs",
+      "expectations": ["A1"]
+    },
+    {
+      "id": "skills_in_phase",
+      "label": "Skills loaded in their phase",
+      "group": "transcript",
+      "source": "skills_in_phase",
+      "kind": "share",
+      "expectations": ["A2"]
+    },
+    {
+      "id": "no_skill_out_of_place",
+      "label": "No skill of another archetype or before its phase",
+      "group": "transcript",
+      "source": "skills_out_of_place",
+      "kind": "runs",
+      "expectations": ["A2"]
+    }
+  ],
+  "cells": [
+    {
+      "task": "quiz-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "n": 6,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 0.7,
+          "min": 0.212,
+          "max": 1,
+          "n": 6
+        },
+        "competencies_written": {
+          "mean": 0.833,
+          "min": 0,
+          "max": 1,
+          "n": 6
+        },
+        "app_content_filled": {
+          "mean": 0.167,
+          "min": 0,
+          "max": 1,
+          "n": 6
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 6
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 6
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 6
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 6
+        },
+        "turns_after_plan_max_3": {
+          "mean": 0.833,
+          "min": 0,
+          "max": 1,
+          "n": 6
+        },
+        "questions_max_2": {
+          "mean": 0.167,
+          "min": 0,
+          "max": 1,
+          "n": 6
+        },
+        "not_created_before_plan": {
+          "mean": 0.833,
+          "min": 0,
+          "max": 1,
+          "n": 6
+        },
+        "plan_template_read_raw": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 6
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 14.814,
+          "min": 9.902,
+          "max": 18.453,
+          "n": 6
+        },
+        "creator_turns": {
+          "mean": 6.5,
+          "min": 5,
+          "max": 8,
+          "n": 6
+        },
+        "creator_turns_after_plan": {
+          "mean": 1.5,
+          "min": 1,
+          "max": 4,
+          "n": 6
+        },
+        "questions_per_turn_max": {
+          "mean": 3.833,
+          "min": 2,
+          "max": 7,
+          "n": 6
+        },
+        "questions_per_turn_mean": {
+          "mean": 1.532,
+          "min": 0.5,
+          "max": 2,
+          "n": 6
+        },
+        "output_tokens": {
+          "mean": 72606.5,
+          "min": 53553,
+          "max": 104001,
+          "n": 6
+        },
+        "input_tokens": {
+          "mean": 132132,
+          "min": 109672,
+          "max": 203871,
+          "n": 6
+        },
+        "cache_read_tokens": {
+          "mean": 4414150.5,
+          "min": 2447271,
+          "max": 7529939,
+          "n": 6
+        }
+      },
+      "minutes": [9.9, 10.6, 15, 17.3, 17.6, 18.5]
+    },
+    {
+      "task": "quiz-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "n": 4,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 0.933,
+          "min": 0.733,
+          "max": 1,
+          "n": 4
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "app_content_filled": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "turns_after_plan_max_3": {
+          "mean": 0.75,
+          "min": 0,
+          "max": 1,
+          "n": 4
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 4
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "plan_template_read_raw": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 20.057,
+          "min": 13.987,
+          "max": 32.554,
+          "n": 4
+        },
+        "creator_turns": {
+          "mean": 8,
+          "min": 6,
+          "max": 11,
+          "n": 4
+        },
+        "creator_turns_after_plan": {
+          "mean": 2.5,
+          "min": 1,
+          "max": 4,
+          "n": 4
+        },
+        "questions_per_turn_max": {
+          "mean": 6.25,
+          "min": 5,
+          "max": 8,
+          "n": 4
+        },
+        "questions_per_turn_mean": {
+          "mean": 2.19,
+          "min": 1.91,
+          "max": 2.43,
+          "n": 4
+        },
+        "output_tokens": {
+          "mean": 62321.25,
+          "min": 54031,
+          "max": 77771,
+          "n": 4
+        },
+        "input_tokens": {
+          "mean": 120777.5,
+          "min": 110125,
+          "max": 131162,
+          "n": 4
+        },
+        "cache_read_tokens": {
+          "mean": 3701736.75,
+          "min": 3092611,
+          "max": 4821237,
+          "n": 4
+        }
+      },
+      "minutes": [14, 16.2, 17.5, 32.6]
+    },
+    {
+      "task": "quiz-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "n": 3,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 0.99,
+          "min": 0.969,
+          "max": 1,
+          "n": 3
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "app_content_filled": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "plan_template_read_raw": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 23.989,
+          "min": 16.079,
+          "max": 36.778,
+          "n": 3
+        },
+        "creator_turns": {
+          "mean": 6.333,
+          "min": 5,
+          "max": 8,
+          "n": 3
+        },
+        "creator_turns_after_plan": {
+          "mean": 2.333,
+          "min": 2,
+          "max": 3,
+          "n": 3
+        },
+        "questions_per_turn_max": {
+          "mean": 5,
+          "min": 4,
+          "max": 6,
+          "n": 3
+        },
+        "questions_per_turn_mean": {
+          "mean": 2.277,
+          "min": 1.83,
+          "max": 3,
+          "n": 3
+        },
+        "output_tokens": {
+          "mean": 89959.333,
+          "min": 72921,
+          "max": 114443,
+          "n": 3
+        },
+        "input_tokens": {
+          "mean": 189669,
+          "min": 155421,
+          "max": 248718,
+          "n": 3
+        },
+        "cache_read_tokens": {
+          "mean": 9212080.667,
+          "min": 5414896,
+          "max": 15872057,
+          "n": 3
+        }
+      },
+      "minutes": [16.1, 19.1, 36.8]
+    },
+    {
+      "task": "explainer-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "n": 5,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 0.456,
+          "min": 0,
+          "max": 1,
+          "n": 5
+        },
+        "competencies_written": {
+          "mean": 0.8,
+          "min": 0,
+          "max": 1,
+          "n": 5
+        },
+        "app_content_filled": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 5
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 5
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 5
+        },
+        "phase_reached": {
+          "mean": 0.867,
+          "min": 0.667,
+          "max": 1,
+          "n": 5
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 5
+        },
+        "turns_after_plan_max_3": {
+          "mean": 0.4,
+          "min": 0,
+          "max": 1,
+          "n": 5
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 5
+        },
+        "not_created_before_plan": {
+          "mean": 0.8,
+          "min": 0,
+          "max": 1,
+          "n": 5
+        },
+        "plan_template_read_raw": {
+          "mean": 0.8,
+          "min": 0,
+          "max": 1,
+          "n": 5
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 27.548,
+          "min": 17.317,
+          "max": 35.997,
+          "n": 5
+        },
+        "creator_turns": {
+          "mean": 7.8,
+          "min": 7,
+          "max": 9,
+          "n": 5
+        },
+        "creator_turns_after_plan": {
+          "mean": 3.8,
+          "min": 3,
+          "max": 5,
+          "n": 5
+        },
+        "questions_per_turn_max": {
+          "mean": 4.8,
+          "min": 3,
+          "max": 7,
+          "n": 5
+        },
+        "questions_per_turn_mean": {
+          "mean": 1.56,
+          "min": 0.86,
+          "max": 2.14,
+          "n": 5
+        },
+        "output_tokens": {
+          "mean": 99807,
+          "min": 82655,
+          "max": 123347,
+          "n": 5
+        },
+        "input_tokens": {
+          "mean": 192726,
+          "min": 170017,
+          "max": 215775,
+          "n": 5
+        },
+        "cache_read_tokens": {
+          "mean": 7940750.4,
+          "min": 6450928,
+          "max": 9364678,
+          "n": 5
+        }
+      },
+      "minutes": [17.3, 18.5, 31.7, 34.2, 36]
+    },
+    {
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "n": 4,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "app_content_filled": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "turns_after_plan_max_3": {
+          "mean": 0.75,
+          "min": 0,
+          "max": 1,
+          "n": 4
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 4
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        },
+        "plan_template_read_raw": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 4
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 23.815,
+          "min": 14.32,
+          "max": 39.511,
+          "n": 4
+        },
+        "creator_turns": {
+          "mean": 7,
+          "min": 6,
+          "max": 9,
+          "n": 4
+        },
+        "creator_turns_after_plan": {
+          "mean": 2.25,
+          "min": 1,
+          "max": 4,
+          "n": 4
+        },
+        "questions_per_turn_max": {
+          "mean": 5,
+          "min": 4,
+          "max": 6,
+          "n": 4
+        },
+        "questions_per_turn_mean": {
+          "mean": 2.22,
+          "min": 1.78,
+          "max": 2.5,
+          "n": 4
+        },
+        "output_tokens": {
+          "mean": 98634.25,
+          "min": 82970,
+          "max": 123020,
+          "n": 4
+        },
+        "input_tokens": {
+          "mean": 208517.5,
+          "min": 178296,
+          "max": 252953,
+          "n": 4
+        },
+        "cache_read_tokens": {
+          "mean": 9103765.75,
+          "min": 6256824,
+          "max": 16142652,
+          "n": 4
+        }
+      },
+      "minutes": [14.3, 17, 24.4, 39.5]
+    },
+    {
+      "task": "explainer-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "n": 3,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 0.99,
+          "min": 0.969,
+          "max": 1,
+          "n": 3
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "app_content_filled": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "plan_template_read_raw": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 59.859,
+          "min": 45.194,
+          "max": 70.839,
+          "n": 3
+        },
+        "creator_turns": {
+          "mean": 7,
+          "min": 6,
+          "max": 8,
+          "n": 3
+        },
+        "creator_turns_after_plan": {
+          "mean": 2,
+          "min": 1,
+          "max": 3,
+          "n": 3
+        },
+        "questions_per_turn_max": {
+          "mean": 8.667,
+          "min": 6,
+          "max": 12,
+          "n": 3
+        },
+        "questions_per_turn_mean": {
+          "mean": 3.123,
+          "min": 2.83,
+          "max": 3.29,
+          "n": 3
+        },
+        "output_tokens": {
+          "mean": 167917,
+          "min": 143723,
+          "max": 181019,
+          "n": 3
+        },
+        "input_tokens": {
+          "mean": 371003,
+          "min": 295074,
+          "max": 417740,
+          "n": 3
+        },
+        "cache_read_tokens": {
+          "mean": 31914848,
+          "min": 22562350,
+          "max": 42055183,
+          "n": 3
+        }
+      },
+      "minutes": [45.2, 63.5, 70.8]
+    },
+    {
+      "task": "interactive-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "n": 3,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 0.067,
+          "min": 0,
+          "max": 0.171,
+          "n": 3
+        },
+        "competencies_written": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "app_content_filled": {
+          "mean": 0.333,
+          "min": 0,
+          "max": 1,
+          "n": 3
+        },
+        "archetype_expected": {
+          "mean": 0.667,
+          "min": 0,
+          "max": 1,
+          "n": 3
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "turns_after_plan_max_3": {
+          "mean": 0.333,
+          "min": 0,
+          "max": 1,
+          "n": 3
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "not_created_before_plan": {
+          "mean": 0.667,
+          "min": 0,
+          "max": 1,
+          "n": 3
+        },
+        "plan_template_read_raw": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 34.375,
+          "min": 16.424,
+          "max": 64.472,
+          "n": 3
+        },
+        "creator_turns": {
+          "mean": 9.667,
+          "min": 7,
+          "max": 11,
+          "n": 3
+        },
+        "creator_turns_after_plan": {
+          "mean": 4,
+          "min": 2,
+          "max": 6,
+          "n": 3
+        },
+        "questions_per_turn_max": {
+          "mean": 4.667,
+          "min": 3,
+          "max": 6,
+          "n": 3
+        },
+        "questions_per_turn_mean": {
+          "mean": 1.367,
+          "min": 1.29,
+          "max": 1.45,
+          "n": 3
+        },
+        "output_tokens": {
+          "mean": 95006.667,
+          "min": 74050,
+          "max": 114046,
+          "n": 3
+        },
+        "input_tokens": {
+          "mean": 160584,
+          "min": 120751,
+          "max": 202525,
+          "n": 3
+        },
+        "cache_read_tokens": {
+          "mean": 7746963.667,
+          "min": 5333512,
+          "max": 9639669,
+          "n": 3
+        }
+      },
+      "minutes": [16.4, 22.2, 64.5]
+    },
+    {
+      "task": "interactive-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "n": 3,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 0.971,
+          "min": 0.913,
+          "max": 1,
+          "n": 3
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "app_content_filled": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 3
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        },
+        "plan_template_read_raw": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 3
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 21.056,
+          "min": 16.236,
+          "max": 26.909,
+          "n": 3
+        },
+        "creator_turns": {
+          "mean": 7.333,
+          "min": 7,
+          "max": 8,
+          "n": 3
+        },
+        "creator_turns_after_plan": {
+          "mean": 2,
+          "min": 2,
+          "max": 2,
+          "n": 3
+        },
+        "questions_per_turn_max": {
+          "mean": 6.333,
+          "min": 6,
+          "max": 7,
+          "n": 3
+        },
+        "questions_per_turn_mean": {
+          "mean": 2.46,
+          "min": 1.86,
+          "max": 3.38,
+          "n": 3
+        },
+        "output_tokens": {
+          "mean": 78632,
+          "min": 69061,
+          "max": 87759,
+          "n": 3
+        },
+        "input_tokens": {
+          "mean": 189352.333,
+          "min": 139887,
+          "max": 262585,
+          "n": 3
+        },
+        "cache_read_tokens": {
+          "mean": 8960219,
+          "min": 6533745,
+          "max": 11666266,
+          "n": 3
+        }
+      },
+      "minutes": [16.2, 20, 26.9]
+    },
+    {
+      "task": "interactive-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "n": 2,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "app_content_filled": {
+          "mean": 0.5,
+          "min": 0,
+          "max": 1,
+          "n": 2
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 2
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "plan_template_read_raw": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 40.521,
+          "min": 29.697,
+          "max": 51.344,
+          "n": 2
+        },
+        "creator_turns": {
+          "mean": 8,
+          "min": 8,
+          "max": 8,
+          "n": 2
+        },
+        "creator_turns_after_plan": {
+          "mean": 3,
+          "min": 3,
+          "max": 3,
+          "n": 2
+        },
+        "questions_per_turn_max": {
+          "mean": 5,
+          "min": 4,
+          "max": 6,
+          "n": 2
+        },
+        "questions_per_turn_mean": {
+          "mean": 1.44,
+          "min": 1.38,
+          "max": 1.5,
+          "n": 2
+        },
+        "output_tokens": {
+          "mean": 124783,
+          "min": 122751,
+          "max": 126815,
+          "n": 2
+        },
+        "input_tokens": {
+          "mean": 305971,
+          "min": 301955,
+          "max": 309987,
+          "n": 2
+        },
+        "cache_read_tokens": {
+          "mean": 20728358.5,
+          "min": 19862103,
+          "max": 21594614,
+          "n": 2
+        }
+      },
+      "minutes": [29.7, 51.3]
+    }
+  ],
+  "trials": [
+    {
+      "job": "quiz-fresh__claude-haiku-5-5__g7ceb8c4__20261017T231318Z",
+      "trial": "quiz-fresh__3imaNyA",
+      "task": "quiz-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-17T23:13:19.032479Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.212,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 6,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.83,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 203871,
+        "t_agent_cache_read_tokens": 7529939,
+        "t_agent_output_tokens": 104001,
+        "input_tokens": 210466,
+        "cache_tokens": 194958,
+        "output_tokens": 3588,
+        "cost_usd": 0.007,
+        "agent_minutes": 15.044
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-haiku-5-5__g7ceb8c4__20261017T234444Z",
+      "trial": "quiz-fresh__ScPqE6E",
+      "task": "quiz-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-17T23:44:45.621172Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.654,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 0.5,
+        "t_questions_per_turn_max": 2,
+        "t_turns_over_two_questions": 0,
+        "t_approvals_after_question": 0.33,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 4,
+        "t_agent_input_tokens": 110966,
+        "t_agent_cache_read_tokens": 4173765,
+        "t_agent_output_tokens": 69242,
+        "input_tokens": 249236,
+        "cache_tokens": 239871,
+        "output_tokens": 3717,
+        "cost_usd": 0.006,
+        "agent_minutes": 18.453
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-sonnet-5-5__g7ceb8c4__20261017T234504Z",
+      "trial": "quiz-fresh__u3RjxUR",
+      "task": "quiz-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-17T23:45:05.570904Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 7,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.43,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 4,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 2,
+        "t_agent_input_tokens": 123105,
+        "t_agent_cache_read_tokens": 3225669,
+        "t_agent_output_tokens": 57637,
+        "input_tokens": 320871,
+        "cache_tokens": 307763,
+        "output_tokens": 5392,
+        "cost_usd": 0.008,
+        "agent_minutes": 16.206
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-opus-5-5__g7ceb8c4__20261017T234524Z",
+      "trial": "quiz-fresh__pxyCAdt",
+      "task": "quiz-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-17T23:45:25.892529Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 5,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 3,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 2,
+        "t_agent_input_tokens": 155421,
+        "t_agent_cache_read_tokens": 6349289,
+        "t_agent_output_tokens": 72921,
+        "input_tokens": 279709,
+        "cache_tokens": 269909,
+        "output_tokens": 3551,
+        "cost_usd": 0.006,
+        "agent_minutes": 16.079
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-opus-5-5__g7ceb8c4__20261018T000446Z",
+      "trial": "explainer-fresh__rgooq7y",
+      "task": "explainer-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T00:04:47.997286Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 7,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 3.29,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 4,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 2,
+        "t_agent_input_tokens": 295074,
+        "t_agent_cache_read_tokens": 22562350,
+        "t_agent_output_tokens": 143723,
+        "input_tokens": 468132,
+        "cache_tokens": 448574,
+        "output_tokens": 5741,
+        "cost_usd": 0.011,
+        "agent_minutes": 45.194
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T000446Z",
+      "trial": "explainer-fresh__S6aTHqP",
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T00:04:47.819977Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 6,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.5,
+        "t_questions_per_turn_max": 5,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 203820,
+        "t_agent_cache_read_tokens": 7533725,
+        "t_agent_output_tokens": 82970,
+        "input_tokens": 304853,
+        "cache_tokens": 289692,
+        "output_tokens": 4656,
+        "cost_usd": 0.006,
+        "agent_minutes": 14.32
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-haiku-5-5__g7ceb8c4__20261018T000629Z",
+      "trial": "explainer-fresh__EnYrhkx",
+      "task": "explainer-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T00:06:30.822318Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.947,
+        "retrospective_filled": 0.25,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.25,
+        "t_questions_per_turn_max": 3,
+        "t_turns_over_two_questions": 1,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 4,
+        "t_agent_input_tokens": 187039,
+        "t_agent_cache_read_tokens": 7540963,
+        "t_agent_output_tokens": 103228,
+        "input_tokens": 272870,
+        "cache_tokens": 261312,
+        "output_tokens": 5013,
+        "cost_usd": 0.007,
+        "agent_minutes": 17.317
+      }
+    },
+    {
+      "job": "interactive-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T002202Z",
+      "trial": "interactive-fresh__BNwzPqJ",
+      "task": "interactive-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T00:22:03.122642Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "retrospective_filled": 0.25,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 7,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.14,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 2,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 2,
+        "t_agent_input_tokens": 262585,
+        "t_agent_cache_read_tokens": 11666266,
+        "t_agent_output_tokens": 87759,
+        "input_tokens": 322542,
+        "cache_tokens": 305892,
+        "output_tokens": 4664,
+        "cost_usd": 0.009,
+        "agent_minutes": 26.909
+      }
+    },
+    {
+      "job": "interactive-fresh__claude-haiku-5-5__g7ceb8c4__20261018T002615Z",
+      "trial": "interactive-fresh__Qr5eokF",
+      "task": "interactive-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T00:26:16.567740Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.029,
+        "competencies_written": 0,
+        "app_content_filled": 0,
+        "t_creator_turns": 7,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.29,
+        "t_questions_per_turn_max": 3,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 2,
+        "t_agent_input_tokens": 120751,
+        "t_agent_cache_read_tokens": 5333512,
+        "t_agent_output_tokens": 74050,
+        "input_tokens": 283413,
+        "cache_tokens": 272435,
+        "output_tokens": 5065,
+        "cost_usd": 0.007,
+        "agent_minutes": 22.229
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-haiku-5-5__g7ceb8c4__20261018T005105Z",
+      "trial": "quiz-fresh__fgarqQ8",
+      "task": "quiz-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T00:51:06.885793Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 6,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.83,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 2,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 115404,
+        "t_agent_cache_read_tokens": 2447271,
+        "t_agent_output_tokens": 59538,
+        "input_tokens": 175634,
+        "cache_tokens": 164771,
+        "output_tokens": 3337,
+        "cost_usd": 0.005,
+        "agent_minutes": 10.596
+      }
+    },
+    {
+      "job": "interactive-fresh__claude-opus-5-5__g7ceb8c4__20261018T005259Z",
+      "trial": "interactive-fresh__MVVvjzq",
+      "task": "interactive-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T00:53:00.708605Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.5,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 3,
+        "t_agent_input_tokens": 301955,
+        "t_agent_cache_read_tokens": 19862103,
+        "t_agent_output_tokens": 122751,
+        "input_tokens": 611230,
+        "cache_tokens": 593854,
+        "output_tokens": 6688,
+        "cost_usd": 0.002,
+        "agent_minutes": 29.697
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-haiku-5-5__g7ceb8c4__20261018T010359Z",
+      "trial": "explainer-fresh__pk32Jfr",
+      "task": "explainer-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T01:04:00.806800Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 0.667,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0,
+        "competencies_written": 0,
+        "app_content_filled": 0,
+        "t_creator_turns": 9,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.67,
+        "t_questions_per_turn_max": 7,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 0,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 5,
+        "t_agent_input_tokens": 215775,
+        "t_agent_cache_read_tokens": 6450928,
+        "t_agent_output_tokens": 90081,
+        "input_tokens": 398505,
+        "cache_tokens": 382979,
+        "output_tokens": 5516,
+        "cost_usd": 0.01,
+        "agent_minutes": 35.997
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T014400Z",
+      "trial": "quiz-fresh__eavYETE",
+      "task": "quiz-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T01:44:01.482429Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.733,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 11,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.91,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 4,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 4,
+        "t_agent_input_tokens": 131162,
+        "t_agent_cache_read_tokens": 4821237,
+        "t_agent_output_tokens": 77771,
+        "input_tokens": 407680,
+        "cache_tokens": 391723,
+        "output_tokens": 5713,
+        "cost_usd": 0.01,
+        "agent_minutes": 32.554
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-opus-5-5__g7ceb8c4__20261018T014420Z",
+      "trial": "quiz-fresh__DQuzVFH",
+      "task": "quiz-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T01:44:21.538088Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.969,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2,
+        "t_questions_per_turn_max": 5,
+        "t_turns_over_two_questions": 4,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 3,
+        "t_agent_input_tokens": 248718,
+        "t_agent_cache_read_tokens": 15872057,
+        "t_agent_output_tokens": 114443,
+        "input_tokens": 379202,
+        "cache_tokens": 366339,
+        "output_tokens": 4423,
+        "cost_usd": 0.008,
+        "agent_minutes": 36.778
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-haiku-5-5__g7ceb8c4__20261018T014741Z",
+      "trial": "quiz-fresh__Sn9nDEL",
+      "task": "quiz-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T01:47:41.995435Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.742,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.63,
+        "t_questions_per_turn_max": 7,
+        "t_turns_over_two_questions": 1,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 2,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 136219,
+        "t_agent_cache_read_tokens": 5671313,
+        "t_agent_output_tokens": 87389,
+        "input_tokens": 442678,
+        "cache_tokens": 423044,
+        "output_tokens": 5272,
+        "cost_usd": 0.011,
+        "agent_minutes": 17.562
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-haiku-5-5__g7ceb8c4__20261018T020755Z",
+      "trial": "explainer-fresh__CNMxybX",
+      "task": "explainer-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T02:07:56.688633Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "retrospective_filled": 1,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 7,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.14,
+        "t_questions_per_turn_max": 5,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 3,
+        "t_agent_input_tokens": 211199,
+        "t_agent_cache_read_tokens": 8552024,
+        "t_agent_output_tokens": 123347,
+        "input_tokens": 360134,
+        "cache_tokens": 343538,
+        "output_tokens": 5403,
+        "cost_usd": 0.009,
+        "agent_minutes": 18.499
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T021925Z",
+      "trial": "explainer-fresh__mGnPqJZ",
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T02:19:26.917509Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 7,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.43,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 4,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 3,
+        "t_agent_input_tokens": 178296,
+        "t_agent_cache_read_tokens": 6256824,
+        "t_agent_output_tokens": 85730,
+        "input_tokens": 262280,
+        "cache_tokens": 251749,
+        "output_tokens": 3939,
+        "cost_usd": 0.004,
+        "agent_minutes": 17.028
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-opus-5-5__g7ceb8c4__20261018T022357Z",
+      "trial": "explainer-fresh__ZHWdzKD",
+      "task": "explainer-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T02:23:57.967317Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.969,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 3.25,
+        "t_questions_per_turn_max": 12,
+        "t_turns_over_two_questions": 4,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 2,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 3,
+        "t_agent_input_tokens": 417740,
+        "t_agent_cache_read_tokens": 42055183,
+        "t_agent_output_tokens": 179009,
+        "input_tokens": 589333,
+        "cache_tokens": 571514,
+        "output_tokens": 6242,
+        "cost_usd": 0.011,
+        "agent_minutes": 63.546
+      }
+    },
+    {
+      "job": "interactive-fresh__claude-haiku-5-5__g7ceb8c4__20261018T022855Z",
+      "trial": "interactive-fresh__SwkSrEo",
+      "task": "interactive-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T02:28:55.936117Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 0,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0,
+        "retrospective_filled": 1,
+        "competencies_written": 0,
+        "app_content_filled": 1,
+        "t_creator_turns": 11,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.45,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 5,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 2,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 4,
+        "t_agent_input_tokens": 158476,
+        "t_agent_cache_read_tokens": 8267710,
+        "t_agent_output_tokens": 96924,
+        "input_tokens": 490640,
+        "cache_tokens": 469836,
+        "output_tokens": 4960,
+        "cost_usd": 0.006,
+        "agent_minutes": 16.424
+      }
+    },
+    {
+      "job": "interactive-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T023859Z",
+      "trial": "interactive-fresh__fQtjzr7",
+      "task": "interactive-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T02:39:00.795170Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 7,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.86,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 2,
+        "t_agent_input_tokens": 139887,
+        "t_agent_cache_read_tokens": 6533745,
+        "t_agent_output_tokens": 69061,
+        "input_tokens": 229166,
+        "cache_tokens": 220013,
+        "output_tokens": 4031,
+        "cost_usd": 0.006,
+        "agent_minutes": 20.023
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-haiku-5-5__g7ceb8c4__20261018T024748Z",
+      "trial": "quiz-fresh__R2z8AWw",
+      "task": "quiz-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T02:47:49.828652Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.867,
+        "retrospective_filled": 0.25,
+        "competencies_written": 0,
+        "app_content_filled": 0,
+        "t_creator_turns": 6,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2,
+        "t_questions_per_turn_max": 3,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 109672,
+        "t_agent_cache_read_tokens": 2905607,
+        "t_agent_output_tokens": 61916,
+        "input_tokens": 195370,
+        "cache_tokens": 188225,
+        "output_tokens": 3378,
+        "cost_usd": 0.005,
+        "agent_minutes": 17.327
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T030138Z",
+      "trial": "quiz-fresh__z8Pyqkh",
+      "task": "quiz-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T03:01:39.997885Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.25,
+        "t_questions_per_turn_max": 8,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 3,
+        "t_agent_input_tokens": 110125,
+        "t_agent_cache_read_tokens": 3092611,
+        "t_agent_output_tokens": 59846,
+        "input_tokens": 257866,
+        "cache_tokens": 248052,
+        "output_tokens": 3907,
+        "cost_usd": 0.003,
+        "agent_minutes": 13.987
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-haiku-5-5__g7ceb8c4__20261018T030805Z",
+      "trial": "explainer-fresh__aaPUSEq",
+      "task": "explainer-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T03:08:06.419292Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0,
+        "retrospective_filled": 1,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.88,
+        "t_questions_per_turn_max": 5,
+        "t_turns_over_two_questions": 4,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 3,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 3,
+        "t_agent_input_tokens": 179600,
+        "t_agent_cache_read_tokens": 7795159,
+        "t_agent_output_tokens": 82655,
+        "input_tokens": 464582,
+        "cache_tokens": 447990,
+        "output_tokens": 6139,
+        "cost_usd": 0.01,
+        "agent_minutes": 31.733
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T031819Z",
+      "trial": "explainer-fresh__8m9dNCP",
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T03:18:20.336897Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 6,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.17,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 199001,
+        "t_agent_cache_read_tokens": 6481862,
+        "t_agent_output_tokens": 102817,
+        "input_tokens": 254613,
+        "cache_tokens": 244722,
+        "output_tokens": 4268,
+        "cost_usd": 0.007,
+        "agent_minutes": 24.401
+      }
+    },
+    {
+      "job": "interactive-fresh__claude-opus-5-5__g7ceb8c4__20261018T032959Z",
+      "trial": "interactive-fresh__uVmMvfX",
+      "task": "interactive-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T03:30:00.514735Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.38,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 3,
+        "t_agent_input_tokens": 309987,
+        "t_agent_cache_read_tokens": 21594614,
+        "t_agent_output_tokens": 126815,
+        "input_tokens": 422939,
+        "cache_tokens": 409089,
+        "output_tokens": 5275,
+        "cost_usd": 0.009,
+        "agent_minutes": 51.344
+      }
+    },
+    {
+      "job": "interactive-fresh__claude-haiku-5-5__g7ceb8c4__20261018T034200Z",
+      "trial": "interactive-fresh__E75HxvY",
+      "task": "interactive-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T03:42:01.399340Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.171,
+        "retrospective_filled": 1,
+        "competencies_written": 0,
+        "app_content_filled": 0,
+        "t_creator_turns": 11,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.36,
+        "t_questions_per_turn_max": 5,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 2,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 6,
+        "t_agent_input_tokens": 202525,
+        "t_agent_cache_read_tokens": 9639669,
+        "t_agent_output_tokens": 114046,
+        "input_tokens": 559318,
+        "cache_tokens": 542489,
+        "output_tokens": 8177,
+        "cost_usd": 0.013,
+        "agent_minutes": 64.472
+      }
+    },
+    {
+      "job": "interactive-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T034511Z",
+      "trial": "interactive-fresh__VvEu3mH",
+      "task": "interactive-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T03:45:12.990454Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.913,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 3.38,
+        "t_questions_per_turn_max": 7,
+        "t_turns_over_two_questions": 5,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 2,
+        "t_agent_input_tokens": 165585,
+        "t_agent_cache_read_tokens": 8680646,
+        "t_agent_output_tokens": 79076,
+        "input_tokens": 293344,
+        "cache_tokens": 278546,
+        "output_tokens": 5030,
+        "cost_usd": 0.008,
+        "agent_minutes": 16.236
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T040356Z",
+      "trial": "quiz-fresh__uDYdCgs",
+      "task": "quiz-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T04:03:57.638722Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 6,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.17,
+        "t_questions_per_turn_max": 5,
+        "t_turns_over_two_questions": 2,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 118718,
+        "t_agent_cache_read_tokens": 3667430,
+        "t_agent_output_tokens": 54031,
+        "input_tokens": 200365,
+        "cache_tokens": 192224,
+        "output_tokens": 3776,
+        "cost_usd": 0.005,
+        "agent_minutes": 17.48
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-opus-5-5__g7ceb8c4__20261018T042400Z",
+      "trial": "quiz-fresh__hyXaYn2",
+      "task": "quiz-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T04:24:01.484464Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 6,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.83,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 0.67,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 2,
+        "t_agent_input_tokens": 164868,
+        "t_agent_cache_read_tokens": 5414896,
+        "t_agent_output_tokens": 82514,
+        "input_tokens": 346715,
+        "cache_tokens": 335065,
+        "output_tokens": 4791,
+        "cost_usd": 0.003,
+        "agent_minutes": 19.11
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-sonnet-5-5__g7ceb8c4__20261018T042427Z",
+      "trial": "explainer-fresh__L5Czsya",
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T04:24:28.186975Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 9,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.78,
+        "t_questions_per_turn_max": 5,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 3,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 4,
+        "t_agent_input_tokens": 252953,
+        "t_agent_cache_read_tokens": 16142652,
+        "t_agent_output_tokens": 123020,
+        "input_tokens": 413436,
+        "cache_tokens": 399835,
+        "output_tokens": 5932,
+        "cost_usd": 0.01,
+        "agent_minutes": 39.511
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-opus-5-5__g7ceb8c4__20261018T044603Z",
+      "trial": "explainer-fresh__uR2RSHj",
+      "task": "explainer-fresh",
+      "model": "Opus 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T04:46:04.035736Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 1,
+        "retrospective_filled": 0,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 6,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.83,
+        "t_questions_per_turn_max": 8,
+        "t_turns_over_two_questions": 3,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 400195,
+        "t_agent_cache_read_tokens": 31127011,
+        "t_agent_output_tokens": 181019,
+        "input_tokens": 569857,
+        "cache_tokens": 553308,
+        "output_tokens": 5873,
+        "cost_usd": 0.012,
+        "agent_minutes": 70.839
+      }
+    },
+    {
+      "job": "quiz-fresh__claude-haiku-5-5__g7ceb8c4__20261018T044852Z",
+      "trial": "quiz-fresh__NuheiAt",
+      "task": "quiz-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T04:48:53.167926Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.727,
+        "retrospective_filled": 0.25,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 5,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.4,
+        "t_questions_per_turn_max": 3,
+        "t_turns_over_two_questions": 1,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 1,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 1,
+        "t_agent_input_tokens": 116660,
+        "t_agent_cache_read_tokens": 3757008,
+        "t_agent_output_tokens": 53553,
+        "input_tokens": 255162,
+        "cache_tokens": 245695,
+        "output_tokens": 4751,
+        "cost_usd": 0.007,
+        "agent_minutes": 9.902
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-haiku-5-5__g7ceb8c4__20261018T050053Z",
+      "trial": "explainer-fresh__yJTCtaZ",
+      "task": "explainer-fresh",
+      "model": "Haiku 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-10-18T05:00:54.428772Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 0.667,
+        "pre_push_failures": 0,
+        "plan_boxes_ticked": 0.333,
+        "retrospective_filled": 0.25,
+        "competencies_written": 1,
+        "app_content_filled": 0,
+        "t_creator_turns": 7,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 0.86,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 1,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 0,
+        "t_plan_template_read_raw": 1,
+        "t_guidance_summary_fetches": 2,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 2,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_creator_turns_after_plan": 4,
+        "t_agent_input_tokens": 170017,
+        "t_agent_cache_read_tokens": 9364678,
+        "t_agent_output_tokens": 99724,
+        "input_tokens": 314428,
+        "cache_tokens": 303102,
+        "output_tokens": 4992,
+        "cost_usd": 0.008,
+        "agent_minutes": 34.192
+      }
+    }
+  ],
+  "excludedJobs": [
+    {
+      "job": "interactive-fresh__claude-haiku-5-5__g7ceb8c4__20261018T014321Z",
+      "task": "interactive-fresh",
+      "model": "Haiku 5.5",
+      "reason": "The persona took a GitHub Pages question in Explore for the publish checkpoint and ended before the plan (fixed in 596220b)."
+    }
+  ],
+  "totals": {
+    "trials": 33,
+    "excludedTrials": 0,
+    "partialTrials": 0,
+    "checkPasses": 33,
+    "agentHours": 15
+  }
+}
