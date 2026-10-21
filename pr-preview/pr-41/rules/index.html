@@ -14,15 +14,35 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/tooling/pr-preview/pr-41/lernapps-tokens.css">
 <link rel="stylesheet" href="/tooling/pr-preview/pr-41/lernapps-frame.css">
+<link rel="alternate" hreflang="de" href="/tooling/pr-preview/pr-41/rules/">
+<link rel="alternate" hreflang="en" href="/tooling/pr-preview/pr-41/en/rules/">
+<script>(() => {
+  const key = "lernapps-lang", here = "de", pages = {"en":"/tooling/pr-preview/pr-41/en/rules/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
 </head>
 <body>
-<a class="la-skip" href="#main-content">Skip to content</a>
-<p class="la-preview">Preview of a change. The real page: <a href="https://lernapps.net/tooling/rules/">lernapps.net/tooling/rules/</a></p><header class="la-header">
+<a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
+<p class="la-preview" lang="de">Vorschau einer Änderung. Die echte Seite: <a href="https://lernapps.net/tooling/rules/">lernapps.net/tooling/rules/</a></p><header class="la-header" lang="de">
   <div class="la-header__inner">
-    <a class="la-brand" href="/en/" aria-label="lernapps.net – home page"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
-    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Find apps</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/pr-preview/pr-41/" aria-current="page">Tooling</a></li><li><a href="/en/features/">Features</a></li><li><a href="/docs/en/">That's why</a></li><li><a href="/en/join/">Get involved</a></li></ul></nav>
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Apps finden</a></li><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-41/" aria-current="page">Tooling</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Darum!</a></li><li><a href="/join/">Mitmachen</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-41/en/rules/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav>
   </div>
 </header>
+<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch.</p>
   <main id="main-content" tabindex="-1">
     <h1>Rules</h1>
     <p>Each rule is one requirement on a learning app. It lives where it acts: as a section of a skill for AI
@@ -58,6 +78,7 @@
 <tr><td><a href="#no-learner-data-in-texts"><code>no-learner-data-in-texts</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-request-before-click"><code>no-request-before-click</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#no-tracking"><code>no-tracking</code></a></td><td>listing</td><td>error</td></tr>
+<tr><td><a href="#own-data-only"><code>own-data-only</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#pages-reachable"><code>pages-reachable</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#runs-in-browser"><code>runs-in-browser</code></a></td><td>listing</td><td>error</td></tr>
 <tr><td><a href="#third-party-licence"><code>third-party-licence</code></a></td><td>listing</td><td>error</td></tr>
@@ -309,6 +330,21 @@
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="own-data-only">
+<h2>Touch only the app's own data in the browser</h2>
+<p><code>own-data-only</code> · listing · error</p>
+<div>
+<ul>
+<li>Every app on lernapps.net shares one origin with the other apps and the platform.</li>
+<li>Own data: keys of <code>localStorage</code> and <code>sessionStorage</code>, IndexedDB databases and caches named <code>lernapps:&lt;id&gt;:…</code>, <code>&lt;id&gt;</code> the app's id in the catalog (<code>entries/&lt;id&gt;.yaml</code>).</li>
+<li>Never read, write or remove other keys; never <code>clear()</code>; never <code>caches.match()</code> without <code>cacheName</code>.</li>
+<li>Built with this tooling: <code>createStorage(&quot;&lt;id&gt;&quot;)</code> from <code>@lernapps/tooling/storage</code>.</li>
+<li><code>lernapps check</code> puts another app's data into the browser and reports every access to it, before a click.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/references/platform-rules.md"><code>skills/tooling/lernapps-check/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/own-data-only.ts"><code>check/rules/own-data-only.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
 <section id="pages-reachable">
@@ -855,11 +891,11 @@
 </section>
 
 <section id="quiz-only-data">
-<h2>Write only the question bank</h2>
+<h2>Write only the question bank and its images</h2>
 <p><code>quiz-only-data</code> · archetype:quiz · error</p>
 <div>
 <ul>
-<li>Change only <code>src/quiz.json</code>. <code>index.html</code>, <code>src/main.ts</code>, <code>e2e/quiz.e2e.ts</code>, config as generated (<code>keep-the-preset</code>).</li>
+<li>Change only <code>src/quiz.json</code> and add image files to <code>src/images/</code>. <code>index.html</code>, <code>src/main.ts</code>, <code>e2e/quiz.e2e.ts</code>, config as generated (<code>keep-the-preset</code>).</li>
 <li>Bank cannot say it → &quot;Where I had to guess&quot;, never code around the runtime.</li>
 </ul>
 </div>
@@ -918,7 +954,7 @@
 <p><code>storage-through-wrapper</code> · archetype:explainer, archetype:interactive, archetype:quiz · error</p>
 <div>
 <ul>
-<li>Only <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app (own prefix; works when storage is blocked).</li>
+<li>Only <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app's id in the catalog (own prefix <code>lernapps:&lt;id&gt;:</code>, rule <code>own-data-only</code>; works when storage is blocked).</li>
 <li>At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, <code>save</code> returns false and the app keeps working.</li>
 <li>Keep the learning state, not growing histories.</li>
 <li>Never <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</li>
@@ -1057,10 +1093,10 @@
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
 </section>
   </main>
-<footer class="la-footer">
+<footer class="la-footer" lang="de">
   <div class="la-footer__inner">
-    <p>lernapps.net is free and has no ads. It lives on your thanks.</p>
-    <nav aria-label="Footer"><ul><li><a href="/en/privacy/">Privacy</a></li><li><a href="/en/imprint/">Imprint</a></li><li><a href="/docs/platform-design/">Platform design</a></li><li><a href="https://github.com/lernapps/tooling">Source code</a></li></ul></nav>
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/tooling">Quellcode</a></li></ul></nav>
   </div>
 </footer>
 </body>
