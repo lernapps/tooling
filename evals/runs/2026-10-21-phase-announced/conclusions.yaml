@@ -1,0 +1,94 @@
+# What we concluded from the small eval run of 2026-10-21 (results.json beside this file). Written by people, reviewed
+# in the pull request; the numbers are only in results.json. Evidence names a cell (task and model) and one of its
+# rows or metrics.
+title: Phase announced
+question: >-
+  Does Haiku 5.5 keep to the process on the interactive app once each reply begins with the phase and only a
+  checkpoint waits (#133), and does the new score read it right?
+bottomLine:
+  - >-
+    In this small run (n = 3), Haiku 5.5 builds the interactive app with a green check in every run, creates nothing
+    before the plan and needs at most three turns after it; in 2 of 3 runs it sets `phase: commit` before the first
+    question about GitHub. On 2026-10-21 it had done each of these in 1 of 3 runs or none.
+  - >-
+    Two runs begin every reply the creator reads with the phase; one begins only 2 of 8. Where a reply names a phase,
+    it is the plan's.
+  - >-
+    The green checks hide a template bug: the browser tests could not press ä, ö, ü or ß, and every run rewrote its
+    playthroughs to avoid them.
+  - Skills in their phase and the questions per turn stay where they were.
+findings:
+  - id: haiku-keeps-process
+    title: Haiku 5.5 keeps to the process on the interactive app
+    text: >-
+      All three runs pass the check, tick 94–100 % of the plan's boxes, fill the content guide, create the app only
+      after the plan's yes and need one to three creator turns after it. Two set `phase: commit` and then asked for
+      the repo in a reply that began "**Commit · Checkpoint**"; the third asked for the publish yes while still in
+      Code. On 2026-10-21 (guidance b20b514) the same cell passed the check in 1 of 3 runs and set `phase: commit` in
+      none. With n = 3 this is a sign, not a proof.
+    evidence:
+      - { task: interactive-fresh, model: Haiku 5.5, row: check_passes }
+      - { task: interactive-fresh, model: Haiku 5.5, row: phase_reached }
+      - { task: interactive-fresh, model: Haiku 5.5, row: not_created_before_plan }
+      - { task: interactive-fresh, model: Haiku 5.5, row: turns_after_plan_max_3 }
+  - id: phase-announced
+    title: Most replies begin with the phase, and it is the plan's
+    text: >-
+      Two runs began every reply the creator read with the phase ("**Explore · Checkpoint**", "**Plan · Checkpoint**",
+      "**Code**"); the third began only 2 of 8, narrating first ("Die Antworten sind klar…"). No reply named a phase the
+      plan did not hold. Code was announced in one run only: in the other two the whole Code phase ran inside one turn,
+      whose reply already began with Commit.
+    evidence:
+      - { task: interactive-fresh, model: Haiku 5.5, row: phase_announced }
+      - { task: interactive-fresh, model: Haiku 5.5, row: phase_announced_right }
+  - id: umlaut-keys
+    title: The browser tests could not press ä, ö, ü or ß
+    text: >-
+      The interactive template's end-to-end test pressed each key of a playthrough with Playwright's
+      `keyboard.press`, which knows only the keys of a US keyboard: "Unknown key: ö" (and Ä, ä, ß). The check called it
+      a template bug, and every run got around it by rewriting its playthroughs so that they never press those keys.
+      That is also why the check failed in 2 of 3 runs on 2026-10-21, where the tests stayed red.
+    evidence:
+      - { task: interactive-fresh, model: Haiku 5.5, row: check_passes }
+  - id: creator-end
+    title: The creator did not send its end marker
+    text: >-
+      The simulated creator wrote the marker `[Ende: …]` only into its own summary, never into a message to the
+      agent; the score fell back to the creator's sentences. In one run it ended without sending its last message at
+      all, so the scenario's end and "Code done" read 0 there, which is the creator's mistake, not the agent's.
+    evidence:
+      - { task: interactive-fresh, model: Haiku 5.5, row: code_done }
+  - id: unchanged
+    title: Skills in their phase and the questions per turn stay as they were
+    text: >-
+      Haiku loads 14–57 % of the skills a phase names by its end (38 % on 2026-10-21), and every run loads one before
+      its phase. Every run asks more than two questions in a turn (at most 4–5).
+    evidence:
+      - { task: interactive-fresh, model: Haiku 5.5, row: skills_in_phase }
+      - { task: interactive-fresh, model: Haiku 5.5, row: questions_max_2 }
+actions:
+  - text: >-
+      The interactive template's browser test sends any key that is not on a US keyboard as the keydown event the
+      runtime listens to; its example presses ü.
+    status: done
+    findings: [umlaut-keys]
+  - text: >-
+      The personas send their last message with `acpx prompt`, the marker on its last line, and never end without it.
+    status: done
+    findings: [creator-end]
+  - text: >-
+      The score reads the phase from the first text of a reply, at that point of the turn, and leaves out the reply
+      to the creator's last message. The numbers here are scored that way.
+    status: done
+    findings: [phase-announced]
+  - text: Run the other archetypes and models with the phase announced, to see whether the gain holds beyond n = 3.
+    status: open
+    findings: [haiku-keeps-process, phase-announced]
+  - text: Rethink the rule of one or two questions per turn (carried over).
+    status: open
+    findings: [unchanged]
+notes:
+  - >-
+    One job, interactive-fresh × Haiku 5.5 × 3, at guidance cbe3b29 (#133); the creator was played by Haiku 5.5, as in
+    the earlier runs. No trial was left out. The transcripts were scored again with 8ef76ea after the run; only the
+    phase announced changed (0.79 to 0.75 in the mean).

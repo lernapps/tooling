@@ -30,8 +30,8 @@ interface Block {
 interface Turn {
   creator: string;
   text: string;
-  /** The agent's last text in the turn: the reply the creator answers. */
-  reply?: string;
+  /** The agent's first text in the turn, where the reply to the creator begins, and the tool calls made before it. */
+  opening?: { text: string; toolsBefore: number };
   /** The agent's tool calls, each with what it returned (the text of its tool result). */
   tools: { name: string; input: Record<string, unknown>; id?: string; result?: string }[];
 }
@@ -130,7 +130,8 @@ export function turns(entries: Entry[]): Turn[] {
       for (const block of content) {
         if (block.type === "text") {
           turn.text += `${turn.text ? "\n" : ""}${block.text ?? ""}`;
-          if ((block.text ?? "").trim() !== "") turn.reply = block.text ?? "";
+          if (turn.opening === undefined && (block.text ?? "").trim() !== "")
+            turn.opening = { text: block.text ?? "", toolsBefore: turn.tools.length };
         }
         if (block.type === "tool_use")
           turn.tools.push({
@@ -260,15 +261,18 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
   const regular = marker ? marker !== "festgefahren" : SCENARIO_END.test(last) && !STUCK.test(last);
   const endAt = confirmedAt >= 0 && creatorTurns - 1 > confirmedAt && regular ? creatorTurns - 1 : -1;
 
-  // The phase each reply announces, against the phase the plan holds at the end of that turn.
+  // The phase each reply begins with, against the phase the plan holds at that point of the turn.
   let held = "explore";
   const announced = all.map((turn) => {
-    for (const tool of turn.tools) held = phaseSet(tool) ?? held;
-    const phase = turn.reply?.match(ANNOUNCED)?.[1]?.toLowerCase();
-    return { phase, held, replied: turn.reply !== undefined };
+    const opening = turn.opening;
+    turn.tools.slice(0, opening?.toolsBefore).forEach((tool) => (held = phaseSet(tool) ?? held));
+    const at = held;
+    turn.tools.slice(opening?.toolsBefore ?? turn.tools.length).forEach((tool) => (held = phaseSet(tool) ?? held));
+    return { phase: opening?.text.match(ANNOUNCED)?.[1]?.toLowerCase(), held: at, replied: opening !== undefined };
   });
-  const replies = announced.filter((turn) => turn.replied);
-  const withPhase = announced.filter((turn) => turn.phase !== undefined);
+  // The reply to the creator's last message is left out: the creator has ended and reads it no more.
+  const replies = announced.slice(0, -1).filter((turn) => turn.replied);
+  const withPhase = replies.filter((turn) => turn.phase !== undefined);
 
   // A9: questions per agent turn (sentences ending in "?" in the text the creator saw).
   const questions = all.map((turn) => (turn.text.match(QUESTION) ?? []).length);

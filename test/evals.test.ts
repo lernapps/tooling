@@ -568,21 +568,22 @@ test("the creator's end marker decides the end; each reply's announced phase is 
     name: "Edit",
     input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
   };
-  const turn = (creator: string, reply: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
-    creator,
-    text: reply,
-    reply,
-    tools,
-  });
+  const turn = (
+    creator: string,
+    reply: string,
+    tools: { name: string; input: Record<string, unknown> }[] = [],
+    toolsBefore = 0,
+  ) => ({ creator, text: reply, ...(reply ? { opening: { text: reply, toolsBefore } } : {}), tools });
   const score = scoreTurns([
     turn("Ein Quiz", "**Explore** Was sollen sie können?"),
     turn("Brüche addieren", "**Plan · Checkpoint** Passt der Plan?"),
-    turn("Ja, passt so.", "**Plan** Ich lege an.", [setCode]),
+    turn("Ja, passt so.", "**Code** Ich lege an.", [setCode], 1),
     turn("Danke, wir hören hier auf. Die App ist fertig.\n[Ende: fertig]", "Gern."),
   ]);
-  // The marker wins over the sentence. Three of four replies name a phase; only the first is the plan's: the plan was
-  // never set to plan, and the third reply says Plan after it was set to code.
-  expect(score.dimensions).toMatchObject({ scenario_end: 1, phase_announced: 0.75, phase_announced_right: 0.33 });
+  // The marker wins over the sentence. The three replies the creator read begin with a phase (the last one, after
+  // the end, is left out); two are the plan's: the plan was never set to plan, and the third reply begins after the
+  // call that set code.
+  expect(score.dimensions).toMatchObject({ scenario_end: 1, phase_announced: 1, phase_announced_right: 0.67 });
   expect(score.evidence).toMatchObject({ scenarioEnd: "fertig" });
   const stuck = scoreTurns([
     turn("Ein Quiz", ""),
