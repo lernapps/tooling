@@ -10,7 +10,7 @@ agent. The external systems only do what they are configured to do: GitHub Actio
 DSL models both as actors; the external systems have the type system. The shared site frame gives pages on lernapps.net their header, footer and site check.
 The app overview in lernapps/apps explains building and listing and provides the apps; the entry schema belongs to it. Developers publish their apps where they choose: by default on the GitHub
 Pages of the developer's own repo, at the developer's address, or on any other host. lernapps.net serves a copy of
-every listed app at `lernapps.net/<id>/`, built from the commit its entry names (decision `dec-copies-served`).
+every listed app at `lernapps.net/apps/start/<id>/`, built from the commit its entry names (decision `dec-copies-served`).
 
 The tooling's repo also holds "Platform upkeep" (chapter 5): the build of the tooling's own docs, the actions for
 lernapps.net's own websites and the update policy of every lernapps repo. No creator uses it, and it is not part of
