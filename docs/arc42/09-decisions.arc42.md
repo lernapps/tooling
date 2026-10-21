@@ -323,8 +323,7 @@ first: a repo of the organisation keeps its path `lernapps.net/<id>/` even with 
 answered 404, and those repos need their Pages for the previews of their pull requests.
 **Consequences:** one provider, one privacy notice, one address that keeps working; all apps share one origin, so
 `dec-own-data-only`; an app must reference its files relatively; ids must not collide with the top-level paths of the
-app overview's site; an update of an app is a new commit in its entry, merged automatically only when nothing
-but versions of existing npm dependencies changed.
+app overview's site; an update of an app is a new commit in its entry (`dec-update-replay`).
 
 ```arc42
 :::decision
@@ -334,6 +333,36 @@ status: accepted
 date: 2026-10-21
 supersedes: dec-app-own-hosting
 addresses: qg-checked-not-declared, qg-nothing-collected
+:::
+```
+
+## An update merges itself when it is what lernapps update would have done
+
+**Context:** the copy is built from the commit an entry names (`dec-copies-served`), so every new version of a listed
+app needs a new commit in its entry. A creator's repo cannot start a workflow in lernapps/apps without a token for
+it, and the owner cannot review every routine update: most are the tooling's own update pull requests, or a creator
+running `lernapps update`. **Decision:** the app overview proposes updates itself. Every 30 minutes, and by hand, it
+looks at the main line of every entry's source; once the app's address serves the new commit
+(`lernapps-publish.txt`), it opens one pull request `update/<id>` with a token of its GitHub App, and moves it on a
+newer push. To classify it, a job without secrets installs the tooling the new commit pins (a commit on main of
+lernapps/tooling, not a fork's), runs `lernapps update` on a checkout of the entry's commit (the app's dependencies
+without their scripts) and compares the tree with the new commit. The update merges itself once the listing
+validation passes when nothing else differs beyond versions of existing npm dependencies (from the npm registry) and
+Markdown outside `src/` and `public/`; anything else gets the label `review`. **Rejected:** a token in every creator's
+repo to dispatch the workflow (a secret in repos we do not own); a webhook service for the GitHub App (a server to
+run); auto-merge of npm versions only (it sent every `lernapps update` to review); a fixed list of files the update
+may touch (it drifts from the generator). **Consequences:** a new version reaches the copy within about an hour
+without the owner when it is routine; a pull request closed by the owner stays closed for that commit; a workflow the
+creator edited by hand, a licence change and any change of content go to review; the replay costs a few minutes of
+CI per update.
+
+```arc42
+:::decision
+id: dec-update-replay
+title: An update merges itself when it is what lernapps update would have done
+status: accepted
+date: 2026-10-21
+addresses: qg-checked-not-declared, qg-few-iterations
 :::
 ```
 

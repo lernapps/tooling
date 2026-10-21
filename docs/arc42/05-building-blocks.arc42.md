@@ -615,7 +615,8 @@ confirmed yet or for another archetype, and says why. It can work offline from a
 an existing app, it moves the app's pins to its own and installs them, and replaces the app's `lernapps-*` skills
 with its own; the app's own skills stay as they are. An interactive app also gets its architecture: the generic part
 and the interactive extension of the templates' architecture, with the app's paths, which the update replaces except
-the app's own sections. The commands' own help lists their options.
+the app's own sections. Given the same app commit and tooling commit, the update writes the same files, apart
+from the versions npm resolves. The commands' own help lists their options.
 
 ```arc42
 :::interface
@@ -980,7 +981,8 @@ x-agent: Publishes the checked bundle at your own address.
 ### App publish interface
 
 A consumer can rely on this: when the action passes, the app's address serves the new bundle, and the action names
-the address. Its inputs, outputs and the permissions it needs are described in the action itself.
+the address. The address also serves `lernapps-publish.txt`, the commit of the bundle. Its inputs, outputs and the permissions it needs are
+described in the action itself.
 
 ```arc42
 :::interface
@@ -1027,9 +1029,10 @@ protocol: GitHub Actions, pinned to a commit; pull request comment
 
 ## Listing validation
 
-Runs on pull requests to the catalog that add or change an entry. It runs the checks of the built app against the
-entry's address, so it also confirms that the entry's topic links resolve and its fitness values match. When checks
-fail, it hands the report to the creator's assistant. The review agent then judges the rest; the owner decides.
+Runs on pull requests to the catalog that add or change an entry, a new listing or an update. It runs the checks of
+the built app against the entry's address, so it also confirms that the entry's topic links resolve and its fitness
+values match. When checks fail, it hands the report to the creator's assistant. The review agent then judges the
+rest; the owner decides.
 
 ```arc42
 :::building-block

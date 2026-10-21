@@ -111,7 +111,9 @@ A pull request adds an entry to lernapps/apps. The listing validation checks the
 the rules, the topic links, the fitness values. On failure it comments the report; the creator's assistant fixes the
 app or the entry and pushes again. Then the owner starts the review agent in a fresh context: it judges the rest
 against the rubric of the app's archetype and writes a verdict for the reviewed commit, which the owner posts on the
-pull request before deciding. Proposed rules from the verdict go to the tooling as new pull requests.
+pull request before deciding. Proposed rules from the verdict go to the tooling as new pull requests. After the
+merge, the app overview builds the copy from the entry's commit, checks it, puts it into `start/<id>/` and links it
+in the catalog once it is served (decision `dec-copies-served`).
 
 ```arc42
 :::runtime-scenario
@@ -127,7 +129,7 @@ involves: bb-listing-validation, bb-check-cli, bb-review-procedure
 id: rs-listing-validated-sequence
 scenario: rs-listing-validated
 notation: mermaid-sequence
-aliases: assistant=actor-assistant, listing=bb-listing-validation, check=bb-check-cli, review=actor-review-agent, procedure=bb-review-procedure, owner=actor-owner
+aliases: assistant=actor-assistant, listing=bb-listing-validation, check=bb-check-cli, review=actor-review-agent, procedure=bb-review-procedure, owner=actor-owner, overview=actor-app-overview
 :::
 ```
 
@@ -139,6 +141,7 @@ sequenceDiagram
     participant review as Review agent
     participant procedure as Review procedure
     participant owner as Owner
+    participant overview as App overview
     assistant->>listing: pull request with the entry
     listing->>check: check the app at the entry's address, with the entry
     check-->>listing: validation report
@@ -152,6 +155,68 @@ sequenceDiagram
     review->>procedure: check the verdict against its schema and the catalog
     review-->>owner: verdict for the reviewed commit
     owner->>listing: verdict as a comment, merge or decline
+    listing-->>overview: merged: the entry is on the main line
+    overview->>overview: build every app whose copy is missing or at another commit (no secrets)
+    overview->>check: check the build
+    overview->>overview: copy into start/<id>/, list it in start/copies.txt
+    overview->>check: check the copy where lernapps.net serves it
+    overview->>overview: the catalog links the copy
+```
+
+## A new version of a listed app reaches its copy
+
+The creator, their assistant or an update pull request of the tooling changes a listed app on its main line. The app
+publish action deploys it to the app's own address, which then names the new commit. The app overview notices it
+within 30 minutes, opens an update pull request for the entry and classifies it: it replays `lernapps update` with
+the tooling the new commit pins on the entry's commit and compares (decision `dec-update-replay`). The listing
+validation runs on the pull request as on a new listing. A routine update merges itself; any other change waits for
+the owner. The merge publishes the copy as after a listing.
+
+```arc42
+:::runtime-scenario
+id: rs-new-version
+title: A new version of a listed app reaches its copy
+trigger: A push to the main line of a listed app's repo
+involves: bb-app-check-action, bb-app-publish, bb-generator, bb-listing-validation, bb-check-cli
+:::
+```
+
+```arc42
+:::diagram
+id: rs-new-version-sequence
+scenario: rs-new-version
+notation: mermaid-sequence
+aliases: assistant=actor-assistant, appcheck=bb-app-check-action, publish=bb-app-publish, overview=actor-app-overview, generator=bb-generator, listing=bb-listing-validation, check=bb-check-cli, owner=actor-owner
+:::
+```
+
+```mermaid
+sequenceDiagram
+    participant assistant as Creator's assistant
+    participant appcheck as App check action
+    participant publish as App publish
+    participant overview as App overview
+    participant generator as Generator (lernapps update)
+    participant listing as Listing validation
+    participant check as Check CLI
+    participant owner as Owner
+    assistant->>appcheck: push to the main line
+    appcheck->>check: check the app
+    appcheck->>publish: checked bundle
+    publish-->>publish: the app's address serves it and names its commit
+    overview->>publish: every 30 minutes: does the address serve a new commit?
+    overview->>generator: tooling the new commit pins: update the entry's commit (no secrets)
+    generator-->>overview: the tree lernapps update makes
+    overview->>overview: compare with the new commit (npm versions and text aside)
+    overview->>listing: pull request update/<id>: auto-merge or label review
+    listing->>check: check the app at the entry's address, with the entry
+    check-->>listing: validation report
+    alt nothing else changed
+        listing-->>overview: green: merges itself
+    else anything else changed
+        owner->>listing: review, merge or close
+    end
+    overview->>overview: build the copy, start/<id>/, catalog, check the copy
 ```
 
 ## A rule changes
