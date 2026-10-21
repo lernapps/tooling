@@ -42,9 +42,10 @@ have in mind; if the agent offers only a quiz or a game, say you would like expl
 
 # When you stop
 
-Stop the conversation as soon as one of these happens, with a short last message, and then end your session. End
-that last message with its marker on a line of its own, exactly as given: `[Ende: veröffentlichen]`, `[Ende: fertig]`
-or `[Ende: festgefahren]`.
+Stop the conversation as soon as one of these happens, with a short last message, and then end your session. Send
+that last message to the agent with `acpx prompt`, like every other, and put its marker on its last line, exactly as
+given: `[Ende: veröffentlichen]`, `[Ende: fertig]` or `[Ende: festgefahren]`. Never end without sending it; the marker
+in your own summary does not count.
 - Only when the app is built and checked and the agent asks for your yes to put it online now (publish, push to
   `main`) or to list it on lernapps.net: send "Stopp, das reicht für heute. Veröffentlichen und Eintragen machen wir
   später. Danke!" and the marker `[Ende: veröffentlichen]`, and end. A question while planning whether the app
