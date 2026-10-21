@@ -2539,7 +2539,7 @@
         "t_created_with_plan_command": 1,
         "t_no_verify_bypass": 1,
         "t_pre_push_counter_edits": 0,
-        "t_scenario_end": 1,
+        "t_scenario_end": 0,
         "t_creator_turns_after_plan": 13,
         "t_skills_in_phase": 0.2,
         "t_skills_out_of_place": 1,
