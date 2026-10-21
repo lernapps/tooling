@@ -127,9 +127,9 @@ actions:
     status: open
     findings: [created-before-plan, haiku-falls-behind]
   - text: >-
-      Measure the scenario's end as such: the row "Code done" counts a green check and a regular end after the plan
-      (the creator's answer to a GitHub question, its stop at the publish question, or its thanks when the agent is
-      done); the phase row stays beside it. Run 2 still needs a re-score with it.
+      Measure the scenario's end as such: the row "Code done" counts a green check and a conversation that ended
+      after the plan with the creator's stop at publishing or its thanks when the agent is done; the phase row stays
+      beside it. Run 2 still needs a re-score with it.
     status: done
     findings: [haiku-falls-behind]
   - text: >-

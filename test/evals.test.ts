@@ -500,7 +500,7 @@ test("the plan counts as confirmed when sed, a helper script or a write sets pha
   expect(early.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 1 });
 });
 
-test("the scenario ends regularly after the plan at a GitHub question, the publish question or the agent's done", () => {
+test("the scenario ends regularly when the creator's last message after the plan stops at publishing or thanks the agent for being done", () => {
   const setCode = {
     name: "Edit",
     input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
@@ -522,7 +522,15 @@ test("the scenario ends regularly after the plan at a GitHub question, the publi
   expect(planning.dimensions).toMatchObject({ scenario_end: 0 });
   const asked = scoreTurns([turn("Ein Quiz"), turn("Ja, passt so.", [setCode]), turn(github), turn("Danke!")]);
   expect(asked.dimensions).toMatchObject({ scenario_end: 1 });
-  expect(asked.evidence).toMatchObject({ scenarioEndAtCreatorTurn: 3 });
+  expect(asked.evidence).toMatchObject({ scenarioEndAtCreatorTurn: 4 });
+  // A GitHub answer in the middle of Code, then stuck: no regular end.
+  const midCode = scoreTurns([
+    turn("Ein Quiz"),
+    turn("Ja, passt so.", [setCode]),
+    turn(github),
+    turn("Danke, wir hören hier auf."),
+  ]);
+  expect(midCode.dimensions).toMatchObject({ scenario_end: 0 });
   const stopped = scoreTurns([
     turn("Ein Quiz"),
     turn("Ja, passt so.", [setCode]),

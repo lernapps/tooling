@@ -62,11 +62,11 @@ const LERNAPPS_REPO = /^https:\/\/(raw\.githubusercontent\.com|github\.com)\/ler
 const APPROVAL = /^\s*(ja\b|passt\b|ok\b|okay\b|einverstanden|gerne)/i;
 const QUESTION = /[^?.!\n]{3,}\?/g;
 /**
- * The scenario's regular end, as the persona states it: its answer to a question about GitHub or the repo, its "Stopp"
- * at the question to publish, or its "Danke!" when the agent says it is done. Its other end, "Danke, wir hören hier
- * auf.", is for an agent that is stuck.
+ * The scenario's regular end, as the persona's last message states it: its "Stopp" at the question to publish, or its
+ * "Danke!" when the agent says it is done (also after a GitHub question it answered with "no repo, publish later").
+ * Its other end, "Danke, wir hören hier auf.", is for an agent that is stuck.
  */
-const SCENARIO_END = /kein GitHub-Repo angelegt|^\s*Stopp, das reicht|^\s*Danke!\s*$/i;
+const SCENARIO_END = /^\s*(Stopp, das reicht|Danke!)/i;
 
 const toolName = (name: string) => name.replace(/^mcp__acp__/, "");
 /** The URLs in a command; a closing parenthesis belongs to a URL only when the URL opened one. */
@@ -243,9 +243,12 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
   const confirmedAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
   const creatorTurns = all.length;
   const afterPlan = confirmedAt >= 0 ? creatorTurns - confirmedAt - 1 : undefined;
-  // After the plan's yes, the creator ended the scenario regularly (whether the agent had set `phase: commit` or not).
+  // After the plan's yes, the creator's last message ends the scenario regularly (whether the agent had set
+  // `phase: commit` or not). An answer to a GitHub question in the middle of Code is no end.
   const endAt =
-    confirmedAt >= 0 ? all.findIndex((turn, index) => index > confirmedAt && SCENARIO_END.test(turn.creator)) : -1;
+    confirmedAt >= 0 && creatorTurns - 1 > confirmedAt && SCENARIO_END.test(all.at(-1)?.creator ?? "")
+      ? creatorTurns - 1
+      : -1;
 
   // A9: questions per agent turn (sentences ending in "?" in the text the creator saw).
   const questions = all.map((turn) => (turn.text.match(QUESTION) ?? []).length);
