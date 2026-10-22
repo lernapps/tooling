@@ -26,16 +26,16 @@
 
 - New task per seed.
 - `given`: `int: [min, max]` + `step`; `decimal: [min, max]` + `step`; `oneOf: [...]`; `pick: <n>` `from:` list or
-  `{ data: <name> }` (`distinct: true`; `pick: 1` = one record); `shuffle:` list or data file.
+  `{ data: <name> }` (`distinct: true`; `pick: 1` = one record).
 - `where`: boolean expressions; failing draws are redrawn.
-- `task`: `text`, optional `figure` (`hundred-grid` `filled`; `bar` `part`, `whole`; numbers or expressions; `alt`).
+- `task`: `text`. A figure that changes with the task: an exercise component (`components.md`).
 - `answer`: `value` (expression) and `compare`: `number` or
   `{ number: { format: integer|decimal|money|percent, decimals, tolerance, unit } }`, `{ choice: <options> }`,
-  `order`, `{ set: <options> }`, `pairs` or `{ pairs: { left, right } }`.
+  `order`, `pairs` or `{ pairs: { left, right } }`.
 - `mistakes`: `value` + `message` each. `hint`, `steps`: help, the way to the solution.
 - Expressions (no eval): exact fractions, `+ - * /`, parentheses, `== != < <= > >=`, `and`, `or`, `not`, strings,
-  fields (`e.year`), index (`xs[0]`), lists, `round(x, n)`, `abs`, `decimals`, `len`, `map(xs, field)`,
-  `sortBy(xs, field)`, `reverse`, `minBy`, `maxBy`, `contains(xs, x)`, `distinct(xs)`.
+  fields (`e.year`), index (`xs[0]`), lists, `round(x, n)`, `decimals`, `map(xs, field)`,
+  `sortBy(xs, field)`, `reverse`.
 
 ### Placeholders
 
@@ -55,7 +55,6 @@
   where: ["decimals(G * p / 100) <= 2"]
   task:
     text: "Ein Fahrrad kostet {{G}} €. Im Angebot gibt es {{p}} % Rabatt. Wie viel Euro sparst du?"
-    figure: { kind: hundred-grid, filled: p }
   answer: { value: "G * p / 100", compare: { number: { format: money } } }
   mistakes:
     - { value: "G * p", message: "Du hast vergessen, durch 100 zu teilen: {{p}} % sind {{p}} Hundertstel." }
@@ -67,7 +66,7 @@
 ```
 
 - Data-file example: `given: { events: { pick: 3, distinct: true, from: { data: ereignisse } } }`,
-  `where: ["distinct(map(events, date))"]`, `answer: { value: "map(sortBy(events, date), title)", compare: order }`,
+  `where: ["events[0].date != events[1].date"]`, `answer: { value: "map(sortBy(events, date), title)", compare: order }`,
   mistake `map(reverse(sortBy(events, date)), title)`.
 
 ### Property test (200 fixed seeds; first problem with its seed)
@@ -76,7 +75,6 @@
 - Answer defined, in its format, passes its own comparator.
 - No mistake equals the answer (`for seed 17 the mistake equals the answer (20); …`); each mistake is enterable.
 - Same task for the same seed; no placeholder left.
-- Figure does not show the answer.
 - Mistake equal to the answer for some values = range too wide (`G - G * p / 100` = `G * p / 100` at 50 %: so `p`
   ≤ 40).
 
