@@ -1,7 +1,7 @@
 // A copy of this repo as it is now, for the tests and their global setup. No test runner imports here: the global
 // setup runs outside the test files.
 import { spawnSync } from "node:child_process";
-import { cpSync, mkdirSync } from "node:fs";
+import { cpSync, lstatSync, mkdirSync, readlinkSync, symlinkSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -52,7 +52,10 @@ export function copyRepo(dir: string): void {
     const target = join(dir, file);
     mkdirSync(dirname(target), { recursive: true });
     try {
-      cpSync(join(repoRoot, file), target);
+      // a symlink (e.g. .claude/skills/commit) stays one, as in a clone
+      const source = join(repoRoot, file);
+      if (lstatSync(source).isSymbolicLink()) symlinkSync(readlinkSync(source), target);
+      else cpSync(source, target);
     } catch (error) {
       // a file deleted in the working tree but not yet in the index
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
