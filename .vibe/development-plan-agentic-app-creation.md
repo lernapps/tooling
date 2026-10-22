@@ -369,16 +369,20 @@ evals cover all three archetypes.*
   the architecture only in interactive apps, copied and replaced by the tooling, the app's own part in marked
   sections, not user-facing, gated by `arc42 diff --staged --strict` and `arc42 validate --strict`; Vue stays.
   The pilot run is through (owner, 2026-10-20); #20 closed.
-- [ ] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)), with a first version
-  and an increment each: inventory and expected behaviour in the sketch below (2026-10-17); scenarios and scoring next.
-  Before closing this increment: the Harbor comparison of the guidance of #118 with the runs of 2026-10-18 (the
-  owner decides on the run). New for A2 (owner, 2026-10-20): `skills_in_phase` (the share of the skills the guidance
-  loads in a phase that the trial loaded in it, in full) and `skills_out_of_place` (a skill of another archetype or
-  loaded before its phase), expected from the `x-phase` of the skills' building blocks at the job's guidance commit
-  (`evals/skills-by-phase.ts`). Only for new runs: the runs of 2026-10-18 had other skills and no phases in the
-  architecture, so they are not scored again; the other dimensions stay as they were and compare.
-  - How the eval runs are built: ADR [`docs/adr/eval-runs-with-harbor.md`](../docs/adr/eval-runs-with-harbor.md), short form `dec-eval-runs-with-harbor` in chapter 9 (accepted
-    2026-10-17 by the owner: Harbor, single-step tasks with a simulated creator, a scoring verifier; spike and first real run `real-5` done)
+- [x] 10 · Evals for all three archetypes ([#18](https://github.com/lernapps/tooling/issues/18)): inventory and
+  expected behaviour in the sketch below (2026-10-17); Harbor with a simulated creator and a scoring verifier
+  ([`docs/adr/eval-runs-with-harbor.md`](../docs/adr/eval-runs-with-harbor.md), `dec-eval-runs-with-harbor`); three
+  runs, each with its results and conclusions on the page Prompt engineering (see "Eval runs of 2026-10-20/21" under
+  Completed). Next: the matrix with the phase announced
+  ([#138](https://github.com/lernapps/tooling/issues/138)). The increment of an existing app as a scenario is not built
+  yet; it goes with #138 or after it.
+- [ ] Follow-ups of the eval runs (2026-10-21), each an issue of its own:
+  - the matrix with the phase announced, all archetypes × models ([#138](https://github.com/lernapps/tooling/issues/138))
+  - the rule of at most two questions per turn ([#139](https://github.com/lernapps/tooling/issues/139))
+  - skills loaded in their phase, not before ([#140](https://github.com/lernapps/tooling/issues/140))
+  - only the yes at the Plan checkpoint confirms the plan ([#141](https://github.com/lernapps/tooling/issues/141))
+  - the simulated creator's mistakes counted apart, by structured output
+    ([#142](https://github.com/lernapps/tooling/issues/142))
 - [ ] Follow-ups of the first explainer run: skills only for creators ([#85](https://github.com/lernapps/tooling/issues/85)),
   the templates' build into `dist/` ([lernapps/app-templates#32](https://github.com/lernapps/app-templates/issues/32)),
   tutor support for the quiz, later ([#86](https://github.com/lernapps/tooling/issues/86))
@@ -402,8 +406,8 @@ evals cover all three archetypes.*
     mermaid renders after the scroll
   - [x] app-templates: arc42 from 0.36.1 to 0.38.0, as the generator pins it (lernapps/app-templates#58)
   - [x] close the test listing pull request lernapps/apps#60 (planeten-quiz, from the manual eval)
-  - the vision's tagline (`docs/vision.md` in lernapps/docs) in the words of its new card: "Many small solutions.
-    One real change.", personal software becoming a change for many, used without worry
+  - the vision's tagline (`docs/vision.md` in lernapps/docs) in the words of its new card
+    ([lernapps/docs#44](https://github.com/lernapps/docs/issues/44))
 
 ### Sketch: the evals (step 10, inventory and expectations, 2026-10-17)
 *The text an agent reads on its way from a creator's first prompt to a listed app, and what we expect it to do with
@@ -1321,6 +1325,27 @@ The open questions of the earlier versions, decided:
     pinned in #120, lernapps/docs#38, lernapps/apps#63); the start page of /docs/ is "Die Konzepte hinter
     lernapps.net" with the vision "Viele kleine Lösungen. Eine große Veränderung." as its big card, platform (pdt42),
     the non-profit organisation (biz42) and the way in for agents (llms.txt) (lernapps/docs#38)
+- [x] Eval runs of 2026-10-20/21 (KD-24 measured; #132, #133, #135, lernapps/app-templates#64):
+  - Each run is a folder `evals/runs/<run>/`: `results.json` (schema results.v1, written by `evals/results.ts`,
+    cleaned of trials that hit the usage limit or broke off before the agent started) and `conclusions.yaml` (the
+    question, the bottom line, findings with the cells they rest on, actions with their status). `evals/site.ts`
+    renders them on Prompt engineering below the method, one tab per run, with a comparison against another run.
+    A run without conclusions shows as not evaluated yet; eval sessions push only `results.json` to
+    `evals/run-<run>`, started with `evals/harbor/session-prompt.md`.
+  - New scores: skills in their phase (A2, from the `x-phase` of the skills' building blocks at the job's guidance
+    commit); the phase read from `sed`, one-liners and `grep '^phase:'`; the scenario's end and "Code done" (a green
+    check and a regular end after the plan); the phase each reply begins with, and whether it is the plan's.
+  - Runs: `2026-10-18-first-run` (33 runs, guidance 7ceb8c4), `2026-10-21-guidance-by-phase` (30 runs, b20b514 and
+    1e4ba59), `2026-10-21-phase-announced` (interactive × Haiku × 3, cbe3b29). Runs 1 and 2 were scored again from
+    their transcripts. Reading the transcripts found a gap in the measure in every run, most of all Haiku's
+    "stuck in Code", which was the persona ending the scenario at the first GitHub question.
+  - Guidance from the findings: `lernapps-exercise-patterns` moved to Explore, where the kind of practice points to
+    the archetype; only a checkpoint waits, a phase's last box goes on in the same message; each reply begins with
+    the phase ("**Plan · Checkpoint**"). The interactive template's browser tests press ä, ö, ü and ß
+    (lernapps/app-templates#64); the personas send their end marker (`[Ende: …]`).
+  - The small run with the phase announced: Haiku passes the check 3/3, creates nothing before the plan, sets
+    `phase: commit` before the GitHub question in 2 of 3 runs, and begins 75 % of its replies with the phase. n = 3;
+    the matrix follows in #138.
 
 ## Commit
 

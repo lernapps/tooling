@@ -31,8 +31,38 @@ What is tested is an assistant configuration (harness and version, model, Harbor
   Prompt engineering (lernapps.net/tooling/prompt-engineering/) and fails when a finding names a cell the run has not.
 - `expectations.json`: which expectation each dimension measures.
 - `harbor/`: `setup.sh` (installs Harbor 0.24.0 outside the repo and patches it), `harbor.sh` (runs Harbor with a
-  scrubbed environment and the subscription token), `run.sh` (one job per task and model), the patch and the prompt
-  template of the simulated user.
+  scrubbed environment and the subscription token), `run.sh` (one job per task and model), the patches, the prompt
+  template of the simulated user, and `session-prompt.md`, the prompt of an eval session.
+
+## An eval run, step by step
+
+1. **Start a session** of its own in the cloud environment "Evals" (it holds the key and allows Docker), with the
+   prompt of `harbor/session-prompt.md`: the run's id (`<date>-<short name>`) and its jobs. The session runs the
+   jobs, writes `runs/<run>/results.json`, pushes only that file to `evals/run-<run>` and summarises.
+2. **Read the transcripts, not only the numbers.** Every run so far found a gap in the measure (a phase set with
+   `sed`, the creator's end, the first text of a reply); fix the score, then score the run's transcripts again (below)
+   before you conclude.
+3. **Write `runs/<run>/conclusions.yaml`** in a pull request from that branch: the question, the bottom line, findings
+   with the cells they rest on, the actions with their status. Until it is there, the page shows the run as not
+   evaluated yet.
+4. Open actions become issues; done ones name their pull request.
+
+## Scoring again
+
+The numbers come from the job directories, which stay where the run was (`~/.lernapps-evals/jobs` of the eval
+session's container). To score a run again after a change to the score: copy its job directories, run
+`node evals/score-transcript.ts <job>…` on the copy, then `node evals/results.ts <run> <job>… --out <file>`, and
+compare with the run's `results.json` before you replace it: only the changed dimensions may differ.
+
+## The creator's end and the phase announced
+
+- The simulated creator ends the scenario before anything is pushed, and sends its last message with a marker on
+  its last line: `[Ende: veröffentlichen]` (stopped at the question to publish), `[Ende: fertig]` (the agent said it
+  is done) or `[Ende: festgefahren]` (stuck). `scenario_end` reads the marker; runs before it fall back to the
+  persona's sentences. "Code done" counts a green check and a regular end after the plan.
+- The plan template asks each reply to begin with the phase ("**Plan · Checkpoint**"). `phase_announced` is the
+  share of the replies the creator read whose first text begins with a phase; `phase_announced_right` the share of
+  those whose phase is the plan's at that point of the turn.
 
 ## Running
 
