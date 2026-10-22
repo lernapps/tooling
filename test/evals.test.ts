@@ -835,3 +835,44 @@ test("a trial's creator records are read from its user-agent folder", () => {
     expect.objectContaining({ turn: 5, asked: ["publish"], end: "veröffentlichen" }),
   );
 });
+
+test("a command that ticks the boxes naming a phase sets no phase; a substitution of the phase line does", () => {
+  const plan = ".vibe/plans/01-quiz.md";
+  const bash = (command: string) => ({ name: "Bash", input: { command } });
+  // From run 2026-10-22 (quiz-fresh, Haiku): the phase set to commit, then the boxes ticked that quote `phase: code`.
+  const setCommit = bash(
+    `cd /app && sed -i 's/^phase: code$/phase: commit/' ${plan} && sed -i -e 's/^- \\[ \\] \`grep .\\^phase:.\` prints \`phase: code\`\\./- [x] \`grep '^phase:'\` prints \`phase: code\`./' ${plan}`,
+  );
+  const tickBoxes = bash(
+    `cd /app && sed -i -e 's/^- \\[ \\] Set \`phase: code\`\\./- [x] Set \`phase: code\`./' ${plan} && git add -A`,
+  );
+  const reply = (text: string, toolsBefore: number) => ({ opening: { text, toolsBefore }, closing: text });
+  const score = scoreTurns([
+    {
+      creator: "Ein Quiz",
+      text: "**Plan · Checkpoint** Passt er?",
+      ...reply("**Plan · Checkpoint** Passt er?", 1),
+      tools: [bash(`sed -i 's/^phase: explore$/phase: plan/' ${plan}`)],
+    },
+    {
+      creator: "Ja, passt so.",
+      text: "**Commit · Checkpoint** Darf sie online?",
+      ...reply("**Commit · Checkpoint** Darf sie online?", 3),
+      tools: [bash(`sed -i 's/^phase: plan$/phase: code/' ${plan}`), setCommit, tickBoxes],
+    },
+    { creator: "Stopp.\n[Ende: veröffentlichen]", text: "Gut.", ...reply("Gut.", 0), tools: [] },
+  ]);
+  expect(score.dimensions).toMatchObject({ phase_announced: 1, phase_announced_right: 1 });
+  // A plan written with a heredoc: its phase line counts, not the boxes that name the next phase.
+  const heredoc = bash(
+    `cat > ${plan} <<'EOF'\n---\nphase: explore\n---\n- [ ] Set \`phase: plan\`: change the value line.\nEOF`,
+  );
+  const written = scoreTurns([
+    { creator: "Ein Quiz", text: "**Explore** Was?", ...reply("**Explore** Was?", 1), tools: [heredoc] },
+    { creator: "Bruchrechnung", text: "Gut.", ...reply("Gut.", 0), tools: [] },
+  ]);
+  expect(written.evidence["phasesAnnounced"]).toEqual([
+    { turn: 1, announced: "explore", plan: "explore" },
+    { turn: 2, announced: null, plan: "explore" },
+  ]);
+});

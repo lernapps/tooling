@@ -221,9 +221,9 @@ const lastOf = (text: string, pattern: RegExp) => [...text.matchAll(pattern)].at
 
 /**
  * The phase a plan holds after a tool call, if the call shows it: `phase: <name>` written into `.vibe/` (the last such
- * line), a command on `.vibe/` that writes it (`sed 's/^phase: plan$/phase: code/'` or a one-liner: the last value
- * named, which is the new one), or the output of the `grep '^phase:'` the plan template prescribes, which also covers
- * a helper script that changed the plan.
+ * line), a command on `.vibe/` that writes it (`sed 's/^phase: plan$/phase: code/'`, a heredoc, or a one-liner: the
+ * last value named, which is the new one), or the output of the `grep '^phase:'` the plan template prescribes, which
+ * also covers a helper script that changed the plan.
  */
 const phaseSet = (tool: Turn["tools"][number]): string | undefined => {
   const written = [tool.input["new_string"], tool.input["content"]].filter((value) => typeof value === "string");
@@ -231,7 +231,14 @@ const phaseSet = (tool: Turn["tools"][number]): string | undefined => {
   const inFile = /\.vibe\//.test(pathOf(tool))
     ? written.map((value) => lastOf(value as string, /^phase:\s*(explore|plan|code|commit)\b/gm)).find(Boolean)
     : undefined;
-  const inCommand = /\.vibe\//.test(command) ? lastOf(command, /phase:\s*(explore|plan|code|commit)\b/g) : undefined;
+  // In a command: a substitution of the phase (`s/^phase: plan$/phase: code/`), else a line written as
+  // `phase: <name>` (a heredoc), else the last value named outside backticks: the plan's boxes quote the phase in
+  // backticks ("Set `phase: code`"), and a command that ticks them sets nothing.
+  const inCommand = /\.vibe\//.test(command)
+    ? (lastOf(command, /\bs\/\^?phase:[^/\n]*\/phase:\s*(explore|plan|code|commit)\b/g) ??
+      lastOf(command, /^phase:\s*(explore|plan|code|commit)\b/gm) ??
+      lastOf(command.replace(/`[^`\n]*`/g, ""), /phase:\s*(explore|plan|code|commit)\b/g))
+    : undefined;
   const shown =
     /\bgrep\b/.test(command) && /phase/.test(command) && tool.result
       ? lastOf(tool.result, /^(?:[^\n:]*:)?phase:\s*(explore|plan|code|commit)\b/gm)
