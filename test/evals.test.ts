@@ -935,9 +935,9 @@ test("an OpenCode trial is scored from its ACP session export, its tools mapped 
     code_before_plan_confirmed: 1,
     questions_per_turn_max: 1,
     phase_announced: 1,
-    agent_input_tokens: 20,
-    agent_output_tokens: 10,
   });
+  // Over ACP, OpenCode reports only the usage of each prompt's last model call: without its database, no tokens.
+  expect(score?.dimensions).not.toHaveProperty("agent_output_tokens");
   // bash, read, write and edit as Bash, Read, Write and Edit: the sed sets plan, the edit of the plan sets code
   expect(score?.evidence["phasesAnnounced"]).toEqual([
     { turn: 1, announced: "plan", plan: "code" },
@@ -989,5 +989,38 @@ test("a Claude Code transcript over ACP: its tools, their outputs and the agent'
   expect(HARNESSES["opencode"]!.tool("skill", { name: "lernapps-app" })).toEqual({
     name: "Skill",
     input: { name: "lernapps-app", skill: "lernapps-app" },
+  });
+});
+
+test("an OpenCode trial's tokens are summed from OpenCode's own database, reasoning counted as output", () => {
+  const job = join(mkdtempSync(join(tmpdir(), "evals-")), "opencode-job");
+  cpSync(join(fixtures, "opencode-job"), job, { recursive: true });
+  const trial = join(job, "opencode-trial");
+  const folder = join(trial, "agent", "opencode", "xdg-data", "opencode");
+  mkdirSync(folder, { recursive: true });
+  const { DatabaseSync } = process.getBuiltinModule("node:sqlite");
+  const db = new DatabaseSync(join(folder, "opencode.db"));
+  db.exec("CREATE TABLE message (id TEXT, data TEXT)");
+  const insert = db.prepare("INSERT INTO message VALUES (?, ?)");
+  insert.run("m1", JSON.stringify({ role: "user" }));
+  insert.run(
+    "m2",
+    JSON.stringify({
+      role: "assistant",
+      tokens: { input: 100, output: 40, reasoning: 10, cache: { read: 900, write: 5 } },
+    }),
+  );
+  insert.run(
+    "m3",
+    JSON.stringify({
+      role: "assistant",
+      tokens: { input: 7, output: 3, reasoning: 0, cache: { read: 1000, write: 0 } },
+    }),
+  );
+  db.close();
+  expect(scoreTrial(trial)?.dimensions).toMatchObject({
+    agent_input_tokens: 112,
+    agent_cache_read_tokens: 1900,
+    agent_output_tokens: 53,
   });
 });
