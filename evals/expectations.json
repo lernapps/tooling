@@ -19,6 +19,7 @@
     "plan_confirmed": ["A6"],
     "code_before_plan_confirmed": ["A3", "A6"],
     "creator_mistakes": [],
+    "archetype_first_proposed_right": ["A19"],
     "creator_turns_after_plan": ["A11"],
     "scenario_end": ["A4"],
     "phase_announced": ["A4"],

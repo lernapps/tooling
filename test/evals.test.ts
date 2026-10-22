@@ -876,3 +876,45 @@ test("a command that ticks the boxes naming a phase sets no phase; a substitutio
     { turn: 2, announced: null, plan: "explore" },
   ]);
 });
+
+test("the archetype the agent proposes first is scored against the task's, and a correction by the creator is shown", () => {
+  const context: SkillContext = { phases: {}, archetypes: {}, archetype: "quiz", conditional: [] };
+  const record = (asked: CreatorTurn["asked"], answers: CreatorTurn["answers"], reply: string) => {
+    const turn = parseTurn(JSON.stringify({ asked, answers, reply, end: null }));
+    if ("problems" in turn) throw new Error(turn.problems.join("; "));
+    return turn;
+  };
+  const turn = (creator: string, text: string) => ({ creator, text, tools: [] });
+  // From run 2026-10-22 (quiz-fresh, Haiku): explainer first, the creator asks for a quiz.
+  const wrong = scoreTurns(
+    withRecords(
+      [
+        turn(
+          "Ein Quiz zu Brüchen",
+          "Ich habe die drei Archetypen gelesen.\n\n**Mein Vorschlag: Archetyp `explainer`.**",
+        ),
+        turn("Ich möchte ein Quiz.", "Gut. Warum nicht `interactive`: kein Spiel. Archetyp: `quiz`."),
+      ],
+      [record([], [], "Ein Quiz zu Brüchen"), record(["archetype"], ["archetype"], "Ich möchte ein Quiz.")],
+    ),
+    context,
+  );
+  expect(wrong.dimensions).toMatchObject({ archetype_first_proposed_right: 0 });
+  expect(wrong.evidence).toMatchObject({
+    archetypeProposals: [
+      { turn: 1, archetype: "explainer" },
+      { turn: 2, archetype: "quiz" },
+    ],
+    archetypeCorrectedByCreatorAtTurn: 2,
+  });
+  const right = scoreTurns([turn("Ein Quiz zu Brüchen", "- **Archetyp: `quiz`.** Fragen mit Rückmeldung.")], context);
+  expect(right.dimensions).toMatchObject({ archetype_first_proposed_right: 1 });
+  expect(right.evidence).toMatchObject({ archetypeCorrectedByCreatorAtTurn: null });
+  // No proposal, or no task to compare with: no number.
+  expect(scoreTurns([turn("Ein Quiz", "Was sollen sie können?")], context).dimensions).not.toHaveProperty(
+    "archetype_first_proposed_right",
+  );
+  expect(scoreTurns([turn("Ein Quiz", "Archetyp `quiz`.")]).dimensions).not.toHaveProperty(
+    "archetype_first_proposed_right",
+  );
+});

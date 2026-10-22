@@ -78,6 +78,8 @@ const QUOTED = /„[^“\n]*“|“[^”\n]*”|"[^"\n]*"|«[^»\n]*»|»[^«\n]
 const CHECKPOINT = /^[\s*_#>]*plan\b[^\n\w]{0,5}checkpoint\b/i;
 /** A phase announced as the template shows it, a word of its own ("**Code**", "**Plan · Checkpoint**", "## Plan"). */
 const PHASE_MARK = /^[\s*_#>]*(?:explore|plan|code|commit)(?:\s*·[^\n]*?)?\s*(?:\*\*|__|\n|$)/i;
+/** An archetype the agent proposes in its text: "Archetyp `quiz`", "**Archetyp: `explainer`**", "archetype quiz". */
+const PROPOSED = /\barchetyp(?:e)?\b[\s:*`„"“]*(quiz|explainer|interactive)\b/gi;
 /** What a creator's message answers when it says yes. */
 const YES: Kind[] = ["plan_confirm", "confirm", "go_on", "permission"];
 /**
@@ -369,6 +371,22 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
       ]
     : [];
 
+  // A19: the archetype the agent proposes first, against the task's; and whether the creator had to correct it (its
+  // record answers the kind of app after a proposal of another).
+  const proposals = all.flatMap((turn, index) =>
+    [...turn.text.matchAll(PROPOSED)].map((match) => ({ turn: index + 1, archetype: (match[1] ?? "").toLowerCase() })),
+  );
+  const firstProposal = proposals[0];
+  const correctedAt = firstProposal
+    ? all.findIndex(
+        (turn, index) =>
+          index >= firstProposal.turn &&
+          turn.record?.answers.includes("archetype") &&
+          skillContext !== undefined &&
+          firstProposal.archetype !== skillContext.archetype,
+      )
+    : -1;
+
   // The phase each reply begins with, against the phase the plan holds at that point of the turn.
   let held = "explore";
   const announced = all.map((turn) => {
@@ -520,6 +538,8 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
   if (announcing)
     dimensions["code_before_plan_confirmed"] = codeAt >= 0 && (confirmedAt < 0 || codeAt < confirmedAt) ? 1 : 0;
   if (structured) dimensions["creator_mistakes"] = creatorMistakes.length;
+  if (firstProposal && skillContext?.archetype)
+    dimensions["archetype_first_proposed_right"] = firstProposal.archetype === skillContext.archetype ? 1 : 0;
   if (withPhase.length)
     dimensions["phase_announced_right"] =
       Math.round((withPhase.filter((turn) => turn.phase === turn.held).length / withPhase.length) * 100) / 100;
@@ -539,6 +559,10 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
       scenarioEndAtCreatorTurn: endAt >= 0 ? endAt + 1 : null,
       scenarioEnd: marker ?? null,
       ...(structured ? { creatorMistakes } : {}),
+      archetypeProposals: proposals.filter(
+        (proposal, index) => proposals.findIndex((other) => other.archetype === proposal.archetype) === index,
+      ),
+      archetypeCorrectedByCreatorAtTurn: correctedAt >= 0 ? correctedAt + 1 : null,
       phasesAnnounced: announced.map((turn, index) => ({
         turn: index + 1,
         announced: turn.phase ?? null,
