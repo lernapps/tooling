@@ -110,10 +110,10 @@
     "@lernapps/site": "github:lernapps/lernapps.github.io#fb836e371dddc8e8bf33a89990ed64d5c1cd683d",
     "@types/node": "22.20.5",
     "ajv": "8.20.0",
-    "vite-plus": "1.0.0"
+    "vite-plus": "1.3.0"
   },
   "peerDependencies": {
-    "vite-plus": "1.0.0"
+    "vite-plus": "1.3.0"
   },
   "peerDependenciesMeta": {
     "vite-plus": {
