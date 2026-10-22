@@ -208,6 +208,8 @@
       measurement. Measurements come from the evals.</p>
 
     <h2 id="evals">How an eval works</h2>
+    <p class="note">The whole method, with a diagram of a trial and the reasons behind it:
+      <a href="how-evals-work/">How we evaluate the guidance</a>.</p>
     <p>An eval tests an assistant configuration (harness, its version, model) on our guidance: does the creator's
       assistant follow it from the creator's first prompt to the publish checkpoint? We judge the process, not the
       content.</p>
@@ -247,13 +249,14 @@
     <h2 id="limits">Limits</h2>
     <ul>
       <li>Small n: 2 to 6 runs per cell. One creator model (Haiku 5.5).</li>
-      <li>The creator answers in free text: only the end is marked; its own mistakes are not counted apart from the
-        agent's. Runs before 21 October read the end from its sentences.</li>
+      <li>The creator decides each message in a fixed format since 22 October, so its own mistakes count apart from
+        the agent's. Runs before that read its end from its free text, and before 21 October from its sentences.</li>
       <li>Fresh scenarios only: no increment, no prepared start states yet.</li>
       <li>GitHub only as a local remote in the container; the GitHub cases on github.com are not run yet.</li>
-      <li>Claude Code only; Codex and Gemini CLI are not run yet.</li>
-      <li>Harbor's own token and cost numbers are wrong for the agent behind the ACP bridge; the tokens here are
-        summed from the agent's session log.</li>
+      <li>Claude Code so far; OpenCode is prepared (<code>HARNESS=opencode</code>), Codex and Gemini CLI are not run
+        yet.</li>
+      <li>Harbor's own token and cost numbers are wrong for the agent behind the ACP bridge; the tokens here come
+        from the agent's ACP session, or, where it reports none there, from Claude Code's own log.</li>
     </ul>
     <h2 id="run">How to run it, in detail</h2>
     <h3>What it needs</h3>
@@ -272,8 +275,10 @@
         app folder) and writes the generated files into each task.</li>
       <li><code>evals/harbor/run.sh &lt;task&gt; &lt;model&gt; [trials] [concurrency]</code> runs one Harbor job. The
         tasks are <code>quiz-fresh</code>, <code>explainer-fresh</code> and <code>interactive-fresh</code>; the model is a
-        Harbor name such as <code>anthropic/claude-sonnet-5-5</code>; <code>USER_MODEL</code> sets the simulated
-        creator (default: the same model). Harbor runs through <code>evals/harbor/harbor.sh</code>, which clears the
+        Harbor name such as <code>anthropic/claude-sonnet-5-5</code>; <code>HARNESS</code> names the assistant
+        (<code>claude-code</code> by default, or <code>opencode</code> with <code>EVALS_OPENCODE_API_KEY</code>);
+        <code>USER_MODEL</code> sets the simulated creator (default: the same model for Claude Code, Haiku 5.5
+        otherwise). Harbor runs through <code>evals/harbor/harbor.sh</code>, which clears the
         environment, so no other credential reaches the containers. The job lands in
         <code>~/.lernapps-evals/jobs</code> with its <code>configuration.json</code> and the transcript score.</li>
       <li>For a matrix, start one <code>run.sh</code> per model in parallel; two or three at a time fit a machine with
