@@ -73,7 +73,10 @@ to `/logs/user-agent/creator-turns.jsonl`, which lands in the trial as `user-age
 `score-transcript.ts` gives each creator message its record and reads the end and the plan's yes from there. It
 counts the creator's own mistakes as `creator_mistakes` (evidence `creatorMistakes`): an answer to a question the
 agent did not ask (`answer_not_asked`), a yes when the agent asked nothing (`yes_without_question`), a message sent
-past the command (`unrecorded`), a last message without its end (`no_end`). Runs before 2026-10-22 have no records
+past the command (`unrecorded`), a last message without its end (`no_end`). Apart from them it counts a hint,
+`creator_questions_missed` (evidence `creatorQuestionsMissed`): the creator recorded that the agent asked nothing,
+but the agent's last message holds questions that wait for an answer. The rule behind it misses requests without a
+question mark and counts rhetorical questions, so a person reads each hint right after the run (#156). Runs before 2026-10-22 have no records
 and fall back to reading the creator's free text.
 
 ## The creator's end, the plan's yes and the phase announced
