@@ -60,7 +60,7 @@ compare with the run's `results.json` before you replace it: only the changed di
 The simulated creator decides each message in structured output and sends it with `node /opt/creator/say.ts`
 (`harbor/creator-say.ts`, copied into each task's image; `harbor/bridge-prompt.md` replaces Harbor's instructions
 for `acpx`). Its input is `{"asked": [...], "answers": [...], "reply": "...", "end": null}`: what the agent's last
-message asked of it and what its reply answers (`plan_confirm`, `confirm`, `content`, `github`, `publish`,
+message asked of it and what its reply answers (`plan_confirm`, `confirm`, `archetype`, `content`, `github`, `publish`,
 `permission`, `technical`, `go_on`, `other`), its reply, and its end. The command sends the agent only the reply
 (with the end marker below), so the agent under test still talks to a person in free text, and appends the record
 to `/logs/user-agent/creator-turns.jsonl`, which lands in the trial as `user-agent/creator-turns.jsonl`.
@@ -87,6 +87,14 @@ and fall back to reading the creator's free text.
 - The plan template asks each reply to begin with the phase ("**Plan · Checkpoint**"). `phase_announced` is the
   share of the replies the creator read whose first text begins with a phase; `phase_announced_right` the share of
   those whose phase is the plan's at that point of the turn.
+
+## The archetype
+
+`archetype_expected` (the verifier) is the archetype in the plan at the end, after any correction by the creator,
+whose persona asks for the task's kind of app. `archetype_first_proposed_right` is the agent's own choice: the first
+archetype it proposes in its text ("Archetyp `quiz`"), against the task's. The evidence lists the proposals and, where
+the creator recorded it, the turn at which it answered the kind of app after a proposal of another
+(`archetypeCorrectedByCreatorAtTurn`).
 
 ## Questions per turn
 

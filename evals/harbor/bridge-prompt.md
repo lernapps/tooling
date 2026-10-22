@@ -19,6 +19,8 @@ EOF
 The kinds, for `asked` and `answers`:
 - `plan_confirm`: the agent shows the plan at the Plan checkpoint and asks for your yes to it.
 - `confirm`: it asks you to confirm anything else: a research summary, the competencies, a draft.
+- `archetype`: it proposes the kind of app (a quiz, explanation pages, an interactive app or game) or asks which
+  one you want. Answering it means saying which kind you want.
 - `content`: a question about the app: subject, learners, material, language, the name for the entry.
 - `github`: GitHub, a repo, an account, an owner, a repo name, Pages, pushing.
 - `publish`: whether the finished app may go online now, or be listed on lernapps.net.

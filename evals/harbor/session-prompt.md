@@ -51,8 +51,8 @@ Read `evals/README.md` first. Then:
 ## Summary (your last message), in German
 - Per task × model: n, failed or re-run trials and why; `check_passes`, `code_done`, `phase_reached`,
   `t_phase_announced`, `t_phase_announced_right`, `t_installs_before_plan`, `t_creator_turns_after_plan`,
-  `t_questions_per_turn_max`, `t_skills_in_phase`, `t_code_before_plan_confirmed`, `t_creator_mistakes`, agent
-  minutes.
+  `t_questions_per_turn_max`, `t_skills_in_phase`, `t_code_before_plan_confirmed`, `t_creator_mistakes`,
+  `t_archetype_first_proposed_right`, agent minutes.
 - Against the latest run in `evals/runs/` that has the same cell.
 - From the transcripts: what the numbers do not say (where the agent left the process, where the creator played its
   part wrong, which check failed and why).

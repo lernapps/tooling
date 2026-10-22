@@ -158,6 +158,15 @@ ROWS.push(
     kind: "runs",
     value: threshold("t_skills_out_of_place", 0),
   },
+  // A19 as the agent chose, before any correction by the creator: the final archetype is "Archetype chosen right"
+  {
+    id: "archetype_first_proposed_right",
+    label: "First archetype the agent proposed is the expected one",
+    group: "transcript",
+    source: "archetype_first_proposed_right",
+    kind: "runs",
+    value: (trial) => trial.numbers["t_archetype_first_proposed_right"],
+  },
   // Since the creator decides in structured output (#142): its own mistakes, apart from the agent's
   {
     id: "creator_without_mistakes",

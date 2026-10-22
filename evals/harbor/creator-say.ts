@@ -16,6 +16,7 @@ import { dirname, join } from "node:path";
 export const KINDS = [
   "plan_confirm",
   "confirm",
+  "archetype",
   "content",
   "github",
   "publish",
