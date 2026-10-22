@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "skills/arc42-language/SKILL.md",
       "computedHash": "a1e9587fb5ffe62d71b5ed7ee65d4e8190b04757be5a19de41ec13949acc8a19"
+    },
+    "commit": {
+      "source": "mrsimpson/skills-coding",
+      "sourceType": "github",
+      "skillPath": "commit/SKILL.md",
+      "computedHash": "fc628c7d577d2d9cf3cb0a917d3c5e2e35b460fdc62c353595b7472b6f1c6548"
     }
   }
 }
