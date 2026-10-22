@@ -10,4 +10,4 @@
 | Idea | Learners see and do | Expressed with |
 |---|---|---|
 | Parts and functions | an organ, a cell or a landscape with numbered parts | `labelled-figure`; `table` of parts and functions from a data file; `matching` part ↔ function |
-| Classification | living things or places by a feature | `multiple-choice` "which of these are …"; `generated` `pick` from a data file with a `{ set: … }` answer |
+| Classification | living things or places by a feature | `multiple-choice` "which of these are …" |

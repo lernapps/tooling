@@ -9,8 +9,8 @@
 
 | Idea | Learners see and do | Expressed with |
 |---|---|---|
-| Part of a whole (percent, fractions) | a 10×10 grid with the part filled; compute the part, the whole or the rate | `figure` `hundred-grid`; `generated` with `task.figure: { kind: hundred-grid, filled: p }`, `compare: { number: { format: percent } }` |
-| Before and after a change | two bars, old and new value; compute the change or the new value | `figure` `bar` (`part`, `whole`); `generated` with the typical mistake "added the rate instead of the amount" |
+| Part of a whole (percent, fractions) | a 10×10 grid with the part filled; compute the part, the whole or the rate | `figure` `hundred-grid` on the page; `generated` with `compare: { number: { format: percent } }`; a figure that changes with the task: an exercise component |
+| Before and after a change | two bars, old and new value; compute the change or the new value | `figure` `bar` (`part`, `whole`) on the page; `generated` with the typical mistake "added the rate instead of the amount" |
 | Product of brackets (binomial formulas) | a rectangle split into a², ab, ab, b², lengths from the task | `image` (SVG) for the rule; `generated` for the task; a component only for lengths that follow the task |
 | Difference of squares | a² − b² as an L-shape, rearranged into (a + b)(a − b) | two `image`s side by side with captions; `ordering` of the steps |
 | Outcome set (Laplace) | die faces, wheel sectors or balls, the favourable ones marked | `table` or `image`; `generated` drawing from a data file of experiments, answer as a fraction |
