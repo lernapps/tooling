@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
 import { parseTurn, type CreatorTurn } from "../evals/harbor/creator-say.ts";
+import { isLinked, linksIn } from "../evals/guidance-links.ts";
 import { HARNESSES } from "../evals/harnesses.ts";
 import {
   questionsWaiting,
@@ -1053,4 +1054,44 @@ test("a hint where the creator recorded no question but the agent's message wait
   );
   expect(score.dimensions).toMatchObject({ creator_questions_missed: 1, creator_mistakes: 0 });
   expect(score.evidence["creatorQuestionsMissed"]).toEqual([{ turn: 2, waiting: 2, reply: "Mach bitte weiter." }]);
+});
+
+test("what the guidance links counts as guidance: any branch, placeholders, a shell variable for one segment", () => {
+  expect(
+    linksIn(
+      "See [the README](https://raw.githubusercontent.com/lernapps/app-templates/main/quiz/README.md). Start: " +
+        "`https://lernapps.net/apps/start/<id>/`, or <https://github.com/lernapps/tooling/blob/main/review/rubric.md>.",
+    ),
+  ).toEqual([
+    "https://raw.githubusercontent.com/lernapps/app-templates/main/quiz/README.md",
+    // cut at the placeholder's ">", as an autolink's end; the comparison stops at "<" anyway
+    "https://lernapps.net/apps/start/<id",
+    "https://github.com/lernapps/tooling/blob/main/review/rubric.md",
+  ]);
+  const links = [
+    "https://raw.githubusercontent.com/lernapps/app-templates/main/quiz/README.md",
+    "https://lernapps.net/apps/start/<id>",
+    "https://lernapps.net/<repo>",
+    "https://github.com/lernapps/tooling/blob/main/review/rubric.md",
+  ];
+  // the same file on another branch or commit, as blob or raw
+  expect(isLinked("https://github.com/lernapps/app-templates/blob/v2/quiz/README.md", links)).toBe(true);
+  expect(isLinked("https://raw.githubusercontent.com/lernapps/tooling/abc123/review/rubric.md", links)).toBe(true);
+  // a placeholder after two segments stands for its URLs; one after fewer stands for too much
+  expect(isLinked("https://lernapps.net/apps/start/bruch/", links)).toBe(true);
+  expect(isLinked("https://lernapps.net/docs/", links)).toBe(false);
+  // the READMEs of all archetypes in one loop, as the plan template asks (run of 2026-10-22, Haiku)
+  expect(isLinked("https://raw.githubusercontent.com/lernapps/app-templates/main/$a/README.md;", links)).toBe(true);
+  // not linked: a schema the guidance names in node_modules, another app's entry
+  expect(
+    isLinked("https://raw.githubusercontent.com/lernapps/app-templates/main/runtime/quiz/quiz.v1.schema.json", links),
+  ).toBe(false);
+  expect(isLinked("https://raw.githubusercontent.com/lernapps/apps/main/entries/x.yaml", links)).toBe(false);
+  // in the score: a read of a linked README is no read outside the guidance
+  const read = (url: string) => [
+    { creator: "Ein Quiz", text: "", tools: [{ name: "Bash", input: { command: `curl -sSL ${url}` } }] },
+  ];
+  const readme = "https://raw.githubusercontent.com/lernapps/app-templates/main/quiz/README.md";
+  expect(scoreTurns(read(readme)).dimensions["reads_outside_guidance"]).toBe(1);
+  expect(scoreTurns(read(readme), undefined, links).dimensions["reads_outside_guidance"]).toBe(0);
 });

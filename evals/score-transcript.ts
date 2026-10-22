@@ -10,6 +10,7 @@ import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { CreatorTurn, Kind } from "./harbor/creator-say.ts";
+import { isLinked, type GuidanceLinks } from "./guidance-links.ts";
 import { HARNESSES, type Harness } from "./harnesses.ts";
 import type { SkillsByPhase } from "./skills-by-phase.ts";
 
@@ -431,7 +432,9 @@ export function scoreSkills(
   };
 }
 
-export function scoreTurns(all: Turn[], skillContext?: SkillContext): TranscriptScore {
+export function scoreTurns(all: Turn[], skillContext?: SkillContext, links: string[] = []): TranscriptScore {
+  // Guidance: the fixed patterns, and every URL the guidance under test links (guidance-links.json of the job).
+  const isGuidance = (url: string) => GUIDANCE.some((pattern) => pattern.test(url)) || isLinked(url, links);
   const structured = all.some((turn) => turn.record !== undefined);
   const creatorTurns = all.length;
   // A6, A11: the plan's confirmation is the creator's yes to the reply at the Plan checkpoint: a reply that begins
@@ -557,11 +560,9 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
       }
     }
   });
-  const guidanceFetches = fetches.filter((fetch) => GUIDANCE.some((pattern) => pattern.test(fetch.url)));
+  const guidanceFetches = fetches.filter((fetch) => isGuidance(fetch.url));
   const summaryFetches = guidanceFetches.filter((fetch) => fetch.via === "summary");
-  const outside = fetches.filter(
-    (fetch) => LERNAPPS_REPO.test(fetch.url) && !GUIDANCE.some((pattern) => pattern.test(fetch.url)),
-  );
+  const outside = fetches.filter((fetch) => LERNAPPS_REPO.test(fetch.url) && !isGuidance(fetch.url));
   const skillRead = (name: string) =>
     readFiles.some((file) => file.path === `skill:${name}` || file.path.includes(`/${name}/SKILL.md`)) ||
     guidanceFetches.some((fetch) => fetch.via === "raw" && fetch.url.includes(`/${name}/SKILL.md`));
@@ -701,9 +702,7 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
       readsOutsideGuidance: outside.map((fetch) => fetch.url),
       otherUrls: [
         ...new Set(
-          fetches
-            .filter((fetch) => !LERNAPPS_REPO.test(fetch.url) && !GUIDANCE.some((p) => p.test(fetch.url)))
-            .map((fetch) => fetch.url),
+          fetches.filter((fetch) => !LERNAPPS_REPO.test(fetch.url) && !isGuidance(fetch.url)).map((fetch) => fetch.url),
         ),
       ],
       installsBeforePlan: earlyInstalls.map((entry) => entry.command.slice(0, 200)),
@@ -752,6 +751,12 @@ export function skillContext(trial: string): SkillContext | undefined {
   return { phases, archetypes, archetype, conditional };
 }
 
+/** The links of the guidance a trial's job ran with (guidance-links.json, written by evals/harbor/run.sh); [] before. */
+export function guidanceLinks(trial: string): string[] {
+  const file = join(dirname(trial), "guidance-links.json");
+  return existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as GuidanceLinks).links : [];
+}
+
 /** The harness of a trial's job, as evals/harbor/run.sh wrote it into configuration.json; Claude Code before that. */
 export function harnessOf(trial: string): Harness {
   const file = join(dirname(trial), "configuration.json");
@@ -784,7 +789,7 @@ export function scoreTrial(trial: string, skills = skillContext(trial)): Transcr
   if (!history && entries.length === 0) return undefined;
   const harness = history ? harnessOf(trial) : undefined;
   const all = history && harness ? turnsFromAcp(history, harness) : turns(entries);
-  const score = scoreTurns(withRecords(all, creatorRecords(trial)), skills);
+  const score = scoreTurns(withRecords(all, creatorRecords(trial)), skills, guidanceLinks(trial));
   // The tokens: the harness's own record where it keeps one, else the usage of the ACP session where the harness
   // reports the whole turn there, else Claude Code's log; none where nothing reports them, rather than wrong ones.
   const reported = history && harness?.acpUsage ? usageFromAcp(history) : undefined;
