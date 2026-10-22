@@ -73,6 +73,7 @@ export default defineConfig({
   },
   staged: {
     // Formats the staged files before the hook runs the fast part of `lernapps check`, which lints and type-checks once.
-    "*.{ts,json}": "vp fmt",
+    // A commit of only files the formatter ignores (e.g. skills-lock.json) has nothing to format; that is no error.
+    "*.{ts,json}": "vp fmt --no-error-on-unmatched-pattern",
   },
 });
