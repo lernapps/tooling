@@ -523,6 +523,16 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
     .filter((turn) => turn.approval);
   const afterQuestion = approvals.filter((turn) => (questions[turn.index - 1] ?? 0) > 0).length;
 
+  // A hint, not a counted mistake: the creator recorded that the agent asked nothing, but the agent's last message
+  // holds questions that wait for an answer. The rule misses requests without a question mark and counts rhetorical
+  // questions, so a person reads each hint right after the run (#156: a judge for these turns).
+  const questionsMissed = all.flatMap((turn, index) => {
+    const waiting = questions[index - 1] ?? 0;
+    return index > 0 && turn.record && turn.record.asked.length === 0 && waiting > 0
+      ? [{ turn: index + 1, waiting, reply: turn.record.reply.slice(0, 200) }]
+      : [];
+  });
+
   // A1, A2: guidance read, and how: a raw download (curl, wget, a file read) or a summarising fetch (WebFetch).
   const fetches: { url: string; via: "raw" | "summary"; turn: number }[] = [];
   const readFiles: { path: string; turn: number }[] = [];
@@ -646,7 +656,10 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
   // #141: the agent set `phase: code` before the plan's yes, or without one (from the runs that announce the phase)
   if (announcing)
     dimensions["code_before_plan_confirmed"] = codeAt >= 0 && (confirmedAt < 0 || codeAt < confirmedAt) ? 1 : 0;
-  if (structured) dimensions["creator_mistakes"] = creatorMistakes.length;
+  if (structured) {
+    dimensions["creator_mistakes"] = creatorMistakes.length;
+    dimensions["creator_questions_missed"] = questionsMissed.length;
+  }
   if (firstProposal && skillContext?.archetype)
     dimensions["archetype_first_proposed_right"] = firstProposal.archetype === skillContext.archetype ? 1 : 0;
   if (withPhase.length)
@@ -667,7 +680,7 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
       phaseCodeAtCreatorTurn: codeAt >= 0 ? codeAt + 1 : null,
       scenarioEndAtCreatorTurn: endAt >= 0 ? endAt + 1 : null,
       scenarioEnd: marker ?? null,
-      ...(structured ? { creatorMistakes } : {}),
+      ...(structured ? { creatorMistakes, creatorQuestionsMissed: questionsMissed } : {}),
       archetypeProposals: proposals.filter(
         (proposal, index) => proposals.findIndex((other) => other.archetype === proposal.archetype) === index,
       ),

@@ -1024,3 +1024,33 @@ test("an OpenCode trial's tokens are summed from OpenCode's own database, reason
     agent_output_tokens: 53,
   });
 });
+
+test("a hint where the creator recorded no question but the agent's message waits for an answer", () => {
+  const record = (
+    asked: CreatorTurn["asked"],
+    answers: CreatorTurn["answers"],
+    reply: string,
+    end: CreatorTurn["end"] = null,
+  ) => {
+    const turn = parseTurn(JSON.stringify({ asked, answers, reply, end }));
+    if ("problems" in turn) throw new Error(turn.problems.join("; "));
+    return turn;
+  };
+  const turn = (creator: string, closing: string) => ({ creator, text: closing, closing, tools: [] });
+  // From the OpenCode run of 2026-10-22: two questions about GitHub, and the creator's "Mach bitte weiter."
+  const score = scoreTurns(
+    withRecords(
+      [
+        turn(
+          "Ein Quiz",
+          "Die App ist fertig.\n\n1. Wie soll das Repository heißen?\n2. Kannst du einen GitHub-Zugang bereitstellen?",
+        ),
+        turn("Mach bitte weiter.", "Ich arbeite weiter."),
+        turn("Danke!\n[Ende: fertig]", "Gern."),
+      ],
+      [record([], [], "Ein Quiz"), record([], [], "Mach bitte weiter."), record([], [], "Danke!", "fertig")],
+    ),
+  );
+  expect(score.dimensions).toMatchObject({ creator_questions_missed: 1, creator_mistakes: 0 });
+  expect(score.evidence["creatorQuestionsMissed"]).toEqual([{ turn: 2, waiting: 2, reply: "Mach bitte weiter." }]);
+});
