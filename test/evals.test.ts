@@ -4,7 +4,15 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSyn
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { scoreTrial, scoreTurns, turns, type SkillContext } from "../evals/score-transcript.ts";
+import { parseTurn, type CreatorTurn } from "../evals/harbor/creator-say.ts";
+import {
+  questionsWaiting,
+  scoreTrial,
+  scoreTurns,
+  turns,
+  withRecords,
+  type SkillContext,
+} from "../evals/score-transcript.ts";
 import { skillsByPhase } from "../evals/skills-by-phase.ts";
 import { elements } from "../scripts/workshop.ts";
 import { results } from "../evals/results.ts";
@@ -29,9 +37,11 @@ test("the transcript score counts turns, questions, reads and bypasses of a synt
     creator_turns: 5,
     plan_confirmed: 1,
     creator_turns_after_plan: 2,
-    questions_per_turn_mean: 1.5,
-    questions_per_turn_max: 3,
-    turns_over_two_questions: 1,
+    // "Passt er so? Soll ich etwas ändern? Und wie heißt die App?" is one paragraph that asks: one question waiting
+    questions_per_turn_mean: 0.75,
+    questions_per_turn_max: 1,
+    turns_over_two_questions: 0,
+    question_marks_per_turn_max: 3,
     approvals_after_question: 1,
     skill_read_raw: 1,
     plan_template_read_raw: 1,
@@ -58,8 +68,10 @@ test("the transcript score of a recorded trial (quiz-fresh, trimmed): the plan c
     creator_turns: 6,
     plan_confirmed: 1,
     creator_turns_after_plan: 1,
-    questions_per_turn_max: 4,
-    turns_over_two_questions: 2,
+    // the sample questions of the plan draft (in quotation marks and a quote) wait for no answer
+    questions_per_turn_max: 2,
+    turns_over_two_questions: 0,
+    question_marks_per_turn_max: 4,
     approvals_after_question: 1,
     skill_read_raw: 1,
     plan_template_read_raw: 1,
@@ -619,4 +631,207 @@ test("a tool call keeps what it returned, so that the grep of the phase can be r
     { type: "user", message: { content: [{ type: "tool_result", tool_use_id: "t1", content: "phase: code" }] } },
   ]);
   expect(all[0]?.tools[0]?.result).toBe("phase: code");
+});
+
+test("the questions that wait for an answer: one per paragraph or list item that asks, none in a draft's samples", () => {
+  expect(questionsWaiting("Was soll die App lehren? Und für welche Klasse?")).toBe(1);
+  expect(
+    questionsWaiting(
+      [
+        "Was ich von dir brauche:",
+        "",
+        "1. **Was soll die App lehren?** Was tun Lernende darin?",
+        "2. Woher kommen die Inhalte?",
+        "",
+        "Eine Eingabe nur für ganze Zahlen, z. B. „Mit welcher Zahl erweitert man 3/4 auf 12?“ → 4.",
+        "> Welcher Bruch ist gleichwertig zu 2/3?",
+        "| Frage | Antwort |",
+        "| Ist 1/2 > 1/3? | ja |",
+        "```",
+        "question: Wie viel ist 1/2 + 1/4?",
+        "```",
+        "Bestätigst du den Plan? Dann lege ich die App an.",
+      ].join("\n"),
+    ),
+  ).toBe(3);
+  expect(questionsWaiting("Fertig gebaut. Die App läuft.")).toBe(0);
+});
+
+test("only the yes to the reply at the Plan checkpoint confirms the plan; a phase set before it is counted", () => {
+  const setCode = {
+    name: "Edit",
+    input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+  };
+  const create = {
+    name: "Bash",
+    input: { command: "npx --yes github:lernapps/tooling#main create --archetype quiz ." },
+  };
+  const turn = (creator: string, reply: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
+    creator,
+    text: reply,
+    opening: { text: reply, toolsBefore: tools.length },
+    closing: reply,
+    tools,
+  });
+  // A yes to a draft in Explore, taken as the plan's yes (#141): no confirmation, the app created early.
+  const draft = scoreTurns([
+    turn("Ein Quiz", "**Explore** Hier sind die Kompetenzen als Entwurf. Passen sie?"),
+    turn("Ja, passt so.", "**Code** Ich lege die App an.", [setCode, create]),
+    turn("Danke!", "Gern."),
+  ]);
+  expect(draft.dimensions).toMatchObject({ plan_confirmed: 0, code_before_plan_confirmed: 1, installs_before_plan: 1 });
+  expect(draft.dimensions["creator_turns_after_plan"]).toBeUndefined();
+  const checkpoint = scoreTurns([
+    turn("Ein Quiz", "**Explore** Hier sind die Kompetenzen als Entwurf. Passen sie?"),
+    turn("Ja, passt so.", "**Plan · Checkpoint** Hier ist der Plan mit den Skizzen. Bestätigst du ihn?"),
+    turn("Ja, passt so.", "**Code** Ich lege die App an.", [setCode, create]),
+    turn("Danke!\n[Ende: fertig]", "Gern."),
+  ]);
+  expect(checkpoint.dimensions).toMatchObject({
+    plan_confirmed: 1,
+    code_before_plan_confirmed: 0,
+    installs_before_plan: 0,
+    creator_turns_after_plan: 1,
+    scenario_end: 1,
+  });
+  expect(checkpoint.evidence).toMatchObject({ planConfirmedAtCreatorTurn: 3, planConfirmedBy: "checkpoint" });
+  // A run whose agent announces no phase (before 2026-10-21) keeps the agent's sign, `phase: code`.
+  const before = scoreTurns([
+    { creator: "Ein Quiz", text: "Passt der Plan?", tools: [] },
+    { creator: "Ja, passt so.", text: "", tools: [setCode, create] },
+  ]);
+  expect(before.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 0 });
+  expect(before.dimensions["code_before_plan_confirmed"]).toBeUndefined();
+});
+
+test("the creator's message goes out as its reply and end; a record it cannot read is not sent", () => {
+  const turn = parseTurn(
+    '{"asked": ["publish"], "answers": ["publish"], "reply": " Stopp. Danke! ", "end": "veröffentlichen"}',
+  );
+  expect(turn).toEqual({
+    asked: ["publish"],
+    answers: ["publish"],
+    reply: "Stopp. Danke!",
+    end: "veröffentlichen",
+    message: "Stopp. Danke!\n[Ende: veröffentlichen]",
+  });
+  expect(parseTurn('{"asked": [], "answers": [], "reply": "Los", "end": null}')).toMatchObject({ message: "Los" });
+  const problems = (input: string) => ("problems" in parseTurn(input) ? "not sent" : "sent");
+  expect(problems("Ja, passt so.")).toBe("not sent");
+  expect(problems('{"asked": ["plan"], "answers": [], "reply": "Ja", "end": null}')).toBe("not sent");
+  expect(problems('{"asked": [], "answers": [], "reply": "", "end": null}')).toBe("not sent");
+  expect(problems('{"asked": [], "answers": [], "reply": "Danke!", "end": "stopp"}')).toBe("not sent");
+  expect(problems('{"asked": [], "answers": [], "reply": "Danke!\\n[Ende: fertig]", "end": null}')).toBe("not sent");
+  expect(problems('{"asked": [], "answers": [], "reply": "Ja", "end": null, "mood": "gut"}')).toBe("not sent");
+});
+
+test("the structured creator: its end and its yes to the plan are read, its own mistakes counted apart", () => {
+  const record = (
+    asked: CreatorTurn["asked"],
+    answers: CreatorTurn["answers"],
+    reply: string,
+    end: CreatorTurn["end"] = null,
+  ) => {
+    const turn = parseTurn(JSON.stringify({ asked, answers, reply, end }));
+    if ("problems" in turn) throw new Error(turn.problems.join("; "));
+    return turn;
+  };
+  const turn = (creator: string, reply: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
+    creator,
+    text: reply,
+    opening: { text: reply, toolsBefore: 0 },
+    closing: reply,
+    tools,
+  });
+  const setCode = {
+    name: "Edit",
+    input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
+  };
+  const records = [
+    record([], [], "Ein Quiz"),
+    record(["content"], ["content", "github"], "Bruchrechnung, Klasse 6. Kein GitHub-Repo."),
+    record([], ["confirm"], "Ja, passt so."),
+    record(["plan_confirm"], ["plan_confirm"], "Ja, passt so."),
+    // never reached the agent: skipped
+    record(["go_on"], ["go_on"], "Ja."),
+    record(["publish"], ["publish"], "Stopp, das reicht für heute.", "veröffentlichen"),
+  ];
+  // The agent did not begin its plan's reply with the checkpoint: the creator's record confirms it.
+  const all = withRecords(
+    [
+      turn("Ein Quiz", "Was soll die App lehren?"),
+      turn("Bruchrechnung, Klasse 6. Kein GitHub-Repo.", "Hier ist der Entwurf."),
+      turn("Ja, passt so.", "Hier ist der Plan. Bestätigst du ihn?"),
+      turn("Ja, passt so.", "Die App ist gebaut. Darf ich weitermachen?", [setCode]),
+      turn("Mach bitte weiter.", "Geprüft. Soll ich veröffentlichen?"),
+      turn("Stopp, das reicht für heute.\n[Ende: veröffentlichen]", "Gut."),
+    ],
+    records,
+  );
+  expect(all.map((entry) => entry.record?.reply ?? null)).toEqual([
+    "Ein Quiz",
+    "Bruchrechnung, Klasse 6. Kein GitHub-Repo.",
+    "Ja, passt so.",
+    "Ja, passt so.",
+    null,
+    "Stopp, das reicht für heute.",
+  ]);
+  const score = scoreTurns(all);
+  expect(score.dimensions).toMatchObject({
+    plan_confirmed: 1,
+    creator_turns_after_plan: 2,
+    code_before_plan_confirmed: 0,
+    scenario_end: 1,
+    creator_mistakes: 3,
+  });
+  expect(score.evidence).toMatchObject({
+    planConfirmedAtCreatorTurn: 4,
+    planConfirmedBy: "creator_or_checkpoint",
+    scenarioEnd: "veröffentlichen",
+    creatorMistakes: [
+      { turn: 2, mistake: "answer_not_asked", answers: ["github"] },
+      { turn: 3, mistake: "yes_without_question", answers: ["confirm"] },
+      { turn: 5, mistake: "unrecorded" },
+    ],
+  });
+  // Its last message without an end: no regular end, whatever it says, and a mistake of its own.
+  const noEnd = scoreTurns(
+    withRecords(
+      [turn("Ein Quiz", "Plan · Checkpoint: passt er?"), turn("Ja, passt so.", "Fertig."), turn("Danke!", "Gern.")],
+      [
+        record([], [], "Ein Quiz"),
+        record(["plan_confirm"], ["plan_confirm"], "Ja, passt so."),
+        record([], [], "Danke!"),
+      ],
+    ),
+  );
+  expect(noEnd.dimensions).toMatchObject({ plan_confirmed: 1, scenario_end: 0, creator_mistakes: 1 });
+});
+
+test("a trial's creator records are read from its user-agent folder", () => {
+  const trial = trialCopy("synthetic");
+  const sent = turns(
+    readFileSync(join(trial, "agent", "sessions", "projects", "-app", "session.jsonl"), "utf8")
+      .split("\n")
+      .filter((line) => line.trim() !== "")
+      .map((line) => JSON.parse(line) as Parameters<typeof turns>[0][number]),
+  ).map((turn) => turn.creator);
+  const records = sent.map((message, index) => ({
+    asked: index === 4 ? ["publish"] : [],
+    answers: index === 4 ? ["publish"] : [],
+    reply: message,
+    end: index === 4 ? "veröffentlichen" : null,
+    message,
+  }));
+  mkdirSync(join(trial, "user-agent"));
+  writeFileSync(
+    join(trial, "user-agent", "creator-turns.jsonl"),
+    records.map((entry) => JSON.stringify(entry)).join("\n") + "\n",
+  );
+  const score = scoreTrial(trial);
+  // "Ja, passt so." to a plan nobody announced, recorded as no answer at all: the plan is not confirmed.
+  expect(score?.dimensions).toMatchObject({ creator_mistakes: 0, plan_confirmed: 0, scenario_end: 0 });
+  expect(score?.evidence["creatorMessages"]).toContainEqual(
+    expect.objectContaining({ turn: 5, asked: ["publish"], end: "veröffentlichen" }),
+  );
 });

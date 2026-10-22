@@ -17,6 +17,8 @@
   "transcript": {
     "creator_turns": ["A11"],
     "plan_confirmed": ["A6"],
+    "code_before_plan_confirmed": ["A3", "A6"],
+    "creator_mistakes": [],
     "creator_turns_after_plan": ["A11"],
     "scenario_end": ["A4"],
     "phase_announced": ["A4"],
@@ -24,6 +26,7 @@
     "questions_per_turn_mean": ["A9"],
     "questions_per_turn_max": ["A9"],
     "turns_over_two_questions": ["A9"],
+    "question_marks_per_turn_max": ["A9"],
     "approvals_after_question": ["A6"],
     "skill_read_raw": ["A1"],
     "skills_in_phase": ["A2"],

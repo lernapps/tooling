@@ -37,8 +37,9 @@ Read `evals/README.md` first. Then:
    - A rate limit (HTTP 429, `usage_limit_reached`, `rate_limit_error`): wait 30–60 minutes, then re-run the job once.
      Do not hammer.
    - Anything else is a result: keep it, do not retry it.
-4. After each job, check that it has `configuration.json`, `skills-by-phase.json` (four phases) and a
-   `transcript-score.json` per trial. If `skills-by-phase.json` is missing or empty, run
+4. After each job, check that it has `configuration.json`, `skills-by-phase.json` (four phases), and per trial a
+   `transcript-score.json` and the creator's records, `user-agent/creator-turns.jsonl`. If `skills-by-phase.json` is
+   missing or empty, run
    `node evals/skills-by-phase.ts <guidanceCommit from configuration.json> <job>/skills-by-phase.json`, then
    `node evals/score-transcript.ts <job>`.
 
@@ -50,7 +51,8 @@ Read `evals/README.md` first. Then:
 ## Summary (your last message), in German
 - Per task × model: n, failed or re-run trials and why; `check_passes`, `code_done`, `phase_reached`,
   `t_phase_announced`, `t_phase_announced_right`, `t_installs_before_plan`, `t_creator_turns_after_plan`,
-  `t_questions_per_turn_max`, `t_skills_in_phase`, agent minutes.
+  `t_questions_per_turn_max`, `t_skills_in_phase`, `t_code_before_plan_confirmed`, `t_creator_mistakes`, agent
+  minutes.
 - Against the latest run in `evals/runs/` that has the same cell.
 - From the transcripts: what the numbers do not say (where the agent left the process, where the creator played its
   part wrong, which check failed and why).

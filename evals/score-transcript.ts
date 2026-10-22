@@ -2,10 +2,14 @@
 // of the agent (Claude Code, <trial>/agent/sessions/projects/*/*.jsonl). Writes <trial>/transcript-score.json with
 // numbers (the dimensions, evals/expectations.json maps each to its expectation) and the evidence behind them. The
 // skills loaded in their phase (A2) are scored against the job's skills-by-phase.json (evals/skills-by-phase.ts).
+// Where the simulated creator decided in structured output (<trial>/user-agent/creator-turns.jsonl, written by
+// evals/harbor/creator-say.ts), the score reads its end and its confirmations from there and counts its own mistakes;
+// older runs fall back to reading its free text.
 //   node evals/score-transcript.ts <trial or job dir>...
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { CreatorTurn, Kind } from "./harbor/creator-say.ts";
 import type { SkillsByPhase } from "./skills-by-phase.ts";
 
 /** One entry of a Claude Code session log, as far as the score reads it. */
@@ -32,6 +36,10 @@ interface Turn {
   text: string;
   /** The agent's first text in the turn, where the reply to the creator begins, and the tool calls made before it. */
   opening?: { text: string; toolsBefore: number };
+  /** The agent's last text in the turn: the message the creator answers. */
+  closing?: string;
+  /** The creator's decision behind its message, where it decided in structured output. */
+  record?: CreatorTurn;
   /** The agent's tool calls, each with what it returned (the text of its tool result). */
   tools: { name: string; input: Record<string, unknown>; id?: string; result?: string }[];
 }
@@ -63,6 +71,15 @@ const GUIDANCE = [
 const LERNAPPS_REPO = /^https:\/\/(raw\.githubusercontent\.com|github\.com)\/lernapps\//;
 const APPROVAL = /^\s*(ja\b|passt\b|ok\b|okay\b|einverstanden|gerne)/i;
 const QUESTION = /[^?.!\n]{3,}\?/g;
+/** Text the creator is not asked anything with: code, quotes, tables, and what stands in quotation marks. */
+const FENCED = /^(```|~~~)[^\n]*\n[\s\S]*?^\1[^\n]*$/gm;
+const QUOTED = /„[^“\n]*“|“[^”\n]*”|"[^"\n]*"|«[^»\n]*»|»[^«\n]*«/g;
+/** A reply at the Plan checkpoint, as the plan template asks it to begin: "**Plan · Checkpoint**". */
+const CHECKPOINT = /^[\s*_#>]*plan\b[^\n\w]{0,5}checkpoint\b/i;
+/** A phase announced as the template shows it, a word of its own ("**Code**", "**Plan · Checkpoint**", "## Plan"). */
+const PHASE_MARK = /^[\s*_#>]*(?:explore|plan|code|commit)(?:\s*·[^\n]*?)?\s*(?:\*\*|__|\n|$)/i;
+/** What a creator's message answers when it says yes. */
+const YES: Kind[] = ["plan_confirm", "confirm", "go_on", "permission"];
 /**
  * The scenario's regular end, as the persona's last message states it: its answer to a GitHub question, its "Stopp" at
  * the question to publish, or its "Danke!" when the agent says it is done; the persona may word them freely around
@@ -130,8 +147,10 @@ export function turns(entries: Entry[]): Turn[] {
       for (const block of content) {
         if (block.type === "text") {
           turn.text += `${turn.text ? "\n" : ""}${block.text ?? ""}`;
-          if (turn.opening === undefined && (block.text ?? "").trim() !== "")
-            turn.opening = { text: block.text ?? "", toolsBefore: turn.tools.length };
+          if ((block.text ?? "").trim() !== "") {
+            if (turn.opening === undefined) turn.opening = { text: block.text ?? "", toolsBefore: turn.tools.length };
+            turn.closing = block.text ?? "";
+          }
         }
         if (block.type === "tool_use")
           turn.tools.push({
@@ -143,6 +162,52 @@ export function turns(entries: Entry[]): Turn[] {
     }
   }
   return result;
+}
+
+/**
+ * The questions of a message that wait for the creator's answer (A9): a paragraph or a list item that asks counts once,
+ * however many question marks it has; questions in code, quotes, tables and quotation marks (a sample question of a
+ * draft) do not count.
+ */
+export function questionsWaiting(message: string): number {
+  return message
+    .replace(FENCED, "")
+    .split("\n")
+    .filter((line) => !/^\s*(>|\|)/.test(line))
+    .join("\n")
+    .replace(QUOTED, "")
+    .split(/\n\s*\n|\n(?=\s*(?:[-*+]|\d+[.)])\s)/)
+    .filter((unit) => /[^?.!\n]{3,}\?/.test(unit)).length;
+}
+
+/** The creator's decisions in a trial, in the order it sent them (evals/harbor/creator-say.ts); [] for older runs. */
+export function creatorRecords(trial: string): CreatorTurn[] {
+  const file = join(trial, "user-agent", "creator-turns.jsonl");
+  if (!existsSync(file)) return [];
+  return readFileSync(file, "utf8")
+    .split("\n")
+    .filter((line) => line.trim() !== "")
+    .map((line) => JSON.parse(line) as CreatorTurn);
+}
+
+const normal = (text: string) => text.replace(/\s+/g, " ").trim();
+
+/**
+ * Gives each creator message the decision it was sent with. A record whose message never reached the agent is
+ * skipped; a message without a record was sent past the creator's command.
+ */
+export function withRecords(all: Turn[], records: CreatorTurn[]): Turn[] {
+  let next = 0;
+  for (const turn of all) {
+    const at = records.findIndex(
+      (record, index) => index >= next && normal(turn.creator).includes(normal(record.message)),
+    );
+    const record = records[at];
+    if (!record) continue;
+    turn.record = record;
+    next = at + 1;
+  }
+  return all;
 }
 
 const commandOf = (tool: Turn["tools"][number]) =>
@@ -249,17 +314,53 @@ export function scoreSkills(
 }
 
 export function scoreTurns(all: Turn[], skillContext?: SkillContext): TranscriptScore {
-  // A11: creator turns after the confirmation of the plan (the last creator message before `phase: code` is set).
-  // The creator's message that opens that turn is the confirmation, so a command in the same turn comes after it.
-  const confirmedAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
+  const structured = all.some((turn) => turn.record !== undefined);
   const creatorTurns = all.length;
+  // A6, A11: the plan's confirmation is the creator's yes to the reply at the Plan checkpoint: a reply that begins
+  // "**Plan · Checkpoint**", or one the creator recorded as asking for the plan's yes. A yes to an earlier draft is
+  // no confirmation of the plan. Runs whose agent announced no phase and whose creator recorded nothing (before
+  // 2026-10-21) fall back to the agent's sign: the creator message before the call that sets `phase: code`.
+  const codeAt = all.findIndex((turn) => turn.tools.some(setsPhaseCode));
+  const atCheckpoint = (turn: Turn | undefined) =>
+    [turn?.opening?.text, turn?.closing].some((text) => text !== undefined && CHECKPOINT.test(text));
+  const announcing = structured || all.some((turn) => PHASE_MARK.test(turn.opening?.text ?? ""));
+  const confirmations = all.flatMap((turn, index) => {
+    const yes = turn.record ? turn.record.answers.some((kind) => YES.includes(kind)) : APPROVAL.test(turn.creator);
+    const recorded = [turn.record?.asked, turn.record?.answers].every((kinds) => kinds?.includes("plan_confirm"));
+    const checkpoint = index > 0 && atCheckpoint(all[index - 1]);
+    return (yes && checkpoint) || recorded ? [{ index, checkpoint, recorded }] : [];
+  });
+  const confirmedAt = announcing ? (confirmations[0]?.index ?? -1) : codeAt;
+  const confirmedBy = !announcing ? "phase_code" : structured ? "creator_or_checkpoint" : "checkpoint";
   const afterPlan = confirmedAt >= 0 ? creatorTurns - confirmedAt - 1 : undefined;
   // After the plan's yes, the creator's last message ends the scenario regularly (whether the agent had set
-  // `phase: commit` or not). An answer to a GitHub question in the middle of Code is no end.
+  // `phase: commit` or not). An answer to a GitHub question in the middle of Code is no end. The creator's recorded
+  // end decides; before that, its end marker, and before that, its sentences.
   const last = all.at(-1)?.creator ?? "";
-  const marker = last.match(END_MARKER)?.[1]?.toLowerCase();
-  const regular = marker ? marker !== "festgefahren" : SCENARIO_END.test(last) && !STUCK.test(last);
+  const lastRecord = all.at(-1)?.record;
+  const marker = lastRecord ? (lastRecord.end ?? undefined) : last.match(END_MARKER)?.[1]?.toLowerCase();
+  const regular =
+    marker !== undefined ? marker !== "festgefahren" : !structured && SCENARIO_END.test(last) && !STUCK.test(last);
   const endAt = confirmedAt >= 0 && creatorTurns - 1 > confirmedAt && regular ? creatorTurns - 1 : -1;
+
+  // The creator's own mistakes, where it recorded its decisions: a yes to a question not asked, an answer to a
+  // question not asked, a message sent past its command, and a last message without its end.
+  const creatorMistakes = structured
+    ? [
+        ...all.flatMap((turn, index) => {
+          const record = turn.record;
+          if (!record) return [{ turn: index + 1, mistake: "unrecorded" }];
+          const unasked = record.answers.filter((kind) => !record.asked.includes(kind));
+          if (unasked.length === 0) return [];
+          const mistake =
+            record.asked.length === 0 && unasked.some((kind) => YES.includes(kind))
+              ? "yes_without_question"
+              : "answer_not_asked";
+          return [{ turn: index + 1, mistake, answers: unasked }];
+        }),
+        ...(lastRecord && lastRecord.end === null ? [{ turn: creatorTurns, mistake: "no_end" }] : []),
+      ]
+    : [];
 
   // The phase each reply begins with, against the phase the plan holds at that point of the turn.
   let held = "explore";
@@ -274,8 +375,10 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
   const replies = announced.slice(0, -1).filter((turn) => turn.replied);
   const withPhase = replies.filter((turn) => turn.phase !== undefined);
 
-  // A9: questions per agent turn (sentences ending in "?" in the text the creator saw).
-  const questions = all.map((turn) => (turn.text.match(QUESTION) ?? []).length);
+  // A9: the questions of each turn that wait for the creator's answer, in the message it answers (the agent's last
+  // text); and, to compare with runs scored before 2026-10-22, every sentence ending in "?" in the turn's text.
+  const questions = all.map((turn) => questionsWaiting(turn.closing ?? ""));
+  const questionMarks = all.map((turn) => (turn.text.match(QUESTION) ?? []).length);
   const turnsWithText = questions.filter((_, index) => (all[index]?.text ?? "").trim() !== "");
   const maxQuestions = Math.max(0, ...questions);
   const overTwo = questions.filter((count) => count > 2).length;
@@ -392,6 +495,7 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
       : 0,
     questions_per_turn_max: maxQuestions,
     turns_over_two_questions: overTwo,
+    question_marks_per_turn_max: Math.max(0, ...questionMarks),
     approvals_after_question: approvals.length ? Math.round((afterQuestion / approvals.length) * 100) / 100 : 1,
     skill_read_raw: skillRead("lernapps-app") ? 1 : 0,
     plan_template_read_raw: planTemplateRaw ? 1 : 0,
@@ -405,6 +509,10 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
     phase_announced: replies.length ? Math.round((withPhase.length / replies.length) * 100) / 100 : 0,
   };
   if (afterPlan !== undefined) dimensions["creator_turns_after_plan"] = afterPlan;
+  // #141: the agent set `phase: code` before the plan's yes, or without one (from the runs that announce the phase)
+  if (announcing)
+    dimensions["code_before_plan_confirmed"] = codeAt >= 0 && (confirmedAt < 0 || codeAt < confirmedAt) ? 1 : 0;
+  if (structured) dimensions["creator_mistakes"] = creatorMistakes.length;
   if (withPhase.length)
     dimensions["phase_announced_right"] =
       Math.round((withPhase.filter((turn) => turn.phase === turn.held).length / withPhase.length) * 100) / 100;
@@ -414,8 +522,16 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
     evidence: {
       ...skillScore?.evidence,
       planConfirmedAtCreatorTurn: confirmedAt >= 0 ? confirmedAt + 1 : null,
+      planConfirmedBy: confirmedBy,
+      planConfirmations: confirmations.map(({ index, checkpoint, recorded }) => ({
+        turn: index + 1,
+        checkpoint,
+        recorded,
+      })),
+      phaseCodeAtCreatorTurn: codeAt >= 0 ? codeAt + 1 : null,
       scenarioEndAtCreatorTurn: endAt >= 0 ? endAt + 1 : null,
       scenarioEnd: marker ?? null,
+      ...(structured ? { creatorMistakes } : {}),
       phasesAnnounced: announced.map((turn, index) => ({
         turn: index + 1,
         announced: turn.phase ?? null,
@@ -425,6 +541,7 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext): Transcript
         turn: index + 1,
         creator: turn.creator.slice(0, 200),
         agentQuestions: questions[index],
+        ...(turn.record ? { asked: turn.record.asked, answers: turn.record.answers, end: turn.record.end } : {}),
       })),
       skillsRead: skills,
       guidanceFetches: guidanceFetches.map(({ url, via, turn }) => ({ url, via, turn: turn + 1 })),
@@ -494,7 +611,7 @@ export function scoreTrial(trial: string, skills = skillContext(trial)): Transcr
         .map((line) => JSON.parse(line) as Entry),
     )
     .sort((a, b) => (a.timestamp ?? "").localeCompare(b.timestamp ?? ""));
-  const score = scoreTurns(turns(entries), skills);
+  const score = scoreTurns(withRecords(turns(entries), creatorRecords(trial)), skills);
   Object.assign(score.dimensions, usage(entries));
   writeFileSync(join(trial, "transcript-score.json"), `${JSON.stringify(score, null, 2)}\n`);
   return score;

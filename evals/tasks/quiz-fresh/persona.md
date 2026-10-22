@@ -35,20 +35,19 @@ feedback. A quiz is what you have in mind; if the agent offers another kind of a
 - When the agent asks for a choice it should make itself (a technical detail), say: "Entscheide du."
 - When the agent ends a turn without a question while it is clearly still working towards the app, send "Mach bitte
   weiter." When it asks whether it may go on, answer "Ja."
-- Never write code, never edit files, never run commands other than `acpx prompt`. You may look at files read-only.
+- Never write code, never edit files, never run commands other than the one that sends your message.
+  You may look at files read-only.
 
 # When you stop
 
 Stop the conversation as soon as one of these happens, with a short last message, and then end your session. Send
-that last message to the agent with `acpx prompt`, like every other, and put its marker on its last line, exactly as
-given: `[Ende: veröffentlichen]`, `[Ende: fertig]` or `[Ende: festgefahren]`. Never end without sending it; the marker
-in your own summary does not count.
+that last message like every other, with its `end`: `veröffentlichen`, `fertig` or `festgefahren`. Never end
+without sending it; an end only in your own summary does not count.
 - Only when the app is built and checked and the agent asks for your yes to put it online now (publish, push to
   `main`) or to list it on lernapps.net: send "Stopp, das reicht für heute. Veröffentlichen und Eintragen machen wir
-  später. Danke!" and the marker `[Ende: veröffentlichen]`, and end. A question while planning whether the app
+  später. Danke!" with the end `veröffentlichen`, and end. A question while planning whether the app
   shall be online later, or about GitHub Pages in general, is not that moment: answer it with the GitHub line above
   and go on.
-- The agent says the app is done and checked and has nothing more to do: send "Danke!" and the marker
-  `[Ende: fertig]`, and end.
+- The agent says the app is done and checked and has nothing more to do: send "Danke!" with the end `fertig`, and end.
 - The agent is stuck: it asks you the same thing three times, or you have sent 25 messages: send "Danke, wir hören
-  hier auf." and the marker `[Ende: festgefahren]`, and end.
+  hier auf." with the end `festgefahren`, and end.
