@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light dark">
+  <title>How we evaluate the guidance – lernapps.net</title>
+  <meta name="description" content="How we test the guidance for creators' assistants end to end: a simulated creator talks to a real assistant over many turns, Harbor runs it, and we score the app and the conversation.">
+  <link rel="canonical" href="https://lernapps.net/tooling/prompt-engineering/how-evals-work/">
+  <link rel="stylesheet" href="../../stil.css">
+  <style>
+    /* Colours of this page as tokens, light and dark, as on Prompt engineering. */
+    :root {
+      --hw-bg: #ffffff;
+      --hw-text: var(--la-text, #1e293b);
+      --hw-muted: var(--la-muted, #475569);
+      --hw-link: var(--la-link, #1d4ed8);
+      --hw-panel: var(--la-surface, #f8fafc);
+      --hw-border: var(--la-border, #e2e8f0);
+      --hw-creator: #fef3c7;   --hw-creator-line: #b45309;
+      --hw-agent: #dbeafe;     --hw-agent-line: #1d4ed8;
+      --hw-ours: #dcfce7;      --hw-ours-line: #15803d;
+      --hw-arrow: #475569;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --hw-bg: #111827; --hw-text: #e5e7eb; --hw-muted: #a3adbd; --hw-link: #93c5fd; --hw-panel: #1b2433;
+        --hw-border: #2c3747; --hw-creator: #3b2a0b; --hw-creator-line: #fbbf24; --hw-agent: #172a4a;
+        --hw-agent-line: #93c5fd; --hw-ours: #12301f; --hw-ours-line: #4ade80; --hw-arrow: #a3adbd;
+      }
+    }
+    :root[data-theme="dark"] {
+      --hw-bg: #111827; --hw-text: #e5e7eb; --hw-muted: #a3adbd; --hw-link: #93c5fd; --hw-panel: #1b2433;
+      --hw-border: #2c3747; --hw-creator: #3b2a0b; --hw-creator-line: #fbbf24; --hw-agent: #172a4a;
+      --hw-agent-line: #93c5fd; --hw-ours: #12301f; --hw-ours-line: #4ade80; --hw-arrow: #a3adbd;
+    }
+    body { background: var(--hw-bg); color: var(--hw-text); }
+    main { color: var(--hw-text); max-width: 46rem; }
+    main a { color: var(--hw-link); }
+    main a:focus-visible { outline: 3px solid var(--hw-link); outline-offset: 2px; }
+    h2 { margin-top: 2.5rem; line-height: 1.3; }
+    .lead { font-size: 1.1rem; }
+    .meta { color: var(--hw-muted); font-size: 0.9rem; }
+    code { overflow-wrap: anywhere; }
+    th, td { border-color: var(--hw-border); }
+
+    /* the short answer at the top */
+    .summary { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+      list-style: none; padding: 0; margin: 1.5rem 0; }
+    .summary li { background: var(--hw-panel); border: 1px solid var(--hw-border); border-radius: 0.6rem;
+      padding: 0.75rem 0.9rem; }
+    .summary strong { display: block; margin-bottom: 0.2rem; }
+
+    /* the diagram of a trial: SVG, scaled to the column, never wider than it needs */
+    figure { margin: 1.5rem 0; }
+    figure svg { display: block; width: 100%; max-width: 30rem; height: auto; margin: 0 auto; }
+    figcaption { color: var(--hw-muted); font-size: 0.9rem; margin-top: 0.5rem; }
+    .box rect { stroke-width: 1.5; }
+    .box text { fill: var(--hw-text); font: 600 13px var(--la-font, system-ui, sans-serif); }
+    .box text.sub { font-weight: 400; font-size: 11.5px; fill: var(--hw-muted); }
+    .creator rect { fill: var(--hw-creator); stroke: var(--hw-creator-line); }
+    .agent rect { fill: var(--hw-agent); stroke: var(--hw-agent-line); }
+    .ours rect { fill: var(--hw-ours); stroke: var(--hw-ours-line); }
+    .plain rect { fill: var(--hw-panel); stroke: var(--hw-border); }
+    .frame { fill: none; stroke: var(--hw-border); stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .frame-label { fill: var(--hw-muted); font: 600 11.5px var(--la-font, system-ui, sans-serif); letter-spacing: 0.04em; }
+    .arrow { stroke: var(--hw-arrow); stroke-width: 1.5; fill: none; }
+    .arrow-head { fill: var(--hw-arrow); }
+    .label { fill: var(--hw-muted); font: 11.5px var(--la-font, system-ui, sans-serif); }
+    .key { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; justify-content: center; font-size: 0.85rem;
+      color: var(--hw-muted); margin-top: 0.5rem; padding: 0; list-style: none; }
+    .key span { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 0.2rem; margin-right: 0.35rem;
+      vertical-align: -0.1rem; border: 1.5px solid; }
+    .key .k-creator { background: var(--hw-creator); border-color: var(--hw-creator-line); }
+    .key .k-agent { background: var(--hw-agent); border-color: var(--hw-agent-line); }
+    .key .k-ours { background: var(--hw-ours); border-color: var(--hw-ours-line); }
+
+    /* the way from a run to a conclusion: numbered steps */
+    ol.pipeline { list-style: none; counter-reset: step; padding: 0; margin: 1.25rem 0; display: grid; gap: 0.6rem; }
+    ol.pipeline > li { counter-increment: step; position: relative; padding: 0.7rem 0.9rem 0.7rem 3rem;
+      border: 1px solid var(--hw-border); border-radius: 0.6rem; background: var(--hw-panel); }
+    ol.pipeline > li::before { content: counter(step); position: absolute; left: 0.8rem; top: 0.7rem; width: 1.6rem;
+      height: 1.6rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 0.85rem;
+      background: var(--hw-ours); color: var(--hw-text); border: 1.5px solid var(--hw-ours-line); }
+    ol.pipeline .who { display: block; color: var(--hw-muted); font-size: 0.85rem; }
+
+    /* Harbor and ours side by side; one column on a phone */
+    .split { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 1rem 0; }
+    .split section { border: 1px solid var(--hw-border); border-radius: 0.6rem; padding: 0.2rem 1rem 0.6rem; }
+    .split section.harbor { border-top: 4px solid var(--hw-agent-line); }
+    .split section.ours { border-top: 4px solid var(--hw-ours-line); }
+    .split h3 { margin: 0.6rem 0 0.3rem; font-size: 1rem; }
+    .split ul { margin: 0; padding-left: 1.2rem; }
+    .split li { margin-bottom: 0.3rem; }
+
+    .why { border-left: 4px solid var(--hw-link); background: var(--hw-panel); border-radius: 0 0.5rem 0.5rem 0;
+      padding: 0.6rem 1rem; margin: 1rem 0; }
+    .why p { margin: 0.3rem 0; }
+    .scroll { overflow-x: auto; margin: 1rem 0; }
+    .scroll:focus-visible { outline: 3px solid var(--hw-link); }
+    table.faults { min-width: 34rem; font-size: 0.9rem; }
+    table.faults td:first-child { white-space: nowrap; }
+    table.faults small { color: var(--hw-muted); }
+    pre { background: var(--hw-panel); border: 1px solid var(--hw-border); border-radius: 0.375rem; padding: 0.75rem;
+      overflow-x: auto; font-size: 0.85rem; }
+    @media (forced-colors: active) {
+      .box rect, .frame, .arrow { stroke: CanvasText; }
+      .arrow-head { fill: CanvasText; }
+    }
+  </style>
+<!-- lernapps-frame -->
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/tooling/lernapps-tokens.css">
+<link rel="stylesheet" href="/tooling/lernapps-frame.css">
+<link rel="alternate" hreflang="de" href="/tooling/prompt-engineering/how-evals-work/">
+<link rel="alternate" hreflang="en" href="/tooling/en/prompt-engineering/how-evals-work/">
+<script>(() => {
+  const key = "lernapps-lang", here = "de", pages = {"en":"/tooling/en/prompt-engineering/how-evals-work/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
+<script src="/lernapps-count.js" defer></script>
+</head>
+<body>
+<a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
+<header class="la-header" lang="de">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Apps finden</a></li><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/" aria-current="page">Tooling</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Darum!</a></li><li><a href="/join/">Mitmachen</a></li><li class="la-lang"><a href="/tooling/en/prompt-engineering/how-evals-work/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav>
+  </div>
+</header>
+<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch.</p>
+  <main id="main-content" tabindex="-1">
+    <p class="meta"><a href="../">Prompt engineering</a> › How we evaluate the guidance</p>
+    <h1>How we evaluate the guidance</h1>
+    <p class="lead">Our guidance tells a creator's AI assistant how to build a learning app together with a person:
+      the skills, the plan template, <code>llms.txt</code>. We test it the way it is used. A simulated teacher talks
+      to a real assistant, from the first message to the question whether the app may go online. Then we score what
+      the assistant built and how it got there.</p>
+
+    <ul class="summary" aria-label="In short">
+      <li><strong>End to end</strong>A fresh machine, an empty folder, the real build prompt, the real assistant
+        with its shell and files.</li>
+      <li><strong>Many turns</strong>A simulated creator answers like a teacher would, until the scenario ends.</li>
+      <li><strong>Two scores</strong>One for the app folder at the end, one for the conversation on the way.</li>
+      <li><strong>Check the measure right after a run</strong>While its conversations still exist, we read some of
+        them: it is easy to draw wrong conclusions if the eval itself was faulty.</li>
+    </ul>
+
+    <h2 id="why-a-conversation">Why a whole conversation</h2>
+    <p>What the guidance asks for happens across many messages:</p>
+    <ul>
+      <li>ask what the app teaches before building anything,</li>
+      <li>stop at each checkpoint and wait for the creator's yes,</li>
+      <li>work through the phases in order: Explore, Plan, Code, Commit,</li>
+      <li>ask at most two questions in one message,</li>
+      <li>load each skill in its phase, not before.</li>
+    </ul>
+    <p>None of this shows in one answer to one prompt. Did the assistant wait for the yes? Did it create the app only
+      after the plan was confirmed? Only a whole conversation tells. So each eval is one scenario, played from start
+      to end, in a fresh container, with the assistant's real tools.</p>
+    <div class="why">
+      <p><strong>Why not test single prompts?</strong> They are cheaper and faster, but they test the model's answer,
+        not the process. A guidance that reads well can still be skipped in turn five.</p>
+    </div>
+
+    <h2 id="a-trial">What happens in one trial</h2>
+    <figure>
+      <svg viewBox="0 0 340 440" role="img" aria-labelledby="trial-title trial-desc">
+        <title id="trial-title">One trial</title>
+        <desc id="trial-desc">Inside one Harbor trial, the simulated creator decides each message and sends only its
+          reply, through the creator's command and acpx over ACP, to the assistant under test. The assistant answers
+          and works in the app folder. Harbor keeps three things: the creator's decisions, the ACP session and the app
+          folder.</desc>
+        <defs>
+          <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path class="arrow-head" d="M0,0 L10,5 L0,10 z"/>
+          </marker>
+        </defs>
+        <rect class="frame" x="6" y="18" width="328" height="290" rx="10"/>
+        <text class="frame-label" x="18" y="12">ONE HARBOR TRIAL · ONE FRESH CONTAINER</text>
+
+        <g class="box creator">
+          <rect x="22" y="34" width="236" height="54" rx="8"/>
+          <text x="140" y="57" text-anchor="middle">Simulated creator</text>
+          <text class="sub" x="140" y="75" text-anchor="middle">Claude Code playing a teacher</text>
+        </g>
+        <g class="box ours">
+          <rect x="22" y="118" width="236" height="54" rx="8"/>
+          <text x="140" y="141" text-anchor="middle">The creator's command</text>
+          <text class="sub" x="140" y="159" text-anchor="middle">records the decision, sends the reply</text>
+        </g>
+        <g class="box agent">
+          <rect x="22" y="202" width="236" height="54" rx="8"/>
+          <text x="140" y="225" text-anchor="middle">Assistant under test</text>
+          <text class="sub" x="140" y="243" text-anchor="middle">Claude Code or OpenCode, one model</text>
+        </g>
+        <path class="arrow" d="M140,88 V116" marker-end="url(#head)"/>
+        <text class="label" x="148" y="107">decides</text>
+        <path class="arrow" d="M140,172 V200" marker-end="url(#head)"/>
+        <text class="label" x="148" y="191">reply, over ACP</text>
+        <path class="arrow" d="M258,229 H300 V61 H260" marker-end="url(#head)"/>
+        <text class="label" x="312" y="145" text-anchor="middle" transform="rotate(90 312 145)">answer · many turns</text>
+        <path class="arrow" d="M140,256 V276" marker-end="url(#head)"/>
+        <text class="label" x="148" y="271">works in</text>
+        <g class="box plain">
+          <rect x="70" y="278" width="140" height="22" rx="5"/>
+          <text class="sub" x="140" y="293" text-anchor="middle">/app</text>
+        </g>
+
+        <text class="frame-label" x="18" y="334">WHAT HARBOR KEEPS</text>
+        <g class="box ours">
+          <rect x="10" y="344" width="100" height="62" rx="8"/>
+          <text x="60" y="368" text-anchor="middle">Decisions</text>
+          <text class="sub" x="60" y="386" text-anchor="middle">asked, answers,</text>
+          <text class="sub" x="60" y="400" text-anchor="middle">end</text>
+        </g>
+        <g class="box agent">
+          <rect x="120" y="344" width="100" height="62" rx="8"/>
+          <text x="170" y="368" text-anchor="middle">ACP session</text>
+          <text class="sub" x="170" y="386" text-anchor="middle">every message</text>
+          <text class="sub" x="170" y="400" text-anchor="middle">and tool call</text>
+        </g>
+        <g class="box plain">
+          <rect x="230" y="344" width="100" height="62" rx="8"/>
+          <text x="280" y="368" text-anchor="middle">App folder</text>
+          <text class="sub" x="280" y="386" text-anchor="middle">plan, app,</text>
+          <text class="sub" x="280" y="400" text-anchor="middle">git history</text>
+        </g>
+        <text class="label" x="170" y="430" text-anchor="middle">→ scored after the trial, see below</text>
+      </svg>
+      <ul class="key" aria-hidden="true">
+        <li><span class="k-creator"></span>the simulated creator</li>
+        <li><span class="k-agent"></span>Harbor and the assistant</li>
+        <li><span class="k-ours"></span>built by us</li>
+      </ul>
+      <figcaption>A trial is one scenario played once. A run plays each scenario several times with each model.</figcaption>
+    </figure>
+
+    <h3>The scenarios</h3>
+    <p>Each scenario starts in an empty folder with the build prompt of
+      <a href="/apps/build/">lernapps.net/apps/build</a>: a quiz on fractions, explanation pages on electric circuits,
+      and a small typing game. The assistant reads the guidance from lernapps.net, as any assistant would, at the
+      version on <code>main</code> at that moment.</p>
+
+    <h3>The simulated creator</h3>
+    <p>The creator is Claude Code playing a teacher. Its persona says what the teacher wants, which facts they know,
+      how they answer, and when they stop. It ends the scenario before anything goes online: at the question to
+      publish, when the assistant says it is done, or when the assistant is stuck.</p>
+    <p>For each message the creator first decides, in a fixed format: what the assistant asked, what its reply
+      answers, the reply itself, and whether this is the end. Only the reply reaches the assistant, which keeps
+      talking to what looks like a person.</p>
+    <pre><code>{"asked": ["plan_confirm"], "answers": ["plan_confirm"],
+ "reply": "Ja, passt so.", "end": null}</code></pre>
+    <div class="why">
+      <p><strong>Why the decision in a fixed format?</strong> In the first runs the creator made mistakes that counted
+        as the assistant's: it ended a scenario at a question about GitHub, and it forgot to mark its end. We had to
+        guess its intent from free text and fixed those guesses three times. Now its end and its yes to the plan are
+        read, not guessed, and its own mistakes are counted apart: an answer to a question nobody asked, a yes without
+        a question, a message sent without the command, a last message without its end.</p>
+    </div>
+
+    <h2 id="harbor">What Harbor does, and what we built</h2>
+    <p><a href="https://docs.harborframework.com">Harbor</a> is an open framework for running agents on tasks in
+      containers. It does the heavy lifting. Our part is what makes it an eval of our guidance.</p>
+    <div class="split">
+      <section class="harbor" aria-labelledby="harbor-h">
+        <h3 id="harbor-h">Harbor</h3>
+        <ul>
+          <li>builds the container of each task,</li>
+          <li>installs the assistant: Claude Code, OpenCode and many more,</li>
+          <li>runs the simulated creator and connects it to the assistant over ACP, an open protocol between a client
+            and a coding agent,</li>
+          <li>keeps the logs, the ACP session and the app folder,</li>
+          <li>runs the verifier in a second container,</li>
+          <li>runs the same task in Docker, in Apple Container on a Mac, or in the cloud.</li>
+        </ul>
+      </section>
+      <section class="ours" aria-labelledby="ours-h">
+        <h3 id="ours-h">Built by us</h3>
+        <ul>
+          <li>the scenarios: build prompt, persona, expected kind of app,</li>
+          <li>the creator's command and its fixed format,</li>
+          <li>the verifier of the app folder,</li>
+          <li>the score of the conversation, with one small adapter per assistant,</li>
+          <li>the results of a run, the conclusions and this site,</li>
+          <li>two small patches to Harbor and a wrapper that keeps every other credential out of the containers.</li>
+        </ul>
+      </section>
+    </div>
+    <div class="why">
+      <p><strong>Why Harbor?</strong> It runs a simulated user against a real assistant out of the box, for many
+        assistants, in a standard task format. Building our own runner would have cost more than the evals themselves.
+        The decision is recorded in the
+        <a href="https://github.com/lernapps/tooling/blob/main/docs/adr/eval-runs-with-harbor.md">ADR on eval runs with
+        Harbor</a>.</p>
+    </div>
+
+    <h2 id="scores">What we score</h2>
+    <p>Two scripts look at a finished trial from two sides.</p>
+    <table>
+      <thead><tr><th scope="col">Source</th><th scope="col">What it tells</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">The app folder<br><small>the verifier, in its own container</small></th>
+          <td>Is there a valid plan? Which phase did it reach, and how many of its boxes are ticked? Is the kind of app
+            right? Does <code>lernapps check</code> pass? Is everything committed?</td></tr>
+        <tr><th scope="row">The conversation<br><small>the transcript score</small></th>
+          <td>Did it read the guidance in full or only a summary? How many questions in one message wait for an
+            answer? Did it create the app before the plan's yes at the checkpoint? Does each reply begin with its
+            phase? Did it load each skill in its phase? Which kind of app did it propose first? Did it bypass a git
+            hook?</td></tr>
+      </tbody>
+    </table>
+    <p>Each row on <a href="../">Prompt engineering</a> measures one expectation of the guidance (A1 to A34 in the
+      plan of the evals). We score the process, not the content: an app built by the process is good when its creator
+      knows the subject.</p>
+
+    <h2 id="every-assistant">Every assistant, one score</h2>
+    <p>Each assistant writes its own kind of log. But Harbor saves the ACP session of every assistant it runs: each
+      message of the creator, each text of the assistant, each tool call with what went in and what came out. The
+      transcript score reads that session, so it works the same for every assistant.</p>
+    <p>Only the names of the tools differ. A small adapter per assistant maps them: OpenCode's <code>bash</code>
+      becomes <code>Bash</code>, its <code>filePath</code> becomes <code>file_path</code>.</p>
+    <div class="why">
+      <p><strong>How we know it holds:</strong> for a Claude Code run, reading the ACP session gives the same 24
+        numbers and the same evidence as reading Claude Code's own log.</p>
+      <p><strong>Adding an assistant</strong> takes an adapter in <code>evals/harnesses.ts</code> and one line in
+        <code>evals/harbor/run.sh</code>.</p>
+    </div>
+
+    <h2 id="from-run-to-change">From a run to a change</h2>
+    <ol class="pipeline">
+      <li><strong>Run</strong><span class="who">an eval session in the cloud, with its own key</span>
+        Each scenario with each model, three times where the subscription allows. The session pushes only the numbers:
+        <code>results.json</code>.</li>
+      <li><strong>Check the measure, right after the run</strong><span class="who">people, with an assistant</span>
+        We read some conversations and check that each number measures what it should. Every run so far found a fault
+        in the eval itself (<a href="#eval-faults">the list</a>); we fix it and score the run again. This has to
+        happen while the conversations exist: the run keeps them in its own container, and only the numbers reach the
+        repository.</li>
+      <li><strong>Conclude</strong><span class="who">people, in a pull request</span>
+        <code>conclusions.yaml</code>: the question, the bottom line, findings that link the cells they rest on, and
+        what we do about them.</li>
+      <li><strong>Change</strong><span class="who">guidance or tooling</span>
+        Each finding becomes a short, hard rule where the step happens, or a check when a rule keeps being skipped.</li>
+      <li><strong>Run again</strong><span class="who">the same scenarios</span>
+        The next run compares its cells with the last one, on <a href="../#runs">Prompt engineering</a>.</li>
+    </ol>
+
+    <h2 id="eval-faults">Faults we found in our own evals</h2>
+    <p>Each fault made a number say something about the assistant that was not true. We found them by reading the
+      conversations behind the numbers.</p>
+    <div class="scroll" tabindex="0" role="region" aria-label="Faults in the evals and what we changed">
+    <table class="faults">
+      <thead><tr><th scope="col">Found in</th><th scope="col">What the eval got wrong</th>
+        <th scope="col">What we changed</th></tr></thead>
+      <tbody>
+        <tr><td>First run<br><small>18 Oct</small></td>
+          <td>Harbor put its own config file into the app folder, and the app generator refused the folder.</td>
+          <td>A patch to Harbor keeps the file out of the app folder.</td></tr>
+        <tr><td>First run</td>
+          <td>The simulated creator stopped at a question about GitHub Pages while planning, as if it were the
+            question to publish.</td>
+          <td>The persona says which question ends the scenario; the run was left out.</td></tr>
+        <tr><td>First run</td>
+          <td>Reading the setting of the git hooks counted as bypassing them.</td>
+          <td>Only setting or removing it counts.</td></tr>
+        <tr><td>First run</td>
+          <td>Files read in the shell (<code>cat</code>) did not count as read, so “skill read” was wrong.</td>
+          <td>The row was left out of that run; the score now reads the shell's reads and downloads.</td></tr>
+        <tr><td>First run</td>
+          <td>Every sentence with a question mark counted as a question, also sample questions inside a plan
+            draft.</td>
+          <td>Since 22 Oct only questions that wait for an answer count.</td></tr>
+        <tr><td>Second run<br><small>21 Oct</small></td>
+          <td>A phase set with <code>sed</code>, a one-liner or a helper script went unseen, so “app created before
+            the plan” was wrong.</td>
+          <td>The score reads these commands and the output of <code>grep '^phase:'</code>; runs 1 and 2 were scored
+            again.</td></tr>
+        <tr><td>Second run</td>
+          <td>Haiku looked “stuck in Code”: mostly it was the creator ending the scenario at the first GitHub
+            question.</td>
+          <td>The end of the scenario is measured as such (“Code done”).</td></tr>
+        <tr><td>Second run</td>
+          <td>The creator's end was guessed from its free text; the guess needed three fixes.</td>
+          <td>The creator marks its end, and since 22 Oct decides each message in a fixed format.</td></tr>
+        <tr><td>Second run</td>
+          <td>A yes to a draft in Explore counted as the plan's yes, so apps created too early went unseen.</td>
+          <td>Each reply begins with its phase; since 22 Oct only the yes at the Plan checkpoint counts.</td></tr>
+        <tr><td>Second run</td>
+          <td>The verifier crashed on a broken link in the app folder and lost the numbers of one trial.</td>
+          <td>It skips such a link.</td></tr>
+        <tr><td>Third run<br><small>21 Oct</small></td>
+          <td>The creator wrote its end only into its own notes, and once ended without sending its last message:
+            the assistant was scored for the creator's mistake.</td>
+          <td>Since 22 Oct the creator's own mistakes are counted apart from the assistant's.</td></tr>
+        <tr><td>Test run<br><small>22 Oct</small></td>
+          <td>A command that ticked a box naming a phase (“Set <code>phase: code</code>”) counted as setting that
+            phase.</td>
+          <td>Only a change of the phase line counts.</td></tr>
+        <tr><td>Test run</td>
+          <td>“Kind of app chosen right” read the plan at the end, after the creator had asked for the right kind:
+            a wrong first choice scored as right.</td>
+          <td>The first kind of app the assistant proposes is scored too.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Two lessons hold across all of them: read the conversations before the numbers, and do it while they still
+      exist.</p>
+
+    <p>What the runs cannot tell yet, and every run, are on <a href="../#limits">Prompt engineering</a>. The code and
+      its README: <a href="https://github.com/lernapps/tooling/tree/main/evals">evals/ on GitHub</a>.</p>
+
+    <p><a href="../">Back to Prompt engineering</a></p>
+  </main>
+<footer class="la-footer" lang="de">
+  <div class="la-footer__inner">
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/tooling">Quellcode</a></li></ul></nav>
+  </div>
+</footer>
+</body>
+</html>
