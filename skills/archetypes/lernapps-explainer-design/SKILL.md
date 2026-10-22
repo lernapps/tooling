@@ -1,6 +1,6 @@
 ---
 name: lernapps-explainer-design
-description: Use in Explore right after choosing `archetype: explainer` - how the content of a lernapps.net explainer maps onto chapters, pages, blocks and exercises, which the plan then applies.
+description: Use in Explore right after choosing the `explainer` archetype - how the content of a lernapps.net explainer maps onto chapters, pages, blocks and exercises, which the plan then applies.
 license: MIT
 ---
 

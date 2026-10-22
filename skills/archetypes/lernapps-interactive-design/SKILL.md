@@ -1,6 +1,6 @@
 ---
 name: lernapps-interactive-design
-description: Use in Explore right after choosing `archetype: interactive` - how the content of a lernapps.net interactive app maps onto core, user interface, data and playthroughs, which the plan then applies.
+description: Use in Explore right after choosing the `interactive` archetype - how the content of a lernapps.net interactive app maps onto core, user interface, data and playthroughs, which the plan then applies.
 license: MIT
 ---
 
