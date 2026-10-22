@@ -18,7 +18,8 @@
 - The build checks each block's `props`. A `string` prop is a learner text: a map with several languages.
 - A list prop may be `{ data: <name> }`: the records of `src/data/<name>.yaml`, cut to the fields the item type declares
   (`events: { title: string }[]`). Each record needs them; a missing file or field fails the build. One data file,
-  many blocks: never copy records into `props`.
+  many blocks: never copy records into `props`. A field of a record may be a list or a record of values
+  (`compounds: [{ formula, text }]`) for this; exercises and timelines use the flat fields.
 
 ## `nojs`
 
