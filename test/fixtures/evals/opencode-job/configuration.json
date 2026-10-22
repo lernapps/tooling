@@ -1,0 +1,6 @@
+{
+  "harness": "opencode",
+  "model": "opencode-go/deepseek-v4.1-flash",
+  "userModel": "anthropic/claude-haiku-5-5",
+  "task": "quiz-fresh"
+}

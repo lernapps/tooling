@@ -17,7 +17,12 @@ What is tested is an assistant configuration (harness and version, model, Harbor
   - `task.toml`: timeouts, the separate verifier, the expected archetype, the expectations scored.
 - `verifier/verify.ts`: the verifier; writes `reward.json` (numbers only), `evidence.md` and the check report.
 - `score-transcript.ts`: scores a trial's transcript (turns, questions, what was read and how, bypasses, and the
-  skills loaded in their phase).
+  skills loaded in their phase). It reads the ACP session export Harbor writes for the agent under test
+  (`agent/bridge-trajectory.json`), the same for every harness; trials without one fall back to Claude Code's own
+  session log.
+- `harnesses.ts`: one small adapter per harness (Claude Code, OpenCode) that maps its tool calls onto the names the
+  score reads (`Bash`, `Read`, `Write`, `Edit`, `WebFetch`, `Skill`). A new harness needs an adapter here and a line
+  in `run.sh`.
 - `skills-by-phase.ts`: the skills the guidance under test loads in each phase, from the `x-phase` of the skills'
   building blocks in its architecture (`docs/arc42` at the job's guidance commit); `run.sh` writes it into the job as
   `skills-by-phase.json`. A task names the skills it leaves to a condition in `task.toml` (`skills_conditional`).
@@ -109,12 +114,19 @@ count, to compare with the runs scored before.
 ```sh
 evals/harbor/setup.sh                                   # once per machine; again after a pull
 EVALS_ANTHROPIC_API_KEY=… evals/harbor/run.sh quiz-fresh anthropic/<model> [trials] [concurrency]
+EVALS_ANTHROPIC_API_KEY=… EVALS_OPENCODE_API_KEY=… HARNESS=opencode \
+  evals/harbor/run.sh quiz-fresh opencode-go/deepseek-v4.1-flash [trials] [concurrency]
 node evals/summary.ts ~/.lernapps-evals/jobs
 node evals/results.ts <run> ~/.lernapps-evals/jobs     # then write evals/runs/<run>/conclusions.yaml
 ```
 
+`HARNESS` names the agent under test: `claude-code` (default) or `opencode`. The simulated creator is always Claude
+Code, on `USER_MODEL` (default: the model under test for Claude Code, Haiku 5.5 for another harness).
+
 `EVALS_ANTHROPIC_API_KEY` holds a Claude subscription token; `harbor.sh` hands it to Harbor as
-`CLAUDE_CODE_OAUTH_TOKEN`, and nothing else of the calling environment. Jobs land in `~/.lernapps-evals/jobs`
+`CLAUDE_CODE_OAUTH_TOKEN`, and nothing else of the calling environment. For OpenCode, `EVALS_OPENCODE_API_KEY` holds
+the key of OpenCode Go; `harbor.sh` hands it over as `OPENCODE_API_KEY`, and `run.sh` names it to Harbor as a template
+(`--ae 'OPENCODE_API_KEY=${OPENCODE_API_KEY}'`), because Harbor passes it on by itself only for providers it knows. Jobs land in `~/.lernapps-evals/jobs`
 (`LERNAPPS_EVALS_HOME` moves everything). To check that a task builds and its verifier runs, without a model:
 `evals/harbor/harbor.sh run -p evals/tasks/<task> -a oracle -o <dir>` (all dimensions 0).
 

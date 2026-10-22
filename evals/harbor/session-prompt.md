@@ -1,7 +1,7 @@
 # The prompt of an eval session
 
 An eval run gets a Claude Code session of its own, in the cloud environment "Evals". That environment holds
-`EVALS_ANTHROPIC_API_KEY` and allows Docker. Start the session on `lernapps/tooling` at `main`, with the branch
+`EVALS_ANTHROPIC_API_KEY` (and `EVALS_OPENCODE_API_KEY` for OpenCode) and allows Docker. Start the session on `lernapps/tooling` at `main`, with the branch
 `evals/run-<run>` as its outcome branch and the permission mode `auto`. Its first message is the text below the line.
 Fill in `<run>` (e.g. `2026-10-21-phase-announced`) and the jobs, one `evals/harbor/run.sh` line per task and model.
 The session pushes only `results.json`; people write `conclusions.yaml` in the pull request (`evals/README.md`).
@@ -12,8 +12,9 @@ You run Harbor evals of lernapps/tooling at its current `main`. Nobody is watchi
 until every job has finished, then push the results and summarise.
 
 ## Hard rules (never break them)
-- **The key:** never read, print, echo, grep for or otherwise inspect the value of `EVALS_ANTHROPIC_API_KEY` or any
-  other token. Check only that the variable name exists: `env | cut -d= -f1 | grep -x EVALS_ANTHROPIC_API_KEY`.
+- **The keys:** never read, print, echo, grep for or otherwise inspect the value of `EVALS_ANTHROPIC_API_KEY`,
+  `EVALS_OPENCODE_API_KEY` or any other token. Check only that the variable names exist:
+  `env | cut -d= -f1 | grep -xE 'EVALS_(ANTHROPIC|OPENCODE)_API_KEY'`.
   `evals/harbor/harbor.sh` hands it to Harbor; do nothing else with it.
 - **Your own credentials:** never pass this session's credentials (`CLAUDE_CODE_OAUTH_TOKEN`, `ANTHROPIC_API_KEY`,
   GitHub tokens) to Harbor, Docker or any container. Start runs only through `evals/harbor/run.sh`, which scrubs the
@@ -29,7 +30,8 @@ Read `evals/README.md` first. Then:
 1. `npm ci`, then `evals/harbor/setup.sh`. Check Docker (`docker info`) and the free disk space (`df -h ~`).
 2. The jobs, one after another, each detached (`nohup … > ~/eval-run.log 2>&1 &`). Watch them with short checks (the
    log, `docker ps`, the disk space); never let a check block for long.
-   <one line per job, e.g. `evals/harbor/run.sh interactive-fresh anthropic/claude-haiku-5-5 3 3`>
+   <one line per job, e.g. `evals/harbor/run.sh interactive-fresh anthropic/claude-haiku-5-5 3 3` or
+   `HARNESS=opencode evals/harbor/run.sh interactive-fresh opencode-go/deepseek-v4.1-flash 3 3`>
 3. **Safety:**
    - If the disk passes about 85 %, run `docker container prune -f` and `docker image prune -f`. Never delete a job
      directory.

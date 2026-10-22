@@ -5,12 +5,15 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
 import { parseTurn, type CreatorTurn } from "../evals/harbor/creator-say.ts";
+import { HARNESSES } from "../evals/harnesses.ts";
 import {
   questionsWaiting,
   scoreTrial,
   scoreTurns,
   turns,
+  turnsFromAcp,
   withRecords,
+  type AcpMessage,
   type SkillContext,
 } from "../evals/score-transcript.ts";
 import { skillsByPhase } from "../evals/skills-by-phase.ts";
@@ -917,4 +920,74 @@ test("the archetype the agent proposes first is scored against the task's, and a
   expect(scoreTurns([turn("Ein Quiz", "Archetyp `quiz`.")]).dimensions).not.toHaveProperty(
     "archetype_first_proposed_right",
   );
+});
+
+test("an OpenCode trial is scored from its ACP session export, its tools mapped onto the score's names", () => {
+  // Recorded with OpenCode over acpx against a stand-in model that plays a fixed script (2026-10-22), paths as /app.
+  const job = join(mkdtempSync(join(tmpdir(), "evals-")), "opencode-job");
+  cpSync(join(fixtures, "opencode-job"), job, { recursive: true });
+  const score = scoreTrial(join(job, "opencode-trial"));
+  expect(score?.evidence["transcript"]).toBe("acp");
+  expect(score?.dimensions).toMatchObject({
+    creator_turns: 2,
+    // the reply begins "**Plan · Checkpoint**", and the creator's yes answers it; the agent had set code before
+    plan_confirmed: 1,
+    code_before_plan_confirmed: 1,
+    questions_per_turn_max: 1,
+    phase_announced: 1,
+    agent_input_tokens: 20,
+    agent_output_tokens: 10,
+  });
+  // bash, read, write and edit as Bash, Read, Write and Edit: the sed sets plan, the edit of the plan sets code
+  expect(score?.evidence["phasesAnnounced"]).toEqual([
+    { turn: 1, announced: "plan", plan: "code" },
+    { turn: 2, announced: "plan", plan: "code" },
+  ]);
+});
+
+test("a Claude Code transcript over ACP: its tools, their outputs and the agent's text blocks", () => {
+  const update = (value: Record<string, unknown>): AcpMessage => ({
+    method: "session/update",
+    params: { update: value },
+  });
+  const history: AcpMessage[] = [
+    { method: "session/prompt", params: { prompt: [{ type: "text", text: "Ein Quiz" }] } },
+    update({ sessionUpdate: "agent_message_chunk", content: { type: "text", text: "**Explore** Ich lade " } }),
+    update({ sessionUpdate: "agent_message_chunk", content: { type: "text", text: "die Vorlage." } }),
+    // announced without input, then again with it; the output comes with the update
+    update({
+      sessionUpdate: "tool_call",
+      toolCallId: "t1",
+      title: "Terminal",
+      rawInput: {},
+      _meta: { claudeCode: { toolName: "mcp__acp__Bash" } },
+    }),
+    update({
+      sessionUpdate: "tool_call",
+      toolCallId: "t1",
+      title: "`grep '^phase:' .vibe/plans/01.md`",
+      rawInput: { command: "grep '^phase:' .vibe/plans/01.md" },
+      _meta: { claudeCode: { toolName: "mcp__acp__Bash" } },
+    }),
+    update({
+      sessionUpdate: "tool_call_update",
+      toolCallId: "t1",
+      status: "completed",
+      rawOutput: [{ type: "text", text: "phase: plan" }],
+    }),
+    update({ sessionUpdate: "agent_message_chunk", content: { type: "text", text: "Was sollen sie können?" } }),
+    { result: { usage: { inputTokens: 3, cachedReadTokens: 7, outputTokens: 2 } } },
+  ];
+  const [turn] = turnsFromAcp(history, HARNESSES["claude-code"]!);
+  expect(turn).toEqual({
+    creator: "Ein Quiz",
+    text: "**Explore** Ich lade die Vorlage.\nWas sollen sie können?",
+    opening: { text: "**Explore** Ich lade die Vorlage.", toolsBefore: 0 },
+    closing: "Was sollen sie können?",
+    tools: [{ name: "Bash", input: { command: "grep '^phase:' .vibe/plans/01.md" }, id: "t1", result: "phase: plan" }],
+  });
+  expect(HARNESSES["opencode"]!.tool("skill", { name: "lernapps-app" })).toEqual({
+    name: "Skill",
+    input: { name: "lernapps-app", skill: "lernapps-app" },
+  });
 });
