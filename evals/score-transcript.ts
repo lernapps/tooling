@@ -10,6 +10,7 @@ import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { CreatorTurn, Kind } from "./harbor/creator-say.ts";
+import { HARNESSES, type Harness } from "./harnesses.ts";
 import type { SkillsByPhase } from "./skills-by-phase.ts";
 
 /** One entry of a Claude Code session log, as far as the score reads it. */
@@ -28,6 +29,23 @@ interface Block {
   tool_use_id?: string;
   content?: string | Block[];
   input?: Record<string, unknown>;
+}
+
+/** One JSON-RPC message of an ACP session export (acpx `sessions export`), as far as the score reads it. */
+export interface AcpMessage {
+  method?: string;
+  params?: { prompt?: Block[]; update?: AcpUpdate };
+  result?: { usage?: Record<string, unknown> };
+}
+interface AcpUpdate {
+  sessionUpdate?: string;
+  messageId?: string;
+  content?: { text?: string };
+  toolCallId?: string;
+  title?: string;
+  rawInput?: Record<string, unknown>;
+  rawOutput?: unknown;
+  _meta?: { claudeCode?: { toolName?: string } };
 }
 
 /** A turn of the agent: everything between one creator message and the next. */
@@ -164,6 +182,97 @@ export function turns(entries: Entry[]): Turn[] {
     }
   }
   return result;
+}
+
+/** The text of a tool's output in an ACP update: a string, a list of text blocks, or an object with `output`. */
+const outputText = (value: unknown): string | undefined => {
+  if (typeof value === "string") return value;
+  if (Array.isArray(value))
+    return value.map((part: { text?: unknown }) => (typeof part.text === "string" ? part.text : "")).join("\n");
+  if (typeof value === "object" && value !== null && typeof (value as { output?: unknown }).output === "string")
+    return (value as { output: string }).output;
+  return undefined;
+};
+
+/**
+ * The turns of an ACP session export, for any harness: each `session/prompt` is a creator message; the agent's text
+ * comes in chunks, a block ending at a tool call or a new message id; a tool call's name is the one its first update
+ * gives, and its input and output come with later updates. The harness's adapter maps the names onto the score's.
+ */
+export function turnsFromAcp(history: AcpMessage[], harness: Harness): Turn[] {
+  const result: Turn[] = [];
+  const raw = new Map<string, { name: string; input: Record<string, unknown> }>();
+  let text = "";
+  let messageId: string | undefined;
+  const flush = () => {
+    const turn = result.at(-1);
+    if (turn && text.trim() !== "") {
+      turn.text += `${turn.text ? "\n" : ""}${text}`;
+      if (turn.opening === undefined) turn.opening = { text, toolsBefore: turn.tools.length };
+      turn.closing = text;
+    }
+    text = "";
+  };
+  for (const message of history) {
+    if (message.method === "session/prompt") {
+      flush();
+      const prompt = message.params?.prompt ?? [];
+      result.push({
+        creator: prompt
+          .filter((block) => block.type === "text")
+          .map((block) => block.text ?? "")
+          .join("\n"),
+        text: "",
+        tools: [],
+      });
+      continue;
+    }
+    const update = message.params?.update;
+    const turn = result.at(-1);
+    if (message.method !== "session/update" || !update || !turn) continue;
+    if (update.sessionUpdate === "agent_message_chunk") {
+      if (update.messageId !== undefined && update.messageId !== messageId) {
+        flush();
+        messageId = update.messageId;
+      }
+      text += update.content?.text ?? "";
+    } else if (update.sessionUpdate === "tool_call" || update.sessionUpdate === "tool_call_update") {
+      const id = update.toolCallId;
+      if (id === undefined) continue;
+      let tool = turn.tools.find((call) => call.id === id);
+      if (!tool) {
+        if (update.sessionUpdate !== "tool_call") continue;
+        flush();
+        raw.set(id, { name: update._meta?.claudeCode?.toolName ?? update.title ?? "", input: {} });
+        tool = { name: "", input: {}, id };
+        turn.tools.push(tool);
+      }
+      const call = raw.get(id);
+      if (!call) continue;
+      if (update.rawInput && Object.keys(update.rawInput).length > 0) Object.assign(call.input, update.rawInput);
+      const mapped = harness.tool(call.name, call.input);
+      tool.name = mapped.name;
+      tool.input = mapped.input;
+      const output = outputText(update.rawOutput);
+      if (output !== undefined) tool.result = output;
+    }
+  }
+  flush();
+  return result;
+}
+
+/** The tokens of the agent under test, from the usage the agent returns with each prompt of an ACP session. */
+export function usageFromAcp(history: AcpMessage[]): Record<string, number> {
+  const sum = { agent_input_tokens: 0, agent_cache_read_tokens: 0, agent_output_tokens: 0 };
+  for (const message of history) {
+    const usage = message.result?.usage;
+    if (!usage) continue;
+    const value = (key: string) => (typeof usage[key] === "number" ? (usage[key] as number) : 0);
+    sum.agent_input_tokens += value("inputTokens") + value("cachedWriteTokens");
+    sum.agent_cache_read_tokens += value("cachedReadTokens");
+    sum.agent_output_tokens += value("outputTokens");
+  }
+  return sum;
 }
 
 /**
@@ -630,11 +739,29 @@ export function skillContext(trial: string): SkillContext | undefined {
   return { phases, archetypes, archetype, conditional };
 }
 
-/** Scores one trial directory and writes its transcript-score.json; undefined when it has no session log. */
+/** The harness of a trial's job, as evals/harbor/run.sh wrote it into configuration.json; Claude Code before that. */
+export function harnessOf(trial: string): Harness {
+  const file = join(dirname(trial), "configuration.json");
+  const name = existsSync(file)
+    ? ((JSON.parse(readFileSync(file, "utf8")) as { harness?: string }).harness ?? "claude-code")
+    : "claude-code";
+  const harness = HARNESSES[name];
+  if (!harness) throw new Error(`no adapter for the harness ${name} (evals/harnesses.ts)`);
+  return harness;
+}
+
+/**
+ * Scores one trial directory and writes its transcript-score.json; undefined when it has no transcript. The
+ * transcript is the ACP session export Harbor writes for the agent under test, read through the harness's adapter;
+ * a trial without one falls back to Claude Code's own session log. The tokens come from the ACP session where the
+ * harness reports them there, else from Claude Code's log.
+ */
 export function scoreTrial(trial: string, skills = skillContext(trial)): TranscriptScore | undefined {
-  const logs = sessionLogs(trial);
-  if (logs.length === 0) return undefined;
-  const entries = logs
+  const exported = join(trial, "agent", "bridge-trajectory.json");
+  const history = existsSync(exported)
+    ? ((JSON.parse(readFileSync(exported, "utf8")) as { history?: AcpMessage[] }).history ?? [])
+    : undefined;
+  const entries = sessionLogs(trial)
     .flatMap((file) =>
       readFileSync(file, "utf8")
         .split("\n")
@@ -642,8 +769,15 @@ export function scoreTrial(trial: string, skills = skillContext(trial)): Transcr
         .map((line) => JSON.parse(line) as Entry),
     )
     .sort((a, b) => (a.timestamp ?? "").localeCompare(b.timestamp ?? ""));
-  const score = scoreTurns(withRecords(turns(entries), creatorRecords(trial)), skills);
-  Object.assign(score.dimensions, usage(entries));
+  if (!history && entries.length === 0) return undefined;
+  const all = history ? turnsFromAcp(history, harnessOf(trial)) : turns(entries);
+  const score = scoreTurns(withRecords(all, creatorRecords(trial)), skills);
+  const reported = history ? usageFromAcp(history) : undefined;
+  Object.assign(
+    score.dimensions,
+    reported && Object.values(reported).some((count) => count > 0) ? reported : usage(entries),
+  );
+  score.evidence["transcript"] = history ? "acp" : "claude-code-log";
   writeFileSync(join(trial, "transcript-score.json"), `${JSON.stringify(score, null, 2)}\n`);
   return score;
 }

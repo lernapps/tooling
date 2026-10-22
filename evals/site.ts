@@ -164,10 +164,20 @@ export function tablesOf(results: Results): string[][] {
   return tables;
 }
 
+/** The harnesses of some configurations, each with its versions: "claude-code 2.1.308 · opencode 1.19.4". */
+const harnessesOf = (configurations: Results["configurations"][string][]) =>
+  [...new Set(configurations.map((cfg) => cfg.harness ?? "?"))]
+    .map((harness) => {
+      const versions = configurations
+        .filter((cfg) => (cfg.harness ?? "?") === harness)
+        .flatMap((cfg) => [cfg.harnessVersion ?? ""].flat());
+      return `${harness} ${[...new Set(versions)].join(", ")}`;
+    })
+    .join(" · ");
+
 const tableLabel = (results: Results, ids: string[]) => {
-  const first = results.configurations[ids[0] ?? ""] ?? {};
-  const versions = [...new Set(ids.map((id) => results.configurations[id]?.harnessVersion).flat())].join(", ");
-  return `guidance ${short(first.guidanceCommit)} · ${first.harness ?? "?"} ${versions}`;
+  const configurations = ids.map((id) => results.configurations[id] ?? {});
+  return `guidance ${short(configurations[0]?.guidanceCommit)} · ${harnessesOf(configurations)}`;
 };
 
 function heatmap(run: Run, ids: string[]): string {
@@ -262,7 +272,6 @@ function article(run: Run, previous: Run | undefined, all: Run[]): string {
   const guidance = [...new Set(configs.map(([, cfg]) => cfg.guidanceCommit ?? ""))]
     .map((commit) => `<a href="${GITHUB}/tree/${esc(commit)}">${esc(short(commit))}</a>`)
     .join(", ");
-  const versions = [...new Set(configs.flatMap(([, cfg]) => [cfg.harnessVersion ?? ""].flat()))].join(", ");
   const compareWith = previous?.results.configurations["c1"]?.guidanceCommit;
   const diff =
     compareWith && first.guidanceCommit
@@ -311,7 +320,7 @@ function article(run: Run, previous: Run | undefined, all: Run[]): string {
   const cfg = first;
   return `<article class="run" id="run-${esc(run.id)}" data-run="${esc(run.id)}" aria-labelledby="run-${esc(run.id)}-h">
 <h3 id="run-${esc(run.id)}-h">${esc(c.title)} <small>${esc(results.dataDate)}</small></h3>
-<p class="meta">${results.totals["trials"]} runs · runs ${esc(results.runsFrom.slice(0, 16).replace("T", " "))} to ${esc(results.runsTo.slice(0, 16).replace("T", " "))} UTC · ${esc(cfg.harness ?? "?")} ${esc(versions)} · Harbor ${esc(cfg.harbor ?? "?")} · creator played by ${esc((cfg.userModel ?? "?").replace(/^.*claude-([a-z]+)-(\d+)-(\d+)$/, (_, m: string, a: string, b: string) => `${m[0]!.toUpperCase()}${m.slice(1)} ${a}.${b}`))} · guidance ${guidance}${diff} · <a href="runs/${esc(run.id)}/results.json">results.json</a> · <a href="runs/${esc(run.id)}/conclusions.json">conclusions.json</a></p>
+<p class="meta">${results.totals["trials"]} runs · runs ${esc(results.runsFrom.slice(0, 16).replace("T", " "))} to ${esc(results.runsTo.slice(0, 16).replace("T", " "))} UTC · ${esc(harnessesOf(configs.map(([, configuration]) => configuration)))} · Harbor ${esc(cfg.harbor ?? "?")} · creator played by ${esc((cfg.userModel ?? "?").replace(/^.*claude-([a-z]+)-(\d+)-(\d+)$/, (_, m: string, a: string, b: string) => `${m[0]!.toUpperCase()}${m.slice(1)} ${a}.${b}`))} · guidance ${guidance}${diff} · <a href="runs/${esc(run.id)}/results.json">results.json</a> · <a href="runs/${esc(run.id)}/conclusions.json">conclusions.json</a></p>
 <p class="question"><strong>Question:</strong> ${inline(c.question)}</p>
 <section class="bottom-line" aria-label="Bottom line"><h4>Bottom line</h4><ul>${c.bottomLine.map((line) => `<li>${inline(line)}</li>`).join("")}</ul></section>
 ${compare}

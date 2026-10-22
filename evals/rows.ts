@@ -218,10 +218,12 @@ export const stat = (values: number[]): Stat | undefined =>
         max: round(Math.max(...values)),
         n: values.length,
       };
-/** "anthropic/claude-haiku-5-5" → "Haiku 5.5". */
+/** "anthropic/claude-haiku-5-5" → "Haiku 5.5"; another model by its name without the provider. */
 export const modelLabel = (model: string) => {
   const match = /claude-([a-z]+)-(\d+)-(\d+)/.exec(model);
-  return match ? `${match[1]![0]!.toUpperCase()}${match[1]!.slice(1)} ${match[2]}.${match[3]}` : model;
+  return match
+    ? `${match[1]![0]!.toUpperCase()}${match[1]!.slice(1)} ${match[2]}.${match[3]}`
+    : model.replace(/^.*\//, "");
 };
 export const MODEL_ORDER = ["haiku", "sonnet", "opus"];
 export const modelRank = (model: string) => {
