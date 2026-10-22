@@ -1,8 +1,10 @@
 # The creator's machine at the start of a fresh run: an empty folder, Node 22, git, and a browser for the checks.
 # Generated folders are not part of the task: evals/harbor/setup.sh writes ccr-ca.crt (the CA of an intercepting
-# egress proxy, or an empty file where there is none) next to this file.
+# egress proxy, or an empty file where there is none) and creator-say.ts (the simulated creator's way to talk to the
+# agent, evals/harbor/creator-say.ts) next to this file.
 FROM mirror.gcr.io/library/node:22-bookworm-slim
 COPY ccr-ca.crt /usr/local/share/ca-certificates/ccr-ca.crt
+COPY creator-say.ts /opt/creator/say.ts
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git ca-certificates curl jq \
  && update-ca-certificates \

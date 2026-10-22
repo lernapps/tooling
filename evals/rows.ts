@@ -124,6 +124,15 @@ ROWS.push(
     kind: "runs",
     value: (trial) => (trial.createdBeforePlan ? 0 : 1),
   },
+  // Since the plan's yes is the yes at the Plan checkpoint (#141, runs that announce the phase)
+  {
+    id: "code_after_plan_confirmed",
+    label: "Phase code set only after the plan's yes",
+    group: "transcript",
+    source: "code_before_plan_confirmed",
+    kind: "runs",
+    value: threshold("t_code_before_plan_confirmed", 0),
+  },
   {
     id: "plan_template_read_raw",
     label: "Plan template read word for word",
@@ -148,6 +157,24 @@ ROWS.push(
     source: "skills_out_of_place",
     kind: "runs",
     value: threshold("t_skills_out_of_place", 0),
+  },
+  // A19 as the agent chose, before any correction by the creator: the final archetype is "Archetype chosen right"
+  {
+    id: "archetype_first_proposed_right",
+    label: "First archetype the agent proposed is the expected one",
+    group: "transcript",
+    source: "archetype_first_proposed_right",
+    kind: "runs",
+    value: (trial) => trial.numbers["t_archetype_first_proposed_right"],
+  },
+  // Since the creator decides in structured output (#142): its own mistakes, apart from the agent's
+  {
+    id: "creator_without_mistakes",
+    label: "The simulated creator made no mistake of its own",
+    group: "transcript",
+    source: "creator_mistakes",
+    kind: "runs",
+    value: threshold("t_creator_mistakes", 0),
   },
 );
 
