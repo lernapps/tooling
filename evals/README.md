@@ -32,7 +32,8 @@ What is tested is an assistant configuration (harness and version, model, Harbor
 - `expectations.json`: which expectation each dimension measures.
 - `harbor/`: `setup.sh` (installs Harbor 0.24.0 outside the repo and patches it), `harbor.sh` (runs Harbor with a
   scrubbed environment and the subscription token), `run.sh` (one job per task and model), the patches, the prompt
-  template of the simulated user, and `session-prompt.md`, the prompt of an eval session.
+  template of the simulated user, `bridge-prompt.md` and `creator-say.ts` (how the simulated creator talks to the
+  agent, below), and `session-prompt.md`, the prompt of an eval session.
 
 ## An eval run, step by step
 
@@ -54,15 +55,54 @@ session's container). To score a run again after a change to the score: copy its
 `node evals/score-transcript.ts <job>…` on the copy, then `node evals/results.ts <run> <job>… --out <file>`, and
 compare with the run's `results.json` before you replace it: only the changed dimensions may differ.
 
-## The creator's end and the phase announced
+## The structured creator
+
+The simulated creator decides each message in structured output and sends it with `node /opt/creator/say.ts`
+(`harbor/creator-say.ts`, copied into each task's image; `harbor/bridge-prompt.md` replaces Harbor's instructions
+for `acpx`). Its input is `{"asked": [...], "answers": [...], "reply": "...", "end": null}`: what the agent's last
+message asked of it and what its reply answers (`plan_confirm`, `confirm`, `archetype`, `content`, `github`, `publish`,
+`permission`, `technical`, `go_on`, `other`), its reply, and its end. The command sends the agent only the reply
+(with the end marker below), so the agent under test still talks to a person in free text, and appends the record
+to `/logs/user-agent/creator-turns.jsonl`, which lands in the trial as `user-agent/creator-turns.jsonl`.
+
+`score-transcript.ts` gives each creator message its record and reads the end and the plan's yes from there. It
+counts the creator's own mistakes as `creator_mistakes` (evidence `creatorMistakes`): an answer to a question the
+agent did not ask (`answer_not_asked`), a yes when the agent asked nothing (`yes_without_question`), a message sent
+past the command (`unrecorded`), a last message without its end (`no_end`). Runs before 2026-10-22 have no records
+and fall back to reading the creator's free text.
+
+## The creator's end, the plan's yes and the phase announced
 
 - The simulated creator ends the scenario before anything is pushed, and sends its last message with a marker on
   its last line: `[Ende: veröffentlichen]` (stopped at the question to publish), `[Ende: fertig]` (the agent said it
-  is done) or `[Ende: festgefahren]` (stuck). `scenario_end` reads the marker; runs before it fall back to the
-  persona's sentences. "Code done" counts a green check and a regular end after the plan.
+  is done) or `[Ende: festgefahren]` (stuck). `scenario_end` reads the creator's recorded `end`; runs before it read
+  the marker, and runs before the marker the persona's sentences. "Code done" counts a green check and a regular end
+  after the plan.
+- The plan is confirmed by the creator's yes to the reply at the Plan checkpoint: a reply that begins
+  "**Plan · Checkpoint**", or one the creator recorded as asking for the plan's yes (`plan_confirm`). A yes to a
+  draft in Explore confirms that draft only. Creator turns after the plan and installs before it count from that
+  yes; `code_before_plan_confirmed` is 1 when the agent set `phase: code` before it or without it. Runs whose agent
+  announced no phase (before 2026-10-21) keep the agent's sign, the creator message before `phase: code` is set
+  (evidence `planConfirmedBy`).
 - The plan template asks each reply to begin with the phase ("**Plan · Checkpoint**"). `phase_announced` is the
   share of the replies the creator read whose first text begins with a phase; `phase_announced_right` the share of
   those whose phase is the plan's at that point of the turn.
+
+## The archetype
+
+`archetype_expected` (the verifier) is the archetype in the plan at the end, after any correction by the creator,
+whose persona asks for the task's kind of app. `archetype_first_proposed_right` is the agent's own choice: the first
+archetype it proposes in its text ("Archetyp `quiz`"), against the task's. The evidence lists the proposals and, where
+the creator recorded it, the turn at which it answered the kind of app after a proposal of another
+(`archetypeCorrectedByCreatorAtTurn`).
+
+## Questions per turn
+
+`questions_per_turn_*` count the questions that wait for the creator's answer, in the agent's last text of the turn
+(the message the creator answers): a paragraph or list item that asks counts once, however many question marks it
+has, and code, quotes, tables and text in quotation marks (a sample question of a draft) count not at all. Before
+2026-10-22 they counted every sentence ending in "?" in the turn's text; `question_marks_per_turn_max` keeps that
+count, to compare with the runs scored before.
 
 ## Running
 
