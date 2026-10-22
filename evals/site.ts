@@ -3,7 +3,8 @@
 // conclusions.yaml (what we concluded, written by people). The page holds every run as plain HTML that reads without
 // JavaScript; its script turns the list into a choice of one run and compares it with another. Next to the page:
 // runs.json (the index) and runs/<run>/results.json and conclusions.json, for machines.
-// Fails, with one line per problem, when a conclusion names a cell, row, metric or finding the run does not have.
+// Fails, with one line per problem, when a conclusion names a cell, row, metric or finding the run does not have. A run
+// without conclusions.yaml shows as not evaluated yet.
 //
 //   node evals/site.ts test          the check alone (test/evals.test.ts)
 //   node evals/site.ts page <dir>    writes <dir>/index.html from the page's template and the data files (scripts/build.sh)
@@ -47,6 +48,18 @@ export interface Run {
   conclusions: Conclusions;
 }
 
+/**
+ * The conclusions of a run nobody has evaluated yet: an eval session pushes only results.json, people add
+ * conclusions.yaml in the pull request.
+ */
+const notEvaluated = (id: string): Conclusions => ({
+  title: id,
+  question: "Not evaluated yet: the conclusions follow in the pull request.",
+  bottomLine: ["Not evaluated yet."],
+  findings: [],
+  actions: [],
+});
+
 /** The runs in evals/runs/, newest first. */
 export function runs(dir = RUNS): Run[] {
   return readdirSync(dir, { withFileTypes: true })
@@ -54,9 +67,9 @@ export function runs(dir = RUNS): Run[] {
     .map((entry) => ({
       id: entry.name,
       results: JSON.parse(readFileSync(join(dir, entry.name, "results.json"), "utf8")) as Results,
-      conclusions: (existsSync(join(dir, entry.name, "conclusions.yaml"))
-        ? parse(readFileSync(join(dir, entry.name, "conclusions.yaml"), "utf8"))
-        : {}) as Conclusions,
+      conclusions: existsSync(join(dir, entry.name, "conclusions.yaml"))
+        ? (parse(readFileSync(join(dir, entry.name, "conclusions.yaml"), "utf8")) as Conclusions)
+        : notEvaluated(entry.name),
     }))
     .sort((a, b) => b.results.dataDate.localeCompare(a.results.dataDate) || b.id.localeCompare(a.id));
 }

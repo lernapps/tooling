@@ -452,6 +452,20 @@ test("the eval runs on the page: every conclusion names cells, rows and findings
   expect(html).toContain('id="2026-10-18-first-run--quiz-fresh--haiku-5-5--c1--app_content_filled"');
 });
 
+test("a run an eval session pushed without conclusions shows as not evaluated yet", () => {
+  const dir = mkdtempSync(join(tmpdir(), "runs-"));
+  cpSync(join(repoRoot, "evals", "runs", "2026-10-18-first-run", "results.json"), join(dir, "r", "results.json"), {
+    recursive: true,
+  });
+  const results = JSON.parse(readFileSync(join(dir, "r", "results.json"), "utf8")) as { run: string };
+  results.run = "r";
+  writeFileSync(join(dir, "r", "results.json"), JSON.stringify(results));
+  const [run] = runs(dir);
+  if (!run) throw new Error("the run is missing");
+  expect(problems(run)).toEqual([]);
+  expect(render([run])).toContain("Not evaluated yet");
+});
+
 test("the verifier finds the plan's folder past a symlink whose target is gone", () => {
   const app = mkdtempSync(join(tmpdir(), "verify-"));
   mkdirSync(join(app, "quiz", ".vibe", "plans"), { recursive: true });
