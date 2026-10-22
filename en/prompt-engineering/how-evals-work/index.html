@@ -416,6 +416,18 @@
           <td>“Kind of app chosen right” read the plan at the end, after the creator had asked for the right kind:
             a wrong first choice scored as right.</td>
           <td>The first kind of app the assistant proposes is scored too.</td></tr>
+        <tr><td>OpenCode run<br><small>22 Oct</small></td>
+          <td>OpenCode reports the tokens of only the last model call of each turn: 3,200 output tokens for a turn
+            that wrote 45 questions.</td>
+          <td>Its tokens are summed from its own record in the trial.</td></tr>
+        <tr><td>OpenCode run</td>
+          <td>The creator recorded that the assistant asked nothing, though it had asked two questions, and said
+            “go on”. Its record agreed with itself, so no mistake was counted.</td>
+          <td>Such a turn is flagged for a person to read; a second model as judge is planned
+            (<a href="https://github.com/lernapps/tooling/issues/156">#156</a>).</td></tr>
+        <tr><td>OpenCode run</td>
+          <td>The README of an app template counted as a read outside the guidance, though the guidance links it.</td>
+          <td>Every link in the guidance of the run counts as guidance.</td></tr>
       </tbody>
     </table>
     </div>
