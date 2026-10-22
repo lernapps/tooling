@@ -20,6 +20,10 @@ What is tested is an assistant configuration (harness and version, model, Harbor
   skills loaded in their phase). It reads the ACP session export Harbor writes for the agent under test
   (`agent/bridge-trajectory.json`), the same for every harness; trials without one fall back to Claude Code's own
   session log.
+- `guidance-links.ts`: the links of the guidance under test (plan templates, skills, `llms.txt` at the job's guidance
+  commit); `run.sh` writes them into the job as `guidance-links.json`. A fetch of a linked URL counts as reading the
+  guidance, whatever the branch, also as `blob` or `raw` on GitHub, so that what the guidance sends the agent to never
+  counts as a read outside it.
 - `harnesses.ts`: one small adapter per harness (Claude Code, OpenCode) that maps its tool calls onto the names the
   score reads (`Bash`, `Read`, `Write`, `Edit`, `WebFetch`, `Skill`). A new harness needs an adapter here and a line
   in `run.sh`.

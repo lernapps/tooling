@@ -76,8 +76,10 @@ const configuration = {
 writeFileSync(join(dir, "configuration.json"), JSON.stringify(configuration, null, 2) + "\n");
 console.log(JSON.stringify(configuration));
 '
-# The skills the guidance under test loads in each phase, from its architecture (A2), then the transcripts
+# The skills the guidance under test loads in each phase, from its architecture (A2), the links of that guidance (what
+# counts as reading it), then the transcripts
 node "$evals/skills-by-phase.ts" "$guidance" "$jobs/$job/skills-by-phase.json" || echo "skills by phase failed" >&2
+node "$evals/guidance-links.ts" "$guidance" "$jobs/$job/guidance-links.json" || echo "guidance links failed" >&2
 node "$evals/score-transcript.ts" "$jobs/$job" || echo "transcript scoring failed" >&2
 # No token may appear in what the job wrote: an Anthropic token by its shape, the OpenCode key by its value (read
 # from a pipe, never from a command line).
