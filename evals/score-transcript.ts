@@ -753,8 +753,7 @@ export function harnessOf(trial: string): Harness {
 /**
  * Scores one trial directory and writes its transcript-score.json; undefined when it has no transcript. The
  * transcript is the ACP session export Harbor writes for the agent under test, read through the harness's adapter;
- * a trial without one falls back to Claude Code's own session log. The tokens come from the ACP session where the
- * harness reports them there, else from Claude Code's log.
+ * a trial without one falls back to Claude Code's own session log.
  */
 export function scoreTrial(trial: string, skills = skillContext(trial)): TranscriptScore | undefined {
   const exported = join(trial, "agent", "bridge-trajectory.json");
@@ -770,13 +769,20 @@ export function scoreTrial(trial: string, skills = skillContext(trial)): Transcr
     )
     .sort((a, b) => (a.timestamp ?? "").localeCompare(b.timestamp ?? ""));
   if (!history && entries.length === 0) return undefined;
-  const all = history ? turnsFromAcp(history, harnessOf(trial)) : turns(entries);
+  const harness = history ? harnessOf(trial) : undefined;
+  const all = history && harness ? turnsFromAcp(history, harness) : turns(entries);
   const score = scoreTurns(withRecords(all, creatorRecords(trial)), skills);
-  const reported = history ? usageFromAcp(history) : undefined;
-  Object.assign(
-    score.dimensions,
-    reported && Object.values(reported).some((count) => count > 0) ? reported : usage(entries),
-  );
+  // The tokens: the harness's own record where it keeps one, else the usage of the ACP session where the harness
+  // reports the whole turn there, else Claude Code's log; none where nothing reports them, rather than wrong ones.
+  const reported = history && harness?.acpUsage ? usageFromAcp(history) : undefined;
+  const tokens =
+    harness?.usage?.(trial) ??
+    (reported && Object.values(reported).some((count) => count > 0)
+      ? reported
+      : entries.length > 0
+        ? usage(entries)
+        : undefined);
+  Object.assign(score.dimensions, tokens);
   score.evidence["transcript"] = history ? "acp" : "claude-code-log";
   writeFileSync(join(trial, "transcript-score.json"), `${JSON.stringify(score, null, 2)}\n`);
   return score;
