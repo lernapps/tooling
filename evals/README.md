@@ -61,6 +61,7 @@ What is tested is an assistant configuration (harness and version, model, Harbor
 
 The numbers come from the job directories, which stay where the run was (`~/.lernapps-evals/jobs` of the eval
 session's container). To score a run again after a change to the score: copy its job directories, run
+`node evals/guidance-links.ts <guidanceCommit> <job>/guidance-links.json` for a job without one, then
 `node evals/score-transcript.ts <job>…` on the copy, then `node evals/results.ts <run> <job>… --out <file>`, and
 compare with the run's `results.json` before you replace it: only the changed dimensions may differ.
 
