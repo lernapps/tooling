@@ -69,6 +69,11 @@
     code { overflow-wrap: anywhere; }
     th, td { border-color: var(--ev-border); }
 
+    .method { background: var(--ev-panel); border: 1px solid var(--ev-border); border-left: 4px solid var(--ev-link);
+      border-radius: 0.6rem; padding: 0.25rem 1.1rem 0.6rem; margin: 2rem 0; }
+    .method h2 { margin-top: 0.9rem; }
+    .method-points { padding-left: 1.2rem; }
+    .method-more { font-weight: 600; }
     .bottom-line {
       background: var(--ev-panel);
       border: 1px solid var(--ev-border);
@@ -221,57 +226,26 @@
       the messages of the tooling. We judge it by one thing: does the assistant follow the process? An app built by
       the process is good when its creator knows the subject, so content quality is not scored.</p>
 
-    <h2 id="how-we-work">How we work</h2>
-    <ol>
-      <li><strong>Interactive test.</strong> One real creator session with a person as the creator, on a small app.
-        We read the transcript: which instructions were followed, which ignored, which links never opened, where
-        GitHub got in the way.</li>
-      <li><strong>Evals.</strong> The same scenarios across assistant configurations, several runs each, with a
-        simulated creator; scored per expectation from the app folder and the transcript. Results below.</li>
-      <li><strong>Changes.</strong> Each finding becomes a change to the guidance or the tooling, as short, hard rules
-        where the step happens, or as a check when a rule keeps being skipped.</li>
-      <li><strong>Interactive test of the new guidance.</strong> Before a change is published, a person builds one
-        small app with it. The assistant runs in a separate Claude Code session on the web and gets the unpublished
-        guidance from the orchestrating session: instead of opening a URL on lernapps.net or GitHub, it sends
-        <code>GET &lt;url&gt;</code> to that session and waits for the content. The orchestrator answers from the
-        working copy, can change a file between two requests without publishing, and logs every request. The CLI
-        still comes from npm, so the assistant treats the guidance copied into the app as outdated and asks for it
-        too. Then the evals again, comparing the new guidance with the old in the same configurations.</li>
-    </ol>
-    <p>The assistant knows it is in a test, and each request costs a turn: good enough to iterate fast, not a
-      measurement. Measurements come from the evals.</p>
-
-    <h2 id="evals">How an eval works</h2>
-    <p class="note">The whole method, with a diagram of a trial and the reasons behind it:
-      <a href="how-evals-work/">How we evaluate the guidance</a>.</p>
-    <p>An eval tests an assistant configuration (harness, its version, model) on our guidance: does the creator's
-      assistant follow it from the creator's first prompt to the publish checkpoint? We judge the process, not the
-      content.</p>
-    <ul>
-      <li><strong>Scenarios:</strong> each starts from an empty folder with the build prompt of
-        <a href="/apps/build/">lernapps.net/apps/build</a>: a quiz, an explainer and an interactive app (a typing
-        trainer). A simulated creator answers from a persona and ends before anything is pushed: a question about
-        GitHub gets “no repo, work locally”, the question to publish gets “stop”, an agent that says it is done gets
-        “thanks”. It marks its last message with the end (<code>[Ende: veröffentlichen]</code>, <code>fertig</code>,
-        <code>festgefahren</code>). The row “Code done” counts a green check and a regular end after the plan.</li>
-      <li><strong>Scores:</strong> a verifier scores the app folder at the end (plan, app, git); a second script
-        scores the transcript (what the agent read, asked and ran, and which skills it loaded in which phase). Each
-        row measures one or more expectations (A1–A34 in the plan of the evals).</li>
-      <li><strong>A run</strong> is a matrix of scenarios and models at one commit of the guidance, three times each
-        where the subscription allows. Configurations are never mixed: a re-run at a newer guidance is its own
-        column.</li>
-      <li><strong>Cleaned:</strong> a trial that hit the subscription's usage limit (HTTP 429) or broke off before
-        its agent started is no result and is left out; a job the orchestrator ruled out (a harness fault) too. A
-        trial whose verifier crashed stays in without the verifier's numbers. Each such case is listed with its
-        reason under the run.</li>
-      <li><strong>Conclusions:</strong> the numbers come from the runs alone; what we concluded from them, and what
-        we did about it, is written and reviewed separately. Every finding links the cells it rests on.</li>
-    </ul>
+    <section class="method" id="evals" aria-labelledby="evals-h">
+      <h2 id="evals-h">How we evaluate</h2>
+      <p>A simulated teacher talks to a real assistant, from the first message to the question whether the app may
+        go online, in a fresh container run by Harbor. Then we score two things:</p>
+      <ul class="method-points">
+        <li><strong>The app folder</strong> at the end: plan, phase, app, check, commits.</li>
+        <li><strong>The conversation</strong> on the way: what the assistant read, asked and ran, in which phase.</li>
+      </ul>
+      <p>Each row below measures one expectation of the guidance. Right after a run, while its conversations still
+        exist, we read some of them: it is easy to draw wrong conclusions if the eval itself was faulty.</p>
+      <p class="method-more"><a href="how-evals-work/">The method in detail, with a diagram and the reasons →</a></p>
+    </section>
 
     <h2 id="runs">Eval runs</h2>
     <p>Newest first. Choose a run: everything inside the frame below belongs to it, its question, results, findings
       and what we did about them. In a run, compare its heatmap with another run to see what changed. Hover a cell
       for min, max and n.</p>
+    <p class="note">A run is each scenario with each model, up to three times. A trial that hit the usage limit or
+      broke off before its assistant started is left out and listed under its run; configurations are never
+      mixed.</p>
     <div class="legend" aria-hidden="true">
       <span>Share in %</span>
       <ol><li class="h0">0–19</li><li class="h1">20–39</li><li class="h2">40–59</li><li class="h3">60–79</li><li class="h4">80–100</li></ol>
@@ -352,13 +326,33 @@
       <li>Small n: 2 to 6 runs per cell. One creator model (Haiku 5.5).</li>
       <li>The creator decides each message in a fixed format since 22 October, so its own mistakes count apart from
         the agent's. Runs before that read its end from its free text, and before 21 October from its sentences.</li>
-      <li>Fresh scenarios only: no increment, no prepared start states yet.</li>
+      <li>New apps only: no scenario extends an existing app yet, and none starts from a prepared state.</li>
       <li>GitHub only as a local remote in the container; the GitHub cases on github.com are not run yet.</li>
       <li>Claude Code so far; OpenCode is prepared (<code>HARNESS=opencode</code>), Codex and Gemini CLI are not run
         yet.</li>
       <li>Harbor's own token and cost numbers are wrong for the agent behind the ACP bridge; the tokens here come
         from the agent's ACP session, or, where it reports none there, from Claude Code's own log.</li>
     </ul>
+    <h2 id="how-we-work">How we work</h2>
+    <ol>
+      <li><strong>Interactive test.</strong> One real creator session with a person as the creator, on a small app.
+        We read the transcript: which instructions were followed, which ignored, which links never opened, where
+        GitHub got in the way.</li>
+      <li><strong>Evals.</strong> The same scenarios across assistant configurations, several runs each, with a
+        simulated creator; scored per expectation from the app folder and the transcript. Results above.</li>
+      <li><strong>Changes.</strong> Each finding becomes a change to the guidance or the tooling, as short, hard rules
+        where the step happens, or as a check when a rule keeps being skipped.</li>
+      <li><strong>Interactive test of the new guidance.</strong> Before a change is published, a person builds one
+        small app with it. The assistant runs in a separate Claude Code session on the web and gets the unpublished
+        guidance from the orchestrating session: instead of opening a URL on lernapps.net or GitHub, it sends
+        <code>GET &lt;url&gt;</code> to that session and waits for the content. The orchestrator answers from the
+        working copy, can change a file between two requests without publishing, and logs every request. The CLI
+        still comes from npm, so the assistant treats the guidance copied into the app as outdated and asks for it
+        too. Then the evals again, comparing the new guidance with the old in the same configurations.</li>
+    </ol>
+    <p>The assistant knows it is in a test, and each request costs a turn: good enough to iterate fast, not a
+      measurement. Measurements come from the evals.</p>
+
     <h2 id="run">How to run it, in detail</h2>
     <h3>What it needs</h3>
     <ul>
