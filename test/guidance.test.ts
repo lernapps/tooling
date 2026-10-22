@@ -197,7 +197,9 @@ describe("the skills", () => {
     const target = mkdtempSync(join(tmpdir(), "skills-add-"));
     const added = run("npx", ["--yes", "skills", "add", repoRoot, "--skill", "*", "--yes"], target);
     expect(added.code, `${added.stdout}${added.stderr}`).toBe(0);
-    expect(readdirSync(join(target, ".agents/skills")).sort()).toEqual([...skills].sort());
+    // only the lernapps-* skills ship to apps; a skill planted by another test in a clone is not one of them
+    const installed = readdirSync(join(target, ".agents/skills")).filter((name) => name.startsWith("lernapps-"));
+    expect(installed.sort()).toEqual([...skills].sort());
   });
 
   test.each(skills)("the skill %s links each of its files from SKILL.md and exports them", (name) => {
