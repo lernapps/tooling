@@ -14,20 +14,41 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/tooling/pr-preview/pr-95/lernapps-tokens.css">
 <link rel="stylesheet" href="/tooling/pr-preview/pr-95/lernapps-frame.css">
+<link rel="alternate" hreflang="de" href="/tooling/pr-preview/pr-95/github/">
+<link rel="alternate" hreflang="en" href="/tooling/pr-preview/pr-95/en/github/">
+<script>(() => {
+  const key = "lernapps-lang", here = "de", pages = {"en":"/tooling/pr-preview/pr-95/en/github/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
 </head>
 <body>
-<a class="la-skip" href="#main-content">Skip to content</a>
-<p class="la-preview">Preview of a change. The real page: <a href="https://lernapps.net/tooling/github/">lernapps.net/tooling/github/</a></p><header class="la-header">
+<a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
+<p class="la-preview" lang="de">Vorschau einer Änderung. Die echte Seite: <a href="https://lernapps.net/tooling/github/">lernapps.net/tooling/github/</a></p><header class="la-header" lang="de">
   <div class="la-header__inner">
-    <a class="la-brand" href="/en/" aria-label="lernapps.net – home page"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
-    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Find apps</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/apps/en/enter/">List an app</a></li><li><a href="/docs/en/">How it is meant</a></li><li><a href="https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" rel="noopener">Get involved</a></li></ul></nav>
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Apps finden</a></li><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-95/" aria-current="page">Tooling</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Darum!</a></li><li><a href="/join/">Mitmachen</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-95/en/github/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav>
   </div>
 </header>
+<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch.</p>
   <main id="main-content" tabindex="-1">
     <h1>GitHub, explained</h1>
     <p>Your app is published with GitHub Pages. That means: the app lives in your own GitHub repository, it is free and
       public, and it has your own address, usually <code>https://&lt;your name&gt;.github.io/&lt;app&gt;/</code>.
-      lernapps.net only links to it.</p>
+      Once it is listed, lernapps.net serves a copy at <code>https://lernapps.net/apps/start/&lt;app&gt;/</code>; you stay its
+      author.</p>
     <p>You do not need to know GitHub. The tooling does most of it, and your AI assistant does the rest and tells you
       when a click is needed.</p>
 
@@ -48,6 +69,13 @@
       <li><strong>Pages</strong>: serves the app at its address.</li>
     </ul>
 
+    <h2>After your app is listed</h2>
+    <p>You keep working in your repo as before. When <code>main</code> changes and your app's address serves the new
+      version, lernapps.net notices it within about half an hour and proposes the new version for its copy. A routine
+      update, such as a newer tooling or newer packages, is taken over by itself once the checks pass. A change to the
+      content or the code waits until the owner of lernapps.net has looked at it. You do not need to do anything for
+      either.</p>
+
     <h2>The clicks only you can make</h2>
     <p>Some settings only the owner of the repo may change. Your assistant tells you exactly where to click. The most
       common one, once at the start:</p>
@@ -58,10 +86,10 @@
 
     <p><a href="../">Back to the tooling</a></p>
   </main>
-<footer class="la-footer">
+<footer class="la-footer" lang="de">
   <div class="la-footer__inner">
-    <p>lernapps.net is free and has no ads. It lives on your thanks.</p>
-    <nav aria-label="Footer"><ul><li><a href="/en/privacy/">Privacy</a></li><li><a href="/en/imprint/">Imprint</a></li><li><a href="/docs/platform-design/">Platform design</a></li><li><a href="https://github.com/lernapps/tooling">Source code</a></li></ul></nav>
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/tooling">Quellcode</a></li></ul></nav>
   </div>
 </footer>
 </body>
