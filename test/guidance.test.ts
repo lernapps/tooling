@@ -3,12 +3,13 @@
 //   - the review and the evals read the retrospective; its sections are in every plan started from the template;
 //   - the generator copies AGENTS.md and the template; what AGENTS.md points to exists in the package.
 // How an assistant behaves with these files is checked by hand (the evals), not here.
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import { frontMatter, frontMatterErrors, headings } from "./plan.ts";
-import { repoRoot } from "./support.ts";
+import { repoRoot, run } from "./support.ts";
 
 const file = (path: string) => join(repoRoot, path);
 const read = (path: string) => readFileSync(file(path), "utf8");
@@ -184,6 +185,19 @@ describe("the skills", () => {
 
   test("the skills are grouped by what they hold: process, tooling, content, archetypes", () => {
     expect(readdirSync(file("skills")).sort()).toEqual(["archetypes", "content", "process", "tooling"]);
+  });
+
+  test.each(skills)("the skill %s has front matter that parses as YAML, named after its folder", (name) => {
+    // `skills add` skips a skill whose front matter is no YAML, e.g. an unquoted "archetype: quiz" in the description
+    const front = /^---\n([\s\S]*?)\n---\n/.exec(read(`${folder(name)}/SKILL.md`))?.[1] ?? "";
+    expect(parse(front)).toMatchObject({ name, description: expect.any(String) });
+  });
+
+  test("`skills add` installs every skill", { timeout: 180_000 }, () => {
+    const target = mkdtempSync(join(tmpdir(), "skills-add-"));
+    const added = run("npx", ["--yes", "skills", "add", repoRoot, "--skill", "*", "--yes"], target);
+    expect(added.code, `${added.stdout}${added.stderr}`).toBe(0);
+    expect(readdirSync(join(target, ".agents/skills")).sort()).toEqual([...skills].sort());
   });
 
   test.each(skills)("the skill %s links each of its files from SKILL.md and exports them", (name) => {
