@@ -9,5 +9,6 @@ dist/
 /app-fixtures/
 # the generated files of the eval tasks (evals/harbor/setup.sh)
 /evals/tasks/*/environment/ccr-ca.crt
+/evals/tasks/*/environment/creator-say.ts
 /evals/tasks/*/tests/verify.ts
 /evals/tasks/*/tests/plan-front-matter.v1.schema.json

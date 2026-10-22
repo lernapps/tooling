@@ -1,7 +1,8 @@
 #!/bin/bash
 # Prepares a machine for the lernapps evals: installs Harbor (pinned) outside the repo, patches its Claude Code agent
 # for a subscription token over ACP, starts dockerd if none runs, and writes the generated files of each task
-# (the egress CA, the shared verifier, the plan front matter schema). Idempotent: run it again any time.
+# (the egress CA, the simulated creator's sender, the shared verifier, the plan front matter schema). Idempotent: run
+# it again any time.
 #   LERNAPPS_EVALS_HOME  where Harbor, its home and the jobs live (default: $HOME/.lernapps-evals)
 #   LERNAPPS_EVALS_CA    a CA bundle the containers must trust, for a TLS-intercepting egress proxy
 #                        (default: /root/.ccr/ca-bundle.crt when it exists, else none)
@@ -44,6 +45,7 @@ ca="${LERNAPPS_EVALS_CA:-}"
 [ -z "$ca" ] && [ -f /root/.ccr/ca-bundle.crt ] && ca=/root/.ccr/ca-bundle.crt
 for task in "$evals"/tasks/*/; do
   if [ -n "$ca" ]; then cp "$ca" "$task/environment/ccr-ca.crt"; else echo "# no extra CA" > "$task/environment/ccr-ca.crt"; fi
+  cp "$here/creator-say.ts" "$task/environment/creator-say.ts"
   cp "$evals/verifier/verify.ts" "$task/tests/verify.ts"
   cp "$repo/guidance/plan-front-matter.v1.schema.json" "$task/tests/plan-front-matter.v1.schema.json"
 done

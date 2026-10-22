@@ -5,11 +5,13 @@
 #   <task>   a folder of evals/tasks, e.g. quiz-fresh
 #   <model>  a Harbor model name, e.g. anthropic/claude-sonnet-5-5; the creator plays on the same model unless
 #            USER_MODEL names another
+# The creator decides each message in structured output and sends it with /opt/creator/say.ts (harbor/bridge-prompt.md,
+# harbor/creator-say.ts), which records it in the trial's user-agent/creator-turns.jsonl.
 # Afterwards it writes <job>/configuration.json (harness and version, Harbor version, models, commits) and scores the
 # transcripts (evals/score-transcript.ts) against the skills of the guidance by phase (evals/skills-by-phase.ts).
 # Run evals/harbor/setup.sh first.
 set -euo pipefail
-[ $# -ge 2 ] || { sed -n '2,10p' "$0" >&2; exit 2; }
+[ $# -ge 2 ] || { sed -n '2,12p' "$0" >&2; exit 2; }
 task="$1" model="$2" trials="${3:-1}" concurrency="${4:-1}"
 user_model="${USER_MODEL:-$model}"
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -19,7 +21,9 @@ home="${LERNAPPS_EVALS_HOME:-$HOME/.lernapps-evals}"
 jobs="${LERNAPPS_EVALS_JOBS:-$home/jobs}"
 task_dir="$evals/tasks/$task"
 [ -f "$task_dir/task.toml" ] || { echo "no task $task in $evals/tasks" >&2; exit 2; }
-[ -f "$task_dir/tests/verify.ts" ] || { echo "run evals/harbor/setup.sh first" >&2; exit 2; }
+for generated in tests/verify.ts environment/creator-say.ts; do
+  [ -f "$task_dir/$generated" ] || { echo "run evals/harbor/setup.sh first" >&2; exit 2; }
+done
 
 # The guidance under test is what the build prompt sends the agent to: lernapps/tooling at main, now.
 guidance="$(git ls-remote https://github.com/lernapps/tooling.git refs/heads/main | cut -c1-40)"
@@ -31,7 +35,8 @@ mkdir -p "$jobs"
 "$here/harbor.sh" run -p "$task_dir" -a claude-code -m "$model" \
   --user-agent claude-code --user-model "$user_model" \
   --user-persona-path "$task_dir/persona.md" --user-prompt-template-path "$here/user-prompt.md.j2" \
-  --bridge acp -o "$jobs" --job-name "$job" -n "$concurrency" -k "$trials" --yes || status=$?
+  --bridge acp --bridge-prompt-path "$here/bridge-prompt.md" \
+  -o "$jobs" --job-name "$job" -n "$concurrency" -k "$trials" --yes || status=$?
 
 # configuration.json: what was tested (an assistant configuration, not a model) and with which guidance
 JOB_DIR="$jobs/$job" MODEL="$model" USER_MODEL="$user_model" TASK="$task" GUIDANCE="$guidance" TOOLING="$tooling" \
