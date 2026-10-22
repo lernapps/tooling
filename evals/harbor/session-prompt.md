@@ -39,10 +39,11 @@ Read `evals/README.md` first. Then:
    - A rate limit (HTTP 429, `usage_limit_reached`, `rate_limit_error`): wait 30–60 minutes, then re-run the job once.
      Do not hammer.
    - Anything else is a result: keep it, do not retry it.
-4. After each job, check that it has `configuration.json`, `skills-by-phase.json` (four phases), and per trial a
-   `transcript-score.json` and the creator's records, `user-agent/creator-turns.jsonl`. If `skills-by-phase.json` is
-   missing or empty, run
-   `node evals/skills-by-phase.ts <guidanceCommit from configuration.json> <job>/skills-by-phase.json`, then
+4. After each job, check that it has `configuration.json`, `skills-by-phase.json` (four phases),
+   `guidance-links.json`, and per trial a `transcript-score.json` and the creator's records,
+   `user-agent/creator-turns.jsonl`. If `skills-by-phase.json` or `guidance-links.json` is missing or empty, run
+   `node evals/skills-by-phase.ts <guidanceCommit from configuration.json> <job>/skills-by-phase.json` or
+   `node evals/guidance-links.ts <guidanceCommit> <job>/guidance-links.json`, then
    `node evals/score-transcript.ts <job>`.
 
 ## Results
