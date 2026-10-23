@@ -4,12 +4,13 @@
 // here: that is pr-preview-action's.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, test } from "vite-plus/test";
+import { afterEach, describe, expect, test, vi } from "vite-plus/test";
 import { parse } from "yaml";
 import {
   COMMENT_MARKER,
   commentBody,
   derivedAddress,
+  ensureNoJekyll,
   NOINDEX,
   noindex,
   noindexAll,
@@ -132,5 +133,41 @@ describe("the job preview of the app's workflow", () => {
     expect(deploy?.with).toMatchObject({ "source-dir": "_app", "umbrella-dir": "pr-preview", comment: false });
     // app-publish keeps the previews when it publishes
     expect(JSON.stringify(action("app-publish").runs.steps)).toContain('"clean-exclude":"pr-preview/"');
+  });
+});
+
+describe("the .nojekyll file at the root of gh-pages", () => {
+  const e = { api: "https://api.test", repo: "lernapps/musik", token: "t" };
+  afterEach(() => vi.unstubAllGlobals());
+  /** Answers each call with the next status; returns the calls made as "METHOD path". */
+  const answer = (...statuses: number[]) => {
+    const calls: string[] = [];
+    const bodies: unknown[] = [];
+    vi.stubGlobal("fetch", async (url: string, init: { method?: string; body?: string }) => {
+      calls.push(`${init.method ?? "GET"} ${url.replace(e.api, "")}`);
+      if (init.body !== undefined) bodies.push(JSON.parse(init.body));
+      return new Response("{}", { status: statuses.shift() ?? 500 });
+    });
+    return { calls, bodies };
+  };
+
+  test("is left alone when it is there", async () => {
+    const { calls } = answer(200);
+    expect(await ensureNoJekyll(e)).toBe(true);
+    expect(calls).toEqual(["GET /repos/lernapps/musik/contents/.nojekyll?ref=gh-pages"]);
+  });
+
+  test("is written to gh-pages, empty, when it is missing (a preview before the first deploy)", async () => {
+    const { calls, bodies } = answer(404, 201);
+    expect(await ensureNoJekyll(e)).toBe(true);
+    expect(calls[1]).toBe("PUT /repos/lernapps/musik/contents/.nojekyll");
+    expect(bodies[0]).toMatchObject({ content: "", branch: "gh-pages" });
+  });
+
+  test("says no, without writing, when the token cannot read it, and when writing fails", async () => {
+    expect((answer(403), await ensureNoJekyll(e))).toBe(false);
+    const { calls } = answer(404, 403);
+    expect(await ensureNoJekyll(e)).toBe(false);
+    expect(calls).toHaveLength(2);
   });
 });

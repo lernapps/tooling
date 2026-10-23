@@ -5,9 +5,10 @@
 //   before  [--dir <bundle>] finds the app's address and the preview's (outputs app, url, base). With --dir it marks
 //           every page of the bundle noindex (a preview is not for search engines) and writes the marker file
 //           lernapps-preview.txt (the commit) into it.
-//   after   on a pull request that is open, waits until the preview's address serves the marker of this commit; then
-//           it writes the one comment of the preview on the pull request, in German for the creator, or updates it in
-//           place. On a closed pull request it updates that comment to say the preview is gone.
+//   after   on a pull request that is open, makes sure gh-pages has .nojekyll at its root (without it Pages runs
+//           Jekyll, which does not serve files starting with _, and a preview before the first deploy breaks), waits
+//           until the preview's address serves the marker of this commit; then it writes the one comment of the
+//           preview on the pull request, in German for the creator, or updates it in place. On a closed pull request it updates that comment to say the preview is gone.
 // Only Node's own modules: the action runs it without installing anything. The bundle's URLs are relative (the preset
 // builds with base "./", the runtime's pages link relatively), so the checked bundle works below pr-preview/ as is.
 import { appendFileSync, existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -136,7 +137,7 @@ function env(): Env {
 }
 
 async function request(
-  e: Env,
+  e: { api: string; token: string },
   method: string,
   path: string,
   body?: unknown,
@@ -193,6 +194,24 @@ async function before(e: Env, dir: string | undefined): Promise<void> {
   console.log(`${PREFIX}: ${pages} pages marked noindex; the preview goes to ${preview}`);
 }
 
+/**
+ * Makes sure the branch gh-pages has .nojekyll at its root: app-publish writes it with every deploy, but a preview
+ * can come first (the first pull request of a new repo). Without it Pages runs Jekyll for the whole branch, which
+ * does not serve files starting with _ (Vite's _plugin-vue_export-helper-*.js). Returns whether the file is there.
+ */
+export async function ensureNoJekyll(e: { api: string; repo: string; token: string }): Promise<boolean> {
+  const path = `/repos/${e.repo}/contents/.nojekyll`;
+  const found = await request(e, "GET", `${path}?ref=gh-pages`);
+  if (found.status === 200) return true;
+  if (found.status !== 404) return false;
+  const written = await request(e, "PUT", path, {
+    message: "chore: .nojekyll, so Pages serves files that start with _",
+    content: "",
+    branch: "gh-pages",
+  });
+  return written.status === 200 || written.status === 201;
+}
+
 /** Whether the preview's address serves the marker of this commit within the timeout. */
 async function served(preview: string, sha: string): Promise<boolean> {
   const value = Number(process.env["LERNAPPS_PREVIEW_TIMEOUT"]);
@@ -227,6 +246,11 @@ async function after(e: Env): Promise<void> {
     body = commentBody({ state: "closed", app, merged: e.merged });
   } else {
     const preview = previewAddress(app, e.number);
+    if (!(await ensureNoJekyll(e))) {
+      console.log(
+        `::warning::${PREFIX}: cannot add .nojekyll to gh-pages; Pages may not serve files that start with _`,
+      );
+    }
     const ready = await served(preview, e.sha);
     if (!ready) console.log(`::warning::${PREFIX}: ${preview} does not serve this commit yet; the comment says so`);
     body = commentBody({ state: "open", preview, app, ready });

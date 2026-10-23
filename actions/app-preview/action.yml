@@ -4,7 +4,7 @@ description: >-
   checked (the artifact "app"), published unchanged except for a robots noindex tag on every page, on the branch
   gh-pages below pr-preview/pr-<number>/, so at <the app's address>pr-preview/pr-<number>/. The bundle's URLs are
   relative, so it works there as it is. It is updated on every push to the pull request and removed when the pull
-  request is closed or merged; app-publish keeps pr-preview/ when it publishes. One comment on the pull request, in
+  request is closed or merged; app-publish keeps pr-preview/ when it publishes. A preview before the first deploy adds .nojekyll to the root of gh-pages, so Pages serves files that start with _. One comment on the pull request, in
   German for the creator and updated in place, links the preview and says what it is; when the preview is removed,
   the comment says so. The logic is publish/preview.ts. Use it in the job "preview" of the app's pages.yml, on
   pull_request (opened, synchronize, reopened, closed) from the same repo (a fork's token may not write), after the
