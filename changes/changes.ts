@@ -213,8 +213,6 @@ export function loadRules(dir: string): Rules {
 }
 
 const ZERO = /^0+$/;
-/** The id of the empty tree: the same in every git repo. */
-const EMPTY_TREE = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
 
 const git = (cwd: string, ...args: string[]) =>
   spawnSync("git", args, { cwd, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
@@ -232,11 +230,13 @@ const isCommit = (cwd: string, rev: string) => git(cwd, "cat-file", "-e", `${rev
  * What a new branch is compared with: its merge base with origin/main; when the remote has no main yet (the first push
  * of a new repo), the empty tree, so the branch adds everything it holds (nothing, for an empty start commit).
  */
-function newBranchBase(cwd: string, local: string): string {
+function newBranchBase(cwd: string, local: string): { base: string; tree: boolean } {
   if (git(cwd, "rev-parse", "--verify", "--quiet", "origin/main").status !== 0) {
-    return EMPTY_TREE;
+    // git computes the id of the empty tree itself (it depends on the repo's hash algorithm), without writing it
+    const empty = spawnSync("git", ["hash-object", "-t", "tree", "--stdin"], { cwd, encoding: "utf8", input: "" });
+    return { base: empty.status === 0 ? empty.stdout.trim() : "", tree: true };
   }
-  return git(cwd, "merge-base", local, "origin/main").stdout.trim();
+  return { base: git(cwd, "merge-base", local, "origin/main").stdout.trim(), tree: false };
 }
 
 /** The staged files of the next commit (the pre-commit hook); undefined outside a repository. */
@@ -259,8 +259,8 @@ export function pushedFiles(lines: string, cwd = "."): string[] | undefined {
   const paths = new Set<string>();
   for (const [, local = "", , remote = ""] of refs) {
     if (ZERO.test(local)) continue; // a deleted branch
-    const base = ZERO.test(remote) ? newBranchBase(cwd, local) : remote;
-    if (base === "" || (base !== EMPTY_TREE && !isCommit(cwd, base))) return undefined;
+    const { base, tree } = ZERO.test(remote) ? newBranchBase(cwd, local) : { base: remote, tree: false };
+    if (base === "" || (!tree && !isCommit(cwd, base))) return undefined;
     const names = diffNames(cwd, base, local);
     if (names === undefined) return undefined;
     for (const path of names) paths.add(path);
