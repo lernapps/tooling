@@ -218,12 +218,16 @@ export const stat = (values: number[]): Stat | undefined =>
         max: round(Math.max(...values)),
         n: values.length,
       };
-/** "anthropic/claude-haiku-5-5" → "Haiku 5.5"; another model by its name without the provider. */
+/**
+ * "anthropic/claude-haiku-5-5" → "Haiku 5.5", "opencode-go/deepseek-v4.1-flash" → "DeepSeek V4.1 Flash"; another
+ * model by its name without the provider.
+ */
 export const modelLabel = (model: string) => {
-  const match = /claude-([a-z]+)-(\d+)-(\d+)/.exec(model);
-  return match
-    ? `${match[1]![0]!.toUpperCase()}${match[1]!.slice(1)} ${match[2]}.${match[3]}`
-    : model.replace(/^.*\//, "");
+  const claude = /claude-([a-z]+)-(\d+)-(\d+)/.exec(model);
+  if (claude) return `${claude[1]![0]!.toUpperCase()}${claude[1]!.slice(1)} ${claude[2]}.${claude[3]}`;
+  const deepseek = /deepseek-v([\d.]+)-([a-z]+)/.exec(model);
+  if (deepseek) return `DeepSeek V${deepseek[1]} ${deepseek[2]![0]!.toUpperCase()}${deepseek[2]!.slice(1)}`;
+  return model.replace(/^.*\//, "");
 };
 export const MODEL_ORDER = ["haiku", "sonnet", "opus"];
 export const modelRank = (model: string) => {
