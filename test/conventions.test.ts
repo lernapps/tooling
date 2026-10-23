@@ -6,9 +6,10 @@ import { parse } from "yaml";
 import { ok, repoRoot } from "./support.ts";
 
 test("no JavaScript sources: every script is TypeScript", () => {
+  // The example apps on the site (site/examples/) are built apps, served as their build wrote them: not sources.
   const javascript = ok(
     "git",
-    ["ls-files", "--cached", "--others", "--exclude-standard", "*.js", "*.mjs", "*.cjs", "*.jsx"],
+    ["ls-files", "--cached", "--others", "--exclude-standard", "*.js", "*.mjs", "*.cjs", "*.jsx", ":!site/examples/"],
     repoRoot,
   ).stdout;
   expect(javascript).toBe("");

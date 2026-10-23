@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Builds the tooling's documentation into _site/ for https://lernapps.net/tooling/: the start page (the phases of its
-# workshop card from workshop.yaml), the page A workshop, not a factory (workshop/: who does what in which phase,
-# rendered by scripts/workshop.ts from the building blocks), the page GitHub, explained (github/), the page Prompt
+# workshop card from workshop.yaml), the page Which assistant to build with (assistants/, with three apps an eval built
+# in examples/, as their build wrote them), the page A workshop, not a factory (workshop/: who does what
+# in which phase, rendered by scripts/workshop.ts from the building blocks), the page GitHub, explained (github/), the page Prompt
 # engineering with the eval runs (prompt-engineering/, rendered by evals/site.ts from evals/runs/; evals/ redirects
 # to it) and its page How we evaluate the guidance (prompt-engineering/how-evals-work/), llms.txt, the rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the
 # validation report and of the review verdict (schemas/) and the architecture (arc42, docs/arc42/) as the arc42 web
@@ -22,8 +23,9 @@ PREFIX="${SITE_PATH_PREFIX:-/tooling/}"
 rm -rf _site
 mkdir -p _site
 cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
-mkdir -p _site/github
+mkdir -p _site/github _site/assistants
 cp site/github/index.html _site/github/
+cp site/assistants/index.html _site/assistants/
 mkdir -p _site/prompt-engineering/how-evals-work _site/evals
 node evals/site.ts page _site/prompt-engineering
 cp site/prompt-engineering/how-evals-work/index.html _site/prompt-engineering/how-evals-work/
@@ -59,6 +61,12 @@ lernapps-frame --site /tooling/ --source https://github.com/lernapps/tooling --o
 if [ -z "${SITE_PREVIEW:-}" ]; then
   find _site -name '*.html' -exec sed -i '0,/<\/head>/s||<script src="/lernapps-count.js" defer></script>\n</head>|' {} +
 fi
+
+# The example apps come last: they are apps, built with their own frame, so they get neither this site's frame nor
+# its usage counter. They link the privacy notice and the imprint at lernapps.net's full address; the check wants
+# the path.
+cp -r site/examples _site/
+find _site/examples -name '*.html' -exec sed -i -E 's#href="https://lernapps\.net/(privacy|imprint)/"#href="/\1/"#g' {} +
 
 touch _site/.nojekyll
 echo "built _site/"
