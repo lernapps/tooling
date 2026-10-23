@@ -96,7 +96,7 @@ export interface Classification {
 
 /**
  * The scope of the changed files. Undefined (not known) or empty is `all`: a change whose files are not known could
- * affect anything.
+ * affect anything, and nothing staged means a run by hand.
  */
 export function classify(files: readonly string[] | undefined, rules: Rules): Classification {
   if (files === undefined) return { scope: "all", reason: "the changed files are not known" };
@@ -114,6 +114,14 @@ export function classify(files: readonly string[] | undefined, rules: Rules): Cl
   return docs === 0
     ? { scope: "none", reason: `${count(files.length)}, only the plan (${rules.none.join(", ")})` }
     : { scope: "docs", reason: `${count(files.length)}, only docs (${rules.docs.join(", ")}) and the plan` };
+}
+
+/**
+ * The scope of a push: as classify, except that a push which changes no file (an empty start commit) is `none`. The
+ * pushed commits are known, so there is nothing to check.
+ */
+export function classifyPush(files: readonly string[] | undefined, rules: Rules): Classification {
+  return files?.length === 0 ? { scope: "none", reason: "the push changes no file" } : classify(files, rules);
 }
 
 /** What runs for a scope in a kind of repo: the code (build, tests), the site's checks and deployment. */
@@ -205,6 +213,8 @@ export function loadRules(dir: string): Rules {
 }
 
 const ZERO = /^0+$/;
+/** The id of the empty tree: the same in every git repo. */
+const EMPTY_TREE = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
 
 const git = (cwd: string, ...args: string[]) =>
   spawnSync("git", args, { cwd, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
@@ -218,6 +228,17 @@ function diffNames(cwd: string, ...args: string[]): string[] | undefined {
 
 const isCommit = (cwd: string, rev: string) => git(cwd, "cat-file", "-e", `${rev}^{commit}`).status === 0;
 
+/**
+ * What a new branch is compared with: its merge base with origin/main; when the remote has no main yet (the first push
+ * of a new repo), the empty tree, so the branch adds everything it holds (nothing, for an empty start commit).
+ */
+function newBranchBase(cwd: string, local: string): string {
+  if (git(cwd, "rev-parse", "--verify", "--quiet", "origin/main").status !== 0) {
+    return EMPTY_TREE;
+  }
+  return git(cwd, "merge-base", local, "origin/main").stdout.trim();
+}
+
 /** The staged files of the next commit (the pre-commit hook); undefined outside a repository. */
 export function stagedFiles(cwd = "."): string[] | undefined {
   return diffNames(cwd, "--cached");
@@ -226,7 +247,8 @@ export function stagedFiles(cwd = "."): string[] | undefined {
 /**
  * The files a push changes (the pre-push hook), from git's lines "<local ref> <local sha> <remote ref> <remote sha>":
  * what each pushed ref adds to the remote's commit; for a new branch, what it adds to its merge base with
- * origin/main. Undefined when that cannot be known: no lines (run by hand), an unknown commit, no origin/main.
+ * origin/main, or to the empty tree when the remote has no main yet. Undefined when that cannot be known: no lines
+ * (run by hand), an unknown commit.
  */
 export function pushedFiles(lines: string, cwd = "."): string[] | undefined {
   const refs = lines
@@ -237,8 +259,8 @@ export function pushedFiles(lines: string, cwd = "."): string[] | undefined {
   const paths = new Set<string>();
   for (const [, local = "", , remote = ""] of refs) {
     if (ZERO.test(local)) continue; // a deleted branch
-    const base = ZERO.test(remote) ? git(cwd, "merge-base", local, "origin/main").stdout.trim() : remote;
-    if (base === "" || !isCommit(cwd, base)) return undefined;
+    const base = ZERO.test(remote) ? newBranchBase(cwd, local) : remote;
+    if (base === "" || (base !== EMPTY_TREE && !isCommit(cwd, base))) return undefined;
     const names = diffNames(cwd, base, local);
     if (names === undefined) return undefined;
     for (const path of names) paths.add(path);

@@ -1,7 +1,7 @@
 // The contract of the change scope (changes/changes.ts, `lernapps changes`): what a change can affect, and so what the
 // hooks and CI run for it.
 //   - the classifier on sample path lists: only the plan is none, only docs (docs/**/*.md) and the plan is docs,
-//     anything else, an unknown path or a mixed list is all; not known or empty is all;
+//     anything else, an unknown path or a mixed list is all; not known or empty is all, except a push of no file, which is none;
 //   - the default map per kind of repo and the exceptions a repo declares in package.json, validated;
 //   - where the changed files come from, in real git repos: the staged files, the pushed refs (an existing branch, a
 //     new branch, unknown commits), a GitHub event (a pull request, a push, a new branch, a shallow clone);
@@ -18,6 +18,7 @@ import { describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import {
   classify,
+  classifyPush,
   DEFAULTS,
   eventFiles,
   loadRules,
@@ -77,9 +78,12 @@ describe("the classifier", () => {
     expect(classify([".vibe/plan.md", "docs/a.md", "index.html"], app).reason).toContain("index.html");
   });
 
-  test("changed files that are not known, or none, are all", () => {
+  test("changed files that are not known, or none, are all; a push of no file (an empty start commit) is none", () => {
     expect(scope(undefined)).toBe("all");
     expect(scope([])).toBe("all");
+    expect(classifyPush([], app).scope).toBe("none");
+    expect(classifyPush(undefined, app).scope).toBe("all");
+    expect(classifyPush(["src/a.ts"], app).scope).toBe("all");
   });
 
   test("patterns: ** any folders, * within a folder, a trailing / a folder", () => {
@@ -238,14 +242,19 @@ describe("where the changed files come from", GIT, () => {
     expect(pushedFiles(`refs/heads/main ${head} refs/heads/main ${"1".repeat(40)}\n`, dir)).toBeUndefined();
   });
 
-  test("a new branch without origin/main is not known: all", () => {
+  test("a new branch without origin/main adds what it holds: all files, or none for an empty start commit", () => {
     const dir = folder({ "a.md": "" });
     git(dir, "init", "--quiet", "--initial-branch=work");
+    git(dir, "commit", "--quiet", "--no-verify", "--allow-empty", "--message", "start");
+    const start = git(dir, "rev-parse", "HEAD");
+    expect(pushedFiles(`refs/heads/work ${start} refs/heads/work ${ZEROS}\n`, dir)).toEqual([]);
+    expect(classifyPush(pushedFiles(`refs/heads/work ${start} refs/heads/work ${ZEROS}\n`, dir), app).scope).toBe(
+      "none",
+    );
     git(dir, "add", "--all");
     git(dir, "commit", "--quiet", "--no-verify", "--message", "a");
-    expect(pushedFiles(`refs/heads/work ${git(dir, "rev-parse", "HEAD")} refs/heads/work ${ZEROS}\n`, dir)).toBe(
-      undefined,
-    );
+    const head = git(dir, "rev-parse", "HEAD");
+    expect(pushedFiles(`refs/heads/work ${head} refs/heads/work ${ZEROS}\n`, dir)).toEqual(["a.md"]);
   });
 
   test("a GitHub event: a pull request against its merge base, a push before..after; other events all", () => {

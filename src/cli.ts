@@ -29,6 +29,7 @@ import {
   changes,
   ChangesConfigError,
   classify,
+  classifyPush,
   loadRules,
   pushedFiles,
   readStdin,
@@ -551,7 +552,8 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
  */
 function hookScope(part: "pre-commit" | "pre-push"): { skip: string } | { site: string } | undefined {
   const rules = loadRules(".");
-  const { scope, reason } = classify(part === "pre-commit" ? stagedFiles() : pushedFiles(readStdin()), rules);
+  const { scope, reason } =
+    part === "pre-commit" ? classify(stagedFiles(), rules) : classifyPush(pushedFiles(readStdin()), rules);
   if (scope === "all") return undefined;
   const site = SITE_CHECK[rules.kind];
   if (scope === "docs" && part === "pre-push" && site !== undefined) return { site };

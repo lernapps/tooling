@@ -13,7 +13,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, openSync, writeSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { classify, loadRules, matchesAny, pushedFiles, readStdin } from "../changes/changes.ts";
+import { classifyPush, loadRules, matchesAny, pushedFiles, readStdin } from "../changes/changes.ts";
 
 /** The heavy end-to-end tests: each installs, generates or builds apps and runs their checks. */
 export const HEAVY_TESTS = [
@@ -78,7 +78,7 @@ function runLogged(log: number, steps: readonly string[][], env: NodeJS.ProcessE
 
 function main(): number {
   const changed = changedPaths(readStdin());
-  const { scope, reason } = classify(changed, loadRules("."));
+  const { scope, reason } = classifyPush(changed, loadRules("."));
   mkdirSync(dirname(LOG), { recursive: true });
   const log = openSync(LOG, "w");
   if (scope === "none") {
