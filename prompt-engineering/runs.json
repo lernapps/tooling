@@ -4,9 +4,11 @@
     "title": "Phase announced",
     "dataDate": "2026-10-21",
     "guidanceCommits": [
-      "cbe3b299143d16215983edeeb1d264989e65e931"
+      "cbe3b299143d16215983edeeb1d264989e65e931",
+      "dab96feaf99ae0ab747c4f94f81c5f64f0f08397",
+      "124d83e43917f767287b225f71b225f04f138eeb"
     ],
-    "trials": 3,
+    "trials": 6,
     "results": "runs/2026-10-21-phase-announced/results.json",
     "conclusions": "runs/2026-10-21-phase-announced/conclusions.json"
   },

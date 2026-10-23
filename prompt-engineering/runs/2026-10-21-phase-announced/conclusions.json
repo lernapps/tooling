@@ -5,7 +5,8 @@
     "In this small run (n = 3), Haiku 5.5 builds the interactive app with a green check in every run, creates nothing before the plan and needs at most three turns after it; in 2 of 3 runs it sets `phase: commit` before the first question about GitHub. On 2026-10-21 it had done each of these in 1 of 3 runs or none.",
     "Two runs begin every reply the creator reads with the phase; one begins only 2 of 8. Where a reply names a phase, it is the plan's.",
     "The green checks hide a template bug: the browser tests could not press ä, ö, ü or ß, and every run rewrote its playthroughs to avoid them.",
-    "Skills in their phase and the questions per turn stay where they were."
+    "Skills in their phase and the questions per turn stay where they were.",
+    "Added on 2026-10-23, one run per archetype and anecdotal: DeepSeek V4.1 Flash in OpenCode builds all three archetypes with a green check, keeps to the process and asks at most two questions per turn, for about 20 US cents a run."
   ],
   "findings": [
     {
@@ -92,6 +93,43 @@
           "row": "questions_max_2"
         }
       ]
+    },
+    {
+      "id": "flash-keeps-process",
+      "title": "DeepSeek V4.1 Flash in OpenCode keeps to the process on all three archetypes",
+      "text": "One run per archetype (n = 1 each), so an anecdote, not a measure. Every run passes the check, ticks 95–100 % of the plan's boxes, creates the app only after the plan's yes, reaches its phase and ends the scenario regularly. It begins 90–100 % of its replies with the phase and asks at most two questions in a turn, which Haiku 5.5 did in none of its runs, and loads 88–100 % of the skills a phase names (Haiku: 14–57 %). Where it falls short: the quiz run loaded two skills out of place and read four pages outside the guidance, and the explainer run created the app without the plan's create command. Of the two skills, `lernapps-quiz` came from a fault of the guidance: at dab96fe the front matter of `lernapps-quiz-design` was no valid YAML, so `npx skills add` installed only `lernapps-quiz`; Flash noticed the design skill was missing and read the Code skill in Explore instead (fixed in #160 before the other two runs). It read `lernapps-content-questions` on purpose, for the question types of its plan. The same fault was there at cbe3b29 and may explain part of Haiku's 0 on this row; we have not checked its transcripts for it. A run took 24–33 minutes and cost about 0.19–0.25 US dollars on OpenCode Go.",
+      "evidence": [
+        {
+          "task": "quiz-fresh",
+          "model": "DeepSeek V4.1 Flash",
+          "row": "check_passes"
+        },
+        {
+          "task": "explainer-fresh",
+          "model": "DeepSeek V4.1 Flash",
+          "row": "check_passes"
+        },
+        {
+          "task": "interactive-fresh",
+          "model": "DeepSeek V4.1 Flash",
+          "row": "check_passes"
+        },
+        {
+          "task": "interactive-fresh",
+          "model": "DeepSeek V4.1 Flash",
+          "row": "questions_max_2"
+        },
+        {
+          "task": "interactive-fresh",
+          "model": "DeepSeek V4.1 Flash",
+          "row": "skills_in_phase"
+        },
+        {
+          "task": "quiz-fresh",
+          "model": "DeepSeek V4.1 Flash",
+          "row": "no_skill_out_of_place"
+        }
+      ]
     }
   ],
   "actions": [
@@ -133,6 +171,7 @@
     }
   ],
   "notes": [
-    "One job, interactive-fresh × Haiku 5.5 × 3, at guidance cbe3b29 (#133); the creator was played by Haiku 5.5, as in the earlier runs. No trial was left out. The transcripts were scored again with 8ef76ea after the run; only the phase announced changed (0.79 to 0.75 in the mean)."
+    "One job, interactive-fresh × Haiku 5.5 × 3, at guidance cbe3b29 (#133); the creator was played by Haiku 5.5, as in the earlier runs. No trial was left out. The transcripts were scored again with 8ef76ea after the run; only the phase announced changed (0.79 to 0.75 in the mean).",
+    "The runs of DeepSeek V4.1 Flash (OpenCode 1.19.4, opencode-go/deepseek-v4.1-flash) ran on 2026-10-22 and 2026-10-23 at guidance dab96fe (quiz) and 124d83e (explanation pages, interactive app), not at cbe3b29. Between these commits the process guidance is the same: what changed are the archetypes' content (exercises, components, the wording of the design skills' descriptions) and the listing skill's part after the merge, which no eval reaches. The evals measure the process, so the cells compare. What differs is the creator: these runs had the structured creator, which records what each reply answers and waits for an agent that works long (#164), and the rows added since (code after the plan's yes, the archetype first proposed, the creator's mistakes) have no numbers for Haiku. Their results were scored with the score of #164 and added to this file next to Haiku's."
   ]
 }
