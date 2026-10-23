@@ -219,6 +219,55 @@ sequenceDiagram
     overview->>overview: build the copy, start/<id>/, catalog, check the copy
 ```
 
+## Guidance changes
+
+The owner changes the process guidance or a skill: a phase's steps, a template's wording, a skill's text. Whether the
+change helps shows only in how assistants follow it, so the evals measure it before it reaches creators. An eval run
+is a session of its own in the cloud environment "Evals": it runs the Harbor jobs per archetype and model, scores the
+transcripts and pushes `results.json`; the owner reads the transcripts, writes the conclusions in the pull request,
+and the prompt engineering page shows the run. After the merge, the guidance reaches assistants through the tooling's
+pages, and apps through their update pull request.
+
+```arc42
+:::runtime-scenario
+id: rs-guidance-changes
+title: Guidance changes
+trigger: A pull request to lernapps/tooling changes the process guidance or a skill
+involves: bb-tooling-package, bb-process-guidance, bb-skills, bb-evals, bb-tooling-build
+:::
+```
+
+```arc42
+:::diagram
+id: rs-guidance-changes-sequence
+scenario: rs-guidance-changes
+notation: mermaid-sequence
+aliases: owner=actor-owner, guidance=bb-process-guidance, skills=bb-skills, evals=bb-evals, package=bb-tooling-package, site=bb-tooling-build, github=actor-renovate
+:::
+```
+
+```mermaid
+sequenceDiagram
+    participant owner as Owner
+    participant guidance as Process guidance
+    participant skills as Skills
+    participant evals as Evals
+    participant package as Package build
+    participant site as Tooling site
+    participant github as Renovate
+    owner->>guidance: pull request: change a phase's steps or a template
+    owner->>skills: change a skill's text
+    owner->>evals: start an eval session: Harbor jobs per archetype and model
+    evals->>evals: simulated creator and agent, transcripts scored
+    evals-->>owner: results.json on evals/run-<run>
+    owner->>evals: read the transcripts, write conclusions.yaml in the pull request
+    evals-->>site: the run on the prompt engineering page
+    owner->>package: merge to the main line
+    package-->>site: guidance pages and llms.txt for assistants
+    package-->>github: a new commit of the package
+    github->>github: update pull request in every app, merged when green by the policy
+```
+
 ## A rule changes
 
 The owner tightens a rule, or a creator contributes one. The pull request changes the artifact where the rule acts:
