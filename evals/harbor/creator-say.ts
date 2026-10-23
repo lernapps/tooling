@@ -7,9 +7,12 @@
 // It appends the record, with the message as sent, to /logs/user-agent/creator-turns.jsonl (the trial's
 // user-agent/ folder, which evals/score-transcript.ts reads), then sends the message with `acpx prompt --file` and
 // prints the agent's answer. A record it cannot read is not sent: it says why and exits 2, and the creator tries again.
-import { spawnSync } from "node:child_process";
-import { appendFileSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+// The agent may work on one message for most of an hour, longer than the creator's shell waits for a command: so the
+// message goes out in the background, and the command waits for the answer at most WAIT_SECONDS. If the agent is
+// still working, it says so, and the creator waits on with `node /opt/creator/say.ts --wait`, as often as it takes;
+// a new message is refused until the agent has answered.
+import { spawn } from "node:child_process";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 /** What the agent's last message asked of the creator, and what the creator's reply answers. */
@@ -41,6 +44,13 @@ export interface CreatorTurn {
 }
 
 export const RECORDS = "/logs/user-agent/creator-turns.jsonl";
+/** The message on its way to the agent: the message, the agent's answer as it comes, and its exit code at the end. */
+const PENDING = "/tmp/creator-pending";
+/** How long one call waits for the answer: below the two minutes the creator's shell gives a command by default. */
+const WAIT_SECONDS = Number(process.env["CREATOR_WAIT_SECONDS"] ?? 100);
+const STILL_WORKING =
+  "The coding agent is still working on your message; that is normal and can take most of an hour. Do not send a " +
+  "new message and do not end. Wait for its answer: node /opt/creator/say.ts --wait\n";
 
 /** The record of a decision, or the problems that keep it from being sent. */
 export function parseTurn(input: string): CreatorTurn | { problems: string[] } {
@@ -76,7 +86,33 @@ export function parseTurn(input: string): CreatorTurn | { problems: string[] } {
   return { asked, answers, reply, end, message };
 }
 
+/** Waits for the pending answer at most WAIT_SECONDS; prints it and returns acpx's exit code, or says to wait on. */
+async function waitForAnswer(): Promise<number> {
+  const code = join(PENDING, "exit-code");
+  const deadline = Date.now() + WAIT_SECONDS * 1000;
+  while (!existsSync(code) && Date.now() < deadline) await new Promise((done) => setTimeout(done, 1000));
+  if (!existsSync(code)) {
+    process.stdout.write(STILL_WORKING);
+    return 0;
+  }
+  process.stdout.write(readFileSync(join(PENDING, "answer.txt"), "utf8"));
+  const status = Number(readFileSync(code, "utf8").trim() || "1");
+  rmSync(PENDING, { recursive: true, force: true });
+  return status;
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
+  if (process.argv[2] === "--wait") {
+    if (!existsSync(PENDING)) {
+      process.stdout.write("No message is on its way: the agent has answered your last one.\n");
+      process.exit(0);
+    }
+    process.exit(await waitForAnswer());
+  }
+  if (existsSync(PENDING)) {
+    process.stderr.write(`Not sent. ${STILL_WORKING}`);
+    process.exit(2);
+  }
   const turn = parseTurn(readFileSync(0, "utf8"));
   if ("problems" in turn) {
     process.stderr.write(`Not sent. ${turn.problems.join("; ")}.\n`);
@@ -84,8 +120,17 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
   mkdirSync(dirname(RECORDS), { recursive: true });
   appendFileSync(RECORDS, `${JSON.stringify({ at: new Date().toISOString(), ...turn })}\n`);
-  const file = join(mkdtempSync(join(tmpdir(), "creator-")), "message.txt");
-  writeFileSync(file, turn.message);
-  const sent = spawnSync("acpx", ["prompt", "--file", file], { stdio: "inherit" });
-  process.exit(sent.status ?? 1);
+  mkdirSync(PENDING, { recursive: true, mode: 0o700 });
+  writeFileSync(join(PENDING, "message.txt"), turn.message);
+  // acpx runs on after this command ends; its exit code, written last, says that the answer is complete.
+  spawn(
+    "sh",
+    [
+      "-c",
+      'acpx prompt --file "$0/message.txt" > "$0/answer.txt" 2>&1; echo $? > "$0/exit-code.tmp"; mv "$0/exit-code.tmp" "$0/exit-code"',
+      PENDING,
+    ],
+    { detached: true, stdio: "ignore" },
+  ).unref();
+  process.exit(await waitForAnswer());
 }

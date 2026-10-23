@@ -34,8 +34,11 @@ Say what the agent asked, not what you would like it to have asked. Read its who
 Rules:
 - This command is the only channel to the coding agent; do not run `acpx` yourself. Your first action sends your
   opening message with it.
-- It blocks until the coding agent finishes its turn and prints its answer; long waits are normal. If it prints
-  "Not sent.", fix the JSON as it says and run it again.
+- It waits for the coding agent's answer and prints it. The agent may work on one message for most of an hour: when
+  the command says the agent is still working, run `node /opt/creator/say.ts --wait`, again and again, until the
+  answer comes. Never send a new message and never end the scenario while the agent is still working; it has not
+  read your end before it has answered.
+- If it prints "Not sent.", do as it says and run it again.
 - Send exactly one message each time; run it again to continue the same conversation.
 - Do not edit files or complete the task yourself. You may inspect the workspace read-only.
 - When the scenario ends, send your last message with its `end`, then stop and end your session.

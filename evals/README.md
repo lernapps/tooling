@@ -73,7 +73,10 @@ for `acpx`). Its input is `{"asked": [...], "answers": [...], "reply": "...", "e
 message asked of it and what its reply answers (`plan_confirm`, `confirm`, `archetype`, `content`, `github`, `publish`,
 `permission`, `technical`, `go_on`, `other`), its reply, and its end. The command sends the agent only the reply
 (with the end marker below), so the agent under test still talks to a person in free text, and appends the record
-to `/logs/user-agent/creator-turns.jsonl`, which lands in the trial as `user-agent/creator-turns.jsonl`.
+to `/logs/user-agent/creator-turns.jsonl`, which lands in the trial as `user-agent/creator-turns.jsonl`. The agent may
+work on one message for most of an hour, longer than the creator's shell waits for a command: so the command waits
+for the answer at most 100 seconds (`CREATOR_WAIT_SECONDS`), says when the agent is still working, and the creator
+waits on with `node /opt/creator/say.ts --wait`; a new message is refused until the answer has come.
 
 `score-transcript.ts` gives each creator message its record and reads the end and the plan's yes from there. It
 counts the creator's own mistakes as `creator_mistakes` (evidence `creatorMistakes`): an answer to a question the
