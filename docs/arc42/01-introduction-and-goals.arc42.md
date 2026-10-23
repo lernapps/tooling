@@ -6,7 +6,7 @@ do not know the platform's rules, and the platform's one owner cannot read every
 The tooling closes this gap. With it, a creator without development skills and their assistant build an app that
 keeps the promises of lernapps.net: it runs in the browser, collects nothing and is accessible. The app is listed
 quickly, and the owner trusts it without reading the code. The app stays the creator's: it lives at their own
-hosting, by default their own GitHub Pages, and lernapps.net only lists and links it. The tooling is the platform's
+hosting, by default their own GitHub Pages; once listed, lernapps.net serves a copy of it (`dec-copies-served`). The tooling is the platform's
 [guidance for building apps](https://lernapps.net/docs/platform-design/#2-design/d6-learning-engine.pdt42.md:el-s-building-guidance).
 
 ## 1.1 Requirements Overview

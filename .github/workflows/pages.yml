@@ -1,7 +1,7 @@
 name: Pages
 
 # Builds the tooling's documentation into _site/ (start page and architecture, scripts/build.sh), checks the
-# built site (npm run check:site: lernapps-check), and on main publishes it to the gh-pages branch, which GitHub
+# built site (npm run check:site: site-check of the site frame), and on main publishes it to the gh-pages branch, which GitHub
 # Pages serves at https://lernapps.net/tooling/. The steps are the shared site actions of this repo, used from the
 # checkout here, so a change to an action is exercised by its own pull request. The change scope (changes.yml) gates
 # the jobs: they run for docs and for any change but one of only the plan (.vibe/**). The job `site` always runs and
