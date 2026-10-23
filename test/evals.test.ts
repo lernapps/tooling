@@ -20,6 +20,7 @@ import {
 import { skillsByPhase } from "../evals/skills-by-phase.ts";
 import { elements } from "../scripts/workshop.ts";
 import { results } from "../evals/results.ts";
+import { modelLabel } from "../evals/rows.ts";
 import { problems, render, runs } from "../evals/site.ts";
 import { summarise } from "../evals/summary.ts";
 import { boxes, findVibeDirs, parseFrontMatter, section, validate } from "../evals/verifier/verify.ts";
@@ -368,6 +369,12 @@ test("the results of a run: one cell per task and model, excluded jobs listed, o
     installsBeforePlanRuns: 2,
   });
   expect(data.rows.find((row) => row.id === "check_passes")?.expectations).toEqual(["A21"]);
+});
+
+test("a model's label: Claude by family and version, DeepSeek by version and size, another by its name", () => {
+  expect(modelLabel("anthropic/claude-haiku-5-5")).toBe("Haiku 5.5");
+  expect(modelLabel("opencode-go/deepseek-v4.1-flash")).toBe("DeepSeek V4.1 Flash");
+  expect(modelLabel("openai/some-model")).toBe("some-model");
 });
 
 test("the results of a run leave out trials that hit the usage limit or broke off, and keep a crashed verifier's trial partly", () => {
