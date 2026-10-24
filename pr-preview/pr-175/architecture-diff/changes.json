@@ -1,13 +1,13 @@
 {
   "version": 1,
   "base": {
-    "label": "cc97bd665e4637f18927886850298025a0f81483",
-    "commit": "cc97bd665e4637f18927886850298025a0f81483"
+    "label": "0deff1055664cbe93de50b4f1e31d28003b49c66",
+    "commit": "0deff1055664cbe93de50b4f1e31d28003b49c66"
   },
   "head": {
-    "label": "b2a873dbb33548bc0698a77989457cd897b25b3b"
+    "label": "d881fceeb074c4e4aa11f3cd49ea0074e7cda841"
   },
-  "acceptanceBase": "cc97bd665e4637f18927886850298025a0f81483",
+  "acceptanceBase": "0deff1055664cbe93de50b4f1e31d28003b49c66",
   "untracked": [],
   "accepted": false,
   "hasBlockingFindings": true,
@@ -19,20 +19,6 @@
       "line": 134,
       "elementId": "dn-tooling-repo",
       "message": "Block 'dn-tooling-repo' changed without changing its section prose."
-    },
-    {
-      "kind": "new-building-block-hint",
-      "severity": "hint",
-      "file": "changes/changes.ts",
-      "line": 0,
-      "message": "'changes/changes.ts' is not covered by any building block — consider adding a building-block element."
-    },
-    {
-      "kind": "new-building-block-hint",
-      "severity": "hint",
-      "file": "changes/main.ts",
-      "line": 0,
-      "message": "'changes/main.ts' is not covered by any building block — consider adding a building-block element."
     }
   ],
   "groups": {
@@ -48,10 +34,7 @@
     ],
     "untouched": [],
     "updated": [],
-    "uncovered": [
-      "changes/changes.ts",
-      "changes/main.ts"
-    ]
+    "uncovered": []
   },
   "architecture": {
     "elements": [
@@ -63,7 +46,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
-          "line": 1141
+          "line": 1142
         },
         "section": {
           "file": "docs/arc42/05-building-blocks.arc42.md",
@@ -148,7 +131,27 @@
         }
       }
     ],
-    "diagrams": [],
+    "diagrams": [
+      {
+        "id": "building-blocks-level-1",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        subgraph bb-skills[\"Skills\"]\n            bb-skills-explore[\"Explore skills\"]\n            bb-skills-plan[\"Plan skills\"]\n            bb-skills-code[\"Code skills\"]\n            bb-skills-commit[\"Commit skills\"]\n        end\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-app-publish[\"App publish\"]\n    bb-app-preview[\"App preview\"]\n    subgraph bb-platform-upkeep[\"Platform upkeep (not used by creators)\"]\n        bb-tooling-build[\"Tooling build and docs\"]\n        bb-site-check[\"Platform site check\"]\n        bb-site-deploy[\"Platform site deploy\"]\n        bb-site-preview[\"Platform site preview\"]\n        bb-renovate-preset[\"Renovate preset\"]\n    end\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli\n    bb-tooling-build -->|\"if-site-check\"| bb-site-check\n    bb-tooling-build -->|\"if-site-deploy\"| bb-site-deploy\n    bb-tooling-build -->|\"if-site-preview\"| bb-site-preview",
+            "after": "flowchart TB\n    subgraph bb-tooling-package[\"@lernapps/tooling\"]\n        bb-process-guidance[\"Process guidance\"]\n        subgraph bb-skills[\"Skills\"]\n            bb-skills-explore[\"Explore skills\"]\n            bb-skills-plan[\"Plan skills\"]\n            bb-skills-code[\"Code skills\"]\n            bb-skills-commit[\"Commit skills\"]\n        end\n        bb-generator[\"Generator\"]\n        bb-archetypes[\"Archetype presets\"]\n        bb-lint-rules[\"Lint rules\"]\n        bb-check-cli[\"Check CLI\"]\n        bb-review-procedure[\"Review procedure\"]\n        bb-evals[\"Evals\"]\n    end\n    bb-app-templates[\"Archetype templates and runtimes (lernapps/app-templates)\"]\n    bb-app-check-action[\"App check action\"]\n    bb-app-publish[\"App publish\"]\n    bb-app-preview[\"App preview\"]\n    subgraph bb-platform-upkeep[\"Platform upkeep (not used by creators)\"]\n        bb-tooling-build[\"Tooling build and docs\"]\n        bb-site-check[\"Platform site check\"]\n        bb-site-pre-push[\"Platform site pre-push hook\"]\n        bb-site-deploy[\"Platform site deploy\"]\n        bb-site-preview[\"Platform site preview\"]\n        bb-renovate-preset[\"Renovate preset\"]\n    end\n    bb-listing-validation[\"Listing validation (lernapps/apps)\"]\n    bb-generator -->|\"if-archetype-templates\"| bb-app-templates\n    bb-generator -->|\"if-plan-file\"| bb-process-guidance\n    bb-app-templates -->|\"if-archetype-preset\"| bb-archetypes\n    bb-archetypes -->|\"if-lint-plugin\"| bb-lint-rules\n    bb-archetypes -->|\"if-check-cli\"| bb-check-cli\n    bb-app-check-action -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-check-cli\"| bb-check-cli\n    bb-listing-validation -->|\"if-review-procedure\"| bb-review-procedure\n    bb-review-procedure -->|\"if-validation-report\"| bb-check-cli\n    bb-evals -->|\"if-generator-cli\"| bb-generator\n    bb-evals -->|\"if-validation-report\"| bb-check-cli\n    bb-tooling-build -->|\"if-site-check\"| bb-site-check\n    bb-tooling-build -->|\"if-site-deploy\"| bb-site-deploy\n    bb-tooling-build -->|\"if-site-preview\"| bb-site-preview"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 22
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 22
+        }
+      }
+    ],
     "edges": [
       {
         "status": "added",
@@ -180,7 +183,7 @@
       {
         "file": "docs/arc42/05-building-blocks.arc42.md",
         "added": 2,
-        "modified": 0,
+        "modified": 1,
         "removed": 0
       },
       {
