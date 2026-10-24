@@ -1,7 +1,8 @@
 // The change scope: what a change can affect, and so what the hooks and CI run for it. `lernapps changes` and the
-// hooks (lernapps check --pre-commit, --pre-push; this repo's scripts/pre-push.ts) and the actions (app-check,
-// app-publish, app-preview) and the reusable workflow changes.yml ask the same function. Its usage text, with the map and the
-// configuration, is CHANGES_USAGE in src/usage.ts.
+// hooks (lernapps check --pre-commit, --pre-push; this repo's scripts/pre-push.ts; the sites' pre-push hook,
+// changes/site-pre-push.ts) and the actions (app-check, app-publish, app-preview) and the reusable workflow
+// changes.yml ask the same function. Its usage text, with the map and the configuration, is CHANGES_USAGE in
+// src/usage.ts.
 //
 //   none  every changed file is the plan (.vibe/**): nothing runs
 //   docs  every changed file is docs (docs/**/*.md) or the plan: only the site's checks and deployment run; an app
@@ -323,6 +324,13 @@ export function eventFiles(env: NodeJS.ProcessEnv = process.env, cwd = "."): str
 }
 
 /** Standard input, as git gives it to the pre-push hook; empty when it is a terminal or closed. */
+/**
+ * The environment of a hook's steps: without git's GIT_* variables. A hook gets GIT_DIR and others; a step that runs
+ * git in a folder of its own, like a test's `git init`, would otherwise act on the repository being pushed.
+ */
+export const stepEnv = (env: NodeJS.ProcessEnv): NodeJS.ProcessEnv =>
+  Object.fromEntries(Object.entries(env).filter(([key]) => !key.startsWith("GIT_")));
+
 export function readStdin(): string {
   try {
     return process.stdin.isTTY ? "" : readFileSync(0, "utf8");

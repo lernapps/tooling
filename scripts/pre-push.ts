@@ -13,7 +13,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, openSync, writeSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { classifyPush, loadRules, matchesAny, pushedFiles, readStdin } from "../changes/changes.ts";
+import { classifyPush, loadRules, matchesAny, pushedFiles, readStdin, stepEnv } from "../changes/changes.ts";
 
 /** The heavy end-to-end tests: each installs, generates or builds apps and runs their checks. */
 export const HEAVY_TESTS = [
@@ -65,13 +65,6 @@ export const isHeavy = (path: string) => matchesAny(path, HEAVY_PATHS);
 export const changedPaths = (lines: string): string[] | undefined => pushedFiles(lines);
 
 const LOG = "node_modules/.cache/lernapps/pre-push.log";
-
-/**
- * The environment of a step: without git's GIT_* variables. A hook gets GIT_DIR and others; a step that runs git in
- * a folder of its own, like the tests' `git init` (test/app-fixture.ts), would otherwise act on this repository.
- */
-export const stepEnv = (env: NodeJS.ProcessEnv): NodeJS.ProcessEnv =>
-  Object.fromEntries(Object.entries(env).filter(([key]) => !key.startsWith("GIT_")));
 
 /** Runs the steps one after the other into the log; the exit code of the first that fails, else 0. */
 function runLogged(log: number, steps: readonly string[][], env: NodeJS.ProcessEnv = process.env): number {

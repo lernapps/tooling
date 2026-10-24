@@ -4,7 +4,8 @@
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { changedPaths, HEAVY_PATHS, HEAVY_TESTS, isHeavy, stepEnv } from "../scripts/pre-push.ts";
+import { stepEnv } from "../changes/changes.ts";
+import { changedPaths, HEAVY_PATHS, HEAVY_TESTS, isHeavy } from "../scripts/pre-push.ts";
 import { repoRoot } from "./support.ts";
 
 test("a change to code, the generator or a heavy test runs the heavy tests", () => {
