@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "base": {
+    "label": "cc97bd665e4637f18927886850298025a0f81483",
+    "commit": "cc97bd665e4637f18927886850298025a0f81483"
+  },
+  "head": {
+    "label": "b2a873dbb33548bc0698a77989457cd897b25b3b"
+  },
+  "acceptanceBase": "cc97bd665e4637f18927886850298025a0f81483",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/07-deployment-view.arc42.md",
+      "line": 134,
+      "elementId": "dn-tooling-repo",
+      "message": "Block 'dn-tooling-repo' changed without changing its section prose."
+    },
+    {
+      "kind": "new-building-block-hint",
+      "severity": "hint",
+      "file": "changes/changes.ts",
+      "line": 0,
+      "message": "'changes/changes.ts' is not covered by any building block — consider adding a building-block element."
+    },
+    {
+      "kind": "new-building-block-hint",
+      "severity": "hint",
+      "file": "changes/main.ts",
+      "line": 0,
+      "message": "'changes/main.ts' is not covered by any building block — consider adding a building-block element."
+    }
+  ],
+  "groups": {
+    "warnings": [
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "line": 134,
+        "elementId": "dn-tooling-repo",
+        "message": "Block 'dn-tooling-repo' changed without changing its section prose."
+      }
+    ],
+    "untouched": [],
+    "updated": [],
+    "uncovered": [
+      "changes/changes.ts",
+      "changes/main.ts"
+    ]
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-site-pre-push",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1141
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Platform upkeep",
+            "Platform site pre-push hook"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "if-site-pre-push",
+        "kind": "interface",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1156
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "Platform upkeep",
+            "Platform site pre-push hook",
+            "Platform site pre-push interface"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "dn-tooling-repo",
+        "kind": "deployment-node",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "hosts",
+            "before": [
+              "bb-tooling-package",
+              "bb-app-check-action",
+              "bb-app-publish",
+              "bb-app-preview",
+              "bb-tooling-build",
+              "bb-site-check",
+              "bb-site-deploy",
+              "bb-site-preview",
+              "bb-renovate-preset"
+            ],
+            "after": [
+              "bb-tooling-package",
+              "bb-app-check-action",
+              "bb-app-publish",
+              "bb-app-preview",
+              "bb-tooling-build",
+              "bb-site-check",
+              "bb-site-pre-push",
+              "bb-site-deploy",
+              "bb-site-preview",
+              "bb-renovate-preset"
+            ]
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 134
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 134
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "GitHub",
+            "lernapps/tooling"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-site-pre-push",
+          "to": "bb-platform-upkeep",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-site-pre-push",
+          "to": "if-site-pre-push",
+          "relation": "provides"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-tooling-repo",
+          "to": "bb-site-pre-push",
+          "relation": "hosts"
+        }
+      }
+    ],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 2,
+        "modified": 0,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
