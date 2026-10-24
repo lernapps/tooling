@@ -4,7 +4,7 @@
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
-import { changedPaths, HEAVY_PATHS, HEAVY_TESTS, isHeavy } from "../scripts/pre-push.ts";
+import { changedPaths, HEAVY_PATHS, HEAVY_TESTS, isHeavy, stepEnv } from "../scripts/pre-push.ts";
 import { repoRoot } from "./support.ts";
 
 test("a change to code, the generator or a heavy test runs the heavy tests", () => {
@@ -23,6 +23,16 @@ test("docs, skills, guidance and the README alone run only the fast tests", () =
 
 test("without the pushed refs, the changed paths are not known: everything runs", () => {
   expect(changedPaths("")).toBeUndefined();
+});
+
+test("the steps run without git's GIT_* variables, so a test's own `git init` stays in its folder", () => {
+  const env = stepEnv({
+    GIT_DIR: "/repo/.git",
+    GIT_INDEX_FILE: "/repo/.git/index",
+    PATH: "/bin",
+    LERNAPPS_PRE_PUSH: "1",
+  });
+  expect(env).toEqual({ PATH: "/bin", LERNAPPS_PRE_PUSH: "1" });
 });
 
 test("every heavy test exists, and every end-to-end test that installs or builds apps is heavy or fast on purpose", () => {

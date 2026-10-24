@@ -66,11 +66,18 @@ export const changedPaths = (lines: string): string[] | undefined => pushedFiles
 
 const LOG = "node_modules/.cache/lernapps/pre-push.log";
 
+/**
+ * The environment of a step: without git's GIT_* variables. A hook gets GIT_DIR and others; a step that runs git in
+ * a folder of its own, like the tests' `git init` (test/app-fixture.ts), would otherwise act on this repository.
+ */
+export const stepEnv = (env: NodeJS.ProcessEnv): NodeJS.ProcessEnv =>
+  Object.fromEntries(Object.entries(env).filter(([key]) => !key.startsWith("GIT_")));
+
 /** Runs the steps one after the other into the log; the exit code of the first that fails, else 0. */
 function runLogged(log: number, steps: readonly string[][], env: NodeJS.ProcessEnv = process.env): number {
   for (const args of steps) {
     writeSync(log, `$ npm ${args.join(" ")}\n`);
-    const code = spawnSync("npm", args, { stdio: ["ignore", log, log], env }).status ?? 1;
+    const code = spawnSync("npm", args, { stdio: ["ignore", log, log], env: stepEnv(env) }).status ?? 1;
     if (code !== 0) return code;
   }
   return 0;
