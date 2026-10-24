@@ -26,14 +26,15 @@ test("without the pushed refs, the changed paths are not known: everything runs"
   expect(changedPaths("")).toBeUndefined();
 });
 
-test("the steps run without git's GIT_* variables, so a test's own `git init` stays in its folder", () => {
+test("the steps run without the variables that tie git to this repo, so a test's own `git init` stays in its folder", () => {
   const env = stepEnv({
     GIT_DIR: "/repo/.git",
     GIT_INDEX_FILE: "/repo/.git/index",
+    GIT_SSL_CAINFO: "/etc/ca.pem",
     PATH: "/bin",
     LERNAPPS_PRE_PUSH: "1",
   });
-  expect(env).toEqual({ PATH: "/bin", LERNAPPS_PRE_PUSH: "1" });
+  expect(env).toEqual({ GIT_SSL_CAINFO: "/etc/ca.pem", PATH: "/bin", LERNAPPS_PRE_PUSH: "1" });
 });
 
 test("every heavy test exists, and every end-to-end test that installs or builds apps is heavy or fast on purpose", () => {

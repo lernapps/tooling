@@ -1,6 +1,6 @@
 // The pre-push hook of the platform sites (changes/site-pre-push.ts), in real git repos: a push of only the plan checks
 // nothing, a push of only docs builds and checks the site, any other push also runs the site's own fast tests when it
-// names them; the steps run without git's GIT_* variables; and node runs the hook from a checkout that holds only
+// names them; the steps run without the variables that tie git to the repo being pushed; and node runs the hook from a checkout that holds only
 // changes/ and src/, the folders a site fetches.
 import { spawnSync } from "node:child_process";
 import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -91,21 +91,25 @@ test("a push that only deletes checks nothing", () => {
   expect(output).toBe("lernapps pre-push: nothing to check, the push only deletes\n");
 });
 
-test("node runs the hook from changes/ and src/ alone, and its steps see none of git's GIT_* variables", GIT, () => {
-  // what a site fetches (its scripts/pre-push.mjs): only these two folders, run with node, nothing installed
-  const tooling = tempDir("site-pre-push-tooling");
-  cpSync(join(repoRoot, "changes"), join(tooling, "changes"), { recursive: true });
-  cpSync(join(repoRoot, "src"), join(tooling, "src"), { recursive: true });
-  const record = `node -e "require('fs').writeFileSync('env.json', JSON.stringify(Object.keys(process.env).filter((k) => k.startsWith('GIT_'))))"`;
-  const { dir, lines } = site({ build: record, check: "true" }, ["src/page.njk"]);
-  const result = spawnSync(process.execPath, [join(tooling, "changes", "site-pre-push.ts")], {
-    cwd: dir,
-    input: lines,
-    encoding: "utf8",
-    // as git starts a hook: GIT_DIR and the like point at the repo being pushed
-    env: { ...testEnv, GIT_DIR: join(dir, ".git"), GIT_WORK_TREE: dir },
-  });
-  expect(result.status, `${result.stdout}${result.stderr}`).toBe(0);
-  expect(result.stdout).toMatch(/^lernapps pre-push: scope all: npm run build, npm run check passed/);
-  expect(JSON.parse(readFileSync(join(dir, "env.json"), "utf8"))).toEqual([]);
-});
+test(
+  "node runs the hook from changes/ and src/ alone, and its steps see neither GIT_DIR nor GIT_WORK_TREE",
+  GIT,
+  () => {
+    // what a site fetches (its scripts/pre-push.mjs): only these two folders, run with node, nothing installed
+    const tooling = tempDir("site-pre-push-tooling");
+    cpSync(join(repoRoot, "changes"), join(tooling, "changes"), { recursive: true });
+    cpSync(join(repoRoot, "src"), join(tooling, "src"), { recursive: true });
+    const record = `node -e "require('fs').writeFileSync('env.json', JSON.stringify(Object.keys(process.env).filter((k) => ['GIT_DIR', 'GIT_WORK_TREE'].includes(k))))"`;
+    const { dir, lines } = site({ build: record, check: "true" }, ["src/page.njk"]);
+    const result = spawnSync(process.execPath, [join(tooling, "changes", "site-pre-push.ts")], {
+      cwd: dir,
+      input: lines,
+      encoding: "utf8",
+      // as git starts a hook: GIT_DIR and the like point at the repo being pushed
+      env: { ...testEnv, GIT_DIR: join(dir, ".git"), GIT_WORK_TREE: dir },
+    });
+    expect(result.status, `${result.stdout}${result.stderr}`).toBe(0);
+    expect(result.stdout).toMatch(/^lernapps pre-push: scope all: npm run build, npm run check passed/);
+    expect(JSON.parse(readFileSync(join(dir, "env.json"), "utf8"))).toEqual([]);
+  },
+);

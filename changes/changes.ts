@@ -323,14 +323,37 @@ export function eventFiles(env: NodeJS.ProcessEnv = process.env, cwd = "."): str
   return undefined;
 }
 
-/** Standard input, as git gives it to the pre-push hook; empty when it is a terminal or closed. */
 /**
- * The environment of a hook's steps: without git's GIT_* variables. A hook gets GIT_DIR and others; a step that runs
- * git in a folder of its own, like a test's `git init`, would otherwise act on the repository being pushed.
+ * The variables that tie git to one repository, as `git rev-parse --local-env-vars` lists them: git itself drops them
+ * when it changes to another repository. The others (GIT_SSL_CAINFO, GIT_SSH_COMMAND, GIT_AUTHOR_NAME, ...) stay.
+ */
+export const GIT_REPO_VARS: readonly string[] = [
+  "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+  "GIT_CONFIG",
+  "GIT_CONFIG_PARAMETERS",
+  "GIT_CONFIG_COUNT",
+  "GIT_OBJECT_DIRECTORY",
+  "GIT_DIR",
+  "GIT_WORK_TREE",
+  "GIT_IMPLICIT_WORK_TREE",
+  "GIT_GRAFT_FILE",
+  "GIT_INDEX_FILE",
+  "GIT_NO_REPLACE_OBJECTS",
+  "GIT_REPLACE_REF_BASE",
+  "GIT_PREFIX",
+  "GIT_SHALLOW_FILE",
+  "GIT_COMMON_DIR",
+];
+
+/**
+ * The environment of a hook's steps: without the variables that tie git to the repository being pushed. A hook gets
+ * GIT_DIR and others; a step that runs git in a folder of its own, like a test's `git init`, would otherwise act on
+ * the repository being pushed.
  */
 export const stepEnv = (env: NodeJS.ProcessEnv): NodeJS.ProcessEnv =>
-  Object.fromEntries(Object.entries(env).filter(([key]) => !key.startsWith("GIT_")));
+  Object.fromEntries(Object.entries(env).filter(([key]) => !GIT_REPO_VARS.includes(key)));
 
+/** Standard input, as git gives it to the pre-push hook; empty when it is a terminal or closed. */
 export function readStdin(): string {
   try {
     return process.stdin.isTTY ? "" : readFileSync(0, "utf8");
