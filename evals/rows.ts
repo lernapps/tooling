@@ -108,6 +108,15 @@ ROWS.push(
     kind: "share",
     value: (trial) => trial.numbers["t_phase_announced_right"],
   },
+  // Since the rule early-preview (2026-10-25); a run that never reached Code has no such row.
+  {
+    id: "early_preview",
+    label: "First look shown in Code",
+    group: "transcript",
+    source: "early_preview",
+    kind: "runs",
+    value: (trial) => trial.numbers["t_early_preview"],
+  },
   {
     id: "questions_max_2",
     label: "At most 2 questions in every turn",

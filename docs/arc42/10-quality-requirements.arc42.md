@@ -157,6 +157,22 @@ metric: At most 3 creator turns from the confirmed plan to the listing pull requ
 :::
 ```
 
+## A first look early in Code
+
+A build in the wrong direction costs most when the creator sees it only at the end. The first look is no checkpoint:
+the assistant goes on, and the creator can stop it.
+
+```arc42
+:::quality-scenario
+id: qs-early-preview
+title: A first look early in Code
+quality: qg-simple-to-build
+stimulus: The first screen or page of the app shows real content
+response: The assistant shows the creator a first look (screenshots, and the local address where it runs on the creator's machine) without a question, and goes on building
+metric: A first look between the confirmed plan and the phase Commit in every eval run that reaches Code (source - evals, transcript)
+:::
+```
+
 ## Creators name the guidance
 
 The creators' own view is the main source in the [MVP](https://lernapps.net/docs/platform-design/#2-design/d8-mvp.pdt42.md).

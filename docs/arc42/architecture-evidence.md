@@ -27,6 +27,7 @@ validator. Rows marked `OPEN:` need a decision by the platform owner before the 
 | owner, 2026-10-08 | Priorities: four high, three medium | ch.10 10.1 | high | — |
 | owner, 2026-10-08 | Half of the listing PRs pass validation on the first run; 7 of 8 on the second run, after a comment with the deterministic check results | ch.10 qs-first-listings | high | — |
 | owner, 2026-10-08 | Turns before the plan is agreed are good assistance and not counted; at most 3 creator turns after the confirmed plan | ch.10 qs-few-turns-after-plan | high | — |
+| owner, 2026-10-25 | As soon as it builds, the assistant offers the creator a first look, without asking to go on; the creator can stop it | ch.10 qs-early-preview | high | — |
 | owner, 2026-10-08 | The pre-push hook counts its failed runs in the plan's front matter | ch.10 qs-eval-iterations, measurement sources | high | — |
 | owner, 2026-10-08 | p90 of failed pre-push runs per app below 5 | ch.10 qs-eval-iterations | high | — |
 | owner, 2026-10-08 | Evals by hand with Claude Code, Codex and Gemini CLI, each with the latest model | ch.10 qs-other-assistant, measurement sources | high | — |

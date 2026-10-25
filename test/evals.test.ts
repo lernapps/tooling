@@ -42,6 +42,8 @@ test("the transcript score counts turns, questions, reads and bypasses of a synt
     creator_turns: 5,
     plan_confirmed: 1,
     creator_turns_after_plan: 2,
+    // no "Zwischenstand" in Code: the trial predates the rule early-preview
+    early_preview: 0,
     // "Passt er so? Soll ich etwas ändern? Und wie heißt die App?" is one paragraph that asks: one question waiting
     questions_per_turn_mean: 0.75,
     questions_per_turn_max: 1,
@@ -536,6 +538,31 @@ test("the plan counts as confirmed when sed, a helper script or a write sets pha
     ]),
   ]);
   expect(early.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 1 });
+});
+
+test("early_preview: a Zwischenstand between phase: code and phase: commit; none before the plan's yes", () => {
+  const set = (phase: string) => ({
+    name: "Bash",
+    input: { command: `sed -i 's/^phase: .*$/phase: ${phase}/' .vibe/plans/01-quiz.md` },
+  });
+  const turn = (creator: string, text: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
+    creator,
+    text,
+    tools,
+  });
+  const shown = scoreTurns([
+    turn("Ein Quiz zu Brüchen", "**Plan · Checkpoint** Passt der Plan?"),
+    turn("Ja, passt so.", "**Code** Zwischenstand: So sieht die erste Frage aus. Ich baue weiter.", [set("code")]),
+    turn("Gut", "**Commit** Wie soll das Repo heißen?", [set("commit")]),
+  ]);
+  expect(shown.dimensions["early_preview"]).toBe(1);
+  const late = scoreTurns([
+    turn("Ein Quiz zu Brüchen", "**Plan · Checkpoint** Passt der Plan?"),
+    turn("Ja, passt so.", "**Code** Ich baue.", [set("code"), set("commit")]),
+    turn("brueche", "**Commit** Zwischenstand der Checks: grün."),
+  ]);
+  expect(late.dimensions["early_preview"]).toBe(0);
+  expect(scoreTurns([turn("Ein Quiz", "Zwischenstand")]).dimensions).not.toHaveProperty("early_preview");
 });
 
 test("the scenario ends regularly when the creator's last message after the plan is a GitHub answer, a stop or thanks, not the stuck line", () => {

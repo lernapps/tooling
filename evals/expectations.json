@@ -22,6 +22,7 @@
     "creator_questions_missed": [],
     "archetype_first_proposed_right": ["A19"],
     "creator_turns_after_plan": ["A11"],
+    "early_preview": ["A35"],
     "scenario_end": ["A4"],
     "phase_announced": ["A4"],
     "phase_announced_right": ["A4"],
