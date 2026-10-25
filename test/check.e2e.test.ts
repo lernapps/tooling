@@ -61,7 +61,7 @@ describe.skipIf(inner)("a fresh clone", () => {
     ok("npm", ["run", "build"], clone);
     const result = run("npm", ["run", "check:site"], clone);
     expect(result.code, output(result)).toBe(0);
-    expect(result.stdout).toContain("lernapps-check");
+    expect(result.stdout).toContain("site-check: ");
     // the published schemas: of the validation report and of the review verdict
     for (const schema of ["validation-report.v1.schema.json", "verdict.v1.schema.json"]) {
       expect(existsSync(join(clone, "_site/schemas", schema)), schema).toBe(true);

@@ -1,7 +1,8 @@
 // The change scope: what a change can affect, and so what the hooks and CI run for it. `lernapps changes` and the
-// hooks (lernapps check --pre-commit, --pre-push; this repo's scripts/pre-push.ts) and the actions (app-check,
-// app-publish, app-preview) and the reusable workflow changes.yml ask the same function. Its usage text, with the map and the
-// configuration, is CHANGES_USAGE in src/usage.ts.
+// hooks (lernapps check --pre-commit, --pre-push; this repo's scripts/pre-push.ts; the sites' pre-push hook,
+// changes/site-pre-push.ts) and the actions (app-check, app-publish, app-preview) and the reusable workflow
+// changes.yml ask the same function. Its usage text, with the map and the configuration, is CHANGES_USAGE in
+// src/usage.ts.
 //
 //   none  every changed file is the plan (.vibe/**): nothing runs
 //   docs  every changed file is docs (docs/**/*.md) or the plan: only the site's checks and deployment run; an app
@@ -321,6 +322,36 @@ export function eventFiles(env: NodeJS.ProcessEnv = process.env, cwd = "."): str
   }
   return undefined;
 }
+
+/**
+ * The variables that tie git to one repository, as `git rev-parse --local-env-vars` lists them: git itself drops them
+ * when it changes to another repository. The others (GIT_SSL_CAINFO, GIT_SSH_COMMAND, GIT_AUTHOR_NAME, ...) stay.
+ */
+export const GIT_REPO_VARS: readonly string[] = [
+  "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+  "GIT_CONFIG",
+  "GIT_CONFIG_PARAMETERS",
+  "GIT_CONFIG_COUNT",
+  "GIT_OBJECT_DIRECTORY",
+  "GIT_DIR",
+  "GIT_WORK_TREE",
+  "GIT_IMPLICIT_WORK_TREE",
+  "GIT_GRAFT_FILE",
+  "GIT_INDEX_FILE",
+  "GIT_NO_REPLACE_OBJECTS",
+  "GIT_REPLACE_REF_BASE",
+  "GIT_PREFIX",
+  "GIT_SHALLOW_FILE",
+  "GIT_COMMON_DIR",
+];
+
+/**
+ * The environment of a hook's steps: without the variables that tie git to the repository being pushed. A hook gets
+ * GIT_DIR and others; a step that runs git in a folder of its own, like a test's `git init`, would otherwise act on
+ * the repository being pushed.
+ */
+export const stepEnv = (env: NodeJS.ProcessEnv): NodeJS.ProcessEnv =>
+  Object.fromEntries(Object.entries(env).filter(([key]) => !GIT_REPO_VARS.includes(key)));
 
 /** Standard input, as git gives it to the pre-push hook; empty when it is a terminal or closed. */
 export function readStdin(): string {

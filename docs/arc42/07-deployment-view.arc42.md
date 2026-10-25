@@ -136,7 +136,7 @@ id: dn-tooling-repo
 title: lernapps/tooling repository
 type: environment
 parent: dn-github
-hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-app-preview, bb-tooling-build, bb-site-check, bb-site-deploy, bb-site-preview, bb-renovate-preset
+hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-app-preview, bb-tooling-build, bb-site-check, bb-site-pre-push, bb-site-deploy, bb-site-preview, bb-renovate-preset
 :::
 ```
 

@@ -50,6 +50,7 @@ flowchart TB
     subgraph bb-platform-upkeep["Platform upkeep (not used by creators)"]
         bb-tooling-build["Tooling build and docs"]
         bb-site-check["Platform site check"]
+        bb-site-pre-push["Platform site pre-push hook"]
         bb-site-deploy["Platform site deploy"]
         bb-site-preview["Platform site preview"]
         bb-renovate-preset["Renovate preset"]
@@ -1128,6 +1129,35 @@ id: if-site-check
 title: Platform site check
 provider: bb-site-check
 protocol: GitHub Actions, pinned to a commit
+:::
+```
+
+### Platform site pre-push hook
+
+Runs before a push to a site what the change can affect, with the change scope that CI asks: the site's build and
+check, and on a change of code the site's own fast tests. A site does not install the tooling for it: it fetches the
+hook (`changes/site-pre-push.ts`, next to the classifier it asks) at the commit it pins and runs it with node.
+
+```arc42
+:::building-block
+id: bb-site-pre-push
+title: Platform site pre-push hook
+parent: bb-platform-upkeep
+technology: Node script
+:::
+```
+
+#### Platform site pre-push interface
+
+A consumer can rely on one contract with the site's repo: the npm scripts `build` and `check`, and optionally
+`test:pre-push` for its fast tests.
+
+```arc42
+:::interface
+id: if-site-pre-push
+title: Platform site pre-push hook
+provider: bb-site-pre-push
+protocol: Git hook, pinned to a commit
 :::
 ```
 

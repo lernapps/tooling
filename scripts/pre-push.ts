@@ -13,7 +13,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, openSync, writeSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { classifyPush, loadRules, matchesAny, pushedFiles, readStdin } from "../changes/changes.ts";
+import { classifyPush, loadRules, matchesAny, pushedFiles, readStdin, stepEnv } from "../changes/changes.ts";
 
 /** The heavy end-to-end tests: each installs, generates or builds apps and runs their checks. */
 export const HEAVY_TESTS = [
@@ -70,7 +70,7 @@ const LOG = "node_modules/.cache/lernapps/pre-push.log";
 function runLogged(log: number, steps: readonly string[][], env: NodeJS.ProcessEnv = process.env): number {
   for (const args of steps) {
     writeSync(log, `$ npm ${args.join(" ")}\n`);
-    const code = spawnSync("npm", args, { stdio: ["ignore", log, log], env }).status ?? 1;
+    const code = spawnSync("npm", args, { stdio: ["ignore", log, log], env: stepEnv(env) }).status ?? 1;
     if (code !== 0) return code;
   }
   return 0;
