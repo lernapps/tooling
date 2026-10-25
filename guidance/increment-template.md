@@ -133,6 +133,7 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 - [ ] Load skill `lernapps-<archetype>` and the content guide. Questions with options and feedback: also skill
       `lernapps-content-questions`.
 - [ ] <the slices written in Plan; each: competency, content, exercise, the entry's topic, check, commit>
+- [ ] After the first slice: show the creator a first look (`early-preview`) and go on.
       Parallel slices: send each sub-agent `@lernapps/tooling/guidance/subagent-brief.md`, filled in.
 - [ ] The content guide describes the app as it is now (`app-content-matches`). `grep -c "FILL IN"
       .agents/skills/app-content/SKILL.md` prints 0.

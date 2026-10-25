@@ -51,6 +51,20 @@ severity: hint
 - After the confirmation, ask only what you cannot decide.
 - Else choose, mark "(guess)" under "Key decisions" and list it in the retrospective.
 
+### `early-preview`: Show a first look early
+
+```rule
+id: early-preview
+scope: tooling
+severity: hint
+```
+
+- In Code, as soon as the first screen or page shows real content: send the creator a short "Zwischenstand".
+- Show screenshots, desktop and 360 px. On the creator's machine also the address of `npm run dev`, started in the
+  background.
+- No checkpoint, no question: go on in the same message. The creator may stop you or ask for a change.
+- Example: "Zwischenstand: So sieht die erste Seite aus. Ich baue weiter; sag Bescheid, wenn etwas nicht passt."
+
 ### `retrospective-filled`: Fill the retrospective
 
 ```rule

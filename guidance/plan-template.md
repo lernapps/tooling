@@ -132,6 +132,7 @@ questions. -->
 - [ ] Choose a pattern per competency as skill `lernapps-exercise-patterns` says (loaded in Explore; reread it if it
       is no longer in view). Write "Content method".
 - [ ] Write the Code tasks under "Code": pages or screens, their content, what each shows. Each ends in a commit.
+      After the first task that shows real content: the task "Show the creator a first look (`early-preview`)".
 - [ ] Each screen, component or interactive exercise: a sketch (static SVG or image, or the steps with what
       learners see after each). Words alone are not enough.
 - [ ] Show the creator, short: goal, competencies by chapter, entry draft, tasks, sketches; the content method in
@@ -170,7 +171,8 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
       any content.
 - [ ] Load skill `lernapps-<archetype>` and the content guide. Questions with options and feedback: also skill
       `lernapps-content-questions`.
-- [ ] <the tasks written in Plan; after each, commit on `work`>
+- [ ] <the tasks written in Plan; after each, commit on `work`; after the first with real content, show the
+      creator a first look (`early-preview`) and go on>
 - [ ] The content guide matches what was built (`app-content-matches`).
 - [ ] `npx lernapps check` passes.
 - [ ] Look at a screenshot of every screen and state (start, each mode, pause, end), desktop and 360 px. Compare

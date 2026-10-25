@@ -14,6 +14,7 @@ const TOOLING_RULES = [
   "explore-before-code",
   "stop-at-checkpoints",
   "few-turns-after-plan",
+  "early-preview",
   "retrospective-filled",
   "app-content-guide",
   "app-content-matches",
