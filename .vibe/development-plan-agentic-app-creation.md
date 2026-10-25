@@ -525,6 +525,8 @@ Overall:
 - A33 Time from the first prompt to an entry ready to list, for the MVP assumption `a-creators-list` (T).
 - A34 Where it had to guess: every guess is written in the retrospective and becomes a finding for the guidance
   (P, KD-12).
+- A35 Early in Code, once a screen shows real content, it shows the creator a first look ("Zwischenstand") without a
+  question and goes on (T, rule `early-preview`).
 
 #### 3. What we expect of the review agent (R1)
 - B1 It reviews exactly the named commit on `main`, starting from the validation report (C).

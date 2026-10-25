@@ -111,6 +111,8 @@ const STUCK = /^\s*Danke, wir hören hier auf/i;
 /** The persona's marker of its end (since 2026-10-21); a run without it falls back to the sentences above. */
 const END_MARKER = /\[Ende:\s*(veröffentlichen|fertig|festgefahren)\]/i;
 /** The phase a reply begins with ("**Plan · Checkpoint**"), as the plan template asks. */
+/** The first look the agent shows the creator in Code (rule early-preview): its message names the "Zwischenstand". */
+const PREVIEW = /\bZwischenstand\b/i;
 const ANNOUNCED = /^[\s*_#>]*(explore|plan|code|commit)\b/i;
 
 const toolName = (name: string) => name.replace(/^mcp__acp__/, "");
@@ -654,6 +656,12 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext, links: stri
     phase_announced: replies.length ? Math.round((withPhase.length / replies.length) * 100) / 100 : 0,
   };
   if (afterPlan !== undefined) dimensions["creator_turns_after_plan"] = afterPlan;
+  // A35: a first look in Code, from the turn that sets `phase: code` to the one that sets `phase: commit`
+  if (codeAt >= 0) {
+    const commitAt = all.findIndex((turn) => turn.tools.some((tool) => phaseSet(tool) === "commit"));
+    const inCode = all.slice(codeAt, commitAt >= codeAt ? commitAt + 1 : undefined);
+    dimensions["early_preview"] = inCode.some((turn) => PREVIEW.test(turn.text)) ? 1 : 0;
+  }
   // #141: the agent set `phase: code` before the plan's yes, or without one (from the runs that announce the phase)
   if (announcing)
     dimensions["code_before_plan_confirmed"] = codeAt >= 0 && (confirmedAt < 0 || codeAt < confirmedAt) ? 1 : 0;
