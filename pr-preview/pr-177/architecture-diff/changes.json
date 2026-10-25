@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "base": {
+    "label": "0deff1055664cbe93de50b4f1e31d28003b49c66",
+    "commit": "0deff1055664cbe93de50b4f1e31d28003b49c66"
+  },
+  "head": {
+    "label": "11139be868eae265873d377bb532b51095442bf9"
+  },
+  "acceptanceBase": "0deff1055664cbe93de50b4f1e31d28003b49c66",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "qs-early-preview",
+        "kind": "quality-scenario",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "line": 166
+        },
+        "section": {
+          "file": "docs/arc42/10-quality-requirements.arc42.md",
+          "headingPath": [
+            "Quality Requirements",
+            "A first look early in Code"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "qs-early-preview",
+          "to": "qg-simple-to-build",
+          "relation": "elaborates"
+        }
+      }
+    ],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/10-quality-requirements.arc42.md",
+        "added": 1,
+        "modified": 0,
+        "removed": 0
+      }
+    ]
+  }
+}
