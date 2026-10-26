@@ -42,18 +42,13 @@
 
 ## Tutor
 
-- The learner's own assistant, after a click; the app sends nothing. The learner switches one on once (start page or
-  beside a page's title; `tutor.providers`, else Claude, ChatGPT, Le Chat, or copying the text), kept on the device.
-- Way A, "Mit <name> lernen" beside the title: one sentence naming the page's tutor page with the page's task
-  numbers. Way B, "Hilfe" ("Warum?" after a wrong answer) in every exercise: the task, the input and the app's
-  message. "Zurück" copies a result line back into the chat.
-- The tutor page is the one source of what the tutor gets, written by the build from the content: guide, the page's
-  content, every task of every exercise (`generated`: template and a table of each number's values, solution and
-  mistakes; component: `describe` per number, as far as 64 kB allow, `about`). No `tutor.md`, no task files, no
-  `llms.txt`.
-- Assistants fetch only addresses the user wrote: the tutor page is the one address. `tutor.rules` (in `src/app.yaml`)
-  adds the app's rules there and must not send the tutor anywhere else.
-- Numbered tasks: distinct tasks of an exercise, max 67, "Aufgabe Nr. 1" to N, link `?<id>=<n>#<id>`.
-- Page address holds each seeded exercise's task number (`?<id1>=3&<id2>=12`), written on load and on "Neue
-  Aufgabe". `seed`, `von`, `uebung`, `abschnitt` are no exercise ids; `?seed=<n>#<id>` still works.
-- Changing a generator changes what shared numbers point to.
+- Optional: the learner's own KI assistant helps with a page and with each exercise. The build writes a tutor page
+  per page from the content; the app sends nothing.
+- The tutor reads the page's blocks as text (figures by `alt` and `caption`) and every exercise: task, answer format,
+  solution, `hint` and typical mistakes with their messages. `generated`: template, `steps`, `mistakes` and each task
+  number's values; question: options with `info`, `explanation`; component: `about` and `describe` per task number.
+  It neither calculates nor invents: these must be complete and right.
+- `src/app.yaml`: `tutor.rules` (the app's rules for the tutor; never send it to another address), `tutor.providers`
+  (assistants).
+- Task numbers 1 to N (max 67) are what learner, tutor and address (`?<id>=<n>`) share; changing a generator changes
+  what a number points to. `seed`, `von`, `uebung`, `abschnitt` are no exercise ids.
