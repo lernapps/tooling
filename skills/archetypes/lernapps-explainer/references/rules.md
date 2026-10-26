@@ -174,6 +174,26 @@ severity: error
   text).
 - Any exercise may carry `examples: { accepted, rejected }`; `generated`: expressions of `given` and `answer`, per
   seed (e.g. `reverse(answer)`).
+- With `template`, `params`, `mistakes` and `show` (all four or none, rule `vue-component-tutor-table`): `check`
+  accepts the solution and rejects each mistake's answer, `params` gives the same names for every task, each
+  placeholder of `template` is one of them.
+
+## `vue-component-tutor-table`: An exercise component declares its exercise for the tutor
+
+```rule
+id: vue-component-tutor-table
+scope: archetype:explainer
+severity: hint
+```
+
+- The logic module also exports `template(props, lang)`: the task once, `{name}` for each input;
+  `params(task, props, lang)`: the inputs by name (`{ G: 1260, p: 15 }`), numbers or texts, the same names for every
+  task; `mistakes(task, props)`: per `about.mistakes`, in order, the answer it gives, `undefined` where none;
+  `show(answer, task, props, lang)`: an answer as text, short ("C", "3 Kästchen").
+- The tutor page then has the task once, the mistakes as F1, F2 … and a table of every number (inputs, solution,
+  each mistake), like `generated`. Without them: each number's `describe` as far as 64 kB allow, and the build's hint
+  names the block.
+- Example: `src/components/ProzentFeld.ts` of the template.
 
 ## `vue-component-tested`: A test per component
 
