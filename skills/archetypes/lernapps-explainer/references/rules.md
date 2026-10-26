@@ -163,8 +163,9 @@ scope: archetype:explainer
 severity: error
 ```
 
-- Emits `answered` → `src/components/<Name>.ts` with pure, deterministic `generate(seed, props)`,
-  `check(task, answer)`, `solution(task)`, `wrong(task)`; property test passes.
+- Emits `answer` → `src/components/<Name>.ts` with pure, deterministic `generate(seed, props)`,
+  `check(task, answer)`, `solution(task)`, `wrong(task)`, `reason(task, answer, props, lang)`; property test passes.
+- Emits no `answered` (the old contract): the explainer draws "Prüfen" and checks; a component draws none.
 - Block lists `examples` with at least one `accepted` and one `rejected`, `{ answer, seed? }` in the shape of
   `check` (no seed: seeds 1–50), incl. another correct answer where the text allows.
 - Declares prop `seed: number`, shows `generate(seed, props)`. The explainer gives the seed, shows "Aufgabe Nr.",

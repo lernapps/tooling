@@ -30,16 +30,22 @@
 
 ## Exercise contract
 
-- Emits `answered` with `{ correct, reason }` → exercise; the page shows feedback and `reason` below.
+- Emits `answer` → exercise. It is only the input: emit the learner's answer on every change (`undefined` while
+  none). No own "Prüfen", no own `<form>`, no call of `check`: the explainer draws "Prüfen" under it (Enter in a field
+  checks), calls `check`, `reason` and `show`, shows the feedback. Own controls ("Zurücksetzen", tools) stay, as
+  `type="button"`. Optional prop `checked: boolean`: true once the current answer is checked.
+- `answered` is gone: the build fails on it.
 - Does not count as the page's required exercise: the page also needs a question or a `generated` exercise.
-- `<Name>.ts`, pure: `generate(seed, props)`, `check(task, answer)` (boolean), `solution(task)`, `wrong(task)`, plus
-  a reason function. Check the asked property, not equality with `solution`.
+- `<Name>.ts`, pure: `generate(seed, props)`, `check(task, answer)` (boolean), `solution(task)`, `wrong(task)`,
+  `reason(task, answer, props, lang)` (the app's message for a wrong answer from the props' texts, `undefined` for
+  none). Check the asked property, not equality with `solution`.
 - Build tests 50 fixed seeds per block: same task per seed, solution passes, wrong fails, nothing throws.
 - `about.mistakes` from the same wrong answers as `examples.rejected`; `describe` states the task exactly as shown
   for that task number (no-JS text).
 - For the tutor: `template(props, lang)` (task with `{name}`), `params(task, props, lang)` (inputs by name),
-  `mistakes(task, props)` (per `about.mistakes` its answer or `undefined`), `show(answer, task, props, lang)` (answer
-  as text). The build checks them against `check` for every number; rule `vue-component-tutor-table`. Model:
+  `mistakes(task, props)` (per `about.mistakes` its one fixed answer, else `undefined`: never an invented example),
+  `show(answer, task, props, lang)` (answer as text). An input of `params` that is no placeholder shows as
+  "(verdeckt)": the tutor knows it, the child does not. `about.answer` names what the child does and "Prüfen". The build checks them against `check` for every number; rule `vue-component-tutor-table`. Model:
   `ProzentFeld` of the template.
 - More: rule `vue-component-exercise-contract`.
 
