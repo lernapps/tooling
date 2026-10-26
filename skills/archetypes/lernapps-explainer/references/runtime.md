@@ -14,7 +14,10 @@
 - JS: controls, "Prüfen", feedback with focus. Solution only after an answer; wrong → why, retry or "Lösung".
   `generated`: live task, "Neue Aufgabe", deep link `/<chapter>/<page>/?<exercise>=<n>#<exercise>`. Components
   hydrate.
-- Stores only the assistant the learner switched on for the tutor, on the device, per app.
+- Video: no JS and before a click, title as a link to youtube.com, channel and a note that playing sends data to
+  YouTube/Google; nothing loads from another server. "Video abspielen" loads the player from youtube-nocookie.com.
+- Stores on the device, per app, only the assistant the learner switched on for the tutor and, once ticked, "Videos
+  immer direkt laden" (every player loads without the click until unticked).
 
 ## Addresses
 
@@ -31,7 +34,7 @@
 - No JS: headings vs nesting, sections, formulas, figures, anchors, navigation chain, languages, every solution,
   every `nojs` text.
 - JS (German, 360 px): one exercise per type and page accepts its answer, rejects a wrong one; components hydrate
-  without error.
+  without error; a video sends no request to another server before its click, and loads its player after it.
 - `lernapps check` also opens every page without JS (`explainer-readable-without-js`), bundle and deployed app.
 
 ## A runtime test fails
@@ -44,8 +47,8 @@
 
 - Optional: the learner's own KI assistant helps with a page and with each exercise. The build writes a tutor page
   per page from the content; the app sends nothing.
-- The tutor reads the page's blocks as text (figures by `alt` and `caption`) and every exercise: task, answer format,
-  solution, `hint` and typical mistakes with their messages. `generated`: template, `steps`, `mistakes` and each task
+- The tutor reads the page's blocks as text (figures by `alt` and `caption`, a video as a link with title and channel)
+  and every exercise: task, answer format, solution, `hint` and typical mistakes with their messages. `generated`: template, `steps`, `mistakes` and each task
   number's values; question: options with `info`, `explanation`; component: `about`, and with `template`, `params`, `mistakes`, `show`
   the same table as `generated` (else `describe` per task number, as far as 64 kB allow).
   It neither calculates nor invents: these must be complete and right.
