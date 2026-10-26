@@ -1022,7 +1022,7 @@
 <li>Emits <code>answered</code> → <code>src/components/&lt;Name&gt;.ts</code> with pure, deterministic <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code>, <code>wrong(task)</code>; property test passes.</li>
 <li>Block lists <code>examples</code> with at least one <code>accepted</code> and one <code>rejected</code>, <code>{ answer, seed? }</code> in the shape of <code>check</code> (no seed: seeds 1–50), incl. another correct answer where the text allows.</li>
 <li>Declares prop <code>seed: number</code>, shows <code>generate(seed, props)</code>. The explainer gives the seed, shows &quot;Aufgabe Nr.&quot;, &quot;Neue Aufgabe&quot;, keeps <code>?&lt;id&gt;=&lt;n&gt;</code>: never draw a seed or offer &quot;next&quot; inside.</li>
-<li>Also exports <code>describe(task, props, lang)</code> → <code>{ task, solution }</code> (restricted Markdown, task exactly as shown) and <code>about = { task, answer, correct, mistakes }</code> (texts by language). The tutor reads only these (<code>tutor.md</code>, no-JS text).</li>
+<li>Also exports <code>describe(task, props, lang)</code> → <code>{ task, solution }</code> (restricted Markdown, task exactly as shown) and <code>about = { task, answer, correct, mistakes }</code> (texts by language). The tutor reads only these (the tutor page, no-JS text).</li>
 <li>Any exercise may carry <code>examples: { accepted, rejected }</code>; <code>generated</code>: expressions of <code>given</code> and <code>answer</code>, per seed (e.g. <code>reverse(answer)</code>).</li>
 </ul>
 </div>
