@@ -1,0 +1,43 @@
+# lernapps.net tooling
+
+> Build, check and list learning apps for lernapps.net with an AI assistant. Installed from git, not npm.
+
+## Build an app
+
+1. Download the plan template into the app's folder as `.vibe/plans/01-<short name>.md`, complete and unchanged:
+   https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md
+2. Read it in full. Follow it task by task: it installs the skills, names the skills of each phase and holds the
+   creator's checkpoints.
+
+Read guidance from the file, in full: download it (curl), then read it. A fetch tool that summarises loses tasks and
+rules.
+
+## Change a published app
+
+- In the app's repo, `AGENTS.md` leads to the current plan and the increment template.
+
+## Reference
+
+Look things up here when you need them. Not needed for building.
+
+- Rules by id: https://lernapps.net/tooling/rules/ (check messages link `#<id>`).
+- Platform rules for an app built without this tooling (by hand, another framework, an app builder):
+  https://raw.githubusercontent.com/lernapps/tooling/main/skills/tooling/lernapps-check/references/platform-rules.md
+- Check a built or published app: `npx --yes github:lernapps/tooling check <dir|url>`. Every
+  command lists its options with `--help`.
+- Schemas: validation report https://lernapps.net/tooling/schemas/validation-report.v1.schema.json, review verdict
+  https://lernapps.net/tooling/schemas/verdict.v1.schema.json, catalog entry
+  https://lernapps.net/apps/schemas/entry.v1.schema.json. The schemas of a quiz and of an explainer are in the app:
+  node_modules/@lernapps/app-templates/runtime/quiz/quiz.v1.schema.json and .../explainer/explainer.v1.schema.json.
+- Review: prompt https://github.com/lernapps/tooling/blob/main/review/prompt.md, rubric
+  https://github.com/lernapps/tooling/blob/main/review/rubric.md.
+- GitHub, explained for creators: https://lernapps.net/tooling/github/
+- Which assistant to build with, and three apps a budget model built: https://lernapps.net/tooling/assistants/
+- How we test the guidance, with eval results: https://lernapps.net/tooling/prompt-engineering/
+- Architecture: https://lernapps.net/tooling/architecture/. Source: https://github.com/lernapps/tooling.
+
+## Other llms.txt of lernapps.net
+
+- lernapps.net, where to find what: https://lernapps.net/llms.txt
+- Docs: https://lernapps.net/docs/llms.txt
+- Catalog: https://lernapps.net/apps/llms.txt; listing an app: https://lernapps.net/apps/enter/llms.txt

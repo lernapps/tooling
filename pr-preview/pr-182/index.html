@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light dark">
+  <title>Tooling – lernapps.net</title>
+  <meta name="description" content="How a person and their AI agent make a learning app for lernapps.net: the workshop, the prompt engineering behind it, the architecture and GitHub.">
+  <link rel="canonical" href="https://lernapps.net/tooling/">
+  <link rel="stylesheet" href="stil.css">
+  <style>
+    /* The colours of the workshop page (workshop/template.html): slate from the shared tokens, one blue accent. The
+       phases of the workshop card are rendered by scripts/workshop.ts from workshop/workshop.yaml. */
+    :root {
+      --lc-bg: var(--la-surface, #f8fafc);
+      --lc-card: #ffffff;
+      --lc-text: var(--la-text, #1e293b);
+      --lc-muted: var(--la-muted, #475569);
+      --lc-border: var(--la-border, #e2e8f0);
+      --lc-line: #cbd5e1;
+      --lc-accent: var(--la-link, #1d4ed8);
+      --lc-tint: #eaf0fd;
+      --lc-on: #ffffff;
+      --lc-hero: var(--la-ink, #0f172a);
+      --lc-shadow: 0 1px 2px rgb(15 23 42 / 0.06), 0 6px 18px rgb(15 23 42 / 0.06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --lc-bg: #0b1220; --lc-card: #111a2e; --lc-text: #e5e7eb; --lc-muted: #a3adbd; --lc-border: #243049;
+        --lc-line: #334155; --lc-accent: #8fb8ff; --lc-tint: #14213d; --lc-on: #0b1220; --lc-hero: #0a101d;
+        --lc-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.3);
+      }
+    }
+    :root[data-theme="dark"] {
+      --lc-bg: #0b1220; --lc-card: #111a2e; --lc-text: #e5e7eb; --lc-muted: #a3adbd; --lc-border: #243049;
+      --lc-line: #334155; --lc-accent: #8fb8ff; --lc-tint: #14213d; --lc-on: #0b1220; --lc-hero: #0a101d;
+      --lc-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.3);
+    }
+    body { background: var(--lc-bg); color: var(--lc-text); }
+    main { max-width: none; padding: 0; color: var(--lc-text); }
+    main a { color: var(--lc-accent); }
+    main a:focus-visible { outline: 3px solid var(--lc-accent); outline-offset: 3px; border-radius: 0.5rem; }
+    ul, ol { list-style: none; margin: 0; padding: 0; }
+    .wrap { max-width: 58rem; margin: 0 auto; padding: 0 var(--la-gutter, 1rem); }
+
+    .hero {
+      background: radial-gradient(48rem 22rem at 12% -30%, rgb(96 165 250 / 0.28), transparent 65%), var(--lc-hero);
+      color: #f1f5f9;
+      padding: 3.5rem 0 5.5rem;
+    }
+    .eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #93c5fd; }
+    .hero h1 { font-size: clamp(2rem, 5.6vw, 3.4rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0.6rem 0 1rem; max-width: 18ch; }
+    .hero p { max-width: 40rem; font-size: 1.1rem; color: #cbd5e1; margin: 0; }
+
+    /* The workshop: the one big card, pulled up into the hero. */
+    .feature { position: relative; margin-top: -3.5rem; display: block; padding: 1.6rem 1.6rem 1.4rem; border-radius: 1.25rem; background: var(--lc-card); border: 1px solid var(--lc-border); box-shadow: 0 2px 4px rgb(15 23 42 / 0.06), 0 18px 40px rgb(15 23 42 / 0.12); color: var(--lc-text); text-decoration: none; transition: border-color 0.15s; }
+    main a.feature { color: var(--lc-text); }
+    .feature:hover { border-color: var(--lc-accent); }
+    .feature .label { display: block; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lc-accent); }
+    .feature h2 { font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.12; letter-spacing: -0.02em; margin: 0.35rem 0 0.6rem; }
+    .feature > p { max-width: 40rem; color: var(--lc-muted); margin: 0; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; margin: 1.4rem 0 1.2rem; counter-reset: step; }
+    .steps li { position: relative; padding: 0.8rem 0.9rem; border-radius: 0.85rem; background: var(--lc-tint); line-height: 1.3; }
+    .steps .n { display: inline-grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--lc-accent); color: var(--lc-on); font-weight: 800; font-size: 0.85rem; }
+    .steps strong { display: block; margin-top: 0.5rem; font-size: 1.02rem; }
+    .steps span.q { display: block; margin-top: 0.15rem; font-size: 0.9rem; color: var(--lc-muted); }
+    .cta { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: var(--lc-accent); }
+    .cta svg { transition: transform 0.15s; }
+    a:hover .cta svg { transform: translateX(3px); }
+
+    /* The other three pages, as cards. */
+    section.more { padding: 3rem 0 0; }
+    section.more h2, section.ref h2 { font-size: 1.4rem; letter-spacing: -0.02em; margin: 0 0 1rem; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
+    .cards a { display: flex; flex-direction: column; height: 100%; box-sizing: border-box; padding: 1.2rem 1.2rem 1.1rem; border-radius: 1rem; background: var(--lc-card); border: 1px solid var(--lc-border); box-shadow: var(--lc-shadow); text-decoration: none; transition: border-color 0.15s, transform 0.15s; }
+    main .cards a { color: var(--lc-text); }
+    .cards a:hover { border-color: var(--lc-accent); transform: translateY(-2px); }
+    .icon { display: inline-grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 0.75rem; background: var(--lc-tint); color: var(--lc-accent); }
+    .cards h3 { font-size: 1.15rem; margin: 0.8rem 0 0.35rem; }
+    .cards p { margin: 0 0 0.9rem; color: var(--lc-muted); font-size: 0.95rem; flex: 1; }
+    .cards .cta { font-size: 0.92rem; }
+
+    /* The concepts behind it: the docs, as one band. */
+    .concepts { margin-top: 2.6rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.5rem; padding: 1.3rem 1.4rem; border-radius: 1rem; border: 1px solid var(--lc-border); border-left: 5px solid var(--lc-accent); background: var(--lc-tint); }
+    .concepts div { flex: 1 1 22rem; }
+    .concepts h2 { font-size: 1.15rem; margin: 0 0 0.25rem; }
+    .concepts p { margin: 0; color: var(--lc-muted); max-width: 38rem; }
+
+    section.ref { padding: 3rem 0 0; }
+    .ref ul { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.2rem 2rem; }
+    .ref li { padding: 0.55rem 0; border-top: 1px solid var(--lc-border); font-size: 0.95rem; color: var(--lc-muted); }
+    .ref li a { font-weight: 600; }
+
+    @media (max-width: 48rem) {
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .cards { grid-template-columns: 1fr; }
+      .ref ul { grid-template-columns: 1fr; }
+      .feature { padding: 1.2rem 1.1rem 1.1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .cards a, .cta svg { transition: none; } }
+  </style>
+<!-- lernapps-frame -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-182/lernapps-tokens.css">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-182/lernapps-frame.css">
+<link rel="alternate" hreflang="de" href="/tooling/pr-preview/pr-182/">
+<link rel="alternate" hreflang="en" href="/tooling/pr-preview/pr-182/en/">
+<script>(() => {
+  const key = "lernapps-lang", here = "de", pages = {"en":"/tooling/pr-preview/pr-182/en/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
+</head>
+<body>
+<a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
+<p class="la-preview" lang="de">Vorschau einer Änderung. Die echte Seite: <a href="https://lernapps.net/tooling/">lernapps.net/tooling/</a></p><header class="la-header" lang="de">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Apps finden</a></li><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-182/" aria-current="page">Tooling</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Plattform</a></li><li><a href="/join/">Mitmachen</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-182/en/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav>
+  </div>
+</header>
+<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch.</p>
+  <main id="main-content" tabindex="-1">
+    <header class="hero">
+      <div class="wrap">
+        <div class="eyebrow">lernapps.net tooling</div>
+        <h1>Where learning apps are made</h1>
+        <p>One person who knows their subject, one AI agent that does the handwork, and programs that hold the rules.
+          Here is how they work together, how we teach the agent, and how it is built.</p>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <a class="feature" href="workshop/">
+        <span class="label">Start here</span>
+        <h2>A workshop, not a factory</h2>
+        <p>What you decide in each phase, what the agent does, and which skill, command, hook or action supports it.
+          Drawn from the architecture, so it shows what is really there.</p>
+        <ol class="steps"><li><span class="n" aria-hidden="true">1</span><strong>Explore</strong><span class="q">What should learners be able to do?</span></li><li><span class="n" aria-hidden="true">2</span><strong>Plan</strong><span class="q">How will learners practise?</span></li><li><span class="n" aria-hidden="true">3</span><strong>Code</strong><span class="q">Built locally, by the agent</span></li><li><span class="n" aria-hidden="true">4</span><strong>Commit</strong><span class="q">Online at your yes</span></li></ol>
+        <span class="cta">See who does what<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+
+      <section class="more" aria-labelledby="more-h">
+        <h2 id="more-h">Behind the workshop</h2>
+        <ul class="cards">
+          <li><a href="assistants/">
+            <span class="icon"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M7 9l3 2.5L7 14M12 14h5M9 20h6"/></g></svg></span>
+            <h3>Which assistant to build with</h3>
+            <p>Any coding assistant that can use skills and change files will do. The two setups we use most, and
+              three apps a budget model built.</p>
+            <span class="cta">Assistants and examples<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a></li>
+          <li><a href="prompt-engineering/">
+            <span class="icon"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h10M4 18h7M17 14l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <h3>Prompt engineering</h3>
+            <p>How we make the guidance work for the creator's assistant: skills, plan templates, AGENTS.md, and the
+              evals that show whether the assistant follows the process.</p>
+            <span class="cta">Guidance and evals<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a></li>
+          <li><a href="architecture/">
+            <span class="icon"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="8.5" y="14" width="7" height="7" rx="1.5"/><path d="M6.5 10v2h11v-2M12 12v2"/></g></svg></span>
+            <h3>Architecture</h3>
+            <p>The tooling in arc42: its building blocks by phase, the decisions and why we took them, and how it
+              keeps an app from collecting anything in secret.</p>
+            <span class="cta">The arc42 documentation<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a></li>
+          <li><a href="github/">
+            <span class="icon"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.2"/><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="9" r="2.2"/><path d="M6 7.2v9.6M18 11.2c0 3-3 4-6 4.3-3 .3-6 1-6 1.5"/></g></svg></span>
+            <h3>GitHub, explained</h3>
+            <p>Where your app lives and is published, and which parts of GitHub the tooling uses, for creators who
+              have never used GitHub.</p>
+            <span class="cta">No GitHub knowledge needed<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a></li>
+        </ul>
+      </section>
+
+      <aside class="concepts" aria-labelledby="concepts-h">
+        <div>
+          <h2 id="concepts-h">The concepts behind it</h2>
+          <p>Why lernapps.net exists, how it is organized and the platform design: the documentation of lernapps.net
+            (German, the platform design in English).</p>
+        </div>
+        <a class="cta" href="/docs/">To the documentation<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </aside>
+
+      <section class="ref" aria-labelledby="ref-h">
+        <h2 id="ref-h">Reference</h2>
+        <ul>
+          <li><a href="rules/">Rules</a>: what every listed app must meet, with id, scope, severity and where each
+            rule is told and checked</li>
+          <li><a href="llms.txt">llms.txt</a>: the commands, guidance, skills, rules and schemas, for AI
+            assistants</li>
+          <li><a href="schemas/validation-report.v1.schema.json">Validation report</a> (JSON Schema): what
+            <code>lernapps check</code> reports</li>
+          <li><a href="schemas/verdict.v1.schema.json">Review verdict</a> (JSON Schema): what the review agent
+            judged on an app that asks to be listed</li>
+          <li><a href="https://github.com/lernapps/tooling">Source on GitHub</a>: the CLI, the shared workflows
+            (build, check, publish) and the presets for updates</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+<footer class="la-footer" lang="de">
+  <div class="la-footer__inner">
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/tooling">Quellcode</a></li></ul></nav>
+  </div>
+</footer>
+</body>
+</html>
