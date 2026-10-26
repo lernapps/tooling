@@ -46,7 +46,8 @@
   per page from the content; the app sends nothing.
 - The tutor reads the page's blocks as text (figures by `alt` and `caption`) and every exercise: task, answer format,
   solution, `hint` and typical mistakes with their messages. `generated`: template, `steps`, `mistakes` and each task
-  number's values; question: options with `info`, `explanation`; component: `about` and `describe` per task number.
+  number's values; question: options with `info`, `explanation`; component: `about`, and with `template`, `params`, `mistakes`, `show`
+  the same table as `generated` (else `describe` per task number, as far as 64 kB allow).
   It neither calculates nor invents: these must be complete and right.
 - `src/app.yaml`: `tutor.rules`, the app's rules for the tutor; never send it to another address.
 - Task numbers 1 to N (max 67) are what learner, tutor and address (`?<id>=<n>`) share; changing a generator changes

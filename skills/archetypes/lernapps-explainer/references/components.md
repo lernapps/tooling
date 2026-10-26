@@ -36,7 +36,11 @@
   a reason function. Check the asked property, not equality with `solution`.
 - Build tests 50 fixed seeds per block: same task per seed, solution passes, wrong fails, nothing throws.
 - `about.mistakes` from the same wrong answers as `examples.rejected`; `describe` states the task exactly as shown
-  for that task number (a tutor reads only that).
+  for that task number (no-JS text).
+- For the tutor: `template(props, lang)` (task with `{name}`), `params(task, props, lang)` (inputs by name),
+  `mistakes(task, props)` (per `about.mistakes` its answer or `undefined`), `show(answer, task, props, lang)` (answer
+  as text). The build checks them against `check` for every number; rule `vue-component-tutor-table`. Model:
+  `ProzentFeld` of the template.
 - More: rule `vue-component-exercise-contract`.
 
 ## Rendering
