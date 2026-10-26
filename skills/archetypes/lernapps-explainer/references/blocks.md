@@ -18,6 +18,7 @@
 | `quote` | `text`, `origin` (`author`, `work`, `year`), `source`, `licence` | quotation with origin |
 | `code` | `language` (bash, c, css, html, java, javascript, json, plaintext, python, sql, typescript), `code`, `caption` | highlighted code |
 | `example`, `note` | `title`, `blocks` | box: worked example, hint |
+| `video` | `youtube` (the 11-character id, not the address), `title`, `channel` (both as on YouTube, plain strings) | YouTube video behind two clicks: link, channel, privacy note; player only after a click |
 | exercises | quiz's six types, `generated` | `exercises.md` |
 | `vue-component` | `component`, `props`, `nojs` | `components.md` |
 
@@ -39,6 +40,21 @@
 
 - Images in `src/images/`; `source` (URL or citation), `licence` (SPDX id, e.g. `CC-BY-SA-4.0`, or `gemeinfrei`).
   Several languages: a citation is a language map; a URL one string.
+
+## Videos
+
+- YouTube only, explainer only (not in a quiz question's `material`). No thumbnail, no video files in the bundle.
+- `title`, `channel`: as YouTube names them, in the video's language; the page's language does not change them.
+- What the learner should notice in the video: a `text` block before it; the block has no note field.
+- An app with a video loads from another server after a click: its catalog entry says `fitness.thirdParty: on-click`,
+  and with the choice "Videos immer direkt laden" also `fitness.storage: device`.
+
+```yaml
+- type: video
+  youtube: rkLmLaFHodo
+  title: einstufiger Zufallsversuch | Wahrscheinlichkeitsrechnung - einfach erklärt
+  channel: Lehrerschmidt
+```
 
 ## Formulas
 
