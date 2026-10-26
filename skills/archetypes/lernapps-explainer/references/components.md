@@ -45,7 +45,8 @@
 - For the tutor: `template(props, lang)` (task with `{name}`), `params(task, props, lang)` (inputs by name),
   `mistakes(task, props)` (per `about.mistakes` its one fixed answer, else `undefined`: never an invented example),
   `show(answer, task, props, lang)` (answer as text). An input of `params` that is no placeholder shows as
-  "(verdeckt)": the tutor knows it, the child does not. `about.answer` names what the child does and "Prüfen". The build checks them against `check` for every number; rule `vue-component-tutor-table`. Model:
+  "(verdeckt)": the tutor knows it, the child does not. One `template` per block: prefer one kind of task per block;
+  else give the sentence that changes as an input (`{Aufgabe}`). `about.answer` names what the child does and "Prüfen". The build checks them against `check` for every number; rule `vue-component-tutor-table`. Model:
   `ProzentFeld` of the template.
 - More: rule `vue-component-exercise-contract`.
 
