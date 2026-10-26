@@ -48,7 +48,6 @@
   solution, `hint` and typical mistakes with their messages. `generated`: template, `steps`, `mistakes` and each task
   number's values; question: options with `info`, `explanation`; component: `about` and `describe` per task number.
   It neither calculates nor invents: these must be complete and right.
-- `src/app.yaml`: `tutor.rules` (the app's rules for the tutor; never send it to another address), `tutor.providers`
-  (assistants).
+- `src/app.yaml`: `tutor.rules`, the app's rules for the tutor; never send it to another address.
 - Task numbers 1 to N (max 67) are what learner, tutor and address (`?<id>=<n>`) share; changing a generator changes
   what a number points to. `seed`, `von`, `uebung`, `abschnitt` are no exercise ids.
