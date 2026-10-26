@@ -170,7 +170,7 @@ severity: error
 - Declares prop `seed: number`, shows `generate(seed, props)`. The explainer gives the seed, shows "Aufgabe Nr.",
   "Neue Aufgabe", keeps `?<id>=<n>`: never draw a seed or offer "next" inside.
 - Also exports `describe(task, props, lang)` → `{ task, solution }` (restricted Markdown, task exactly as shown) and
-  `about = { task, answer, correct, mistakes }` (texts by language). The tutor reads only these (`tutor.md`, no-JS
+  `about = { task, answer, correct, mistakes }` (texts by language). The tutor reads only these (the tutor page, no-JS
   text).
 - Any exercise may carry `examples: { accepted, rejected }`; `generated`: expressions of `given` and `answer`, per
   seed (e.g. `reverse(answer)`).

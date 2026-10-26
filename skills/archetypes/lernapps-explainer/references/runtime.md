@@ -11,14 +11,16 @@
 
 - No JS: complete; text, formulas as MathML, figures, tables, navigation, sources. Exercise: task + `<details>`
   "Lösung"; `generated`: three worked tasks; component: its `nojs` text.
-- JS: controls, "Prüfen", feedback with focus. Solution only after an answer; wrong → why, retry or "Lösung zeigen".
-  `generated`: live task, "Neue Aufgabe", deep link `/<chapter>/<page>/?seed=<n>#<exercise>`. Components hydrate.
-- Stores nothing.
+- JS: controls, "Prüfen", feedback with focus. Solution only after an answer; wrong → why, retry or "Lösung".
+  `generated`: live task, "Neue Aufgabe", deep link `/<chapter>/<page>/?<exercise>=<n>#<exercise>`. Components
+  hydrate.
+- Stores only the assistant the learner switched on for the tutor, on the device, per app.
 
 ## Addresses
 
 - Page `/<chapter>/<page>/`; section `#<section>`, subsection `#<section>/<sub>`; exercise `#<exercise>`.
-- Glossary `/glossar/`. Other languages: same tree under `/<language>/`. Each tree has an `llms.txt`.
+- Glossary `/glossar/`. Other languages: same tree under `/<language>/`.
+- Tutor page of a page: `/<chapter>/<page>/tutor/`, its Markdown beside it (`index.md`).
 - Unknown address → 404 page to the start page. Moving or removing a page: change the entry topics in the same
   increment.
 
@@ -40,16 +42,18 @@
 
 ## Tutor
 
-- Build writes from the content: tutor notes in `llms.txt`, a `tutor.md` per page (each exercise: task, answer
-  format, solution, `hint`, mistakes, numbered tasks with links), a tutor prompt. Start page: "Mit einem KI-Tutor
-  lernen".
+- The learner's own assistant, after a click; the app sends nothing. The learner switches one on once (start page or
+  beside a page's title; `tutor.providers`, else Claude, ChatGPT, Le Chat, or copying the text), kept on the device.
+- Way A, "Mit <name> lernen" beside the title: one sentence naming the page's tutor page with the page's task
+  numbers. Way B, "Hilfe" ("Warum?" after a wrong answer) in every exercise: the task, the input and the app's
+  message. "Zurück" copies a result line back into the chat.
+- The tutor page is the one source of what the tutor gets, written by the build from the content: guide, the page's
+  content, every task of every exercise (`generated`: template and a table of each number's values, solution and
+  mistakes; component: `describe` per number, as far as 64 kB allow, `about`). No `tutor.md`, no task files, no
+  `llms.txt`.
+- Assistants fetch only addresses the user wrote: the tutor page is the one address. `tutor.rules` (in `src/app.yaml`)
+  adds the app's rules there and must not send the tutor anywhere else.
 - Numbered tasks: distinct tasks of an exercise, max 67, "Aufgabe Nr. 1" to N, link `?<id>=<n>#<id>`.
-- `src/app.yaml`: `tutor.rules` (app rules), `tutor.providers` (assistants). The app sends nothing.
 - Page address holds each seeded exercise's task number (`?<id1>=3&<id2>=12`), written on load and on "Neue
-  Aufgabe". `seed`, `von` are no exercise ids; `?seed=<n>#<id>` still works.
+  Aufgabe". `seed`, `von`, `uebung`, `abschnitt` are no exercise ids; `?seed=<n>#<id>` still works.
 - Changing a generator changes what shared numbers point to.
-- Every page ends with the tutor button + select (providers, Claude first, "Prompt kopieren"); the choice is kept
-  on the device.
-- The page prompt holds its address and the solved tasks of its numbers; no fetch needed.
-- Assistants fetch only addresses the user wrote: the short prompt lists every fetchable address (`llms.txt`, each
-  tutor file). `tutor.rules` must not send the tutor anywhere else.
