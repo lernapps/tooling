@@ -39,7 +39,7 @@
 <p class="la-preview" lang="en">Preview of a change. The real page: <a href="https://lernapps.net/tooling/en/rules/">lernapps.net/tooling/en/rules/</a></p><header class="la-header" lang="en">
   <div class="la-header__inner">
     <a class="la-brand" href="/en/" aria-label="lernapps.net – home page"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
-    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Find apps</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/pr-preview/pr-170/en/" aria-current="page">Tooling</a></li><li><a href="/en/features/">Features</a></li><li><a href="/docs/en/">That's why</a></li><li><a href="/en/join/">Get involved</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-170/rules/" hreflang="de" lang="de" data-la-lang="de" aria-label="Sprache: Deutsch">Deutsch</a></li></ul></nav>
+    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Find apps</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/pr-preview/pr-170/en/" aria-current="page">Tooling</a></li><li><a href="/en/features/">Features</a></li><li><a href="/docs/en/">Platform</a></li><li><a href="/en/join/">Get involved</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-170/rules/" hreflang="de" lang="de" data-la-lang="de" aria-label="Sprache: Deutsch">Deutsch</a></li></ul></nav>
   </div>
 </header>
   <main id="main-content" tabindex="-1">
@@ -85,6 +85,7 @@
 <tr><td><a href="#app-content-guide"><code>app-content-guide</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#app-content-matches"><code>app-content-matches</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#checks-pass"><code>checks-pass</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#early-preview"><code>early-preview</code></a></td><td>tooling</td><td>hint</td></tr>
 <tr><td><a href="#explore-before-code"><code>explore-before-code</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#few-turns-after-plan"><code>few-turns-after-plan</code></a></td><td>tooling</td><td>hint</td></tr>
 <tr><td><a href="#fix-from-message"><code>fix-from-message</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
@@ -432,6 +433,20 @@
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-check/SKILL.md"><code>skills/tooling/lernapps-check/SKILL.md</code></a>.</p>
+</section>
+
+<section id="early-preview">
+<h2>Show a first look early</h2>
+<p><code>early-preview</code> · tooling · hint</p>
+<div>
+<ul>
+<li>In Code, as soon as the first screen or page shows real content: send the creator a short &quot;Zwischenstand&quot;.</li>
+<li>Show screenshots, desktop and 360 px. On the creator's machine also the address of <code>npm run dev</code>, started in the background.</li>
+<li>No checkpoint, no question: go on in the same message. The creator may stop you or ask for a change.</li>
+<li>Example: &quot;Zwischenstand: So sieht die erste Seite aus. Ich baue weiter; sag Bescheid, wenn etwas nicht passt.&quot;</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>.</p>
 </section>
 
 <section id="explore-before-code">
@@ -1006,7 +1021,7 @@
 <li>Emits <code>answered</code> → <code>src/components/&lt;Name&gt;.ts</code> with pure, deterministic <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code>, <code>wrong(task)</code>; property test passes.</li>
 <li>Block lists <code>examples</code> with at least one <code>accepted</code> and one <code>rejected</code>, <code>{ answer, seed? }</code> in the shape of <code>check</code> (no seed: seeds 1–50), incl. another correct answer where the text allows.</li>
 <li>Declares prop <code>seed: number</code>, shows <code>generate(seed, props)</code>. The explainer gives the seed, shows &quot;Aufgabe Nr.&quot;, &quot;Neue Aufgabe&quot;, keeps <code>?&lt;id&gt;=&lt;n&gt;</code>: never draw a seed or offer &quot;next&quot; inside.</li>
-<li>Also exports <code>describe(task, props, lang)</code> → <code>{ task, solution }</code> (restricted Markdown, task exactly as shown) and <code>about = { task, answer, correct, mistakes }</code> (texts by language). The tutor reads only these (<code>tutor.md</code>, no-JS text).</li>
+<li>Also exports <code>describe(task, props, lang)</code> → <code>{ task, solution }</code> (restricted Markdown, task exactly as shown) and <code>about = { task, answer, correct, mistakes }</code> (texts by language). The tutor reads only these (the tutor page, no-JS text).</li>
 <li>Any exercise may carry <code>examples: { accepted, rejected }</code>; <code>generated</code>: expressions of <code>given</code> and <code>answer</code>, per seed (e.g. <code>reverse(answer)</code>).</li>
 </ul>
 </div>
