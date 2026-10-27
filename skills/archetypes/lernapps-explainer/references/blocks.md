@@ -38,8 +38,9 @@
       caption: Die 12 gefärbten Kästchen sind 12 % des Ganzen.
 ```
 
-- Images in `src/images/`; `source` (URL or citation), `licence` (SPDX id, e.g. `CC-BY-SA-4.0`, or `gemeinfrei`).
-  Several languages: a citation is a language map; a URL one string.
+- Images in `src/images/`: found under a free licence (e.g. Wikimedia Commons) or your own, generated or drawn as
+  SVG. Always `source` (URL or citation, e.g. `eigene Zeichnung`, `KI-generiert`) and `licence` (SPDX id, e.g.
+  `CC-BY-SA-4.0`, or `gemeinfrei`). Several languages: a citation is a language map; a URL one string.
 
 ## Videos
 
