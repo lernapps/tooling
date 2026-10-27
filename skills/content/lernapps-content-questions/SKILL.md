@@ -68,6 +68,8 @@ severity: hint
   background.
 - `number`: typical wrong numbers as `mistakes` (`answer`, `message`). Any question: an optional `hint`, not the
   answer.
+- A wrong answer's `message` (and an exercise component's `reason`) says what does not fit and where to look, never
+  the solution itself: the solution comes after the answer, with "Lösung" or the tutor.
 
 ## `quiz-further-reading`: Every question links to further reading
 

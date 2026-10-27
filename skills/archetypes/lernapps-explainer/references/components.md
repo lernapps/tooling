@@ -38,7 +38,7 @@
 - Does not count as the page's required exercise: the page also needs a question or a `generated` exercise.
 - `<Name>.ts`, pure: `generate(seed, props)`, `check(task, answer)` (boolean), `solution(task)`, `wrong(task)`,
   `reason(task, answer, props, lang)` (the app's message for a wrong answer from the props' texts, `undefined` for
-  none). Check the asked property, not equality with `solution`.
+  none; what does not fit, never the solution). A component shows nothing after "Prüfen" that gives the solution away. Check the asked property, not equality with `solution`.
 - Build tests 50 fixed seeds per block: same task per seed, solution passes, wrong fails, nothing throws.
 - `about.mistakes` from the same wrong answers as `examples.rejected`; `describe` states the task exactly as shown
   for that task number (no-JS text).
