@@ -39,6 +39,8 @@ license: MIT
   mistakes, hint and steps); a component.
 - Something no block can show or check → a component: read a value off a scale, label a figure, drag into place,
   build a circuit. Logic in its own module, tested; a text for readers without JavaScript.
+- Wanted, not only allowed: all that makes the content attractive - figures, drawings, labelled figures, tables,
+  timelines, videos; a component where no block fits.
 
 ## Decide
 
