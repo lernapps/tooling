@@ -863,6 +863,7 @@
 <li>Every option has an <code>info</code> of 1–3 sentences about the option, true either way (&quot;Der Nil fließt durch mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer.&quot;). A wrong option's <code>info</code> also says why it does not fit.</li>
 <li><code>explanation</code>: 1–3 sentences why the answer is right; for true-false, number, ordering and matching also the background.</li>
 <li><code>number</code>: typical wrong numbers as <code>mistakes</code> (<code>answer</code>, <code>message</code>). Any question: an optional <code>hint</code>, not the answer.</li>
+<li>A wrong answer's <code>message</code> (and an exercise component's <code>reason</code>) says what does not fit and where to look, never the solution itself: the solution comes after the answer, with &quot;Lösung&quot; or the tutor.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md"><code>review/archetypes/quiz.md</code></a>.</p>
@@ -1020,7 +1021,8 @@
 <p><code>vue-component-exercise-contract</code> · archetype:explainer · error</p>
 <div>
 <ul>
-<li>Emits <code>answered</code> → <code>src/components/&lt;Name&gt;.ts</code> with pure, deterministic <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code>, <code>wrong(task)</code>; property test passes.</li>
+<li>Emits <code>answer</code> → <code>src/components/&lt;Name&gt;.ts</code> with pure, deterministic <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code>, <code>wrong(task)</code>, <code>reason(task, answer, props, lang)</code>; property test passes.</li>
+<li>Emits no <code>answered</code> (the old contract): the explainer draws &quot;Prüfen&quot; and checks; a component draws none.</li>
 <li>Block lists <code>examples</code> with at least one <code>accepted</code> and one <code>rejected</code>, <code>{ answer, seed? }</code> in the shape of <code>check</code> (no seed: seeds 1–50), incl. another correct answer where the text allows.</li>
 <li>Declares prop <code>seed: number</code>, shows <code>generate(seed, props)</code>. The explainer gives the seed, shows &quot;Aufgabe Nr.&quot;, &quot;Neue Aufgabe&quot;, keeps <code>?&lt;id&gt;=&lt;n&gt;</code>: never draw a seed or offer &quot;next&quot; inside.</li>
 <li>Also exports <code>describe(task, props, lang)</code> → <code>{ task, solution }</code> (restricted Markdown, task exactly as shown) and <code>about = { task, answer, correct, mistakes }</code> (texts by language). The tutor reads only these (the tutor page, no-JS text).</li>
