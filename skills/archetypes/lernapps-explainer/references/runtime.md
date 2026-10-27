@@ -11,7 +11,8 @@
 
 - No JS: complete; text, formulas as MathML, figures, tables, navigation, sources. Exercise: task + `<details>`
   "Lösung"; `generated`: three worked tasks; component: its `nojs` text.
-- JS: controls, "Prüfen", feedback with focus. Solution only after an answer; wrong → why, retry or "Lösung".
+- JS: controls, "Prüfen", feedback with focus. Solution only after an answer; wrong → why, retry or "Lösung". An
+  exercise component gets "Prüfen" from the explainer too, under it.
   `generated`: live task, "Neue Aufgabe", deep link `/<chapter>/<page>/?<exercise>=<n>#<exercise>`. Components
   hydrate.
 - Video: no JS and before a click, title as a link to youtube.com, channel and a note that playing sends data to
