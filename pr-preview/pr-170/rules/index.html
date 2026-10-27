@@ -141,6 +141,7 @@
 <tr><td><a href="#vue-component-props-valid"><code>vue-component-props-valid</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#vue-component-size"><code>vue-component-size</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#vue-component-tested"><code>vue-component-tested</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#vue-component-tutor-table"><code>vue-component-tutor-table</code></a></td><td>archetype:explainer</td><td>hint</td></tr>
       </tbody>
     </table>
 <section id="accessible">
@@ -862,6 +863,7 @@
 <li>Every option has an <code>info</code> of 1–3 sentences about the option, true either way (&quot;Der Nil fließt durch mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer.&quot;). A wrong option's <code>info</code> also says why it does not fit.</li>
 <li><code>explanation</code>: 1–3 sentences why the answer is right; for true-false, number, ordering and matching also the background.</li>
 <li><code>number</code>: typical wrong numbers as <code>mistakes</code> (<code>answer</code>, <code>message</code>). Any question: an optional <code>hint</code>, not the answer.</li>
+<li>A wrong answer's <code>message</code> (and an exercise component's <code>reason</code>) says what does not fit and where to look, never the solution itself: the solution comes after the answer, with &quot;Lösung&quot; or the tutor.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/content/lernapps-content-questions/SKILL.md"><code>skills/content/lernapps-content-questions/SKILL.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/quiz.md"><code>review/archetypes/quiz.md</code></a>.</p>
@@ -1019,11 +1021,13 @@
 <p><code>vue-component-exercise-contract</code> · archetype:explainer · error</p>
 <div>
 <ul>
-<li>Emits <code>answered</code> → <code>src/components/&lt;Name&gt;.ts</code> with pure, deterministic <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code>, <code>wrong(task)</code>; property test passes.</li>
+<li>Emits <code>answer</code> → <code>src/components/&lt;Name&gt;.ts</code> with pure, deterministic <code>generate(seed, props)</code>, <code>check(task, answer)</code>, <code>solution(task)</code>, <code>wrong(task)</code>, <code>reason(task, answer, props, lang)</code>; property test passes.</li>
+<li>Emits no <code>answered</code> (the old contract): the explainer draws &quot;Prüfen&quot; and checks; a component draws none.</li>
 <li>Block lists <code>examples</code> with at least one <code>accepted</code> and one <code>rejected</code>, <code>{ answer, seed? }</code> in the shape of <code>check</code> (no seed: seeds 1–50), incl. another correct answer where the text allows.</li>
 <li>Declares prop <code>seed: number</code>, shows <code>generate(seed, props)</code>. The explainer gives the seed, shows &quot;Aufgabe Nr.&quot;, &quot;Neue Aufgabe&quot;, keeps <code>?&lt;id&gt;=&lt;n&gt;</code>: never draw a seed or offer &quot;next&quot; inside.</li>
 <li>Also exports <code>describe(task, props, lang)</code> → <code>{ task, solution }</code> (restricted Markdown, task exactly as shown) and <code>about = { task, answer, correct, mistakes }</code> (texts by language). The tutor reads only these (the tutor page, no-JS text).</li>
 <li>Any exercise may carry <code>examples: { accepted, rejected }</code>; <code>generated</code>: expressions of <code>given</code> and <code>answer</code>, per seed (e.g. <code>reverse(answer)</code>).</li>
+<li>With <code>template</code>, <code>params</code>, <code>mistakes</code> and <code>show</code> (all four or none, rule <code>vue-component-tutor-table</code>): <code>check</code> accepts the solution and rejects each mistake's answer, <code>params</code> gives the same names for every task, each placeholder of <code>template</code> is one of them.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -1103,6 +1107,19 @@
 <div>
 <ul>
 <li><code>src/components/&lt;Name&gt;.test.ts</code> per component, testing its logic: other right answers the text allows, typical wrong ones with reasons, edge cases. Run by <code>lernapps check</code>.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+</section>
+
+<section id="vue-component-tutor-table">
+<h2>An exercise component declares its exercise for the tutor</h2>
+<p><code>vue-component-tutor-table</code> · archetype:explainer · hint</p>
+<div>
+<ul>
+<li>The logic module also exports <code>template(props, lang)</code>: the task once, <code>{name}</code> for each input; <code>params(task, props, lang)</code>: the inputs by name (<code>{ G: 1260, p: 15 }</code>), numbers or texts, the same names for every task; <code>mistakes(task, props)</code>: per <code>about.mistakes</code>, in order, the answer it gives, <code>undefined</code> where none; <code>show(answer, task, props, lang)</code>: an answer as text, short (&quot;C&quot;, &quot;3 Kästchen&quot;).</li>
+<li>The tutor page then has the task once, the mistakes as F1, F2 … and a table of every number (inputs, solution, each mistake), like <code>generated</code>. Without them: each number's <code>describe</code> as far as 64 kB allow, and the build's hint names the block.</li>
+<li>Example: <code>src/components/ProzentFeld.ts</code> of the template.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
