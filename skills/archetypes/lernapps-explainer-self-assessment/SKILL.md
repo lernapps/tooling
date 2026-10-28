@@ -8,8 +8,11 @@ license: MIT
 
 ## What it is
 
+- Two kinds of page: a content page of the app (`/<chapter>/<page>/`), and a step, one page of the
+  self-assessment with a few exercises.
+
 - Optional, for the learner and for the app. Before learning, the learner answers exercises of the content pages,
-  without the page around them, a few on each page of the self-assessment.
+  without the page around them, a few on each step.
 - No exercise is checked alone. "Auswerten" checks all of them together. The result per content page:
   "Kannst du wahrscheinlich schon" (all right), "Schau sie dir noch einmal an" (at least half), "Lies sie genau"
   (less), "Nicht abgefragt" (none of its exercises asked).
@@ -31,18 +34,22 @@ license: MIT
 
 ## Choose the exercises
 
-- Read each page's competency under "Notes" ("Ich kann …"). Ask the exercise that checks it best.
+- Read each content page's competency under "Notes" ("Ich kann …"). No "Notes": take it from the page's title,
+  description and rule. Ask the exercises that check it best.
 - Prefer `generated`: each run draws a new task. Then `number`, `ordering`, `matching`, `multiple-choice`,
-  `single-choice`. `true-false` only beside another exercise of the same page: alone it is a coin toss.
+  `single-choice`. A content page asked only by exercises that can be guessed (`true-false`, a `single-choice` or a
+  small `matching`) gives a weak result: add a `generated` or `number` one of the same page.
 - Each must be clear without its page: no "wie im Beispiel oben", no figure that stands elsewhere on the page. A
   question carries its figure in `material`. Not clear alone → take another exercise of the page, or leave the page
   out.
-- An exercise component cannot be in it (build problem).
-- 1 to 3 exercises per page asked; more for a page with more to know.
+- An exercise component (a `vue-component` block whose component checks an answer) cannot be in it (build problem).
+  Its competency is then not asked, unless another exercise of the page checks it.
+- 1 to 3 exercises per content page asked; one alone decides the result of its page, so 2 where the page has them.
 
 ## Write it
 
-- Pages of the self-assessment: 2 to 5 exercises each, best 3 (else a build hint). Keep the order of the course.
+- Steps: 2 to 5 exercises each, best 3; fewer or more gives a build hint. Keep the order of the course, also within a
+  content page.
 - At most about 15 exercises in all: about ten minutes.
 - Each exercise by its page and id: `/<chapter>/<page>/#<exercise>`, each once.
 
@@ -54,8 +61,8 @@ selfAssessment:
         - /prozent/prozentsatz/#welche-rechnung
         - /prozent/prozentsatz/#prozentsatz-ueben
     - exercises:
-        - /prozent/grundwert/#grundwert-ueben
         - /prozent/grundwert/#klammern
+        - /prozent/grundwert/#grundwert-ueben
 ```
 
 - In the content guide (`.agents/skills/app-content/SKILL.md`), in the procedure for a new chapter or page, add the
@@ -64,10 +71,12 @@ selfAssessment:
 
 ## Check
 
-- Build and `lernapps check`: one line per problem, e.g.
+- Build and `lernapps check`: one line per problem (the hint on the size of a step names the step, not a line), e.g.
   `src/app.yaml:22: selfAssessment.pages[0].exercises[0]: /prozent/prozentwert/#prozent-raten names no exercise of src/prozent/prozentwert.yaml; …`.
   Fix where it points.
-- Do one run yourself in `npm run dev` at `/einschaetzung/`: each exercise clear alone? Then write the commit.
+- Do one run yourself in `npm run dev` at `/einschaetzung/`. For each exercise: no "oben", "im Beispiel" or other
+  reference to its page; its figure shows with it; the task is the whole question. For each content page asked: one
+  exercise at least that cannot be guessed. Then write the commit.
 - The end-to-end tests do two runs of each self-assessment: every answer right, and none.
 
 ## Gotchas
