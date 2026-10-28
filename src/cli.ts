@@ -40,7 +40,8 @@ import { ARCHITECTURE, hasArchitecture } from "../generator/architecture.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { update, UpdateError } from "../generator/update.ts";
 import { countFailedChecks, countPrePushFailure } from "./plan.ts";
-import { CHECK_OPTIONS, CHECK_USAGE, USAGE, UsageError } from "./usage.ts";
+import { NoBrowser, ScreenshotsError, screenshots } from "./screenshots.ts";
+import { CHECK_OPTIONS, CHECK_USAGE, SCREENSHOTS_USAGE, USAGE, UsageError } from "./usage.ts";
 
 /** A step of a part: a command of the project's toolchain and what it checks. */
 interface Step {
@@ -686,6 +687,33 @@ async function check(args: string[]): Promise<number> {
   return failed(report) ? 1 : 0;
 }
 
+async function screenshotsCommand(args: string[]): Promise<number> {
+  if (args.includes("-h") || args.includes("--help")) {
+    process.stdout.write(SCREENSHOTS_USAGE);
+    return 0;
+  }
+  try {
+    process.stdout.write(await screenshots(args));
+    return 0;
+  } catch (error) {
+    if (error instanceof ScreenshotsError) {
+      process.stderr.write(`lernapps screenshots: ${error.message}\n`);
+      return 1;
+    }
+    if (!(error instanceof NoBrowser)) throw error;
+    // the finding `lernapps check` gives for a browser that cannot start
+    process.stdout.write(
+      toYaml({
+        checked: { bundle: error.bundle },
+        rules: [APP_CHECKABLE],
+        findings: [browserFinding(error.error, APP_CHECKABLE)],
+        suppressions: [],
+      }),
+    );
+    return 1;
+  }
+}
+
 async function main(argv: string[]): Promise<number> {
   const [command, ...rest] = argv;
   switch (command) {
@@ -697,6 +725,8 @@ async function main(argv: string[]): Promise<number> {
       return create(rest);
     case "hooks":
       return installHooks(rest);
+    case "screenshots":
+      return screenshotsCommand(rest);
     case "update":
       return update(rest);
     case "-h":

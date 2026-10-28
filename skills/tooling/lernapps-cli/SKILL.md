@@ -1,6 +1,6 @@
 ---
-name: lernapps-check
-description: Use in Code of a lernapps.net app - to create or update the app with the CLI, whenever a check, a git hook or a runtime test fails, and before you change the preset, the configuration or the storage. What `lernapps create`, `update` and `check` do, how to fix from a message, when to suppress, and what of the preset you never change.
+name: lernapps-cli
+description: Use in Code of a lernapps.net app - to create or update the app with the CLI, whenever a check, a git hook or a runtime test fails, and before you change the preset, the configuration or the storage. What `lernapps create`, `update`, `check` and `screenshots` do, how to fix from a message, when to suppress, and what of the preset you never change.
 license: MIT
 ---
 
@@ -32,6 +32,18 @@ license: MIT
 - `npx lernapps check`: format, lint, types, unit tests, build, checks of the built app, end-to-end tests. The hooks
   run its parts (`--pre-commit`, `--pre-push`); CI runs it whole.
 - Report: `node_modules/.cache/lernapps/validation-report.yaml`. Options: `npx lernapps check --help`.
+
+## Look at the app
+
+A check says the rules hold; only a look says what a learner sees. Show the creator the pages before a push, and before
+a submission they declare something about.
+
+- Explainer or quiz: build (`npx vp build`), then `npx lernapps screenshots`. It writes one image of every page and an
+  `index.html` that shows them in order to `screenshots/` (not part of the app: do not commit it). Show the images, or
+  the `index.html` where you can show HTML. `--desktop` adds 1280 px images. Options: `npx lernapps screenshots --help`.
+- Interactive app: `screenshots` does not support it. Open the built app with the Playwright the tooling installs
+  (`import { chromium } from "playwright"`), at 390 px width, and take `page.screenshot({ fullPage: true })` of each
+  state the creator should see, from a short script outside the app.
 
 ## A check fails
 

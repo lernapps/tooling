@@ -44,7 +44,7 @@ flowchart LR
         bb-process-guidance["Process guidance"]
         bb-generator["Generator"]
         bb-skills["Skills"]
-        bb-check-cli["Check CLI"]
+        bb-check-cli["Alignment CLI"]
         bb-archetypes["Archetype presets"]
         bb-review-procedure["Review procedure"]
         bb-app-check-action["App check action"]

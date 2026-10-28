@@ -70,7 +70,7 @@ license: MIT
 
 ### Storage
 
-- `createStorage` (`storage-through-wrapper`, skill `lernapps-check`).
+- `createStorage` (`storage-through-wrapper`, skill `lernapps-cli`).
 
 ## Architecture (arc42)
 

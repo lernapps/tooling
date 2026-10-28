@@ -81,7 +81,8 @@ The runtime of the creator's assistant, whichever it is. It receives the agent i
 writes into the app, and the skills, copied from GitHub into the harness and refreshed the same way: those of every
 phase at the start, those of the archetype when Explore chooses it. Before the app
 exists, the assistant starts the plan from the published template. The harness decides when to load a skill; its own
-hooks may add convenience but enforce nothing.
+hooks may add convenience but enforce nothing. Its skill `lernapps-cli` tells it how to run the CLI, also how to show
+the creator the pages of the app (`lernapps screenshots`).
 
 ```arc42
 :::deployment-node
@@ -89,7 +90,7 @@ id: dn-agent-harness
 title: Creator's agent harness, with AGENTS.md and the skill folder
 type: environment
 parent: dn-creator-machine
-hosts: bb-process-guidance, bb-skills, bb-skills-explore, bb-skills-plan, bb-skills-code, bb-skills-commit, bb-skill-app, bb-skill-content-research, bb-skill-quiz-design, bb-skill-explainer-design, bb-skill-interactive-design, bb-skill-exercise-patterns, bb-skill-content-growth, bb-skill-check, bb-skill-quiz, bb-skill-explainer, bb-skill-interactive, bb-skill-content-questions, bb-skill-github, bb-skill-commit, bb-skill-listing
+hosts: bb-process-guidance, bb-skills, bb-skills-explore, bb-skills-plan, bb-skills-code, bb-skills-commit, bb-skill-app, bb-skill-content-research, bb-skill-quiz-design, bb-skill-explainer-design, bb-skill-interactive-design, bb-skill-exercise-patterns, bb-skill-content-growth, bb-skill-cli, bb-skill-quiz, bb-skill-explainer, bb-skill-interactive, bb-skill-content-questions, bb-skill-github, bb-skill-commit, bb-skill-listing
 :::
 ```
 
