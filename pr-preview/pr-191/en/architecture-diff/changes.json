@@ -5,33 +5,15 @@
     "commit": "204d7ac87338a1ec21676a7d997234e1d3cc23a4"
   },
   "head": {
-    "label": "23de275671b2ea7e0c1850265217c50efa94271e"
+    "label": "bb18ce48e484cb6fc8af5f62e3cc671c8d518500"
   },
   "acceptanceBase": "204d7ac87338a1ec21676a7d997234e1d3cc23a4",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": true,
-  "findings": [
-    {
-      "kind": "block-without-prose-change",
-      "severity": "warning",
-      "file": "docs/arc42/07-deployment-view.arc42.md",
-      "line": 87,
-      "elementId": "dn-agent-harness",
-      "message": "Block 'dn-agent-harness' changed without changing its section prose."
-    }
-  ],
+  "hasBlockingFindings": false,
+  "findings": [],
   "groups": {
-    "warnings": [
-      {
-        "kind": "block-without-prose-change",
-        "severity": "warning",
-        "file": "docs/arc42/07-deployment-view.arc42.md",
-        "line": 87,
-        "elementId": "dn-agent-harness",
-        "message": "Block 'dn-agent-harness' changed without changing its section prose."
-      }
-    ],
+    "warnings": [],
     "untouched": [],
     "updated": [],
     "uncovered": []
@@ -162,14 +144,14 @@
             ]
           }
         ],
-        "proseChanged": false,
+        "proseChanged": true,
         "base": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
           "line": 87
         },
         "head": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
-          "line": 87
+          "line": 88
         },
         "section": {
           "file": "docs/arc42/07-deployment-view.arc42.md",
