@@ -5,6 +5,8 @@
 - Bundled; nothing from other servers before a click (`no-request-before-click`); others' images with source and
   licence (`third-party-licence`).
 - Works at 360 px: trees top to bottom; too wide → table, or split by stage.
+- Check each figure in its own image of `npx lernapps screenshots` (`…-figure-<n>.png`), not in the page image: there
+  it is scaled down, a wrong line or label goes unseen.
 - Same conventions (colours, labels, units, orientation) across the app; write them into the guide, "Figures".
 - The same figures work in a quiz question (`material`, skill `lernapps-content-questions`): an image of `src/images/` with
   `alt`, `caption`, `source` and `licence`.
