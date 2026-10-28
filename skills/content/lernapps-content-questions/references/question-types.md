@@ -7,7 +7,7 @@
 | `true-false` | `answer` (true or false) |
 | `number` | `answer`, `tolerance` (0 = exact), `unit` if any; the learner may type a comma or a point |
 | `ordering` | `items` in the right order; the page mixes them |
-| `matching` | `pairs` as they belong; the page mixes the right side |
+| `matching` | `pairs` as they belong; the page mixes the right side. `distractors` (1 to 4): wrong right entries that match no left one. `pairsFrom: material` instead of `pairs` takes them from the `labelled-figure` in `material` (marker left, text right; the figure needs `legend: false`) |
 
 - Every question: `id`, `text`, `explanation`, at least one link in `links`. Optional quiz `sources`.
 - Types without options carry their background in `explanation`.
