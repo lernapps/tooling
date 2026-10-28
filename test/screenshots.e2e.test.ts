@@ -67,11 +67,13 @@ function indexed(folder: string): {
   };
 }
 
-/** The figures with a picture in a built page, as the build writes it: a <figure> that holds an <img> or an <svg>. */
+/**
+ * The figures with a picture in a built page, as the build writes it: a <figure> that holds an <img> or an <svg>. One in
+ * a <template> is not on the page without JavaScript, such as one of a self-assessment's exercises.
+ */
 function figuresIn(file: string): number {
-  return [...readFileSync(file, "utf8").matchAll(/<figure\b[\s\S]*?<\/figure>/g)].filter((match) =>
-    /<(?:img|svg)\b/.test(match[0]),
-  ).length;
+  const page = readFileSync(file, "utf8").replace(/<template\b[\s\S]*?<\/template>/g, "");
+  return [...page.matchAll(/<figure\b[\s\S]*?<\/figure>/g)].filter((match) => /<(?:img|svg)\b/.test(match[0])).length;
 }
 
 /** Whether the folder holds exactly the images and the index.html, nothing else. */

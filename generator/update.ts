@@ -203,7 +203,8 @@ function migratePlan(): string[] {
 /**
  * The skills of this tooling, as it ships them (skills/<group>/<name>/), and as the app keeps them (flat, by name).
  * Every app has those of the groups process, tooling and content; of the group archetypes only those of its own
- * archetype (lernapps-<archetype>-design, lernapps-<archetype>), which the plan installs when Explore chooses it.
+ * archetype (lernapps-<archetype> and lernapps-<archetype>-<part>, e.g. lernapps-explainer-design), which the plan
+ * installs in the phase that needs it.
  */
 const SKILL_PREFIX = "lernapps-";
 const ARCHETYPE_GROUP = "archetypes";
@@ -268,7 +269,7 @@ export function replaceSkills(dir = ".", source = fromPackage("skills")): string
   const archetype = plan === undefined ? undefined : planFrontMatter(join(dir, plan))["archetype"];
   const own = (name: string) =>
     typeof archetype === "string"
-      ? name === `${SKILL_PREFIX}${archetype}` || name === `${SKILL_PREFIX}${archetype}-design`
+      ? name === `${SKILL_PREFIX}${archetype}` || name.startsWith(`${SKILL_PREFIX}${archetype}-`)
       : present.includes(name);
   const shipped = shippedSkills(source).filter(({ name, group }) => group !== ARCHETYPE_GROUP || own(name));
   const folder = new Map(shipped.map(({ name, path }) => [name, path]));

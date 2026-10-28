@@ -189,12 +189,16 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 - Put the app on GitHub, publish it with the creator's yes, then list it. A push to `main` publishes.
 - Open the pull requests (to `main`, to the catalog) without asking: they publish nothing; their preview and result
   are what the creator decides on.
-- Skills: `lernapps-github`, `lernapps-commit`, `lernapps-listing`.
+- Skills: `lernapps-explainer-self-assessment` (an explainer), `lernapps-github`, `lernapps-commit`,
+  `lernapps-listing`.
 -->
 
 ### Tasks
 
 - [ ] `grep '^phase:'` prints `phase: commit`; else set it.
+- [ ] An explainer: install skill `lernapps-explainer-self-assessment` if missing (`npx --yes skills add
+      lernapps/tooling -y -s lernapps-explainer-self-assessment`), load it. Add the self-assessment as it says, or
+      write under "Key decisions" why the app has none. Commit; the hooks check.
 - [ ] Load skill `lernapps-github`. Repo and Pages as it says: ask the repo name and every click only the creator can
       make in one message.
 - [ ] Push `work`, open the preview pull request, see its checks to green as the skill says.

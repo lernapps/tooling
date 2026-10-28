@@ -103,11 +103,17 @@ test("the skills by phase come from the skills' building blocks and their x-phas
   const { phases, archetypes } = skillsByPhase(elements());
   expect(phases["explore"]).toContain("lernapps-app");
   expect(phases["code"]).toContain("lernapps-cli");
-  expect(phases["commit"]?.toSorted()).toEqual(["lernapps-commit", "lernapps-github", "lernapps-listing"]);
+  expect(phases["commit"]?.toSorted()).toEqual([
+    "lernapps-commit",
+    "lernapps-explainer-self-assessment",
+    "lernapps-github",
+    "lernapps-listing",
+  ]);
   expect(archetypes).toMatchObject({
     "lernapps-quiz": "quiz",
     "lernapps-quiz-design": "quiz",
     "lernapps-explainer": "explainer",
+    "lernapps-explainer-self-assessment": "explainer",
   });
   expect(archetypes["lernapps-app"]).toBeUndefined();
 });

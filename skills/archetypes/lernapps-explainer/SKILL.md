@@ -29,3 +29,5 @@ license: MIT
 - A build problem is one line `file:line: place (language): what to do`. Fix where it points.
 - Headings are `section` blocks, never Markdown headings.
 - A new chapter: a folder with `chapter.yaml`, listed in `src/app.yaml`, each page listed in `chapter.yaml`.
+- `selfAssessment` in a `chapter.yaml`: written in Commit, skill
+  `lernapps-explainer-self-assessment`. An exercise it names renamed or moved → change the reference too.

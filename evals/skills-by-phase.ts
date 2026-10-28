@@ -36,8 +36,7 @@ export function skillsByPhase(elements: Element[]): Omit<SkillsByPhase, "guidanc
     for (const phase of (element.extensions?.["phase"] ?? "").split(",").map((p) => p.trim())) {
       if (phase) (phases[phase] ??= []).push(name);
     }
-    if (element.path.startsWith("skills/archetypes/"))
-      archetypes[name] = name.replace(/^lernapps-/, "").replace(/-design$/, "");
+    if (element.path.startsWith("skills/archetypes/")) archetypes[name] = /^lernapps-([a-z]+)/.exec(name)?.[1] ?? name;
   }
   return { phases, archetypes };
 }

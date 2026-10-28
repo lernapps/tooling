@@ -131,6 +131,7 @@ flowchart LR
             bb-skill-content-questions["lernapps-content-questions"]
         end
         subgraph bb-skills-commit["Commit"]
+            bb-skill-explainer-self-assessment["lernapps-explainer-self-assessment"]
             bb-skill-github["lernapps-github"]
             bb-skill-commit["lernapps-commit"]
             bb-skill-listing["lernapps-listing"]
@@ -510,6 +511,26 @@ id: bb-skills-commit
 title: Commit skills
 parent: bb-skills
 technology: Markdown (agentskills.io)
+:::
+```
+
+##### lernapps-explainer-self-assessment
+
+Goal: An explainer offers a self-assessment that fits its content: exercises that can be checked and are clear without
+their page, a few on each of its pages, or a stated reason why it has none. It comes at the end, when the content and
+its forms of teaching are known.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-explainer-self-assessment
+title: lernapps-explainer-self-assessment
+parent: bb-skills-commit
+path: skills/archetypes/lernapps-explainer-self-assessment
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+x-phase: commit
+x-agent: Chooses the exercises of the self-assessment of an explainer and writes it into its content, or notes why there is none.
 :::
 ```
 

@@ -56,6 +56,7 @@
     "./guidance/subagent-brief.md": "./guidance/subagent-brief.md",
     "./skills/archetypes/lernapps-explainer-design/SKILL.md": "./skills/archetypes/lernapps-explainer-design/SKILL.md",
     "./skills/archetypes/lernapps-explainer-design/references/rules.md": "./skills/archetypes/lernapps-explainer-design/references/rules.md",
+    "./skills/archetypes/lernapps-explainer-self-assessment/SKILL.md": "./skills/archetypes/lernapps-explainer-self-assessment/SKILL.md",
     "./skills/archetypes/lernapps-explainer/SKILL.md": "./skills/archetypes/lernapps-explainer/SKILL.md",
     "./skills/archetypes/lernapps-explainer/references/blocks.md": "./skills/archetypes/lernapps-explainer/references/blocks.md",
     "./skills/archetypes/lernapps-explainer/references/components.md": "./skills/archetypes/lernapps-explainer/references/components.md",
@@ -128,7 +129,7 @@
   },
   "appTemplates": {
     "repository": "https://github.com/lernapps/app-templates.git",
-    "commit": "64b3c88cf7ca9772d979e16bc36ee3b249c283bb",
+    "commit": "281e5728be8bc7c3ad20d0d04db3deb4eb45399a",
     "archetypes": [
       "explainer",
       "interactive",
