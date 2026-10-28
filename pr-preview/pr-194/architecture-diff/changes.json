@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "base": {
+    "label": "be9a76dd094f0b288a1a821792b881128debd7fa",
+    "commit": "be9a76dd094f0b288a1a821792b881128debd7fa"
+  },
+  "head": {
+    "label": "cf8626466a2ff4f202638d5eb54f48da6a567c46"
+  },
+  "acceptanceBase": "be9a76dd094f0b288a1a821792b881128debd7fa",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "dec-archetypes",
+        "kind": "decision",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 35
+        },
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 40
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "Archetypes as the variation point"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
