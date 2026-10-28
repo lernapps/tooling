@@ -128,7 +128,7 @@
   },
   "appTemplates": {
     "repository": "https://github.com/lernapps/app-templates.git",
-    "commit": "a0d58d8922872083b30344a11ce055182f13d370",
+    "commit": "6ea49134cc6f5a96bedc1d9f7c0db7acc10ccc70",
     "archetypes": [
       "explainer",
       "interactive",
