@@ -44,14 +44,16 @@ license: MIT
   out.
 - An exercise component (a `vue-component` block whose component checks an answer) cannot be in it (build problem).
   Its competency is then not asked, unless another exercise of the page checks it.
-- 1 to 3 exercises per content page asked; one alone decides the result of its page, so 2 where the page has them.
+- 2 or 3 exercises per content page asked: with one alone, the page is never "Kannst du wahrscheinlich schon". A page
+  with one fitting `generated` exercise: list it twice, each listing draws a task of its own. A question is listed
+  once.
 
 ## Write it
 
 - Steps: 2 to 5 exercises each, best 3; fewer or more gives a build hint. Keep the order of the course, also within a
   content page.
 - About 3 to 8 exercises per chapter; the app's, every chapter's together, at most about 15 to 20: about ten minutes.
-- Each exercise by its page and id: `/<chapter>/<page>/#<exercise>`, of the chapter's own pages, each once.
+- Each exercise by its page and id: `/<chapter>/<page>/#<exercise>`, of the chapter's own pages.
 
 ```yaml
 # src/prozent/chapter.yaml
@@ -72,7 +74,7 @@ selfAssessment:
 
 ## Check
 
-- Build and `lernapps check`: one line per problem (the hint on the size of a step names the step, not a line), e.g.
+- Build and `lernapps check`: one line per problem (the hint on the size of a step names its file and place), e.g.
   `src/prozent/chapter.yaml:9: selfAssessment.pages[0].exercises[0]: /prozent/prozentwert/#prozent-raten names no exercise of src/prozent/prozentwert.yaml; …`.
   Fix where it points.
 - Do one run yourself in `npm run dev` at `/einschaetzung/`, and one at `/<chapter>/einschaetzung/?von=tutor`: it
