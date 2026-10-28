@@ -77,7 +77,7 @@ selfAssessment:
 - Build and `lernapps check`: one line per problem (the hint on the size of a step names its file and place), e.g.
   `src/prozent/chapter.yaml:9: selfAssessment.pages[0].exercises[0]: /prozent/prozentwert/#prozent-raten names no exercise of src/prozent/prozentwert.yaml; …`.
   Fix where it points.
-- Do one run yourself in `npm run dev` at `/einschaetzung/`, and one at `/<chapter>/einschaetzung/?von=tutor`: it
+- Do one run yourself in `npm run dev` at `/einschaetzung/`, and one at `/<chapter>/einschaetzung/?via=tutor`: it
   ends in "Zurück zum Tutor". For each exercise: no "oben", "im Beispiel" or other
   reference to its page; its figure shows with it; the task is the whole question. For each content page asked: one
   exercise at least that cannot be guessed. Then write the commit.

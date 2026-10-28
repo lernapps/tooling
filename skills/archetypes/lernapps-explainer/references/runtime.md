@@ -22,7 +22,7 @@
   self-assessment the learner did.
 - Self-assessment (`selfAssessment` per chapter, JS only): a chapter's on its page, the app's (every chapter's) on
   the start page; its exercises without "Prüfen", checked together at "Auswerten"; the result per content page. With
-  `von=tutor` it keeps nothing and ends in "Zurück zum Tutor". Skill `lernapps-explainer-self-assessment`.
+  `via=tutor` it keeps nothing and ends in "Zurück zum Tutor". Skill `lernapps-explainer-self-assessment`.
 
 ## Addresses
 
@@ -63,4 +63,4 @@
   It neither calculates nor invents: these must be complete and right.
 - `src/app.yaml`: `tutor.rules`, the app's rules for the tutor; never send it to another address.
 - Task numbers 1 to N (max 67) are what learner, tutor and address (`?<id>=<n>`) share; changing a generator changes
-  what a number points to. `seed`, `von`, `uebung`, `abschnitt` are no exercise ids.
+  what a number points to. `seed`, `via`, `uebung`, `abschnitt` are no exercise ids.
