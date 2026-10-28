@@ -150,12 +150,16 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 - Publish with the creator's yes. A push to `main` publishes.
 - Open the pull requests (to `main`, to the catalog) without asking: they publish nothing; their preview and result
   are what the creator decides on.
-- Skills: `lernapps-github`, `lernapps-commit`, `lernapps-listing`.
+- Skills: `lernapps-explainer-self-assessment` (an explainer), `lernapps-github`, `lernapps-commit`,
+  `lernapps-listing`.
 -->
 
 ### Tasks
 
 - [ ] `grep '^phase:'` prints `phase: commit`; else set it.
+- [ ] An explainer whose pages or exercises changed: install skill `lernapps-explainer-self-assessment` if missing
+      (`npx --yes skills add lernapps/tooling -y -s lernapps-explainer-self-assessment`), load it. Update the
+      self-assessment as it says (add one, if the app has none and the skill says so). Commit; the hooks check.
 - [ ] Load skill `lernapps-github`. Push the branch, open the preview pull request, see its checks to green as it
       says.
 - [ ] **Checkpoint:** publish. Show what the increment adds and the preview link; ask whether it may go online. Wait

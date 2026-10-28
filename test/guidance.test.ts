@@ -247,7 +247,7 @@ describe("the skills", () => {
     }
   });
 
-  test("the plan template installs every skill but the archetypes' at the start, and those when Explore chooses one", () => {
+  test("the plan template installs every skill but the archetypes' at the start, and those when Explore chooses one or Commit needs one", () => {
     const explore = section(read(TEMPLATE), "## Explore");
     const [base, archetype] = [...explore.matchAll(/npx --yes skills add[\s\S]*?`/g)].map((match) => match[0]);
     const groups = (...names: string[]) =>
@@ -259,7 +259,15 @@ describe("the skills", () => {
         .sort(),
     ).toEqual(groups("process", "tooling", "content"));
     expect(archetype).toContain("lernapps-<archetype>-design lernapps-<archetype>");
-    for (const name of groups("archetypes")) expect(name).toMatch(/^lernapps-(quiz|explainer|interactive)(-design)?$/);
+    for (const name of groups("archetypes")) {
+      expect(name).toMatch(/^lernapps-(quiz|explainer|interactive)(-design)?$|^lernapps-explainer-self-assessment$/);
+    }
+    // the explainer's self-assessment, once its content is known: in Commit, of the first version and of every increment
+    for (const file of [TEMPLATE, "guidance/increment-template.md"]) {
+      expect(section(read(file), "## Commit")).toMatch(
+        /npx --yes skills add\s+lernapps\/tooling -y -s lernapps-explainer-self-assessment`/,
+      );
+    }
   });
 
   test("the listing skill points to the entry schema and the catalog's listing guide instead of repeating them", () => {

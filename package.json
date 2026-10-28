@@ -56,6 +56,7 @@
     "./guidance/subagent-brief.md": "./guidance/subagent-brief.md",
     "./skills/archetypes/lernapps-explainer-design/SKILL.md": "./skills/archetypes/lernapps-explainer-design/SKILL.md",
     "./skills/archetypes/lernapps-explainer-design/references/rules.md": "./skills/archetypes/lernapps-explainer-design/references/rules.md",
+    "./skills/archetypes/lernapps-explainer-self-assessment/SKILL.md": "./skills/archetypes/lernapps-explainer-self-assessment/SKILL.md",
     "./skills/archetypes/lernapps-explainer/SKILL.md": "./skills/archetypes/lernapps-explainer/SKILL.md",
     "./skills/archetypes/lernapps-explainer/references/blocks.md": "./skills/archetypes/lernapps-explainer/references/blocks.md",
     "./skills/archetypes/lernapps-explainer/references/components.md": "./skills/archetypes/lernapps-explainer/references/components.md",
