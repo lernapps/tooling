@@ -5,21 +5,83 @@
     "commit": "204d7ac87338a1ec21676a7d997234e1d3cc23a4"
   },
   "head": {
-    "label": "a4103c5cf96c689268400c23795752c262a9411b"
+    "label": "23de275671b2ea7e0c1850265217c50efa94271e"
   },
   "acceptanceBase": "204d7ac87338a1ec21676a7d997234e1d3cc23a4",
   "untracked": [],
   "accepted": false,
-  "hasBlockingFindings": false,
-  "findings": [],
+  "hasBlockingFindings": true,
+  "findings": [
+    {
+      "kind": "block-without-prose-change",
+      "severity": "warning",
+      "file": "docs/arc42/07-deployment-view.arc42.md",
+      "line": 87,
+      "elementId": "dn-agent-harness",
+      "message": "Block 'dn-agent-harness' changed without changing its section prose."
+    }
+  ],
   "groups": {
-    "warnings": [],
+    "warnings": [
+      {
+        "kind": "block-without-prose-change",
+        "severity": "warning",
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "line": 87,
+        "elementId": "dn-agent-harness",
+        "message": "Block 'dn-agent-harness' changed without changing its section prose."
+      }
+    ],
     "untouched": [],
     "updated": [],
     "uncovered": []
   },
   "architecture": {
     "elements": [
+      {
+        "id": "bb-skill-cli",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 418
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-cli"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-skill-check",
+        "kind": "building-block",
+        "status": "removed",
+        "attributes": [],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 418
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Code skills",
+            "lernapps-check"
+          ],
+          "occurrence": 1
+        }
+      },
       {
         "id": "bb-check-cli",
         "kind": "building-block",
@@ -44,14 +106,163 @@
           ],
           "occurrence": 1
         }
+      },
+      {
+        "id": "dn-agent-harness",
+        "kind": "deployment-node",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "hosts",
+            "before": [
+              "bb-process-guidance",
+              "bb-skills",
+              "bb-skills-explore",
+              "bb-skills-plan",
+              "bb-skills-code",
+              "bb-skills-commit",
+              "bb-skill-app",
+              "bb-skill-content-research",
+              "bb-skill-quiz-design",
+              "bb-skill-explainer-design",
+              "bb-skill-interactive-design",
+              "bb-skill-exercise-patterns",
+              "bb-skill-content-growth",
+              "bb-skill-check",
+              "bb-skill-quiz",
+              "bb-skill-explainer",
+              "bb-skill-interactive",
+              "bb-skill-content-questions",
+              "bb-skill-github",
+              "bb-skill-commit",
+              "bb-skill-listing"
+            ],
+            "after": [
+              "bb-process-guidance",
+              "bb-skills",
+              "bb-skills-explore",
+              "bb-skills-plan",
+              "bb-skills-code",
+              "bb-skills-commit",
+              "bb-skill-app",
+              "bb-skill-content-research",
+              "bb-skill-quiz-design",
+              "bb-skill-explainer-design",
+              "bb-skill-interactive-design",
+              "bb-skill-exercise-patterns",
+              "bb-skill-content-growth",
+              "bb-skill-cli",
+              "bb-skill-quiz",
+              "bb-skill-explainer",
+              "bb-skill-interactive",
+              "bb-skill-content-questions",
+              "bb-skill-github",
+              "bb-skill-commit",
+              "bb-skill-listing"
+            ]
+          }
+        ],
+        "proseChanged": false,
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 87
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 87
+        },
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "Creator's machine",
+            "Creator's agent harness"
+          ],
+          "occurrence": 1
+        }
       }
     ],
-    "diagrams": [],
-    "edges": [],
+    "diagrams": [
+      {
+        "id": "building-blocks-skills",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "flowchart LR\n    subgraph bb-skills[\"Skills\"]\n        subgraph bb-skills-explore[\"Explore\"]\n            bb-skill-app[\"lernapps-app\"]\n            bb-skill-content-research[\"lernapps-content-research\"]\n            bb-skill-exercise-patterns[\"lernapps-exercise-patterns\"]\n            bb-skill-quiz-design[\"lernapps-quiz-design\"]\n            bb-skill-explainer-design[\"lernapps-explainer-design\"]\n            bb-skill-interactive-design[\"lernapps-interactive-design\"]\n        end\n        subgraph bb-skills-plan[\"Plan\"]\n            bb-skill-content-growth[\"lernapps-content-growth\"]\n        end\n        subgraph bb-skills-code[\"Code\"]\n            bb-skill-check[\"lernapps-check\"]\n            bb-skill-quiz[\"lernapps-quiz\"]\n            bb-skill-explainer[\"lernapps-explainer\"]\n            bb-skill-interactive[\"lernapps-interactive\"]\n            bb-skill-content-questions[\"lernapps-content-questions\"]\n        end\n        subgraph bb-skills-commit[\"Commit\"]\n            bb-skill-github[\"lernapps-github\"]\n            bb-skill-commit[\"lernapps-commit\"]\n            bb-skill-listing[\"lernapps-listing\"]\n        end\n        bb-skills-explore ~~~ bb-skills-plan ~~~ bb-skills-code ~~~ bb-skills-commit\n    end",
+            "after": "flowchart LR\n    subgraph bb-skills[\"Skills\"]\n        subgraph bb-skills-explore[\"Explore\"]\n            bb-skill-app[\"lernapps-app\"]\n            bb-skill-content-research[\"lernapps-content-research\"]\n            bb-skill-exercise-patterns[\"lernapps-exercise-patterns\"]\n            bb-skill-quiz-design[\"lernapps-quiz-design\"]\n            bb-skill-explainer-design[\"lernapps-explainer-design\"]\n            bb-skill-interactive-design[\"lernapps-interactive-design\"]\n        end\n        subgraph bb-skills-plan[\"Plan\"]\n            bb-skill-content-growth[\"lernapps-content-growth\"]\n        end\n        subgraph bb-skills-code[\"Code\"]\n            bb-skill-cli[\"lernapps-cli\"]\n            bb-skill-quiz[\"lernapps-quiz\"]\n            bb-skill-explainer[\"lernapps-explainer\"]\n            bb-skill-interactive[\"lernapps-interactive\"]\n            bb-skill-content-questions[\"lernapps-content-questions\"]\n        end\n        subgraph bb-skills-commit[\"Commit\"]\n            bb-skill-github[\"lernapps-github\"]\n            bb-skill-commit[\"lernapps-commit\"]\n            bb-skill-listing[\"lernapps-listing\"]\n        end\n        bb-skills-explore ~~~ bb-skills-plan ~~~ bb-skills-code ~~~ bb-skills-commit\n    end"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 104
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 104
+        }
+      }
+    ],
+    "edges": [
+      {
+        "status": "removed",
+        "edge": {
+          "from": "bb-skill-check",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "removed",
+        "edge": {
+          "from": "bb-skill-check",
+          "to": "bb-skills-code",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-cli",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-cli",
+          "to": "bb-skills-code",
+          "relation": "parent"
+        }
+      },
+      {
+        "status": "removed",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-check",
+          "relation": "hosts"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dn-agent-harness",
+          "to": "bb-skill-cli",
+          "relation": "hosts"
+        }
+      }
+    ],
     "proseSections": [],
     "documents": [
       {
         "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 1,
+        "modified": 2,
+        "removed": 1
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
         "added": 0,
         "modified": 1,
         "removed": 0
