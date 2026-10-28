@@ -31,6 +31,11 @@ The architecture fixes the variation point, not the list of archetypes. **Conseq
 template, skills and perhaps a runtime, but no new building block. It is justified only by a different set of rules,
 stack or review.
 
+The tooling may hold knowledge of one archetype, as skills, rules in the scope `archetype:<name>` and presets. It
+holds no code that reads an archetype's content: the checks of the content run in the archetype's runtime, in
+lernapps/app-templates, and the tooling lists their rule ids. The tooling relates to a template only to scaffold an
+app from it (`dec-templates-repo`); after that the app depends on the runtime, not on the template.
+
 ```arc42
 :::decision
 id: dec-archetypes
