@@ -133,6 +133,17 @@ severity: error
 - `given`, `where`: `where` holds often; answer defined and in format for every draw; no mistake can equal it.
 - Failure names the seed: narrow `given` or change the mistake; never the comparator.
 
+## `explainer-unused-data`: Every data file is read
+
+```rule
+id: explainer-unused-data
+scope: archetype:explainer
+severity: error
+```
+
+- Each `src/data/<name>.yaml` is named by a `timeline` (`data`), a generated exercise (`from: { data: <name> }`) or a component prop (`{ data: <name> }`). A `table` or a `matching` block does not read a data file; a plan does not promise that it does.
+- A file that nothing names is dead: the reader never sees it. Use it, or remove it.
+
 ## `vue-component-props-valid`: Props as the component declares them
 
 ```rule
