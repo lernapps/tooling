@@ -1,12 +1,14 @@
 /// <reference lib="dom" />
-// The command `lernapps screenshots`: one full-page image of every page of a built explainer or quiz, and an index.html
-// that shows them in page order, so that a creator, and an assistant that can only send images, sees what a learner
-// sees. It uses the building blocks of the check (check/visit.ts): the browser, the bundle served on 127.0.0.1 and the
-// list of the bundle's pages. The options and the behaviour are described in usage.ts.
+// The command `lernapps screenshots`: one full-page image of every page of a built explainer or quiz, one image of
+// every figure on it, and an index.html that shows them in page order, so that a creator, and an assistant that can
+// only send images, sees what a learner sees. A page image is scaled down to be shown whole, so the details of a
+// drawing are only checked in the image of its figure. It uses the building blocks of the check (check/visit.ts): the
+// browser, the bundle served on 127.0.0.1 and the list of the bundle's pages. The options and the behaviour are
+// described in usage.ts.
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { parseArgs } from "node:util";
-import type { Browser } from "playwright";
+import type { Browser, Page } from "playwright";
 import { BrowserError, bundlePages, launch, serve } from "../check/visit.ts";
 import { SCREENSHOTS_OPTIONS, UsageError } from "./usage.ts";
 
@@ -14,6 +16,10 @@ import { SCREENSHOTS_OPTIONS, UsageError } from "./usage.ts";
 const SUPPORTED = ["explainer", "quiz"];
 const DESKTOP = 1280;
 const HEIGHT = 800;
+/** A figure is shot at twice its size on screen, as a phone with a sharp display shows it. */
+const FIGURE_SCALE = 2;
+/** A figure: the blocks figure and labelled-figure (an image or a drawing), and any other figure with a picture. */
+const FIGURES = "figure:has(img, svg)";
 
 /** The command cannot be done for the app it was given (not a usage error): printed as it is, exit code 1. */
 export class ScreenshotsError extends Error {}
@@ -41,15 +47,19 @@ export function archetypeOf(startPage: string): string | undefined {
   return /<main\b[^>]*\bclass\s*=\s*["'][^"']*\bquiz\b/i.test(startPage) ? "quiz" : undefined;
 }
 
-/** The file name of a page's image: its place in the order and its path (`02-plan-selbsteinschaetzung`). */
-export function imageName(order: number, page: string, width?: number): string {
+/**
+ * The file name of a page's image: its place in the order and its path (`02-plan-selbsteinschaetzung`); of a figure on
+ * the page, also its place on the page (`02-plan-selbsteinschaetzung-figure-1`).
+ */
+export function imageName(order: number, page: string, width?: number, figure?: number): string {
   const path = page.replace(/(^|\/)index\.html$/i, "").replace(/\.html$/i, "");
   const slug =
     (path === "" ? "index" : path)
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "") || "page";
-  return `${String(order).padStart(2, "0")}-${slug}${width === undefined ? "" : `-${width}`}.png`;
+  const name = `${String(order).padStart(2, "0")}-${slug}${figure === undefined ? "" : `-figure-${figure}`}`;
+  return `${name}${width === undefined ? "" : `-${width}`}.png`;
 }
 
 const escape = (text: string) =>
@@ -59,18 +69,26 @@ interface Shot {
   page: string;
   title: string;
   images: { file: string; width: number }[];
+  figures: { file: string; width: number; figure: number }[];
 }
 
 /** The index.html of the folder: every image in page order with the page's title and path; one file, no network. */
 function indexPage(shots: readonly Shot[]): string {
   const sections = shots
     .map(
-      ({ page, title, images }) =>
+      ({ page, title, images, figures }) =>
         `    <section>\n      <h2>${escape(title)}</h2>\n      <p><code>${escape(page)}</code></p>\n` +
         images
           .map(
             ({ file, width }) =>
               `      <figure><img src="${escape(file)}" width="${width}" alt="${escape(`${title} (${page}), ${width} px wide`)}"><figcaption>${width} px</figcaption></figure>\n`,
+          )
+          .join("") +
+        (figures.length === 0 ? "" : `      <h3>Figures</h3>\n`) +
+        figures
+          .map(
+            ({ file, width, figure }) =>
+              `      <figure><a href="${escape(file)}"><img src="${escape(file)}" alt="${escape(`Figure ${figure} of ${title} (${page}), ${width} px wide page`)}"></a><figcaption>Figure ${figure}, ${width} px</figcaption></figure>\n`,
           )
           .join("") +
         `    </section>\n`,
@@ -97,10 +115,21 @@ function checkOut(out: string, bundle: string): void {
   }
 }
 
-/** A page as a learner first sees it: loaded, fonts and images there, no animation, nothing answered or hovered. */
-async function shoot(browser: Browser, base: string, page: string, width: number, file: string): Promise<string> {
+/**
+ * Opens a page in a new context, loaded, fonts and images there, no animation, nothing answered or hovered, and gives it
+ * to `use`.
+ */
+async function opened<T>(
+  browser: Browser,
+  base: string,
+  page: string,
+  options: { width: number; scale?: number; javaScript?: boolean },
+  use: (tab: Page) => Promise<T>,
+): Promise<T> {
   const context = await browser.newContext({
-    viewport: { width, height: HEIGHT },
+    viewport: { width: options.width, height: HEIGHT },
+    deviceScaleFactor: options.scale ?? 1,
+    javaScriptEnabled: options.javaScript ?? true,
     reducedMotion: "reduce",
     serviceWorkers: "block",
   });
@@ -123,12 +152,43 @@ async function shoot(browser: Browser, base: string, page: string, width: number
         ...[...document.images].map((image) => image.decode().catch(() => undefined)),
       ]),
     );
-    const title = (await tab.title()).trim();
-    await tab.screenshot({ path: file, fullPage: true, animations: "disabled" });
-    return title;
+    return await use(tab);
   } finally {
     await context.close();
   }
+}
+
+/** A page as a learner first sees it, whole: returns its title. */
+async function shoot(browser: Browser, base: string, page: string, width: number, file: string): Promise<string> {
+  return opened(browser, base, page, { width }, async (tab) => {
+    await tab.screenshot({ path: file, fullPage: true, animations: "disabled" });
+    return (await tab.title()).trim();
+  });
+}
+
+/**
+ * Every figure of a page, each with its caption, at twice its size: `file` names the image of the figure with its place
+ * on the page. The page is opened without JavaScript, as the build writes it, so that the figures are there that a
+ * script shows only later, such as those of a quiz's questions. A figure that takes no space, such as one in a closed
+ * details element, is left out. Returns the number of figures shot.
+ */
+async function shootFigures(
+  browser: Browser,
+  base: string,
+  page: string,
+  width: number,
+  file: (figure: number) => string,
+): Promise<number> {
+  return opened(browser, base, page, { width, scale: FIGURE_SCALE, javaScript: false }, async (tab) => {
+    let count = 0;
+    for (const figure of await tab.locator(FIGURES).all()) {
+      const box = await figure.boundingBox();
+      if (box === null || box.width === 0 || box.height === 0) continue;
+      count += 1;
+      await figure.screenshot({ path: file(count), animations: "disabled", scale: "device" });
+    }
+    return count;
+  });
 }
 
 /**
@@ -168,19 +228,29 @@ export async function screenshots(args: string[]): Promise<string> {
     throw error instanceof BrowserError ? new NoBrowser(error, relative(resolve("."), bundle) || ".") : error;
   });
   const { server, base } = await serve(bundle, "/");
+  let figureCount = 0;
   try {
     rmSync(out, { recursive: true, force: true });
     mkdirSync(out, { recursive: true });
     const shots: Shot[] = [];
     for (const [index, page] of pages.entries()) {
       const images: Shot["images"] = [];
+      const figures: Shot["figures"] = [];
       let title = "";
       for (const width of widths) {
-        const file = imageName(index + 1, page, widths.length > 1 ? width : undefined);
+        const named = widths.length > 1 ? width : undefined;
+        const file = imageName(index + 1, page, named);
         title = await shoot(browser, base, page, width, join(out, file));
         images.push({ file, width });
+        const count = await shootFigures(browser, base, page, width, (figure) =>
+          join(out, imageName(index + 1, page, named, figure)),
+        );
+        for (let figure = 1; figure <= count; figure += 1) {
+          figures.push({ file: imageName(index + 1, page, named, figure), width, figure });
+        }
       }
-      shots.push({ page, title: title || page, images });
+      figureCount += figures.filter(({ width }) => width === widths[0]).length;
+      shots.push({ page, title: title || page, images, figures });
     }
     writeFileSync(join(out, "index.html"), indexPage(shots));
   } finally {
@@ -188,5 +258,6 @@ export async function screenshots(args: string[]): Promise<string> {
     await browser.close();
   }
   const count = readdirSync(out).filter((file) => file.endsWith(".png")).length;
-  return `lernapps screenshots: ${pages.length} page${pages.length === 1 ? "" : "s"}, ${count} image${count === 1 ? "" : "s"} in ${relative(resolve("."), out) || "."}/ (open index.html)\n`;
+  const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
+  return `lernapps screenshots: ${plural(pages.length, "page")}, ${plural(figureCount, "figure")}, ${plural(count, "image")} in ${relative(resolve("."), out) || "."}/ (open index.html; check every figure in its own image)\n`;
 }

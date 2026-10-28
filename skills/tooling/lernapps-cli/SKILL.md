@@ -38,9 +38,11 @@ license: MIT
 A check says the rules hold; only a look says what a learner sees. Show the creator the pages before a push, and before
 a submission they declare something about.
 
-- Explainer or quiz: build (`npx vp build`), then `npx lernapps screenshots`. It writes one image of every page and an
-  `index.html` that shows them in order to `screenshots/` (not part of the app: do not commit it). Show the images, or
-  the `index.html` where you can show HTML. `--desktop` adds 1280 px images. Options: `npx lernapps screenshots --help`.
+- Explainer or quiz: build (`npx vp build`), then `npx lernapps screenshots`. It writes one image of every page, one of
+  every figure, and an `index.html` that shows them in order to `screenshots/` (not part of the app: do not commit it).
+  Show the images, or the `index.html` where you can show HTML. Check every figure in its own image
+  (`…-figure-<n>.png`): a page image is scaled down, its details are not readable. `--desktop` adds 1280 px images.
+  Options: `npx lernapps screenshots --help`.
 - Interactive app: `screenshots` does not support it. Open the built app with the Playwright the tooling installs
   (`import { chromium } from "playwright"`), at 390 px width, and take `page.screenshot({ fullPage: true })` of each
   state the creator should see, from a short script outside the app.
