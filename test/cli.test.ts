@@ -7,7 +7,7 @@ import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS, IGNORED_SKILLS_LINES } from "../generator/create.ts";
 import { replaceSkills, unignoreSkills, UPDATE_OPTIONS } from "../generator/update.ts";
 import { countFailedChecks, countPrePushFailure } from "../src/plan.ts";
-import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS } from "../src/usage.ts";
+import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS, SCREENSHOTS_OPTIONS } from "../src/usage.ts";
 import { repoRoot, run, tempDir } from "./support.ts";
 
 /** The help must name every option the parser accepts: the help is where the options are documented. */
@@ -31,6 +31,22 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(result.stdout).toMatch(/^  hooks +/m);
     expect(result.stdout).toMatch(/^  update +/m);
     expect(result.stderr).toBe("");
+  });
+
+  test("screenshots --help names every option and the exit codes; the usage lists the command", () => {
+    const result = lernapps("screenshots", "--help");
+    expect(result.code).toBe(0);
+    expect(result.stdout).toMatch(/^Usage: lernapps screenshots /);
+    expectEveryOption(result.stdout, SCREENSHOTS_OPTIONS);
+    expect(result.stdout).toContain("explainer or quiz");
+    expect(result.stdout).toContain("2 on a usage error");
+    expect(lernapps("--help").stdout).toMatch(/^  screenshots +/m);
+  });
+
+  test("screenshots with an unknown option is a usage error", () => {
+    const result = lernapps("screenshots", "--nope");
+    expect(result.code).toBe(2);
+    expect(result.stderr).toContain("Usage: lernapps");
   });
 
   test("changes --help names every option, the map, what docs are, the configuration and the exit codes", () => {

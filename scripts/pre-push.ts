@@ -24,6 +24,7 @@ export const HEAVY_TESTS = [
   "test/app-check-failing.e2e.test.ts",
   "test/preset.e2e.test.ts",
   "test/check-repo.e2e.test.ts",
+  "test/screenshots.e2e.test.ts",
   "test/changes.e2e.test.ts",
 ];
 

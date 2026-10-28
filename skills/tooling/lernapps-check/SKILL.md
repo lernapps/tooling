@@ -32,6 +32,7 @@ license: MIT
 - `npx lernapps check`: format, lint, types, unit tests, build, checks of the built app, end-to-end tests. The hooks
   run its parts (`--pre-commit`, `--pre-push`); CI runs it whole.
 - Report: `node_modules/.cache/lernapps/validation-report.yaml`. Options: `npx lernapps check --help`.
+- To look at a built explainer or quiz before a push: `npx lernapps screenshots` writes an image of every page (`npx lernapps screenshots --help`).
 
 ## A check fails
 

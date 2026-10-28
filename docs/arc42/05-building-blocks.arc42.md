@@ -724,7 +724,8 @@ CI and in the listing validation. It runs every check that finds something to ch
 deployed address the way a learner meets it, including, for explainer pages, without JavaScript; it needs no source
 repo, so apps built any other way are checked the same, and the listing and the review see what the hooks saw. It
 checks a catalog entry against the app it describes, and reports every finding with its rule in the validation
-report.
+report. With the same browser and the same list of pages it writes an image of every page of a built explainer or quiz
+(`lernapps screenshots`), so that a creator sees the app before declaring anything about it.
 
 ```arc42
 :::building-block
