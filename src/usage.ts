@@ -13,7 +13,7 @@ Commands:
   check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
   create --archetype <name> [<dir>]               write a new app from the archetype's template
   hooks                                           install the app's git hooks (the app's prepare script)
-  screenshots [--out <dir>] [<dir>]               a full-page image of every page of a built explainer or quiz
+  screenshots [--out <dir>] [<dir>]               an image of every page and every figure of a built explainer or quiz
   update                                          move the app to the runtime and tooling this tooling pins
 
 Options:
@@ -185,25 +185,31 @@ export const SCREENSHOTS_OPTIONS = {
 
 export const SCREENSHOTS_USAGE = `Usage: lernapps screenshots [--out <dir>] [--width <px>] [--desktop] [<dir>]
 
-Writes a full-page image of every page of a built explainer or quiz, so that a creator sees what a learner sees
-before the app goes out. It works where an assistant can only send images: the images are PNG files, and an
-index.html shows them all in page order with each page's title and path (one file, images relative, no network).
+Writes a full-page image of every page of a built explainer or quiz, and an image of every figure on it, so that a
+creator sees what a learner sees before the app goes out. A page image is scaled down to be shown whole; check the
+details of a figure, such as where a line of a drawing points, in its own image. It works where an assistant can only
+send images: the images are PNG files, and an index.html shows them all in page order with each page's title and path
+(one file, images relative, no network).
 
 The built app is <dir>, default dist/ (build it first). Its pages are those lernapps check visits; the start page
 comes first. Each is opened in Chromium, as a learner first sees it: nothing answered, no hover, animations off,
-fonts and images loaded; requests to other hosts are blocked. Another archetype, such as an interactive app, is not
-supported. Prints the folder and the number of pages.
+fonts and images loaded; requests to other hosts are blocked. A figure is a block figure or labelled-figure, or any
+other figure with an image or a drawing. It is cut out with its caption, at twice its size on screen, from the page
+as the build writes it, without JavaScript, so that the figures of every question of a quiz are there too; a figure
+that takes no space, such as one in a closed details element, is left out. Another archetype, such as an interactive
+app, is not supported. Prints the folder and the number of pages and figures.
 
 Exit codes: 0 when the images are written, 1 when they cannot be (an archetype not supported, no browser can run),
 2 on a usage error, such as no build in <dir>. Then no folder is written or emptied.
 
-Output: one PNG per page, named by its order and path (01-index.png, 02-plan-selbsteinschaetzung.png), and the
-index.html, in the folder --out. The folder is emptied first. It is not part of the app: do not commit it.
+Output: one PNG per page, named by its order and path (01-index.png, 02-plan-selbsteinschaetzung.png), one PNG per
+figure, named by its page and its place on the page (02-plan-selbsteinschaetzung-figure-1.png), and the index.html,
+which shows the figures with their page, in the folder --out. The folder is emptied first. It is not part of the app: do not commit it.
 
 Options:
   --out <dir>    the folder of the images (default screenshots)
   --width <px>   the width of the images in pixels (default 390, a phone)
   --desktop      also images 1280 px wide; every image is then named with its width (01-index-390.png,
-                 01-index-1280.png)
+                 01-index-1280.png, 01-index-figure-1-1280.png)
   -h, --help     print this help
 `;
