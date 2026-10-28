@@ -38,7 +38,7 @@ sequenceDiagram
     participant templates as Templates
     participant skills as Skills
     participant hooks as Git hooks
-    participant check as Check CLI
+    participant check as Alignment CLI
     participant ci as App check action
     participant publish as App publish
     participant listing as Listing validation
@@ -92,7 +92,7 @@ aliases: assistant=actor-assistant, hooks=bb-git-hooks, check=bb-check-cli, plan
 sequenceDiagram
     participant assistant as Assistant
     participant hooks as Pre-push hook
-    participant check as Check CLI
+    participant check as Alignment CLI
     participant plan as Plan file
     assistant->>hooks: push
     hooks->>check: heavy part of the check
@@ -137,7 +137,7 @@ aliases: assistant=actor-assistant, listing=bb-listing-validation, check=bb-chec
 sequenceDiagram
     participant assistant as Creator's assistant
     participant listing as Listing validation
-    participant check as Check CLI
+    participant check as Alignment CLI
     participant review as Review agent
     participant procedure as Review procedure
     participant owner as Owner
@@ -198,7 +198,7 @@ sequenceDiagram
     participant overview as App overview
     participant generator as Generator (lernapps update)
     participant listing as Listing validation
-    participant check as Check CLI
+    participant check as Alignment CLI
     participant owner as Owner
     assistant->>appcheck: push to the main line
     appcheck->>check: check the app
@@ -297,7 +297,7 @@ sequenceDiagram
     participant owner as Owner
     participant skills as Skills
     participant lint as Lint rules
-    participant check as Check CLI
+    participant check as Alignment CLI
     participant procedure as Review rubric
     participant package as Package build
     participant evals as Evals

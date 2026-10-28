@@ -39,7 +39,7 @@ flowchart TB
         bb-generator["Generator"]
         bb-archetypes["Archetype presets"]
         bb-lint-rules["Lint rules"]
-        bb-check-cli["Check CLI"]
+        bb-check-cli["Alignment CLI"]
         bb-review-procedure["Review procedure"]
         bb-evals["Evals"]
     end
@@ -89,7 +89,7 @@ flowchart TB
         subgraph bb-archetypes["Archetype presets"]
             bb-git-hooks["Git hooks"]
         end
-        bb-check-cli["Check CLI"]
+        bb-check-cli["Alignment CLI"]
         bb-process-guidance["Process guidance"]
         bb-lint-rules["Lint rules"]
     end
@@ -717,20 +717,21 @@ protocol: Oxlint / ESLint plugin API
 :::
 ```
 
-### Check CLI
+### Alignment CLI
 
-Runs every deterministic check of an app, from its code to the built app, and is the same command in the hooks, in
-CI and in the listing validation. It runs every check that finds something to check. It checks a built app or a
-deployed address the way a learner meets it, including, for explainer pages, without JavaScript; it needs no source
-repo, so apps built any other way are checked the same, and the listing and the review see what the hooks saw. It
-checks a catalog entry against the app it describes, and reports every finding with its rule in the validation
-report. With the same browser and the same list of pages it writes an image of every page of a built explainer or quiz
-(`lernapps screenshots`), so that a creator sees the app before declaring anything about it.
+Aligns an app with the platform in two ways, and is the same command in the hooks, in CI, in the listing validation
+and in the assistant's hands. `lernapps check` runs every deterministic check of an app, from its code to the built
+app. It runs every check that finds something to check. It checks a built app or a deployed address the way a learner
+meets it, including, for explainer pages, without JavaScript; it needs no source repo, so apps built any other way are
+checked the same, and the listing and the review see what the hooks saw. It checks a catalog entry against the app it
+describes, and reports every finding with its rule in the validation report. `lernapps screenshots` is the visual way:
+with the same browser and the same list of pages it writes an image of every page of a built explainer or quiz, so that
+a creator sees the app before declaring anything about it.
 
 ```arc42
 :::building-block
 id: bb-check-cli
-title: Check CLI
+title: Alignment CLI
 parent: bb-tooling-package
 technology: TypeScript CLI, Playwright, axe-core
 implements: concept-rule-catalog, concept-terse-output, concept-traceability, concept-stable-contracts
@@ -739,16 +740,17 @@ x-agent: One command, the same result in the hooks, in CI and at the listing.
 :::
 ```
 
-#### Check CLI interface
+#### Alignment CLI interface
 
-A consumer can rely on this: it fails exactly when a rule of severity error fails. A passing run prints one line; a
-failing one prints the report. It can always keep the full report. Its parts, its options and its exit codes are
+A consumer can rely on this: `lernapps check` fails exactly when a rule of severity error fails. A passing run prints one
+line; a failing one prints the report. It can always keep the full report. `lernapps screenshots` writes the images and
+their index, or fails and writes nothing. Its parts, its options and its exit codes are
 listed in the command's own help and stay stable (concept `concept-stable-contracts`).
 
 ```arc42
 :::interface
 id: if-check-cli
-title: Check CLI
+title: Alignment CLI
 provider: bb-check-cli
 protocol: Command line, documented by its own help
 :::
