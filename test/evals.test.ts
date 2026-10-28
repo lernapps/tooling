@@ -102,7 +102,7 @@ test("the transcript score of a recorded trial (quiz-fresh, trimmed): the plan c
 test("the skills by phase come from the skills' building blocks and their x-phase", () => {
   const { phases, archetypes } = skillsByPhase(elements());
   expect(phases["explore"]).toContain("lernapps-app");
-  expect(phases["code"]).toContain("lernapps-check");
+  expect(phases["code"]).toContain("lernapps-cli");
   expect(phases["commit"]?.toSorted()).toEqual(["lernapps-commit", "lernapps-github", "lernapps-listing"]);
   expect(archetypes).toMatchObject({
     "lernapps-quiz": "quiz",
@@ -117,7 +117,7 @@ test("the skill score counts the skills loaded by the end of their phase, and th
     phases: {
       explore: ["lernapps-app", "lernapps-content-research", "lernapps-quiz-design", "lernapps-explainer-design"],
       plan: ["lernapps-exercise-patterns", "lernapps-content-growth"],
-      code: ["lernapps-check", "lernapps-quiz", "lernapps-explainer", "lernapps-content-questions"],
+      code: ["lernapps-cli", "lernapps-quiz", "lernapps-explainer", "lernapps-content-questions"],
       commit: ["lernapps-github", "lernapps-commit", "lernapps-listing"],
     },
     archetypes: {
@@ -148,7 +148,7 @@ test("the skill score counts the skills loaded by the end of their phase, and th
           name: "Edit",
           input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
         },
-        { name: "Bash", input: { command: "cat .agents/skills/lernapps-check/SKILL.md" } },
+        { name: "Bash", input: { command: "cat .agents/skills/lernapps-cli/SKILL.md" } },
         { name: "Skill", input: { skill: "lernapps-explainer" } },
       ]),
     ],
@@ -169,8 +169,8 @@ test("the skill score counts the skills loaded by the end of their phase, and th
     { phase: "plan", expected: ["lernapps-exercise-patterns"], loaded: ["lernapps-exercise-patterns"], missing: [] },
     {
       phase: "code",
-      expected: ["lernapps-check", "lernapps-quiz", "lernapps-content-questions"],
-      loaded: ["lernapps-check", "lernapps-quiz"],
+      expected: ["lernapps-cli", "lernapps-quiz", "lernapps-content-questions"],
+      loaded: ["lernapps-cli", "lernapps-quiz"],
       missing: ["lernapps-content-questions"],
     },
   ]);

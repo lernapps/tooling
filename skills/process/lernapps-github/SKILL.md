@@ -39,7 +39,7 @@ license: MIT
 
 ## 2. Preview and checks
 
-1. `git push -u origin <branch>`. The pre-push hook runs the heavy checks; fix failures (skill `lernapps-check`).
+1. `git push -u origin <branch>`. The pre-push hook runs the heavy checks; fix failures (skill `lernapps-cli`).
 2. Open the pull request over REST:
    `gh api repos/<owner>/<repo>/pulls -f base=main -f head=<branch> -f title=<"Erste Version" or the increment> -f body=Vorschau`.
    Its comment "Vorschau der App" links the preview.

@@ -117,18 +117,18 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 ## Code
 
 <!--
-- Build locally on the branch. Commit after each slice; the hooks check. A check fails → skill `lernapps-check`. Fix from the message; never
+- Build locally on the branch. Commit after each slice; the hooks check. A check fails → skill `lernapps-cli`. Fix from the message; never
   bypass a hook.
 - Undecidable → choose, mark "(guess)", go on.
 - Creator asks for a change → first say your reading in one sentence; never narrow it silently.
-- Skills: `lernapps-check`, `lernapps-<archetype>`, `lernapps-content-questions`, the content guide.
+- Skills: `lernapps-cli`, `lernapps-<archetype>`, `lernapps-content-questions`, the content guide.
 -->
 
 ### Tasks
 
 - [ ] `grep '^phase:'` prints `phase: code`; else set it.
 - [ ] `git switch -c increment/<NN>-<short name>` from `main`. Commit this plan on it.
-- [ ] Load skill `lernapps-check`. Update the app as it says. Commit the update alone; fix its findings before
+- [ ] Load skill `lernapps-cli`. Update the app as it says. Commit the update alone; fix its findings before
       content. The update replaces the `lernapps-*` skills: reread those you use.
 - [ ] Load skill `lernapps-<archetype>` and the content guide. Questions with options and feedback: also skill
       `lernapps-content-questions`.

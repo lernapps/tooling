@@ -24,7 +24,7 @@ lernapps.net's own websites, and the update policy for dependencies.
 - **Assistants:** read [lernapps.net/tooling/llms.txt](https://lernapps.net/tooling/llms.txt). It starts the build
   with the plan template.
 - **The [skills](skills/):** one per phase, grouped by what they hold: `process/`, `tooling/`, `content/`,
-  `archetypes/`. The [platform rules](skills/tooling/lernapps-check/references/platform-rules.md) hold for every app,
+  `archetypes/`. The [platform rules](skills/tooling/lernapps-cli/references/platform-rules.md) hold for every app,
   however it is built.
 - **The [plan template](guidance/plan-template.md):** the whole workflow of an app's first version, from the first
   question to the listing. It names each skill at the step where it is needed. Every later change follows the

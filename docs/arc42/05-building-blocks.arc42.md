@@ -124,7 +124,7 @@ flowchart LR
             bb-skill-content-growth["lernapps-content-growth"]
         end
         subgraph bb-skills-code["Code"]
-            bb-skill-check["lernapps-check"]
+            bb-skill-cli["lernapps-cli"]
             bb-skill-quiz["lernapps-quiz"]
             bb-skill-explainer["lernapps-explainer"]
             bb-skill-interactive["lernapps-interactive"]
@@ -409,21 +409,21 @@ technology: Markdown (agentskills.io)
 :::
 ```
 
-##### lernapps-check
+##### lernapps-cli
 
-Goal: The app is created and updated with the CLI only, and every failed check is fixed from its message, never bypassed. Its references hold the platform rules, which read on their own for an app built without the tooling.
+Goal: The app is created and updated with the CLI only, every failed check is fixed from its message, never bypassed, and the creator sees the pages of the app before declaring anything about it (`lernapps screenshots`). Its references hold the platform rules, which read on their own for an app built without the tooling.
 
 ```arc42
 :::ignore W002 a part of the skills; the contract is the skills interface :::
 :::building-block
-id: bb-skill-check
-title: lernapps-check
+id: bb-skill-cli
+title: lernapps-cli
 parent: bb-skills-code
-path: skills/tooling/lernapps-check
+path: skills/tooling/lernapps-cli
 technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
-x-agent: Fixes every failed check from its message and never bypasses one.
+x-agent: Fixes every failed check from its message and never bypasses one; shows the creator the pages of the app.
 :::
 ```
 
