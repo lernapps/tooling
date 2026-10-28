@@ -40,7 +40,7 @@
 
 ## A runtime test fails
 
-- Content validates (build passes) but a test fails = template bug: act as skill `lernapps-check` says; go on with
+- Content validates (build passes) but a test fails = template bug: act as skill `lernapps-cli` says; go on with
   content.
 - Never change the runtime in `node_modules` (`explainer-only-content`). The fix arrives with `lernapps update`.
 

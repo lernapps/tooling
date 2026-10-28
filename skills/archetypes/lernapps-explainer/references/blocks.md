@@ -11,7 +11,7 @@
 | `text` | `text` | prose |
 | `formula` | `formula` (LaTeX subset, no `$`) | formula on its own line, MathML |
 | `figure` | `draw` (`hundred-grid` with `filled`, `bar` with `part`, `whole`) or `image` (`images/<name>.svg`, `source`, `licence`); `alt`, `caption` | inline SVG or bundled image |
-| `labelled-figure` | `image`, `alt`, `caption`, `labels` (`x`, `y` in %, `text`), `source`, `licence` | image with numbered markers and legend |
+| `labelled-figure` | `image`, `alt`, `caption`, `labels` (`x`, `y` in %, `text`, optional `marker` of 1 to 3 characters, e.g. the material's `A` to `E`, else the number), `legend` (default `true`; `false` shows only the markers, then `alt` names every marker), `source`, `licence` | image with markers (letters or numbers) and a legend of the texts |
 | `table` | `caption`, `header`, `rowHeaders`, `rows` | table with caption |
 | `timeline` | `events` (`date`, `title`, `label`, `text`) or `data` | dated events, earliest first |
 | `definition` | `term`, `explanation` | term in place, in the glossary |

@@ -15,7 +15,7 @@ license: MIT
 ## Gotchas
 
 - The build validates the bank; the runtime's tests then answer every question in the browser. A runtime test that
-  fails while the bank validates is a template bug (skill `lernapps-check`).
+  fails while the bank validates is a template bug (skill `lernapps-cli`).
 
 ## Runtime
 
@@ -37,11 +37,11 @@ license: MIT
 - From the runtime (`e2e/quiz.e2e.ts`), run by `lernapps check`. Per question: deep link, a right and a wrong answer,
   every `info`, explanation and links shown. Also full score and the no-JS page.
 - Each further language: its no-JS page (questions, solutions, switch) and one answered question in that language.
-- New runtime features or fixes: `lernapps update` (skill `lernapps-check`).
+- New runtime features or fixes: `lernapps update` (skill `lernapps-cli`).
 
 ### A runtime test fails
 
-- Bank validates (build passes) but a runtime test fails = template bug: act as skill `lernapps-check` says.
+- Bank validates (build passes) but a runtime test fails = template bug: act as skill `lernapps-cli` says.
 - Never change the runtime in `node_modules` (`quiz-only-data`). Go on with the questions.
 - A question shows an image or a table with `material`: skill `lernapps-content-questions`, its reference question-types.
 

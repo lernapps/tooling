@@ -93,7 +93,7 @@ severity: error
 - A content decision changes (pattern, figure type, source rule) → change the guide in the same commit.
 - `lernapps check` checks the file and its headings always, and that no placeholder is left once the plan is in
   Commit.
-- App older than the guide: `lernapps update` adds the skeleton (skill `lernapps-check`).
+- App older than the guide: `lernapps update` adds the skeleton (skill `lernapps-cli`).
 
 ### `app-content-matches`: The content guide says what was built
 

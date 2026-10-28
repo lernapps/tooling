@@ -59,7 +59,7 @@ questions. -->
 
 - [ ] Install the skills, if missing (the app commits them): `npx --yes skills add
       lernapps/tooling -y -s lernapps-app lernapps-content-research lernapps-exercise-patterns
-      lernapps-content-growth lernapps-check lernapps-content-questions lernapps-github lernapps-commit
+      lernapps-content-growth lernapps-cli lernapps-content-questions lernapps-github lernapps-commit
       lernapps-listing`.
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
       their own address, free, public, and once listed as a copy on lernapps.net. The technical part (GitHub) comes at the end, and you do it.
@@ -152,19 +152,19 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 
 <!--
 - Build the app from the archetype and the confirmed plan, locally on `work`. Work on your own.
-- Commit after each task; the hooks check. A check fails → skill `lernapps-check`. Fix from the message; never
+- Commit after each task; the hooks check. A check fails → skill `lernapps-cli`. Fix from the message; never
   bypass a hook.
 - Undecidable → choose, mark "(guess)" under "Key decisions", go on.
 - Creator asks for a change → first say your reading in one sentence ("Ich nehme alle 44 Hauptgruppenelemente
   auf."); never narrow it silently. Content change → update "Notes" too.
-- Skills: `lernapps-check`, `lernapps-<archetype>`, `lernapps-content-questions`, and the app's content guide
+- Skills: `lernapps-cli`, `lernapps-<archetype>`, `lernapps-content-questions`, and the app's content guide
   `app-content`.
 -->
 
 ### Tasks
 
 - [ ] `grep '^phase:'` prints `phase: code`; else set it.
-- [ ] Load skill `lernapps-check`. Create the app in this plan's folder as it says. `create` keeps this plan. Never
+- [ ] Load skill `lernapps-cli`. Create the app in this plan's folder as it says. `create` keeps this plan. Never
       write the app by hand.
 - [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from "Notes" and "Content method"
       (`app-content-guide`). `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` prints 0. Commit it before

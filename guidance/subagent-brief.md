@@ -6,7 +6,7 @@ Fill the brackets. Send the whole brief to each sub-agent.
 Add the chapter/round "<title>" to the lernapps app in <repo>, on the branch <branch>, in your own git worktree.
 
 Read first, in this order: .agents/skills/app-content/SKILL.md (it takes precedence), then the skills
-lernapps-<archetype> and lernapps-check; for questions with options also lernapps-content-questions.
+lernapps-<archetype> and lernapps-cli; for questions with options also lernapps-content-questions.
 
 Competencies, one slice each, in this order:
 1. "Ich kann …" (Lehrplan: <document, page, unit> | none)
