@@ -20,8 +20,9 @@
 - Stores on the device, per app, only the assistant the learner switched on for the tutor, once ticked, "Videos
   immer direkt laden" (every player loads without the click until unticked), and the last result of each
   self-assessment the learner did.
-- Self-assessment (`selfAssessment`, JS only): offered on the start page or its chapter's page; its exercises without
-  "Prüfen", checked together at "Auswerten"; the result per content page. Skill `lernapps-explainer-self-assessment`.
+- Self-assessment (`selfAssessment` per chapter, JS only): a chapter's on its page, the app's (every chapter's) on
+  the start page; its exercises without "Prüfen", checked together at "Auswerten"; the result per content page. With
+  `von=tutor` it keeps nothing and ends in "Zurück zum Tutor". Skill `lernapps-explainer-self-assessment`.
 
 ## Addresses
 
@@ -41,7 +42,8 @@
   every `nojs` text.
 - JS (German, 360 px): one exercise per type and page accepts its answer, rejects a wrong one; components hydrate
   without error; a video sends no request to another server before its click, and loads its player after it; each
-  self-assessment: a run with every answer right, and one without an answer (kept, to the tutor, deleted).
+  self-assessment: a run with every answer right, one without an answer (kept, to the tutor, deleted), and one a tutor
+  opened.
 - `lernapps check` also opens every page without JS (`explainer-readable-without-js`), bundle and deployed app.
 
 ## A runtime test fails
