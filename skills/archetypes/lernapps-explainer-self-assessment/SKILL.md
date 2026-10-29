@@ -36,17 +36,19 @@ license: MIT
 
 - Read each content page's competency under "Notes" ("Ich kann …"). No "Notes": take it from the page's title,
   description and rule. Ask the exercises that check it best.
-- Prefer `generated`: each run draws a new task. Then `number`, `ordering`, `matching`, `multiple-choice`,
+- Prefer what draws a new task in each run: `generated`, or an exercise component (a `vue-component` block whose
+  component emits an answer, by its anchor). Then `number`, `ordering`, `matching`, `multiple-choice`,
   `single-choice`. A content page asked only by exercises that can be guessed (`true-false`, a `single-choice` or a
-  small `matching`) gives a weak result: add a `generated` or `number` one of the same page.
+  small `matching`) gives a weak result: add a `generated`, a component or a `number` one of the same page.
 - Each must be clear without its page: no "wie im Beispiel oben", no figure that stands elsewhere on the page. A
   question carries its figure in `material`. Not clear alone → take another exercise of the page, or leave the page
   out.
-- An exercise component (a `vue-component` block whose component checks an answer) cannot be in it (build problem).
-  Its competency is then not asked, unless another exercise of the page checks it.
+- An exercise component shows its task without "Prüfen", feedback or task number. Take it only when its task is
+  clear in the component itself (the task text is in the component, not in a block around it), and when it needs
+  nothing the page has to play or show first.
 - 2 or 3 exercises per content page asked: with one alone, the page is never "Kannst du wahrscheinlich schon". A page
-  with one fitting `generated` exercise: list it twice, each listing draws a task of its own. A question is listed
-  once.
+  with one fitting `generated` exercise or exercise component: list it twice, each listing draws a task of its own.
+  A question is listed once.
 
 ## Write it
 
