@@ -178,7 +178,7 @@ Options:
 /** The options of `lernapps screenshots`. */
 export const SCREENSHOTS_OPTIONS = {
   out: { type: "string", default: "screenshots" },
-  width: { type: "string", default: "390" },
+  width: { type: "string", default: "360" },
   desktop: { type: "boolean", default: false },
   help: { type: "boolean", short: "h", default: false },
 } as const satisfies ParseArgsOptionsConfig;
@@ -208,8 +208,8 @@ which shows the figures with their page, in the folder --out. The folder is empt
 
 Options:
   --out <dir>    the folder of the images (default screenshots)
-  --width <px>   the width of the images in pixels (default 390, a phone)
-  --desktop      also images 1280 px wide; every image is then named with its width (01-index-390.png,
+  --width <px>   the width of the images in pixels (default 360, a phone)
+  --desktop      also images 1280 px wide; every image is then named with its width (01-index-360.png,
                  01-index-1280.png, 01-index-figure-1-1280.png)
   -h, --help     print this help
 `;
