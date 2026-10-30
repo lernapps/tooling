@@ -258,3 +258,26 @@ severity: error
 ```
 
 - Own code max 20 kB gzip. More → split, or a new block: write it into the retrospective.
+
+## `explainer-open-points`: An open task checks what the material teaches
+
+```rule
+id: explainer-open-points
+scope: archetype:explainer
+severity: warning
+```
+
+- 2 to 5 points, each one sentence a learner can check with yes or no; together what a good answer needs.
+- A point of the content names its section (`source`), and its content is there; a point of form has `kind: form`.
+- The model answer has every point, in the words of the class.
+
+## `explainer-scope-matches`: The scope says what the pages teach
+
+```rule
+id: explainer-scope-matches
+scope: archetype:explainer
+severity: warning
+```
+
+- `src/scope.md` in your own words, never copied from the material; a part per chapter and page.
+- Each part says what its page teaches, no more and no less; "Gehört dazu" and "Gehört nicht dazu" fit the pages.

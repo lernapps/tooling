@@ -6,11 +6,12 @@
 | Chapter | `src/<chapter>/chapter.yaml` | `title`, `summary`, order of its `pages` |
 | Page | `src/<chapter>/<page>.yaml` | `title`, `description`, `blocks` |
 | Section | `section` block in a page | `id`, `title`, `blocks`; one more section level inside |
+| Scope | `src/scope.md` (optional) | the whole learning path for the tutor, per chapter and page (`runtime.md`) |
 
 - Chapters mandatory. One chapter: hidden in navigation; addresses keep it (`/<chapter>/<page>/`).
 - Order lists complete: `chapters`, `pages` list every folder or file exactly once. No sorting by name.
 - Ids: lowercase, digits, hyphens; unique per level; stable once published. Not chapter ids: `data`, `images`,
-  `glossar`, `components`, `assets`.
+  `glossar`, `components`, `assets`, `scope`.
 - Depth: page, section, subsection; headings follow from nesting (h1–h3). Boxes (`example`, `note`) take the next
   level, hold no sections. More levels = two apps.
 - Navigation generated: contents on start and chapter pages, breadcrumbs, previous/next across chapters, page
