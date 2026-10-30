@@ -10,16 +10,19 @@
 ## Pages
 
 - No JS: complete; text, formulas as MathML, figures, tables, navigation, sources. Exercise: task + `<details>`
-  "Lösung"; `generated`: three worked tasks; component: its `nojs` text.
+  "Lösung"; `generated`: three worked tasks; component: its `nojs` text; `open-task`: task, points with "Nachlesen",
+  model answer under "Lösung".
 - JS: controls, "Prüfen", feedback with focus. Solution only after an answer; wrong → why, retry or "Lösung". An
   exercise component gets "Prüfen" from the explainer too, under it.
   `generated`: live task, "Neue Aufgabe", deep link `/<chapter>/<page>/?<exercise>=<n>#<exercise>`. Components
-  hydrate.
+  hydrate. `open-task`: "Deine Lösung" (type, or paper and photo), "Vergleichen" shows the points as tick boxes and
+  opens the model answer, "Antwort ändern".
 - Video: no JS and before a click, title as a link to youtube.com, channel and a note that playing sends data to
   YouTube/Google; nothing loads from another server. "Video abspielen" loads the player from youtube-nocookie.com.
 - Stores on the device, per app, only the assistant the learner switched on for the tutor, once ticked, "Videos
   immer direkt laden" (every player loads without the click until unticked), and the last result of each
-  self-assessment the learner did.
+  self-assessment the learner did. While the tab is open (sessionStorage), the answer of each open task: way, text and
+  ticks, so that a reload loses nothing; never the photo.
 - Self-assessment (`selfAssessment` per chapter, JS only): a chapter's on its page, the app's (every chapter's) on
   the start page; its exercises without "Prüfen", checked together at "Auswerten"; the result per content page. With
   `via=tutor` it keeps nothing and ends in "Zurück zum Tutor". Skill `lernapps-explainer-self-assessment`.
@@ -29,6 +32,8 @@
 - Page `/<chapter>/<page>/`; section `#<section>`, subsection `#<section>/<sub>`; exercise `#<exercise>`.
 - Glossary `/glossar/`. Other languages: same tree under `/<language>/`.
 - Tutor page of a page: `/<chapter>/<page>/tutor/`, its Markdown beside it (`index.md`).
+- Scope (from `src/scope.md`): `/<chapter>/<page>/scope/` (the page's part), `/<chapter>/scope/` (the chapter's),
+  `/scope/` (the whole); for the tutor only, linked from the tutor page. `scope` is no chapter id.
 - Self-assessment: `/einschaetzung/` (the app's), `/<chapter>/einschaetzung/` (a chapter's), each with its tutor page
   `tutor/`. `einschaetzung` is no chapter or page id.
 - Unknown address → 404 page to the start page. Moving or removing a page: change the entry topics in the same
@@ -60,7 +65,13 @@
   and every exercise: task, answer format, solution, `hint` and typical mistakes with their messages. `generated`: template, `steps`, `mistakes` and each task
   number's values; question: options with `info`, `explanation`; component: `about`, and with `template`, `params`, `mistakes`, `show`
   the same table as `generated` (else `describe` per task number, as far as 64 kB allow).
-  It neither calculates nor invents: these must be complete and right.
+  `open-task`: task, points as P1, P2 … with their sources, model answer. It neither calculates nor invents: these
+  must be complete and right.
+- `src/scope.md`, the scope: the whole learning path in your own words, from the material, as continuous prose with
+  the exact content (facts, terms, reasons, examples). One part per chapter, `## <title> (/<chapter>/)`, and per content
+  page, `### <title> (/<chapter>/<page>/)`, then `## Gehört dazu` and `## Gehört nicht dazu`. The build checks that each
+  path is a chapter or page and each content page has its part. The tutor judges open answers by it, never from
+  general knowledge.
 - `src/app.yaml`: `tutor.rules`, the app's rules for the tutor; never send it to another address.
 - Task numbers 1 to N (max 67) are what learner, tutor and address (`?<id>=<n>`) share; changing a generator changes
   what a number points to. `seed`, `via`, `uebung`, `abschnitt` are no exercise ids.

@@ -254,4 +254,5 @@ severity: error
 ```
 
 - `fitness.storage`, `fitness.thirdParty` from what the app does; `lernapps check --report <file>` measures it.
-- Anything in `localStorage` or `sessionStorage` → `storage: device`; loads from another server after a click → `thirdParty: on-click`.
+- Anything in `localStorage` or `sessionStorage`, also what the app only reads on loading and keeps after an input (an
+  assistant chosen for the tutor, an answer being written) → `storage: device`; loads from another server after a click → `thirdParty: on-click`.

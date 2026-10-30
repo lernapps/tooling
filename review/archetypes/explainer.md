@@ -25,6 +25,26 @@ id: explainer-mistakes-diagnosed
 Read every `generated` exercise. A finding: one without `mistakes` where learners make a typical mistake (forgetting
 to divide by 100, the reverse order), or a mistake whose message only says that it is wrong, not what went wrong.
 
+## Points of an open task, from the material
+
+```rubric
+id: explainer-open-points
+```
+
+Read every `open-task` with the sections its points name. A finding: a point that is not in the named section or not
+in the material at all; a point a learner cannot check with yes or no; points that miss what a good answer needs; a
+model answer that lacks a point or is not in the words of the class.
+
+## Scope matches the pages
+
+```rubric
+id: explainer-scope-matches
+```
+
+Read `src/scope.md`, if the app has one, against the pages. A finding: a part that teaches what its page does not, or
+leaves out what it teaches; a scope that copies the material instead of saying it in its own words; "Gehört dazu" or
+"Gehört nicht dazu" that contradicts the pages.
+
 ## Plausible numbers
 
 ```rubric

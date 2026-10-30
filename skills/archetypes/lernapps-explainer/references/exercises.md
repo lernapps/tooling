@@ -78,6 +78,37 @@
 - Mistake equal to the answer for some values = range too wide (`G - G * p / 100` = `G * p / 100` at 50 %: so `p`
   ≤ 40).
 
+## `open-task`
+
+- For what learners answer in their own words: describe, explain, compare, argue; a short text in German or a foreign
+  language. Not for what a quiz type can check.
+- The learner answers first, typed or on paper with a photo (`answer: [text, photo]`, both by default), then compares:
+  the points show as tick boxes, each point of the content with its link "Nachlesen", and the model answer opens.
+  The ticks give right, partly right or wrong for the self-assessment and the tutor.
+- `task`: what to write and how long ("in zwei bis vier Sätzen").
+- `points`: 2 to 5, each one checkable sentence a good answer has, in its order. A point of the content has `source`,
+  the section of the app where its content is, `/<chapter>/<page>/#<section>` (the build checks it like a link); a
+  point of form (whole sentences, a thread, the words to use, the tense) has `kind: form` and no source. Only what the
+  material teaches.
+- `solution`: the model answer, in the words a learner of the class would write, with every point. `hint` optional.
+
+```yaml
+- type: open-task
+  id: tauschen-erklaeren
+  task: Erkläre in zwei bis vier Sätzen, warum 20 % von 50 € genauso viel sind wie 50 % von 20 €.
+  points:
+    - text: Der Prozentwert ist Grundwert mal Prozentsatz, geteilt durch 100.
+      source: /prozent/prozentwert/#regel
+    - text: Beim Malnehmen darf man die Zahlen tauschen, darum ist das Ergebnis gleich.
+      source: /prozent/prozentwert/#regel
+    - text: Ganze Sätze mit einer Begründung (weil …, darum …).
+      kind: form
+  solution: |
+    Den Prozentwert rechnet man mit $W = \frac{G \cdot p}{100}$. Für 20 % von 50 € ist das
+    $\frac{50 \cdot 20}{100} = 10$, für 50 % von 20 € ebenso 10. Weil man beim Malnehmen tauschen darf, kommt beide
+    Male 10 € heraus.
+```
+
 ## Examples
 
 - Any exercise: `examples: { accepted, rejected }`, checked by the build, never shown. `generated`: expressions of
