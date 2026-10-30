@@ -141,11 +141,17 @@ export interface Check {
   run(context: Context): Problem[] | undefined | Promise<Problem[] | undefined>;
 }
 
-/** The fitness values of the visits. */
+/**
+ * The fitness values of the visits. Storage is `device` when a page set a cookie or stored something, and also when its
+ * scripts read or wrote stored data while loading: an app that looks up what it keeps (the assistant chosen for the
+ * tutor, an answer being written) stores it after an input, which a visit without a click never gives.
+ */
 export function measure(pages: readonly PageVisit[], base: string): Fitness {
   const origin = new URL(base).origin;
   return {
-    storage: pages.some((page) => page.cookies.length > 0 || page.storage.length > 0) ? "device" : "none",
+    storage: pages.some((page) => page.cookies.length > 0 || page.storage.length > 0 || page.access.length > 0)
+      ? "device"
+      : "none",
     thirdParty: pages.some((page) => page.requests.some((request) => new URL(request.url).origin !== origin))
       ? "before-click"
       : "none",
