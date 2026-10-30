@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>GitHub, explained – lernapps.net</title>
+  <link rel="canonical" href="https://lernapps.net/tooling/github/">
+  <link rel="stylesheet" href="../stil.css">
+<!-- lernapps-frame -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-206/lernapps-tokens.css">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-206/lernapps-frame.css">
+<link rel="alternate" hreflang="de" href="/tooling/pr-preview/pr-206/github/">
+<link rel="alternate" hreflang="en" href="/tooling/pr-preview/pr-206/en/github/">
+<script>(() => {
+  const key = "lernapps-lang", here = "de", pages = {"en":"/tooling/pr-preview/pr-206/en/github/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
+</head>
+<body>
+<a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
+<p class="la-preview" lang="de">Vorschau einer Änderung. Die echte Seite: <a href="https://lernapps.net/tooling/github/">lernapps.net/tooling/github/</a></p><header class="la-header" lang="de">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav la-nav--bar" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Katalog</a></li><li><a href="/practice/">Üben</a></li><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-206/" aria-current="page">Tooling</a></li><li><a href="/tutor/">Tutor</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Plattform</a></li><li><a href="/join/">Mitmachen</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-206/en/github/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav>
+    <details class="la-menu"><summary>Menü</summary><nav class="la-nav la-nav--menu" aria-label="Hauptnavigation"><div class="la-menu__group"><p class="la-menu__title" id="la-menu-0">Für Lernende</p><ul aria-labelledby="la-menu-0"><li><a href="/apps/">App Katalog</a></li><li><a href="/practice/">Üben für eine Prüfung</a></li></ul></div><div class="la-menu__group"><p class="la-menu__title" id="la-menu-1">Für Macher</p><ul aria-labelledby="la-menu-1"><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-206/" aria-current="page">Tooling</a></li></ul></div><div class="la-menu__group"><p class="la-menu__title" id="la-menu-2">Verstehen und mitmachen</p><ul aria-labelledby="la-menu-2"><li><a href="/tutor/">Tutor</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Plattform</a></li><li><a href="/join/">Mitmachen</a></li></ul></div><ul class="la-menu__lang"><li class="la-lang"><a href="/tooling/pr-preview/pr-206/en/github/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav></details>
+  </div>
+</header>
+<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch.</p>
+  <main id="main-content" tabindex="-1">
+    <h1>GitHub, explained</h1>
+    <p>Your app is published with GitHub Pages. That means: the app lives in your own GitHub repository, it is free and
+      public, and it has your own address, usually <code>https://&lt;your name&gt;.github.io/&lt;app&gt;/</code>.
+      Once it is listed, lernapps.net serves a copy at <code>https://lernapps.net/apps/start/&lt;app&gt;/</code>; you stay its
+      author.</p>
+    <p>You do not need to know GitHub. The tooling does most of it, and your AI assistant does the rest and tells you
+      when a click is needed.</p>
+
+    <h2>What GitHub is</h2>
+    <p>GitHub is a website that keeps code and its history, runs checks on it, and can serve it as a website. You need
+      a free account.</p>
+
+    <h2>The parts we use</h2>
+    <ul>
+      <li><strong>Repository</strong> (repo): the folder of your app on GitHub, with every change ever made.</li>
+      <li><strong>Branches</strong>: versions of the repo side by side. <code>main</code> is what is published.
+        <code>work</code> holds the work until you say yes to publishing. <code>gh-pages</code> holds the finished
+        app that Pages serves. Your assistant sets up all three at the start.</li>
+      <li><strong>Pull requests</strong>: a proposed change, to look at before it counts. A pull request in your repo
+        gets a preview of the app. Your app is listed in the app overview by a pull request to lernapps/apps.</li>
+      <li><strong>Actions</strong>: checks that run on GitHub after each change. They check the app and publish it
+        when <code>main</code> changes.</li>
+      <li><strong>Pages</strong>: serves the app at its address.</li>
+    </ul>
+
+    <h2>After your app is listed</h2>
+    <p>You keep working in your repo as before. When <code>main</code> changes and your app's address serves the new
+      version, lernapps.net notices it within about half an hour and proposes the new version for its copy. A routine
+      update, such as a newer tooling or newer packages, is taken over by itself once the checks pass. A change to the
+      content or the code waits until the owner of lernapps.net has looked at it. You do not need to do anything for
+      either.</p>
+
+    <h2>The clicks only you can make</h2>
+    <p>Some settings only the owner of the repo may change. Your assistant tells you exactly where to click. The most
+      common one, once at the start:</p>
+    <p>Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: <code>gh-pages</code>, folder:
+      <code>/ (root)</code> → Save.</p>
+    <p>If GitHub says "Resource not accessible by integration" to your assistant, it means just that: a click for
+      you.</p>
+
+    <p><a href="../">Back to the tooling</a></p>
+  </main>
+<footer class="la-footer" lang="de">
+  <div class="la-footer__inner">
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/tooling">Quellcode</a></li></ul></nav>
+  </div>
+</footer>
+</body>
+</html>
