@@ -140,4 +140,6 @@ severity: error
 - A setting of the learner that holds for every app or every app of the archetype: `createSettings("<id>",
   "<archetype>")`, saved only where the learner chose it (`"app"`, `"archetype"` or `"all"`); the app's own goes first.
 - Keep the learning state, not growing histories.
+- What only a reload must not lose, such as an answer being written, lasts while the tab is open:
+  `createStorage("<id>", { type: "sessionStorage" })` (sessionStorage, same prefix and limit).
 - Never `localStorage`, `sessionStorage`, IndexedDB or cookies directly.

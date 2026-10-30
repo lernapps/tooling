@@ -20,14 +20,32 @@ function memoryStorage(): Storage {
 
 const isString = (value: unknown): value is string => typeof value === "string";
 const original = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
-const use = (storage: Storage) =>
-  Object.defineProperty(globalThis, "localStorage", { value: storage, configurable: true });
+const originalSession = Object.getOwnPropertyDescriptor(globalThis, "sessionStorage");
+const use = (storage: Storage, area: "localStorage" | "sessionStorage" = "localStorage") =>
+  Object.defineProperty(globalThis, area, { value: storage, configurable: true });
 afterEach(() => {
   if (original) Object.defineProperty(globalThis, "localStorage", original);
   else Reflect.deleteProperty(globalThis, "localStorage");
+  if (originalSession) Object.defineProperty(globalThis, "sessionStorage", originalSession);
+  else Reflect.deleteProperty(globalThis, "sessionStorage");
 });
 
 describe("storage", () => {
+  test("with type sessionStorage, saves into sessionStorage under the app's prefix, and leaves localStorage alone", () => {
+    const local = memoryStorage();
+    const session = memoryStorage();
+    use(local);
+    use(session, "sessionStorage");
+    const storage = createStorage("brueche", { type: "sessionStorage" });
+    expect(storage.save("antwort", "Weil …")).toBe(true);
+    expect(storage.load("antwort", isString)).toBe("Weil …");
+    expect(session.getItem("lernapps:brueche:antwort")).toBe('"Weil …"');
+    expect(local.length).toBe(0);
+    expect(createStorage("brueche").load("antwort", isString)).toBeUndefined();
+    storage.remove("antwort");
+    expect(session.length).toBe(0);
+  });
+
   test("saves and loads a value under the app's prefix", () => {
     const local = memoryStorage();
     use(local);

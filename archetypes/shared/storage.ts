@@ -3,7 +3,9 @@
 // localStorage is small (about 5 MB in most browsers) and shared, so an app keeps at most STORAGE_QUOTA under its
 // prefix: a save beyond it is refused. The learner's settings for every app or every app of an archetype are kept
 // under SETTINGS_PREFIX, which every app shares, within SETTINGS_QUOTA (createSettings). Every access is wrapped in try/catch: when the browser blocks storage, it is
-// full or the app's quota is used up, the app keeps working and remembers nothing more.
+// full or the app's quota is used up, the app keeps working and remembers nothing more. What should last only while the
+// tab is open, such as an answer being written, which a reload must not lose but a new day need not keep, goes into
+// sessionStorage instead ({ type: "sessionStorage" }), with the same prefix and quota.
 
 /**
  * What an app may keep under its prefix: 100 kB (100,000 bytes), measured as browsers count localStorage, 2 bytes per
@@ -24,13 +26,26 @@ export interface DeviceStorage {
   remove(key: string): void;
 }
 
-/** The storage of the app named `app`: its id in the catalog (entries/<id>.yaml, rule own-data-only), e.g. "brueche". */
-export function createStorage(app: string): DeviceStorage {
-  return prefixed(`lernapps:${app}:`, `lernapps:${app}:`, STORAGE_QUOTA);
+/** Where the values are kept: until removed (localStorage, the default), or while the tab is open (sessionStorage). */
+export type StorageType = "localStorage" | "sessionStorage";
+
+export interface StorageOptions {
+  type?: StorageType;
 }
 
-/** The values under `prefix`, which may take at most `quota` bytes together with every other value under `counted`. */
-function prefixed(prefix: string, counted: string, quota: number): DeviceStorage {
+/**
+ * The storage of the app named `app`: its id in the catalog (entries/<id>.yaml, rule own-data-only), e.g. "brueche";
+ * in localStorage, or with `type: "sessionStorage"` in sessionStorage, which the browser empties when the tab closes.
+ */
+export function createStorage(app: string, options: StorageOptions = {}): DeviceStorage {
+  return prefixed(`lernapps:${app}:`, `lernapps:${app}:`, STORAGE_QUOTA, options.type);
+}
+
+/**
+ * The values under `prefix` in the browser's storage `type`, which may take at most `quota` bytes together with every
+ * other value under `counted` there.
+ */
+function prefixed(prefix: string, counted: string, quota: number, type: StorageType = "localStorage"): DeviceStorage {
   /** The bytes the values under `counted` take, without the one under `except`. */
   const used = (target: Storage, except: string): number => {
     let bytes = 0;
@@ -43,7 +58,7 @@ function prefixed(prefix: string, counted: string, quota: number): DeviceStorage
   };
   const store = (): Storage | undefined => {
     try {
-      return globalThis.localStorage;
+      return globalThis[type];
     } catch {
       return undefined;
     }
