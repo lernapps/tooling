@@ -33,6 +33,10 @@ At the checkpoint "list", without asking first: the pull request publishes nothi
 - lernapps.net builds a copy of the app from the entry's `commit` and serves it at
   `https://lernapps.net/apps/start/<id>/`; the catalog links it once it is checked there. Tell the creator: the app
   stays theirs, at their own address too.
+- Tell the creator once: install the GitHub App [lernapps-updater](https://github.com/apps/lernapps-updater) on the app's
+  repo. Then lernapps/apps moves the app to the pins of the tooling every day, in a pull request in the app that
+  merges once the app's own check is green. Without the App the app gets no tooling updates, and lernapps/apps lists
+  it in an issue. It is advice; the listing does not wait for it.
 - A new version needs no new pull request from you. Publish it as usual (plan, Commit). Once the app's address
   serves the new commit, lernapps/apps opens an update pull request for the entry within about 30 minutes; the
   listing check runs on it.
