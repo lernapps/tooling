@@ -341,8 +341,9 @@
 <ul>
 <li>Every app on lernapps.net shares one origin with the other apps and the platform.</li>
 <li>Own data: keys of <code>localStorage</code> and <code>sessionStorage</code>, IndexedDB databases and caches named <code>lernapps:&lt;id&gt;:…</code>, <code>&lt;id&gt;</code> the app's id in the catalog (<code>entries/&lt;id&gt;.yaml</code>).</li>
+<li>Also every app's: the learner's settings for every app (<code>lernapps:settings:&lt;key&gt;</code>, a key without a colon) and for every app of the page's archetype (<code>lernapps:settings:&lt;archetype&gt;:…</code>, the archetype of <code>&lt;meta name=&quot;lernapps-archetype&quot;&gt;</code>); never another archetype's. <code>settings</code> is never an app's id.</li>
 <li>Never read, write or remove other keys; never <code>clear()</code>; never <code>caches.match()</code> without <code>cacheName</code>.</li>
-<li>Built with this tooling: <code>createStorage(&quot;&lt;id&gt;&quot;)</code> from <code>@lernapps/tooling/storage</code>.</li>
+<li>Built with this tooling: <code>createStorage(&quot;&lt;id&gt;&quot;)</code> from <code>@lernapps/tooling/storage</code>; settings with <code>createSettings(&quot;&lt;id&gt;&quot;, &quot;&lt;archetype&gt;&quot;)</code>.</li>
 <li><code>lernapps check</code> puts another app's data into the browser and reports every access to it, before a click.</li>
 </ul>
 </div>
@@ -973,8 +974,9 @@
 <ul>
 <li>Only <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app's id in the catalog (own prefix <code>lernapps:&lt;id&gt;:</code>, rule <code>own-data-only</code>; works when storage is blocked).</li>
 <li>At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, <code>save</code> returns false and the app keeps working.</li>
+<li>A setting of the learner that holds for every app or every app of the archetype: <code>createSettings(&quot;&lt;id&gt;&quot;, &quot;&lt;archetype&gt;&quot;)</code>, saved only where the learner chose it (<code>&quot;app&quot;</code>, <code>&quot;archetype&quot;</code> or <code>&quot;all&quot;</code>); the app's own goes first.</li>
 <li>Keep the learning state, not growing histories.</li>
-<li>What only a reload must not lose, such as an answer being written, lasts while the tab is open: <code>createStorage(&quot;&lt;id&gt;&quot;, { session: true })</code> (sessionStorage, same prefix and limit).</li>
+<li>What only a reload must not lose, such as an answer being written, lasts while the tab is open: <code>createStorage(&quot;&lt;id&gt;&quot;, { type: &quot;sessionStorage&quot; })</code> (sessionStorage, same prefix and limit).</li>
 <li>Never <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</li>
 </ul>
 </div>
