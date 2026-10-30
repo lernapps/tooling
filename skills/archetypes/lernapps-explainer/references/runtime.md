@@ -70,7 +70,8 @@
 - The scope: the whole learning path in your own words, from the material, as continuous prose with the exact
   content (facts, terms, reasons, examples), beside what it describes. `scope` in each page's YAML: what the page
   teaches; optionally `scope` in `chapter.yaml`; and in `src/app.yaml`
-  `scope: { text, in: [...], out: [...] }`: what the app is about, what belongs to the scope and what does not. With
+  `scope: { text, out: [...] }`: what the app is about and where its weight lies, and what does not belong to it (what
+  belongs to it is what the pages say). With
   the app's scope the build requires a scope on every page. The tutor judges open answers by it, never from general
   knowledge.
 - `src/app.yaml`: `tutor.rules`, the app's rules for the tutor; never send it to another address.
