@@ -201,7 +201,7 @@
 <div>
 <ul>
 <li><code>fitness.storage</code>, <code>fitness.thirdParty</code> from what the app does; <code>lernapps check --report &lt;file&gt;</code> measures it.</li>
-<li>Anything in <code>localStorage</code> → <code>storage: device</code>; loads from another server after a click → <code>thirdParty: on-click</code>.</li>
+<li>Anything in <code>localStorage</code> or <code>sessionStorage</code> → <code>storage: device</code>; loads from another server after a click → <code>thirdParty: on-click</code>.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/platform-rules.md"><code>skills/tooling/lernapps-cli/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-fitness-matches.ts"><code>check/rules/entry-fitness-matches.ts</code></a>.</p>
@@ -329,7 +329,7 @@
 <div>
 <ul>
 <li>No cookies, analytics, tracking pixels, server storing data.</li>
-<li>Stored data stays on the device (<code>localStorage</code>) and serves only the app.</li>
+<li>Stored data stays on the device (<code>localStorage</code>, or <code>sessionStorage</code> while the tab is open) and serves only the app.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/platform-rules.md"><code>skills/tooling/lernapps-cli/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
@@ -977,6 +977,7 @@
 <li>At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, <code>save</code> returns false and the app keeps working.</li>
 <li>A setting of the learner that holds for every app or every app of the archetype: <code>createSettings(&quot;&lt;id&gt;&quot;, &quot;&lt;archetype&gt;&quot;)</code>, saved only where the learner chose it (<code>&quot;app&quot;</code>, <code>&quot;archetype&quot;</code> or <code>&quot;all&quot;</code>); the app's own goes first.</li>
 <li>Keep the learning state, not growing histories.</li>
+<li>What only a reload must not lose, such as an answer being written, lasts while the tab is open: <code>createStorage(&quot;&lt;id&gt;&quot;, { type: &quot;sessionStorage&quot; })</code> (sessionStorage, same prefix and limit).</li>
 <li>Never <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</li>
 </ul>
 </div>
