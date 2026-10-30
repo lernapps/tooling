@@ -104,9 +104,11 @@
 <tr><td><a href="#explainer-mistakes-diagnosed"><code>explainer-mistakes-diagnosed</code></a></td><td>archetype:explainer</td><td>hint</td></tr>
 <tr><td><a href="#explainer-navigation"><code>explainer-navigation</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#explainer-only-content"><code>explainer-only-content</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-open-points"><code>explainer-open-points</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-plausible-numbers"><code>explainer-plausible-numbers</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-quote-sourced"><code>explainer-quote-sourced</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-readable-without-js"><code>explainer-readable-without-js</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-scope-matches"><code>explainer-scope-matches</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-stable-ids"><code>explainer-stable-ids</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-structure-by-sections"><code>explainer-structure-by-sections</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#explainer-structure-complete"><code>explainer-structure-complete</code></a></td><td>archetype:explainer</td><td>error</td></tr>
@@ -201,7 +203,7 @@
 <div>
 <ul>
 <li><code>fitness.storage</code>, <code>fitness.thirdParty</code> from what the app does; <code>lernapps check --report &lt;file&gt;</code> measures it.</li>
-<li>Anything in <code>localStorage</code> or <code>sessionStorage</code> → <code>storage: device</code>; loads from another server after a click → <code>thirdParty: on-click</code>.</li>
+<li>Anything in <code>localStorage</code> or <code>sessionStorage</code>, also what the app only reads on loading and keeps after an input (an assistant chosen for the tutor, an answer being written) → <code>storage: device</code>; loads from another server after a click → <code>thirdParty: on-click</code>.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/platform-rules.md"><code>skills/tooling/lernapps-cli/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-fitness-matches.ts"><code>check/rules/entry-fitness-matches.ts</code></a>.</p>
@@ -648,6 +650,19 @@
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
 </section>
 
+<section id="explainer-open-points">
+<h2>An open task checks what the material teaches</h2>
+<p><code>explainer-open-points</code> · archetype:explainer · warning</p>
+<div>
+<ul>
+<li>2 to 5 points, each one sentence a learner can check with yes or no; together what a good answer needs.</li>
+<li>A point of the content names its section (<code>source</code>), and its content is there; a point of form has <code>kind: form</code>.</li>
+<li>The model answer has every point, in the words of the class.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
 <section id="explainer-plausible-numbers">
 <h2>Numbers that fit the story</h2>
 <p><code>explainer-plausible-numbers</code> · archetype:explainer · warning</p>
@@ -682,6 +697,18 @@
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-readable-without-js.ts"><code>check/rules/explainer-readable-without-js.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-scope-matches">
+<h2>The scope says what the pages teach</h2>
+<p><code>explainer-scope-matches</code> · archetype:explainer · warning</p>
+<div>
+<ul>
+<li><code>src/scope.md</code> in your own words, never copied from the material; a part per chapter and page.</li>
+<li>Each part says what its page teaches, no more and no less; &quot;Gehört dazu&quot; and &quot;Gehört nicht dazu&quot; fit the pages.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
 </section>
 
 <section id="explainer-stable-ids">

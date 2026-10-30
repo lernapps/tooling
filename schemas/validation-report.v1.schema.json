@@ -95,7 +95,10 @@
       "description": "The fitness values measured on the built app, without a click, in the words of the catalog entry.",
       "type": "object",
       "properties": {
-        "storage": { "enum": ["none", "device"], "description": "none: nothing stored; device: only in the browser" },
+        "storage": {
+          "enum": ["none", "device"],
+          "description": "none: nothing stored; device: only in the browser, also what the app reads on loading and keeps after an input"
+        },
         "thirdParty": {
           "enum": ["none", "before-click"],
           "description": "none: no request to another host before a click; before-click: requests that keep the app from being listed"
