@@ -99,4 +99,47 @@ describe("own-data-only", () => {
     const page = visit(["localStorage fortschritt"], [{ area: "localStorage", action: "write", name: "fortschritt" }]);
     expect(found(context(page))).toEqual(['writes localStorage "fortschritt", which is not its own']);
   });
+
+  test("the learner's settings for every app and for the page's archetype are every app's, another archetype's not", () => {
+    const page = {
+      ...visit(
+        ["localStorage lernapps:settings:schrift", "localStorage lernapps:settings:explainer:bedarf"],
+        [
+          { area: "localStorage", action: "read", name: "lernapps:settings:schrift" },
+          { area: "localStorage", action: "read", name: "lernapps:settings:explainer:bedarf" },
+          { area: "localStorage", action: "read", name: "lernapps:settings:quiz:bedarf" },
+        ],
+      ),
+      archetype: "explainer",
+    };
+    expect(found(context(page, "entries/brueche.yaml"))).toEqual([
+      'reads localStorage "lernapps:settings:quiz:bedarf", which is not its own',
+    ]);
+  });
+
+  test("without an archetype, only the settings for every app are the page's", () => {
+    const page = visit(
+      [],
+      [
+        { area: "localStorage", action: "read", name: "lernapps:settings:schrift" },
+        { area: "localStorage", action: "read", name: "lernapps:settings:explainer:bedarf" },
+      ],
+    );
+    expect(found(context(page, "entries/brueche.yaml"))).toEqual([
+      'reads localStorage "lernapps:settings:explainer:bedarf", which is not its own',
+    ]);
+  });
+
+  test("without an entry, settings are never the app's own prefix; an entry named settings is a finding", () => {
+    const page = visit(
+      ["localStorage lernapps:settings:schrift", "localStorage lernapps:brueche:stand"],
+      [{ area: "localStorage", action: "write", name: "lernapps:settings:schrift" }],
+    );
+    const problems = check.run(context(page)) as Problem[];
+    expect(problems).toEqual([]);
+    expect(found(context(page, "entries/settings.yaml"))).toEqual([
+      "has the id settings, the prefix of the learner's settings for every app",
+      'writes localStorage "lernapps:brueche:stand", which is not its own',
+    ]);
+  });
 });

@@ -317,7 +317,7 @@ the page marks (`<meta name="lernapps-archetype">`). `own-data-only` lets an app
 archetype's; `settings` is reserved and is never a catalog id. Apps built with the tooling reach them through
 `createSettings(archetype)` of `@lernapps/tooling/storage`, which reads the app's own setting first, then the
 archetype's, then the one for every app, and saves where the learner chose; the shared prefixes have a quota of their
-own. Not built yet. **Rejected:** a settings page on the platform's website (one more place to go; the learner
+own. **Rejected:** a settings page on the platform's website (one more place to go; the learner
 chooses where the setting has an effect); each app asks again (the learner meets the same choice in every app).
 **Consequences:** an app can change a setting that every other app of its archetype follows, so the review rubric
 covers that an app writes a shared setting only on the learner's choice; settings are no personal data the
