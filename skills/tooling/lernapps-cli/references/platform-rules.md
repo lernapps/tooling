@@ -19,7 +19,7 @@ severity: error
 ```
 
 - No cookies, analytics, tracking pixels, server storing data.
-- Stored data stays on the device (`localStorage`) and serves only the app.
+- Stored data stays on the device (`localStorage`, or `sessionStorage` while the tab is open) and serves only the app.
 
 ### `own-data-only`: Touch only the app's own data in the browser
 
@@ -254,4 +254,4 @@ severity: error
 ```
 
 - `fitness.storage`, `fitness.thirdParty` from what the app does; `lernapps check --report <file>` measures it.
-- Anything in `localStorage` → `storage: device`; loads from another server after a click → `thirdParty: on-click`.
+- Anything in `localStorage` or `sessionStorage` → `storage: device`; loads from another server after a click → `thirdParty: on-click`.
