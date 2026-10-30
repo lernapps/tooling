@@ -41,9 +41,9 @@ model answer that lacks a point or is not in the words of the class.
 id: explainer-scope-matches
 ```
 
-Read `src/scope.md`, if the app has one, against the pages. A finding: a part that teaches what its page does not, or
-leaves out what it teaches; a scope that copies the material instead of saying it in its own words; "Gehört dazu" or
-"Gehört nicht dazu" that contradicts the pages.
+Read the scope, if the app has one (`scope` in `src/app.yaml` and in each page), against the pages. A finding: a page's
+scope that says what the page does not teach, or leaves out what it teaches; a scope that copies the material instead of saying it in its own words; "Gehört nicht dazu"
+that names what a page teaches.
 
 ## Plausible numbers
 

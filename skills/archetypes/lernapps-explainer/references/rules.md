@@ -279,5 +279,7 @@ scope: archetype:explainer
 severity: warning
 ```
 
-- `src/scope.md` in your own words, never copied from the material; a part per chapter and page.
-- Each part says what its page teaches, no more and no less; "Gehört dazu" and "Gehört nicht dazu" fit the pages.
+- `scope` of each page in your own words, never copied from the material; `scope` in `src/app.yaml` with what does not
+  belong to it.
+- Each page's scope says what the page teaches, no more and no less; "Gehört nicht dazu" names what a learner or tutor
+  might expect but the material does not teach.
