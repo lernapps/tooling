@@ -44,7 +44,7 @@ a submission they declare something about.
   (`…-figure-<n>.png`): a page image is scaled down, its details are not readable. `--desktop` adds 1280 px images.
   Options: `npx lernapps screenshots --help`.
 - Interactive app: `screenshots` does not support it. Open the built app with the Playwright the tooling installs
-  (`import { chromium } from "playwright"`), at 390 px width, and take `page.screenshot({ fullPage: true })` of each
+  (`import { chromium } from "playwright"`), at 360 px width, and take `page.screenshot({ fullPage: true })` of each
   state the creator should see, from a short script outside the app.
 
 ## A check fails
