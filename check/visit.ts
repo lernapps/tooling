@@ -415,6 +415,8 @@ async function visitPage(
         ? noJs().then((noJsContext) => readWithoutJavaScript(noJsContext, url))
         : undefined;
     withoutJavaScript?.catch(() => undefined); // awaited below; not unhandled when this visit fails first
+    const marker = page.locator(ARCHETYPE_MARKER).first();
+    const archetype = (await marker.count()) > 0 ? ((await marker.getAttribute("content")) ?? undefined) : undefined;
     const loaded = [...requests];
     const cookies = (await context.cookies()).map((cookie) => cookie.name).sort();
     const { storage, access } = await page.evaluate(
@@ -497,6 +499,7 @@ async function visitPage(
       overflow,
       axe: violations.sort((a, b) => a.id.localeCompare(b.id)),
       links: statuses,
+      ...(archetype ? { archetype } : {}),
       ...(withoutJavaScript ? { withoutJavaScript: await withoutJavaScript } : {}),
       anchors,
     };
@@ -507,6 +510,8 @@ async function visitPage(
 
 /** The marker of a page the explainer runtime renders; only such a page is visited again without JavaScript. */
 const EXPLAINER_MARKER = 'meta[name="lernapps-archetype"][content="explainer"]';
+/** The marker of the archetype whose runtime renders a page; its settings are the page's to read (own-data-only). */
+const ARCHETYPE_MARKER = 'meta[name="lernapps-archetype"]';
 /**
  * The parts of an explainer page that only JavaScript shows, hidden without it: a component's island, a generated
  * exercise's live task, a question's controls and its reveal after "Prüfen". What is inside is not read.

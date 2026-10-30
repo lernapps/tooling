@@ -137,5 +137,7 @@ severity: error
   `lernapps:<id>:`, rule `own-data-only`; works when storage is blocked).
 - At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, `save` returns false and the
   app keeps working.
+- A setting of the learner that holds for every app or every app of the archetype: `createSettings("<id>",
+  "<archetype>")`, saved only where the learner chose it (`"app"`, `"archetype"` or `"all"`); the app's own goes first.
 - Keep the learning state, not growing histories.
 - Never `localStorage`, `sessionStorage`, IndexedDB or cookies directly.

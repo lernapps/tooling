@@ -32,8 +32,12 @@ severity: error
 - Every app on lernapps.net shares one origin with the other apps and the platform.
 - Own data: keys of `localStorage` and `sessionStorage`, IndexedDB databases and caches named `lernapps:<id>:…`,
   `<id>` the app's id in the catalog (`entries/<id>.yaml`).
+- Also every app's: the learner's settings for every app (`lernapps:settings:<key>`, a key without a colon) and for
+  every app of the page's archetype (`lernapps:settings:<archetype>:…`, the archetype of
+  `<meta name="lernapps-archetype">`); never another archetype's. `settings` is never an app's id.
 - Never read, write or remove other keys; never `clear()`; never `caches.match()` without `cacheName`.
-- Built with this tooling: `createStorage("<id>")` from `@lernapps/tooling/storage`.
+- Built with this tooling: `createStorage("<id>")` from `@lernapps/tooling/storage`; settings with
+  `createSettings("<id>", "<archetype>")`.
 - `lernapps check` puts another app's data into the browser and reports every access to it, before a click.
 
 ### `runs-in-browser`: Runs in the browser, without installation

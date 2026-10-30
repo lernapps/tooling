@@ -49,6 +49,8 @@ export interface PageVisit {
   axe: { id: string; help: string; helpUrl: string; targets: string[] }[];
   /** Links and resources of the app (below its base URL), with the HTTP status each one answers with. */
   links: { url: string; status: number }[];
+  /** The archetype the page marks as its own (`<meta name="lernapps-archetype" content="explainer">`), if any. */
+  archetype?: string;
   /**
    * Only of a page the explainer runtime marks as its own (`<meta name="lernapps-archetype" content="explainer">`):
    * what it shows with JavaScript off, from a second visit (check/visit.ts). Other pages get no such visit.

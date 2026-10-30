@@ -307,6 +307,32 @@ addresses: qg-checked-not-declared, qg-nothing-collected
 :::
 ```
 
+## A learner's settings hold for every app or every app of an archetype
+
+**Context:** some settings belong to the learner, not to one app: the needs the explainer's tutor follows
+(lernapps/app-templates `dec-tutor-needs`), later perhaps the font or the line spacing. Under `dec-own-data-only` an
+app may touch only `lernapps:<id>:`, so each app would ask again. **Decision:** two shared prefixes,
+`lernapps:settings:` for every app and `lernapps:settings:<archetype>:` for every app of one archetype, the archetype
+the page marks (`<meta name="lernapps-archetype">`). `own-data-only` lets an app read and write both, and no other
+archetype's; `settings` is reserved and is never a catalog id. Apps built with the tooling reach them through
+`createSettings(archetype)` of `@lernapps/tooling/storage`, which reads the app's own setting first, then the
+archetype's, then the one for every app, and saves where the learner chose; the shared prefixes have a quota of their
+own. **Rejected:** a settings page on the platform's website (one more place to go; the learner
+chooses where the setting has an effect); each app asks again (the learner meets the same choice in every app).
+**Consequences:** an app can change a setting that every other app of its archetype follows, so the review rubric
+covers that an app writes a shared setting only on the learner's choice; settings are no personal data the
+platform sees, they stay on the device.
+
+```arc42
+:::decision
+id: dec-shared-settings
+title: A learner's settings hold for every app or every app of an archetype
+status: accepted
+date: 2026-10-30
+addresses: qg-checked-not-declared, qg-nothing-collected
+:::
+```
+
 ## lernapps.net serves a copy of every listed app
 
 **Context:** for an app at its developer's address, the provider of that address answers to a school's data

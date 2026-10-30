@@ -96,8 +96,9 @@ id: own-data-only
 
 The check sees the app only before a click. Read the bundle's scripts for what they do with stored data after one. A
 finding: a key of `localStorage` or `sessionStorage`, an IndexedDB database or a cache whose name does not start with
-`lernapps:<id>:` (`<id>` the name of the entry, `entries/<id>.yaml`), a loop that reads every key, `clear()`, or
-`caches.match()` without `cacheName`.
+`lernapps:<id>:` (`<id>` the name of the entry, `entries/<id>.yaml`) and is no setting the app may touch
+(`lernapps:settings:<key>`, `lernapps:settings:<its archetype>:…`), a loop that reads every key, `clear()`, or
+`caches.match()` without `cacheName`. A setting for more than one app is written only when the learner chooses it there.
 
 ## Content of others named, with its licence
 
