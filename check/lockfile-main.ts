@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// The lock file check without installing anything: the site check action runs it from its own checkout of this repo
-// (node check/lockfile-main.ts), before npm ci. In an app, lernapps check runs the same as the rule lockfile-matches.
+// The rule lockfile-matches for the sites (docs, practice, the site frame): they do not install the tooling, so they
+// have no lernapps check, and a git pin that moved in package.json alone would go unnoticed there. Their site check
+// action runs this file from its own checkout; apps, the templates and this repo get the rule from lernapps check.
 import { lockfileProblems } from "./lockfile.ts";
 
 const problems = lockfileProblems(process.cwd()) ?? [];
