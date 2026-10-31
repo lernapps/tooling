@@ -115,7 +115,7 @@
     "vite-plus": "1.4.0"
   },
   "peerDependencies": {
-    "vite-plus": "1.0.0 || 1.4.0"
+    "vite-plus": "1.4.0"
   },
   "peerDependenciesMeta": {
     "vite-plus": {
@@ -130,7 +130,7 @@
   },
   "appTemplates": {
     "repository": "https://github.com/lernapps/app-templates.git",
-    "commit": "5799517f88beb74864f2a41da6f609af3b56d25a",
+    "commit": "29cd6547814a19f002b8f1ed8651f6b1fc51515b",
     "archetypes": [
       "explainer",
       "interactive",
