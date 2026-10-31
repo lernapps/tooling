@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "base": {
+    "label": "df005ee5770f3619cfd6bef9db444afa4a83ac7d",
+    "commit": "df005ee5770f3619cfd6bef9db444afa4a83ac7d"
+  },
+  "head": {
+    "label": "56d5bc322964e1f95ec2447743c7eec2863b7d72"
+  },
+  "acceptanceBase": "df005ee5770f3619cfd6bef9db444afa4a83ac7d",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "actor-renovate",
+        "kind": "actor",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "description",
+            "before": "External system; applies the update policy and proposes updates of the tooling package to every app",
+            "after": "External system; applies the update policy and proposes updates of third-party packages, and of the tooling pins as far as a pull request alone can, to every app that has its GitHub App"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 165
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 168
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "Renovate"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "actor-app-overview",
+        "kind": "actor",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "description",
+            "before": "External system; the catalog of lernapps.net, holds the entries, runs the listing validation, serves a copy of every listed app and proposes its updates",
+            "after": "External system; the catalog of lernapps.net, holds the entries, runs the listing validation, serves a copy of every listed app, proposes its updates and moves the listed apps to the pins of the tooling"
+          }
+        ],
+        "proseChanged": true,
+        "base": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 183
+        },
+        "head": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "line": 189
+        },
+        "section": {
+          "file": "docs/arc42/03-system-context.arc42.md",
+          "headingPath": [
+            "System Scope and Context",
+            "App overview"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-guidance-changes",
+        "kind": "runtime-scenario",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 232
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 233
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "Guidance changes"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "rs-rule-changes",
+        "kind": "runtime-scenario",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 278
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 284
+        },
+        "section": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "headingPath": [
+            "Runtime View",
+            "A rule changes"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "rs-guidance-changes-sequence",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "aliases",
+            "before": "owner=actor-owner, guidance=bb-process-guidance, skills=bb-skills, evals=bb-evals, package=bb-tooling-package, site=bb-tooling-build, github=actor-renovate",
+            "after": "owner=actor-owner, guidance=bb-process-guidance, skills=bb-skills, evals=bb-evals, package=bb-tooling-package, site=bb-tooling-build, github=actor-renovate, overview=actor-app-overview"
+          },
+          {
+            "name": "source",
+            "before": "sequenceDiagram\n    participant owner as Owner\n    participant guidance as Process guidance\n    participant skills as Skills\n    participant evals as Evals\n    participant package as Package build\n    participant site as Tooling site\n    participant github as Renovate\n    owner->>guidance: pull request: change a phase's steps or a template\n    owner->>skills: change a skill's text\n    owner->>evals: start an eval session: Harbor jobs per archetype and model\n    evals->>evals: simulated creator and agent, transcripts scored\n    evals-->>owner: results.json on evals/run-<run>\n    owner->>evals: read the transcripts, write conclusions.yaml in the pull request\n    evals-->>site: the run on the prompt engineering page\n    owner->>package: merge to the main line\n    package-->>site: guidance pages and llms.txt for assistants\n    package-->>github: a new commit of the package\n    github->>github: update pull request in every app, merged when green by the policy",
+            "after": "sequenceDiagram\n    participant owner as Owner\n    participant guidance as Process guidance\n    participant skills as Skills\n    participant evals as Evals\n    participant package as Package build\n    participant site as Tooling site\n    participant github as Renovate\n    participant overview as App overview\n    owner->>guidance: pull request: change a phase's steps or a template\n    owner->>skills: change a skill's text\n    owner->>evals: start an eval session: Harbor jobs per archetype and model\n    evals->>evals: simulated creator and agent, transcripts scored\n    evals-->>owner: results.json on evals/run-<run>\n    owner->>evals: read the transcripts, write conclusions.yaml in the pull request\n    evals-->>site: the run on the prompt engineering page\n    owner->>package: merge to the main line\n    package-->>site: guidance pages and llms.txt for assistants\n    package-->>github: a new commit of the package\n    github->>github: update pull request in every app, merged when green by the policy\n    package-->>overview: a new commit of the package\n    overview->>overview: Upgrade: lernapps update in each listed app, pull request, merged when the app's check is green"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 241
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 242
+        }
+      },
+      {
+        "id": "rs-rule-changes-sequence",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "aliases",
+            "before": "owner=actor-owner, package=bb-tooling-package, skills=bb-skills, lint=bb-lint-rules, check=bb-check-cli, procedure=bb-review-procedure, evals=bb-evals, github=actor-renovate",
+            "after": "owner=actor-owner, package=bb-tooling-package, skills=bb-skills, lint=bb-lint-rules, check=bb-check-cli, procedure=bb-review-procedure, evals=bb-evals, github=actor-renovate, overview=actor-app-overview"
+          },
+          {
+            "name": "source",
+            "before": "sequenceDiagram\n    participant owner as Owner\n    participant skills as Skills\n    participant lint as Lint rules\n    participant check as Alignment CLI\n    participant procedure as Review rubric\n    participant package as Package build\n    participant evals as Evals\n    participant github as Renovate\n    owner->>check: pull request: new check for a recurring finding (same rule id)\n    owner->>procedure: remove the rubric item of that rule\n    package->>skills: read rule ids\n    package->>lint: read rule ids\n    package->>check: read rule ids\n    package->>procedure: read rule ids\n    package-->>owner: ids unique per artifact kind, every message linked\n    owner->>evals: run by hand with three assistants\n    evals-->>owner: scores per archetype\n    owner->>package: merge to the main line\n    package-->>github: a new commit of the package\n    github->>github: update pull request in every app, merged when green by the policy",
+            "after": "sequenceDiagram\n    participant owner as Owner\n    participant skills as Skills\n    participant lint as Lint rules\n    participant check as Alignment CLI\n    participant procedure as Review rubric\n    participant package as Package build\n    participant evals as Evals\n    participant github as Renovate\n    participant overview as App overview\n    owner->>check: pull request: new check for a recurring finding (same rule id)\n    owner->>procedure: remove the rubric item of that rule\n    package->>skills: read rule ids\n    package->>lint: read rule ids\n    package->>check: read rule ids\n    package->>procedure: read rule ids\n    package-->>owner: ids unique per artifact kind, every message linked\n    owner->>evals: run by hand with three assistants\n    evals-->>owner: scores per archetype\n    owner->>package: merge to the main line\n    package-->>github: a new commit of the package\n    github->>github: update pull request in every app, merged when green by the policy\n    package-->>overview: a new commit of the package\n    overview->>overview: Upgrade: lernapps update in each listed app, pull request, merged when the app's check is green"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 287
+        },
+        "head": {
+          "file": "docs/arc42/06-runtime-view.arc42.md",
+          "line": 293
+        }
+      }
+    ],
+    "edges": [],
+    "proseSections": [
+      {
+        "status": "modified",
+        "section": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "headingPath": [
+            "Deployment View",
+            "How updates arrive"
+          ],
+          "occurrence": 1
+        },
+        "base": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 237
+        },
+        "head": {
+          "file": "docs/arc42/07-deployment-view.arc42.md",
+          "line": 237
+        }
+      }
+    ],
+    "documents": [
+      {
+        "file": "docs/arc42/03-system-context.arc42.md",
+        "added": 0,
+        "modified": 2,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/06-runtime-view.arc42.md",
+        "added": 0,
+        "modified": 4,
+        "removed": 0
+      },
+      {
+        "file": "docs/arc42/07-deployment-view.arc42.md",
+        "added": 0,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
