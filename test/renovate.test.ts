@@ -26,6 +26,8 @@ interface PackageRule {
   automergeSchedule?: string[];
 }
 interface Preset {
+  npmrc?: string;
+  npmrcMerge?: boolean;
   customManagers: CustomManager[];
   packageRules: PackageRule[];
 }
@@ -151,4 +153,12 @@ test("the group waits for a window of its schedule, not for a release age, and s
   // back for good (timestamp-required) while the timestamped actions moved alone. The grace is the schedule instead.
   expect(group).toMatchObject({ minimumReleaseAge: "0 days", schedule: ["* */3 * * *"], automerge: true });
   expect(group?.automergeSchedule).toBeUndefined();
+});
+
+test("Renovate's npm may fetch the git pins of the repo's own package.json when it updates a lockfile", () => {
+  // As of npm 12, allow-git defaults to none: npm refuses every git dependency (EALLOWGIT), so Renovate, which runs
+  // the latest npm, could not update a package-lock.json that holds a github: pin (@lernapps/site, @lernapps/tooling,
+  // @lernapps/app-templates). root allows the git dependencies of the root package.json only, not those of a
+  // dependency. npmrcMerge keeps the repo's own .npmrc (install-links=true of the templates in app-templates).
+  expect(preset).toMatchObject({ npmrc: "allow-git=root", npmrcMerge: true });
 });
