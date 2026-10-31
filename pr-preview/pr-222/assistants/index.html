@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light dark">
+  <title>Which assistant to build with – lernapps.net</title>
+  <meta name="description" content="Any coding assistant that can use skills and change files can build a lernapps.net app. The two setups we use most, what they cost, three apps a budget model built, and why the creator counts most.">
+  <link rel="canonical" href="https://lernapps.net/tooling/assistants/">
+  <link rel="stylesheet" href="../stil.css">
+  <style>
+    /* Colours of this page as tokens, light and dark, as on How we evaluate the guidance. */
+    :root {
+      --as-bg: #ffffff;
+      --as-text: var(--la-text, #1e293b);
+      --as-muted: var(--la-muted, #475569);
+      --as-link: var(--la-link, #1d4ed8);
+      --as-panel: var(--la-surface, #f8fafc);
+      --as-border: var(--la-border, #e2e8f0);
+      --as-accent: #1d4ed8;
+      --as-budget: #15803d;
+      --as-creator: #b45309;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --as-bg: #111827; --as-text: #e5e7eb; --as-muted: #a3adbd; --as-link: #93c5fd; --as-panel: #1b2433;
+        --as-border: #2c3747; --as-accent: #93c5fd; --as-budget: #4ade80; --as-creator: #fbbf24;
+      }
+    }
+    :root[data-theme="dark"] {
+      --as-bg: #111827; --as-text: #e5e7eb; --as-muted: #a3adbd; --as-link: #93c5fd; --as-panel: #1b2433;
+      --as-border: #2c3747; --as-accent: #93c5fd; --as-budget: #4ade80; --as-creator: #fbbf24;
+    }
+    body { background: var(--as-bg); color: var(--as-text); }
+    main { color: var(--as-text); max-width: 46rem; }
+    main a { color: var(--as-link); }
+    main a:focus-visible { outline: 3px solid var(--as-link); outline-offset: 2px; }
+    h2 { margin-top: 2.5rem; line-height: 1.3; }
+    .lead { font-size: 1.1rem; }
+    .meta { color: var(--as-muted); font-size: 0.9rem; }
+
+    /* the two setups, side by side; one column on a phone */
+    .setups { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+      list-style: none; padding: 0; margin: 1.25rem 0; }
+    .setups > li { border: 1px solid var(--as-border); border-radius: 0.6rem; padding: 0.2rem 1rem 0.8rem;
+      background: var(--as-panel); }
+    .setups > li.main { border-top: 4px solid var(--as-accent); }
+    .setups > li.budget { border-top: 4px solid var(--as-budget); }
+    .setups h3 { margin: 0.7rem 0 0.1rem; font-size: 1.05rem; }
+    .setups .what { color: var(--as-muted); font-size: 0.9rem; margin: 0 0 0.5rem; }
+    .setups p { margin: 0.4rem 0; }
+
+    /* the three example apps */
+    .examples { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.6rem; }
+    .examples a { display: block; border: 1px solid var(--as-border); border-radius: 0.6rem; padding: 0.7rem 0.9rem;
+      text-decoration: none; color: var(--as-text); }
+    .examples a:hover { border-color: var(--as-link); }
+    .examples strong { color: var(--as-link); }
+    .examples span { display: block; color: var(--as-muted); font-size: 0.9rem; margin-top: 0.15rem; }
+
+    .creator { border-left: 4px solid var(--as-creator); background: var(--as-panel); border-radius: 0 0.5rem 0.5rem 0;
+      padding: 0.6rem 1rem; margin: 1rem 0; }
+    .creator p { margin: 0.4rem 0; }
+  </style>
+<!-- lernapps-frame -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-222/lernapps-tokens.css">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-222/lernapps-frame.css">
+<link rel="alternate" hreflang="de" href="/tooling/pr-preview/pr-222/assistants/">
+<link rel="alternate" hreflang="en" href="/tooling/pr-preview/pr-222/en/assistants/">
+<script>(() => {
+  const key = "lernapps-lang", here = "de", pages = {"en":"/tooling/pr-preview/pr-222/en/assistants/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
+</head>
+<body>
+<a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
+<p class="la-preview" lang="de">Vorschau einer Änderung. Die echte Seite: <a href="https://lernapps.net/tooling/assistants/">lernapps.net/tooling/assistants/</a></p><header class="la-header" lang="de">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav la-nav--bar" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Katalog</a></li><li><a href="/practice/">Üben</a></li><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-222/" aria-current="page">Tooling</a></li><li><a href="/tutor/">Tutor</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Plattform</a></li><li><a href="/join/">Mitmachen</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-222/en/assistants/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav>
+    <details class="la-menu"><summary>Menü</summary><nav class="la-nav la-nav--menu" aria-label="Hauptnavigation"><div class="la-menu__group"><p class="la-menu__title" id="la-menu-0">Für Lernende</p><ul aria-labelledby="la-menu-0"><li><a href="/apps/">App Katalog</a></li><li><a href="/practice/">Üben für eine Prüfung</a></li></ul></div><div class="la-menu__group"><p class="la-menu__title" id="la-menu-1">Für Macher</p><ul aria-labelledby="la-menu-1"><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-222/" aria-current="page">Tooling</a></li></ul></div><div class="la-menu__group"><p class="la-menu__title" id="la-menu-2">Verstehen und mitmachen</p><ul aria-labelledby="la-menu-2"><li><a href="/tutor/">Tutor</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Plattform</a></li><li><a href="/join/">Mitmachen</a></li></ul></div><ul class="la-menu__lang"><li class="la-lang"><a href="/tooling/pr-preview/pr-222/en/assistants/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav></details>
+  </div>
+</header>
+<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch.</p>
+  <main id="main-content" tabindex="-1">
+    <p class="meta"><a href="../">Tooling</a> › Which assistant to build with</p>
+    <h1>Which assistant to build with</h1>
+    <p class="lead">You build a lernapps.net app together with an AI coding assistant. Any assistant works if it can
+      use skills and change files in a folder. That is true of every common harness and model. Two setups we have
+      used a lot ourselves.</p>
+
+    <ul class="setups">
+      <li class="main">
+        <h3>Claude Code with Sonnet 5.5</h3>
+        <p class="what">Our everyday setup</p>
+        <p>We build the tooling and our own apps with Claude Code on the web, and most of our evals run on it. With
+          Sonnet 5.5 we do not worry: in our evals it passed the check in every run, on every kind of app.</p>
+      </li>
+      <li class="budget">
+        <h3>OpenCode with DeepSeek V4.1 Flash</h3>
+        <p class="what">Our lowest budget</p>
+        <p>The cheapest setup we test, through OpenCode Go. A whole app cost about 20 US cents and took 24 to 33
+          minutes. It still built apps that are technically sound and teach well: see the three below.</p>
+      </li>
+    </ul>
+
+    <h2 id="examples">Three apps from the budget setup</h2>
+    <p>DeepSeek V4.1 Flash built these in our evals, one of each kind of app. A simulated teacher answered its
+      questions; no person changed anything. The apps are not listed on lernapps.net and no teacher has checked their
+      content.</p>
+    <ul class="examples">
+      <li><a href="../examples/quiz/"><strong>Bruchrechnung</strong>
+        <span>A quiz: 45 questions on comparing, adding and subtracting fractions, for year 6. In German.</span></a></li>
+      <li><a href="../examples/explainer/"><strong>Der elektrische Stromkreis</strong>
+        <span>Explanation pages: 5 chapters with exercises and a glossary, for year 8. In German.</span></a></li>
+      <li><a href="../examples/interactive/"><strong>Zehnfinger-Tipptrainer</strong>
+        <span>An interactive app: touch typing on a German keyboard in 9 levels, for year 4. In German.</span></a></li>
+    </ul>
+    <p>One run per kind of app is an anecdote, not a measure. The numbers of these runs are on
+      <a href="../prompt-engineering/#2026-10-21-phase-announced--finding--flash-keeps-process">Prompt engineering</a>, next to Haiku 5.5's.</p>
+
+    <h2 id="creator">What counts most: you</h2>
+    <div class="creator">
+      <p>The assistant follows the process: it asks, plans, builds and checks. What makes an app good for learners
+        comes from you, the creator: what the learners already know, where they go wrong, which examples work in
+        class, and your yes or no at each checkpoint.</p>
+      <p>A better model saves you time and corrections. It does not replace what you know about teaching your
+        subject.</p>
+    </div>
+
+    <h2 id="start">Start</h2>
+    <p><a href="/apps/build/">Build an app</a> on lernapps.net gives you the prompt to start with. How we test that
+      assistants keep to the process: <a href="../prompt-engineering/how-evals-work/">How we evaluate the
+      guidance</a>.</p>
+  </main>
+<footer class="la-footer" lang="de">
+  <div class="la-footer__inner">
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/tooling">Quellcode</a></li></ul></nav>
+  </div>
+</footer>
+</body>
+</html>
