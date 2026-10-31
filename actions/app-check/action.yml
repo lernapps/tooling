@@ -1,7 +1,7 @@
 name: lernapps app check
 description: >-
   Checks an app the same way its git hooks did: `lernapps check` without a flag, the command of the pre-commit and
-  the pre-push hook together, nothing more. Around it only the environment: checkout, Node 22, npm ci, the Playwright
+  the pre-push hook together, nothing more. Around it only the environment: checkout, Node 26, npm ci, the Playwright
   browser from the cache. Uploads the validation report the check writes (node_modules/.cache/lernapps/), passing or
   not, as the artifact "validation-report". On main, and on a pull request from the same repo, it also uploads the
   bundle it checked (dist/) as the artifact "app" for app-publish and app-preview, so the app publishes and previews
