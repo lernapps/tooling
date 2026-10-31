@@ -90,6 +90,7 @@
 <tr><td><a href="#explore-before-code"><code>explore-before-code</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#few-turns-after-plan"><code>few-turns-after-plan</code></a></td><td>tooling</td><td>hint</td></tr>
 <tr><td><a href="#fix-from-message"><code>fix-from-message</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#lockfile-matches"><code>lockfile-matches</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#stop-at-checkpoints"><code>stop-at-checkpoints</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
@@ -488,6 +489,18 @@
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>.</p>
+</section>
+
+<section id="lockfile-matches">
+<h2>Commit the lock file with every dependency change</h2>
+<p><code>lockfile-matches</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>Change dependencies with <code>npm install</code>, never in <code>package.json</code> alone; commit <code>package-lock.json</code> with it.</li>
+<li>A git pin (<code>github:…#&lt;commit&gt;</code>) moves in both files together.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/lockfile-matches.ts"><code>check/rules/lockfile-matches.ts</code></a>.</p>
 </section>
 
 <section id="plan-file">
