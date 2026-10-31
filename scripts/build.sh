@@ -22,7 +22,7 @@ PREFIX="${SITE_PATH_PREFIX:-/tooling/}"
 
 rm -rf _site
 mkdir -p _site
-cp site/index.html site/stil.css site/spa.css site/llms.txt _site/
+cp site/index.html site/spa.css site/llms.txt _site/
 mkdir -p _site/github/updates _site/assistants
 cp site/github/index.html _site/github/
 cp site/github/updates/index.html _site/github/updates/
