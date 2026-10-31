@@ -55,7 +55,7 @@ In a repo (no <dir|url>):
                    warning. Before the first commit arc42 validate --strict
   --pre-push       the heavy part: in an app with an architecture arc42 validate --strict, unit tests, build (vp build for an app with index.html, else vp pack),
                    checks of the built app in dist/, the Playwright tests when playwright.config.* exists,
-                   dependency licences (the pre-push hook); a failure increments prePushFailures in the front
+                   dependency licences, the lock file (the pre-push hook); a failure increments prePushFailures in the front
                    matter of the current plan (the highest number in .vibe/plans/, else .vibe/plan.md). A
                    failing generic test of the archetype's runtime (@lernapps/app-templates) is named as a test
                    of the template, with where to report it

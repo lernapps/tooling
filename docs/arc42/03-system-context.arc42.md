@@ -160,9 +160,9 @@ requires: if-app-publish
 
 An external system. It reads the shared update policy and proposes new versions of third-party packages to every repo
 where its GitHub App is installed, and, as far as a pull request can do it alone, the pins of the tooling package, the
-runtime and the actions. Hosted Renovate cannot run a command and cannot fetch a git package to write the lock file, so
-it cannot do what `lernapps update` does (the app overview's upgrade workflow, below, runs it). Its configuration,
-`renovate.json`, does nothing until the App is installed on the repo.
+runtime and the actions. Hosted Renovate cannot run a command, so it cannot do what `lernapps update` does (the app
+overview's upgrade workflow, below, runs it). Its configuration, `renovate.json`, does nothing until the App is
+installed on the repo.
 
 ```arc42
 :::actor

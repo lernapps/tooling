@@ -99,6 +99,17 @@ severity: error
 - Types: only `// @ts-expect-error -- <reason>`; never `@ts-ignore` or `@ts-nocheck`.
 - The review reads every suppression.
 
+### `lockfile-matches`: Commit the lock file with every dependency change
+
+```rule
+id: lockfile-matches
+scope: tooling
+severity: error
+```
+
+- Change dependencies with `npm install`, never in `package.json` alone; commit `package-lock.json` with it.
+- A git pin (`github:…#<commit>`) moves in both files together.
+
 ### `keep-the-preset`: Extend the preset, change nothing of it
 
 ```rule
