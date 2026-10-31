@@ -32,6 +32,7 @@ Look things up here when you need them. Not needed for building.
 - Review: prompt https://github.com/lernapps/tooling/blob/main/review/prompt.md, rubric
   https://github.com/lernapps/tooling/blob/main/review/rubric.md.
 - GitHub, explained for creators: https://lernapps.net/tooling/github/
+- Keeping an app up to date, the two GitHub Apps and the settings: https://lernapps.net/tooling/github/updates/
 - Which assistant to build with, and three apps a budget model built: https://lernapps.net/tooling/assistants/
 - How we test the guidance, with eval results: https://lernapps.net/tooling/prompt-engineering/
 - Architecture: https://lernapps.net/tooling/architecture/. Source: https://github.com/lernapps/tooling.
