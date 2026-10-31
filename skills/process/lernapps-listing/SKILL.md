@@ -33,15 +33,9 @@ At the checkpoint "list", without asking first: the pull request publishes nothi
 - lernapps.net builds a copy of the app from the entry's `commit` and serves it at
   `https://lernapps.net/apps/start/<id>/`; the catalog links it once it is checked there. Tell the creator: the app
   stays theirs, at their own address too.
-- Tell the creator once: install the GitHub App [lernapps-updater](https://github.com/apps/lernapps-updater) on the app's
-  repo. Then lernapps/apps moves the app to the pins of the tooling every day, in a pull request in the app that
-  merges once the app's own check is green. Without the App the app gets no tooling updates, and lernapps/apps lists
-  it in an issue. It is advice; the listing does not wait for it.
-- Tell the creator once, too: install the GitHub App [Renovate](https://github.com/apps/renovate) on the repo. The
-  `renovate.json` of the app does nothing without it. Renovate keeps the third-party packages current. Ask the creator
-  to allow auto-merge (Settings → General → Pull Requests) and to require the check of the workflow `Pages` for `main`
-  (Settings → Rules), so that these pull requests merge themselves once the check is green. Both are advice; the
-  listing does not wait for them. Where the creator does not know how, offer to go through the clicks with them.
+- Tell the creator once how to keep the app up to date: two GitHub Apps and a few settings of their repo, in
+  [references/keeping-updated.md](references/keeping-updated.md). Without them the app gets no tooling updates, and
+  lernapps/apps lists it in an issue. It is advice; the listing does not wait for it.
 - A new version needs no new pull request from you. Publish it as usual (plan, Commit). Once the app's address
   serves the new commit, lernapps/apps opens an update pull request for the entry within about 30 minutes; the
   listing check runs on it.
