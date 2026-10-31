@@ -207,6 +207,7 @@ function migratePlan(): string[] {
  * installs in the phase that needs it.
  */
 const SKILL_PREFIX = "lernapps-";
+const TOOLING_SOURCE = "lernapps/tooling";
 const ARCHETYPE_GROUP = "archetypes";
 const SKILLS = join(".agents", "skills");
 const SKILL_LINKS = join(".claude", "skills");
@@ -257,14 +258,28 @@ function shippedSkills(source: string): { name: string; group: string; path: str
  * Replaces the app's lernapps-* skills with those of this tooling, as `npx skills add lernapps/tooling` lays them out:
  * the folder in .agents/skills/, a relative link to it in .claude/skills/ (a copy where the system allows no link), and
  * its entry in skills-lock.json with the hash of the new files. Of the archetypes' skills only those of the archetype
- * the current plan names; without one, those the app has. Removes every other lernapps-* skill.
+ * the current plan names; without one, those the app has. Removes every other lernapps-* skill, unless its entry in
+ * skills-lock.json names another source than this tooling (lernapps-practice-* come from lernapps/practice).
  * Never touches another skill. What it did, as lines of the output.
  */
 export function replaceSkills(dir = ".", source = fromPackage("skills")): string[] {
   const skillsDir = join(dir, SKILLS);
   const linksDir = join(dir, SKILL_LINKS);
   const lockFile = join(dir, SKILLS_LOCK);
-  const present = existsSync(skillsDir) ? readdirSync(skillsDir).filter((name) => name.startsWith(SKILL_PREFIX)) : [];
+  let lock: SkillsLock = { version: 1, skills: {} };
+  try {
+    lock = JSON.parse(readFileSync(lockFile, "utf8")) as SkillsLock;
+  } catch {
+    // none yet, or unreadable: written anew
+  }
+  // a skill whose lock entry names another source (e.g. lernapps-practice-* of lernapps/practice) is not ours: it stays
+  const foreign = (name: string) => {
+    const source = lock.skills?.[name]?.["source"];
+    return source !== undefined && source !== TOOLING_SOURCE;
+  };
+  const present = existsSync(skillsDir)
+    ? readdirSync(skillsDir).filter((name) => name.startsWith(SKILL_PREFIX) && !foreign(name))
+    : [];
   const plan = currentPlan(dir);
   const archetype = plan === undefined ? undefined : planFrontMatter(join(dir, plan))["archetype"];
   const own = (name: string) =>
@@ -274,12 +289,6 @@ export function replaceSkills(dir = ".", source = fromPackage("skills")): string
   const shipped = shippedSkills(source).filter(({ name, group }) => group !== ARCHETYPE_GROUP || own(name));
   const folder = new Map(shipped.map(({ name, path }) => [name, path]));
   const ours = [...folder.keys()].sort();
-  let lock: SkillsLock = { version: 1, skills: {} };
-  try {
-    lock = JSON.parse(readFileSync(lockFile, "utf8")) as SkillsLock;
-  } catch {
-    // none yet, or unreadable: written anew
-  }
   const entries: Record<string, Record<string, unknown>> = { ...lock.skills };
   const added: string[] = [];
   const changed: string[] = [];
@@ -316,7 +325,7 @@ export function replaceSkills(dir = ".", source = fromPackage("skills")): string
       }
     }
     entries[name] = {
-      source: "lernapps/tooling",
+      source: TOOLING_SOURCE,
       sourceType: "github",
       ...entries[name],
       skillPath: `skills/${folder.get(name) ?? name}/SKILL.md`,

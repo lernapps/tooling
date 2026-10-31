@@ -241,6 +241,43 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(readdirSync(join(dir, ".agents/skills"))).toEqual(["lernapps-quiz"]);
   });
 
+  test("update's skills step leaves the lernapps-practice-* skills of lernapps/practice and their lock entries", () => {
+    const source = tempDir("skills");
+    mkdirSync(join(source, "process/lernapps-app"), { recursive: true });
+    writeFileSync(join(source, "process/lernapps-app/SKILL.md"), "---\nname: lernapps-app\n---\n");
+    const dir = tempDir("app");
+    const practice = [
+      "lernapps-practice-explore",
+      "lernapps-practice-photos",
+      "lernapps-practice-plan",
+      "lernapps-practice-submit",
+    ];
+    const lock: Record<string, unknown> = {};
+    for (const name of [...practice, "lernapps-gone"]) {
+      mkdirSync(join(dir, ".agents/skills", name), { recursive: true });
+      writeFileSync(join(dir, ".agents/skills", name, "SKILL.md"), `---\nname: ${name}\n---\n`);
+      mkdirSync(join(dir, ".claude/skills"), { recursive: true });
+      symlinkSync(`../../.agents/skills/${name}`, join(dir, ".claude/skills", name));
+      lock[name] = {
+        source: name === "lernapps-gone" ? "lernapps/tooling" : "lernapps/practice",
+        sourceType: "github",
+        computedHash: "x",
+      };
+    }
+    writeFileSync(join(dir, "skills-lock.json"), JSON.stringify({ version: 1, skills: lock }));
+
+    const lines = replaceSkills(dir, source);
+    expect(lines.join("\n")).toContain("removed lernapps-gone");
+    expect(lines.join("\n")).not.toContain("practice");
+    expect(readdirSync(join(dir, ".agents/skills")).sort()).toEqual(["lernapps-app", ...practice]);
+    expect(readdirSync(join(dir, ".claude/skills")).sort()).toEqual(["lernapps-app", ...practice]);
+    const written = JSON.parse(readFileSync(join(dir, "skills-lock.json"), "utf8")) as {
+      skills: Record<string, { source: string }>;
+    };
+    expect(Object.keys(written.skills)).toEqual(["lernapps-app", ...practice]);
+    expect(written.skills["lernapps-practice-submit"]?.source).toBe("lernapps/practice");
+  });
+
   test("a failed check --pre-push counts in the current plan, the highest number; else in .vibe/plan.md", () => {
     // the counting itself; that a failed pre-push counts at all, the e2e test of the failing app shows
     const plan = (failures: number) => `---\narchetype: quiz\nphase: code\nprePushFailures: ${failures}\n---\n`;
