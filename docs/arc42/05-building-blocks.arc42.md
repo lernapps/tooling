@@ -635,8 +635,8 @@ a complete app and keeps the plan. Skills an assistant installed in the folder b
 commits them. It refuses an unknown archetype, a folder that holds anything else, and a plan that is missing, not
 confirmed yet or for another archetype, and says why. It can work offline from a local copy of the templates. Given
 an existing app, it moves the app's pins to its own and installs them, and replaces the app's `lernapps-*` skills
-with its own; the app's own skills stay as they are, and so do skills that `skills-lock.json` names another source
-for, such as the `lernapps-practice-*` skills of lernapps/practice. An interactive app also gets its architecture: the generic part
+with its own; the app's own skills stay as they are, and so do those installed from another repository, such as the
+`lernapps-practice-*` skills. An interactive app also gets its architecture: the generic part
 and the interactive extension of the templates' architecture, with the app's paths, which the update replaces except
 the app's own sections. Given the same app commit and tooling commit, the update writes the same files, apart
 from the versions npm resolves. The commands' own help lists their options.
