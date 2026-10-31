@@ -226,7 +226,8 @@ change helps shows only in how assistants follow it, so the evals measure it bef
 is a session of its own in the cloud environment "Evals": it runs the Harbor jobs per archetype and model, scores the
 transcripts and pushes `results.json`; the owner reads the transcripts, writes the conclusions in the pull request,
 and the prompt engineering page shows the run. After the merge, the guidance reaches assistants through the tooling's
-pages, and apps through their update pull request.
+pages, and apps through their update pull request: from the upgrade workflow of the app overview, and from Renovate where its
+App is installed.
 
 ```arc42
 :::runtime-scenario
@@ -242,7 +243,7 @@ involves: bb-tooling-package, bb-process-guidance, bb-skills, bb-evals, bb-tooli
 id: rs-guidance-changes-sequence
 scenario: rs-guidance-changes
 notation: mermaid-sequence
-aliases: owner=actor-owner, guidance=bb-process-guidance, skills=bb-skills, evals=bb-evals, package=bb-tooling-package, site=bb-tooling-build, github=actor-renovate
+aliases: owner=actor-owner, guidance=bb-process-guidance, skills=bb-skills, evals=bb-evals, package=bb-tooling-package, site=bb-tooling-build, github=actor-renovate, overview=actor-app-overview
 :::
 ```
 
@@ -255,6 +256,7 @@ sequenceDiagram
     participant package as Package build
     participant site as Tooling site
     participant github as Renovate
+    participant overview as App overview
     owner->>guidance: pull request: change a phase's steps or a template
     owner->>skills: change a skill's text
     owner->>evals: start an eval session: Harbor jobs per archetype and model
@@ -266,13 +268,17 @@ sequenceDiagram
     package-->>site: guidance pages and llms.txt for assistants
     package-->>github: a new commit of the package
     github->>github: update pull request in every app, merged when green by the policy
+    package-->>overview: a new commit of the package
+    overview->>overview: Upgrade: lernapps update in each listed app, pull request, merged when the app's check is green
 ```
 
 ## A rule changes
 
 The owner tightens a rule, or a creator contributes one. The pull request changes the artifact where the rule acts:
 the skill text, the lint rule, the check or the rubric item, keeping or adding the rule id. The tooling's own check
-tests the ids; the evals run; after the merge, an update pull request brings the change to every app.
+tests the ids; the evals run; after the merge, update pull requests bring the change to the apps: the workflow Upgrade
+of the app overview moves every listed app with `lernapps update` (daily, or at once when the owner starts it), and
+Renovate proposes the pins where its App is installed. An app that has neither installed stays where it is.
 
 ```arc42
 :::runtime-scenario
@@ -288,7 +294,7 @@ involves: bb-tooling-package, bb-skills, bb-lint-rules, bb-check-cli, bb-review-
 id: rs-rule-changes-sequence
 scenario: rs-rule-changes
 notation: mermaid-sequence
-aliases: owner=actor-owner, package=bb-tooling-package, skills=bb-skills, lint=bb-lint-rules, check=bb-check-cli, procedure=bb-review-procedure, evals=bb-evals, github=actor-renovate
+aliases: owner=actor-owner, package=bb-tooling-package, skills=bb-skills, lint=bb-lint-rules, check=bb-check-cli, procedure=bb-review-procedure, evals=bb-evals, github=actor-renovate, overview=actor-app-overview
 :::
 ```
 
@@ -302,6 +308,7 @@ sequenceDiagram
     participant package as Package build
     participant evals as Evals
     participant github as Renovate
+    participant overview as App overview
     owner->>check: pull request: new check for a recurring finding (same rule id)
     owner->>procedure: remove the rubric item of that rule
     package->>skills: read rule ids
@@ -314,4 +321,6 @@ sequenceDiagram
     owner->>package: merge to the main line
     package-->>github: a new commit of the package
     github->>github: update pull request in every app, merged when green by the policy
+    package-->>overview: a new commit of the package
+    overview->>overview: Upgrade: lernapps update in each listed app, pull request, merged when the app's check is green
 ```

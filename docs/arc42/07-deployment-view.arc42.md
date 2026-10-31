@@ -236,9 +236,19 @@ parent: dn-app-hosting
 
 ## How updates arrive
 
-Every app repo receives the organisation's update policy (block "Renovate preset") from the generator. An update pull request arrives when the
-package, the runtime or the actions have a newer commit. The app check action runs on it, and the policy decides when
-it merges. The creator's assistant can also move the app to the pins of the newest tooling at once, with the
+Two tools bring updates to an app, and each works only on a repo where its GitHub App is installed; the generator
+cannot install either.
+
+- Renovate: every app repo receives the organisation's update policy (block "Renovate preset") from the generator. An
+  update pull request arrives when a third-party package has a new version, and, as far as a pull request alone can
+  do it, when the package, the runtime or the actions have a newer commit. The app check action runs on it, and the
+  policy decides when it merges.
+- The upgrade workflow of the app overview (lernapps/apps): every day, or when the owner starts it, it runs
+  `lernapps update` in each listed app, which moves the pins together with the skills, the workflows and the
+  architecture reference, and opens the pull request with the GitHub App `lernapps-updater`. It waits for the app's own
+  check and merges when it is green. An app without the App is skipped and listed in one issue of the catalog.
+
+The creator's assistant can also move the app to the pins of the newest tooling at once, with the
 generator. The template an app was created from does not change afterwards; new features reach the app through the
 runtime. The skills in the harness change when they are copied again.
 

@@ -158,15 +158,18 @@ requires: if-app-publish
 
 ## Renovate
 
-An external system. It reads the shared update policy and proposes every new version of the tooling package, the
-runtime and the actions to every repo, as update pull requests.
+An external system. It reads the shared update policy and proposes new versions of third-party packages to every repo
+where its GitHub App is installed, and, as far as a pull request can do it alone, the pins of the tooling package, the
+runtime and the actions. Hosted Renovate cannot run a command and cannot fetch a git package to write the lock file, so
+it cannot do what `lernapps update` does (the app overview's upgrade workflow, below, runs it). Its configuration,
+`renovate.json`, does nothing until the App is installed on the repo.
 
 ```arc42
 :::actor
 id: actor-renovate
 title: Renovate
 type: system
-description: External system; applies the update policy and proposes updates of the tooling package to every app
+description: External system; applies the update policy and proposes updates of third-party packages, and of the tooling pins as far as a pull request alone can, to every app that has its GitHub App
 requires: if-update-policy, if-archetype-preset
 :::
 ```
@@ -177,14 +180,17 @@ An external system: lernapps/apps, the catalog of lernapps.net. It holds the ent
 listed app and proposes an entry's update when the app has a new version (decisions `dec-copies-served`,
 `dec-update-replay`). From the tooling it takes the listing validation and its results comment, the check CLI for the
 copies, the commit an app's address serves, and `lernapps update` to tell a routine update from one the owner
-reviews.
+reviews. It also moves the listed apps to the pins of the tooling: its workflow Upgrade runs `lernapps update` in each
+app every day, or when the owner starts it, and opens the update pull request in the app with its GitHub App
+`lernapps-updater`; the pull request merges when the app's own check is green. Like Renovate, the App works only on a
+repo where it is installed. Where it is not, the workflow skips the app and lists it in one issue of the catalog.
 
 ```arc42
 :::actor
 id: actor-app-overview
 title: App overview (lernapps/apps)
 type: system
-description: External system; the catalog of lernapps.net, holds the entries, runs the listing validation, serves a copy of every listed app and proposes its updates
+description: External system; the catalog of lernapps.net, holds the entries, runs the listing validation, serves a copy of every listed app, proposes its updates and moves the listed apps to the pins of the tooling
 requires: if-check-cli, if-app-publish, if-generator-cli, if-listing-comment
 :::
 ```
