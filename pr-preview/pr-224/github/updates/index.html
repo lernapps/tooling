@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Keeping your app up to date – lernapps.net</title>
+  <link rel="canonical" href="https://lernapps.net/tooling/github/updates/">
+  <link rel="stylesheet" href="../../stil.css">
+<!-- lernapps-frame -->
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-224/lernapps-tokens.css">
+<link rel="stylesheet" href="/tooling/pr-preview/pr-224/lernapps-frame.css">
+<link rel="alternate" hreflang="de" href="/tooling/pr-preview/pr-224/github/updates/">
+<link rel="alternate" hreflang="en" href="/tooling/pr-preview/pr-224/en/github/updates/">
+<script>(() => {
+  const key = "lernapps-lang", here = "de", pages = {"en":"/tooling/pr-preview/pr-224/en/github/updates/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
+</head>
+<body>
+<a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
+<p class="la-preview" lang="de">Vorschau einer Änderung. Die echte Seite: <a href="https://lernapps.net/tooling/github/updates/">lernapps.net/tooling/github/updates/</a></p><header class="la-header" lang="de">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav la-nav--bar" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Katalog</a></li><li><a href="/practice/">Üben</a></li><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-224/" aria-current="page">Tooling</a></li><li><a href="/tutor/">Tutor</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Plattform</a></li><li><a href="/join/">Mitmachen</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-224/en/github/updates/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav>
+    <details class="la-menu"><summary>Menü</summary><nav class="la-nav la-nav--menu" aria-label="Hauptnavigation"><div class="la-menu__group"><p class="la-menu__title" id="la-menu-0">Für Lernende</p><ul aria-labelledby="la-menu-0"><li><a href="/apps/">App Katalog</a></li><li><a href="/practice/">Üben für eine Prüfung</a></li></ul></div><div class="la-menu__group"><p class="la-menu__title" id="la-menu-1">Für Macher</p><ul aria-labelledby="la-menu-1"><li><a href="/apps/build/">App bauen</a></li><li><a href="/tooling/pr-preview/pr-224/" aria-current="page">Tooling</a></li></ul></div><div class="la-menu__group"><p class="la-menu__title" id="la-menu-2">Verstehen und mitmachen</p><ul aria-labelledby="la-menu-2"><li><a href="/tutor/">Tutor</a></li><li><a href="/features/">Features</a></li><li><a href="/docs/">Plattform</a></li><li><a href="/join/">Mitmachen</a></li></ul></div><ul class="la-menu__lang"><li class="la-lang"><a href="/tooling/pr-preview/pr-224/en/github/updates/" hreflang="en" lang="en" data-la-lang="en" aria-label="Language: English">English</a></li></ul></nav></details>
+  </div>
+</header>
+<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch.</p>
+  <main id="main-content" tabindex="-1">
+    <h1>Keeping your app up to date</h1>
+    <p>The tooling and the runtime of lernapps.net get better all the time. Your app does not change by itself: it keeps
+      the versions it was made with, until it is moved. Two helpers move it for you. Both are GitHub Apps, and both
+      work only on a repo where you installed them. This page says what each does and which settings go with them.
+      Your assistant can go through the clicks with you.</p>
+
+    <h2>What the two helpers do</h2>
+    <ul>
+      <li><strong>lernapps-updater</strong> brings the tooling and the runtime. Every day it moves your app to the newest
+        versions, the same as <code>lernapps update</code>, in a pull request of your repo. The check of your app runs on
+        it, and the pull request merges when the check is green. Your content is never touched. If the check is red,
+        the pull request stays open for you or your assistant.</li>
+      <li><strong>Renovate</strong> brings the third-party packages your app uses. It reads the file
+        <code>renovate.json</code> in your repo, which the tooling wrote, and does nothing until its App is
+        installed.</li>
+    </ul>
+    <p>Without them your app keeps working, but it gets no new features and no fixes. lernapps.net lists the apps
+      where the updater is missing in one issue of its catalog.</p>
+
+    <h2>1. Install the two Apps</h2>
+    <p>Each link opens a page of GitHub. Choose your account, then <strong>Only select repositories</strong>, then the
+      repo of your app, then <strong>Install</strong>.</p>
+    <ul>
+      <li><a href="https://github.com/apps/lernapps-updater/installations/new">lernapps-updater</a></li>
+      <li><a href="https://github.com/apps/renovate/installations/new">Renovate</a></li>
+    </ul>
+
+    <h2>2. Allow auto-merge and squash merging</h2>
+    <p>In your repo: <strong>Settings → General</strong>, scroll down to <strong>Pull Requests</strong>. Select
+      <strong>Allow auto-merge</strong> and <strong>Allow squash merging</strong>. Auto-merge lets a pull request merge
+      itself as soon as its check is green. Squash keeps the history of <code>main</code> in a line.</p>
+
+    <h2>3. One rule for the branch <code>main</code></h2>
+    <p>The rule makes sure that nothing reaches <code>main</code> before the check of your app is green.</p>
+    <ol>
+      <li><strong>Settings → Rules → Rulesets</strong>, then <strong>New ruleset</strong> and
+        <strong>New branch ruleset</strong>.</li>
+      <li>Name: <code>main</code>. Enforcement: <strong>Active</strong>.</li>
+      <li><strong>Target branches</strong> → <strong>Add a target</strong>: include the default branch, the pattern
+        <code>main</code>.</li>
+      <li>Rules:
+        <ul>
+          <li><strong>Require a pull request before merging</strong>. No approvals are needed; as the merge type,
+            squash.</li>
+          <li><strong>Require linear history</strong>.</li>
+          <li><strong>Require status checks to pass before merging</strong>: add the check <code>app</code>. It is the
+            job of the workflow <code>Pages</code>. GitHub offers a check only after it has run once, so the repo needs
+            one pull request or push first. Use <code>app</code> and no other name: a check the repo does not produce
+            blocks every pull request for good.</li>
+          <li><strong>Block force pushes</strong>, which is on by default.</li>
+        </ul>
+      </li>
+      <li><strong>Bypass list</strong> → <strong>Add bypass</strong>: the repository admins. You can then still push by
+        hand.</li>
+      <li><strong>Create</strong>.</li>
+    </ol>
+
+    <h2>If something does not merge</h2>
+    <p>Open the pull request <code>lernapps/update</code> in your repo. A red check means your assistant should fix it
+      there. A pull request that waits although the check is green often means that the ruleset asks for a check
+      your repo does not have.</p>
+
+    <p><a href="../">Back to GitHub, explained</a></p>
+  </main>
+<footer class="la-footer" lang="de">
+  <div class="la-footer__inner">
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/tooling">Quellcode</a></li></ul></nav>
+  </div>
+</footer>
+</body>
+</html>
