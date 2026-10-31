@@ -2,6 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Renovate preset of every lernapps repo: extends: [\"github>lernapps/tooling\"]",
   "extends": ["github>mrsimpson/renovate-config"],
+  "npmrc": "allow-git=root",
+  "npmrcMerge": true,
   "customManagers": [
     {
       "description": "The commit of lernapps/tooling that a workflow hands the reusable workflow changes.yml as its input (with: tooling-ref: <commit>), next to uses: lernapps/tooling/.github/workflows/changes.yml@<commit>, which the github-actions manager updates (test/renovate.test.ts)",
