@@ -470,10 +470,11 @@ function rulePage(catalog: Catalog): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Rules – Tooling – lernapps.net</title>
   <link rel="canonical" href="${RULE_PAGE}">
-  <link rel="stylesheet" href="../stil.css">
+  <link rel="stylesheet" href="../lernapps-page.css">
 </head>
 <body>
   <main id="main-content" tabindex="-1">
