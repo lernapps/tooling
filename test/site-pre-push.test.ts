@@ -3,7 +3,7 @@
 // names them; the steps run without the variables that tie git to the repo being pushed; and node runs the hook from a checkout that holds only
 // changes/ and src/, the folders a site fetches.
 import { spawnSync } from "node:child_process";
-import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
 import { type Step, sitePrePush } from "../changes/site-pre-push.ts";
@@ -77,6 +77,23 @@ test("a failing step stops the push and names the log", GIT, () => {
   expect(output).toBe(
     "lernapps pre-push: npm run check failed (exit 3); the full output is in node_modules/.cache/lernapps/pre-push.log\n",
   );
+});
+
+test("the hook runs when it is started through a link to its folder, as a site's script may start it", GIT, () => {
+  const tooling = tempDir("site-pre-push-tooling");
+  cpSync(join(repoRoot, "changes"), join(tooling, "changes"), { recursive: true });
+  cpSync(join(repoRoot, "src"), join(tooling, "src"), { recursive: true });
+  symlinkSync(join(tooling, "changes"), join(tooling, "linked"), "dir");
+  const { dir, lines } = site({ build: "true", check: "true" }, ["src/page.njk"]);
+  const result = spawnSync(process.execPath, [join(tooling, "linked", "site-pre-push.ts")], {
+    cwd: dir,
+    input: lines,
+    encoding: "utf8",
+    env: testEnv,
+  });
+  expect(result.status, `${result.stdout}${result.stderr}`).toBe(0);
+  // it ran: a script that exits at once through the link would print nothing
+  expect(result.stdout).toMatch(/^lernapps pre-push: scope all: npm run build, npm run check passed/);
 });
 
 test("a push that only deletes checks nothing", () => {
