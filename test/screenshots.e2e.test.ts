@@ -100,7 +100,7 @@ function figuresIn(file: string): number {
   return [...page.matchAll(/<figure\b[\s\S]*?<\/figure>/g)].filter((match) => /<(?:img|svg)\b/.test(match[0])).length;
 }
 
-/** Whether the folder holds exactly the images and the index.html, nothing else. */
+/** The names in the folder: exactly the images, the index.html and the .gitignore that keeps the folder out of git. */
 const files = (folder: string) => readdirSync(folder).sort();
 
 describe("the names of the images", () => {
@@ -142,7 +142,8 @@ describe.skipIf(inner)("lernapps screenshots on the built example apps of app-te
     expect(result.stdout).toContain(`${pages.length} page`);
     expect(result.stdout).toContain(`${folder.split("/").at(-1)}/`);
     // every image of the folder is in the index, in page order, and the folder has nothing else
-    expect(files(folder)).toEqual([...listed.images, "index.html"].sort());
+    expect(files(folder)).toEqual([...listed.images, "index.html", ".gitignore"].sort());
+    expect(readFileSync(join(folder, ".gitignore"), "utf8")).toBe("*\n");
     expect(listed.pageImages).toHaveLength(pages.length * widths.length);
     // every figure of every page, at every width, in the section of its page, numbered on the page
     const figures = listed.pages.map((page) => figuresIn(join(app, "dist", page)));

@@ -15,7 +15,7 @@ Each slice is one Code task and ends in one commit:
 3. Exercise: a pattern of the guide, varied. A new pattern goes into the guide in the same slice, with example and
    data file.
 4. Entry topic: the page or section path into the plan's entry draft (`entry-links-resolve`).
-5. Check: `npx lernapps check` passes.
+5. Check: `npx --no -- lernapps check` passes.
 6. Commit, guide changes included.
 
 - A new chapter or round: its slices in the order of the guide's procedure.

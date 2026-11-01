@@ -15,8 +15,8 @@ license: MIT
 
 - Orientation for grade and order, not a condition. None found → say so once; go on.
 - Only the Land's official document (Kerncurriculum, Lehrplan, Bildungsplan, Rahmenlehrplan) from the ministry or
-  state institute. No publisher, schoolbook or portal. No Land known → KMK-Bildungsstandards.
-- Download and read it yourself.
+  state institute. No publisher, schoolbook or portal. No Land known → KMK-Bildungsstandards. The KMK has none for the subject or level (e.g. Informatik in Sekundarstufe II) → cite no unit, write "not checked" and follow the creator's material.
+- Download and read it yourself. A document you cannot read here (a PDF and no tool to read it) → mark it "not checked"; never cite it from its title alone.
 - Cite it under "Notes": title, issuer, year, address; page and unit (Inhaltsfeld, Lernbereich, Kompetenz).
 - The creator's material differs → follow the material; say so in one sentence.
 
@@ -33,6 +33,7 @@ license: MIT
 
 - Per competency one article or video (serlo.org, a channel the creator trusts, Wikipedia).
 - Read [references/sources.md](references/sources.md) before you choose, cite or rely on a source.
+- A text source (Wikipedia, a schoolbook site): take facts, never sentences. Copying a sentence needs the licence the page states; if you cannot read it, do not copy.
 
 ## 4. The creator's material and privacy
 

@@ -258,7 +258,7 @@ describe("the skills", () => {
         .map((skill) => skill.name)
         .sort(),
     ).toEqual(groups("archetypes"));
-    expect(explore).toContain("npx lernapps skills --archetype <archetype>");
+    expect(explore).toContain("npx --no -- lernapps skills --archetype <archetype>");
     for (const name of groups("archetypes")) {
       expect(name).toMatch(/^lernapps-(quiz|explainer|interactive)(-design)?$|^lernapps-explainer-self-assessment$/);
     }
@@ -266,7 +266,7 @@ describe("the skills", () => {
     for (const file of [TEMPLATE, "guidance/increment-template.md"]) {
       const commit = section(read(file), "## Commit");
       expect(commit).toContain("lernapps-explainer-self-assessment");
-      expect(commit).toMatch(/npx lernapps skills --archetype\s+explainer/);
+      expect(commit).toMatch(/npx --no -- lernapps skills --archetype\s+explainer/);
     }
   });
 

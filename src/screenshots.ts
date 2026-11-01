@@ -232,6 +232,9 @@ export async function screenshots(args: string[]): Promise<string> {
   try {
     rmSync(out, { recursive: true, force: true });
     mkdirSync(out, { recursive: true });
+    // the folder keeps itself out of git and out of the format check: the images are no part of the app, and a check that
+    // ran after them failed on the index.html written here
+    writeFileSync(join(out, ".gitignore"), "*\n");
     const shots: Shot[] = [];
     for (const [index, page] of pages.entries()) {
       const images: Shot["images"] = [];

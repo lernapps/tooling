@@ -432,7 +432,7 @@ describe("lernapps", { timeout: 20_000 }, () => {
     const result = lernapps("create", "--help");
     expect(result.code).toBe(0);
     expectEveryOption(result.stdout, CREATE_OPTIONS);
-    expect(result.stdout).toContain("npx lernapps create --archetype <name>");
+    expect(result.stdout).toContain("npx --no -- lernapps create --archetype <name>");
     expect(result.stdout).toContain("git, and the npm registry");
     expect(result.stdout).toContain("2 on a usage error");
   });
