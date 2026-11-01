@@ -1,7 +1,8 @@
 // The toolchain of the tooling itself (vite-plus): format, lint with type check, tests, package build and
 // the staged files of the pre-commit hook. The same conventions the tooling gives apps: strict TypeScript,
 // no `any`, no JavaScript sources.
-import { readdirSync } from "node:fs";
+import { readdirSync, realpathSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { defineConfig } from "vite-plus";
 import { HEAVY_TESTS } from "./scripts/pre-push.ts";
 
@@ -54,6 +55,10 @@ export default defineConfig({
     exclude: process.env["LERNAPPS_TESTS"] === "fast" ? HEAVY_TESTS : [],
     // One fresh clone with `npm ci`, shared by the test files that need an installed clone.
     globalSetup: ["test/global-setup.ts"],
+    // macOS keeps its temporary folders below /var, a link to /private/var. Node resolves a path to the real one
+    // (import.meta.resolve, import.meta.url), so a test that compares a path it made with one it resolved would fail
+    // there: the tests, and the commands they start, get the real path as their temporary folder.
+    env: { TMPDIR: realpathSync(tmpdir()) },
   },
   pack: {
     // The CLI, its checks, and what apps import at runtime: the preset, its helpers and the lint plugin.
