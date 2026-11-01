@@ -42,7 +42,7 @@ export const CREATE_OPTIONS = {
 export const CREATE_USAGE = `Usage: lernapps create --archetype <name> [<dir>] [--plan <file>] [--templates <repo>] [--tooling <spec>]
 
 Writes a new app from the archetype's template into <dir> (default: the current folder), which must be empty
-except for .git, the first version's plan .vibe/plans/01-<short name>.md and the skills that npx skills add
+except for .git, the first version's plan .vibe/plans/01-<short name>.md and the skills that
 lernapps init synced (.agents/skills/, .claude/skills/, skills-lock.json, and the package.json, package-lock.json and
 node_modules init wrote). The template is the folder <name>/ of the installed package @lernapps/app-templates, the
 version @lernapps/tooling depends on; the app depends on the runtime of the same version.
@@ -384,7 +384,7 @@ export function create(args: string[]): number {
   const found = contents(dir);
   if (found.length > 0) {
     throw new CreateError(
-      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, the first version's plan .vibe/plans/01-<short name>.md and the skills that npx skills add lernapps/tooling installed may be there`,
+      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, the first version's plan .vibe/plans/01-<short name>.md and what lernapps init wrote (its skills, package.json, package-lock.json and node_modules) may be there`,
     );
   }
   const plan = confirmedPlan(dir, archetype, values.plan);
