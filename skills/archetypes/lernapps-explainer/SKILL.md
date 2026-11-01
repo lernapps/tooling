@@ -28,6 +28,8 @@ license: MIT
 
 - A build problem is one line `file:line: place (language): what to do`. Fix where it points.
 - Headings are `section` blocks, never Markdown headings.
+- YAML: quote a text that has `: ` in it or looks like a number (`"8."`, `"01000001"`, `"0"`). Unquoted, YAML reads a map or a
+  number: the build stops, or the digits change. A table cell, a header cell too, is a text and never empty.
 - A new chapter: a folder with `chapter.yaml`, listed in `src/app.yaml`, each page listed in `chapter.yaml`.
 - `selfAssessment` in a `chapter.yaml`: written in Commit, skill
   `lernapps-explainer-self-assessment`. An exercise it names renamed or moved → change the reference too.

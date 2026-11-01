@@ -133,7 +133,7 @@ questions. -->
 - [ ] Write the Code tasks under "Code": pages or screens, their content, what each shows. Each ends in a commit.
       After the first task that shows real content: the task "Show the creator a first look (`early-preview`)".
 - [ ] Each screen, component or interactive exercise: a sketch (static SVG or image, or the steps with what
-      learners see after each). Words alone are not enough.
+      learners see after each). Words alone are not enough. Keep sketch files in `.vibe/sketches/`, which `create` leaves alone.
 - [ ] Show the creator, short: goal, competencies by chapter, entry draft, tasks, sketches; the content method in
       plain words (what learners see and do, what it cannot do). At most 2 questions.
 - [ ] **Checkpoint:** confirm the plan and the content method, with the sketches shown. Stop and wait for an

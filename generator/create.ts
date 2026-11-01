@@ -174,9 +174,9 @@ function contents(dir: string): string[] {
     if (name === "node_modules" || name === "package-lock.json") return [];
     if (name === "package.json" && readJson(join(dir, name)).lernapps?.init === true) return [];
     if (name === ".vibe") {
-      return within(name, (file) => file === "plan.md" || file === "plans").concat(
-        existsSync(join(dir, PLANS)) ? within(PLANS, (file) => PLAN_NAME.test(file)) : [],
-      );
+      // the planning folder: the plans are checked (a first version has one), what the planning leaves beside them stays
+      // (the sketches of the plan, .vibe/sketches/)
+      return existsSync(join(dir, PLANS)) ? within(PLANS, (file) => PLAN_NAME.test(file)) : [];
     }
     if ((name === ".agents" || name === ".claude") && skills.size > 0) {
       return within(name, (folder) => folder === "skills").concat(
@@ -384,7 +384,7 @@ export function create(args: string[]): number {
   const found = contents(dir);
   if (found.length > 0) {
     throw new CreateError(
-      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, the first version's plan .vibe/plans/01-<short name>.md and what lernapps init wrote (its skills, package.json, package-lock.json and node_modules) may be there`,
+      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, .vibe/ (the first version's plan .vibe/plans/01-<short name>.md, and its sketches) and what lernapps init wrote (its skills, package.json, package-lock.json and node_modules) may be there`,
     );
   }
   const plan = confirmedPlan(dir, archetype, values.plan);
