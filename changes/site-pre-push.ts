@@ -16,7 +16,7 @@
 // standard input (run by hand) the changed paths are not known: scope all.
 // Only Node's own modules, like changes.ts: node runs it from the fetched folder without installing anything.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ChangesConfigError, classifyPush, loadRules, pushedFiles, readStdin, SITE_CHECK, stepEnv } from "./changes.ts";
@@ -112,7 +112,11 @@ export function sitePrePush(lines: string, { cwd, write, run }: Options): number
   return 0;
 }
 
-if (process.argv[1] !== undefined && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// real paths on both sides: a script started through a link (macOS: /var is /private/var) is still this one
+const isMain = (argv1: string | undefined) =>
+  argv1 !== undefined && realpathSync(resolve(argv1)) === realpathSync(fileURLToPath(import.meta.url));
+
+if (isMain(process.argv[1])) {
   process.exitCode = sitePrePush(readStdin(), {
     cwd: process.cwd(),
     write: (text) => process.stdout.write(text),
