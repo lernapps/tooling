@@ -1,16 +1,16 @@
 # lernapps.net tooling
 
-> Build, check and list learning apps for lernapps.net with an AI assistant. Installed from git, not npm.
+> Build, check and list learning apps for lernapps.net with an AI assistant. The package @lernapps/tooling is on npm.
 
 ## Build an app
 
-1. Download the plan template into the app's folder as `.vibe/plans/01-<short name>.md`, complete and unchanged:
-   https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md
-2. Read it in full. Follow it task by task: it installs the skills, names the skills of each phase and holds the
-   creator's checkpoints.
+1. In a new, empty folder run `npx --yes @lernapps/tooling init <short name>`. It writes the plan template, complete
+   and unchanged, as `.vibe/plans/01-<short name>.md` and installs the skills of the phases.
+2. Read the plan in full. Follow it task by task: it names the skills of each phase and holds the creator's
+   checkpoints.
 
-Read guidance from the file, in full: download it (curl), then read it. A fetch tool that summarises loses tasks and
-rules.
+Read guidance from the file, in full. Nothing is downloaded: a fetch tool that summarises loses tasks and rules, and
+`init` copies the files as they are.
 
 ## Change a published app
 
@@ -23,7 +23,7 @@ Look things up here when you need them. Not needed for building.
 - Rules by id: https://lernapps.net/tooling/rules/ (check messages link `#<id>`).
 - Platform rules for an app built without this tooling (by hand, another framework, an app builder):
   https://raw.githubusercontent.com/lernapps/tooling/main/skills/tooling/lernapps-cli/references/platform-rules.md
-- Check a built or published app: `npx --yes github:lernapps/tooling check <dir|url>`. Every
+- Check a built or published app: `npx --yes @lernapps/tooling check <dir|url>`. Every
   command lists its options with `--help`.
 - Schemas: validation report https://lernapps.net/tooling/schemas/validation-report.v1.schema.json, review verdict
   https://lernapps.net/tooling/schemas/verdict.v1.schema.json, catalog entry
