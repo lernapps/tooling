@@ -39,7 +39,7 @@ lernapps.net's own websites, and the update policy for dependencies.
 - **The CLI `lernapps`:** `init` starts an app's plan in an empty folder and syncs the skills of the packages into the agent directories, `skills --archetype` adds those of the chosen archetype, `create` writes a new app for an archetype once the creator confirmed the plan, `check`
   checks an app the same way in its git hooks and in CI, `update` moves an app to the runtime and tooling versions of the latest
   tooling and replaces the app's `lernapps-*` skills with that tooling's (and an older app's single plan into
-  `.vibe/plans/`), `changes` tells what a change can affect, so that hooks and CI run only that, `screenshots` writes an image of every page and every figure of a built explainer or quiz, to show a creator what a learner sees (`npx lernapps screenshots --help`). `npx --yes @lernapps/tooling --help` before an app exists, `npx lernapps --help` in one.
+  `.vibe/plans/`), `changes` tells what a change can affect, so that hooks and CI run only that, `screenshots` writes an image of every page and every figure of a built explainer or quiz, to show a creator what a learner sees (`npx --no -- lernapps screenshots --help`). `npx --yes @lernapps/tooling --help` before an app exists, `npx --no -- lernapps --help` in one.
 - **The actions in [`actions/`](actions/):** the app check, app publish and app preview actions of every app, and the site
   actions with which lernapps.net's own websites are checked, published and previewed. Each says what it does in its
   `action.yml`. The reusable workflow [`changes.yml`](.github/workflows/changes.yml) gives other workflows the

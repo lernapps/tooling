@@ -137,7 +137,7 @@ cannot. Something new goes into the guide in the slice that adds it. -->
       Parallel slices: send each sub-agent `@lernapps/tooling/guidance/subagent-brief.md`, filled in.
 - [ ] The content guide describes the app as it is now (`app-content-matches`). `grep -c "FILL IN"
       .agents/skills/app-content/SKILL.md` prints 0.
-- [ ] `npx lernapps check` passes.
+- [ ] `npx --no -- lernapps check` passes.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
       No checkpoint here: set it before you ask or report anything, then start Commit in the same message.
@@ -158,7 +158,7 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 
 - [ ] `grep '^phase:'` prints `phase: commit`; else set it.
 - [ ] An explainer whose pages or exercises changed: load skill `lernapps-explainer-self-assessment`
-      (missing → `npx lernapps skills --archetype explainer`). Update the
+      (missing → `npx --no -- lernapps skills --archetype explainer`). Update the
       self-assessment as it says (add one, if the app has none and the skill says so). Commit; the hooks check.
 - [ ] Load skill `lernapps-github`. Push the branch, open the preview pull request, see its checks to green as it
       says.

@@ -594,10 +594,10 @@ export function scoreTurns(all: Turn[], skillContext?: SkillContext, links: stri
       // tools for reading sources (a PDF reader in /tmp) are research, not the app
       !/\bcd \/tmp\b|\/tmp\/\S+ &&/.test(entry.command),
   );
-  // A3: the app is created with the command the plan names: from the registry (`npx lernapps create`, in the folder
+  // A3: the app is created with the command the plan names: from the registry (`npx --no -- lernapps create`, in the folder
   // `lernapps init` prepared), or, in the runs before the package was on npm, from git.
   const createdWith = commands.find((entry) =>
-    /(github:lernapps\/tooling#main|@lernapps\/tooling(@\S+)?|npx\s+(--yes\s+)?lernapps)\s+create --archetype \w+/.test(
+    /(github:lernapps\/tooling#main|@lernapps\/tooling(@\S+)?|npx\s+(--(?:yes|no)\s+)?(--\s+)?lernapps)\s+create --archetype \w+/.test(
       entry.command,
     ),
   );

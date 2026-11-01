@@ -68,7 +68,7 @@ questions. -->
 - [ ] Choose the archetype as skill `lernapps-app` says, from the kind of practice: read the README of each
       archetype in question, tell the creator what the chosen one can and cannot do. Write it and its reason under
       "Key decisions". Set `archetype`.
-- [ ] Install the archetype's skills: `npx lernapps skills --archetype <archetype>`. Load skill
+- [ ] Install the archetype's skills: `npx --no -- lernapps skills --archetype <archetype>`. Load skill
       `lernapps-<archetype>-design`.
 - [ ] Interview: ask the other topics of "Answers" in order. Skip a topic only when an earlier answer covers it; note
       which. No answer → ask once more; still none → write your assumption with "(guess)". Done when every topic
@@ -173,7 +173,7 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 - [ ] <the tasks written in Plan; after each, commit on `work`; after the first with real content, show the
       creator a first look (`early-preview`) and go on>
 - [ ] The content guide matches what was built (`app-content-matches`).
-- [ ] `npx lernapps check` passes.
+- [ ] `npx --no -- lernapps check` passes.
 - [ ] Look at a screenshot of every screen and state (start, each mode, pause, end), desktop and 360 px. Compare
       each with the confirmed sketches.
 - [ ] Every box of Explore, Plan and Code ticked.
@@ -195,7 +195,7 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 ### Tasks
 
 - [ ] `grep '^phase:'` prints `phase: commit`; else set it.
-- [ ] An explainer: load skill `lernapps-explainer-self-assessment` (missing → `npx lernapps skills --archetype
+- [ ] An explainer: load skill `lernapps-explainer-self-assessment` (missing → `npx --no -- lernapps skills --archetype
       explainer`). Add the self-assessment as it says, or
       write under "Key decisions" why the app has none. Commit; the hooks check.
 - [ ] Load skill `lernapps-github`. Repo and Pages as it says: ask the repo name and every click only the creator can

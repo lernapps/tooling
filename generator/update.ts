@@ -75,8 +75,8 @@ moves the app within its version ranges; this moves the ranges, and what npm doe
 
 Run it from the latest tooling, in the app's folder, e.g. to pick up a fixed runtime:
   ${LATEST}
-Run as the app's own tooling (npx lernapps update), it knows only the versions the app already has.
-Then run npx lernapps check, and commit package.json, package-lock.json, .github/workflows/ and what else it names.
+Run as the app's own tooling (npx --no -- lernapps update), it knows only the versions the app already has.
+Then run npx --no -- lernapps check, and commit package.json, package-lock.json, .github/workflows/ and what else it names.
 
 Exit codes: 0 when the app is updated (or was up to date), 1 when it cannot be or only partly (the message says
 what was not moved and why), 2 on a usage error.
@@ -395,7 +395,7 @@ export function update(args: string[]): number {
     }
     // npm install <spec> runs no prepare script: the hooks of the new tooling, as npm install would install them
     if (installHooks([]) !== 0)
-      throw new UpdateError("lernapps hooks failed (see above); run npx lernapps hooks again");
+      throw new UpdateError("lernapps hooks failed (see above); run npx --no -- lernapps hooks again");
   }
   const changed = moveActions(`v${version}`);
   if (changed.length > 0) lines.push(`the actions of lernapps/tooling in ${changed.join(", ")}: v${version}`);
@@ -423,7 +423,7 @@ export function update(args: string[]): number {
   if (architecture.lines.length > 0) files.push(`${ARCHITECTURE}/`);
   if (plan.some((line) => line.startsWith("plan: moved"))) files.push(".vibe/ (git add -A .vibe, to keep the move)");
   process.stdout.write(
-    `Next: npx lernapps check, then commit ${files.slice(0, -1).join(", ")} and ${files.at(-1) ?? ""}\n`,
+    `Next: npx --no -- lernapps check, then commit ${files.slice(0, -1).join(", ")} and ${files.at(-1) ?? ""}\n`,
   );
   return 0;
 }

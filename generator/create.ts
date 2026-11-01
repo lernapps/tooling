@@ -53,7 +53,7 @@ It needs the plan of the first version, confirmed by the creator: started from t
 tooling is moved to .vibe/plans/01-first-version.md. Without a plan, it writes nothing and says what to do.
 
 Run it in the folder lernapps init prepared, from the tooling init installed:
-  npx lernapps create --archetype <name> [<dir>]
+  npx --no -- lernapps create --archetype <name> [<dir>]
 It needs git, and the npm registry for the npm install that follows. The app then depends on the version of
 @lernapps/tooling that created it, and its workflows use the actions of that version's tag.
 

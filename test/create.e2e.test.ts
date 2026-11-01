@@ -163,7 +163,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx", () => {
         expect(result.stdout).toContain(`@lernapps/app-templates: unchanged (^${templatesVersion()})`);
         expect(result.stdout).toContain(`@lernapps/tooling: kept ${tooling}, a local copy`);
         expect(manifest().devDependencies).toEqual(before);
-        expect(result.stdout).toContain("npx lernapps check");
+        expect(result.stdout).toContain("npx --no -- lernapps check");
       },
     );
   });

@@ -18,7 +18,7 @@ Competencies, one slice each, in this order:
 Change only: <the files of this chapter or round>. Do not change: the content guide, the plan, <the shared files>.
 Write what the shared files need into your report instead.
 
-Per slice: content, exercise, `npx lernapps check` green, one commit. Never bypass a hook.
+Per slice: content, exercise, `npx --no -- lernapps check` green, one commit. Never bypass a hook.
 
 Report: branch, commits, per competency the ids of its page or questions and exercises, the patterns used, what the
 shared files need, what you could not verify.

@@ -27,11 +27,13 @@ license: MIT
 
 ## What each archetype can do
 
+The READMEs are files of the package `@lernapps/app-templates`, which `init` installed: read them from the folder, in full.
+
 | Archetype | Learners … | Can and cannot (README of its template) |
 |---|---|---|
-| `quiz` | answer questions with options and feedback | <https://raw.githubusercontent.com/lernapps/app-templates/main/quiz/README.md> |
-| `explainer` | read pages that explain, each with exercises | <https://raw.githubusercontent.com/lernapps/app-templates/main/explainer/README.md> |
-| `interactive` | act in one app page, by turns or in real time | <https://raw.githubusercontent.com/lernapps/app-templates/main/interactive/README.md> |
+| `quiz` | answer questions with options and feedback | `node_modules/@lernapps/app-templates/quiz/README.md` |
+| `explainer` | read pages that explain, each with exercises | `node_modules/@lernapps/app-templates/explainer/README.md` |
+| `interactive` | act in one app page, by turns or in real time | `node_modules/@lernapps/app-templates/interactive/README.md` |
 
 ## Choose the archetype
 

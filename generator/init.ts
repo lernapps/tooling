@@ -24,6 +24,7 @@ export const INIT_USAGE = `Usage: lernapps init <short name> [--addon <package>]
 
 Starts an app in the current folder, which must be empty except for .git. It needs git, Node and the npm registry; nothing
 else. In order:
+  git repository               on the branch work, which the plan names (unless the folder is one already; no commit)
   package.json                  names the folder, depends on @lernapps/tooling (this version) and the add-on
   npm install                   installs them
   .vibe/plans/01-<short name>.md
@@ -60,6 +61,24 @@ const SKILLS_BIN = () => {
   const bin = readJson(manifest)["bin"] as Record<string, string> | undefined;
   return join(dirname(manifest), bin?.["skills"] ?? "bin/cli.mjs");
 };
+
+/** The branch the plan works on (rule 8 of the plan template). */
+export const WORK_BRANCH = "work";
+
+/**
+ * Makes the folder a git repository on the branch `work`, which the plan names, unless it is one already: `create` and
+ * the hooks need it, and the plan's first rule is to work there. Returns what it did, for the output; no commit.
+ */
+export function ensureRepository(dir: string): string | undefined {
+  if (existsSync(join(dir, ".git"))) return undefined;
+  const result = spawnSync("git", ["init", "--quiet", `--initial-branch=${WORK_BRANCH}`], {
+    cwd: dir,
+    encoding: "utf8",
+  });
+  if (result.error) throw new CreateError(`git cannot run: ${result.error.message}. Install git, then run init again`);
+  if (result.status !== 0) throw new CreateError(`git init failed: ${`${result.stdout}${result.stderr}`.trim()}`);
+  return `a git repository on the branch ${WORK_BRANCH}`;
+}
 
 /** The names of the skills of the archetypes, with the archetype each belongs to (lernapps-<archetype>[-…]). */
 export function archetypeSkills(): { name: string; archetype: string }[] {
@@ -129,6 +148,7 @@ export function init(args: string[]): number {
     );
   }
   const addon = values.addon;
+  const repository = ensureRepository(dir);
   writeJson(join(dir, "package.json"), {
     name: slug(dir),
     version: "0.0.0",
@@ -157,7 +177,7 @@ export function init(args: string[]): number {
     archetypeSkills().map((skill) => skill.name),
   );
   process.stdout.write(
-    `lernapps init: ${relative(dir, target)} from ${relativeTemplate(template, dir)}; the skills of the packages are installed\nNext: read ${relative(dir, target)} completely and follow it\n`,
+    `lernapps init: ${relative(dir, target)} from ${relativeTemplate(template, dir)}; the skills of the packages are installed${repository ? `; ${repository}` : ""}\nNext: read ${relative(dir, target)} completely and follow it\n`,
   );
   return 0;
 }

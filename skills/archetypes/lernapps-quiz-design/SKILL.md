@@ -15,7 +15,7 @@ license: MIT
 
 ## Can and cannot
 
-- The README of the template says it: <https://raw.githubusercontent.com/lernapps/app-templates/main/quiz/README.md>.
+- The README of the template says it: `node_modules/@lernapps/app-templates/quiz/README.md` (in the folder `init` made).
   Read it before this skill's mapping, if you have not yet.
 
 ## Map the content
