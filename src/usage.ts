@@ -13,8 +13,10 @@ Commands:
   check [--pre-commit] [--pre-push] [<dir|url>]   run the checks of a repo, a built app or an app on a URL
   create --archetype <name> [<dir>]               write a new app from the archetype's template
   hooks                                           install the app's git hooks (the app's prepare script)
+  init <short name> [--addon <package>]           start an app: plan template and skills from the registry
   screenshots [--out <dir>] [<dir>]               an image of every page and every figure of a built explainer or quiz
-  update                                          move the app to the runtime and tooling this tooling pins
+  skills --archetype <name>                       add the skills of the archetype the plan chose
+  update                                          move the app to the runtime and tooling this tooling depends on
 
 Options:
   -h, --help      print this help
@@ -23,9 +25,9 @@ Options:
 Run "lernapps <command> --help" for the options of a command. Exit codes: 0 on success, 1 when a check fails or
 the app cannot be created, 2 on a usage error.
 
-The package @lernapps/tooling is installed from git, not from npm. Before it is installed, run a command with
-  npx --yes github:lernapps/tooling#main <command> ...
-In an app, it is a development dependency at a commit: npx lernapps <command> ...
+The package @lernapps/tooling comes from the npm registry. Before an app exists, run a command with
+  npx --yes @lernapps/tooling <command> ...
+In an app, it is a development dependency: npx lernapps <command> ...
 `;
 
 /** The options of `lernapps check`, as node:util parseArgs takes them. */

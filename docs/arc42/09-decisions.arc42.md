@@ -76,20 +76,26 @@ addresses: qg-list-in-minutes, qg-findable, con-entry-schema, risk-entry-schema-
 :::
 ```
 
-## One package from git
+## One package, on npm
 
-**Context:** a template copied once drifts, and npm installs from git only a whole repo. **Decision:** one package
-at the root of lernapps/tooling, with named entry points and one CLI, installed from git at a commit of the main
-line and kept current by update pull requests, as the shared site frame is. **Consequences:** no publishing pipeline;
-every app gets changes without edits; publishing to npm stays possible.
+**Context:** a template copied once drifts. The package was first installed from git at a commit, which needs no
+publishing pipeline; but an assistant could not be told to download a file without a summarising fetch tool shortening
+it (every run of the first evaluation did), a git commit says nothing about what changed, and `npm update` moved
+nothing. **Decision:** one package at the root of lernapps/tooling, with named entry points and one CLI, published to
+npm as `@lernapps/tooling` after every merge to main that carries a release (semantic-release reads the conventional
+commits; trusted publishing signs the provenance; a GitHub App pushes the tag past the protected main), and kept
+current by update pull requests. `lernapps init` writes the plan template and the skills out of the installed package.
+**Consequences:** a version names what an app was built from, `npm update` moves it within its range, and nothing
+a creator's assistant needs is fetched from GitHub. A release is public and cannot be taken back after a few days; the
+packages release in a chain (`risk-release-chain`).
 
 ```arc42
 :::decision
 id: dec-one-package
-title: One package from git
+title: One package, on npm
 status: accepted
 date: 2026-10-08
-addresses: qg-guidance-evolves, risk-git-install, con-github
+addresses: qg-guidance-evolves, risk-release-chain, con-github
 :::
 ```
 
@@ -97,8 +103,8 @@ addresses: qg-guidance-evolves, risk-git-install, con-github
 
 **Context:** each archetype needs a starting app that can be seen and tried. **Decision:** lernapps/app-templates
 holds one folder per archetype and, at its root, the runtime of the archetypes. The generator in the tooling copies a
-folder at a pinned commit. **Consequences:**
-- templates and runtimes change together in one repo, and the tooling's pin moves them as one;
+folder out of the installed package at the exact version the tooling depends on. **Consequences:**
+- templates and runtimes change together in one repo, and the tooling's version moves them as one;
 - templates stay small because the logic is in the runtime and the preset.
 
 ```arc42
@@ -116,9 +122,9 @@ addresses: qg-simple-to-build, qg-guidance-evolves
 **Context:** a deep archetype such as the quiz brings code that runs in the app: an engine, a build step, generic
 end-to-end tests. Copied into the app, it would drift like a template. Shipped with the tooling, the tooling would
 be part of the app instead of a tool for building it. **Decision:**
-- the runtimes are one package at the root of lernapps/app-templates, installed from git at a commit;
+- the runtimes are one package at the root of lernapps/app-templates, published to npm as `@lernapps/app-templates`;
 - it has one entry point per archetype and ships no templates;
-- the generator makes a new app depend on the commit it copied the template from;
+- the generator makes a new app depend on the version it copied the template from;
 - the app composes the runtime's build step with the shared preset;
 - the tooling stays a development dependency and never depends on the runtime.
 

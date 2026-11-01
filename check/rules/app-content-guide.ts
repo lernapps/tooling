@@ -63,7 +63,7 @@ export default {
         {
           where: SKILL,
           found: "the app has no content guide",
-          fix: "Add the skeleton with npx --yes github:lernapps/tooling#main update, then fill it in from the plan as its comments say",
+          fix: "Add the skeleton with npx --yes @lernapps/tooling@latest update, then fill it in from the plan as its comments say",
         },
       ];
     }

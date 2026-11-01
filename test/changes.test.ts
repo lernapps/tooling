@@ -482,7 +482,21 @@ describe("the reusable workflow changes.yml and the tooling's own workflows", ()
     expect(steps.some((step) => step.run?.includes('node "$tooling/changes/main.ts" --ci'))).toBe(true);
   });
 
-  const consumers = readdirSync(join(repoRoot, ".github/workflows")).filter((file) => file !== "changes.yml");
+  // release.yml runs after a merge to main and releases whatever the commits say: no change scope gates it
+  const consumers = readdirSync(join(repoRoot, ".github/workflows")).filter(
+    (file) => file !== "changes.yml" && file !== "release.yml",
+  );
+  test("release.yml releases after a merge to main with semantic-release, the app token and no npm token", () => {
+    const { on } = workflow("release.yml");
+    expect(on).toEqual({ push: { branches: ["main"] }, workflow_dispatch: null });
+    const text = readFileSync(join(repoRoot, ".github/workflows/release.yml"), "utf8");
+    expect(text).toContain("id-token: write"); // npm trusts the workflow: provenance without a token
+    expect(text).toContain("npx --yes semantic-release@");
+    expect(text).toContain("VERSION_BUMPER_APPID");
+    expect(text).not.toMatch(/NODE_AUTH_TOKEN|NPM_TOKEN/);
+    expect(JSON.parse(readFileSync(join(repoRoot, ".releaserc.json"), "utf8"))).toMatchObject({ branches: ["main"] });
+  });
+
   test.each(consumers)(
     "%s: no paths filter; every job is gated by the change scope; one final job always runs and needs every job",
     (file) => {

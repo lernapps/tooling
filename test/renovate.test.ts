@@ -18,6 +18,9 @@ interface CustomManager {
   currentValueTemplate: string;
 }
 interface PackageRule {
+  matchManagers?: string[];
+  matchDepTypes?: string[];
+  semanticCommitType?: string;
   matchDepNames?: string[];
   groupName?: string;
   minimumReleaseAge?: string;
@@ -141,10 +144,26 @@ test("one group moves every pin of the tooling commit: actions, changes.yml@, th
       .filter((rule) => rule.groupName && rule.matchDepNames?.some((pattern) => matchesGlob(depName, pattern)))
       .map((rule) => rule.groupName);
   // lernapps/tooling: the depName of the github-actions manager (uses: lernapps/tooling/...@) and of the custom managers
-  for (const depName of ["lernapps/tooling", "@lernapps/tooling", "@lernapps/site", "@lernapps/app-templates"]) {
-    expect(groupOf(depName), depName).toEqual(["lernapps building blocks"]);
+  expect(groupOf("lernapps/tooling")).toEqual(["lernapps building blocks"]);
+  // our packages are in that group too; where one is a runtime dependency of a package (npm, `dependencies`), the later
+  // rule moves it in a group of its own, titled fix(deps), so that the package that has it releases (see below)
+  for (const depName of ["@lernapps/tooling", "@lernapps/app-templates", "@lernapps/site"]) {
+    expect(groupOf(depName), depName).toEqual(["lernapps building blocks", "lernapps runtime dependencies"]);
   }
   expect(groupOf("vite-plus")).toEqual([]);
+});
+
+test("a runtime dependency on our own package is a fix of the package that has it, so that the release chain follows itself", () => {
+  const rule = preset.packageRules.find((candidate) => candidate.groupName === "lernapps runtime dependencies");
+  expect(rule).toMatchObject({
+    matchManagers: ["npm"],
+    matchDepTypes: ["dependencies"],
+    matchDepNames: ["@lernapps/*"],
+    semanticCommitType: "fix",
+  });
+  // a development dependency (the tooling in an app or a template) is no fix: apps and templates are no packages, and a
+  // release of app-templates on every move of the tooling would answer each release of the tooling with another
+  expect(rule?.matchDepTypes).not.toContain("devDependencies");
 });
 
 test("the group waits for a window of its schedule, not for a release age, and still merges on its own", () => {

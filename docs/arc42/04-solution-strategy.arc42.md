@@ -52,7 +52,7 @@ the app, and the check confirms that they resolve, so adults land where the entr
 
 - **Plain files and commands.** Process guidance, plan and skills are plain text; generator and check are commands;
   enforcement sits in git hooks, which every assistant triggers. Nothing depends on one vendor or an agent protocol.
-- **One versioned package.** Templates aside, everything an app uses comes from one package, installed from git and
+- **One versioned package.** Templates aside, everything an app uses comes from one package, installed from the npm registry and
   kept current by automatic update pull requests, so a change reaches every app without editing it.
 - **Nothing leaves unasked.** The tooling fetches packages and schemas and sends nothing. What is measured stays in
   the plan file until the creator submits a listing.

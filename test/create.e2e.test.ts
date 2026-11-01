@@ -1,8 +1,9 @@
 // The contract of the generator and its archetypes, end to end: `lernapps create --archetype quiz` in a
 // temporary folder, then a question bank, gives an app that passes `lernapps check` without further code.
-//   - it runs as an assistant starts it, with npx from git and nothing installed (`npx --yes github:lernapps/tooling#main
-//     create ...`, here from a local clone at its commit): npm prepares the package from git, the app depends on that
-//     commit and its workflows use the actions of that commit, `npm install` installs the hooks;
+//   - it runs as an assistant starts it, with npx and nothing installed (`npx --yes @lernapps/tooling create ...`, here
+//     the package packed from a fresh clone of this repo): npm installs the package and its dependency
+//     @lernapps/app-templates, the app depends on the versions and its workflows use the actions of the tag of this
+//     version, `npm install` installs the hooks;
 //   - the hooks go into the app's own repository only: in a folder inside another repository (as a template folder
 //     sits in lernapps/app-templates), `npm install` leaves that repository's hooks alone;
 //   - what it writes, and what it refuses, is tested on files alone in create.test.ts, on every push;
@@ -12,24 +13,23 @@
 //     a change can affect (lernapps changes), so a push of only the plan (.vibe/) checks and publishes nothing;
 //   - a failing generic test of the runtime (quizTests, patched in the installed copy) is named as a test of the
 //     template: Playwright's report locates it below node_modules/@lernapps/app-templates/;
-//   - `lernapps update` moves an app on an older runtime to the commit the tooling pins, installs it and says so; a
-//     runtime newer than the pin, or one whose order it cannot tell, it keeps, and says so.
-//   - an explainer app from the same generator passes `lernapps check` as generated, `lernapps update` leaves it at
-//     the pins and adds the content guide to an app made before it, a Vue component passes the commit's part of the
+//   - `lernapps update` leaves an app at the versions of the tooling alone and keeps a local copy of the tooling; which
+//     range moves when is tested on its own (cli.test.ts, nextRange).
+//   - an explainer app from the same generator passes `lernapps check` as generated, `lernapps update` leaves it as it
+//     is and adds the content guide to an app made before it, a Vue component passes the commit's part of the
 //     check (vue-tsc checks the app's code, not the runtime's in node_modules) and one with a type error fails it in
 //     vue-tsc. Kept to that:
 //     the explainer's own tests (every block, exercise and component) run in lernapps/app-templates.
 // The quiz runtime itself (the browser behaviour, the page without JavaScript, the messages for a broken bank) is
 // tested in lernapps/app-templates, where it lives: its unit tests and quizTests.
-// The templates and the runtime come from a local clone of lernapps/app-templates with the pinned commit: the one named
-// by LERNAPPS_TEMPLATES, else one fetched once into a cache (support.ts, appTemplates), so the hooks run these tests as
-// CI does. The packages are installed from git.
+// The templates come from the package @lernapps/app-templates installed next to this one, or the copy named by
+// LERNAPPS_TEMPLATES (support.ts, appTemplates).
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import { findingsOf, output } from "./check-report.ts";
-import { appTemplates, confirmedPlan, freshClone, ok, repoRoot, run, tempDir } from "./support.ts";
+import { appTemplates, confirmedPlan, ok, packedTooling, repoRoot, run, tempDir, templatesVersion } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
@@ -45,31 +45,38 @@ afterAll(async () => {
   }
 }, 120_000);
 
-/** The npm spec of one fresh clone of this repo at its commit, shared by the apps of this file. */
-let toolingSpec: string | undefined;
-const freshTooling = () => {
-  if (toolingSpec === undefined) {
-    const clone = freshClone();
-    toolingSpec = `git+file://${clone}#${ok("git", ["rev-parse", "HEAD"], clone).stdout.trim()}`;
-  }
-  return toolingSpec;
-};
+const freshTooling = packedTooling;
+/** The version of this package, which the app's workflows name as the tag of their actions. */
+const version = (JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { version: string }).version;
 
-describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git", () => {
+describe.skipIf(inner)("a quiz app from lernapps create, run with npx", () => {
   let templates = "";
   let app = "";
   let tooling = "";
 
   beforeAll(async () => {
     templates = appTemplates();
-    tooling = freshTooling();
+    tooling = `file:${freshTooling()}`;
     const parent = tempDir("quiz");
     app = join(parent, "naturwunder");
     // as the plan template says, in the folder of the confirmed plan, where nothing is installed
     confirmedPlan(app, "quiz");
     const created = run(
       "npx",
-      ["--yes", tooling, "create", "--archetype", "quiz", app, "--templates", templates],
+      [
+        "--yes",
+        `--package=${freshTooling()}`,
+        "--",
+        "lernapps",
+        "create",
+        "--archetype",
+        "quiz",
+        app,
+        "--templates",
+        templates,
+        "--tooling",
+        tooling,
+      ],
       parent,
     );
     if (created.code !== 0) throw new Error(output(created));
@@ -83,15 +90,15 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
     expect(ok("git", ["config", "core.hooksPath"], app).stdout.trim()).toBe("node_modules/.cache/lernapps/hooks/_");
   });
 
-  test("the app depends on the commit npx installed the generator from, and its workflows use that commit's actions", () => {
+  test("the app depends on the tooling it was told to and on the runtime's version, and its workflows use the tag's actions", () => {
     const manifest = JSON.parse(readFileSync(join(app, "package.json"), "utf8")) as {
       devDependencies: Record<string, string>;
     };
     expect(manifest.devDependencies["@lernapps/tooling"]).toBe(tooling);
+    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(`^${templatesVersion()}`);
     const pages = readFileSync(join(app, ".github/workflows/pages.yml"), "utf8");
-    const commit = tooling.slice(tooling.indexOf("#") + 1);
-    expect(pages).toContain(`uses: lernapps/tooling/actions/app-check@${commit} # main`);
-    expect(pages).toContain(`uses: lernapps/tooling/actions/app-publish@${commit} # main`);
+    expect(pages).toContain(`uses: lernapps/tooling/actions/app-check@v${version}`);
+    expect(pages).toContain(`uses: lernapps/tooling/actions/app-publish@v${version}`);
   });
 
   test("the publish workflow runs on every push to main, with no paths filter: the actions skip a plan-only push", () => {
@@ -143,67 +150,22 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
   );
 
   describe("lernapps update", () => {
-    const pinned = (
-      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
-    ).appTemplates.commit;
     const manifest = () =>
       JSON.parse(readFileSync(join(app, "package.json"), "utf8")) as { devDependencies: Record<string, string> };
-    const resolved = () =>
-      (
-        JSON.parse(readFileSync(join(app, "package-lock.json"), "utf8")) as {
-          packages: Record<string, { resolved?: string }>;
-        }
-      ).packages["node_modules/@lernapps/app-templates"]?.resolved ?? "";
 
-    test("moves an older runtime to the commit the tooling pins, and installs it", { timeout: SLOW }, () => {
-      const older = ok("git", ["rev-parse", `${pinned}~1`], templates).stdout.trim();
-      // the app on the runtime of an older commit, installed
-      const runtime = manifest().devDependencies["@lernapps/app-templates"] ?? "";
-      expect(runtime).toMatch(new RegExp(`#${pinned}$`));
-      const olderSpec = runtime.replace(new RegExp(`#${pinned}$`), `#${older}`);
-      ok("npm", ["install", "--no-audit", "--no-fund", "--save-dev", `@lernapps/app-templates@${olderSpec}`], app);
-      expect(resolved()).toContain(`#${older}`);
-
-      const result = run("npx", ["--no", "--", "lernapps", "update"], app);
-      expect(result.code, output(result)).toBe(0);
-      expect(result.stdout).toContain(`@lernapps/app-templates: ${older.slice(0, 7)} → ${pinned.slice(0, 7)}`);
-      expect(result.stdout).toContain("@lernapps/tooling: unchanged");
-      expect(manifest().devDependencies["@lernapps/app-templates"]).toBe(runtime);
-      expect(manifest().devDependencies["@lernapps/tooling"]).toBe(tooling);
-      expect(resolved()).toContain(`#${pinned}`);
-      expect(result.stdout).toContain("npx lernapps check");
-    });
-
-    // The app's runtime stays at the pin; the tooling's pin moves (in the installed copy, for this test only).
-    test.each([
-      [
-        "newer than the pin (as after Renovate)",
-        () => ok("git", ["rev-parse", `${pinned}~1`], templates).stdout.trim(),
-        "it is newer",
-      ],
-      [
-        "at a commit git cannot fetch, so the order is unknown",
-        () => "0123456789abcdef0123456789abcdef01234567",
-        "cannot tell whether it is older: git cannot fetch both commits",
-      ],
-    ])("keeps a runtime %s, and says so", { timeout: SLOW }, (_name, pinOfTooling, why) => {
-      const toolingManifest = join(app, "node_modules/@lernapps/tooling/package.json");
-      const original = readFileSync(toolingManifest, "utf8");
-      const pin = pinOfTooling();
-      writeFileSync(toolingManifest, original.replace(pinned, pin));
-      try {
-        const runtime = manifest().devDependencies["@lernapps/app-templates"];
+    test(
+      "leaves the runtime at the version of the tooling and keeps a local copy of the tooling",
+      { timeout: SLOW },
+      () => {
+        const before = manifest().devDependencies;
         const result = run("npx", ["--no", "--", "lernapps", "update"], app);
         expect(result.code, output(result)).toBe(0);
-        expect(result.stdout).toContain(
-          `@lernapps/app-templates: kept ${pinned.slice(0, 7)}, not moved to ${pin.slice(0, 7)}, the commit this tooling pins: ${why}`,
-        );
-        expect(manifest().devDependencies["@lernapps/app-templates"]).toBe(runtime);
-        expect(resolved()).toContain(`#${pinned}`);
-      } finally {
-        writeFileSync(toolingManifest, original);
-      }
-    });
+        expect(result.stdout).toContain(`@lernapps/app-templates: unchanged (^${templatesVersion()})`);
+        expect(result.stdout).toContain(`@lernapps/tooling: kept ${tooling}, a local copy`);
+        expect(manifest().devDependencies).toEqual(before);
+        expect(result.stdout).toContain("npx lernapps check");
+      },
+    );
   });
 
   // Last: it turns the app's folder into a folder of another repository.
@@ -221,7 +183,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx from git",
 // The explainer archetype with the same generator, kept to what the tooling adds: the template's own content passes
 // the check (its runtime's tests run in lernapps/app-templates), a Vue component is type-checked by vue-tsc, and
 // lernapps update works on it as on a quiz.
-describe.skipIf(inner)("an explainer app from lernapps create, run with npx from git", () => {
+describe.skipIf(inner)("an explainer app from lernapps create, run with npx", () => {
   let app = "";
 
   beforeAll(async () => {
@@ -231,7 +193,20 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
     confirmedPlan(app, "explainer");
     const created = run(
       "npx",
-      ["--yes", freshTooling(), "create", "--archetype", "explainer", app, "--templates", templates],
+      [
+        "--yes",
+        `--package=${freshTooling()}`,
+        "--",
+        "lernapps",
+        "create",
+        "--archetype",
+        "explainer",
+        app,
+        "--templates",
+        templates,
+        "--tooling",
+        `file:${freshTooling()}`,
+      ],
       parent,
     );
     if (created.code !== 0) throw new Error(output(created));
@@ -246,15 +221,15 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
     expect(readFileSync(join(app, "dist/prozent/prozentwert/index.html"), "utf8")).toContain("Prozentwert");
   });
 
-  test("lernapps update finds it at the pins and leaves it as it is", { timeout: SLOW }, () => {
+  test("lernapps update finds it at the versions and leaves it as it is", { timeout: SLOW }, () => {
     const before = readFileSync(join(app, "package.json"), "utf8");
     const result = run("npx", ["--no", "--", "lernapps", "update"], app);
     expect(result.code, output(result)).toBe(0);
     expect(result.stdout).toContain("@lernapps/app-templates: unchanged");
-    expect(result.stdout).toContain("@lernapps/tooling: unchanged");
-    // run as the app's own tooling, it knows no newer pins: it names the command that does
+    expect(result.stdout).toContain("@lernapps/tooling: kept file:");
+    // run as the app's own tooling, it knows no newer version: it names the command that does
     expect(result.stdout).toContain(
-      "this is the app's own tooling, which knows only its own pins; for the latest run: npx --yes github:lernapps/tooling#main update",
+      "this is the app's own tooling, which knows only its own version; for the latest run: npx --yes @lernapps/tooling@latest update",
     );
     expect(readFileSync(join(app, "package.json"), "utf8")).toBe(before);
   });
@@ -320,7 +295,7 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx from
 // passes the pre-commit hook, also after an earlier commit (arc42 diff, with .arc42ignore applied and its review hints
 // as warnings), new code that no block claims fails the commit's check (arc42 diff --staged), even with ARC42_CONSISTENT,
 // a broken architecture fails the check, and lernapps update keeps the app's own sections and replaces the rest.
-describe.skipIf(inner)("an interactive app from lernapps create, run with npx from git", () => {
+describe.skipIf(inner)("an interactive app from lernapps create, run with npx", () => {
   let app = "";
   const arc42 = (...args: string[]) => run(join(app, "node_modules/.bin/arc42"), ["--dir", "docs/arc42", ...args], app);
   const blocks = () => join(app, "docs/arc42/05-building-blocks.arc42.md");
@@ -338,7 +313,20 @@ describe.skipIf(inner)("an interactive app from lernapps create, run with npx fr
     confirmedPlan(app, "interactive");
     const created = run(
       "npx",
-      ["--yes", freshTooling(), "create", "--archetype", "interactive", app, "--templates", templates],
+      [
+        "--yes",
+        `--package=${freshTooling()}`,
+        "--",
+        "lernapps",
+        "create",
+        "--archetype",
+        "interactive",
+        app,
+        "--templates",
+        templates,
+        "--tooling",
+        `file:${freshTooling()}`,
+      ],
       parent,
     );
     if (created.code !== 0) throw new Error(output(created));

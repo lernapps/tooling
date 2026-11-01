@@ -38,6 +38,14 @@
       "groupName": "lernapps building blocks"
     },
     {
+      "description": "The runtime dependencies on our own packages (@lernapps/tooling of a package that ships with it, @lernapps/app-templates of the tooling) are fixes of the package that has them: the pull request is titled fix(deps), so that the release of that package (semantic-release reads the commits) follows the release it depends on by itself, as the chain app-templates, tooling, practice. Development dependencies, like the tooling in an app or in a template, stay chore(deps): an app or a template is no package, and a release of app-templates on every move of the tooling would answer each release of the tooling with another",
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["dependencies"],
+      "matchDepNames": ["@lernapps/*"],
+      "semanticCommitType": "fix",
+      "groupName": "lernapps runtime dependencies"
+    },
+    {
       "description": "vite-plus and the Vite core it bundles move together: package.json overrides vite with npm:@voidzero-dev/vite-plus-core at the same version as vite-plus",
       "matchPackageNames": ["vite-plus", "@voidzero-dev/vite-plus-core"],
       "groupName": "vite-plus"

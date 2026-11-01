@@ -136,15 +136,18 @@ mitigation: The counter is committed with every change; the review reads its his
 :::
 ```
 
-## Installing from git
+## The packages release in a chain
 
-npm installs a package from git only as a whole repo root, and more slowly than from a registry.
+`@lernapps/tooling` depends on an exact version of `@lernapps/app-templates`, and the practice package on the tooling. A
+release is public. The release of each follows a merge to main by itself, and Renovate raises the dependency on the
+one before it as a fix, which releases the next. A dependency between the development parts of the two (the tooling in
+a template) must not be a fix, or each release would answer the other with another.
 
 ```arc42
 :::risk
-id: risk-git-install
-title: Installing from git
+id: risk-release-chain
+title: The packages release in a chain
 severity: low
-mitigation: One package at the root of lernapps/tooling (`dec-one-package`); publish to npm under the reserved scope @lernapps when install time or size starts to hurt
+mitigation: The Renovate preset titles only a runtime dependency on one of our packages fix(deps), a development dependency chore(deps) (test/renovate.test.ts); every package is released once at a time (concurrency group release); the start tag v0.0.0 and the conventional commits decide the version
 :::
 ```

@@ -157,8 +157,8 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 ### Tasks
 
 - [ ] `grep '^phase:'` prints `phase: commit`; else set it.
-- [ ] An explainer whose pages or exercises changed: install skill `lernapps-explainer-self-assessment` if missing
-      (`npx --yes skills add lernapps/tooling -y -s lernapps-explainer-self-assessment`), load it. Update the
+- [ ] An explainer whose pages or exercises changed: load skill `lernapps-explainer-self-assessment`
+      (missing → `npx lernapps skills --archetype explainer`). Update the
       self-assessment as it says (add one, if the app has none and the skill says so). Commit; the hooks check.
 - [ ] Load skill `lernapps-github`. Push the branch, open the preview pull request, see its checks to green as it
       says.

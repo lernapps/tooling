@@ -1,7 +1,7 @@
 # Building Blocks
 
-The tooling is one package, installed by apps from git at a commit and kept current by update pull requests, like
-the shared site frame (decision `dec-one-package`). Next to the package, the repo holds three actions for an app's CI:
+The tooling is one package on the npm registry, released from CI with provenance after a merge to main and kept
+current by update pull requests (decision `dec-one-package`). Next to the package, the repo holds three actions for an app's CI:
 one checks the app, one publishes it, one previews a pull request. Two blocks live in other repos: the archetype templates and runtimes, and the
 listing validation in the catalog. All of these make up the creator's path.
 
@@ -151,7 +151,7 @@ links its rule.
 :::building-block
 id: bb-tooling-package
 title: "@lernapps/tooling"
-technology: TypeScript, npm package from git
+technology: TypeScript, npm package
 implements: concept-stable-contracts
 :::
 ```
@@ -913,7 +913,7 @@ requests. A consumer can rely on one entry point per archetype; it ships no temp
 id: if-archetype-runtime
 title: Archetype runtime
 provider: bb-app-templates
-protocol: npm package from git, subpath exports per archetype
+protocol: npm package, subpath exports per archetype
 x-phase: code
 x-agent: Runs the app: engine, accessibility, the page without JavaScript, its own tests.
 :::

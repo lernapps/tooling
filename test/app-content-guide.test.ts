@@ -49,7 +49,7 @@ describe("app-content-guide", () => {
     const problems = run(app({ "package.json": RUNTIME, [FIRST]: plan("code") }));
     expect(problems).toHaveLength(1);
     expect(problems?.[0]?.where).toBe(SKILL);
-    expect(problems?.[0]?.fix).toContain("npx --yes github:lernapps/tooling#main update");
+    expect(problems?.[0]?.fix).toContain("npx --yes @lernapps/tooling@latest update");
   });
 
   test("a guide without a fixed heading fails, naming the heading", () => {
