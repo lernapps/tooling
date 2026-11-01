@@ -52,22 +52,20 @@ fi
 
 # The arc42 app comes with the shared header above it: keep its fixed controls off the header (site/spa.css).
 # Before the frame: it copies the pages into /tooling/en/, which then get it too.
-for app in _site/architecture/index.html _site/architecture-diff/index.html; do
-  [ -f "$app" ] && sed -i 's|</head>|<link rel="stylesheet" href="../spa.css">\n</head>|' "$app"
-done
+node scripts/html-edit.ts head-link ../spa.css _site/architecture/index.html _site/architecture-diff/index.html
 lernapps-frame --site /tooling/ --source https://github.com/lernapps/tooling --out _site
 # The usage counter of the platform sites (/lernapps-count.js, served by lernapps.github.io, see "Usage counter" in
 # its README): this site's pages count their visits, never in a preview. Not part of the site frame: apps use the
 # frame too, and apps are never counted.
 if [ -z "${SITE_PREVIEW:-}" ]; then
-  find _site -name '*.html' -exec sed -i '0,/<\/head>/s||<script src="/lernapps-count.js" defer></script>\n</head>|' {} +
+  node scripts/html-edit.ts head-script /lernapps-count.js _site
 fi
 
 # The example apps come last: they are apps, built with their own frame, so they get neither this site's frame nor
 # its usage counter. They link the privacy notice and the imprint at lernapps.net's full address; the check wants
 # the path.
 cp -r site/examples _site/
-find _site/examples -name '*.html' -exec sed -i -E 's#href="https://lernapps\.net/(privacy|imprint)/"#href="/\1/"#g' {} +
+node scripts/html-edit.ts local-legal-links _site/examples
 
 touch _site/.nojekyll
 echo "built _site/"
