@@ -239,7 +239,7 @@ function runEndToEndTests(browser: Record<string, string>): Finding | undefined 
   return {
     ...failure,
     found: `end-to-end tests failed (their output is above): ${runtime.length === 1 ? "a generic test" : "generic tests"} of the template's runtime ${RUNTIME}, not of this app: ${shown.join(", ")}${more}`,
-    fix: `If the content validates (the build passed), this is a bug in the template: tell the creator and open an issue at ${RUNTIME_ISSUES} with this validation report (or ask the creator to). Never change the tests or the configuration to get around it. Once it is fixed, lernapps update moves the app to the fixed runtime: npx --yes github:lernapps/tooling#main update`,
+    fix: `If the content validates (the build passed), this is a bug in the template: tell the creator and open an issue at ${RUNTIME_ISSUES} with this validation report (or ask the creator to). Never change the tests or the configuration to get around it. Once it is fixed, lernapps update moves the app to the fixed runtime: npx --yes @lernapps/tooling@latest update`,
   };
 }
 
