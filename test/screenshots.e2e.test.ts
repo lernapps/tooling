@@ -108,7 +108,7 @@ describe("the names of the images", () => {
     expect(imageName(1, "index.html")).toBe("01-index.png");
     expect(imageName(2, "plan/selbsteinschaetzung/index.html")).toBe("02-plan-selbsteinschaetzung.png");
     expect(imageName(12, "entwurf.html")).toBe("12-entwurf.png");
-    expect(imageName(1, "index.html", 390)).toBe("01-index-390.png");
+    expect(imageName(1, "index.html", 360)).toBe("01-index-360.png");
   });
 
   test("a figure is named by its page and its place on the page", () => {
@@ -203,11 +203,11 @@ describe.skipIf(inner)("lernapps screenshots on the built example apps of app-te
     async () => {
       const folder = join(apps.explainer, "screenshots");
       const result = screenshots(apps.explainer);
-      await expectEveryPage("explainer", result, folder, [390]);
+      await expectEveryPage("explainer", result, folder, [360]);
       expect(indexed(folder).images[0]).toBe("01-index.png");
       // on a phone a figure fills the column: its image is sharper than the page's, wider than the page itself
       const figure = indexed(folder).figures.flat()[0] ?? "";
-      expect(size(join(folder, figure)).width, figure).toBeGreaterThan(390);
+      expect(size(join(folder, figure)).width, figure).toBeGreaterThan(360);
     },
   );
 
@@ -216,7 +216,7 @@ describe.skipIf(inner)("lernapps screenshots on the built example apps of app-te
     { timeout: SLOW },
     async () => {
       const result = screenshots(apps.quiz);
-      await expectEveryPage("quiz", result, join(apps.quiz, "screenshots"), [390]);
+      await expectEveryPage("quiz", result, join(apps.quiz, "screenshots"), [360]);
     },
   );
 
@@ -243,7 +243,7 @@ describe.skipIf(inner)("lernapps screenshots on the built example apps of app-te
     writeFileSync(join(folder, "old/image.png"), "old");
     writeFileSync(join(folder, "stale.txt"), "old");
     const result = screenshots(apps.quiz, "--out", "x");
-    await expectEveryPage("quiz", result, folder, [390]);
+    await expectEveryPage("quiz", result, folder, [360]);
     expect(files(folder)).not.toContain("old");
     expect(files(folder)).not.toContain("stale.txt");
   });
@@ -260,8 +260,8 @@ describe.skipIf(inner)("lernapps screenshots on the built example apps of app-te
   test("--desktop: two images per page, named with their widths, both in index.html", { timeout: SLOW }, async () => {
     const folder = join(apps.explainer, "both");
     const result = screenshots(apps.explainer, "--desktop", "--out", "both");
-    await expectEveryPage("explainer", result, folder, [390, 1280]);
-    expect(indexed(folder).pageImages.slice(0, 2)).toEqual(["01-index-390.png", "01-index-1280.png"]);
+    await expectEveryPage("explainer", result, folder, [360, 1280]);
+    expect(indexed(folder).pageImages.slice(0, 2)).toEqual(["01-index-360.png", "01-index-1280.png"]);
   });
 
   test("where no browser can start: the finding of the check, exit 1, no folder", { timeout: SLOW }, async () => {

@@ -138,6 +138,7 @@ cannot. Something new goes into the guide in the slice that adds it. -->
 - [ ] The content guide describes the app as it is now (`app-content-matches`). `grep -c "FILL IN"
       .agents/skills/app-content/SKILL.md` prints 0.
 - [ ] `npx lernapps check` passes.
+- [ ] Look at `npx lernapps screenshots --desktop`, each figure in its own image.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
       No checkpoint here: set it before you ask or report anything, then start Commit in the same message.
