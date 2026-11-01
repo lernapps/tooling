@@ -100,7 +100,7 @@ questions. -->
       `lernapps-<archetype>-design` says, choose its pattern with skill `lernapps-exercise-patterns` (both loaded
       in Explore), and say why the guide's patterns do not fit.
 - [ ] Each new component or interactive exercise: a sketch (static SVG or image, or the steps). Words alone are not
-      enough.
+      enough. Keep sketch files in `.vibe/sketches/`.
 - [ ] Show the creator, short: goal, new competencies by chapter, slices; in plain words what learners see and do,
       what is new. At most 2 questions.
 - [ ] **Checkpoint:** confirm the plan and the content method. Stop and wait for an explicit yes. Changes → change,

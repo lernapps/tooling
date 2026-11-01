@@ -71,6 +71,20 @@ describe("lernapps create refuses", () => {
     expect(result.stderr).toContain("work through Explore and Plan with the creator first");
   });
 
+  test("sketches in .vibe/ do not stop it: the planning folder holds more than the plan", () => {
+    const dir = tempDir("create-sketches");
+    confirmedPlan(dir, "quiz");
+    mkdirSync(join(dir, ".vibe/sketches"), { recursive: true });
+    writeFileSync(join(dir, ".vibe/sketches/table.svg"), "<svg xmlns='http://www.w3.org/2000/svg'/>\n");
+    const result = lernapps(
+      ["create", "--archetype", "quiz", dir, "--templates", appTemplates(), "--tooling", "^0.1.0"],
+      repoRoot,
+    );
+    expect(result.code, output(result)).toBe(0);
+    expect(existsSync(join(dir, ".vibe/sketches/table.svg"))).toBe(true);
+    expect(existsSync(join(dir, "package.json"))).toBe(true);
+  }, 20_000);
+
   test("a plan the creator has not confirmed yet", () => {
     const dir = tempDir("create-unconfirmed");
     const plan = confirmedPlan(dir, "quiz");
