@@ -7,10 +7,12 @@
 // change scope (changes/changes.ts), which each hook part of `check` asks first.
 import { spawnSync } from "node:child_process";
 import {
+  closeSync,
   copyFileSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
+  openSync,
   readdirSync,
   readFileSync,
   rmSync,
@@ -449,13 +451,24 @@ function stepFindings(step: Step): Finding[] {
     return failure ? [failure] : [];
   }
   const where = step.where ?? [step.command, ...step.args].join(" ");
-  const result = spawnSync(step.command, step.args, {
-    env: { ...projectEnv(), ...step.env },
-    encoding: "utf8",
-    maxBuffer: 256 * 1024 * 1024,
-  });
-  if (result.error) return [runStep(step)].filter((f): f is Finding => f !== undefined);
-  return architectureDiffFindings(where, result.stdout, result.stderr);
+  // The JSON goes to a file, not a pipe: arc42 ends the process right after it writes, and a pipe that takes only 64 KiB
+  // at a time (macOS) is then cut off where the output is larger, which no longer parses.
+  const folder = mkdtempSync(join(tmpdir(), "lernapps-arc42-"));
+  const file = join(folder, "diff.json");
+  const out = openSync(file, "w");
+  try {
+    const result = spawnSync(step.command, step.args, {
+      env: { ...projectEnv(), ...step.env },
+      encoding: "utf8",
+      stdio: ["ignore", out, "pipe"],
+      maxBuffer: 256 * 1024 * 1024,
+    });
+    if (result.error) return [runStep(step)].filter((f): f is Finding => f !== undefined);
+    return architectureDiffFindings(where, readFileSync(file, "utf8"), result.stderr);
+  } finally {
+    closeSync(out);
+    rmSync(folder, { recursive: true, force: true });
+  }
 }
 
 /** The checks of the toolchain in a repo, then the checks of what it built. */
