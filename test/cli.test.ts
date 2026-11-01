@@ -4,11 +4,11 @@ import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
-import { CREATE_OPTIONS, IGNORED_SKILLS_LINES } from "../generator/create.ts";
-import { replaceSkills, unignoreSkills, UPDATE_OPTIONS } from "../generator/update.ts";
+import { CREATE_OPTIONS, IGNORED_SKILLS_LINES, ownVersion } from "../generator/create.ts";
+import { nextRange, replaceSkills, unignoreSkills, UPDATE_OPTIONS } from "../generator/update.ts";
 import { countFailedChecks, countPrePushFailure } from "../src/plan.ts";
 import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS, SCREENSHOTS_OPTIONS } from "../src/usage.ts";
-import { repoRoot, run, tempDir } from "./support.ts";
+import { repoRoot, run, tempDir, templatesVersion } from "./support.ts";
 
 /** The help must name every option the parser accepts: the help is where the options are documented. */
 function expectEveryOption(help: string, options: ParseArgsOptionsConfig): void {
@@ -80,7 +80,7 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(result.code).toBe(0);
     expect(result.stdout).toMatch(/^Usage: lernapps update$/m);
     expectEveryOption(result.stdout, UPDATE_OPTIONS);
-    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main update");
+    expect(result.stdout).toContain("npx --yes @lernapps/tooling@latest update");
     expect(result.stdout).toContain("@lernapps/app-templates");
     expect(result.stdout).toContain("2 on a usage");
   });
@@ -91,39 +91,52 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(result.stderr).toContain("lernapps update: no package.json here: run it in the app's folder");
   });
 
-  test("update from a clone of the tooling says what it did not move and why, and exits 1", () => {
-    // run from this repo: not installed by npm from a git commit, so there is no commit to move the tooling to
-    const { commit } = (
-      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as {
-        appTemplates: { commit: string };
-      }
-    ).appTemplates;
-    const toolingCommit = "0123456789abcdef0123456789abcdef01234567";
+  test("update moves the actions to the tag of this version, keeps a newer runtime and moves nothing back", () => {
+    const { version } = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { version: string };
+    const oldCommit = "0123456789abcdef0123456789abcdef01234567";
     const dir = tempDir("app");
-    const workflow = `jobs:\n  app:\n    steps:\n      - uses: lernapps/tooling/actions/app-check@${toolingCommit} # main\n`;
+    const workflow = (ref: string) =>
+      `jobs:\n  app:\n    steps:\n      - uses: lernapps/tooling/actions/app-check@${ref}\n`;
     mkdirSync(join(dir, ".github/workflows"), { recursive: true });
-    writeFileSync(join(dir, ".github/workflows/pages.yml"), workflow);
-    const devDependencies = {
-      "@lernapps/app-templates": `github:lernapps/app-templates#${commit}`,
-      "@lernapps/tooling": `github:lernapps/tooling#${toolingCommit}`,
-    };
+    writeFileSync(join(dir, ".github/workflows/pages.yml"), workflow(oldCommit));
+    // the tooling is at this version already and the runtime is newer, so there is nothing for npm to install
+    const devDependencies = { "@lernapps/app-templates": "^99.0.0", "@lernapps/tooling": `^${version}` };
     writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "app", devDependencies }));
     const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
-    expect(result.code, result.stderr).toBe(1);
-    expect(result.stdout).toContain(`lernapps update: @lernapps/app-templates: unchanged (${commit.slice(0, 7)})`);
+    expect(result.code, result.stderr).toBe(0);
     expect(result.stdout).toContain(
-      `lernapps update: @lernapps/tooling: not moved (still ${toolingCommit.slice(0, 7)}): this tooling (`,
+      `lernapps update: @lernapps/app-templates: kept ^99.0.0, not moved to ^${templatesVersion()}: it is not older`,
     );
-    expect(result.stdout).toContain("was not installed by npm from a git commit, so there is no commit to move to");
+    expect(result.stdout).toContain(`lernapps update: @lernapps/tooling: unchanged (^${version})`);
     expect(result.stdout).toContain(
-      `lernapps update: the actions of lernapps/tooling in ${join(".github", "workflows", "pages.yml")}: not moved, for the same reason`,
+      `lernapps update: the actions of lernapps/tooling in ${join(".github", "workflows", "pages.yml")}: v${version}`,
     );
-    expect(result.stdout).not.toContain("Next:");
-    expect(result.stderr).toContain(
-      "lernapps update: partly updated: @lernapps/tooling and the actions of lernapps/tooling not moved (see above). Run it from the latest tooling, installed by npx: npx --yes github:lernapps/tooling#main update",
-    );
-    expect(readFileSync(join(dir, ".github/workflows/pages.yml"), "utf8")).toBe(workflow);
+    expect(result.stdout).toContain("Next:");
+    expect(readFileSync(join(dir, ".github/workflows/pages.yml"), "utf8")).toBe(workflow(`v${version}`));
     expect(JSON.parse(readFileSync(join(dir, "package.json"), "utf8"))).toEqual({ name: "app", devDependencies });
+  });
+
+  test("update's ranges: a git commit or an older version becomes this version, a newer one stays", () => {
+    const commit = "github:lernapps/tooling#0123456789abcdef0123456789abcdef01234567";
+    expect(nextRange("@lernapps/tooling", commit, "0.2.0")).toEqual({
+      spec: "^0.2.0",
+      line: `@lernapps/tooling: ${commit} → ^0.2.0`,
+    });
+    expect(nextRange("@lernapps/tooling", "^0.1.0", "0.2.0").spec).toBe("^0.2.0");
+    expect(nextRange("@lernapps/tooling", "^0.2.0", "0.2.0")).toEqual({
+      spec: "^0.2.0",
+      line: "@lernapps/tooling: unchanged (^0.2.0)",
+    });
+    expect(nextRange("@lernapps/tooling", "^0.3.1", "0.2.0")).toEqual({
+      spec: "^0.3.1",
+      line: "@lernapps/tooling: kept ^0.3.1, not moved to ^0.2.0: it is not older",
+    });
+    expect(nextRange("@lernapps/tooling", undefined, "0.2.0").spec).toBe("^0.2.0");
+    // a local copy stays: it is what the app is developed against
+    expect(nextRange("@lernapps/tooling", "file:../tooling", "0.2.0")).toEqual({
+      spec: "file:../tooling",
+      line: "@lernapps/tooling: kept file:../tooling, a local copy",
+    });
   });
 
   test("update moves the plan .vibe/plan.md of an older app to .vibe/plans/01-first-version.md, and says so", () => {
@@ -131,8 +144,10 @@ describe("lernapps", { timeout: 20_000 }, () => {
     const plan = "---\narchetype: quiz\nphase: commit\nprePushFailures: 2\n---\n\n# Plan\n";
     mkdirSync(join(dir, ".vibe"));
     writeFileSync(join(dir, ".vibe/plan.md"), plan);
-    writeFileSync(join(dir, "package.json"), JSON.stringify({ devDependencies: { "@lernapps/tooling": "x" } }));
-    // from a clone of the tooling it exits 1 (no commit to move the tooling to), but moves the plan all the same
+    writeFileSync(
+      join(dir, "package.json"),
+      JSON.stringify({ devDependencies: { "@lernapps/tooling": `^${ownVersion()}` } }),
+    );
     const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
     expect(result.stdout).toContain(
       "lernapps update: plan: moved .vibe/plan.md to .vibe/plans/01-first-version.md, unchanged",
@@ -408,7 +423,7 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(result.code).toBe(0);
     expect(result.stdout).toMatch(/^Usage: lernapps create --archetype <name> \[<dir>\]/);
     expect(result.stdout).toContain("explainer, interactive, quiz");
-    for (const option of ["--plan <file>", "--templates <repo>", "--tooling <spec>", "LERNAPPS_TEMPLATES"]) {
+    for (const option of ["--plan <file>", "--templates <dir>", "--tooling <spec>", "LERNAPPS_TEMPLATES"]) {
       expect(result.stdout).toContain(option);
     }
   });
@@ -417,14 +432,14 @@ describe("lernapps", { timeout: 20_000 }, () => {
     const result = lernapps("create", "--help");
     expect(result.code).toBe(0);
     expectEveryOption(result.stdout, CREATE_OPTIONS);
-    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main create --archetype <name>");
-    expect(result.stdout).toContain("github.com, codeload.github.com and the npm registry");
+    expect(result.stdout).toContain("npx lernapps create --archetype <name>");
+    expect(result.stdout).toContain("git, and the npm registry");
     expect(result.stdout).toContain("2 on a usage error");
   });
 
   test("--help says how to run the CLI before it is installed, and the exit codes", () => {
     const result = lernapps("--help");
-    expect(result.stdout).toContain("npx --yes github:lernapps/tooling#main <command>");
+    expect(result.stdout).toContain("npx --yes @lernapps/tooling <command>");
     expect(result.stdout).toContain("2 on a usage error");
   });
 

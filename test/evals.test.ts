@@ -345,7 +345,7 @@ test("the results of a run: one cell per task and model, excluded jobs listed, o
       job("a", "anthropic/claude-haiku-5-5", [
         {
           reward: { check_passes: 1 },
-          early: ["cd /app && npx --yes github:lernapps/tooling#main create --archetype quiz q"],
+          early: ["cd /app && npx lernapps create --archetype quiz q"],
         },
         {
           reward: { check_passes: 1 },
@@ -508,7 +508,7 @@ test("the verifier finds the plan's folder past a symlink whose target is gone",
 test("the plan counts as confirmed when sed, a helper script or a write sets phase: code; an earlier create is early", () => {
   const create = {
     name: "Bash",
-    input: { command: "npx --yes github:lernapps/tooling#main create --archetype quiz ." },
+    input: { command: "npx lernapps create --archetype quiz ." },
   };
   const turn = (creator: string, tools: { name: string; input: Record<string, unknown>; result?: string }[]) => ({
     creator,
@@ -708,7 +708,7 @@ test("only the yes to the reply at the Plan checkpoint confirms the plan; a phas
   };
   const create = {
     name: "Bash",
-    input: { command: "npx --yes github:lernapps/tooling#main create --archetype quiz ." },
+    input: { command: "npx lernapps create --archetype quiz ." },
   };
   const turn = (creator: string, reply: string, tools: { name: string; input: Record<string, unknown> }[] = []) => ({
     creator,

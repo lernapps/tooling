@@ -17,9 +17,19 @@ import {
   symlinkSync,
   writeFileSync,
 } from "node:fs";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
-import { appTemplates, confirmedPlan, FIRST_PLAN, ok, repoRoot, run, tempDir, type Result } from "./support.ts";
+import {
+  appTemplates,
+  confirmedPlan,
+  FIRST_PLAN,
+  ok,
+  repoRoot,
+  run,
+  tempDir,
+  templatesVersion,
+  type Result,
+} from "./support.ts";
 
 const SLOW = 5 * 60 * 1000;
 const cli = join(repoRoot, "src/cli.ts");
@@ -44,13 +54,12 @@ describe("lernapps create refuses", () => {
     expect(existsSync(join(dir, "package.json"))).toBe(false);
   });
 
-  test("an app-templates it cannot fetch, saying how to name a local clone", () => {
+  test("an app-templates folder that is no package, saying how to name one", () => {
     const dir = tempDir("create-offline");
     confirmedPlan(dir, "quiz");
     const result = lernapps(["create", "--archetype", "quiz", dir, "--templates", join(dir, "nowhere")], repoRoot);
     expect(result.code, output(result)).toBe(1);
-    expect(result.stderr).toContain("cannot fetch app-templates");
-    expect(result.stderr).toContain("LERNAPPS_TEMPLATES");
+    expect(result.stderr).toContain("is no package @lernapps/app-templates");
   });
 
   test("a folder without a plan, saying to start it from the plan template", () => {
@@ -58,9 +67,7 @@ describe("lernapps create refuses", () => {
     const result = lernapps(["create", "--archetype", "quiz", dir], repoRoot);
     expect(result.code, output(result)).toBe(1);
     expect(result.stderr).toContain("there is no plan");
-    expect(result.stderr).toContain(
-      "from the plan template as .vibe/plans/01-<short name>.md, downloaded complete and unchanged",
-    );
+    expect(result.stderr).toContain("npx --yes @lernapps/tooling init <short name>");
     expect(result.stderr).toContain("work through Explore and Plan with the creator first");
   });
 
@@ -111,8 +118,8 @@ describe("lernapps create refuses", () => {
 describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
   let templates = "";
   let app = "";
-  const commit = "0123456789abcdef0123456789abcdef01234567";
-  const tooling = `github:lernapps/tooling#${commit}`;
+  const tooling = "^9.9.9";
+  const version = (JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { version: string }).version;
 
   beforeAll(() => {
     templates = appTemplates();
@@ -148,11 +155,8 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     };
     expect(manifest.name).toBe("naturwunder");
     expect(manifest.devDependencies["@lernapps/tooling"]).toBe(tooling);
-    // the runtime of the commit the template was copied from
-    const pin = (
-      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { appTemplates: { commit: string } }
-    ).appTemplates.commit;
-    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(`git+file://${resolve(templates)}#${pin}`);
+    // the runtime of the version the template was copied from
+    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(`^${templatesVersion()}`);
     expect(existsSync(join(app, ".npmrc"))).toBe(false);
     expect(readFileSync(join(app, "AGENTS.md"), "utf8")).toBe(
       readFileSync(join(repoRoot, "guidance/AGENTS.md"), "utf8"),
@@ -163,15 +167,15 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(config).toContain("lernapps({ plugins: [quiz()] })");
     expect(readFileSync(join(app, "LICENSE"), "utf8")).toContain(`Copyright (c) ${new Date().getFullYear()}`);
     // the app check action (the same check as the hooks), then the app publish action with the bundle it checked,
-    // both of the commit the app depends on
+    // both of the tag of the version that wrote the app
     const pages = readFileSync(join(app, ".github/workflows/pages.yml"), "utf8");
     const [check, deploy] = [
-      `uses: lernapps/tooling/actions/app-check@${commit} # main`,
-      `uses: lernapps/tooling/actions/app-publish@${commit} # main`,
+      `uses: lernapps/tooling/actions/app-check@v${version}`,
+      `uses: lernapps/tooling/actions/app-publish@v${version}`,
     ].map((step) => pages.indexOf(step));
     expect(check, pages).toBeGreaterThan(-1);
     expect(deploy, pages).toBeGreaterThan(check ?? Infinity);
-    expect(pages).toContain(`uses: lernapps/tooling/actions/app-preview@${commit} # main`);
+    expect(pages).toContain(`uses: lernapps/tooling/actions/app-preview@v${version}`);
     expect(pages).toContain("pages: write"); // the app publish action reads the Pages settings
     expect(pages).not.toContain("site-check");
   });

@@ -12,7 +12,17 @@ import { beforeAll, describe, expect, test } from "vite-plus/test";
 import { bundlePages, launch, serve } from "../check/visit.ts";
 import { archetypeOf, imageName } from "../src/screenshots.ts";
 import { output } from "./check-report.ts";
-import { appTemplates, confirmedPlan, ok, repoRoot, run, runAsync, tempDir, type Result } from "./support.ts";
+import {
+  appTemplates,
+  confirmedPlan,
+  ok,
+  packedTooling,
+  repoRoot,
+  run,
+  runAsync,
+  tempDir,
+  type Result,
+} from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 15 * 60 * 1000;
@@ -32,7 +42,21 @@ async function makeApp(archetype: keyof typeof apps): Promise<void> {
   const parent = tempDir(archetype);
   const app = join(parent, "app");
   confirmedPlan(app, archetype);
-  ok("node", [cli, "create", "--archetype", archetype, app, "--templates", appTemplates()], parent);
+  ok(
+    "node",
+    [
+      cli,
+      "create",
+      "--archetype",
+      archetype,
+      app,
+      "--templates",
+      appTemplates(),
+      "--tooling",
+      `file:${packedTooling()}`,
+    ],
+    parent,
+  );
   ok("git", ["init", "--quiet", "--initial-branch=main"], app);
   const installed = await runAsync("npm", ["install", "--no-audit", "--no-fund"], app);
   if (installed.code !== 0) throw new Error(output(installed));

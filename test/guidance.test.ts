@@ -8,6 +8,7 @@ import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
+import { archetypeSkills } from "../generator/init.ts";
 import { frontMatter, frontMatterErrors, headings } from "./plan.ts";
 import { repoRoot, run } from "./support.ts";
 
@@ -247,26 +248,25 @@ describe("the skills", () => {
     }
   });
 
-  test("the plan template installs every skill but the archetypes' at the start, and those when Explore chooses one or Commit needs one", () => {
+  test("init syncs every skill but the archetypes' at the start, the plan template names `skills --archetype` when Explore chooses one and Commit needs one", () => {
     const explore = section(read(TEMPLATE), "## Explore");
-    const [base, archetype] = [...explore.matchAll(/npx --yes skills add[\s\S]*?`/g)].map((match) => match[0]);
     const groups = (...names: string[]) =>
       skills.filter((name) => names.includes(folder(name).split("/")[1] ?? "")).sort();
+    // what init leaves out are exactly the skills of the group archetypes
     expect(
-      [...(base ?? "").matchAll(/lernapps-[a-z-]+/g)]
-        .map((match) => match[0])
-        .filter((name) => skills.includes(name))
+      archetypeSkills()
+        .map((skill) => skill.name)
         .sort(),
-    ).toEqual(groups("process", "tooling", "content"));
-    expect(archetype).toContain("lernapps-<archetype>-design lernapps-<archetype>");
+    ).toEqual(groups("archetypes"));
+    expect(explore).toContain("npx lernapps skills --archetype <archetype>");
     for (const name of groups("archetypes")) {
       expect(name).toMatch(/^lernapps-(quiz|explainer|interactive)(-design)?$|^lernapps-explainer-self-assessment$/);
     }
     // the explainer's self-assessment, once its content is known: in Commit, of the first version and of every increment
     for (const file of [TEMPLATE, "guidance/increment-template.md"]) {
-      expect(section(read(file), "## Commit")).toMatch(
-        /npx --yes skills add\s+lernapps\/tooling -y -s lernapps-explainer-self-assessment`/,
-      );
+      const commit = section(read(file), "## Commit");
+      expect(commit).toContain("lernapps-explainer-self-assessment");
+      expect(commit).toMatch(/npx lernapps skills --archetype\s+explainer/);
     }
   });
 

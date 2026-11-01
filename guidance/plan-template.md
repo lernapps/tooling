@@ -57,10 +57,9 @@ questions. -->
 
 ### Tasks
 
-- [ ] Install the skills, if missing (the app commits them): `npx --yes skills add
-      lernapps/tooling -y -s lernapps-app lernapps-content-research lernapps-exercise-patterns
-      lernapps-content-growth lernapps-cli lernapps-content-questions lernapps-github lernapps-commit
-      lernapps-listing`.
+- [ ] The skills of the phases are in `.agents/skills/` (`npx --yes @lernapps/tooling init <short name>` put them there
+      and wrote this plan; the app commits them). `.agents/skills/lernapps-app` missing → stop and tell the creator
+      the folder was not started with `init`.
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
       their own address, free, public, and once listed as a copy on lernapps.net. The technical part (GitHub) comes at the end, and you do it.
 - [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
@@ -69,8 +68,8 @@ questions. -->
 - [ ] Choose the archetype as skill `lernapps-app` says, from the kind of practice: read the README of each
       archetype in question, tell the creator what the chosen one can and cannot do. Write it and its reason under
       "Key decisions". Set `archetype`.
-- [ ] Install the archetype's skills: `npx --yes skills add lernapps/tooling -y -s
-      lernapps-<archetype>-design lernapps-<archetype>`. Load skill `lernapps-<archetype>-design`.
+- [ ] Install the archetype's skills: `npx lernapps skills --archetype <archetype>`. Load skill
+      `lernapps-<archetype>-design`.
 - [ ] Interview: ask the other topics of "Answers" in order. Skip a topic only when an earlier answer covers it; note
       which. No answer → ask once more; still none → write your assumption with "(guess)". Done when every topic
       has an answer or a guess.
@@ -196,8 +195,8 @@ checks and cannot; how a later agent adds a chapter. Becomes the content guide i
 ### Tasks
 
 - [ ] `grep '^phase:'` prints `phase: commit`; else set it.
-- [ ] An explainer: install skill `lernapps-explainer-self-assessment` if missing (`npx --yes skills add
-      lernapps/tooling -y -s lernapps-explainer-self-assessment`), load it. Add the self-assessment as it says, or
+- [ ] An explainer: load skill `lernapps-explainer-self-assessment` (missing → `npx lernapps skills --archetype
+      explainer`). Add the self-assessment as it says, or
       write under "Key decisions" why the app has none. Commit; the hooks check.
 - [ ] Load skill `lernapps-github`. Repo and Pages as it says: ask the repo name and every click only the creator can
       make in one message.

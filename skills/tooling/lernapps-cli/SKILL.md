@@ -14,18 +14,18 @@ license: MIT
 ## Create
 
 1. Only after the creator's yes to the plan (`explore-before-code`). In the plan's folder:
-   `npx --yes github:lernapps/tooling create --archetype <archetype>`.
+   `npx lernapps create --archetype <archetype>`.
 2. No git repo yet: `git init --initial-branch=work`. Then `npm install` (dependencies, git hooks), and commit
    everything on `work`.
-3. Needs git, Node ≥ 22.18, github.com, codeload.github.com, registry.npmjs.org. Blocked → ask the creator to allow
-   it, run again. Never write the app by hand.
+3. Needs git, Node ≥ 22.18, registry.npmjs.org. Blocked → ask the creator to allow it, run again. Never write the
+   app by hand.
 4. It keeps the plan and the installed skills, and writes the content guide's skeleton.
 
 ## Update
 
-- `npx --yes github:lernapps/tooling update`, then `npm install`: moves the app to this
+- `npx --yes @lernapps/tooling@latest update`, then `npm install`: moves the app to this
   tooling's runtime and checks, replaces the `lernapps-*` skills, adds what an older app lacks.
-- `npm update` changes nothing: tooling and runtime are pinned.
+- `npm update` moves tooling and runtime only within their ranges (`^0.1.0` takes patches); `update` moves the ranges.
 
 ## Check
 

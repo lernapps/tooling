@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // The CLI `lernapps`: one entry for the tooling's commands. `check` runs every deterministic check: in a repo the
 // toolchain (format, lint, types; unit tests, build, end-to-end tests) and the checks of the built app, or the checks
-// of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML. `create` writes a new app
+// of the built app alone on a bundle or a URL. It runs whatever exists; the report is YAML. `init` starts an app's plan
+// and skills from the registry, `skills` adds those of the chosen archetype (generator/init.ts). `create` writes a new app
 // from an archetype's template (generator/create.ts); `update` moves an app to this tooling's pins
 // (generator/update.ts); `hooks` installs an app's git hooks (archetypes/shared/install-hooks.ts); `changes` prints the
 // change scope (changes/changes.ts), which each hook part of `check` asks first.
@@ -40,6 +41,7 @@ import {
 } from "../changes/changes.ts";
 import { ARCHITECTURE, hasArchitecture } from "../generator/architecture.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
+import { init, skills } from "../generator/init.ts";
 import { update, UpdateError } from "../generator/update.ts";
 import { countFailedChecks, countPrePushFailure } from "./plan.ts";
 import { NoBrowser, ScreenshotsError, screenshots } from "./screenshots.ts";
@@ -738,8 +740,12 @@ async function main(argv: string[]): Promise<number> {
       return create(rest);
     case "hooks":
       return installHooks(rest);
+    case "init":
+      return init(rest);
     case "screenshots":
       return screenshotsCommand(rest);
+    case "skills":
+      return skills(rest);
     case "update":
       return update(rest);
     case "-h":

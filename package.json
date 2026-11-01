@@ -92,8 +92,12 @@
     "./skills/tooling/lernapps-cli/SKILL.md": "./skills/tooling/lernapps-cli/SKILL.md",
     "./skills/tooling/lernapps-cli/references/platform-rules.md": "./skills/tooling/lernapps-cli/references/platform-rules.md"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
-    "prepare": "vp pack && vp config --no-agent",
+    "prepare": "vp pack && node scripts/dist-skills.ts && vp config --no-agent",
     "lernapps": "node src/cli.ts",
     "check": "npm run --silent lernapps -- check",
     "rules": "node scripts/rules.ts list",
@@ -103,8 +107,10 @@
     "arc42": "arc42 --dir docs/arc42"
   },
   "dependencies": {
+    "@lernapps/app-templates": "0.1.0",
     "axe-core": "4.14.0",
     "playwright": "1.64.1",
+    "skills": "1.7.4",
     "yaml": "2.9.1"
   },
   "devDependencies": {
@@ -127,14 +133,5 @@
   },
   "engines": {
     "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
-  },
-  "appTemplates": {
-    "repository": "https://github.com/lernapps/app-templates.git",
-    "commit": "5799517f88beb74864f2a41da6f609af3b56d25a",
-    "archetypes": [
-      "explainer",
-      "interactive",
-      "quiz"
-    ]
   }
 }

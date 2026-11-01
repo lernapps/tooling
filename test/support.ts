@@ -7,7 +7,6 @@ import {
   mkdtempSync,
   readFileSync,
   readdirSync,
-  renameSync,
   rmSync,
   symlinkSync,
   writeFileSync,
@@ -28,8 +27,13 @@ export interface Result {
   stderr: string;
 }
 
-export function run(command: string, args: readonly string[], cwd: string): Result {
-  const result = spawnSync(command, args, { cwd, env: testEnv, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+export function run(command: string, args: readonly string[], cwd: string, env: NodeJS.ProcessEnv = {}): Result {
+  const result = spawnSync(command, args, {
+    cwd,
+    env: { ...testEnv, ...env },
+    encoding: "utf8",
+    maxBuffer: 64 * 1024 * 1024,
+  });
   if (result.error) throw result.error;
   return { code: result.status ?? 1, stdout: result.stdout, stderr: result.stderr };
 }
@@ -175,40 +179,35 @@ export function installedClone(): string {
 }
 
 /**
- * A local clone of lernapps/app-templates with the commit pinned in package.json (appTemplates), for the generator's
- * tests: the one named by LERNAPPS_TEMPLATES, else one fetched once into node_modules/.cache/lernapps/. The commit is
- * pinned, so the clone is the same everywhere, and the hooks run these tests as CI does. Without the network and
- * without a cached clone, it fails and says what to do.
+ * This package, packed from a fresh clone of the repo with its dependencies installed (installedClone): the path of its
+ * tarball, which the apps the tests make depend on (`--tooling file:<tarball>`). Made once per test file. The apps do not
+ * depend on the working copy: installing a folder runs its prepare script there, which other tests of the same run are
+ * using.
+ */
+let packedToolingTarball: string | undefined;
+export function packedTooling(): string {
+  if (packedToolingTarball === undefined) {
+    const out = tempDir("tooling-pack");
+    ok("npm", ["pack", "--silent", "--pack-destination", out], installedClone());
+    packedToolingTarball = join(out, readdirSync(out)[0] ?? "");
+  }
+  return packedToolingTarball;
+}
+
+/**
+ * The package @lernapps/app-templates for the generator's tests: the one named by LERNAPPS_TEMPLATES (a local copy or
+ * clone), else the one installed next to this package, at the exact version package.json depends on.
  */
 export function appTemplates(): string {
   const named = process.env["LERNAPPS_TEMPLATES"];
   if (named !== undefined && named !== "") return resolve(named);
-  const manifest = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as {
-    appTemplates: { repository: string; commit: string };
-  };
-  const { repository, commit } = manifest.appTemplates;
-  const cache = join(repoRoot, "node_modules/.cache/lernapps/app-templates");
-  const dir = join(cache, commit);
-  if (existsSync(join(dir, ".git"))) return dir;
-  mkdirSync(cache, { recursive: true });
-  const work = mkdtempSync(join(cache, "fetch-"));
-  const git = (...args: string[]) => run("git", ["-c", "advice.detachedHead=false", ...args], work);
-  // the full history of the commit, on a branch: npm installs the runtime from this clone at the commit
-  const fetched = git("init", "--quiet").code === 0 ? git("fetch", "--quiet", repository, commit) : undefined;
-  if (fetched === undefined || fetched.code !== 0 || git("checkout", "--quiet", "-B", "pinned", "FETCH_HEAD").code) {
-    rmSync(work, { recursive: true, force: true });
-    throw new Error(
-      `cannot fetch lernapps/app-templates at ${commit} from ${repository}: ${fetched?.stderr.trim() ?? "git init failed"}. ` +
-        "The generator's tests need it once (then it is cached in node_modules/.cache/lernapps/); connect to the " +
-        "network, or set LERNAPPS_TEMPLATES to a local clone that has this commit",
-    );
-  }
-  try {
-    renameSync(work, dir);
-  } catch (error) {
-    // another test file fetched it at the same time
-    rmSync(work, { recursive: true, force: true });
-    if (!existsSync(join(dir, ".git"))) throw error;
+  const dir = join(repoRoot, "node_modules/@lernapps/app-templates");
+  if (!existsSync(join(dir, "package.json"))) {
+    throw new Error("@lernapps/app-templates is not installed: run npm ci, or set LERNAPPS_TEMPLATES to a copy of it");
   }
   return dir;
 }
+
+/** The version of the templates the generator's tests run on. */
+export const templatesVersion = (): string =>
+  (JSON.parse(readFileSync(join(appTemplates(), "package.json"), "utf8")) as { version: string }).version;
