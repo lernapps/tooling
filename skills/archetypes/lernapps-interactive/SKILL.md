@@ -7,7 +7,7 @@ license: MIT
 # Interactive app
 
 - Runtime: `@lernapps/app-templates` (`runtime/interactive/`); leave it untouched.
-- `create` writes a small example app: replace it with the planned parts.
+- `create` writes a placeholder: a counter as core, component and playthrough. Replace it with the planned parts. The complete example, a typing game, is in `node_modules/@lernapps/app-templates/interactive/`: look things up there, never copy it.
 
 ## What you write
 
