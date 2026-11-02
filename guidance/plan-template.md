@@ -101,7 +101,9 @@ questions. -->
   research, a data format).
 - Amount: how much content per level or chapter in the first version (e.g. "one text per school year"); what comes
   later.
-- Languages: German only, or more (texts, code).
+- Languages: German only, or German and English (texts, code). Never English only: an app without German still has
+  German pages and runtime texts, so it mixes both. The creator wants English → offer German and English,
+  both complete, and say why.
 - Look and feel: calm like a worksheet, or like a game (colours, praise, effects); dark mode.
 - Terms: the creator's words for the main things in the app, used everywhere.
 

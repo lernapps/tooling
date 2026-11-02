@@ -44,7 +44,8 @@ license: MIT
 
 ## Decide
 
-- Languages: German; English as a second language is supported. Each declared language complete.
+- Languages: German; English as a second language is supported. Each declared language complete. Never English
+  only: without `languages` the page and the runtime's texts are German. English wanted → `[de, en]`.
 - The tutor: the build writes it from the content. Plan only app-specific tutor rules, if any.
 
 ## Gotchas
