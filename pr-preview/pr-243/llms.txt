@@ -2,6 +2,14 @@
 
 > Build, check and list learning apps for lernapps.net with an AI assistant. The package @lernapps/tooling is on npm.
 
+## Before you start: can you run commands?
+
+Building needs a shell with Node 22.18 or newer, git and access to npmjs.com (`npm`, `npx`). If you cannot run commands, or
+`npx` cannot reach the npm registry (a chat in the browser, such as chatgpt.com, usually cannot): **stop here and do
+nothing else.** Tell the creator in two sentences that this does not work in this environment and that they should start
+again in one that does, such as the desktop application of their AI assistant, with the same request. Do not build the app by hand
+from this page and do not guess files: without the packages the result does not fit lernapps.net.
+
 ## Build an app
 
 1. In a new, empty folder run `npx --yes @lernapps/tooling init <short name>`. It writes the plan template, complete
