@@ -147,6 +147,7 @@ severity: error
 ```
 
 - Texts for learners, teachers, parents: German, plain (short sentences, active voice, no jargon).
+- Never English only: an app in English is German and English, German first.
 - More languages only where the archetype supports them (explainer, quiz: `languages`, German first); each declared
   language complete, no other.
 - Texts out of code: in the content (explainer YAML, quiz bank) or message files (`src/messages/de.json`, shown
