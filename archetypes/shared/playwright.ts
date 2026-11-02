@@ -32,6 +32,11 @@ const base: PlaywrightTestConfig = {
   // another number of workers: the tooling's own tests set 1, because they run many apps' checks at the same time.
   fullyParallel: true,
   workers: Number(process.env["LERNAPPS_PLAYWRIGHT_WORKERS"]) || "75%",
+  // On CI (a small shared runner) a single interaction can now and then wait past the timeout under load
+  // (lernapps/app-templates#125): a failed test runs up to twice more there. One that passes on a retry counts as
+  // "flaky" in the output, not as passed, so it stays visible; a test that fails every time still fails the check.
+  // Locally no retry, so that a test that only sometimes passes shows up while the app is written.
+  retries: process.env["CI"] ? 2 : 0,
   reporter: [["line"]],
   // LERNAPPS_CHROMIUM: an installed Chromium that lernapps check starts where Playwright's own is missing
   // (check/visit.ts)
