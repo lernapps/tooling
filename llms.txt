@@ -2,6 +2,14 @@
 
 > Build, check and list learning apps for lernapps.net with an AI assistant. The package @lernapps/tooling is on npm.
 
+## Before you start: can you run commands?
+
+Building needs a shell with Node 22.18 or newer, git and access to npmjs.com (`npm`, `npx`). If you cannot run commands, or
+`npx` cannot reach the npm registry (a chat in the browser, such as chatgpt.com, usually cannot): **stop here and do
+nothing else.** Tell the creator in two sentences that this does not work in this environment and that they should start
+again in one that does, such as the desktop application of their AI assistant, with the same request. Do not build the app by hand
+from this page and do not guess files: without the packages the result does not fit lernapps.net.
+
 ## Build an app
 
 1. In a new, empty folder run `npx --yes @lernapps/tooling init <short name>`. It writes the plan template, complete
@@ -22,20 +30,18 @@ Look things up here when you need them. Not needed for building.
 
 - Rules by id: https://lernapps.net/tooling/rules/ (check messages link `#<id>`).
 - Platform rules for an app built without this tooling (by hand, another framework, an app builder):
-  https://raw.githubusercontent.com/lernapps/tooling/main/skills/tooling/lernapps-cli/references/platform-rules.md
+  node_modules/@lernapps/tooling/skills/tooling/lernapps-cli/references/platform-rules.md (after `npx --yes @lernapps/tooling init`)
 - Check a built or published app: `npx --yes @lernapps/tooling check <dir|url>`. Every
   command lists its options with `--help`.
 - Schemas: validation report https://lernapps.net/tooling/schemas/validation-report.v1.schema.json, review verdict
   https://lernapps.net/tooling/schemas/verdict.v1.schema.json, catalog entry
   https://lernapps.net/apps/schemas/entry.v1.schema.json. The schemas of a quiz and of an explainer are in the app:
   node_modules/@lernapps/app-templates/runtime/quiz/quiz.v1.schema.json and .../explainer/explainer.v1.schema.json.
-- Review: prompt https://github.com/lernapps/tooling/blob/main/review/prompt.md, rubric
-  https://github.com/lernapps/tooling/blob/main/review/rubric.md.
 - GitHub, explained for creators: https://lernapps.net/tooling/github/
 - Keeping an app up to date, the two GitHub Apps and the settings: https://lernapps.net/tooling/github/updates/
 - Which assistant to build with, and three apps a budget model built: https://lernapps.net/tooling/assistants/
 - How we test the guidance, with eval results: https://lernapps.net/tooling/prompt-engineering/
-- Architecture: https://lernapps.net/tooling/architecture/. Source: https://github.com/lernapps/tooling.
+- Architecture: https://lernapps.net/tooling/architecture/
 
 ## Other llms.txt of lernapps.net
 
