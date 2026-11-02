@@ -107,7 +107,7 @@
     "arc42": "arc42 --dir docs/arc42"
   },
   "dependencies": {
-    "@lernapps/app-templates": "0.1.0",
+    "@lernapps/app-templates": "0.2.1",
     "axe-core": "4.14.0",
     "playwright": "1.64.1",
     "skills": "1.7.4",
@@ -115,7 +115,7 @@
   },
   "devDependencies": {
     "@doctc/arc42": "0.38.0",
-    "@lernapps/site": "github:lernapps/lernapps.github.io#15473cb8e782c69b2a38d45208bbe7eaf8a6c698",
+    "@lernapps/site": "github:lernapps/lernapps.github.io#8b6c98f76170c313519d04b38937a48747c05b09",
     "@types/node": "26.6.5",
     "ajv": "8.20.0",
     "vite-plus": "1.4.0"

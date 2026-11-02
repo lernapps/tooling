@@ -39,7 +39,8 @@ license: MIT
 - Accessibility: WCAG 2.1 AA and 360 px are the default. A deviation the idea needs (a time limit) goes into the
   entry's `limits`, in German.
 - Look and feel: as the creator chose in Explore.
-- Languages: German; each declared language complete; learner texts in message files, never in code.
+- Languages: German; each declared language complete; learner texts in message files, never in code. Never English
+  only: German comes first. English wanted → German and English.
 
 ## Gotchas
 

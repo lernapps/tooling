@@ -69,6 +69,8 @@
 ## Languages
 
 - `languages` in `src/app.yaml`, German first: `[de]` or `[de, en]` (runtime texts: de, en).
+- Never English only: with `[de]` the pages and the runtime's texts are German, so English strings mix both.
+  English wanted → `[de, en]`.
 - A string = German, enough only while German is the only language. Else every text a map:
   `title: { de: Die drei Stände, en: The three estates }`.
 - Build fails on a missing translation (`the translation is missing; write the text as a map: { de: …, en: … }`)

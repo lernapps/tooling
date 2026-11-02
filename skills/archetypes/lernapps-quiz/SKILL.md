@@ -9,7 +9,7 @@ license: MIT
 - You write `src/quiz.json` and, for the content of its questions, the image files in `src/images/`. Engine, question
   types, feedback, scoring, order, accessibility and the no-JS page come from the runtime `@lernapps/app-templates`.
 - Schema: `node_modules/@lernapps/app-templates/runtime/quiz/quiz.v1.schema.json`.
-- `create` writes the example bank "Naturwunder der Welt": replace it with the planned questions.
+- `create` writes a placeholder bank with one question. Replace it with the planned questions. The complete example, the bank "Naturwunder der Welt", is in `node_modules/@lernapps/app-templates/quiz/`: look things up there, never copy it.
 - The fields of each question type and how to write good questions: skill `lernapps-content-questions`.
 
 ## Gotchas
@@ -50,7 +50,8 @@ license: MIT
 - German; more with `"languages": ["de", "en"]`, German first (runtime texts: de, en).
 - Then every learner text is a map with each language: title, intro, source titles; per question text, options,
   `info`, items, pairs, unit, explanation, link titles.
-- Without `languages`: German strings.
+- Without `languages`: German strings. The page is German then (`lang="de"`, the runtime's own texts such as
+  "Frage 1 von 5"); English strings give a page that mixes both. Never English only: English wanted → `[de, en]`.
 - Link `url`: one address, or a map per language (own Wikipedia).
 - Build errors, one line each, e.g.
   `questions[1].explanation (en) (question "totes-meer"): the translation is missing; write the text as a map: { de: …, en: … }`;

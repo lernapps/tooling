@@ -608,7 +608,9 @@ protocol: Agent skills (agentskills.io)
 
 ### Generator
 
-Writes a new app from the archetype's template, once the creator has confirmed the plan. It is accountable for an
+Writes a new app from the archetype's scaffold, once the creator has confirmed the plan: the files the templates list
+for it and a placeholder as start content, not the example app, which stays in the installed templates to look up
+(decision `dec-scaffold` of lernapps/app-templates). It is accountable for an
 app that passes every check from the first commit and that depends on the exact version of the tooling it came from.
 It also starts the app's content guide, for the assistant to fill in.
 It runs before anything is installed. It does not build content; the assistant does. On request it also moves an

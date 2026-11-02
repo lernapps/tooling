@@ -8,7 +8,7 @@ license: MIT
 
 - You write YAML in `src/`; a Vue component only where the plan names one. Rendering, navigation, formulas, figures,
   exercises, accessibility, languages and the no-JS page come from the runtime `@lernapps/app-templates`.
-- `create` writes the example chapter "Prozent": replace it with the planned content.
+- `create` writes a placeholder: one chapter with one page and one exercise. Replace it with the planned content. The complete example, the chapter "Prozent" with a component, is in `node_modules/@lernapps/app-templates/explainer/`: look things up there, never copy it.
 - Schema: `node_modules/@lernapps/app-templates/runtime/explainer/explainer.v1.schema.json`. Start every YAML file with
   `# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v1.schema.json`
   (one `../` less in `src/app.yaml`).

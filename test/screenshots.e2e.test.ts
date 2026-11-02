@@ -1,12 +1,13 @@
 // The contract of `lernapps screenshots`, end to end: the real CLI on the built example apps of app-templates (an
-// explainer, a quiz and an interactive app, made by `lernapps create` from the commit pinned in package.json).
+// explainer, a quiz and an interactive app, made by `lernapps create` from the version pinned in package.json, with
+// the template folder's example content in place of the scaffold's placeholder).
 //   - explainer and quiz: one PNG per page of the bundle, named by its order and path, as wide as asked and as tall as
 //     the page, one PNG per figure of the page, named by the page and its place, at twice its size, also the figures of
 //     a quiz's questions that the quiz shows only later, and an index.html that lists them in the same order, each
 //     figure with its page, and loads nothing from the network;
 //   - another archetype, a missing build and a browser that cannot start fail with their message and write no folder;
 //   - --out names the folder, and an existing folder is emptied first; --desktop adds an image 1280 px wide per page.
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
 import { bundlePages, launch, serve } from "../check/visit.ts";
@@ -57,6 +58,9 @@ async function makeApp(archetype: keyof typeof apps): Promise<void> {
     ],
     parent,
   );
+  // create writes the scaffold with a placeholder; the example app is the template folder's own content (src/)
+  rmSync(join(app, "src"), { recursive: true, force: true });
+  cpSync(join(appTemplates(), archetype, "src"), join(app, "src"), { recursive: true });
   ok("git", ["init", "--quiet", "--initial-branch=main"], app);
   const installed = await runAsync("npm", ["install", "--no-audit", "--no-fund"], app);
   if (installed.code !== 0) throw new Error(output(installed));
