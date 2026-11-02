@@ -955,7 +955,9 @@ protocol: YAML with a JSON Schema in the runtime; Vue single-file components
 
 Runs in an app's CI exactly what the app's git hooks ran, nothing more. It only sets up the environment around the
 check, and keeps the report, passing or not. On the main line it also keeps the bundle it checked, so the app
-publishes what was checked and builds it once.
+publishes what was checked and builds it once. A push to the main line does not check again what a pull request of
+the same repo has checked already: when its commit has the same tree, the action takes that run's bundle and report.
+A fork's run never counts.
 
 ```arc42
 :::building-block

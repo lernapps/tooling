@@ -15,7 +15,9 @@ name: Pages
 # paths filter: a check skipped by a paths filter stays "Pending" and blocks a pull request that requires it. GitHub
 # may start no run for a push that creates main from commits it already has (the first publish): then start it by
 # hand, Actions → Pages → Run workflow on main (gh workflow run Pages --ref main), as the plan says; a run started by
-# hand checks and publishes everything.
+# hand checks and publishes everything. A push to main whose commit has the same tree as the pull request that the job
+# `app` checked already (the pull request was up to date with main when it was merged) takes that run's bundle and
+# report instead of checking again.
 on:
   push:
     branches: [main]
@@ -34,6 +36,9 @@ jobs:
   app:
     if: github.event.action != 'closed'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read # on main: find the run of the pull request that checked the same tree, and take its result
     steps:
       - uses: lernapps/tooling/actions/app-check@{{tooling}}
   deploy:
