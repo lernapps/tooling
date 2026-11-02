@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Rules – Tooling – lernapps.net</title>
   <link rel="canonical" href="https://lernapps.net/tooling/rules/">
-  <link rel="stylesheet" href="/tooling/pr-preview/pr-200/stil.css">
+  <link rel="stylesheet" href="/tooling/pr-preview/pr-200/lernapps-page.css">
 <!-- lernapps-frame -->
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -39,7 +40,8 @@
 <p class="la-preview" lang="en">Preview of a change. The real page: <a href="https://lernapps.net/tooling/en/rules/">lernapps.net/tooling/en/rules/</a></p><header class="la-header" lang="en">
   <div class="la-header__inner">
     <a class="la-brand" href="/en/" aria-label="lernapps.net – home page"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
-    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Learn</a></li><li><a href="/practice/en/">Practise</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/pr-preview/pr-200/en/" aria-current="page">Tooling</a></li><li><a href="/en/features/">Features</a></li><li><a href="/docs/en/">Platform</a></li><li><a href="/en/join/">Get involved</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-200/rules/" hreflang="de" lang="de" data-la-lang="de" aria-label="Sprache: Deutsch">Deutsch</a></li></ul></nav>
+    <nav class="la-nav la-nav--bar" aria-label="Main navigation"><ul><li><a href="/apps/en/">Catalog</a></li><li><a href="/practice/en/">Practise</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/pr-preview/pr-200/en/" aria-current="page">Tooling</a></li><li><a href="/en/tutor/">Tutor</a></li><li><a href="/en/features/">Features</a></li><li><a href="/docs/en/">Platform</a></li><li><a href="/en/join/">Get involved</a></li><li class="la-lang"><a href="/tooling/pr-preview/pr-200/rules/" hreflang="de" lang="de" data-la-lang="de" aria-label="Sprache: Deutsch">Deutsch</a></li></ul></nav>
+    <details class="la-menu"><summary>Menu</summary><nav class="la-nav la-nav--menu" aria-label="Main navigation"><div class="la-menu__group"><p class="la-menu__title" id="la-menu-0">For learners</p><ul aria-labelledby="la-menu-0"><li><a href="/apps/en/">App catalog</a></li><li><a href="/practice/en/">Practise for a test</a></li></ul></div><div class="la-menu__group"><p class="la-menu__title" id="la-menu-1">For makers</p><ul aria-labelledby="la-menu-1"><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/pr-preview/pr-200/en/" aria-current="page">Tooling</a></li></ul></div><div class="la-menu__group"><p class="la-menu__title" id="la-menu-2">Understand and join in</p><ul aria-labelledby="la-menu-2"><li><a href="/en/tutor/">Tutor</a></li><li><a href="/en/features/">Features</a></li><li><a href="/docs/en/">Platform</a></li><li><a href="/en/join/">Get involved</a></li></ul></div><ul class="la-menu__lang"><li class="la-lang"><a href="/tooling/pr-preview/pr-200/rules/" hreflang="de" lang="de" data-la-lang="de" aria-label="Sprache: Deutsch">Deutsch</a></li></ul></nav></details>
   </div>
 </header>
   <main id="main-content" tabindex="-1">
@@ -89,6 +91,7 @@
 <tr><td><a href="#explore-before-code"><code>explore-before-code</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#few-turns-after-plan"><code>few-turns-after-plan</code></a></td><td>tooling</td><td>hint</td></tr>
 <tr><td><a href="#fix-from-message"><code>fix-from-message</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#lockfile-matches"><code>lockfile-matches</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#stop-at-checkpoints"><code>stop-at-checkpoints</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
@@ -102,9 +105,11 @@
 <tr><td><a href="#explainer-mistakes-diagnosed"><code>explainer-mistakes-diagnosed</code></a></td><td>archetype:explainer</td><td>hint</td></tr>
 <tr><td><a href="#explainer-navigation"><code>explainer-navigation</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#explainer-only-content"><code>explainer-only-content</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-open-points"><code>explainer-open-points</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-plausible-numbers"><code>explainer-plausible-numbers</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-quote-sourced"><code>explainer-quote-sourced</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-readable-without-js"><code>explainer-readable-without-js</code></a></td><td>archetype:explainer</td><td>error</td></tr>
+<tr><td><a href="#explainer-scope-matches"><code>explainer-scope-matches</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-stable-ids"><code>explainer-stable-ids</code></a></td><td>archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#explainer-structure-by-sections"><code>explainer-structure-by-sections</code></a></td><td>archetype:explainer</td><td>error</td></tr>
 <tr><td><a href="#explainer-structure-complete"><code>explainer-structure-complete</code></a></td><td>archetype:explainer</td><td>error</td></tr>
@@ -199,7 +204,7 @@
 <div>
 <ul>
 <li><code>fitness.storage</code>, <code>fitness.thirdParty</code> from what the app does; <code>lernapps check --report &lt;file&gt;</code> measures it.</li>
-<li>Anything in <code>localStorage</code> → <code>storage: device</code>; loads from another server after a click → <code>thirdParty: on-click</code>.</li>
+<li>Anything in <code>localStorage</code> or <code>sessionStorage</code>, also what the app only reads on loading and keeps after an input (an assistant chosen for the tutor, an answer being written) → <code>storage: device</code>; loads from another server after a click → <code>thirdParty: on-click</code>.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/platform-rules.md"><code>skills/tooling/lernapps-cli/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/entry-fitness-matches.ts"><code>check/rules/entry-fitness-matches.ts</code></a>.</p>
@@ -327,7 +332,7 @@
 <div>
 <ul>
 <li>No cookies, analytics, tracking pixels, server storing data.</li>
-<li>Stored data stays on the device (<code>localStorage</code>) and serves only the app.</li>
+<li>Stored data stays on the device (<code>localStorage</code>, or <code>sessionStorage</code> while the tab is open) and serves only the app.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/platform-rules.md"><code>skills/tooling/lernapps-cli/references/platform-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/no-tracking.ts"><code>check/rules/no-tracking.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
@@ -340,8 +345,9 @@
 <ul>
 <li>Every app on lernapps.net shares one origin with the other apps and the platform.</li>
 <li>Own data: keys of <code>localStorage</code> and <code>sessionStorage</code>, IndexedDB databases and caches named <code>lernapps:&lt;id&gt;:…</code>, <code>&lt;id&gt;</code> the app's id in the catalog (<code>entries/&lt;id&gt;.yaml</code>).</li>
+<li>Also every app's: the learner's settings for every app (<code>lernapps:settings:&lt;key&gt;</code>, a key without a colon) and for every app of the page's archetype (<code>lernapps:settings:&lt;archetype&gt;:…</code>, the archetype of <code>&lt;meta name=&quot;lernapps-archetype&quot;&gt;</code>); never another archetype's. <code>settings</code> is never an app's id.</li>
 <li>Never read, write or remove other keys; never <code>clear()</code>; never <code>caches.match()</code> without <code>cacheName</code>.</li>
-<li>Built with this tooling: <code>createStorage(&quot;&lt;id&gt;&quot;)</code> from <code>@lernapps/tooling/storage</code>.</li>
+<li>Built with this tooling: <code>createStorage(&quot;&lt;id&gt;&quot;)</code> from <code>@lernapps/tooling/storage</code>; settings with <code>createSettings(&quot;&lt;id&gt;&quot;, &quot;&lt;archetype&gt;&quot;)</code>.</li>
 <li><code>lernapps check</code> puts another app's data into the browser and reports every access to it, before a click.</li>
 </ul>
 </div>
@@ -442,7 +448,7 @@
 <div>
 <ul>
 <li>In Code, as soon as the first screen or page shows real content: send the creator a short &quot;Zwischenstand&quot;.</li>
-<li>Show screenshots, desktop and 360 px (<code>npx lernapps screenshots --desktop</code>). On the creator's machine also the address of <code>npm run dev</code>, started in the background.</li>
+<li>Show screenshots, desktop and 360 px (<code>npx --no -- lernapps screenshots --desktop</code>). On the creator's machine also the address of <code>npm run dev</code>, started in the background.</li>
 <li>No checkpoint, no question: go on in the same message. The creator may stop you or ask for a change.</li>
 <li>Example: &quot;Zwischenstand: So sieht die erste Seite aus. Ich baue weiter; sag Bescheid, wenn etwas nicht passt.&quot;</li>
 </ul>
@@ -484,6 +490,18 @@
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>.</p>
+</section>
+
+<section id="lockfile-matches">
+<h2>Commit the lock file with every dependency change</h2>
+<p><code>lockfile-matches</code> · tooling · error · warning at listing</p>
+<div>
+<ul>
+<li>Change dependencies with <code>npm install</code>, never in <code>package.json</code> alone; commit <code>package-lock.json</code> with it.</li>
+<li>A git pin (<code>github:…#&lt;commit&gt;</code>) moves in both files together.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/lockfile-matches.ts"><code>check/rules/lockfile-matches.ts</code></a>.</p>
 </section>
 
 <section id="plan-file">
@@ -645,6 +663,19 @@
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
 </section>
 
+<section id="explainer-open-points">
+<h2>An open task checks what the material teaches</h2>
+<p><code>explainer-open-points</code> · archetype:explainer · warning</p>
+<div>
+<ul>
+<li>2 to 5 points, each one sentence a learner can check with yes or no; together what a good answer needs.</li>
+<li>A point of the content names its section (<code>source</code>), and its content is there; a point of form has <code>kind: form</code>.</li>
+<li>The model answer has every point, in the words of the class.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
 <section id="explainer-plausible-numbers">
 <h2>Numbers that fit the story</h2>
 <p><code>explainer-plausible-numbers</code> · archetype:explainer · warning</p>
@@ -679,6 +710,18 @@
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-readable-without-js.ts"><code>check/rules/explainer-readable-without-js.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+</section>
+
+<section id="explainer-scope-matches">
+<h2>The scope says what the pages teach</h2>
+<p><code>explainer-scope-matches</code> · archetype:explainer · warning</p>
+<div>
+<ul>
+<li><code>scope</code> of each page in your own words, never copied from the material; <code>scope</code> in <code>src/app.yaml</code> with what does not belong to it.</li>
+<li>Each page's scope says what the page teaches, no more and no less; &quot;Gehört nicht dazu&quot; names what a learner or tutor might expect but the material does not teach.</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
 </section>
 
 <section id="explainer-stable-ids">
@@ -972,7 +1015,9 @@
 <ul>
 <li>Only <code>createStorage</code> from <code>@lernapps/tooling/storage</code>, named after the app's id in the catalog (own prefix <code>lernapps:&lt;id&gt;:</code>, rule <code>own-data-only</code>; works when storage is blocked).</li>
 <li>At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, <code>save</code> returns false and the app keeps working.</li>
+<li>A setting of the learner that holds for every app or every app of the archetype: <code>createSettings(&quot;&lt;id&gt;&quot;, &quot;&lt;archetype&gt;&quot;)</code>, saved only where the learner chose it (<code>&quot;app&quot;</code>, <code>&quot;archetype&quot;</code> or <code>&quot;all&quot;</code>); the app's own goes first.</li>
 <li>Keep the learning state, not growing histories.</li>
+<li>What only a reload must not lose, such as an answer being written, lasts while the tab is open: <code>createStorage(&quot;&lt;id&gt;&quot;, { type: &quot;sessionStorage&quot; })</code> (sessionStorage, same prefix and limit).</li>
 <li>Never <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</li>
 </ul>
 </div>
