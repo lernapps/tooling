@@ -26,6 +26,9 @@ Danach (nur Antwort, keine Änderung): Was läuft pre-commit/pre-push und was da
 ## Notes
 - Die e2e-Tests ruft `src/cli.ts` (`runEndToEndTests`) mit `playwright test --reporter=line,json` auf; `failingRuntimeTests` liest `spec.ok`.
 - `actions/download-artifact` kann mit `run-id` und `github-token` Artefakte eines anderen Laufs laden.
+- Messung (4 Kerne, also 3 Worker): Die Quiz-Vorlage hat 54 e2e-Tests, `lernapps check --pre-push` braucht 15 s. Mit der Fixture mit 64 Fragen sind es 264 Tests und 52 s; davon entfällt fast alles auf die e2e-Tests. `vp check`, die Unit-Tests, der Build und arc42 brauchen je 1 bis 2 s. `--pre-commit` braucht 2,5 s.
+- Pro Frage gibt es 3 Tests, jeder in 2 Projekten (desktop, 360px), also 6 Tests pro Frage. 890 Tests entsprechen etwa 148 Fragen.
+- Wahrscheinliche eigentliche Ursache von #125: Der Test „all right answers give the full score, then the solutions show“ (app-templates `runtime/quiz/e2e.ts`, Zeile 112) geht in einem einzigen Test durch alle Fragen und hat das Standard-Timeout von 30 s. Seine Dauer wächst mit der Zahl der Fragen; bei etwa 148 Fragen auf einem langsamen Runner kommt er nahe an 30 s. Die Retries sind deshalb nur ein Pflaster. Folgearbeit in app-templates: das Timeout solcher Durchlauf-Tests mit der Zahl der Fragen skalieren (`test.setTimeout`).
 
 ## Reproduce
 Entrance: Branch `fix/125-flaky-e2e-ci` angelegt, Plan vorhanden.
