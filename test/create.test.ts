@@ -209,6 +209,27 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(pages).not.toContain("site-check");
   });
 
+  test("it writes the scaffold, not the example app: the placeholder, no example content, no tests of the runtime", () => {
+    const scaffold = (
+      JSON.parse(readFileSync(join(templates, "package.json"), "utf8")) as {
+        lernapps: { scaffold: Record<string, string[]> };
+      }
+    ).lernapps.scaffold["quiz"];
+    for (const path of scaffold ?? []) expect(existsSync(join(app, path)), path).toBe(true);
+    expect(readFileSync(join(app, "src/quiz.json"), "utf8")).toBe(
+      readFileSync(join(templates, "scaffold/quiz/src/quiz.json"), "utf8"),
+    );
+    for (const example of ["src/images", "e2e/runtime.e2e.ts", "README.md", "docs"]) {
+      expect(existsSync(join(app, example)), example).toBe(false);
+    }
+    // the template keeps its checkout's runtime with an override; the app depends on the version
+    const manifest = JSON.parse(readFileSync(join(app, "package.json"), "utf8")) as {
+      overrides?: Record<string, string>;
+    };
+    expect(manifest.overrides?.["@lernapps/app-templates"]).toBeUndefined();
+    expect(manifest.overrides?.["vite"]).toBeDefined();
+  });
+
   test("it writes the content guide, linked for Claude Code; the link survives a commit and a clone", () => {
     const guide = ".agents/skills/app-content/SKILL.md";
     expect(readFileSync(join(app, guide), "utf8")).toBe(readFileSync(join(repoRoot, "generator/app", guide), "utf8"));
@@ -258,6 +279,11 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(result.code, output(result)).toBe(0);
     for (const file of ["src/app.yaml", "src/main.ts", "vite.config.ts", "e2e/explainer.e2e.ts"]) {
       expect(existsSync(join(dir, file)), file).toBe(true);
+    }
+    // the placeholder chapter, not the example chapter with its component
+    expect(existsSync(join(dir, "src/thema/einstieg.yaml"))).toBe(true);
+    for (const example of ["src/prozent", "src/components", "e2e/runtime.e2e.ts"]) {
+      expect(existsSync(join(dir, example)), example).toBe(false);
     }
     expect(readFileSync(join(dir, "vite.config.ts"), "utf8")).toContain("lernapps({ plugins: [explainer()] })");
     const manifest = JSON.parse(readFileSync(join(dir, "package.json"), "utf8")) as {

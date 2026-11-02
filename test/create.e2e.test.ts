@@ -21,7 +21,8 @@
 //     vue-tsc. Kept to that:
 //     the explainer's own tests (every block, exercise and component) run in lernapps/app-templates.
 // The quiz runtime itself (the browser behaviour, the page without JavaScript, the messages for a broken bank) is
-// tested in lernapps/app-templates, where it lives: its unit tests and quizTests.
+// tested in lernapps/app-templates, where it lives: its unit tests and quizRuntimeTests; an app runs quizTests, the
+// tests of its content.
 // The templates come from the package @lernapps/app-templates installed next to this one, or the copy named by
 // LERNAPPS_TEMPLATES (support.ts, appTemplates).
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
@@ -123,9 +124,9 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx", () => {
     "a failing generic test of the runtime, in the real app, is named as a test of the template",
     { timeout: SLOW },
     () => {
-      // the runtime as installed, with a bug in its full run: a copy patched for this test only. quizTests is in
-      // dist/quiz-e2e.mjs or in a chunk it shares with the explainer's tests
-      const title = "all right answers give the full score, then the solutions show";
+      // the runtime as installed, with a bug in a test of the content every app runs (quizTests): a copy patched for
+      // this test only. quizTests is in dist/quiz-e2e.mjs or in a chunk it shares with the explainer's tests
+      const title = "every question and its solution can be read";
       const opening = `test(${JSON.stringify(title)}, async ({ page }) => {`;
       const dist = join(app, "node_modules/@lernapps/app-templates/dist");
       const e2e = readdirSync(dist)
@@ -141,7 +142,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx", () => {
         const failed = findingsOf(result, "checks-pass").filter((finding) => finding.where === "playwright test");
         expect(failed, output(result)).toHaveLength(1);
         expect(failed[0]?.found).toContain(`a generic test of the template's runtime @lernapps/app-templates`);
-        expect(failed[0]?.found).toContain(`"quiz › ${title}"`);
+        expect(failed[0]?.found).toContain(`"quiz › without JavaScript › ${title}"`);
         expect(failed[0]?.fix).toContain("https://github.com/lernapps/app-templates/issues");
       } finally {
         writeFileSync(e2e, original);
@@ -218,7 +219,8 @@ describe.skipIf(inner)("an explainer app from lernapps create, run with npx", ()
     const result = run("npx", ["--no", "--", "lernapps", "check"], app);
     expect(result.code, output(result)).toBe(0);
     expect(result.stdout).toMatch(/^lernapps check: ok/);
-    expect(readFileSync(join(app, "dist/prozent/prozentwert/index.html"), "utf8")).toContain("Prozentwert");
+    // the placeholder of the scaffold, not the example chapter
+    expect(readFileSync(join(app, "dist/thema/einstieg/index.html"), "utf8")).toContain("Einstieg");
   });
 
   test("lernapps update finds it at the versions and leaves it as it is", { timeout: SLOW }, () => {

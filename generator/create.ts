@@ -1,8 +1,9 @@
 // The generator, `lernapps create --archetype <name> [<dir>]`: writes a new app into an empty folder, once the creator
 // has confirmed the first version's plan (.vibe/plans/01-<short name>.md, in the phase code, for this archetype). It
-// copies the archetype's folder out of the installed package @lernapps/app-templates (a dependency of this package, at
-// an exact version), and makes the app depend on that same version of the runtime, so template and runtime always
-// match. Then it writes what every app has: AGENTS.md, the
+// writes the archetype's scaffold out of the installed package @lernapps/app-templates (a dependency of this package,
+// at an exact version): the paths of the template folder its lernapps.scaffold lists and the placeholder in
+// scaffold/<archetype>/, not the example app, which stays in node_modules for the assistant to look up. It makes the
+// app depend on that same version of the runtime, so template and runtime always match. Then it writes what every app has: AGENTS.md, the
 // plan, the content guide (an app-local skill), the workflows, LICENSE, an issue form for content errors and the
 // Renovate configuration (generator/app/); an interactive app also its architecture (generator/architecture.ts). The
 // skills `lernapps init` synced into the folder stay, and are committed with the app; `lernapps update` replaces them
@@ -26,7 +27,7 @@ import { createRequire } from "node:module";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
-import { ARCHITECTURE, ARCHITECTURE_ARCHETYPES, writeArchitecture } from "./architecture.ts";
+import { ARCHITECTURE_ARCHETYPES, writeArchitecture } from "./architecture.ts";
 import { LEGACY_PLAN, MIGRATED_PLAN, PLAN_NAME, PLANS, planFrontMatter, plans } from "../src/plan.ts";
 import { UsageError } from "../src/usage.ts";
 
@@ -44,8 +45,11 @@ export const CREATE_USAGE = `Usage: lernapps create --archetype <name> [<dir>] [
 Writes a new app from the archetype's template into <dir> (default: the current folder), which must be empty
 except for .git, the first version's plan .vibe/plans/01-<short name>.md and the skills that
 lernapps init synced (.agents/skills/, .claude/skills/, skills-lock.json, and the package.json, package-lock.json and
-node_modules init wrote). The template is the folder <name>/ of the installed package @lernapps/app-templates, the
-version @lernapps/tooling depends on; the app depends on the runtime of the same version.
+node_modules init wrote). From the installed package @lernapps/app-templates, the version @lernapps/tooling depends
+on, it writes the archetype's scaffold: the files of the template folder <name>/ that the package's lernapps.scaffold
+lists (the entry, the configuration, the end-to-end tests of the content) and a placeholder as start content
+(scaffold/<name>/), which the planned content replaces. The template folder itself is the example app: it stays in
+node_modules/@lernapps/app-templates/<name>/, to look up. The app depends on the runtime of the same version.
 
 It needs the plan of the first version, confirmed by the creator: started from the plan template as
 .vibe/plans/01-<short name>.md, the only plan there, worked through Explore and Plan, now in the phase code
@@ -57,7 +61,7 @@ Run it in the folder lernapps init prepared, from the tooling init installed:
 It needs git, and the npm registry for the npm install that follows. The app then depends on the version of
 @lernapps/tooling that created it, and its workflows use the actions of that version's tag.
 
-It writes, besides the template: package.json named after the short name given to init (the folder's name without init) (its prepare script, lernapps hooks,
+It writes, besides the scaffold: package.json named after the short name given to init (the folder's name without init) (its prepare script, lernapps hooks,
 installs the git hooks; for an explainer and an interactive app also vue-tsc and typescript, with which lernapps
 check type-checks its Vue components; for an interactive app also @doctc/arc42, which checks its architecture),
 for an interactive app its architecture docs/arc42/ (the generic part and the interactive extension of app-templates,
@@ -96,7 +100,7 @@ export interface Manifest {
   version?: string;
   devDependencies?: Record<string, string>;
   scripts?: Record<string, string>;
-  lernapps?: { archetypes?: string[]; init?: boolean };
+  lernapps?: { archetypes?: string[]; scaffold?: Record<string, string[]>; init?: boolean };
   [key: string]: unknown;
 }
 
@@ -108,6 +112,8 @@ export interface Templates {
   root: string;
   version: string;
   archetypes: string[];
+  /** Per archetype, the paths of its template folder a new app gets (lernapps.scaffold of the package). */
+  scaffold: Record<string, string[]>;
 }
 
 /** The runtime package, which also carries the templates. */
@@ -133,7 +139,12 @@ export function templatesPackage(dir?: string): Templates {
     throw new CreateError(`${root} is no package ${RUNTIME}: it has no package.json`);
   }
   const manifest = readJson(join(root, "package.json"));
-  return { root, version: manifest.version ?? "0.0.0", archetypes: [...(manifest.lernapps?.archetypes ?? [])].sort() };
+  return {
+    root,
+    version: manifest.version ?? "0.0.0",
+    archetypes: [...(manifest.lernapps?.archetypes ?? [])].sort(),
+    scaffold: manifest.lernapps?.scaffold ?? {},
+  };
 }
 
 /** The archetypes of the installed templates. */
@@ -201,6 +212,34 @@ const packageName = (dir: string) =>
     .replace(/[̀-ͯ]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "") || "app";
+
+/**
+ * The scaffold of the archetype into `dir` (decision dec-scaffold of app-templates): the paths of its template folder
+ * that lernapps.scaffold.<archetype> of the package lists (the entry, the configuration, the e2e entry), then the start
+ * content scaffold/<archetype>/, a placeholder the creator replaces. The rest of the template folder is the example
+ * app; it stays in node_modules/@lernapps/app-templates/<archetype>/ for the creator's assistant to look up.
+ */
+export function writeScaffold(templates: Templates, archetype: string, dir: string): void {
+  const paths = templates.scaffold[archetype];
+  if (paths === undefined || paths.length === 0) {
+    throw new CreateError(
+      `${templates.root} (version ${templates.version}) names no scaffold for ${archetype} (lernapps.scaffold in its package.json): use the version of ${RUNTIME} this tooling depends on`,
+    );
+  }
+  const template = join(templates.root, archetype);
+  for (const path of paths) {
+    // npm never ships a .gitignore: the package carries it as _gitignore (app-templates, scripts/pack-dotfiles.ts);
+    // a clone of the repository has the .gitignore itself
+    const shipped = basename(path) === ".gitignore" ? join(template, dirname(path), "_gitignore") : undefined;
+    const source = shipped !== undefined && existsSync(shipped) ? shipped : join(template, path);
+    if (!existsSync(source)) throw new CreateError(`${template} has no ${path}, which its scaffold lists`);
+    mkdirSync(dirname(join(dir, path)), { recursive: true });
+    cpSync(source, join(dir, path));
+  }
+  const start = join(templates.root, "scaffold", archetype);
+  if (!existsSync(start)) throw new CreateError(`${templates.root} has no start content scaffold/${archetype}/`);
+  cpSync(start, dir, { recursive: true });
+}
 
 /** This package, as an app depends on it. */
 export const TOOLING = "@lernapps/tooling";
@@ -399,21 +438,9 @@ export function create(args: string[]): number {
     ? readFileSync(join(dir, "package-lock.json"), "utf8")
     : undefined;
   mkdirSync(dir, { recursive: true });
-  cpSync(join(templates.root, archetype), dir, { recursive: true });
-  rmSync(join(dir, "package-lock.json"), { force: true }); // the template's lock, of another name and tooling
+  writeScaffold(templates, archetype, dir);
   if (initialLock !== undefined) writeFileSync(join(dir, "package-lock.json"), initialLock);
-  // npm never ships a .gitignore: the package carries it as _gitignore (app-templates, scripts/pack-dotfiles.ts)
-  if (existsSync(join(dir, "_gitignore"))) renameSync(join(dir, "_gitignore"), join(dir, ".gitignore"));
-  // the template's README says what the archetype can do, for choosing one; it is no part of the app
-  rmSync(join(dir, "README.md"), { force: true });
-  // the template folder's architecture is the extension of app-templates' own: an interactive app gets the
-  // combination as its reference, the other archetypes none
-  rmSync(join(dir, ARCHITECTURE), { recursive: true, force: true });
-  if (existsSync(join(dir, "docs")) && readdirSync(join(dir, "docs")).length === 0) {
-    rmSync(join(dir, "docs"), { recursive: true });
-  }
   if (architecture) writeArchitecture(dir, templates.root, archetype, templates.version);
-  else rmSync(join(dir, ".arc42ignore"), { force: true });
 
   const app = readJson(join(dir, "package.json"));
   // the short name the creator gave `lernapps init` stays the app's name; without init, the folder names it
@@ -427,7 +454,14 @@ export function create(args: string[]): number {
   // version of the runtime it was copied from
   if (app.devDependencies?.[RUNTIME] !== undefined) {
     app.devDependencies = { ...app.devDependencies, [RUNTIME]: `^${templates.version}` };
-    rmSync(join(dir, ".npmrc"), { force: true });
+  }
+  // the template keeps its checkout's runtime with an override (file:..), which npm would otherwise swap for the
+  // version this tooling depends on; the app has no checkout to point at
+  const overrides = app["overrides"];
+  if (typeof overrides === "object" && overrides !== null && RUNTIME in overrides) {
+    const kept = Object.fromEntries(Object.entries(overrides).filter(([name]) => name !== RUNTIME));
+    if (Object.keys(kept).length > 0) app["overrides"] = kept;
+    else delete app["overrides"];
   }
   // the tooling the app depends on: the one named, else this version (init may have installed it already)
   const tooling = values.tooling ?? `^${ownVersion()}`;

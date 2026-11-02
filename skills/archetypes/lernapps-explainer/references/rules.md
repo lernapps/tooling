@@ -194,7 +194,7 @@ severity: hint
 - The tutor page then has the task once, the mistakes as F1, F2 … and a table of every number (inputs, solution,
   each mistake), like `generated`. Without them: each number's `describe` as far as 64 kB allow, and the build's hint
   names the block.
-- Example: `src/components/ProzentFeld.ts` of the template.
+- Example: `node_modules/@lernapps/app-templates/explainer/src/components/ProzentFeld.ts`, the template's.
 
 ## `vue-component-tested`: A test per component
 
