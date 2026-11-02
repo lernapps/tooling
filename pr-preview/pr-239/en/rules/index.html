@@ -251,6 +251,7 @@
 <div>
 <ul>
 <li>Texts for learners, teachers, parents: German, plain (short sentences, active voice, no jargon).</li>
+<li>Never English only: an app in English is German and English, German first.</li>
 <li>More languages only where the archetype supports them (explainer, quiz: <code>languages</code>, German first); each declared language complete, no other.</li>
 <li>Texts out of code: in the content (explainer YAML, quiz bank) or message files (<code>src/messages/de.json</code>, shown with <code>translator</code> from <code>@lernapps/tooling/i18n</code>).</li>
 </ul>
@@ -448,7 +449,7 @@
 <div>
 <ul>
 <li>In Code, as soon as the first screen or page shows real content: send the creator a short &quot;Zwischenstand&quot;.</li>
-<li>Show screenshots, desktop and 360 px. On the creator's machine also the address of <code>npm run dev</code>, started in the background.</li>
+<li>Show screenshots, desktop and 360 px (<code>npx --no -- lernapps screenshots --desktop</code>). On the creator's machine also the address of <code>npm run dev</code>, started in the background.</li>
 <li>No checkpoint, no question: go on in the same message. The creator may stop you or ask for a change.</li>
 <li>Example: &quot;Zwischenstand: So sieht die erste Seite aus. Ich baue weiter; sag Bescheid, wenn etwas nicht passt.&quot;</li>
 </ul>
@@ -1163,7 +1164,7 @@
 <ul>
 <li>The logic module also exports <code>template(props, lang)</code>: the task once, <code>{name}</code> for each input; <code>params(task, props, lang)</code>: the inputs by name (<code>{ G: 1260, p: 15 }</code>), numbers or texts, the same names for every task; <code>mistakes(task, props)</code>: per <code>about.mistakes</code>, in order, the answer it gives, <code>undefined</code> where none; <code>show(answer, task, props, lang)</code>: an answer as text, short (&quot;C&quot;, &quot;3 Kästchen&quot;).</li>
 <li>The tutor page then has the task once, the mistakes as F1, F2 … and a table of every number (inputs, solution, each mistake), like <code>generated</code>. Without them: each number's <code>describe</code> as far as 64 kB allow, and the build's hint names the block.</li>
-<li>Example: <code>src/components/ProzentFeld.ts</code> of the template.</li>
+<li>Example: <code>node_modules/@lernapps/app-templates/explainer/src/components/ProzentFeld.ts</code>, the template's.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
