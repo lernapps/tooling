@@ -57,7 +57,7 @@ Run it in the folder lernapps init prepared, from the tooling init installed:
 It needs git, and the npm registry for the npm install that follows. The app then depends on the version of
 @lernapps/tooling that created it, and its workflows use the actions of that version's tag.
 
-It writes, besides the template: package.json named after the folder (its prepare script, lernapps hooks,
+It writes, besides the template: package.json named after the short name given to init (the folder's name without init) (its prepare script, lernapps hooks,
 installs the git hooks; for an explainer and an interactive app also vue-tsc and typescript, with which lernapps
 check type-checks its Vue components; for an interactive app also @doctc/arc42, which checks its architecture),
 for an interactive app its architecture docs/arc42/ (the generic part and the interactive extension of app-templates,
@@ -416,7 +416,9 @@ export function create(args: string[]): number {
   else rmSync(join(dir, ".arc42ignore"), { force: true });
 
   const app = readJson(join(dir, "package.json"));
-  const name = packageName(dir);
+  // the short name the creator gave `lernapps init` stays the app's name; without init, the folder names it
+  const name =
+    initialised?.lernapps?.init === true && typeof initialised.name === "string" ? initialised.name : packageName(dir);
   app.name = name;
   // npm install installs the hooks of this package, in the app's own repository only (lernapps hooks); the
   // template needs no prepare script of its own, which would install them in app-templates

@@ -8,7 +8,7 @@
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { basename, dirname, join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
 import { PLANS } from "../src/plan.ts";
@@ -121,15 +121,6 @@ function syncSkills(dir: string, exclude: string[]): void {
   );
 }
 
-/** A package name from the folder's name: lower case, letters, digits and hyphens. */
-const slug = (dir: string) =>
-  basename(dir)
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "") || "app";
-
 export function init(args: string[]): number {
   const { values, positionals } = parseArgs({ args, options: INIT_OPTIONS, strict: true, allowPositionals: true });
   if (values.help) {
@@ -150,7 +141,7 @@ export function init(args: string[]): number {
   const addon = values.addon;
   const repository = ensureRepository(dir);
   writeJson(join(dir, "package.json"), {
-    name: slug(dir),
+    name,
     version: "0.0.0",
     private: true,
     lernapps: { init: true },
