@@ -71,6 +71,21 @@ describe("lernapps create refuses", () => {
     expect(result.stderr).toContain("work through Explore and Plan with the creator first");
   });
 
+  test("the short name given to init stays the app's name, not the folder's", () => {
+    const dir = tempDir("create-init-name");
+    confirmedPlan(dir, "quiz");
+    writeFileSync(
+      join(dir, "package.json"),
+      `${JSON.stringify({ name: "dualzahlen", version: "0.0.0", private: true, lernapps: { init: true } })}\n`,
+    );
+    const result = lernapps(
+      ["create", "--archetype", "quiz", dir, "--templates", appTemplates(), "--tooling", "^0.1.0"],
+      repoRoot,
+    );
+    expect(result.code, output(result)).toBe(0);
+    expect(JSON.parse(readFileSync(join(dir, "package.json"), "utf8")).name).toBe("dualzahlen");
+  }, 20_000);
+
   test("sketches in .vibe/ do not stop it: the planning folder holds more than the plan", () => {
     const dir = tempDir("create-sketches");
     confirmedPlan(dir, "quiz");

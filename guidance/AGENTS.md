@@ -15,6 +15,8 @@ Learning app for lernapps.net: static, runs in the browser, collects nothing, ac
 
 - Read guidance and skills from the file, in full. Never use a fetch tool that summarises.
 - Push only the branch the current plan names. A push to `main` publishes.
+- Tick a box only after you did what it says, and only as far as it says. A box you did in part stays open, with a line
+  saying what is missing.
 - Never `--no-verify`. Never edit `prePushFailures` or `failedChecks`.
 - Never edit a `lernapps-*` skill: `lernapps update` replaces them. The app's own skills (`app-content`, `app-*`)
   take precedence; app rules go there.
