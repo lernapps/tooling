@@ -1,7 +1,8 @@
-// An explainer in format 2 and the learning map of the catalog, for the checks one-competency-per-page and
-// competencies-on-map. An explainer is in format 2 when its src/app.yaml says `format: 2`; it names the app's strand
-// (`<subject>/<strand>` or `none`) and every page the competencies of the map it practises (`competencies`, ids of
-// the subject). The map of a subject is data at https://lernapps.net/apps/map/<subject>.json (lernapps/apps,
+// An explainer in format 2 and the learning map of the catalog, for the checks one-competency-per-page,
+// competencies-on-map and prerequisites-linked. An explainer is in format 2 when its src/app.yaml says `format: 2`; it
+// names the app's strand (`<subject>/<strand>` or `none`) and every page the competencies of the map it practises
+// (`competencies`, ids of the subject), or, on a recap page, the one competency of another strand it repeats
+// (`recap: <subject>/<competency>`). The map of a subject is data at https://lernapps.net/apps/map/<subject>.json (lernapps/apps,
 // docs/learning-map-contract.md, section 5).
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -18,9 +19,13 @@ const TIMEOUT = 10_000;
 
 /** One page of the explainer: its file, the line of its competencies, and their ids in the order written. */
 export interface ExplainerPage {
-  /** `src/<chapter>/<page>.yaml`, with `:<line>` of the competencies when the page has them. */
+  /** `src/<chapter>/<page>.yaml`, with `:<line>` of the competencies (or of the recap) when the page has them. */
   where: string;
   competencies: string[];
+  /** A recap page: the `<subject>/<competency>` it repeats, as written. */
+  recap?: string;
+  /** The page's YAML as written, for the links in its text. */
+  text: string;
 }
 
 export interface Explainer {
@@ -65,11 +70,20 @@ export function readExplainer(project: string): Explainer | undefined {
       const file = `src/${chapter}/${page}.yaml`;
       if (!existsSync(join(project, file))) continue;
       const text = readFileSync(join(project, file), "utf8");
-      const value = read(join(project, file)) as { competencies?: unknown; competency?: unknown } | undefined;
+      const value = read(join(project, file)) as
+        | { competencies?: unknown; competency?: unknown; recap?: unknown }
+        | undefined;
       // `competencies` is a list; a single `competency` (an id) is read the same, so either spelling is checked.
       const competencies = typeof value?.competency === "string" ? [value.competency] : ids(value?.competencies);
-      const line = lineOf(text, "competencies", "competency");
-      pages.push({ where: line === undefined ? file : `${file}:${line}`, competencies });
+      const recap = typeof value?.recap === "string" ? value.recap : undefined;
+      const line =
+        lineOf(text, "competencies", "competency") ?? (recap === undefined ? undefined : lineOf(text, "recap"));
+      pages.push({
+        where: line === undefined ? file : `${file}:${line}`,
+        competencies,
+        ...(recap === undefined ? {} : { recap }),
+        text,
+      });
     }
   }
   const strandLine = lineOf(readFileSync(appFile, "utf8"), "strand");
@@ -79,8 +93,18 @@ export function readExplainer(project: string): Explainer | undefined {
 /** A subject's map as the catalog serves it: its strands, each with the ids of its competencies. */
 export interface SubjectMap {
   id: string;
-  strands: { id: string; competencies: { id: string }[] }[];
+  strands: { id: string; competencies: { id: string; requires?: string[] }[] }[];
 }
+
+/** The strand of each competency of the map, by its id. */
+export const strandsOf = (map: SubjectMap): Map<string, string> =>
+  new Map(
+    map.strands.flatMap((strand) => strand.competencies.map((competency) => [competency.id, strand.id] as const)),
+  );
+
+/** The address of a competency's page on the map, as a page links it: …/apps/map/<subject>/c/<id>/. */
+export const competencyPage = (subject: string, id: string): string =>
+  `https://lernapps.net/apps/map/${subject}/c/${id}/`;
 
 /**
  * The address of the map of `subject`. For the tooling's own tests only, not for users: LERNAPPS_TEST_MAP_URL replaces
@@ -97,8 +121,22 @@ const isMap = (value: unknown): value is SubjectMap =>
   Array.isArray((value as { strands?: unknown }).strands) &&
   (value as SubjectMap).strands.every((strand) => typeof strand?.id === "string" && Array.isArray(strand.competencies));
 
+type Loaded = { map: SubjectMap } | { failed: string };
+
+/** The maps loaded in this run, by address: the checks of one run share one request per map. */
+const loaded = new Map<string, Promise<Loaded>>();
+
 /** The map at `url`, or why it could not be loaded: no network, a status other than 200, not a map. */
-export async function loadMap(url: string): Promise<{ map: SubjectMap } | { failed: string }> {
+export function loadMap(url: string): Promise<Loaded> {
+  let pending = loaded.get(url);
+  if (pending === undefined) {
+    pending = fetchMap(url);
+    loaded.set(url, pending);
+  }
+  return pending;
+}
+
+async function fetchMap(url: string): Promise<Loaded> {
   let response: Response;
   try {
     response = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(TIMEOUT) });

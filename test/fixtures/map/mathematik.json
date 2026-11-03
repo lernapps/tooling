@@ -21,7 +21,7 @@
           "id": "laplace",
           "iCan": { "de": "Ich kann Wahrscheinlichkeiten mit der Laplace-Formel berechnen." },
           "gradeBand": "7-8",
-          "requires": ["haeufigkeiten"],
+          "requires": ["haeufigkeiten", "brueche-anteile"],
           "practisedBy": []
         },
         {
@@ -37,6 +37,13 @@
       "id": "arithmetik",
       "name": { "de": "Zahlen und Operationen", "en": "Numbers and operations" },
       "competencies": [
+        {
+          "id": "brueche-anteile",
+          "iCan": "Ich kann Anteile als Brüche angeben.",
+          "gradeBand": "5-6",
+          "requires": [],
+          "practisedBy": []
+        },
         {
           "id": "prozent-prozentwert",
           "iCan": "Ich kann den Prozentwert berechnen.",

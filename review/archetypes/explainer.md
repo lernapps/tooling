@@ -12,7 +12,8 @@ quiz's types. Read the content in `src/` and the built pages in the bundle.
 id: topic-has-exercises
 ```
 
-The schema already requires an exercise on every page; judge whether it fits. Open every page. A finding: an exercise
+The schema already requires an exercise on every page except a recap page (`recap`), which has none; judge whether it
+fits. Open every page. A finding: an exercise
 that practises something other than what its page explains, or one whose solution or feedback does not let learners
 check their answer. Name the page and the exercise.
 

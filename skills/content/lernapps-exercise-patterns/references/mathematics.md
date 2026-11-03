@@ -17,3 +17,27 @@
 | Multi-stage experiment | a tree from top to bottom with branch probabilities; multiply along a path | `image` (SVG) of the tree; `generated` with the path rule; a clickable tree as a component |
 | Drawing without replacement | an urn before and after one ball is taken | two `image`s; `generated` with `pick: 2, distinct: true` from a data file of balls |
 | Unit conversion | a value with one unit; give it in another | `generated` with `compare: { number: { unit } }` and the mistake "factor in the wrong direction" |
+| Sides and angles in a right triangle (trigonometry) | a right triangle, the angle α marked, its sides named from α (Gegenkathete, Ankathete, Hypotenuse); compute a side from an angle and a side, or an angle from two sides | `image` (SVG) of the triangle with the right angle and α marked, the sides labelled; `formula` with `\sin`, `\cos`, `\tan`, `\arcsin`, Greek letters and `^\circ`; `generated` with `sin`/`cos`/`tan`, `asin`/`acos`/`atan` (degrees) and `sqrt`, answer rounded (`round`, `decimals`, `tolerance`); mistakes: opposite and adjacent side swapped (`cos` instead of `sin`), calculator in radians (the value of `sin` of α taken as radians), sin⁻¹ confused with 1/sin; a triangle that changes with the task: an exercise component |
+
+## Example: a side in a right triangle
+
+```yaml
+- type: generated
+  id: gegenkathete-berechnen
+  given:
+    c: { int: [5, 20] }
+    alpha: { int: [20, 70], step: 5 }
+  task:
+    text: "In einem rechtwinkligen Dreieck ist die Hypotenuse c = {{c}} cm lang, der Winkel α = {{alpha}}°. Wie lang ist die Gegenkathete a von α? Runde auf eine Stelle nach dem Komma."
+  answer:
+    value: "round(c * sin(alpha), 1)"
+    compare: { number: { format: decimal, decimals: 1, tolerance: 0.1, unit: cm } }
+  mistakes:
+    - { value: "round(c * cos(alpha), 1)", message: "Das ist die Ankathete: die Gegenkathete liegt α gegenüber, also Sinus." }
+    - { value: "round(c * sin(alpha * 57.29578), 1)", message: "Dein Taschenrechner rechnet im Bogenmaß (RAD): stelle ihn auf Grad (DEG)." }
+    - { value: "round(c / sin(alpha), 1)", message: "sin α = a : c, also a = c · sin α: mal, nicht geteilt." }
+```
+
+An angle from two sides: `answer: { value: "round(asin(a / c), 1)" }`, in degrees. Mistakes: opposite and adjacent
+swapped (`round(acos(a / c), 1)`, the other angle); sin⁻¹ taken as 1 : sin (`round(c / a, 1)`: "sin⁻¹ ist die
+Umkehrfunktion, nicht 1 : sin"). A mistake value must have a value: `asin(c / a)` with c > a has none.

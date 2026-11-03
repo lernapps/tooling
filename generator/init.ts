@@ -12,15 +12,16 @@ import { dirname, join, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
 import { PLANS } from "../src/plan.ts";
-import { CreateError, fromPackage, ownVersion, readJson, TOOLING, writeJson } from "./create.ts";
+import { CreateError, fromPackage, ownVersion, readJson, TOOLING, WORK_BRANCH, writeJson } from "./create.ts";
 
 /** The options of `lernapps init`, as node:util parseArgs takes them. */
 export const INIT_OPTIONS = {
   addon: { type: "string" },
+  tooling: { type: "string" },
   help: { type: "boolean", short: "h", default: false },
 } as const satisfies ParseArgsOptionsConfig;
 
-export const INIT_USAGE = `Usage: lernapps init <short name> [--addon <package>]
+export const INIT_USAGE = `Usage: lernapps init <short name> [--addon <package>] [--tooling <spec>]
 
 Starts an app in the current folder, which must be empty except for .git. It needs git, Node and the npm registry; nothing
 else. In order:
@@ -36,6 +37,10 @@ Then follow the plan: it says what to do, and when to wait for the creator.
 
 Options:
   --addon <package>  a package that extends the tooling, e.g. @lernapps/practice: its plan template and its skills
+  --tooling <spec>   for maintainers: the npm spec of @lernapps/tooling to install instead of this version, e.g.
+                     file:/path/to/lernapps-tooling-0.0.0.tgz or github:lernapps/tooling#<commit>; give the same
+                     to lernapps create. Without it, a tooling of version 0.0.0 (a local build, not on the
+                     registry) is installed from its folder when that is a git checkout (file:<folder>)
   -h, --help         print this help
 `;
 
@@ -62,8 +67,7 @@ const SKILLS_BIN = () => {
   return join(dirname(manifest), bin?.["skills"] ?? "bin/cli.mjs");
 };
 
-/** The branch the plan works on (rule 8 of the plan template). */
-export const WORK_BRANCH = "work";
+export { WORK_BRANCH };
 
 /**
  * Makes the folder a git repository on the branch `work`, which the plan names, unless it is one already: `create` and
@@ -121,6 +125,23 @@ function syncSkills(dir: string, exclude: string[]): void {
   );
 }
 
+/** The version of a build that is not on the registry: package.json of the repository says 0.0.0. */
+const LOCAL_VERSION = "0.0.0";
+
+/**
+ * The spec of @lernapps/tooling that init installs: the one given, else this version. A local build (version 0.0.0,
+ * which the registry does not have) is installed from its folder when that is a git checkout, else init says to name
+ * one with --tooling.
+ */
+export function toolingSpec(given: string | undefined, version = ownVersion(), root = fromPackage()): string {
+  if (given !== undefined && given !== "") return given;
+  if (version !== LOCAL_VERSION) return version;
+  if (existsSync(join(root, ".git"))) return `file:${resolve(root)}`;
+  throw new CreateError(
+    `this @lernapps/tooling is a local build (version ${LOCAL_VERSION}), which the npm registry does not have: name the tooling to install with --tooling <spec>, e.g. file:/path/to/lernapps-tooling-${LOCAL_VERSION}.tgz (npm pack) or github:lernapps/tooling#<commit>, and give the same to lernapps create`,
+  );
+}
+
 export function init(args: string[]): number {
   const { values, positionals } = parseArgs({ args, options: INIT_OPTIONS, strict: true, allowPositionals: true });
   if (values.help) {
@@ -139,6 +160,7 @@ export function init(args: string[]): number {
     );
   }
   const addon = values.addon;
+  const tooling = toolingSpec(values.tooling);
   const repository = ensureRepository(dir);
   writeJson(join(dir, "package.json"), {
     name,
@@ -149,7 +171,7 @@ export function init(args: string[]): number {
   const fail = (message: string) => new CreateError(message);
   run(
     "npm",
-    ["install", "--save-dev", "--no-audit", "--no-fund", `${TOOLING}@${ownVersion()}`, ...(addon ? [addon] : [])],
+    ["install", "--save-dev", "--no-audit", "--no-fund", `${TOOLING}@${tooling}`, ...(addon ? [addon] : [])],
     fail,
   );
 

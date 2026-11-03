@@ -23,6 +23,12 @@ license: MIT
 - A competency (one teachable thing, one or two lessons) → a page. A large competency may take several pages.
 - A chapter → competencies that build on each other. Order chapters and pages along the map's `requires`: what
   learners need first comes first.
+- Prerequisites: for each page's competency, read its `requires` in the map.
+  - Of the app's strand → it orders the pages; the text may link the page that teaches it.
+  - Of another strand → the app does not practise it (one app, one strand). The page names it. The app may repeat it
+    on a recap page (`recap: <subject>/<competency>`): descriptive blocks only, no exercise; the runtime writes the
+    link to its page on the map. Place the recap page before the page that needs it
+    ([structure](../lernapps-explainer/references/structure.md)).
 - The app has one strand of the subject's learning map (recommended, skill `lernapps-content-research`), or `none`.
   Every page names the competency of the map it practises (`competencies`, ids of the app's strand). A competency
   the map lacks is proposed to the catalog, not invented here. With `strand: none` pages name none.
@@ -50,8 +56,9 @@ license: MIT
 
 ## Decide
 
-- Strand: `<subject>/<strand>` from the map where one fits, or `none`. The plan records it and the
-  competency ids of each page (format 2, [structure](../lernapps-explainer/references/structure.md)).
+- Strand: `<subject>/<strand>` from the map where one fits, or `none`. The plan records it, the competency ids of
+  each page, each page's prerequisites of another strand and which of them get a recap page (format 2,
+  [structure](../lernapps-explainer/references/structure.md)).
 - Languages: German; English as a second language is supported. Each declared language complete. Never English
   only: without `languages` the page and the runtime's texts are German. English wanted → `[de, en]`.
 - The tutor: the build writes it from the content. Plan only app-specific tutor rules, if any.
@@ -68,6 +75,20 @@ severity: hint
   are fine.
 - Several competencies on one page: allowed by the schema, not recommended. Split the page, one per competency.
 - `lernapps check` gives a hint for every page of a format-2 explainer with more than one competency.
+
+## `prerequisites-linked`: Prerequisites of another strand are recapped or linked
+
+```rule
+id: prerequisites-linked
+scope: tooling
+severity: hint
+```
+
+- A competency of a page requires one of another strand (`requires` in the map): learners find it from the app.
+- Either a recap page of the app repeats it (`recap: <subject>/<competency>`), or the page's text names it with a link
+  to its page on the map: `https://lernapps.net/apps/map/<subject>/c/<id>/`.
+- `lernapps check` gives a hint for each such prerequisite with neither, naming the page and the prerequisite. Without
+  the map it finds nothing (`competencies-on-map` says it could not check).
 
 ## Gotchas
 

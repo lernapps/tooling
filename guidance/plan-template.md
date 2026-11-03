@@ -150,7 +150,8 @@ questions. -->
 ### Content method
 
 <!-- One line each: exercise patterns and where; figures and how they are made; data files; each component, what it
-checks and cannot; how a later agent adds a chapter. Becomes the content guide in Code. -->
+checks and cannot; how a later agent adds a chapter. An explainer on the map: per page its prerequisites (`requires`)
+of another strand, and which get a recap page, which a link. Becomes the content guide in Code. -->
 
 ### Completed
 
