@@ -68,6 +68,52 @@ describe.skipIf(inner)("lernapps check in an app's repo", () => {
   });
 
   test(
+    "a passing --pre-push of the same state is reused without building; a change or --no-cache checks again",
+    { timeout: SLOW },
+    () => {
+      const dir = project({});
+      const first = lernapps(["check", "--pre-push"], dir);
+      expect(first.code, output(first)).toBe(0);
+      expect(first.stdout).toMatch(/no findings \(commit [0-9a-f]{7}\) in [\d.]+ s\n$/);
+      expect(JSON.parse(readFileSync(join(dir, "node_modules/.cache/lernapps/timings.json"), "utf8"))).toMatchObject({
+        steps: expect.arrayContaining([expect.objectContaining({ step: "build" })]),
+      });
+      rmSync(join(dir, "dist"), { recursive: true });
+      const again = lernapps(["check", "--pre-push"], dir);
+      expect(again.code, output(again)).toBe(0);
+      expect(again.stdout).toContain("already checked at");
+      expect(readdirSync(dir)).not.toContain("dist");
+      const forced = lernapps(["check", "--pre-push", "--no-cache"], dir);
+      expect(forced.code, output(forced)).toBe(0);
+      expect(forced.stdout).not.toContain("already checked");
+      expect(readdirSync(dir)).toContain("dist");
+      writeFileSync(join(dir, "notes.txt"), "not committed\n");
+      const changed = lernapps(["check", "--pre-push"], dir);
+      expect(changed.code, output(changed)).toBe(0);
+      expect(changed.stdout).not.toContain("already checked");
+    },
+  );
+
+  test(
+    "node_modules that does not hold what package-lock.json asks for fails before anything runs",
+    { timeout: SLOW },
+    () => {
+      const lock = {
+        lockfileVersion: 3,
+        packages: { "": { name: "app" }, "node_modules/vite-plus": { version: "0.0.1" } },
+      };
+      const dir = project({ "package-lock.json": `${JSON.stringify(lock, null, 2)}\n` });
+      const result = lernapps(["check", "--pre-push"], dir);
+      expect(result.code, output(result)).toBe(1);
+      expect(report(result).findings).toHaveLength(1);
+      expect(findingsOf(result, "checks-pass")).toEqual([
+        expect.objectContaining({ rule: "checks-pass", where: "node_modules", fix: expect.stringContaining("npm ci") }),
+      ]);
+      expect(readdirSync(dir)).not.toContain("dist");
+    },
+  );
+
+  test(
     "the fast part does not build and does not count; without a flag a failure is not counted",
     {
       timeout: SLOW,

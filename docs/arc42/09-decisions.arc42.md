@@ -263,6 +263,33 @@ addresses: qg-few-iterations, qg-guidance-evolves, con-one-owner
 :::
 ```
 
+## A passing check of the same state is not repeated
+
+**Context:** the heavy part of the check takes minutes when an app has many questions, and the tooling's own push
+longer. Assistants run it themselves and the hook runs it again before the push; several assistants on one machine
+run it at the same time, and their browsers slow each other down. A check that passes on the creator's machine can
+still fail in CI when the machine installed other packages than the lock file asks for. **Decision:** the check
+command keeps the report of every passing heavy check of a clean working tree in the repository's git directory, by
+a key of what decides the result: the tree of the commit, the folder, the parts, the versions of the tooling and of
+Node, the packages installed and the tooling's environment variables. The same key reuses that report instead of
+checking again. Heavy checks in one clone and its worktrees wait for each other. Before anything else, a check in a
+repo compares the installed packages with the lock file and fails on a difference; another major version of Node
+than CI is a warning on the side, not a finding, so that the report stays the same for the same state. CI never
+reuses a result. How long each step took is kept next to the report, not in it. **Consequences:** a push after an
+explicit check, or the second of two assistants pushing the same state, costs seconds; the hook still runs exactly
+what CI runs (`dec-one-check-command`); a result can only be reused on the machine that made it, and only for a
+committed state; a git package that moves to another commit under the same version is not noticed as a difference.
+
+```arc42
+:::decision
+id: dec-check-cache
+title: A passing check of the same state is not repeated
+status: accepted
+date: 2026-11-03
+addresses: qg-few-iterations, risk-browser-at-creator
+:::
+```
+
 ## Each app lives at its developer's hosting
 
 **Context:** an app belongs to its developer, and the catalog lists apps hosted anywhere. Still, most creators need a
