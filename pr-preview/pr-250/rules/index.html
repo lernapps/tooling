@@ -97,6 +97,7 @@
 <tr><td><a href="#lockfile-matches"><code>lockfile-matches</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#one-competency-per-page"><code>one-competency-per-page</code></a></td><td>tooling</td><td>hint</td></tr>
 <tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
+<tr><td><a href="#prerequisites-linked"><code>prerequisites-linked</code></a></td><td>tooling</td><td>hint</td></tr>
 <tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#stop-at-checkpoints"><code>stop-at-checkpoints</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#strand-from-map"><code>strand-from-map</code></a></td><td>tooling</td><td>hint</td></tr>
@@ -454,6 +455,7 @@
 <div>
 <ul>
 <li><code>strand</code> in <code>src/app.yaml</code> is a strand of the subject's map; each page's <code>competencies</code> are ids of that strand.</li>
+<li>A recap page's <code>recap</code> (<code>&lt;subject&gt;/&lt;competency&gt;</code>) is on the map and belongs to another strand than the app's.</li>
 <li><code>lernapps check</code> loads <code>https://lernapps.net/apps/map/&lt;subject&gt;.json</code> and warns before the push. Not reachable or no map yet → one hint that it could not check.</li>
 <li>At the listing an unknown id or one of another strand is an error of the catalog (<code>entry-learning-map</code>).</li>
 </ul>
@@ -561,6 +563,19 @@
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
+</section>
+
+<section id="prerequisites-linked">
+<h2>Prerequisites of another strand are recapped or linked</h2>
+<p><code>prerequisites-linked</code> · tooling · hint</p>
+<div>
+<ul>
+<li>A competency of a page requires one of another strand (<code>requires</code> in the map): learners find it from the app.</li>
+<li>Either a recap page of the app repeats it (<code>recap: &lt;subject&gt;/&lt;competency&gt;</code>), or the page's text names it with a link to its page on the map: <code>https://lernapps.net/apps/map/&lt;subject&gt;/c/&lt;id&gt;/</code>.</li>
+<li><code>lernapps check</code> gives a hint for each such prerequisite with neither, naming the page and the prerequisite. Without the map it finds nothing (<code>competencies-on-map</code> says it could not check).</li>
+</ul>
+</div>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/prerequisites-linked.ts"><code>check/rules/prerequisites-linked.ts</code></a>.</p>
 </section>
 
 <section id="retrospective-filled">
@@ -1102,6 +1117,7 @@
 <ul>
 <li>Every page has at least one exercise that practises what the page explains, with solution or feedback; best in a last section &quot;Übung&quot;.</li>
 <li>The schema requires it; start, chapter and glossary pages are generated. The review judges the fit.</li>
+<li>Except a recap page (<code>recap</code>, format 2): it repeats a prerequisite of another strand and has no exercise.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
