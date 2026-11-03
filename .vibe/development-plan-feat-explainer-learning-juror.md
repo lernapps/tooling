@@ -19,8 +19,13 @@ Prioritäten des Nutzers für die Kriterien:
 ## Key Decisions
 - Ort des Jurors: eine gemeinsame Rubrik für Evals und Review (Nutzer, 2026-11-03).
 - Anwendungsfälle: zwei Bausteine der Bruchrechnung und zwei aus der linearen Algebra; andere Altersgruppe, daher andere (altersgemäße) Ansprache (Nutzer, 2026-11-03).
-- Statt linearer Algebra (gemeint: Oberstufe; nicht auf der Karte) Beschleunigung in Physik (Nutzer, 2026-11-03). Vorschlag aus der Karte `map/physik.yaml`, Strang `mechanik`, Klasse 9–10: `geschwindigkeitsaenderung` (qualitativ: beschleunigen, bremsen, Richtung) und `bewegungsdiagramme` (Weg-Zeit- und Geschwindigkeit-Zeit-Diagramm). Quantitative Beschleunigung (a = Δv/Δt, Oberstufe) steht nicht auf der Karte. Noch zu bestätigen.
+- Statt linearer Algebra (gemeint: Oberstufe; nicht auf der Karte) Beschleunigung in Physik (Nutzer, 2026-11-03). Vorschlag aus der Karte `map/physik.yaml`, Strang `mechanik`, Klasse 9–10: `geschwindigkeitsaenderung` (qualitativ: beschleunigen, bremsen, Richtung) und `bewegungsdiagramme` (Weg-Zeit- und Geschwindigkeit-Zeit-Diagramm). Quantitative Beschleunigung (a = Δv/Δt, Oberstufe) steht nicht auf der Karte. Bestätigt (Nutzer, 2026-11-03: „zwei Bausteine pro Auftrag“).
 - Workflow epcc; Feature-Zweig `feat/explainer-learning-juror`.
+- Zwei Aufträge (Eval-Tasks) mit je zwei Bausteinen (Nutzer, 2026-11-03):
+  - Mathematik Kl. 6: `brueche-begriff` und `brueche-kuerzen-erweitern` (Vorschlag: am stärksten visuell, deckt die Kritik an Kuchen/Streifen ab; `kuerzen-erweitern` braucht `teilbarkeit`, das die App nicht übt → prüft auch den Verweis auf Vorwissen).
+  - Physik Kl. 9–10: `geschwindigkeitsaenderung` und `bewegungsdiagramme`.
+- Bauendes Modell: Sonnet; n = 2 pro Auftrag und Messung (Nutzer). Baseline + höchstens 3 Iterationen → höchstens 16 Läufe.
+- Evals über Harbor in der Umgebung „Evals“; Harbor muss dafür einen Zweig/Commit der Guidance testen können (Nutzer). Zuerst ein Probelauf als „Poor man's Eval“: eine Sonnet-Sitzung je Auftrag, ich spiele die Persona strikt; dient der Eichung des Jurors (Vorschlag, vom Nutzer nicht abgelehnt).
 
 ## Notes
 - Ausgangsanalyse (Sitzung 2026-11-03): Evals messen nur den Prozess (`evals/expectations.json`); Inhalte beurteilt nur der Review beim Listing (`review/rubric.md`, `review/archetypes/explainer.md`). Die simulierte Ersteller-Persona gibt keine didaktische Kritik, eine schwache App erhält daher gute Eval-Werte.
@@ -33,12 +38,10 @@ Prioritäten des Nutzers für die Kriterien:
 - Nutzer hat das Vorhaben beschrieben.
 
 ### Tasks
-- [ ] Physik-Bausteine bestätigen lassen (Vorschlag unter Key Decisions).
-- [ ] Mit dem Nutzer klären: wie unveröffentlichte Guidance in Evals getestet wird (siehe Befund E3).
-- [ ] Mit dem Nutzer klären: Modell(e) unter Test, Läufe pro Zelle, Budget.
 
 ### Completed
 - [x] Created development plan file
+- [x] Physik-Bausteine, Test unveröffentlichter Guidance, Modell und Läufe mit dem Nutzer geklärt.
 - [x] Einordnung in Plattform und Architektur (pdt, arc42), Befunde A1–A3.
 - [x] Eval-Infrastruktur verstanden, Befunde E1–E5.
 - [x] Review-Infrastruktur verstanden, Befunde R1–R2.
