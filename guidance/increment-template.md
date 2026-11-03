@@ -70,7 +70,8 @@ questions. -->
 - [ ] Load skill `lernapps-content-research`. Research what the guide's curriculum and sources do not cover. Under
       "Notes": curriculum orientation, new competencies by chapter as "Ich kann …", verified sources. The app keeps its
       strand; with one, the new competencies are only those of that strand in the learning map (ids), as skill
-      `lernapps-content-research` says, an explainer as a rule one page each. None in the map → propose it to the
+      `lernapps-content-research` says, an explainer as a rule one page each; competencies that build on each other (the
+      map's `requires`) share a chapter, in that order. None in the map → propose it to the
       catalog. `strand: none` and a strand fits → recommend it.
 - [ ] Under "Notes": the didactic approach per competency and the scope (in, out, data range).
 - [ ] A kind of content the guide does not cover (a new page structure, screen, component or kind of exercise) →
