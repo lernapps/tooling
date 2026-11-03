@@ -6,6 +6,9 @@
 #   <model>  a Harbor model name, e.g. anthropic/claude-sonnet-5-5 or opencode-go/deepseek-v4.1-flash
 #   HARNESS     the agent under test: claude-code (default) or opencode (evals/harnesses.ts maps its tool calls)
 #   USER_MODEL  the creator's model (always Claude Code); default: <model> for claude-code, else Haiku 5.5
+#   GUIDANCE_REF  a branch or commit of lernapps/tooling to test instead of the published guidance: the run packs it
+#               (npm pack), puts the package and its llms.txt into the task's image (/opt/lernapps/) and gives the
+#               agent the build prompt of evals/harbor/branch-instruction.md, which sends it there
 # The creator decides each message in structured output and sends it with /opt/creator/say.ts (harbor/bridge-prompt.md,
 # harbor/creator-say.ts), which records it in the trial's user-agent/creator-turns.jsonl.
 # Afterwards it writes <job>/configuration.json (harness and version, Harbor version, models, commits) and scores the
@@ -36,8 +39,33 @@ for generated in tests/verify.ts environment/creator-say.ts; do
   [ -f "$task_dir/$generated" ] || { echo "run evals/harbor/setup.sh first" >&2; exit 2; }
 done
 
-# The guidance under test is what the build prompt sends the agent to: lernapps/tooling at main, now.
-guidance="$(git ls-remote https://github.com/lernapps/tooling.git refs/heads/main | cut -c1-40)"
+# The guidance under test is what the build prompt sends the agent to: lernapps/tooling at main, now; or, with
+# GUIDANCE_REF, that branch or commit, packed into a copy of the task.
+ref="${GUIDANCE_REF:-}"
+if [ -z "$ref" ]; then
+  guidance="$(git ls-remote https://github.com/lernapps/tooling.git refs/heads/main | cut -c1-40)"
+else
+  if [[ "$ref" =~ ^[0-9a-f]{40}$ ]]; then guidance="$ref"
+  else guidance="$(git ls-remote https://github.com/lernapps/tooling.git "refs/heads/$ref" | cut -c1-40)"; fi
+  [ -n "$guidance" ] || { echo "no branch or commit $ref in lernapps/tooling" >&2; exit 2; }
+  source="$home/guidance/$guidance"
+  if [ ! -f "$source/lernapps-tooling.tgz" ]; then
+    rm -rf "$source" && mkdir -p "$source"
+    git -C "$repo" fetch -q https://github.com/lernapps/tooling.git "$guidance"
+    git -C "$repo" worktree add -q --detach "$source/repo" "$guidance"
+    (cd "$source/repo" && npm ci --no-audit --no-fund > "$source/npm-ci.log" 2>&1 && npm pack --pack-destination "$source" > /dev/null)
+    mv "$source"/lernapps-tooling-*.tgz "$source/lernapps-tooling.tgz"
+    cp "$source/repo/site/llms.txt" "$source/llms.txt"
+    git -C "$repo" worktree remove --force "$source/repo"
+  fi
+  copy="$home/tasks/${task}__g${guidance:0:7}"
+  rm -rf "$copy" && mkdir -p "$(dirname "$copy")" && cp -R "$task_dir" "$copy"
+  cp "$source/lernapps-tooling.tgz" "$source/llms.txt" "$copy/environment/"
+  printf '\n# The guidance under test (GUIDANCE_REF %s, %s), written by evals/harbor/run.sh\nCOPY lernapps-tooling.tgz llms.txt /opt/lernapps/\n' \
+    "$ref" "$guidance" >> "$copy/environment/Dockerfile"
+  cp "$here/branch-instruction.md" "$copy/instruction.md"
+  task_dir="$copy"
+fi
 tooling="$(git -C "$repo" rev-parse HEAD)"
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 job="${task}__${harness}__${model##*/}__g${guidance:0:7}__${stamp}"
@@ -50,7 +78,8 @@ mkdir -p "$jobs"
   -o "$jobs" --job-name "$job" -n "$concurrency" -k "$trials" --yes || status=$?
 
 # configuration.json: what was tested (an assistant configuration, not a model) and with which guidance
-JOB_DIR="$jobs/$job" HARNESS="$harness" MODEL="$model" USER_MODEL="$user_model" TASK="$task" GUIDANCE="$guidance" TOOLING="$tooling" \
+JOB_DIR="$jobs/$job" HARNESS="$harness" MODEL="$model" USER_MODEL="$user_model" TASK="$task" GUIDANCE="$guidance" \
+  GUIDANCE_REF="${ref:-main}" TOOLING="$tooling" \
   HARBOR_VERSION="$("$home/bin/harbor" --version)" node --input-type=module -e '
 import { readdirSync, readFileSync, existsSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -71,6 +100,7 @@ const configuration = {
   userModel: env.USER_MODEL,
   task: env.TASK,
   guidanceCommit: env.GUIDANCE,
+  guidanceRef: env.GUIDANCE_REF,
   toolingCommit: env.TOOLING,
 };
 writeFileSync(join(dir, "configuration.json"), JSON.stringify(configuration, null, 2) + "\n");

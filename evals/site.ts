@@ -201,9 +201,14 @@ function heatmap(run: Run, ids: string[]): string {
       return `<th scope="col" class="m${first}"><span>${esc(model.split(" ")[0] ?? model)}</span><small>n=${cell?.n ?? 0}</small></th>`;
     })
     .join("");
-  const body = (["process", "transcript"] as const)
+  const body = (["process", "transcript", "learning"] as const)
     .map((group) => {
-      const title = group === "process" ? "Process (plan, app, git)" : "Transcript (what the agent said and did)";
+      const title =
+        group === "process"
+          ? "Process (plan, app, git)"
+          : group === "transcript"
+            ? "Transcript (what the agent said and did)"
+            : "Learning quality (the juror, 0–2 as a share)";
       const rows = results.rows
         .filter((row) => row.group === group && cells.some((cell) => cell.rows[row.id]))
         .map((row) => {

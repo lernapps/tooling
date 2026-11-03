@@ -255,7 +255,12 @@ export function results(
       group,
       source,
       kind,
-      expectations: (group === "process" ? expectations["reward"] : expectations["transcript"])?.[source] ?? [],
+      expectations:
+        (group === "process"
+          ? expectations["reward"]
+          : group === "transcript"
+            ? expectations["transcript"]
+            : expectations["learning"])?.[source] ?? [],
     })),
     cells,
     trials,
