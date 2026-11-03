@@ -42,7 +42,7 @@ For you, the assistant.
 
 ## Notes
 
-<!-- Curriculum orientation, competencies by chapter, didactic approach, scope, sources and licences, open
+<!-- Strand (<subject>/<strand> or none), curriculum orientation, competencies by chapter (ids), didactic approach, scope, sources and licences, open
 questions. -->
 
 ## Explore
@@ -74,7 +74,9 @@ questions. -->
       which. No answer → ask once more; still none → write your assumption with "(guess)". Done when every topic
       has an answer or a guess.
 - [ ] Load skill `lernapps-content-research`. Research as it says. Under "Notes": curriculum orientation,
-      competencies by chapter as "Ich kann …", verified sources. No competencies → not done.
+      competencies by chapter as "Ich kann …", verified sources. No competencies → not done. First the learning map as
+      skill `lernapps-content-research` says: one strand (`<subject>/<strand>`, or `none` for a subject without a map)
+      and the competencies by their ids from the map; write both under "Notes".
 - [ ] Under "Notes", one line per competency: how learners get there (derive, not only read off; e.g. a tree diagram
       shows how a probability comes about), which misconception the feedback catches.
 - [ ] Under "Notes", the scope: what is in, what is out and why, the data range (e.g. "all main-group elements",
@@ -82,7 +84,8 @@ questions. -->
 - [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json and read each property's description. Ask what
       helps teachers and parents find the app. Fill "Entry draft". Search words: one or two words each, as people
       type them.
-- [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, competencies by chapter, didactic
+- [ ] **Checkpoint:** research. Show in plain words: the strand, curriculum orientation, competencies by chapter (with
+      their ids), didactic
       approach, scope, every "(guess)", sources and how you checked them, what is unchecked, archetype and reason.
       Stop and wait. Changes → change, ask again.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
