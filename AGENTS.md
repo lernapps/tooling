@@ -1,3 +1,6 @@
+Building a learning app with this tooling, not working on the tooling itself? Then this file does not apply: follow
+`guidance/AGENTS.md`, the AGENTS.md every app gets.
+
 # Communication style
 
 Reply as per ISO 24495

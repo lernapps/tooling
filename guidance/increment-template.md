@@ -77,7 +77,9 @@ questions. -->
       load skills `lernapps-<archetype>-design` and `lernapps-exercise-patterns`. Else skip this task.
 - [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, new competencies by chapter (with their
       ids), didactic
-      approach, scope, every "(guess)", sources and how you checked them, what is unchecked. Stop and wait.
+      approach, scope, every "(guess)", sources and how you checked them, what is unchecked. With a strand, the map
+      decides the structure: new competencies that build on each other (its `requires`) share a chapter, in that
+      order; no curriculum search is needed for it. Stop and wait.
       Changes → change, ask again.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
 
