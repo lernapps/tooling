@@ -128,6 +128,7 @@ Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht
   - Guidance geändert (Musterseite als Checkpoint, Lernenden-Prüfung, `feedback-applied-everywhere`, Lernhandlung in „Content method“, Look and layout, Abschnittstitel); messen fehlt.
 - [ ] C7 Iterationen 2–3 nach Befunden (höchstens), messen. Commit je Iteration.
 - [x] C8 Architektur und Doku (Strategie 7). Commit.
+- [ ] C9 (offen, aus #257) Push des leeren `gh-pages`/`main` in `lernapps-github` scheitert am Pre-Push-Hook: Vorschlag `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages` aus dem App-Checkout statt `git switch --orphan`. In einer Probe-App ohne Hooks nicht nachstellbar; braucht eine mit `create` angelegte App. Nicht Teil der Messung.
 
 ### Completed
 *None yet*
