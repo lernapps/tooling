@@ -26,7 +26,8 @@ export const INIT_USAGE = `Usage: lernapps init <short name> [--addon <package>]
 
 Starts an app in the current folder, which must be empty except for .git. It needs git, Node and the npm registry; nothing
 else. In order:
-  git repository               on the branch work, which the plan names (unless the folder is one already; no commit)
+  git repository               on the branch work, which the plan names; no commit. A repository without commits
+                                switches to work; one with commits stays, and init warns: git switch -c work
   package.json                  names the folder, depends on @lernapps/tooling (this version) and the add-on
   npm install                   installs them
   .vibe/plans/01-<short name>.md
@@ -72,19 +73,43 @@ const SKILLS_BIN = () => {
 
 export { WORK_BRANCH };
 
-/**
- * Makes the folder a git repository on the branch `work`, which the plan names, unless it is one already: `create` and
- * the hooks need it, and the plan's first rule is to work there. Returns what it did, for the output; no commit.
- */
-export function ensureRepository(dir: string): string | undefined {
-  if (existsSync(join(dir, ".git"))) return undefined;
-  const result = spawnSync("git", ["init", "--quiet", `--initial-branch=${WORK_BRANCH}`], {
-    cwd: dir,
-    encoding: "utf8",
-  });
+/** A git command in `dir`; a git that cannot run is an error of init. */
+function git(dir: string, args: string[]) {
+  const result = spawnSync("git", args, { cwd: dir, encoding: "utf8" });
   if (result.error) throw new CreateError(`git cannot run: ${result.error.message}. Install git, then run init again`);
-  if (result.status !== 0) throw new CreateError(`git init failed: ${`${result.stdout}${result.stderr}`.trim()}`);
-  return `a git repository on the branch ${WORK_BRANCH}`;
+  return { ok: result.status === 0, out: `${result.stdout}${result.stderr}`.trim() };
+}
+
+/** What `ensureRepository` did: a line for the output, and a warning when the plan's branch is not checked out. */
+export interface Repository {
+  done?: string;
+  warning?: string;
+}
+
+/**
+ * Puts the folder on the branch `work`, which the plan names: `create` and the hooks need a repository, and the plan's
+ * first rule is to work there. No repository yet → `git init` on `work`. A repository without commits (a fresh
+ * `git init` on master or main, a clone of an empty GitHub repo) → its unborn branch becomes `work`: nothing is lost,
+ * since there is nothing on it. A repository with commits on another branch is left as it is, with a warning that
+ * names the command. No commit.
+ */
+export function ensureRepository(dir: string): Repository {
+  if (!existsSync(join(dir, ".git"))) {
+    const result = git(dir, ["init", "--quiet", `--initial-branch=${WORK_BRANCH}`]);
+    if (!result.ok) throw new CreateError(`git init failed: ${result.out}`);
+    return { done: `a git repository on the branch ${WORK_BRANCH}` };
+  }
+  const branch = git(dir, ["symbolic-ref", "--quiet", "--short", "HEAD"]);
+  if (branch.ok && branch.out === WORK_BRANCH) return {};
+  if (!git(dir, ["rev-parse", "--verify", "--quiet", "HEAD"]).ok) {
+    const result = git(dir, ["symbolic-ref", "HEAD", `refs/heads/${WORK_BRANCH}`]);
+    if (!result.ok) throw new CreateError(`git could not switch to the branch ${WORK_BRANCH}: ${result.out}`);
+    return { done: `the repository had no commit yet: now on the branch ${WORK_BRANCH}` };
+  }
+  const where = branch.ok ? `on the branch ${branch.out}` : "on no branch (detached HEAD)";
+  return {
+    warning: `the repository has commits and is ${where}, not on ${WORK_BRANCH}, which the plan works on. Run next: git switch -c ${WORK_BRANCH}`,
+  };
 }
 
 /** The names of the skills of the archetypes, with the archetype each belongs to (lernapps-<archetype>[-…]). */
@@ -211,8 +236,9 @@ export function init(args: string[]): number {
     dir,
     archetypeSkills().map((skill) => skill.name),
   );
+  if (repository.warning !== undefined) process.stderr.write(`lernapps init: warning: ${repository.warning}\n`);
   process.stdout.write(
-    `lernapps init: ${relative(dir, target)} from ${relativeTemplate(template, dir)}; the skills of the packages are installed${repository ? `; ${repository}` : ""}\nNext: read ${relative(dir, target)} completely and follow it\n`,
+    `lernapps init: ${relative(dir, target)} from ${relativeTemplate(template, dir)}; the skills of the packages are installed${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read ${relative(dir, target)} completely and follow it\n`,
   );
   return 0;
 }

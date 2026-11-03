@@ -10,15 +10,35 @@ import { ok, tempDir } from "./support.ts";
 describe("the git repository of a started app", () => {
   test("is made on the branch work, which rule 8 of the plan names, in a folder that has none", () => {
     const dir = tempDir("init-repo");
-    expect(ensureRepository(dir)).toBe(`a git repository on the branch ${WORK_BRANCH}`);
+    expect(ensureRepository(dir)).toEqual({ done: `a git repository on the branch ${WORK_BRANCH}` });
     expect(existsSync(join(dir, ".git"))).toBe(true);
     expect(readFileSync(join(dir, ".git", "HEAD"), "utf8").trim()).toBe("ref: refs/heads/work");
   });
 
-  test("is left as it is when the folder is a repository already", () => {
+  test("of a repository without commits (git init on master, a clone of an empty repo) switches to work", () => {
     const dir = tempDir("init-existing");
+    ok("git", ["init", "--quiet", "--initial-branch=master"], dir);
+    expect(ensureRepository(dir).done).toMatch(/no commit yet: now on the branch work/);
+    expect(readFileSync(join(dir, ".git", "HEAD"), "utf8").trim()).toBe("ref: refs/heads/work");
+  });
+
+  test("on work already is left as it is", () => {
+    const dir = tempDir("init-on-work");
+    ok("git", ["init", "--quiet", "--initial-branch=work"], dir);
+    expect(ensureRepository(dir)).toEqual({});
+  });
+
+  test("with commits on another branch stays there, with a warning that names the next command", () => {
+    const dir = tempDir("init-commits");
     ok("git", ["init", "--quiet", "--initial-branch=main"], dir);
-    expect(ensureRepository(dir)).toBeUndefined();
+    ok(
+      "git",
+      ["-c", "user.name=t", "-c", "user.email=t@example.org", "commit", "--quiet", "--allow-empty", "-m", "x"],
+      dir,
+    );
+    const result = ensureRepository(dir);
+    expect(result.done).toBeUndefined();
+    expect(result.warning).toMatch(/on the branch main, not on work.*git switch -c work/);
     expect(readFileSync(join(dir, ".git", "HEAD"), "utf8").trim()).toBe("ref: refs/heads/main");
   });
 });

@@ -87,7 +87,9 @@ scope: tooling
 severity: error
 ```
 
-- Keep `.agents/skills/app-content/SKILL.md` with its fixed headings.
+- Keep `.agents/skills/app-content/SKILL.md` with its fixed headings, in this order, each filled: Curriculum,
+  Competencies, Content structure, Terminology, Exercise patterns, Figures, Sources, Adding a chapter or round,
+  Rules learned from mistakes ("None yet." until the first rule).
 - After the plan is confirmed and before content: replace every placeholder ("FILL IN") with concrete instructions
   for writing new content: files, ids, data files, an example of this app. Not how the app works, no general advice.
 - A content decision changes (pattern, figure type, source rule) → change the guide in the same commit.

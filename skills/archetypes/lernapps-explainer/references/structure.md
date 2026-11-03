@@ -17,6 +17,15 @@
 - Navigation generated: contents on start and chapter pages, breadcrumbs, previous/next across chapters, page
   contents from three sections, glossary from `definition` blocks.
 
+### When `scope` is needed
+
+- All or nothing: `scope` in `src/app.yaml` → every page needs its own `scope`, else the build stops; none in
+  `src/app.yaml` → no page has one.
+- Needed when the app has an `open-task` (the tutor judges open answers by the scope, never from general knowledge),
+  or follows the creator's material (the scope keeps the tutor to it). Else optional; the plan says which.
+- Each page's `scope`: what the page teaches, in your own words; `src/app.yaml`: `scope: { text, out: [...] }` with
+  what does not belong (`explainer-scope-matches`, form in `runtime.md`).
+
 ## Format 2: strand and competencies
 
 An explainer on the learning map is in format 2. `src/app.yaml` starts with:

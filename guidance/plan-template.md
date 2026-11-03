@@ -59,7 +59,7 @@ questions. -->
 
 - [ ] The skills of the phases are in `.agents/skills/` (`npx --yes @lernapps/tooling init <short name>` put them there
       and wrote this plan; the app commits them). `.agents/skills/lernapps-app` missing → stop and tell the creator
-      the folder was not started with `init`.
+      the folder was not started with `init`. `git branch --show-current` prints `work`; else `git switch -c work`.
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
       their own address, free, public, and once listed as a copy on lernapps.net. The technical part (GitHub) comes at the end, and you do it.
 - [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
@@ -138,7 +138,8 @@ questions. -->
 - [ ] Map the content as skill `lernapps-<archetype>-design` says; reread it if it is no longer in view.
 - [ ] Choose a pattern per competency as skill `lernapps-exercise-patterns` says (loaded in Explore; reread it if it
       is no longer in view). Write "Content method".
-- [ ] Write the Code tasks under "Code": pages or screens, their content, what each shows. Each ends in a commit.
+- [ ] Write the Code tasks under "Code": pages or screens, their content, what each shows. Each ends in a commit:
+      one task, one commit. Steps too small for a commit of their own → one task.
       After the first task that shows real content: the task "Show the creator a first look (`early-preview`)".
 - [ ] Each screen, component or interactive exercise: a sketch (static SVG or image, or the steps with what
       learners see after each). Words alone are not enough. Keep sketch files in `.vibe/sketches/`, which `create` leaves alone.
@@ -160,7 +161,8 @@ the app does not practise, and which get a recap page, which a link. Becomes the
 
 <!--
 - Build the app from the archetype and the confirmed plan, locally on `work`. Work on your own.
-- Commit after each task; the hooks check. A check fails → skill `lernapps-cli`. Fix from the message; never
+- Commit after each task, literally: one task, one commit, its box ticked in it; the hooks check. Never one commit
+  for several tasks: join them into one task in the plan first. A check fails → skill `lernapps-cli`. Fix from the message; never
   bypass a hook.
 - Undecidable → choose, mark "(guess)" under "Key decisions", go on.
 - Creator asks for a change → first say your reading in one sentence ("Ich nehme alle 44 Hauptgruppenelemente
@@ -175,10 +177,15 @@ the app does not practise, and which get a recap page, which a link. Becomes the
 - [ ] Load skill `lernapps-cli`. Create the app in this plan's folder as it says. `create` keeps this plan. Never
       write the app by hand.
 - [ ] Fill the content guide `.agents/skills/app-content/SKILL.md` from "Notes" and "Content method"
-      (`app-content-guide`). `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` prints 0. Commit it before
-      any content.
+      (`app-content-guide`). Keep its nine headings and fill each: Curriculum, Competencies, Content structure,
+      Terminology, Exercise patterns, Figures, Sources, Adding a chapter or round, Rules learned from mistakes
+      ("None yet." until the first). `grep -c "FILL IN" .agents/skills/app-content/SKILL.md` prints 0. Commit it
+      before any content.
 - [ ] Load skill `lernapps-<archetype>` and the content guide. Questions with options and feedback: also skill
       `lernapps-content-questions`.
+- [ ] An explainer: decide on `scope` as `references/structure.md` of skill `lernapps-explainer` says. Needed with an
+      `open-task` or the creator's material: then `scope` in `src/app.yaml` and on every page
+      (`explainer-scope-matches`). Write the choice under "Key decisions".
 - [ ] <the tasks written in Plan; after each, commit on `work`; after the first with real content, show the
       creator a first look (`early-preview`) and go on>
 - [ ] The content guide matches what was built (`app-content-matches`).
