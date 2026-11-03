@@ -19,6 +19,11 @@ At the checkpoint "list", without asking first: the pull request publishes nothi
    check it, how to open the pull request.
 2. Fill the entry from the plan's entry draft and <https://lernapps.net/apps/schemas/entry.v1.schema.json>, fetched
    now. The schema describes every field.
+   - An explainer in format 2: its pages come from `lernapps-pages.json` of the build, not from a hand-written list. The
+     listing checks the competency ids against the map and that they belong to the app's `strand`. A `strand` in
+     the entry, if given, equals the one in that file.
+   - Any other app may give `strand` (`<subject>/<strand>`) and `competencies` (ids of that subject) in the entry;
+     `competencies` needs a `strand`. An app without a strand is not on the map; that is valid.
 3. Run the check the guide names. Fix its findings first: the pull request runs the same check.
 4. Open the pull request from the creator's fork as skill `lernapps-github` says.
 

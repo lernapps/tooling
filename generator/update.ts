@@ -7,7 +7,8 @@
 // them replaced with versions.
 // It never moves the runtime back: a newer version (Renovate moves the runtime too) stays. An app made before the
 // generator wrote the content guide gets its skeleton (generator/create.ts), and one made before the plans had a
-// folder gets its plan .vibe/plan.md moved to .vibe/plans/01-first-version.md (src/plan.ts). The app's lernapps-*
+// folder gets its plan .vibe/plan.md moved to .vibe/plans/01-first-version.md (src/plan.ts). An explainer in format 1 gets `format: 2` and `strand: none` in src/app.yaml where the runtime knows
+// format 2. The app's lernapps-*
 // skills, which the app commits, are replaced with those of this tooling (its skills/), in the layout of
 // `npx skills add`; the app's own skills (app-content, any other) stay as they are. An interactive app's architecture
 // is replaced outside its app sections, which stay as they are (generator/architecture.ts).
@@ -64,6 +65,8 @@ moves the app within its version ranges; this moves the ranges, and what npm doe
                            the content guide's skeleton, where the app has none yet (and its link for Claude Code)
   .vibe/plan.md            the plan of an app made before the plans had a folder: moved to
                            .vibe/plans/01-first-version.md, the first of its plans (one per piece of work)
+  src/app.yaml             of an explainer in format 1, when the runtime knows format 2: adds format: 2 and
+                           strand: none (the app is not on the learning map; its pages need no competencies)
   .agents/skills/lernapps-*, .claude/skills/lernapps-*, skills-lock.json
                            replaced with the skills of this tooling, as npx skills add lays them out: those of
                            every phase, and of the archetypes only those of the current plan's archetype; every
@@ -145,6 +148,35 @@ function migratePlan(): string[] {
   renameSync(LEGACY_PLAN, MIGRATED_PLAN);
   return [
     `plan: moved ${LEGACY_PLAN} to ${MIGRATED_PLAN}, unchanged: each piece of work has its own plan in .vibe/plans/`,
+  ];
+}
+
+/** The explainer's app file, and the schema file that tells the runtime knows format 2 (learning map). */
+const EXPLAINER_APP = join("src", "app.yaml");
+const EXPLAINER_V2_SCHEMA = join("runtime", "explainer", "explainer.v2.schema.json");
+
+/**
+ * Moves an explainer from format 1 to format 2 (the learning map): adds `format: 2` and `strand: none` to
+ * src/app.yaml when the app has neither, and points its schema comment to explainer.v2.schema.json. `strand: none`
+ * keeps the app off the map, so its pages need no competencies; the creator may name a strand later (skill
+ * lernapps-content-research). Only where the runtime of this tooling has the v2 schema: an older runtime does not
+ * know the fields. An app that is no explainer, or already has a `format` or a `strand`, stays as it is. What it did,
+ * as lines of the output.
+ */
+export function migrateExplainer(templatesRoot: string): string[] {
+  if (!existsSync(EXPLAINER_APP) || !existsSync(join(templatesRoot, EXPLAINER_V2_SCHEMA))) return [];
+  const text = readFileSync(EXPLAINER_APP, "utf8");
+  const top = (key: string) => new RegExp(`^${key}:`, "m").test(text);
+  if (!top("chapters") || top("format") || top("strand")) return [];
+  const schema = /^(# yaml-language-server: \$schema=.*)explainer\.v1\.schema\.json$/m;
+  const fields = "format: 2\nstrand: none\n";
+  let next: string;
+  if (schema.test(text))
+    next = text.replace(schema, (_all, head: string) => `${head}explainer.v2.schema.json\n${fields.trimEnd()}`);
+  else next = fields + text;
+  writeFileSync(EXPLAINER_APP, next);
+  return [
+    `explainer: ${EXPLAINER_APP} moved to format 2: added format: 2 and strand: none (not on the learning map; pages need no competencies). To join the map, pick a strand of https://lernapps.net/apps/map/ and give every page competencies`,
   ];
 }
 
@@ -404,6 +436,8 @@ export function update(args: string[]): number {
   lines.push(...guide.map((line) => `content guide: ${line}`));
   const plan = migratePlan();
   lines.push(...plan);
+  const explainer = migrateExplainer(templates.root);
+  lines.push(...explainer);
   const skills = [...replaceSkills(), ...unignoreSkills()];
   lines.push(...skills);
   const architecture = updateArchitecture();
@@ -421,6 +455,7 @@ export function update(args: string[]): number {
   if (skillsMoved) files.push(SKILLS_LOCK);
   if (skills.some((line) => line.includes(".gitignore"))) files.push(".gitignore");
   if (architecture.lines.length > 0) files.push(`${ARCHITECTURE}/`);
+  if (explainer.length > 0) files.push(EXPLAINER_APP);
   if (plan.some((line) => line.startsWith("plan: moved"))) files.push(".vibe/ (git add -A .vibe, to keep the move)");
   process.stdout.write(
     `Next: npx --no -- lernapps check, then commit ${files.slice(0, -1).join(", ")} and ${files.at(-1) ?? ""}\n`,

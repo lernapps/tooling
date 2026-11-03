@@ -45,7 +45,7 @@ a correction.
 
 ## Notes
 
-<!-- Curriculum orientation, new competencies by chapter, didactic approach, scope, sources and licences, open
+<!-- Curriculum orientation, new competencies by chapter (ids of the strand), didactic approach, scope, sources and licences, open
 questions. -->
 
 ## Explore
@@ -68,11 +68,14 @@ questions. -->
       "(guess)". Topics: which competencies, chapters or rounds, for which school years; hurdles and examples;
       amount; any change of look and feel or terms.
 - [ ] Load skill `lernapps-content-research`. Research what the guide's curriculum and sources do not cover. Under
-      "Notes": curriculum orientation, new competencies by chapter as "Ich kann …", verified sources.
+      "Notes": curriculum orientation, new competencies by chapter as "Ich kann …", verified sources. The app keeps its
+      strand; the new competencies are those of that strand in the learning map (ids), as skill
+      `lernapps-content-research` says. None in the map → propose it to the catalog.
 - [ ] Under "Notes": the didactic approach per competency and the scope (in, out, data range).
 - [ ] A kind of content the guide does not cover (a new page structure, screen, component or kind of exercise) →
       load skills `lernapps-<archetype>-design` and `lernapps-exercise-patterns`. Else skip this task.
-- [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, new competencies by chapter, didactic
+- [ ] **Checkpoint:** research. Show in plain words: curriculum orientation, new competencies by chapter (with their
+      ids), didactic
       approach, scope, every "(guess)", sources and how you checked them, what is unchecked. Stop and wait.
       Changes → change, ask again.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).

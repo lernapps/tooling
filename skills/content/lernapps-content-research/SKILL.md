@@ -20,22 +20,41 @@ license: MIT
 - Cite it under "Notes": title, issuer, year, address; page and unit (Inhaltsfeld, Lernbereich, Kompetenz).
 - The creator's material differs → follow the material; say so in one sentence.
 
-## 2. Competencies
+## 2. The learning map
 
-- One per line: "Ich kann …" with one observable verb (berechnen, zuordnen, erklären, unterscheiden, ablesen,
+Before you write competencies, look at the learning map of the subject.
+
+- Open `https://lernapps.net/apps/map/<subject>.json` (for you); people see it at `https://lernapps.net/apps/map/<subject>/`.
+  `<subject>` is the file name in the catalog, e.g. `mathematik`. Read it from the file or the page, in full.
+- Pick ONE strand for the app: one app, one strand. A strand runs over several school years; a topic that spans two
+  strands is two apps. Show the creator the strand and its competencies (Bausteine), with the ones still no app
+  practises.
+- Pick the competencies the app will practise. Write each with its id from the map. The app's "Ich kann …"
+  competencies are those of the map, in its words: do not reword or invent them. The map's `requires` shows what
+  learners need first.
+- The map lacks a competency the creator wants → do not invent it in the app. Propose it to the catalog: an issue or a
+  pull request in `lernapps/apps` (`map/<subject>.yaml`, the strand's list). Say so to the creator; go on with the
+  ones the map has, or wait for the answer.
+- No map for the subject (the address answers "not found") → `strand: none`. The app is not on the map; write its
+  competencies as in the next section.
+- Write the strand (`<subject>/<strand>`, or `none`) and the competency ids under "Notes".
+
+## 3. Competencies
+
+- With a strand: those of the map, see above. Without: one per line: "Ich kann …" with one observable verb (berechnen, zuordnen, erklären, unterscheiden, ablesen,
   zeichnen). Never "verstehen" or "kennen".
   - Yes: "Ich kann die Stromstärke in einem Reihenstromkreis berechnen."
   - No: "Ich verstehe den elektrischen Strom."
 - Group them into chapters, in the order of the Lehrplan or the material. Many chapters are still one app.
 - Write them under "Notes". Show them at the checkpoint "research".
 
-## 3. Second sources
+## 4. Second sources
 
 - Per competency one article or video (serlo.org, a channel the creator trusts, Wikipedia).
 - Read [references/sources.md](references/sources.md) before you choose, cite or rely on a source.
 - A text source (Wikipedia, a schoolbook site): take facts, never sentences. Copying a sentence needs the licence the page states; if you cannot read it, do not copy.
 
-## 4. The creator's material and privacy
+## 5. The creator's material and privacy
 
 - The creator's material stays local: never commit or quote it. Only the competencies derived from it go into the
   repo.
