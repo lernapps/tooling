@@ -31,7 +31,9 @@ for job in "$@"; do
   for trial in "$job"/*/; do
     trial="${trial%/}"
     app=""
-    for candidate in "$trial/artifacts/app" "$trial/app"; do
+    # The app folder, or one folder below it (`lernapps create <name>` makes one), as the verifier finds it
+    for candidate in "$trial/artifacts/app" "$trial/app" "$trial"/artifacts/app/*/ "$trial"/app/*/; do
+      candidate="${candidate%/}"
       [ -f "$candidate/package.json" ] && { app="$candidate"; break; }
     done
     [ -n "$app" ] || { echo "$trial: no app" >&2; continue; }
