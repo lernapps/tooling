@@ -3,7 +3,7 @@
 Before its scores count, the juror (`prompt.md`) has to find what people already found in an app. The app is
 lernapps/bruchrechnung (PR #1, class 6, 20–21 pages), whose retro and simulated child audit are in
 lernapps/tooling#257. Juror: Claude Opus 5.5 as a sub-agent of the session that planned this, 2026-11-03, one run per
-stand; the eval juror (`JUROR_MODEL`) defaults to Sonnet, so a Sonnet run belongs here before Harbor scores count.
+stand, and Sonnet 5.5 on the audit stand (below), the model the eval juror uses by default.
 
 ## The three stands
 
@@ -37,6 +37,14 @@ divisor table as explained (2) and finds the problems under other items: two com
 "Ausprobieren" over a table (headings 0), text about multiples next to a table of divisors (agree 1). The juror is
 stricter than the audit on the action of most pages (it is often lower, never higher by more than one level except
 there).
+
+## Sonnet as juror
+
+The evals run the juror with Sonnet (`JUROR_MODEL`). Sonnet 5.5 on the audit stand
+(`bruchrechnung-audit-sonnet.learning.yaml`): mean 1.40 (Opus 1.34), 28 units at level 0 (Opus 37); against the
+audit: start within one level 20/20, action within one level 20/20, never clear where the audit says unclear, blockers
+6/6. It is a little milder than Opus on `explainer-representation-explained` (0.86 against 0.56) and finds the same
+blockers. Sonnet is calibrated as well as Opus for these targets.
 
 ## Verdict
 
