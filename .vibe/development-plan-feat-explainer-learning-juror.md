@@ -20,6 +20,7 @@ Prioritäten des Nutzers für die Kriterien:
 - Ort des Jurors: eine gemeinsame Rubrik für Evals und Review (Nutzer, 2026-11-03).
 - Anwendungsfälle: zwei Bausteine der Bruchrechnung und zwei aus der linearen Algebra; andere Altersgruppe, daher andere (altersgemäße) Ansprache (Nutzer, 2026-11-03).
 - Statt linearer Algebra (gemeint: Oberstufe; nicht auf der Karte) Beschleunigung in Physik (Nutzer, 2026-11-03). Vorschlag aus der Karte `map/physik.yaml`, Strang `mechanik`, Klasse 9–10: `geschwindigkeitsaenderung` (qualitativ: beschleunigen, bremsen, Richtung) und `bewegungsdiagramme` (Weg-Zeit- und Geschwindigkeit-Zeit-Diagramm). Quantitative Beschleunigung (a = Δv/Δt, Oberstufe) steht nicht auf der Karte. Bestätigt (Nutzer, 2026-11-03: „zwei Bausteine pro Auftrag“).
+- Nutzer (2026-11-03, abends): „Leg los“ – autonom arbeiten, ohne Stopp an Phasengrenzen; nach den Poor-man's-Evals darf ich die Guidance anpassen.
 - Workflow epcc; Feature-Zweig `feat/explainer-learning-juror`.
 - Zwei Aufträge (Eval-Tasks) mit je zwei Bausteinen (Nutzer, 2026-11-03):
   - Mathematik Kl. 6: `brueche-begriff` und `brueche-kuerzen-erweitern` (Vorschlag: am stärksten visuell, deckt die Kritik an Kuchen/Streifen ab; `kuerzen-erweitern` braucht `teilbarkeit`, das die App nicht übt → prüft auch den Verweis auf Vorwissen).
@@ -64,18 +65,66 @@ Prioritäten des Nutzers für die Kriterien:
 - Ort, Anwendungsfälle und Prioritäten der Kriterien sind geklärt.
 - Eval- und Review-Infrastruktur sind verstanden, die Einordnung in die Architektur ist beschrieben.
 
+### Strategie
+
+**1. Kriterien = Regeln des Katalogs.** Jede Regel lebt in einer Skill (` ```rule ` mit id, scope, severity), der Review beurteilt sie mit einem Rubrik-Item derselben id (`scripts/rules.ts`, `npm run verdict`). Die Kriterien werden deshalb Regeln in `skills/archetypes/lernapps-explainer-design/references/rules.md` (scope `archetype:explainer`) und Items in `review/archetypes/explainer.md`. Eine Rubrik, zwei Nutzer: der Review (Befunde) und der Juror der Evals (Stufen 0–2).
+Achtung Baseline: Neue Regeln in einer Skill ändern die Guidance. Die Baseline läuft daher gegen `main` (Commit vor diesem Zweig); der Juror liest die Rubrik dieses Zweigs.
+
+| Regel-id | K | Prio | neu/erweitert |
+|---|---|---|---|
+| `explainer-learner-start` | K2 + Analogien | 1 | neu: Einstieg beim erwartbaren Vorwissen (Klassenstufe, `requires`), Alltagsbezug/Analogie, Begriffe dort, wo sie gebraucht werden |
+| `explainer-representation-explained` | K3 | 1 | neu: die fünf Fragen je Darstellung (Ganzes/Bezug, Zeichen, Handlung, was gleich bleibt, Weg zur Aussage); auch `nojs` |
+| `explainer-control-purpose` | K5 | 1 | neu: jedes Bedienelement mit erkennbarem Zweck und Wirkung; sinnvoller Startzustand |
+| `explainer-text-figure-agree` | K4 | 1 | neu: gleiche Zahlen/gleiches Ganzes in Text, Bild, Aufgabe; angekündigter Beispielwechsel; genannte Werkzeuge existieren |
+| `explainer-one-step` | K1 | 1 | neu: ein neuer Lernschritt je Seite, kein Vorgriff auf spätere Bausteine, ein Beispiel je Kasten |
+| `explainer-figure-hides-answer` | K7 | – | erweitert (Rubrik): auch live berechnete Ergebnisse und automatisch gefüllte Antwortfelder |
+| `topic-has-exercises` | K8 | – | erweitert (Rubrik): eine Darstellung je Aufgabe, kein späterer Stoff |
+| `explainer-steps-explain` | K9 | 1 | neu: Lösungsweg mit den Zahlen der Aufgabe und Begründung, keine Scheinerklärung |
+| `explainer-honest-headings` | K10 | 2 | neu: „Ausprobieren“ nur mit Interaktion; gleiche ids, passende Titel |
+| `explainer-age-appropriate` | Prio 2 | 2 | neu: Ansprache, Beispiele und Ton passen zur Klassenstufe |
+| (K6 Bildsprache) | K6 | – | Teil von `explainer-representation-explained` (Zeichen/Legende), keine eigene Regel |
+
+Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht Zweifel zu Hinweisen).
+
+**2. Juror.** `evals/juror/prompt.md`: ein Agent in frischem Kontext beurteilt eine gebaute App nur mit den Items der Lernqualität (Tabelle oben), bedient sie im Browser (Playwright), Rolle aus Klassenstufe und `requires` der Karte. Er sieht keine Pläne, Retros oder Git-Geschichte (`.vibe/`, `docs/` werden vorher entfernt). Ausgabe `learning.yaml` nach `evals/juror/learning.v1.schema.json`: je Item und Einheit (Seite/Darstellung/Übung) Stufe 0/1/2 mit Beleg. `evals/juror.ts` prüft die Datei und verdichtet sie zu Zahlen je Item (Mittel, Anzahl Stufe 0). Aufruf in Harbor-Läufen: `evals/harbor/judge.sh <job>` nach `run.sh`; in Poor-man's-Evals: als Subagent dieser Sitzung.
+
+**3. Eichung** an lernapps/bruchrechnung: Stände `3dea03c` (früh), `791940f` (Labels des Kinder-Audits in #257), Endstand `7ffa8b9`. Ziele: Mittelwerte steigen in dieser Reihenfolge; bei `791940f` je Seite (Spalte „Bedienung/Handlung“ ↔ Juror-Mittel der Darstellungs-Items) höchstens eine Stufe Abstand in ≥ 80 % der Seiten, nie „klar“ (2) wo der Audit „unklar“ sagt; die Blocker des Audits (falscher Regler-/Mengenhinweis, fehlender Streifen bei Gleichungen) werden gefunden. Verfehlt → Anker schärfen, höchstens zwei Runden.
+
+**4. Harbor testet einen Zweig.** `run.sh` nimmt `GUIDANCE_REF` (Zweig oder Commit, Standard `main`), löst ihn in einen Commit auf und schreibt für ≠ main eine Kopie des Tasks mit angepasster Vorgabe: `llms.txt` aus `raw.githubusercontent.com/lernapps/tooling/<commit>/site/llms.txt`, `npx --yes github:lernapps/tooling#<commit>` statt `@lernapps/tooling`, `--tooling github:lernapps/tooling#<commit>` bei init und create (Version 0.0.0 auf dem Zweig, `generator/init.ts` `toolingSpec`). `configuration.json` nennt den Ref. Zwei neue Tasks: `explainer-brueche` (Hessen, Gymnasium Kl. 6; `brueche-begriff`, `brueche-kuerzen-erweitern`) und `explainer-bewegung` (Kl. 9/10; `geschwindigkeitsaenderung`, `bewegungsdiagramme`), Personas nach dem Muster von `explainer-fresh`.
+
+**5. Poor man's Evals.** Je Auftrag und Messung zwei Sonnet-Sitzungen (`create_session`, Umgebung wie diese). Vorgabe wie in Harbor (Zweig-Variante bzw. main). Ich spiele die Persona strikt nach `persona.md` (nur gefragte Fakten, „Ja, passt so“, „Mach bitte weiter“, Ende an der Veröffentlichungsfrage). Die Sitzung schickt jede Nachricht an den Ersteller mit `send_message` an diese Sitzung und pusht am Ende die App als verwaisten Zweig `evals/apps/<run>/<task>-<n>` nach lernapps/tooling. Juror als Subagent auf der gebauten App. Zählung: Rückfragen nach dem Plan, Check grün, Juror-Werte. Annahme zur Nutzeranweisung „wendet sich an Dich“: die Sitzung arbeitet selbst; an mich wendet sie sich für alles, was der Ersteller entscheidet.
+
+**6. Guidance-Änderungen (Iteration 1, nach der Baseline)** aus #257:
+- `workflow-rules.md`: `early-preview` → Checkpoint Musterseite (`pattern-page`): erste vollständige Seite (Einstieg, Darstellung, Bedienung, Beispiel, Übung), vorher Selbstprüfung mit den fünf Fragen und eine Prüfung aus Lernendensicht (Subagent), dann zeigen und auf das Ja warten; erst danach die Breite. Plan- und Increment-Template, arc42 `qs-early-preview`.
+- Regel „Allgemeine Rückmeldung → alle Verwendungsstellen prüfen“ (`feedback-applied-everywhere`).
+- `lernapps-explainer-design`: die neuen Regeln (Teil 1), ids fest/Titel passend, Lernhandlung je Komponente in „Content method“ beschreiben (fünf Fragen).
+- `guidance/subagent-brief.md`: Brief für die Prüfung aus Lernendensicht.
+- `components.md`: Theme-Tokens, reservierte Runtime-Klassen, Abstände, Startzustand (Fakten aus app-templates).
+- Iterationen 2–3 nach den Befunden.
+
+**7. Architektur und Doku:** arc42 Kap. 10 neues Szenario `qs-learning-action-understood` (Metrik aus dem Juror), Kap. 5 `bb-evals` (Juror), `evals/README.md`, `evals/expectations.json` (neue Dimensionen), Erwartung A36 im Entwicklungsplan agentic app creation.
+
+**Risiken:** Juror schwankt (n = 2, Befunde lesen statt nur zählen); Überanpassung (Guidance und Juror teilen die Regeln: gewollt, da die Regel der Maßstab ist; Kontrolle durch die Befunde und den Physik-Auftrag); GitHub-Installation des Zweigs (`prepare` baut) kann im Container scheitern → vorher hier testen; Kosten.
+
 ### Tasks
-- [ ] *To be added when this phase becomes active*
+- [ ] Nutzer bestätigt den Plan → entfällt (Nutzer: autonom, „Leg los“).
 
 ### Completed
-*None yet*
+- [x] Strategie, Regeln, Juror, Eichung, Zweig-Evals, Poor man's Evals, Guidance-Änderungen und Doku geplant.
 
 ## Code
 ### Entrance Criteria
-- Rubrik, Juror-Aufbau, Eichverfahren, Eval-Aufgaben und Iterationsablauf sind geplant und vom Nutzer bestätigt.
+- Rubrik, Juror-Aufbau, Eichverfahren, Eval-Aufgaben und Iterationsablauf sind geplant (Nutzer: autonom).
 
 ### Tasks
-- [ ] *To be added when this phase becomes active*
+- [ ] C1 Regeln in `lernapps-explainer-design/references/rules.md` und Items in `review/archetypes/explainer.md`; `npm run rules`, Tests grün. Commit.
+- [ ] C2 Juror: `evals/juror/prompt.md`, Schema, `evals/juror.ts` mit Test. Commit.
+- [ ] C3 Eichung an lernapps/bruchrechnung (drei Stände), Ergebnis in `evals/juror/calibration.md`; Anker nachschärfen. Commit.
+- [ ] C4 Harbor: `GUIDANCE_REF`, Zweig-Vorgabe, `judge.sh`; zwei Tasks `explainer-brueche`, `explainer-bewegung`; Installation von `github:lernapps/tooling#<commit>` hier getestet; Tests (`test/evals.test.ts`). Commit.
+- [ ] C5 Baseline (main): Poor man's Evals 2 Aufträge × n = 2, Juror, Ergebnis in `evals/runs/<run>/`. Commit.
+- [ ] C6 Iteration 1: Guidance-Änderungen (Strategie 6), messen. Commit.
+- [ ] C7 Iterationen 2–3 nach Befunden (höchstens), messen. Commit je Iteration.
+- [ ] C8 Architektur und Doku (Strategie 7). Commit.
 
 ### Completed
 *None yet*
