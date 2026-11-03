@@ -107,7 +107,7 @@
     "arc42": "arc42 --dir docs/arc42"
   },
   "dependencies": {
-    "@lernapps/app-templates": "github:lernapps/app-templates#4fdc214e60ce4523d8233d3ed9b37641601b2fa9",
+    "@lernapps/app-templates": "github:lernapps/app-templates#cf943e1de177011fc54d5a80b255a192cb05b469",
     "axe-core": "4.14.0",
     "playwright": "1.64.1",
     "skills": "1.7.4",
