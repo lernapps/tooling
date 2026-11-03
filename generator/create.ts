@@ -8,8 +8,9 @@
 // Renovate configuration (generator/app/); an interactive app also its architecture (generator/architecture.ts). The
 // skills `lernapps init` synced into the folder stay, and are committed with the app; `lernapps update` replaces them
 // with those of the tooling it moves the app to.
-// To move to a new app-templates: set the exact version of @lernapps/app-templates in package.json; the generator's
-// tests then run on that version.
+// To move to a new app-templates: set the exact version of @lernapps/app-templates in package.json, or a commit
+// (github:lernapps/app-templates#<commit>, which Renovate moves) until a release has what the tooling needs; the
+// generator's tests then run on that version. An app gets the same: ^ the version, or the same commit (runtimeSpec).
 import { spawnSync } from "node:child_process";
 import {
   cpSync,
@@ -49,7 +50,8 @@ node_modules init wrote). From the installed package @lernapps/app-templates, th
 on, it writes the archetype's scaffold: the files of the template folder <name>/ that the package's lernapps.scaffold
 lists (the entry, the configuration, the end-to-end tests of the content) and a placeholder as start content
 (scaffold/<name>/), which the planned content replaces. The template folder itself is the example app: it stays in
-node_modules/@lernapps/app-templates/<name>/, to look up. The app depends on the runtime of the same version.
+node_modules/@lernapps/app-templates/<name>/, to look up. The app depends on the runtime of the same version (or
+the same commit, while @lernapps/tooling depends on an unreleased one).
 
 It needs the plan of the first version, confirmed by the creator: started from the plan template as
 .vibe/plans/01-<short name>.md, the only plan there, worked through Explore and Plan, now in the phase code
@@ -101,6 +103,7 @@ export const fromPackage = (...path: string[]) => join(packageRoot, ...path);
 export interface Manifest {
   name?: string;
   version?: string;
+  dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
   scripts?: Record<string, string>;
   lernapps?: { archetypes?: string[]; scaffold?: Record<string, string[]>; init?: boolean };
@@ -148,6 +151,19 @@ export function templatesPackage(dir?: string): Templates {
     archetypes: [...(manifest.lernapps?.archetypes ?? [])].sort(),
     scaffold: manifest.lernapps?.scaffold ?? {},
   };
+}
+
+/** The version of a package built from a commit, not released: its package.json in the repository says 0.0.0. */
+const UNRELEASED = "0.0.0";
+
+/**
+ * The spec of the runtime an app depends on, for templates of `version`: ^ that version; for templates built from a
+ * commit (version 0.0.0, which the registry does not have) the spec this tooling depends on, the same commit
+ * (github:lernapps/app-templates#<commit>), so that template and runtime match.
+ */
+export function runtimeSpec(version: string): string {
+  if (version !== UNRELEASED) return `^${version}`;
+  return readJson(fromPackage("package.json")).dependencies?.[RUNTIME] ?? `^${version}`;
 }
 
 /** The archetypes of the installed templates. */
@@ -459,7 +475,7 @@ export function create(args: string[]): number {
   // the template uses the runtime of its own checkout (file:.., installed as a copy through .npmrc); the app the
   // version of the runtime it was copied from
   if (app.devDependencies?.[RUNTIME] !== undefined) {
-    app.devDependencies = { ...app.devDependencies, [RUNTIME]: `^${templates.version}` };
+    app.devDependencies = { ...app.devDependencies, [RUNTIME]: runtimeSpec(templates.version) };
   }
   // the template keeps its checkout's runtime with an override (file:..), which npm would otherwise swap for the
   // version this tooling depends on; the app has no checkout to point at

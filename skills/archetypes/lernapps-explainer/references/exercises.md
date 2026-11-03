@@ -27,6 +27,9 @@
 - New task per seed.
 - `given`: `int: [min, max]` + `step`; `decimal: [min, max]` + `step`; `oneOf: [...]`; `pick: <n>` `from:` list or
   `{ data: <name> }` (`distinct: true`; `pick: 1` = one record).
+- An inline `from:` list holds numbers or texts only: a record in it (`{ de: …, en: … }`) is read as a text by
+  language and takes text values only. Records with numbers (`{ name: Stein, masse: 2 }`) → a data file
+  (`src/data/<name>.yaml`, `blocks.md`) and `from: { data: <name> }`.
 - `where`: boolean expressions; failing draws are redrawn.
 - `task`: `text`. A figure that changes with the task: an exercise component (`components.md`).
 - `answer`: `value` (expression) and `compare`: `number` or

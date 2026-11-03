@@ -307,7 +307,8 @@ severity: warning
 ```
 
 - `strand` in `src/app.yaml` is a strand of the subject's map; each page's `competencies` are ids of that strand.
-- A recap page's `recap` (`<subject>/<competency>`) is on the map and belongs to another strand than the app's.
+- A recap page's `recap` (`<subject>/<competency>`) is on the map, of any strand, and the app does not practise it
+  on a page of its own.
 - `lernapps check` loads `https://lernapps.net/apps/map/<subject>.json` and warns before the push. Not reachable or
   no map yet → one hint that it could not check.
 - At the listing an unknown id or one of another strand is an error of the catalog (`entry-learning-map`).

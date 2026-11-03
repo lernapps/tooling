@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
-import { CREATE_OPTIONS, IGNORED_SKILLS_LINES, ownVersion } from "../generator/create.ts";
+import { CREATE_OPTIONS, IGNORED_SKILLS_LINES, ownVersion, runtimeSpec } from "../generator/create.ts";
 import { nextRange, replaceSkills, unignoreSkills, UPDATE_OPTIONS } from "../generator/update.ts";
 import { countFailedChecks, countPrePushFailure } from "../src/plan.ts";
 import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS, SCREENSHOTS_OPTIONS } from "../src/usage.ts";
@@ -99,13 +99,18 @@ describe("lernapps", { timeout: 20_000 }, () => {
       `jobs:\n  app:\n    steps:\n      - uses: lernapps/tooling/actions/app-check@${ref}\n`;
     mkdirSync(join(dir, ".github/workflows"), { recursive: true });
     writeFileSync(join(dir, ".github/workflows/pages.yml"), workflow(oldCommit));
-    // the tooling is at this version already and the runtime is newer, so there is nothing for npm to install
-    const devDependencies = { "@lernapps/app-templates": "^99.0.0", "@lernapps/tooling": `^${version}` };
+    // the tooling is at this version already and the runtime is newer, so there is nothing for npm to install; a
+    // runtime built from a commit has no version to compare: the app is at that commit already
+    const pinned = templatesVersion() === "0.0.0";
+    const runtime = pinned ? runtimeSpec("0.0.0") : "^99.0.0";
+    const devDependencies = { "@lernapps/app-templates": runtime, "@lernapps/tooling": `^${version}` };
     writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "app", devDependencies }));
     const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
     expect(result.code, result.stderr).toBe(0);
     expect(result.stdout).toContain(
-      `lernapps update: @lernapps/app-templates: kept ^99.0.0, not moved to ^${templatesVersion()}: it is not older`,
+      pinned
+        ? `lernapps update: @lernapps/app-templates: unchanged (${runtime})`
+        : `lernapps update: @lernapps/app-templates: kept ^99.0.0, not moved to ^${templatesVersion()}: it is not older`,
     );
     expect(result.stdout).toContain(`lernapps update: @lernapps/tooling: unchanged (^${version})`);
     expect(result.stdout).toContain(
@@ -137,6 +142,15 @@ describe("lernapps", { timeout: 20_000 }, () => {
       spec: "file:../tooling",
       line: "@lernapps/tooling: kept file:../tooling, a local copy",
     });
+  });
+
+  test("update's ranges: a runtime built from a commit moves the app to that commit, also from a newer version", () => {
+    const pin = "github:lernapps/app-templates#4fdc214e60ce4523d8233d3ed9b37641601b2fa9";
+    const runtime = "@lernapps/app-templates";
+    expect(nextRange(runtime, "^0.2.1", "0.0.0", pin)).toEqual({ spec: pin, line: `${runtime}: ^0.2.1 → ${pin}` });
+    expect(nextRange(runtime, "^0.3.0", "0.0.0", pin).spec).toBe(pin);
+    expect(nextRange(runtime, pin, "0.0.0", pin).line).toBe(`${runtime}: unchanged (${pin})`);
+    expect(nextRange(runtime, "file:../app-templates", "0.0.0", pin).spec).toBe("file:../app-templates");
   });
 
   test("update moves the plan .vibe/plan.md of an older app to .vibe/plans/01-first-version.md, and says so", () => {

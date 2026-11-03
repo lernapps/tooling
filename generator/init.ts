@@ -6,8 +6,9 @@
 // plan has chosen one: `skills --archetype <name>` then adds that archetype's. `lernapps create` later takes over the
 // package.json (the marker lernapps.init) and the installed packages.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
+import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
@@ -40,7 +41,9 @@ Options:
   --tooling <spec>   for maintainers: the npm spec of @lernapps/tooling to install instead of this version, e.g.
                      file:/path/to/lernapps-tooling-0.0.0.tgz or github:lernapps/tooling#<commit>; give the same
                      to lernapps create. Without it, a tooling of version 0.0.0 (a local build, not on the
-                     registry) is installed from its folder when that is a git checkout (file:<folder>)
+                     registry) is packed with npm pack into a temporary folder and installed from that tarball
+                     when its folder is a git checkout (file:<tarball>), with its dependencies, as from the
+                     registry
   -h, --help         print this help
 `;
 
@@ -129,14 +132,33 @@ function syncSkills(dir: string, exclude: string[]): void {
 const LOCAL_VERSION = "0.0.0";
 
 /**
- * The spec of @lernapps/tooling that init installs: the one given, else this version. A local build (version 0.0.0,
- * which the registry does not have) is installed from its folder when that is a git checkout, else init says to name
- * one with --tooling.
+ * The tarball of the package in `root`, packed by npm pack (with its prepare script, so the build is current) into a
+ * new temporary folder.
  */
-export function toolingSpec(given: string | undefined, version = ownVersion(), root = fromPackage()): string {
+export function packBuild(root: string): string {
+  const out = mkdtempSync(join(tmpdir(), "lernapps-tooling-"));
+  run("npm", ["pack", "--silent", "--pack-destination", out], (message) => new CreateError(message), root);
+  const tarball = readdirSync(out).find((name) => name.endsWith(".tgz"));
+  if (tarball === undefined) throw new CreateError(`npm pack in ${root} wrote no tarball into ${out}`);
+  return join(out, tarball);
+}
+
+/**
+ * The spec of @lernapps/tooling that init installs: the one given, else this version. A local build (version 0.0.0,
+ * which the registry does not have) is packed when its folder is a git checkout and installed from the tarball, else
+ * init says to name one with --tooling. Not the folder itself (file:<folder>): npm links it, so the app's
+ * node_modules lacks the tooling's dependencies (Playwright for the end-to-end tests, @lernapps/app-templates with
+ * the templates and their READMEs); from a tarball they are installed into the app, as from the registry.
+ */
+export function toolingSpec(
+  given: string | undefined,
+  version = ownVersion(),
+  root = fromPackage(),
+  pack: (root: string) => string = packBuild,
+): string {
   if (given !== undefined && given !== "") return given;
   if (version !== LOCAL_VERSION) return version;
-  if (existsSync(join(root, ".git"))) return `file:${resolve(root)}`;
+  if (existsSync(join(root, ".git"))) return `file:${pack(resolve(root))}`;
   throw new CreateError(
     `this @lernapps/tooling is a local build (version ${LOCAL_VERSION}), which the npm registry does not have: name the tooling to install with --tooling <spec>, e.g. file:/path/to/lernapps-tooling-${LOCAL_VERSION}.tgz (npm pack) or github:lernapps/tooling#<commit>, and give the same to lernapps create`,
   );

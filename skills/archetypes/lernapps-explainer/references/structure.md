@@ -45,12 +45,12 @@ title: Stochastik
 
 ### A recap page
 
-A competency of the app may require one of another strand. The app does not practise it, but may repeat it on a recap
-page, placed before the page that needs it:
+A competency of the app may require one the app does not practise: of another strand, or of the app's strand outside
+the app's scope. The app may repeat it on a recap page, placed before the page that needs it:
 
 ```yaml
 title: Brüche – kurz wiederholt
-recap: mathematik/brueche-anteile   # "<subject>/<competency>", of another strand than the app's
+recap: mathematik/brueche-anteile   # "<subject>/<competency>", one the app does not practise
 blocks: [...]                       # descriptive blocks only: no exercise
 ```
 
@@ -59,10 +59,10 @@ blocks: [...]                       # descriptive blocks only: no exercise
 | A page has either `competencies` or `recap`, never both | schema v2 |
 | A recap page has no exercise; `topic-has-exercises` does not apply to it | schema v2, build |
 | The link to the competency's page on the map is written by the runtime, so it cannot be missing | runtime |
-| The recapped competency exists and belongs to another strand than the app's | `lernapps check` (`competencies-on-map`, warning), listing (error) |
+| The recapped competency exists, and the app does not practise it on a page of its own | `lernapps check` (`competencies-on-map`, warning), listing (error) |
 
 - A recap page counts as nothing on the map and is left out of the self-assessment.
-- A prerequisite of another strand with neither a recap page nor a link in the page's text to
+- A prerequisite the app does not practise (of any strand) with neither a recap page nor a link in the page's text to
   `https://lernapps.net/apps/map/<subject>/c/<id>/`: a hint of `lernapps check` (`prerequisites-linked`).
 - Format 1 stays valid. `lernapps update` adds `format: 2` and `strand: none` to a format-1 app when its runtime
   knows format 2.

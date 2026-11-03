@@ -39,7 +39,8 @@ The READMEs are files of the package `@lernapps/app-templates`, which `init` ins
 
 - Choose after the interview topics "Goal" and "Learners", from what learners do. Read the patterns of the subject
   first (skill `lernapps-exercise-patterns`): how learners practise points to the archetype.
-- Before you choose, read the README of each archetype in question, in full. Tell the creator in plain words what the
+- Before you choose, read the README of every archetype you consider, in full. One you rule out from the kind of
+  practice alone needs no README: say in one sentence why it does not fit. Tell the creator in plain words what the
   chosen one can and cannot do, before you ask about content, amount and look.
 - A few background sections on the start page keep an app `interactive`.
 - Explanation pages with one interactive exercise → `explainer` with a component.

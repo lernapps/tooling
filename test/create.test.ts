@@ -18,6 +18,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
+import { runtimeSpec } from "../generator/create.ts";
 import { beforeAll, describe, expect, test } from "vite-plus/test";
 import {
   appTemplates,
@@ -185,7 +186,8 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(manifest.name).toBe("naturwunder");
     expect(manifest.devDependencies["@lernapps/tooling"]).toBe(tooling);
     // the runtime of the version the template was copied from
-    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(`^${templatesVersion()}`);
+    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(runtimeSpec(templatesVersion()));
+    expect(manifest.devDependencies["@lernapps/app-templates"]).not.toBe("^0.0.0");
     expect(existsSync(join(app, ".npmrc"))).toBe(false);
     expect(readFileSync(join(app, "AGENTS.md"), "utf8")).toBe(
       readFileSync(join(repoRoot, "guidance/AGENTS.md"), "utf8"),
@@ -280,6 +282,11 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     for (const file of ["src/app.yaml", "src/main.ts", "vite.config.ts", "e2e/explainer.e2e.ts"]) {
       expect(existsSync(join(dir, file)), file).toBe(true);
     }
+    // format 2 of the learning map: the v2 schema, format: 2 and the placeholder strand none
+    const appYaml = readFileSync(join(dir, "src/app.yaml"), "utf8");
+    expect(appYaml).toContain("runtime/explainer/explainer.v2.schema.json");
+    expect(appYaml).toMatch(/^format: 2$/m);
+    expect(appYaml).toMatch(/^strand: none$/m);
     // the placeholder chapter, not the example chapter with its component
     expect(existsSync(join(dir, "src/thema/einstieg.yaml"))).toBe(true);
     for (const example of ["src/prozent", "src/components", "e2e/runtime.e2e.ts"]) {

@@ -24,11 +24,12 @@ license: MIT
 - A chapter → competencies that build on each other. Order chapters and pages along the map's `requires`: what
   learners need first comes first.
 - Prerequisites: for each page's competency, read its `requires` in the map.
-  - Of the app's strand → it orders the pages; the text may link the page that teaches it.
-  - Of another strand → the app does not practise it (one app, one strand). The page names it. The app may repeat it
-    on a recap page (`recap: <subject>/<competency>`): descriptive blocks only, no exercise; the runtime writes the
-    link to its page on the map. Place the recap page before the page that needs it
-    ([structure](../lernapps-explainer/references/structure.md)).
+  - The app practises it (a page of its own) → it orders the pages; the text may link the page that teaches it.
+  - The app does not practise it → of another strand (one app, one strand), or of the app's strand outside the
+    app's scope. The page names it. The app may repeat it on a recap page (`recap: <subject>/<competency>`):
+    descriptive blocks only, no exercise; the runtime writes the link to its page on the map. Place the recap page
+    before the page that needs it ([structure](../lernapps-explainer/references/structure.md)). Never both: a
+    competency the app practises gets no recap page.
 - The app has one strand of the subject's learning map (recommended, skill `lernapps-content-research`), or `none`.
   Every page names the competency of the map it practises (`competencies`, ids of the app's strand). A competency
   the map lacks is proposed to the catalog, not invented here. With `strand: none` pages name none.
@@ -45,7 +46,7 @@ license: MIT
 - Text: prose (restricted Markdown), `definition` (also in the glossary), `example` and `note` boxes, `quote`,
   `code`.
 - Formulas: `formula` and inline `$…$`, LaTeX subset incl. chemistry (`\ce`), rendered as MathML.
-- Figures: drawn (`hundred-grid`, `bar`), an image (`images/<name>.svg`, with source and licence), a
+- Figures: drawn (`hundred-grid`, `bar`: both a part of a whole), an image (`images/<name>.svg`, with source and licence), a
   `labelled-figure` with numbered markers, a `table`, a `timeline`.
 - Exercises: the six question types of the quiz; `generated` (a new task per seed, with drawn values, typical
   mistakes, hint and steps); a component.
@@ -57,7 +58,7 @@ license: MIT
 ## Decide
 
 - Strand: `<subject>/<strand>` from the map where one fits, or `none`. The plan records it, the competency ids of
-  each page, each page's prerequisites of another strand and which of them get a recap page (format 2,
+  each page, each page's prerequisites the app does not practise and which of them get a recap page (format 2,
   [structure](../lernapps-explainer/references/structure.md)).
 - Languages: German; English as a second language is supported. Each declared language complete. Never English
   only: without `languages` the page and the runtime's texts are German. English wanted → `[de, en]`.
@@ -76,7 +77,7 @@ severity: hint
 - Several competencies on one page: allowed by the schema, not recommended. Split the page, one per competency.
 - `lernapps check` gives a hint for every page of a format-2 explainer with more than one competency.
 
-## `prerequisites-linked`: Prerequisites of another strand are recapped or linked
+## `prerequisites-linked`: Prerequisites the app does not practise are recapped or linked
 
 ```rule
 id: prerequisites-linked
@@ -84,7 +85,8 @@ scope: tooling
 severity: hint
 ```
 
-- A competency of a page requires one of another strand (`requires` in the map): learners find it from the app.
+- A competency of a page requires one the app does not practise (`requires` in the map), of another strand or of
+  the app's own: learners find it from the app.
 - Either a recap page of the app repeats it (`recap: <subject>/<competency>`), or the page's text names it with a link
   to its page on the map: `https://lernapps.net/apps/map/<subject>/c/<id>/`.
 - `lernapps check` gives a hint for each such prerequisite with neither, naming the page and the prerequisite. Without

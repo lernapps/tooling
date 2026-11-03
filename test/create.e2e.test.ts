@@ -29,6 +29,7 @@ import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symli
 import { dirname, join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
+import { runtimeSpec } from "../generator/create.ts";
 import { findingsOf, output } from "./check-report.ts";
 import { appTemplates, confirmedPlan, ok, packedTooling, repoRoot, run, tempDir, templatesVersion } from "./support.ts";
 
@@ -96,7 +97,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx", () => {
       devDependencies: Record<string, string>;
     };
     expect(manifest.devDependencies["@lernapps/tooling"]).toBe(tooling);
-    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(`^${templatesVersion()}`);
+    expect(manifest.devDependencies["@lernapps/app-templates"]).toBe(runtimeSpec(templatesVersion()));
     const pages = readFileSync(join(app, ".github/workflows/pages.yml"), "utf8");
     expect(pages).toContain(`uses: lernapps/tooling/actions/app-check@v${version}`);
     expect(pages).toContain(`uses: lernapps/tooling/actions/app-publish@v${version}`);
@@ -161,7 +162,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, run with npx", () => {
         const before = manifest().devDependencies;
         const result = run("npx", ["--no", "--", "lernapps", "update"], app);
         expect(result.code, output(result)).toBe(0);
-        expect(result.stdout).toContain(`@lernapps/app-templates: unchanged (^${templatesVersion()})`);
+        expect(result.stdout).toContain(`@lernapps/app-templates: unchanged (${runtimeSpec(templatesVersion())})`);
         expect(result.stdout).toContain(`@lernapps/tooling: kept ${tooling}, a local copy`);
         expect(manifest().devDependencies).toEqual(before);
         expect(result.stdout).toContain("npx --no -- lernapps check");

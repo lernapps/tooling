@@ -1,10 +1,13 @@
 // `lernapps update` moves an explainer from format 1 to format 2 (learning map): format: 2 and strand: none, only
-// where the runtime knows format 2, and never over a format or strand the app already says.
+// where the runtime knows format 2 (the one this tooling depends on does), and never over a format or strand the app
+// already says. The runtime an app gets: ^ a released version, or the commit this tooling depends on.
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, test } from "vite-plus/test";
 import { migrateExplainer } from "../generator/update.ts";
+import { runtimeSpec } from "../generator/create.ts";
+import { appTemplates, repoRoot } from "./support.ts";
 
 const V1 = `# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v1.schema.json
 title: Prozentrechnung
@@ -36,6 +39,11 @@ describe("migrateExplainer", () => {
     expect(migrateExplainer(runtime)).toEqual([]);
   });
 
+  test("is active with the runtime this tooling depends on: it knows format 2", () => {
+    expect(migrateExplainer(appTemplates())).toHaveLength(1);
+    expect(appYaml()).toMatch(/^format: 2\nstrand: none$/m);
+  });
+
   test("leaves the app alone when the runtime does not know format 2", () => {
     expect(migrateExplainer(runtime)).toEqual([]);
     expect(appYaml()).toBe(V1);
@@ -47,5 +55,17 @@ describe("migrateExplainer", () => {
     writeFileSync(join(app, "src/app.yaml"), named);
     expect(migrateExplainer(runtime)).toEqual([]);
     expect(appYaml()).toBe(named);
+  });
+});
+
+describe("runtimeSpec", () => {
+  test("a released runtime is ^ its version; one built from a commit is the commit this tooling depends on", () => {
+    expect(runtimeSpec("0.3.0")).toBe("^0.3.0");
+    const own = (
+      JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as {
+        dependencies: Record<string, string>;
+      }
+    ).dependencies["@lernapps/app-templates"];
+    expect(runtimeSpec("0.0.0")).toBe(own);
   });
 });
