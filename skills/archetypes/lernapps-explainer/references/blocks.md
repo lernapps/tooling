@@ -62,6 +62,10 @@
 - LaTeX subset → MathML; `formula` block or inline `$…$`.
 - Commands: `\frac`, `\cdot`, `\times`, `\div`, `\%`, `\text`, `^`, `_`, `\sqrt`, `\approx`, `\pm`, `\le`, `\ge`,
   `\neq`, `\,`, parentheses, braces (`\{`, `\}`).
+- Trigonometry and more: `\sin`, `\cos`, `\tan`, `\arcsin` (or `\sin^{-1}`), `\arccos`, `\arctan`, Greek letters
+  (`\alpha`, `\varphi`, `\pi`, `\Delta`, …), degrees (`30^\circ`), spaces (`\ `, `\quad`, `\qquad`), `\Rightarrow`,
+  `\Leftrightarrow`, `\left(` … `\right)`:
+  `'\sin \alpha = \frac{a}{c} \quad \Rightarrow \quad a = c \cdot \sin \alpha'`.
 - Chemistry (mhchem): `\ce{2H2 + O2 -> 2H2O}`, `\ce{CO2 + H2O <=> H2CO3}`, units `\pu{123 kJ/mol}`.
 - Other command or parse error → build fails with the place.
 - YAML formulas in single quotes. Same in every language unless `\text{…}` differs (then a map).

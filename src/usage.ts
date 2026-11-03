@@ -57,8 +57,9 @@ In a repo (no <dir|url>):
                    .arc42ignore does not list; a hint to review an element under whose path code changed is a
                    warning. Before the first commit arc42 validate --strict
   --pre-push       the heavy part: in an app with an architecture arc42 validate --strict, unit tests, build (vp build for an app with index.html, else vp pack),
-                   checks of the built app in dist/, of an explainer in format 2 its strand and page
-                   competencies against the learning map (https://lernapps.net/apps/map/), the Playwright tests when playwright.config.* exists,
+                   checks of the built app in dist/, of an explainer in format 2 its strand, page
+                   competencies, recap pages and prerequisites of other strands against the learning map
+                   (https://lernapps.net/apps/map/), the Playwright tests when playwright.config.* exists,
                    dependency licences, the lock file (the pre-push hook); a failure increments prePushFailures in the front
                    matter of the current plan (the highest number in .vibe/plans/, else .vibe/plan.md). A
                    failing generic test of the archetype's runtime (@lernapps/app-templates) is named as a test
@@ -208,8 +209,9 @@ details of a figure, such as where a line of a drawing points, in its own image.
 send images: the images are PNG files, and an index.html shows them all in page order with each page's title and path
 (one file, images relative, no network).
 
-The built app is <dir>, default dist/ (build it first). Its pages are those lernapps check visits; the start page
-comes first. Each is opened in Chromium, as a learner first sees it: nothing answered, no hover, animations off,
+The built app is <dir> (build it first); default dist/ (npx vp build, as lernapps check builds) or _site/ (npm run
+build), whichever has an index.html, the newer when both have one. Its pages are those lernapps check visits; the
+start page comes first. Each is opened in Chromium, as a learner first sees it: nothing answered, no hover, animations off,
 fonts and images loaded; requests to other hosts are blocked. A figure is a block figure or labelled-figure, or any
 other figure with an image or a drawing. It is cut out with its caption, at twice its size on screen, from the page
 as the build writes it, without JavaScript, so that the figures of every question of a quiz are there too; a figure

@@ -191,6 +191,19 @@ async function shootFigures(
   });
 }
 
+/** Where an app's build is: dist/ (npx vp build, as lernapps check builds it) or _site/ (npm run build of the templates). */
+const BUILDS = ["dist", "_site"] as const;
+
+const isBuild = (dir: string) => existsSync(dir) && statSync(dir).isDirectory() && existsSync(join(dir, "index.html"));
+
+/** The build to take without <dir>: of dist/ and _site/ the one with an index.html, the newer of both when both have one. */
+function defaultBundle(): string {
+  const built = BUILDS.filter((dir) => isBuild(dir)).sort(
+    (a, b) => statSync(join(b, "index.html")).mtimeMs - statSync(join(a, "index.html")).mtimeMs,
+  );
+  return built[0] ?? "dist";
+}
+
 /**
  * Writes the images and the index.html. Everything that can fail before is checked before the folder is touched, so a
  * failed run writes nothing. Returns the line to print.
@@ -207,9 +220,14 @@ export async function screenshots(args: string[]): Promise<string> {
     throw new UsageError(`--width ${values.width}: a number of pixels from 200 to 4000`);
   }
   const widths = [...new Set([Number(values.width), ...(values.desktop ? [DESKTOP] : [])])];
-  const bundle = resolve(positionals[0] ?? "dist");
-  if (!existsSync(bundle) || !statSync(bundle).isDirectory() || !existsSync(join(bundle, "index.html"))) {
-    throw new UsageError(`${positionals[0] ?? "dist"}: not a directory with index.html (build the app first)`);
+  const named = positionals[0] ?? defaultBundle();
+  const bundle = resolve(named);
+  if (!isBuild(bundle)) {
+    throw new UsageError(
+      positionals[0] === undefined
+        ? `neither ${BUILDS.map((dir) => `${dir}/`).join(" nor ")} has an index.html (build the app first: npx vp build writes dist/, npm run build _site/)`
+        : `${named}: not a directory with index.html (build the app first)`,
+    );
   }
   const archetype = archetypeOf(readFileSync(join(bundle, "index.html"), "utf8"));
   if (archetype === undefined || !SUPPORTED.includes(archetype)) {

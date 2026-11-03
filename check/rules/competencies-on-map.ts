@@ -1,17 +1,21 @@
 // The strand of an explainer in format 2 and the competencies of its pages are on the learning map: the check loads
 // the map of the subject (https://lernapps.net/apps/map/<subject>.json, the subject the part of the strand before
 // "/") and warns before the push about a strand the subject does not have, an id it does not have, and an id of
-// another strand. Advice: at the listing the catalog checks the same as an error (entry-learning-map of
+// another strand, and about a recap page whose `recap` is not on the map or belongs to the app's own strand (a
+// recap repeats a competency of another strand, maybe of another subject, whose map is then loaded too). Advice: at
+// the listing the catalog checks the same as an error (entry-learning-map of
 // lernapps/apps). The map not reachable (no network, not deployed yet) is one hint that it could not check. It needs
 // the app's repo: src/app.yaml with `format: 2` and a strand other than `none`.
 import type { Check, Problem } from "../check.ts";
-import { loadMap, mapUrl, readExplainer } from "../explainer-map.ts";
+import { loadMap, mapUrl, readExplainer, strandsOf, type SubjectMap } from "../explainer-map.ts";
+
+const RECAP = /^([a-z0-9]+(?:-[a-z0-9]+)*)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/;
 
 export default {
   id: "competencies-on-map",
   url: "https://lernapps.net/tooling/rules/#competencies-on-map",
   description:
-    "The strand of an explainer in format 2 is a strand of its subject's learning map, and every page's competencies belong to it.",
+    "The strand of an explainer in format 2 is a strand of its subject's learning map, every page's competencies belong to it, and every recap page repeats a competency of another strand.",
   severity: "warning",
   run: async ({ project }) => {
     const explainer = project === undefined ? undefined : readExplainer(project);
@@ -30,9 +34,7 @@ export default {
       ];
     }
     const strands = loaded.map.strands;
-    const strandOf = new Map(
-      strands.flatMap((strand) => strand.competencies.map((competency) => [competency.id, strand.id] as const)),
-    );
+    const strandOf = strandsOf(loaded.map);
     const problems: Problem[] = [];
     const strand = strands.find((candidate) => candidate.id === strandId);
     if (strand === undefined) {
@@ -59,7 +61,59 @@ export default {
           });
         }
       }
+      if (page.recap !== undefined)
+        problems.push(...(await recapProblems(page.where, page.recap, { subject, strandId, map: loaded.map, url })));
     }
     return problems;
   },
 } satisfies Check;
+
+/** A recap page's `recap`: a competency of a map, of another strand than the app's. */
+async function recapProblems(
+  where: string,
+  recap: string,
+  app: { subject: string; strandId: string; map: SubjectMap; url: string },
+): Promise<Problem[]> {
+  const { subject, strandId, url } = app;
+  const [, recapSubject = "", id = ""] = RECAP.exec(recap) ?? [];
+  if (recapSubject === "") {
+    return [
+      {
+        where,
+        found: `the recap ${recap} is not <subject>/<competency>`,
+        fix: `Name the competency the page repeats as <subject>/<competency>, e.g. ${subject}/<id> from ${url}`,
+      },
+    ];
+  }
+  const other = recapSubject === subject ? { map: app.map } : await loadMap(mapUrl(recapSubject));
+  if ("failed" in other) {
+    return [
+      {
+        where,
+        found: `the recap ${recap} could not be checked: ${other.failed}`,
+        fix: "Nothing to fix for this here: check again later (lernapps check); the listing checks the recap against the map",
+        severity: "hint",
+      },
+    ];
+  }
+  const of = strandsOf(other.map).get(id);
+  if (of === undefined) {
+    return [
+      {
+        where,
+        found: `the recap ${recap} is not on the map of ${recapSubject}`,
+        fix: `Name a competency of ${mapUrl(recapSubject)} that a page of this app requires; a competency the map lacks is proposed to lernapps/apps (map/${recapSubject}.yaml)`,
+      },
+    ];
+  }
+  if (recapSubject === subject && of === strandId) {
+    return [
+      {
+        where,
+        found: `the recap ${recap} belongs to the app's own strand ${subject}/${strandId}`,
+        fix: `A competency of the app's strand is practised, not recapped: give it a page with competencies: [${id}] and exercises instead of recap`,
+      },
+    ];
+  }
+  return [];
+}

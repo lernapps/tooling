@@ -74,7 +74,10 @@ publish action to the repo's GitHub Pages), an issue form for content errors, LI
 Renovate preset of lernapps). The installed skills and skills-lock.json are committed with the app, like the
 content guide; lernapps update replaces the lernapps-* skills.
 
-Then: git init (if <dir> is not a repository yet), npm install (installs the git hooks), and the first commit.
+It installs nothing and commits nothing. Its last lines say what to do next, in this order: git init
+--initial-branch=work (only if <dir> is not a repository yet; lernapps init made one), npm install (installs the
+runtime and the git hooks), git add -A and git commit (the first commit, on work; the hooks check it), then follow
+the plan.
 
 Exit codes: 0 when the app is written, 1 when it cannot be (the message says why), 2 on a usage error.
 
@@ -84,8 +87,8 @@ Options:
                       its file name <NN>-<short name>.md, else 01-plan.md (default: the one in <dir>)
   --templates <dir>   the package @lernapps/app-templates to copy from: its folder, or a clone of its repository
                       (default: the environment variable LERNAPPS_TEMPLATES, else the installed package)
-  --tooling <spec>    the npm spec of @lernapps/tooling the app depends on (default: ^ the version of this
-                      @lernapps/tooling)
+  --tooling <spec>    the npm spec of @lernapps/tooling the app depends on (default: the one lernapps init
+                      installed, else ^ the version of this @lernapps/tooling)
   -h, --help          print this help
 `;
 
@@ -240,6 +243,9 @@ export function writeScaffold(templates: Templates, archetype: string, dir: stri
   if (!existsSync(start)) throw new CreateError(`${templates.root} has no start content scaffold/${archetype}/`);
   cpSync(start, dir, { recursive: true });
 }
+
+/** The branch the plan works on (rule 8 of the plan template). */
+export const WORK_BRANCH = "work";
 
 /** This package, as an app depends on it. */
 export const TOOLING = "@lernapps/tooling";
@@ -463,8 +469,9 @@ export function create(args: string[]): number {
     if (Object.keys(kept).length > 0) app["overrides"] = kept;
     else delete app["overrides"];
   }
-  // the tooling the app depends on: the one named, else this version (init may have installed it already)
-  const tooling = values.tooling ?? `^${ownVersion()}`;
+  // the tooling the app depends on: the one named, else the one init installed (maybe a local one, --tooling of
+  // init), else this version
+  const tooling = values.tooling ?? initialised?.devDependencies?.[TOOLING] ?? `^${ownVersion()}`;
   app.devDependencies = {
     ...app.devDependencies,
     ...ARCHETYPE_DEV_DEPENDENCIES[archetype],
@@ -490,7 +497,13 @@ export function create(args: string[]): number {
       `lernapps create: the ${archetype} app ${name} in ${dir} (app-templates ${templates.version})`,
       ...guide.map((line) => `Content guide: ${line}`),
       ...(moved ? [`Plan: moved ${LEGACY_PLAN} to ${relative(dir, plan.target)}`] : []),
-      `Next: ${existsSync(join(dir, ".git")) ? "" : "git init, "}npm install, then follow ${relative(dir, plan.target)}`,
+      "Next, in this order (create installs and commits nothing):",
+      ...[
+        ...(existsSync(join(dir, ".git")) ? [] : [`git init --initial-branch=${WORK_BRANCH}`]),
+        "npm install (the runtime and the git hooks)",
+        "git add -A, then git commit (the first commit; the hooks check it)",
+        `follow ${relative(dir, plan.target)}`,
+      ].map((step, index) => `  ${index + 1}. ${step}`),
       "",
     ].join("\n"),
   );

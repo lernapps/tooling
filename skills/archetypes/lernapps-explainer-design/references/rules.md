@@ -11,6 +11,7 @@ severity: error
 - Every page has at least one exercise that practises what the page explains, with solution or feedback; best in a
   last section "Übung".
 - The schema requires it; start, chapter and glossary pages are generated. The review judges the fit.
+- Except a recap page (`recap`, format 2): it repeats a prerequisite of another strand and has no exercise.
 
 ## `prefer-built-in-block`: A component only where no block fits
 

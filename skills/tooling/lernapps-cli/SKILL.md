@@ -15,11 +15,16 @@ license: MIT
 
 1. Only after the creator's yes to the plan (`explore-before-code`). In the plan's folder:
    `npx --no -- lernapps create --archetype <archetype>`.
-2. No git repo yet: `git init --initial-branch=work`. Then `npm install` (dependencies, git hooks), and commit
-   everything on `work`.
+2. `create` installs nothing and commits nothing; its last lines say what follows, in this order: no git repo yet
+   (`lernapps init` makes one): `git init --initial-branch=work`; then `npm install` (runtime, git hooks); then commit
+   everything on `work` (`git add -A`, `git commit`; the hooks check it).
 3. Needs git, Node ≥ 22.18, registry.npmjs.org. Blocked → ask the creator to allow it, run again. Never write the
    app by hand.
 4. It keeps the plan and the installed skills, and writes the content guide's skeleton.
+5. Maintainers only, to try a tooling that is not on the registry (a local build has version `0.0.0`): give it to
+   both, `lernapps init <short name> --tooling <spec>` and `create --tooling <spec>`, e.g.
+   `file:/path/to/lernapps-tooling-0.0.0.tgz` (from `npm pack`) or `github:lernapps/tooling#<commit>`. Run from a
+   checkout of the tooling, `init` takes `file:<checkout>` by itself.
 
 ## Update
 
@@ -38,8 +43,10 @@ license: MIT
 A check says the rules hold; only a look says what a learner sees. Show the creator the pages before a push, and before
 a submission they declare something about.
 
-- Explainer or quiz: build (`npx vp build`), then `npx --no -- lernapps screenshots`. It writes one image of every page, one of
-  every figure, and an `index.html` that shows them in order to `screenshots/` (not part of the app: do not commit it).
+- Explainer or quiz: build (`npx vp build` writes `dist/`; `npm run build` writes `_site/`), then
+  `npx --no -- lernapps screenshots`: it takes the newer of `dist/` and `_site/`, or the folder you name. It writes
+  one image of every page, one of every figure, and an `index.html` that shows them in order to `screenshots/` (not
+  part of the app: do not commit it).
   Show the images, or the `index.html` where you can show HTML. Check every figure in its own image
   (`…-figure-<n>.png`): a page image is scaled down, its details are not readable. `--desktop` adds 1280 px images.
   Options: `npx --no -- lernapps screenshots --help`. The folder ignores itself in git, so a later check never sees it.
