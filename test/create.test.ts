@@ -380,3 +380,12 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     },
   );
 });
+
+describe("the app-templates this package depends on", () => {
+  // Every merge into main publishes the package; lernapps/practice resolves the template of the published package's
+  // dependency and refuses anything but an exact version (lernapps/practice#52).
+  test("is an exact version, not a commit or a range", () => {
+    const pkg = JSON.parse(readFileSync(join(import.meta.dirname, "..", "package.json"), "utf8"));
+    expect(pkg.dependencies["@lernapps/app-templates"]).toMatch(/^\d+\.\d+\.\d+$/);
+  });
+});
