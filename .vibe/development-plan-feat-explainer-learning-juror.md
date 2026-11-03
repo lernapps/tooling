@@ -122,6 +122,8 @@ Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht
 - [x] C3 Eichung an lernapps/bruchrechnung (drei Stände), Ergebnis in `evals/juror/calibration.md`; Anker nachschärfen. Commit.
 - [x] C4 Harbor: `GUIDANCE_REF`, Zweig-Vorgabe, `judge.sh`; zwei Tasks `explainer-brueche`, `explainer-bewegung`; Installation von `github:lernapps/tooling#<commit>` hier getestet; Tests (`test/evals.test.ts`). Commit.
 - [ ] C5 Baseline (main): Poor man's Evals 2 Aufträge × n = 2, Juror, Ergebnis in `evals/runs/<run>/`. Commit.
+  - Läuft (2026-11-03, 21:34 UTC): vier Sonnet-Sitzungen (Liste in /home/user/pm/sessions.md, außerhalb des Repos). Befund: Der Auto-Modus der Kind-Sitzungen blockiert `npx --yes @lernapps/tooling init` als „Code from External“; als Lehrkraft erlaubt („Ja, das darfst du“), Wirkung offen.
+  - Zusätzlich Harbor in der Umgebung „Evals“ (Sitzung session_016NmpwdCZ5sNsKGxLuji4aj): Baseline und Iteration 1 (`2ed7a8c`), je n = 2, mit Juror; Ergebnis auf `evals/run-2026-11-03-juror`.
 - [ ] C6 Iteration 1: Guidance-Änderungen (Strategie 6), messen. Commit.
   - Guidance geändert (Musterseite als Checkpoint, Lernenden-Prüfung, `feedback-applied-everywhere`, Lernhandlung in „Content method“, Look and layout, Abschnittstitel); messen fehlt.
 - [ ] C7 Iterationen 2–3 nach Befunden (höchstens), messen. Commit je Iteration.
