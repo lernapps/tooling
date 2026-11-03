@@ -39,6 +39,12 @@ describe("app-content-guide", () => {
     expect(SKELETON).toMatch(/^---\nname: app-content\ndescription: .+\n---\n/);
   });
 
+  test("the plan's task and the rule name every fixed heading, in order: the agent knows them before the check", () => {
+    for (const file of ["guidance/plan-template.md", "guidance/workflow-rules.md"]) {
+      expect(readFileSync(join(repoRoot, file), "utf8").replace(/\s+/g, " "), file).toContain(HEADINGS.join(", "));
+    }
+  });
+
   test("checks nothing where there is no app from an archetype's template", () => {
     expect(run(app({ "package.json": "{}" }))).toBeUndefined(); // the tooling itself, a site
     expect(run(app({ "package.json": "{}", [FIRST]: plan("commit") }))).toBeUndefined(); // built otherwise
