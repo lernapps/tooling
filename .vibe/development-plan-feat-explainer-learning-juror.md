@@ -127,7 +127,7 @@ Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht
 - [ ] C6 Iteration 1: Guidance-Änderungen (Strategie 6), messen. Commit.
   - Guidance geändert (Musterseite als Checkpoint, Lernenden-Prüfung, `feedback-applied-everywhere`, Lernhandlung in „Content method“, Look and layout, Abschnittstitel); messen fehlt.
 - [ ] C7 Iterationen 2–3 nach Befunden (höchstens), messen. Commit je Iteration.
-- [ ] C8 Architektur und Doku (Strategie 7). Commit.
+- [x] C8 Architektur und Doku (Strategie 7). Commit.
 
 ### Completed
 *None yet*

@@ -854,8 +854,11 @@ protocol: YAML with a published JSON Schema
 ### Evals
 
 Sample creator prompts, at least one per archetype, with the expected result. They test the guidance itself before
-a change to it is merged. They are run by hand with several assistants and scored by the check, the review and the
-plan's counters. Each scenario is a Harbor task in `evals/tasks/` (`dec-eval-runs-with-harbor`).
+a change to it is merged, also a branch of it (`GUIDANCE_REF`: the run packs that commit into the task's image). They
+are run by hand with several assistants and scored by the check, the transcript, the plan's counters and, for an
+explainer task with a learner, by the juror: a fresh agent that uses the built app as a learner of its grade and rates
+it against the learning-quality items of the review rubric (`evals/juror/`, calibrated on a known app). Each scenario
+is a Harbor task in `evals/tasks/` (`dec-eval-runs-with-harbor`).
 
 ```arc42
 :::building-block

@@ -456,7 +456,8 @@ the organisation files in lernapps/.github. A creator's agent may read them but 
 
 #### 2. What we expect of the creator's agent
 
-Each expectation names where the evidence is: T transcript, P plan file, G git and GitHub, C checks and review.
+Each expectation names where the evidence is: T transcript, P plan file, G git and GitHub, C checks and review, J the
+juror of the evals.
 
 Finding the way:
 - A1 From E1 alone it finds the skill and the plan template and reads them in full from the downloaded file, not from
@@ -525,8 +526,12 @@ Overall:
 - A33 Time from the first prompt to an entry ready to list, for the MVP assumption `a-creators-list` (T).
 - A34 Where it had to guess: every guess is written in the retrospective and becomes a finding for the guidance
   (P, KD-12).
-- A35 Early in Code, once a screen shows real content, it shows the creator a first look ("Zwischenstand") without a
-  question and goes on (T, rule `early-preview`).
+- A35 Early in Code, its first complete page or screen is the pattern: checked against the design rules and by a
+  sub-agent as a learner, shown to the creator as a "Zwischenstand", and the other pages follow only after the answer
+  (T, rule `early-preview`; changed by feat/explainer-learning-juror, #257).
+- A36 An explainer's pages can be followed by a learner of its grade: they start from what the learner knows, say
+  what their figures and models mean and what to do with them, and give nothing away before the check (J, the juror
+  `evals/juror/prompt.md`, rules `explainer-learner-start` … `explainer-age-appropriate`).
 
 #### 3. What we expect of the review agent (R1)
 - B1 It reviews exactly the named commit on `main`, starting from the validation report (C).
