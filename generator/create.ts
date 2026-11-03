@@ -8,9 +8,10 @@
 // Renovate configuration (generator/app/); an interactive app also its architecture (generator/architecture.ts). The
 // skills `lernapps init` synced into the folder stay, and are committed with the app; `lernapps update` replaces them
 // with those of the tooling it moves the app to.
-// To move to a new app-templates: set the exact version of @lernapps/app-templates in package.json, or a commit
-// (github:lernapps/app-templates#<commit>, which Renovate moves) until a release has what the tooling needs; the
-// generator's tests then run on that version. An app gets the same: ^ the version, or the same commit (runtimeSpec).
+// To move to a new app-templates: set the exact version of @lernapps/app-templates in package.json; the generator's
+// tests then run on that version. A commit (github:lernapps/app-templates#<commit>) is for a branch only: every merge
+// into main publishes this package, and lernapps/practice builds with the exact version the published package names.
+// An app gets ^ the version, or, from a branch build, the same commit (runtimeSpec).
 import { spawnSync } from "node:child_process";
 import {
   cpSync,
