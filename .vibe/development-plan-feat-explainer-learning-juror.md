@@ -19,7 +19,7 @@ Prioritäten des Nutzers für die Kriterien:
 ## Key Decisions
 - Ort des Jurors: eine gemeinsame Rubrik für Evals und Review (Nutzer, 2026-11-03).
 - Anwendungsfälle: zwei Bausteine der Bruchrechnung und zwei aus der linearen Algebra; andere Altersgruppe, daher andere (altersgemäße) Ansprache (Nutzer, 2026-11-03).
-- Annahme, noch zu bestätigen: „lineare Algebra“ = Bausteine der Lernlandkarte Klasse 7–8 (z. B. `lineare-gleichungen`, `lineare-gleichungssysteme`); Vektoren/Matrizen stehen nicht auf der Karte.
+- Statt linearer Algebra (gemeint: Oberstufe; nicht auf der Karte) Beschleunigung in Physik (Nutzer, 2026-11-03). Vorschlag aus der Karte `map/physik.yaml`, Strang `mechanik`, Klasse 9–10: `geschwindigkeitsaenderung` (qualitativ: beschleunigen, bremsen, Richtung) und `bewegungsdiagramme` (Weg-Zeit- und Geschwindigkeit-Zeit-Diagramm). Quantitative Beschleunigung (a = Δv/Δt, Oberstufe) steht nicht auf der Karte. Noch zu bestätigen.
 - Workflow epcc; Feature-Zweig `feat/explainer-learning-juror`.
 
 ## Notes
@@ -33,7 +33,7 @@ Prioritäten des Nutzers für die Kriterien:
 - Nutzer hat das Vorhaben beschrieben.
 
 ### Tasks
-- [ ] Annahme zu „lineare Algebra“ mit dem Nutzer klären.
+- [ ] Physik-Bausteine bestätigen lassen (Vorschlag unter Key Decisions).
 - [ ] Mit dem Nutzer klären: wie unveröffentlichte Guidance in Evals getestet wird (siehe Befund E3).
 - [ ] Mit dem Nutzer klären: Modell(e) unter Test, Läufe pro Zelle, Budget.
 
