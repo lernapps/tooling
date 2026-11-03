@@ -87,7 +87,9 @@ questions. -->
       type them.
 - [ ] **Checkpoint:** research. Show in plain words: the strand or why none, curriculum orientation, competencies by
       chapter (with their ids) and their pages, didactic approach, scope, every "(guess)", sources and how you
-      checked them, what is unchecked, archetype and reason. Stop and wait. Changes → change, ask again.
+      checked them, what is unchecked, archetype and reason. With a strand, the map decides the structure: competencies
+      that build on each other (its `requires`) share a chapter, in that order; no curriculum search is needed for it.
+      Stop and wait. Changes → change, ask again.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
 
 ### Answers
@@ -139,7 +141,7 @@ questions. -->
       After the first task that shows real content: the task "Show the creator a first look (`early-preview`)".
 - [ ] Each screen, component or interactive exercise: a sketch (static SVG or image, or the steps with what
       learners see after each). Words alone are not enough. Keep sketch files in `.vibe/sketches/`, which `create` leaves alone.
-- [ ] Show the creator, short: goal, competencies by chapter, entry draft, tasks, sketches; the content method in
+- [ ] Show the creator, short: goal, competencies by chapter (chapters along the map's `requires`), entry draft, tasks, sketches; the content method in
       plain words (what learners see and do, what it cannot do). At most 2 questions.
 - [ ] **Checkpoint:** confirm the plan and the content method, with the sketches shown. Stop and wait for an
       explicit yes. Changes → change, ask again. No `create` before the yes.
