@@ -413,7 +413,7 @@
 <p><code>app-content-guide</code> · tooling · error · warning at listing</p>
 <div>
 <ul>
-<li>Keep <code>.agents/skills/app-content/SKILL.md</code> with its fixed headings.</li>
+<li>Keep <code>.agents/skills/app-content/SKILL.md</code> with its fixed headings, in this order, each filled: Curriculum, Competencies, Content structure, Terminology, Exercise patterns, Figures, Sources, Adding a chapter or round, Rules learned from mistakes (&quot;None yet.&quot; until the first rule).</li>
 <li>After the plan is confirmed and before content: replace every placeholder (&quot;FILL IN&quot;) with concrete instructions for writing new content: files, ids, data files, an example of this app. Not how the app works, no general advice.</li>
 <li>A content decision changes (pattern, figure type, source rule) → change the guide in the same commit.</li>
 <li><code>lernapps check</code> checks the file and its headings always, and that no placeholder is left once the plan is in Commit.</li>
@@ -1002,6 +1002,7 @@
 <ul>
 <li>At least one link per question, best the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>).</li>
 <li><code>title</code> names the page (&quot;Uluru (Wikipedia)&quot;).</li>
+<li>No page of its own (a term like &quot;Wortgleichung&quot;): the nearest article that explains it (&quot;Reaktionsgleichung (Wikipedia)&quot;). None explains it, and the app is on the map: the competency's page on the map, <code>https://lernapps.net/apps/map/&lt;subject&gt;/c/&lt;id&gt;/</code>. Never no link (the schema needs one); never a page that does not explain the question.</li>
 <li>HTTP 429 → tell the creator which; mark the facts &quot;not checked&quot; in the plan; go on.</li>
 </ul>
 </div>
