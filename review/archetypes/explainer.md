@@ -15,7 +15,8 @@ id: topic-has-exercises
 The schema already requires an exercise on every page except a recap page (`recap`), which has none; judge whether it
 fits. Open every page. A finding: an exercise
 that practises something other than what its page explains, or one whose solution or feedback does not let learners
-check their answer. Name the page and the exercise.
+check their answer; a task that shows several representations at once, or asks for content of a later page. Name the
+page and the exercise.
 
 ## Typical mistakes, diagnosed
 
@@ -125,3 +126,107 @@ Only for an explainer in format 2 with a strand (`strand` in `src/app.yaml` not 
 the `iCan` of each competency in its `competencies`, then the page. A finding, always a hint: a page that teaches
 clearly more than its "Ich kann …" says, or something else. Name the page, the competency and what is more or other.
 The map cannot be opened: no finding; say that it was not judged.
+
+## The figure of a task does not give the answer away
+
+```rubric
+id: explainer-figure-hides-answer
+```
+
+Do every exercise with a figure or a component in the browser: mark, slide and type, but do not press "Prüfen". A
+finding: the task's figure or the component shows the answer before the check (a counter that shows the resulting
+fraction, a field it fills in, a mark on the right spot). Name the page, the exercise and what gave it away.
+
+# Learning quality
+
+The items below judge whether a learner of the app's grade can follow what a page does. Open each page in the browser
+and use it as such a learner, who knows the competencies its competency `requires` in the map
+(`https://lernapps.net/apps/map/<subject>.json`) and their everyday life, and nothing of the page yet. Operate every
+control. Each item names its unit (a page, a figure or component, an exercise) and three levels; the review writes a
+finding for level 0 or 1, the eval juror (`evals/juror/prompt.md`) writes the level of every unit. Level 0: a learner
+gets stuck or is misled. Level 1: a learner gets there with a detour or a guess. Level 2: clear.
+
+## Learners start where they stand
+
+```rubric
+id: explainer-learner-start
+```
+
+Unit: a page. 2: it starts from something learners of that grade know (a prerequisite, an everyday situation), links
+the new idea to it with an analogy or a situation, and explains each term where it is first needed. 1: the start is
+there, but a term comes unexplained or too early, or an analogy is not connected to the idea. 0: it starts with a rule,
+a definition or a question that needs what the page is about to teach. Quote the first sentences and the term.
+
+## Each figure and model says what it means
+
+```rubric
+id: explainer-representation-explained
+```
+
+Unit: a figure, diagram or component (with its text, `nojs` and `alt`). Ask the five questions of the rule: the whole
+or reference, the meaning of parts, colours, patterns and marks, what learners change and what stays, how that leads to
+the statement, what to enter or check. 2: the page answers all five before learners need them. 1: one or two are left
+to guess. 0: three or more, or a mark that reads as a sign it is not (a tick in a field, a pattern like a boundary).
+Name the figure and the unanswered questions.
+
+## Every control has a visible purpose
+
+```rubric
+id: explainer-control-purpose
+```
+
+Unit: a component with controls. Use each control. 2: each one changes something visible, the text says why to use
+it, the start state shows first what stays the same, and labels, limits and positions agree after every change. 1: one
+control's purpose must be guessed, or the start state already shows the changed state. 0: a control has no visible
+effect or no purpose on the page, or labels and positions disagree. Name the control and what you did.
+
+## Text, figure and task tell the same
+
+```rubric
+id: explainer-text-figure-agree
+```
+
+Unit: a figure or component with the text around it. 2: the same numbers and the same whole in text, figure and task,
+an announced switch to another example, and only tools and views the page has. 1: a switch of numbers without notice.
+0: the text names a view, a tool or a control the page does not have, or describes another figure. Quote the text and
+say what the figure shows.
+
+## One new step per page
+
+```rubric
+id: explainer-one-step
+```
+
+Unit: a page. 2: one new step; nothing of a later competency or page; one example per box. 1: a second method or
+several examples in one box. 0: content of a later competency in its text, figures or exercises (e.g. 5/4 before
+fractions greater than one), or two competencies of their own on one page. Name what belongs elsewhere.
+
+## A solution step explains
+
+```rubric
+id: explainer-steps-explain
+```
+
+Unit: an exercise with steps or a worked example. Read the steps of three tasks. 2: each step uses the task's numbers
+and gives its reason; given values are worked out. 1: a step without its reason, or a given value as an unworked term.
+0: a step that only says to apply a rule ("Setze die Angaben in die Regel ein"). Quote the step.
+
+## Headings say what the section does
+
+```rubric
+id: explainer-honest-headings
+```
+
+Unit: a page. 2: every title fits its section; "Ausprobieren" only where learners operate something. 1: one title that
+does not fit. 0: "Ausprobieren" or a like title over a section with nothing to operate, on several pages. Name the
+section.
+
+## Address fits the age
+
+```rubric
+id: explainer-age-appropriate
+```
+
+Unit: a page. 2: tone, examples and length fit the grade (class 6: short sentences, things from their day; class 10:
+not childish, situations of their world, a denser text is fine). 1: a passage too hard or too childish. 0: the page
+as a whole misses the grade. Quote the passage.
