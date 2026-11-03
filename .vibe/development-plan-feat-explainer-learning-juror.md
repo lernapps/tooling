@@ -119,7 +119,7 @@ Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht
 ### Tasks
 - [x] C1 Regeln in `lernapps-explainer-design/references/rules.md` und Items in `review/archetypes/explainer.md`; `npm run rules`, Tests grün. Commit.
 - [x] C2 Juror: `evals/juror/prompt.md`, Schema, `evals/juror.ts` mit Test. Commit.
-- [ ] C3 Eichung an lernapps/bruchrechnung (drei Stände), Ergebnis in `evals/juror/calibration.md`; Anker nachschärfen. Commit.
+- [x] C3 Eichung an lernapps/bruchrechnung (drei Stände), Ergebnis in `evals/juror/calibration.md`; Anker nachschärfen. Commit.
 - [x] C4 Harbor: `GUIDANCE_REF`, Zweig-Vorgabe, `judge.sh`; zwei Tasks `explainer-brueche`, `explainer-bewegung`; Installation von `github:lernapps/tooling#<commit>` hier getestet; Tests (`test/evals.test.ts`). Commit.
 - [ ] C5 Baseline (main): Poor man's Evals 2 Aufträge × n = 2, Juror, Ergebnis in `evals/runs/<run>/`. Commit.
 - [ ] C6 Iteration 1: Guidance-Änderungen (Strategie 6), messen. Commit.
