@@ -6,7 +6,7 @@ import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, symlinkSync, writ
 import { dirname, join } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
 import { app, findingsOf, lernapps, output, report } from "./check-report.ts";
-import { ok, repoRoot, tempDir } from "./support.ts";
+import { ok, repoRoot, run, tempDir } from "./support.ts";
 
 const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
 const SLOW = 5 * 60 * 1000;
@@ -72,23 +72,25 @@ describe.skipIf(inner)("lernapps check in an app's repo", () => {
     { timeout: SLOW },
     () => {
       const dir = project({});
-      const first = lernapps(["check", "--pre-push"], dir);
+      // as on a creator's machine: CI, where this test also runs, never reuses a result (test/check-cache.test.ts)
+      const local = (args: string[]) => run("node", [join(repoRoot, "src/cli.ts"), "check", ...args], dir, { CI: "" });
+      const first = local(["--pre-push"]);
       expect(first.code, output(first)).toBe(0);
       expect(first.stdout).toMatch(/no findings \(commit [0-9a-f]{7}\) in [\d.]+ s\n$/);
       expect(JSON.parse(readFileSync(join(dir, "node_modules/.cache/lernapps/timings.json"), "utf8"))).toMatchObject({
         steps: expect.arrayContaining([expect.objectContaining({ step: "build" })]),
       });
       rmSync(join(dir, "dist"), { recursive: true });
-      const again = lernapps(["check", "--pre-push"], dir);
+      const again = local(["--pre-push"]);
       expect(again.code, output(again)).toBe(0);
       expect(again.stdout).toContain("already checked at");
       expect(readdirSync(dir)).not.toContain("dist");
-      const forced = lernapps(["check", "--pre-push", "--no-cache"], dir);
+      const forced = local(["--pre-push", "--no-cache"]);
       expect(forced.code, output(forced)).toBe(0);
       expect(forced.stdout).not.toContain("already checked");
       expect(readdirSync(dir)).toContain("dist");
       writeFileSync(join(dir, "notes.txt"), "not committed\n");
-      const changed = lernapps(["check", "--pre-push"], dir);
+      const changed = local(["--pre-push"]);
       expect(changed.code, output(changed)).toBe(0);
       expect(changed.stdout).not.toContain("already checked");
     },
