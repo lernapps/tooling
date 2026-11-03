@@ -51,7 +51,7 @@ severity: hint
 - After the confirmation, ask only what you cannot decide.
 - Else choose, mark "(guess)" under "Key decisions" and list it in the retrospective.
 
-### `early-preview`: Show a first look early
+### `early-preview`: A pattern page first, with the creator's look
 
 ```rule
 id: early-preview
@@ -59,11 +59,31 @@ scope: tooling
 severity: hint
 ```
 
-- In Code, as soon as the first screen or page shows real content: send the creator a short "Zwischenstand".
-- Show screenshots, desktop and 360 px (`npx --no -- lernapps screenshots --desktop`). On the creator's machine also the
-  address of `npm run dev`, started in the background.
-- No checkpoint, no question: go on in the same message. The creator may stop you or ask for a change.
-- Example: "Zwischenstand: So sieht die erste Seite aus. Ich baue weiter; sag Bescheid, wenn etwas nicht passt."
+- In Code, build one complete page or screen first: the pattern for the others. An explainer: entry, figure or
+  model, how learners use it, example, exercise.
+- Before you show it, check it: against the rules of skill `lernapps-<archetype>-design` (an explainer: the five
+  questions of `explainer-representation-explained` for each figure and model), and let a sub-agent use it in the
+  browser as a learner of the app's grade (`@lernapps/tooling/guidance/subagent-brief.md`, "Learner check"). Fix what
+  they find.
+- Then send the creator a short "Zwischenstand": screenshots, desktop and 360 px (`npx --no -- lernapps screenshots
+  --desktop`), on the creator's machine also the address of `npm run dev`, started in the background; what learners
+  do on the page in one or two sentences; one question: may the other pages follow this pattern?
+- A checkpoint: wait for the answer. A change → change the pattern first, then build the other pages after it.
+- Example: "Zwischenstand: So sieht die erste Seite aus. Die Kinder teilen einen Kuchen mit dem Regler in gleich
+  große Stücke und markieren dann selbst. Soll ich die anderen Seiten nach diesem Muster bauen?"
+
+### `feedback-applied-everywhere`: A remark on one page is checked on all
+
+```rule
+id: feedback-applied-everywhere
+scope: tooling
+severity: hint
+```
+
+- The creator remarks on one page, figure or component: say whether it is about that place or a pattern ("Gilt das
+  für alle Seiten?" only when you cannot tell). A pattern → find every place that follows it (the same component,
+  block type or wording) and change them all in the same task.
+- A fix in a shared component: look at every page that uses it again.
 
 ### `retrospective-filled`: Fill the retrospective
 

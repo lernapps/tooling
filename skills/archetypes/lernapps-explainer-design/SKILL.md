@@ -35,8 +35,13 @@ license: MIT
   the map lacks is proposed to the catalog, not invented here. With `strand: none` pages name none.
 - Show the creator this structure in Explore: which competency on which page, which pages in which chapter.
 - Depth: chapter, page, section, subsection. Need more levels → two apps.
-- The content structure → the same sections on every page, with fixed ids and titles (e.g. "Regel", "Beispiel",
-  "Übung").
+- The content structure → the same sections on every page, with fixed ids (e.g. `einstieg`, `beispiel`, `uebung`).
+  Their titles fit what each section does on that page (`explainer-honest-headings`); a section a page does not need
+  is left out.
+- Each page: one new step (`explainer-one-step`), from what learners of the grade know (`explainer-learner-start`).
+- Each figure, model and component: its learning action before its form (`explainer-representation-explained`):
+  what is the whole, what do parts and marks mean, what do learners do, what stays the same, how does that lead to
+  the statement. A slider or button only where that action needs it (`explainer-control-purpose`).
 - Shared material → a data file (`src/data/<name>.yaml`), each fact once.
 - A pattern → a block or an exercise with fixed parts, varied in its drawn values or the records it picks.
 - One chapter only: it is hidden in the navigation; its pages keep their addresses.

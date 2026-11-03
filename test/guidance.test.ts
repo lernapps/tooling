@@ -77,13 +77,16 @@ describe("the plan's sections", () => {
     expect(retrospective).toEqual(expect.arrayContaining(RETROSPECTIVE_SECTIONS));
   });
 
-  test.each(TEMPLATES)("%s marks the creator's checkpoints: research, confirm the plan, publish, list", (template) => {
-    const checkpoints = read(template)
-      .split("\n")
-      .filter((line) => line.includes("**Checkpoint:**"));
-    expect(checkpoints).toHaveLength(4);
-    expect(checkpoints.join("\n")).toMatch(/research[\s\S]*confirm[\s\S]*publish[\s\S]*list/i);
-  });
+  test.each(TEMPLATES)(
+    "%s marks the creator's checkpoints: research, confirm the plan, the pattern page, publish, list",
+    (template) => {
+      const checkpoints = read(template)
+        .split("\n")
+        .filter((line) => line.includes("**Checkpoint:**"));
+      expect(checkpoints).toHaveLength(5);
+      expect(checkpoints.join("\n")).toMatch(/research[\s\S]*confirm[\s\S]*pattern page[\s\S]*publish[\s\S]*list/i);
+    },
+  );
 
   test("the first publish starts the workflow the generator writes, also when GitHub starts no run for the push", () => {
     // pages.yml has no paths filter (its actions skip a push of only .vibe/), but a push that creates main from

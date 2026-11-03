@@ -157,19 +157,39 @@ metric: At most 3 creator turns from the confirmed plan to the listing pull requ
 :::
 ```
 
-## A first look early in Code
+## A pattern page first in Code
 
-A build in the wrong direction costs most when the creator sees it only at the end. The first look is no checkpoint:
-the assistant goes on, and the creator can stop it.
+A build in the wrong direction costs most when the creator sees it only at the end, and a weak first page costs most
+when the other pages copy it. The Bruchrechnung app (lernapps/tooling#257) went that way with a first look that was
+no checkpoint: its first page was multiplied over 20 pages before the creator's remarks came. So the first complete
+page is the pattern: checked against the design rules and by a sub-agent in the learner's role, then shown to the
+creator, who confirms it before the other pages follow it. It costs one creator turn of the three after the plan.
 
 ```arc42
 :::quality-scenario
 id: qs-early-preview
-title: A first look early in Code
+title: A pattern page first in Code
 quality: qg-simple-to-build
-stimulus: The first screen or page of the app shows real content
-response: The assistant shows the creator a first look (screenshots, and the local address where it runs on the creator's machine) without a question, and goes on building
+stimulus: The first page or screen of the app is complete
+response: The assistant checks it against the design rules, lets a sub-agent use it as a learner of the app's grade, shows it to the creator (screenshots, and the local address on the creator's machine) and asks whether the other pages may follow it; it builds the others only after the answer
 metric: A first look between the confirmed plan and the phase Commit in every eval run that reaches Code (source - evals, transcript)
+:::
+```
+
+## Learners can follow the pages
+
+A green check proves that an app runs, not that a learner can follow it. The juror of the evals uses the built app as
+a learner of its grade, with the prerequisites of the learning map, and rates each page, figure, component and exercise
+against the learning-quality items of the explainer rubric (`evals/juror/prompt.md`).
+
+```arc42
+:::quality-scenario
+id: qs-learning-action-understood
+title: Learners can follow the pages
+quality: qg-simple-to-build
+stimulus: An assistant builds an explainer from the guidance, for a grade and competencies of the learning map
+response: Each page starts from what learners of that grade know, says what its figures and models mean and what learners do with them, and gives nothing away before the check
+metric: Mean level of the learning-quality items at least 1.5 of 2, and no unit at level 0 for explainer-text-figure-agree and explainer-figure-hides-answer, in the eval tasks with a juror (source - evals, juror)
 :::
 ```
 
