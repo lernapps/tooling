@@ -748,7 +748,9 @@ and in the assistant's hands. `lernapps check` runs every deterministic check of
 app. It runs every check that finds something to check. It checks a built app or a deployed address the way a learner
 meets it, including, for explainer pages, without JavaScript; it needs no source repo, so apps built any other way are
 checked the same, and the listing and the review see what the hooks saw. It checks a catalog entry against the app it
-describes, and reports every finding with its rule in the validation report. `lernapps screenshots` is the visual way:
+describes, and reports every finding with its rule in the validation report. In a repo it first compares the installed
+packages with the lock file; a passing heavy check of the same committed state is reused, and heavy checks in one
+clone wait for each other (decision `dec-check-cache`). `lernapps screenshots` is the visual way:
 with the same browser and the same list of pages it writes an image of every page of a built explainer or quiz, and of
 every figure on it, so that a creator sees the app before declaring anything about it, and a drawing in full detail.
 
@@ -767,7 +769,8 @@ x-agent: One command, the same result in the hooks, in CI and at the listing.
 #### Alignment CLI interface
 
 A consumer can rely on this: `lernapps check` fails exactly when a rule of severity error fails. A passing run prints one
-line; a failing one prints the report. It can always keep the full report. `lernapps screenshots` writes the images and
+line; a failing one prints the report. It can always keep the full report. A reused result says so in that line;
+`--no-cache` checks again. `lernapps screenshots` writes the images and
 their index, or fails and writes nothing. Its parts, its options and its exit codes are
 listed in the command's own help and stay stable (concept `concept-stable-contracts`).
 

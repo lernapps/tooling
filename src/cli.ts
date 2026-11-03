@@ -24,7 +24,9 @@ import { tmpdir } from "node:os";
 import { delimiter, dirname, join, relative, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { parse } from "yaml";
+import { acquireLock, cachedReport, cacheKey, stateDir, storeReport } from "../check/cache.ts";
 import { measure, type App, type Context, type Entry } from "../check/check.ts";
+import { installedProblems, nodeMajorProblem } from "../check/environment.ts";
 import { describeChecks, failed, finding, runChecks, toYaml, type Finding, type Report } from "../check/run.ts";
 import { BrowserError, browserForTests, bundlePages, launch, serve, urlPageLimit, visitApp } from "../check/visit.ts";
 import { installHooks } from "../archetypes/shared/install-hooks.ts";
@@ -67,6 +69,31 @@ const REPORT = "node_modules/.cache/lernapps/validation-report.yaml";
 const CHECKS_PASS = "checks-pass";
 /** A built app or a URL that could not be checked at all: a platform rule, unlike the toolchain's checks-pass. */
 const APP_CHECKABLE = "app-checkable";
+/** The duration of every step of the last check in a repo that ran: not in the report, which is deterministic. */
+const TIMINGS = "node_modules/.cache/lernapps/timings.json";
+/** The steps of this run and how long each took, in seconds, for TIMINGS. */
+const timings: { step: string; seconds: number }[] = [];
+
+/** Runs `run` and records how long it took as the step `name`. */
+function timed<T>(name: string, run: () => T): T {
+  const start = performance.now();
+  try {
+    return run();
+  } finally {
+    timings.push({ step: name, seconds: Math.round(performance.now() - start) / 1000 });
+  }
+}
+
+/** Like timed, for a step that returns a promise. */
+async function timedAsync<T>(name: string, run: () => Promise<T>): Promise<T> {
+  const start = performance.now();
+  try {
+    return await run();
+  } finally {
+    timings.push({ step: name, seconds: Math.round(performance.now() - start) / 1000 });
+  }
+}
+
 /** The Playwright tests' results, as its JSON reporter writes them, to tell the runtime's tests from the app's. */
 const E2E_RESULTS = "node_modules/.cache/lernapps/playwright-results.json";
 const RUNTIME_ISSUES = "https://github.com/lernapps/app-templates/issues";
@@ -448,6 +475,10 @@ function architectureDiffFindings(where: string, stdout: string, stderr: string)
 
 /** Runs a step and returns its findings: a diff's as architectureDiffFindings judges them, else runStep's one. */
 function stepFindings(step: Step): Finding[] {
+  return timed(step.name, () => untimedStepFindings(step));
+}
+
+function untimedStepFindings(step: Step): Finding[] {
   if (!step.architectureDiff) {
     const failure = runStep(step);
     return failure ? [failure] : [];
@@ -531,19 +562,20 @@ async function checkProject(fast: boolean, heavy: boolean, context: Context): Pr
     context.project = process.cwd();
     if (existsSync(join("dist", "index.html"))) {
       try {
-        context.app = await visit({ bundle: "dist" });
+        context.app = await timedAsync("visit of the built app", () => visit({ bundle: "dist" }));
       } catch (error) {
         if (!(error instanceof BrowserError)) throw error;
         findings.push(browserFinding(error));
       }
     }
-    const checks = await runChecks(context);
+    const checks = await timedAsync("checks of the built app", () => runChecks(context));
     rules.push(...checks.rules);
     findings.push(...checks.findings);
     const config = ["ts", "js", "mjs", "cjs"].map((ext) => `playwright.config.${ext}`).find((file) => existsSync(file));
     if (config !== undefined) {
       try {
-        const failure = runEndToEndTests(await browserForTests());
+        const browser = await browserForTests();
+        const failure = timed("end-to-end tests", () => runEndToEndTests(browser));
         if (failure) findings.push(failure);
       } catch (error) {
         if (!(error instanceof BrowserError)) throw error;
@@ -602,6 +634,77 @@ function checkSite(script: string): Report {
   };
 }
 
+/**
+ * The check of a repo: first whether node_modules holds what package-lock.json asks for (else nothing else runs, its
+ * result would not be CI's). The heavy part warns on standard error when Node has another major version than CI,
+ * then reuses a passing report of the same state (check/cache.ts) or waits for another check in this clone.
+ */
+async function checkRepo(
+  fast: boolean,
+  heavy: boolean,
+  context: Context,
+  noCache: boolean,
+): Promise<{ report: Report; cachedAt?: Date }> {
+  const parts = [...(fast ? ["pre-commit" as const] : []), ...(heavy ? ["pre-push" as const] : [])];
+  const installed = timed("installed packages", () => installedProblems("."));
+  if (installed.length > 0) {
+    return {
+      report: {
+        checked: commitOrDirectory(),
+        parts,
+        rules: [CHECKS_PASS],
+        findings: installed.map((problem) => finding(CHECKS_PASS, "error", problem)),
+        suppressions: [],
+      },
+    };
+  }
+  if (!heavy) return { report: await checkProject(fast, heavy, context) };
+  // about this machine, not the app: one line on standard error, not a finding of the report, which is the same for
+  // the same state wherever it is checked
+  const node = nodeMajorProblem();
+  if (node !== undefined) process.stderr.write(`lernapps check: warning: ${node.found}. ${node.fix}\n`);
+  const dir = stateDir();
+  const keyOf = () => {
+    if (noCache || dir === undefined) return undefined;
+    const key = cacheKey(".", parts, version());
+    return "key" in key ? key.key : undefined;
+  };
+  const cached = (key: string | undefined) => {
+    if (key === undefined || dir === undefined) return undefined;
+    const hit = cachedReport(dir, key);
+    if (hit === undefined) return undefined;
+    // the same tree, perhaps another commit (an amend, a rebase): the report names the commit checked now
+    return { report: { ...(parse(hit.report) as Report), checked: commitOrDirectory() }, cachedAt: hit.at };
+  };
+  const before = keyOf();
+  const hit = cached(before);
+  if (hit !== undefined) return hit;
+  let waited = false;
+  const release =
+    dir === undefined
+      ? () => {}
+      : await acquireLock(dir, (owner) => {
+          waited = true;
+          process.stderr.write(
+            `lernapps check: waiting for another lernapps check in this clone${owner === undefined ? "" : ` (process ${owner.pid}, since ${owner.at})`}\n`,
+          );
+        });
+  try {
+    if (waited) {
+      const after = cached(keyOf());
+      if (after !== undefined) return after;
+    }
+    const report = await checkProject(fast, heavy, context);
+    // only a passing check, and only when the state did not change while it ran
+    if (!failed(report) && before !== undefined && dir !== undefined && keyOf() === before) {
+      storeReport(dir, before, toYaml(report));
+    }
+    return { report };
+  } finally {
+    release();
+  }
+}
+
 /** The checks of a built app alone: a bundle directory or a URL. */
 async function checkApp(target: string, context: Context): Promise<Report> {
   const isUrl = /^https?:\/\//.test(target);
@@ -643,6 +746,9 @@ async function check(args: string[]): Promise<number> {
   const target = positionals[0] ?? context.entry?.value.url;
 
   let report: Report;
+  /** When the report comes from the cache: when that state was checked. */
+  let cachedAt: Date | undefined;
+  const start = performance.now();
   if (target !== undefined) {
     if (values["pre-commit"] || values["pre-push"]) {
       throw new UsageError("--pre-commit and --pre-push check a repo; a built app is checked without them");
@@ -667,10 +773,18 @@ async function check(args: string[]): Promise<number> {
       process.stdout.write(`${scope.skip}\n`);
       return 0;
     } else {
-      report =
-        scope !== undefined
-          ? checkSite(scope.site)
-          : await checkProject(all || values["pre-commit"], all || values["pre-push"], context);
+      if (scope !== undefined) {
+        report = checkSite(scope.site);
+      } else {
+        const result = await checkRepo(
+          all || values["pre-commit"],
+          all || values["pre-push"],
+          context,
+          values["no-cache"],
+        );
+        report = result.report;
+        cachedAt = result.cachedAt;
+      }
       if (values["pre-push"] && failed(report)) countPrePushFailure();
     }
   }
@@ -679,9 +793,13 @@ async function check(args: string[]): Promise<number> {
     countFailedChecks(report.findings.filter((found) => found.severity === "error").map((found) => found.rule));
   }
   const yaml = toYaml(report);
+  const seconds = Math.round((performance.now() - start) / 100) / 10;
   if (target === undefined) {
     mkdirSync(dirname(REPORT), { recursive: true });
     writeFileSync(REPORT, yaml);
+    if (cachedAt === undefined && timings.length > 0) {
+      writeFileSync(TIMINGS, `${JSON.stringify({ seconds, steps: timings }, null, 2)}\n`);
+    }
   }
   if (values.report !== undefined) writeFileSync(values.report, yaml);
   if (report.findings.length > 0) {
@@ -695,8 +813,12 @@ async function check(args: string[]): Promise<number> {
           : "url" in report.checked
             ? report.checked.url
             : report.checked.directory;
+    const how =
+      cachedAt !== undefined
+        ? `, already checked at ${cachedAt.toTimeString().slice(0, 5)} (--no-cache checks again)`
+        : ` in ${seconds} s`;
     process.stdout.write(
-      `lernapps check: ok, ${report.rules.length} rule${report.rules.length === 1 ? "" : "s"}, no findings (${what})\n`,
+      `lernapps check: ok, ${report.rules.length} rule${report.rules.length === 1 ? "" : "s"}, no findings (${what})${how}\n`,
     );
   }
   return failed(report) ? 1 : 0;

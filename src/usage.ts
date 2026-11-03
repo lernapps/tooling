@@ -34,12 +34,13 @@ In an app, it is a development dependency: npx --no -- lernapps <command> ...
 export const CHECK_OPTIONS = {
   "pre-commit": { type: "boolean", default: false },
   "pre-push": { type: "boolean", default: false },
+  "no-cache": { type: "boolean", default: false },
   entry: { type: "string" },
   report: { type: "string" },
   help: { type: "boolean", short: "h", default: false },
 } as const satisfies ParseArgsOptionsConfig;
 
-export const CHECK_USAGE = `Usage: lernapps check [--pre-commit] [--pre-push] [<dir|url>] [--entry <file>] [--report <file>]
+export const CHECK_USAGE = `Usage: lernapps check [--pre-commit] [--pre-push] [--no-cache] [<dir|url>] [--entry <file>] [--report <file>]
 
 Runs every check that has something to check. Passing, it prints one line; otherwise the validation report in
 YAML (schema: https://lernapps.net/tooling/schemas/validation-report.v1.schema.json). Every finding names its
@@ -68,8 +69,20 @@ In a repo (no <dir|url>):
   checks the site in a repo with one (npm run build, then npm run check:site in the tooling, npm run check in a
   site). Then it prints one line and writes no report. Anything else, or changed files it cannot know, runs the
   part. CI decides the same in the app check action (lernapps changes --help).
+  Every run in a repo first compares node_modules with package-lock.json: a package installed at another
+  version, or missing, fails the run before anything else (run npm ci), since CI installs with npm ci.
+  The heavy part (--pre-push, or both) then:
+    - reuses a passing result of the same state: the tree of HEAD, the folder, the parts, the versions of
+      the tooling and of Node, the packages installed and every LERNAPPS_* variable, with a working tree
+      that has no changes git sees (untracked files included). It prints that line with "already checked".
+      Kept in <git common dir>/lernapps/, which the worktrees of a clone share; never in CI (CI set)
+    - waits for another check of the heavy part in this clone (and its worktrees), saying so in one line
+      on standard error; a lock whose process no longer runs is taken over
+    - warns in one line on standard error when Node has another major version than CI (no finding:
+      the report is the same for the same state wherever it is checked)
   Every run in a repo also writes the full report to node_modules/.cache/lernapps/validation-report.yaml,
-  passing or not; the app check action keeps it. A failed run counts each rule with an error in failedChecks
+  passing or not; the app check action keeps it. A run that checked writes how long each step took to
+  node_modules/.cache/lernapps/timings.json; the passing line ends with the whole time. A failed run counts each rule with an error in failedChecks
   of the current plan's front matter, when it has the key.
 
 On a built app, without its repo:
@@ -99,6 +112,7 @@ Options:
                    #<section> (or #<section>/<sub>) is an element id of its page as the server sends it, the
                    fitness values match; without <dir|url> the app at the entry's url is checked
   --report <file>  also write the full report to <file>, passing or not
+  --no-cache       check again even when this state passed before (in a repo)
   -h, --help       print this help
 
 `;
