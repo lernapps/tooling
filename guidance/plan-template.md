@@ -77,7 +77,8 @@ questions. -->
       competencies by chapter as "Ich kann …", verified sources. No competencies → not done. First the learning map as
       skill `lernapps-content-research` says: recommend a strand that fits (`<subject>/<strand>`), else `none`; with a
       strand, only its competencies, by their ids from the map. Write both under "Notes", and how they map onto
-      chapters and pages (an explainer: as a rule one page per competency).
+      chapters and pages (an explainer: as a rule one page per competency; competencies that build on each other, by
+      the map's `requires`, share a chapter, in that order).
 - [ ] Under "Notes", one line per competency: how learners get there (derive, not only read off; e.g. a tree diagram
       shows how a probability comes about), which misconception the feedback catches.
 - [ ] Under "Notes", the scope: what is in, what is out and why, the data range (e.g. "all main-group elements",
