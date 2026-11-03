@@ -75,8 +75,9 @@ questions. -->
       has an answer or a guess.
 - [ ] Load skill `lernapps-content-research`. Research as it says. Under "Notes": curriculum orientation,
       competencies by chapter as "Ich kann …", verified sources. No competencies → not done. First the learning map as
-      skill `lernapps-content-research` says: one strand (`<subject>/<strand>`, or `none` for a subject without a map)
-      and the competencies by their ids from the map; write both under "Notes".
+      skill `lernapps-content-research` says: recommend a strand that fits (`<subject>/<strand>`), else `none`; with a
+      strand, only its competencies, by their ids from the map. Write both under "Notes", and how they map onto
+      chapters and pages (an explainer: as a rule one page per competency).
 - [ ] Under "Notes", one line per competency: how learners get there (derive, not only read off; e.g. a tree diagram
       shows how a probability comes about), which misconception the feedback catches.
 - [ ] Under "Notes", the scope: what is in, what is out and why, the data range (e.g. "all main-group elements",
@@ -84,10 +85,9 @@ questions. -->
 - [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json and read each property's description. Ask what
       helps teachers and parents find the app. Fill "Entry draft". Search words: one or two words each, as people
       type them.
-- [ ] **Checkpoint:** research. Show in plain words: the strand, curriculum orientation, competencies by chapter (with
-      their ids), didactic
-      approach, scope, every "(guess)", sources and how you checked them, what is unchecked, archetype and reason.
-      Stop and wait. Changes → change, ask again.
+- [ ] **Checkpoint:** research. Show in plain words: the strand or why none, curriculum orientation, competencies by
+      chapter (with their ids) and their pages, didactic approach, scope, every "(guess)", sources and how you
+      checked them, what is unchecked, archetype and reason. Stop and wait. Changes → change, ask again.
 - [ ] Set `phase: plan`: change the value line (`grep '^phase:'` prints `phase: plan`).
 
 ### Answers

@@ -32,11 +32,14 @@ title: Stochastik
 |---|---|---|
 | `format` | `src/app.yaml` | `2`; absent means format 1 (an app that has not moved) |
 | `strand` | `src/app.yaml` | required in format 2: `<subject>/<strand>` (two ids of the map) or `none` |
-| `competencies` | every page | strand set: required, at least one id of the subject. `none`: not allowed |
+| `competencies` | every page | strand set: required, ids of the app's strand; as a rule one. `none`: not allowed |
 
-- A page: `competencies: [laplace]` beside `title` and `blocks`.
+- A page: `competencies: [laplace]` beside `title` and `blocks`. One page per competency; a large one may take
+  several pages; several on one page are not recommended (`one-competency-per-page`).
+- Chapters group competencies that build on each other; pages follow the map's `requires`.
 - One app, one strand. The ids are those of `https://lernapps.net/apps/map/<subject>.json`; the build cannot know
-  them, the listing checks them.
+  them. `lernapps check` compares them with the map before the push (`competencies-on-map`); the listing checks
+  them again.
 - The build writes `lernapps-pages.json` (path, title, competencies per page, in the app's order) beside
   `index.html`; the catalog lists the pages from it.
 - Format 1 stays valid. `lernapps update` adds `format: 2` and `strand: none` to a format-1 app when its runtime

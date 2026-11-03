@@ -112,3 +112,15 @@ id: prefer-built-in-block
 Read every component in `src/components/` and the block that uses it. A finding: a component that does what a
 built-in block or a `generated` exercise could do, e.g. a table, a picture with labels, or an exercise with a number
 answer.
+
+## Pages teach their competencies
+
+```rubric
+id: content-matches-competencies
+```
+
+Only for an explainer in format 2 with a strand (`strand` in `src/app.yaml` not `none`). Open
+`https://lernapps.net/apps/map/<subject>.json` (`<subject>` the part of `strand` before `/`) and read, for every page,
+the `iCan` of each competency in its `competencies`, then the page. A finding, always a hint: a page that teaches
+clearly more than its "Ich kann …" says, or something else. Name the page, the competency and what is more or other.
+The map cannot be opened: no finding; say that it was not judged.

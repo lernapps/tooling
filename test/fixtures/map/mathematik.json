@@ -1,0 +1,51 @@
+{
+  "id": "mathematik",
+  "name": { "de": "Mathematik", "en": "Mathematics" },
+  "source": {
+    "title": "KMK-Bildungsstandards Mathematik, ESA und MSA (2022)",
+    "url": "https://www.kmk.org/fileadmin/Dateien/veroeffentlichungen_beschluesse/2022/2022_06_23-Bista-ESA-MSA-Mathe.pdf"
+  },
+  "strands": [
+    {
+      "id": "stochastik",
+      "name": { "de": "Stochastik", "en": "Probability and statistics" },
+      "competencies": [
+        {
+          "id": "haeufigkeiten",
+          "iCan": { "de": "Ich kann absolute und relative Häufigkeiten bestimmen." },
+          "gradeBand": "5-6",
+          "requires": [],
+          "practisedBy": []
+        },
+        {
+          "id": "laplace",
+          "iCan": { "de": "Ich kann Wahrscheinlichkeiten mit der Laplace-Formel berechnen." },
+          "gradeBand": "7-8",
+          "requires": ["haeufigkeiten"],
+          "practisedBy": []
+        },
+        {
+          "id": "baumdiagramm",
+          "iCan": "Ich kann ein mehrstufiges Zufallsexperiment als Baumdiagramm darstellen.",
+          "gradeBand": "7-8",
+          "requires": ["laplace"],
+          "practisedBy": []
+        }
+      ]
+    },
+    {
+      "id": "arithmetik",
+      "name": { "de": "Zahlen und Operationen", "en": "Numbers and operations" },
+      "competencies": [
+        {
+          "id": "prozent-prozentwert",
+          "iCan": "Ich kann den Prozentwert berechnen.",
+          "gradeBand": "7-8",
+          "requires": [],
+          "practisedBy": []
+        }
+      ]
+    }
+  ],
+  "curricula": []
+}
