@@ -22,7 +22,8 @@ license: MIT
 - [references/components.md](references/components.md): only when the plan names a component.
 - [references/runtime.md](references/runtime.md): when the build or a runtime test fails, and before you set up the
   tutor.
-- [references/rules.md](references/rules.md): when a check names an `explainer-*` or `vue-component-*` rule.
+- [references/rules.md](references/rules.md): when a check names an `explainer-*`, `vue-component-*` or
+  `competencies-on-map` rule, and before you write a page with `competencies`.
 
 ## Gotchas
 
@@ -30,6 +31,8 @@ license: MIT
 - Headings are `section` blocks, never Markdown headings.
 - YAML: quote a text that has `: ` in it or looks like a number (`"8."`, `"01000001"`, `"0"`). Unquoted, YAML reads a map or a
   number: the build stops, or the digits change. A table cell, a header cell too, is a text and never empty.
+- A page with `competencies` teaches what their "Ich kann …" in the map says, not clearly more or other
+  (`content-matches-competencies`).
 - A new chapter: a folder with `chapter.yaml`, listed in `src/app.yaml`, each page listed in `chapter.yaml`.
 - `selfAssessment` in a `chapter.yaml`: written in Commit, skill
   `lernapps-explainer-self-assessment`. An exercise it names renamed or moved → change the reference too.

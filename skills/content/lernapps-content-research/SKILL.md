@@ -22,22 +22,37 @@ license: MIT
 
 ## 2. The learning map
 
-Before you write competencies, look at the learning map of the subject.
+Before you write competencies, look at the learning map of the subject. A strand is recommended, not required.
 
 - Open `https://lernapps.net/apps/map/<subject>.json` (for you); people see it at `https://lernapps.net/apps/map/<subject>/`.
   `<subject>` is the file name in the catalog, e.g. `mathematik`. Read it from the file or the page, in full.
-- Pick ONE strand for the app: one app, one strand. A strand runs over several school years; a topic that spans two
-  strands is two apps. Show the creator the strand and its competencies (Bausteine), with the ones still no app
-  practises.
-- Pick the competencies the app will practise. Write each with its id from the map. The app's "Ich kann …"
-  competencies are those of the map, in its words: do not reword or invent them. The map's `requires` shows what
-  learners need first.
+- A strand fits the app → recommend it to the creator: one app, one strand. A strand runs over several school years;
+  a topic that spans two strands is two apps. Show the strand and its competencies (Bausteine), with the ones still
+  no app practises.
+- The creator takes the strand → the app practises only competencies of that strand. Write each with its id from the
+  map. The app's "Ich kann …" competencies are those of the map, in its words: do not reword or invent them. The
+  map's `requires` shows what learners need first.
 - The map lacks a competency the creator wants → do not invent it in the app. Propose it to the catalog: an issue or a
   pull request in `lernapps/apps` (`map/<subject>.yaml`, the strand's list). Say so to the creator; go on with the
   ones the map has, or wait for the answer.
-- No map for the subject (the address answers "not found") → `strand: none`. The app is not on the map; write its
-  competencies as in the next section.
+- No strand fits, the creator wants none, or the subject has no map (the address answers "not found") →
+  `strand: none`. The app is listed as usual, only not on the map; write its competencies as in the next section.
 - Write the strand (`<subject>/<strand>`, or `none`) and the competency ids under "Notes".
+- Tell the creator now how the content will be structured: a competency is one teachable thing (one or two lessons);
+  in an explainer as a rule one page per competency, chapters of competencies that build on each other (skill
+  `lernapps-explainer-design`).
+
+### `strand-from-map`: Recommend a strand of the learning map
+
+```rule
+id: strand-from-map
+scope: tooling
+severity: hint
+```
+
+- The subject has a learning map → check its strands and recommend the one that fits the app.
+- `strand: none` only when no strand fits or the creator wants none; say why under "Notes".
+- With a strand: only that strand's competencies, by their ids; a missing one is proposed to `lernapps/apps`.
 
 ## 3. Competencies
 
@@ -45,7 +60,8 @@ Before you write competencies, look at the learning map of the subject.
   zeichnen). Never "verstehen" or "kennen".
   - Yes: "Ich kann die Stromstärke in einem Reihenstromkreis berechnen."
   - No: "Ich verstehe den elektrischen Strom."
-- Group them into chapters, in the order of the Lehrplan or the material. Many chapters are still one app.
+- Group them into chapters of competencies that build on each other, in the order of the Lehrplan, the material
+  or the map's `requires`. Many chapters are still one app.
 - Write them under "Notes". Show them at the checkpoint "research".
 
 ## 4. Second sources

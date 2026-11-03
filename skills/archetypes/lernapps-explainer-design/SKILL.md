@@ -20,10 +20,13 @@ license: MIT
 
 ## Map the content
 
-- A chapter of competencies → an app chapter. A competency → a page or a section.
-- The app has one strand of the subject's learning map (skill `lernapps-content-research`), or `none`. Every page
-  names the competencies of the map it practises (`competencies`, ids); all of them belong to the app's strand. A
-  competency the map lacks is proposed to the catalog, not invented here. With `strand: none` pages name none.
+- A competency (one teachable thing, one or two lessons) → a page. A large competency may take several pages.
+- A chapter → competencies that build on each other. Order chapters and pages along the map's `requires`: what
+  learners need first comes first.
+- The app has one strand of the subject's learning map (recommended, skill `lernapps-content-research`), or `none`.
+  Every page names the competency of the map it practises (`competencies`, ids of the app's strand). A competency
+  the map lacks is proposed to the catalog, not invented here. With `strand: none` pages name none.
+- Show the creator this structure in Explore: which competency on which page, which pages in which chapter.
 - Depth: chapter, page, section, subsection. Need more levels → two apps.
 - The content structure → the same sections on every page, with fixed ids and titles (e.g. "Regel", "Beispiel",
   "Übung").
@@ -47,11 +50,24 @@ license: MIT
 
 ## Decide
 
-- Strand: `<subject>/<strand>` from the map, or `none` for a subject without a map. The plan records it and the
+- Strand: `<subject>/<strand>` from the map where one fits, or `none`. The plan records it and the
   competency ids of each page (format 2, [structure](../lernapps-explainer/references/structure.md)).
 - Languages: German; English as a second language is supported. Each declared language complete. Never English
   only: without `languages` the page and the runtime's texts are German. English wanted → `[de, en]`.
 - The tutor: the build writes it from the content. Plan only app-specific tutor rules, if any.
+
+## `one-competency-per-page`: One page per competency
+
+```rule
+id: one-competency-per-page
+scope: tooling
+severity: hint
+```
+
+- Each page teaches one competency of the map: `competencies` with one id. Several pages for one large competency
+  are fine.
+- Several competencies on one page: allowed by the schema, not recommended. Split the page, one per competency.
+- `lernapps check` gives a hint for every page of a format-2 explainer with more than one competency.
 
 ## Gotchas
 

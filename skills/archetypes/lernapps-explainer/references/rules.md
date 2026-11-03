@@ -283,3 +283,30 @@ severity: warning
   belong to it.
 - Each page's scope says what the page teaches, no more and no less; "Gehört nicht dazu" names what a learner or tutor
   might expect but the material does not teach.
+
+## `content-matches-competencies`: Each page teaches its competencies
+
+```rule
+id: content-matches-competencies
+scope: tooling
+severity: hint
+```
+
+- A page of a format-2 explainer with a strand teaches what the "Ich kann …" (`iCan`) of its competencies says in
+  `https://lernapps.net/apps/map/<subject>.json`: not clearly more, not something else.
+- More to teach → a page of the competency that says it; none in the map → propose it to `lernapps/apps`
+  (`map/<subject>.yaml`), never invent it in the app.
+- The review reads each page with the `iCan` of its competencies.
+
+## `competencies-on-map`: The strand and the page competencies are on the map
+
+```rule
+id: competencies-on-map
+scope: tooling
+severity: warning
+```
+
+- `strand` in `src/app.yaml` is a strand of the subject's map; each page's `competencies` are ids of that strand.
+- `lernapps check` loads `https://lernapps.net/apps/map/<subject>.json` and warns before the push. Not reachable or
+  no map yet → one hint that it could not check.
+- At the listing an unknown id or one of another strand is an error of the catalog (`entry-learning-map`).

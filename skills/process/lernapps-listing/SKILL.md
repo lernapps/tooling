@@ -24,6 +24,10 @@ At the checkpoint "list", without asking first: the pull request publishes nothi
      the entry, if given, equals the one in that file.
    - Any other app may give `strand` (`<subject>/<strand>`) and `competencies` (ids of that subject) in the entry;
      `competencies` needs a `strand`. An app without a strand is not on the map; that is valid.
+   - An unknown id or one of another strand is an error of the listing (`entry-learning-map`, lernapps/apps).
+     The review adds two hints, never errors: a strand that could fit an app with `strand: none`
+     (`strand-from-map`), a page that teaches more or other than its competencies say
+     (`content-matches-competencies`). `lernapps check` warns about unknown ids before (`competencies-on-map`).
 3. Run the check the guide names. Fix its findings first: the pull request runs the same check.
 4. Open the pull request from the creator's fork as skill `lernapps-github` says.
 

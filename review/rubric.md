@@ -155,3 +155,15 @@ id: correct-content-support
 Correct content is suggested, never a condition for listing. Read the tests in the repo and the sources named in the
 app. A finding of severity hint: exercises with computable answers and no test that checks the answers, or facts
 without a source learners or teachers can follow.
+
+## A strand of the learning map, where one fits
+
+```rubric
+id: strand-from-map
+```
+
+Read the app's strand: `strand` in `src/app.yaml` of an explainer in format 2, else `strand` in the entry. Open the
+maps at `https://lernapps.net/apps/map/` and, for the subject of the app, `https://lernapps.net/apps/map/<subject>.json`.
+A finding, always a hint: an app without a strand (`strand: none`, or none in the entry) whose subject has a map with
+a strand that fits what the app teaches. Name the strand and the competencies it would practise. No map for the
+subject, or no strand fits: no finding.
