@@ -31,7 +31,8 @@ Before you write competencies, look at the learning map of the subject. A strand
   no app practises.
 - The creator takes the strand → the app practises only competencies of that strand. Write each with its id from the
   map. The app's "Ich kann …" competencies are those of the map, in its words: do not reword or invent them. The
-  map's `requires` shows what learners need first.
+  map's `requires` shows what learners need first; a prerequisite the app does not practise, of any strand, gets a
+  recap page or a link to the map (skill `lernapps-explainer-design`).
 - The map lacks a competency the creator wants → do not invent it in the app. Propose it to the catalog: an issue or a
   pull request in `lernapps/apps` (`map/<subject>.yaml`, the strand's list). Say so to the creator; go on with the
   ones the map has, or wait for the answer.

@@ -34,6 +34,8 @@ license: MIT
   number: the build stops, or the digits change. A table cell, a header cell too, is a text and never empty.
 - A page with `competencies` teaches what their "Ich kann …" in the map says, not clearly more or other
   (`content-matches-competencies`).
+- A page with formulas written through the shell: a heredoc with an unquoted delimiter replaces `$…` and `\`
+  (`<<EOF`). Quote the delimiter (`<<'EOF'`), or write the file with the file tool.
 - A new chapter: a folder with `chapter.yaml`, listed in `src/app.yaml`, each page listed in `chapter.yaml`.
 - `selfAssessment` in a `chapter.yaml`: written in Commit, skill
   `lernapps-explainer-self-assessment`. An exercise it names renamed or moved → change the reference too.

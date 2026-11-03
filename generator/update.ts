@@ -41,6 +41,7 @@ import {
   ownVersion,
   readJson,
   RUNTIME,
+  runtimeSpec,
   SKILLS_LOCK,
   templatesPackage,
   TOOLING,
@@ -58,7 +59,8 @@ export const UPDATE_USAGE = `Usage: lernapps update
 Moves the app in the current folder to the versions of this @lernapps/tooling, then runs npm install. npm update
 moves the app within its version ranges; this moves the ranges, and what npm does not know:
   @lernapps/app-templates  to the version this tooling depends on: the runtime its tests ran with. A newer version
-                           (e.g. from Renovate) is kept. A git commit, as apps once pinned, becomes a version
+                           (e.g. from Renovate) is kept. A git commit, as apps once pinned, becomes a version; while
+                           this tooling depends on a commit (an unreleased runtime), the app moves to that commit
   @lernapps/tooling        to the version of this tooling (unchanged when run from the app)
   .github/workflows/       the actions of lernapps/tooling at the tag of that version
   .agents/skills/app-content/SKILL.md
@@ -101,9 +103,16 @@ function lowest(range: string): [number, number, number] | undefined {
 const older = (a: [number, number, number], b: [number, number, number]) =>
   a[0] !== b[0] ? a[0] < b[0] : a[1] !== b[1] ? a[1] < b[1] : a[2] < b[2];
 
-/** The next range of a dependency at `version`, and what the output says about it. */
-export function nextRange(name: string, current: string | undefined, version: string): { spec: string; line: string } {
-  const target = `^${version}`;
+/**
+ * The next range of a dependency at `version` (target: ^ that version, or the spec given, e.g. a git commit of an
+ * unreleased runtime), and what the output says about it.
+ */
+export function nextRange(
+  name: string,
+  current: string | undefined,
+  version: string,
+  target = `^${version}`,
+): { spec: string; line: string } {
   // a local copy (a folder or a tarball of the package, as an app under development uses) is the creator's choice
   if (current !== undefined && /^(file:|link:|\.{0,2}\/)/.test(current)) {
     return { spec: current, line: `${name}: kept ${current}, a local copy` };
@@ -111,8 +120,9 @@ export function nextRange(name: string, current: string | undefined, version: st
   const now = current === undefined ? undefined : lowest(current);
   const next = lowest(version);
   if (current === target) return { spec: current, line: `${name}: unchanged (${current})` };
-  // a newer version than this tooling's stays: it must never move back
-  if (now !== undefined && next !== undefined && !older(now, next)) {
+  // a newer version than this tooling's stays: it must never move back; a commit (no version to compare) is where the
+  // tooling's tests ran, so the app moves to it
+  if (lowest(target) !== undefined && now !== undefined && next !== undefined && !older(now, next)) {
     return { spec: current ?? target, line: `${name}: kept ${current}, not moved to ${target}: it is not older` };
   }
   return { spec: target, line: `${name}: ${current ?? "none"} → ${target}` };
@@ -403,7 +413,7 @@ export function update(args: string[]): number {
   const notMoved: string[] = [];
   const runtime = devDependencies[RUNTIME];
   if (runtime !== undefined) {
-    const next = nextRange(RUNTIME, runtime, templates.version);
+    const next = nextRange(RUNTIME, runtime, templates.version, runtimeSpec(templates.version));
     if (next.spec !== runtime) specs.push(`${RUNTIME}@${next.spec}`);
     lines.push(next.line);
   }

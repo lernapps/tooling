@@ -10,7 +10,7 @@
 | `section` | `id`, `title`, `blocks` | heading and blocks |
 | `text` | `text` | prose |
 | `formula` | `formula` (LaTeX subset, no `$`) | formula on its own line, MathML |
-| `figure` | `draw` (`hundred-grid` with `filled`, `bar` with `part`, `whole`) or `image` (`images/<name>.svg`, `source`, `licence`); `alt`, `caption` | inline SVG or bundled image |
+| `figure` | `draw` (`hundred-grid` with `filled`, `bar` with `part`, `whole`) or `image` (`images/<name>.svg`, `source`, `licence`); `alt`, `caption` | inline SVG or bundled image; `bar` is one strip, the whole, with the part shaded and labelled with its percentage: a part of a whole only, never two quantities side by side or a value above the whole (an `image` or a `table` instead) |
 | `labelled-figure` | `image`, `alt`, `caption`, `labels` (`x`, `y` in %, `text`, optional `marker` of 1 to 3 characters, e.g. the material's `A` to `E`, else the number), `legend` (default `true`; `false` shows only the markers, then `alt` names every marker), `source`, `licence` | image with markers (letters or numbers) and a legend of the texts |
 | `table` | `caption`, `header`, `rowHeaders`, `rows` | table with caption |
 | `timeline` | `events` (`date`, `title`, `label`, `text`) or `data` | dated events, earliest first |
@@ -84,6 +84,6 @@
 
 ## Data files
 
-- `src/data/<name>.yaml`: list of records, same lowercase fields; values number, boolean, text (map if several
-  languages).
+- `src/data/<name>.yaml`: list of records, same fields; a field name starts with a lower-case letter, then letters
+  and digits (`masse`, `hoeheM`; not `Masse`, `h_m`); values number, boolean, text (map if several languages).
 - Used by `timeline` (`data: ereignisse`) and `generated` (`from: { data: elemente }`). Each fact once, there.

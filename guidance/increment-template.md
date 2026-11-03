@@ -116,8 +116,8 @@ questions. -->
 ### Content method
 
 <!-- One line each: the guide's patterns, figures and components used, and where; anything new, what it does and
-cannot; an explainer on the map: per new page its prerequisites of another strand, and which get a recap page, which
-a link. Something new goes into the guide in the slice that adds it. -->
+cannot; an explainer on the map: per new page its prerequisites the app does not practise, and which get a recap
+page, which a link. Something new goes into the guide in the slice that adds it. -->
 
 ### Completed
 

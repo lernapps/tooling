@@ -16,3 +16,4 @@
 | Lever and moment | a beam with weights at distances; does it balance | `image` of the beam; `generated` for F₁ · a₁ = F₂ · a₂; a component with draggable weights |
 | Optics | a ray diagram of a convex lens; where the image forms | `labelled-figure` of the rays; `true-false` on image properties; a component with a draggable object |
 | Density | blocks of equal mass and different volumes; float or sink | `table` from a data file of materials; `generated` with `compare: { choice: [schwimmt, sinkt] }` |
+| Energy and efficiency | forms of energy before and after; how much is useful | `figure` `bar` only for a part of a whole (useful energy of the energy put in, the efficiency); energies side by side or a transfer chain → `table` or an `image` (SVG); `generated` with the values from a data file (`from: { data: … }`, records with numbers never inline) |

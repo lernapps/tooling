@@ -1,11 +1,12 @@
 // An explainer in format 2 and the learning map of the catalog, for the checks one-competency-per-page,
 // competencies-on-map and prerequisites-linked. An explainer is in format 2 when its src/app.yaml says `format: 2`; it
 // names the app's strand (`<subject>/<strand>` or `none`) and every page the competencies of the map it practises
-// (`competencies`, ids of the subject), or, on a recap page, the one competency of another strand it repeats
+// (`competencies`, ids of the subject), or, on a recap page, the one competency it repeats and does not practise
 // (`recap: <subject>/<competency>`). The map of a subject is data at https://lernapps.net/apps/map/<subject>.json (lernapps/apps,
 // docs/learning-map-contract.md, section 5).
 import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { isAbsolute, join, resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { parse } from "yaml";
 
 /** The app's description, relative to its repo. */
@@ -107,11 +108,14 @@ export const competencyPage = (subject: string, id: string): string =>
   `https://lernapps.net/apps/map/${subject}/c/${id}/`;
 
 /**
- * The address of the map of `subject`. For the tooling's own tests only, not for users: LERNAPPS_TEST_MAP_URL replaces
- * the base (test/explainer-map.test.ts). Not in the help.
+ * The address of the map of `subject`. For tests only, not for users: LERNAPPS_TEST_MAP_URL replaces the base
+ * (test/explainer-map.test.ts), an http(s) address, a `file:` URL or a local directory (absolute, or relative to the
+ * current directory), so that a sandbox without a local server can test against a map on disk
+ * (`<dir>/<subject>.json`). Not in the help.
  */
 export function mapUrl(subject: string, env: NodeJS.ProcessEnv = process.env): string {
-  const base = env["LERNAPPS_TEST_MAP_URL"] ?? MAP_BASE;
+  let base = env["LERNAPPS_TEST_MAP_URL"] ?? MAP_BASE;
+  if (!/^(?:https?|file):/i.test(base)) base = pathToFileURL(isAbsolute(base) ? base : resolve(base)).href;
   return `${base.endsWith("/") ? base : `${base}/`}${subject}.json`;
 }
 
@@ -137,6 +141,7 @@ export function loadMap(url: string): Promise<Loaded> {
 }
 
 async function fetchMap(url: string): Promise<Loaded> {
+  if (url.startsWith("file:")) return readMap(url);
   let response: Response;
   try {
     response = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(TIMEOUT) });
@@ -155,6 +160,25 @@ async function fetchMap(url: string): Promise<Loaded> {
   let value: unknown;
   try {
     value = await response.json();
+  } catch {
+    return { failed: `${url} is not JSON` };
+  }
+  return isMap(value) ? { map: value } : { failed: `${url} is not the map of a subject (no strands)` };
+}
+
+/** The map in a local file (LERNAPPS_TEST_MAP_URL with a `file:` URL or a directory), read as fetchMap reads one. */
+function readMap(url: string): Loaded {
+  let text: string;
+  try {
+    text = readFileSync(fileURLToPath(url), "utf8");
+  } catch (error) {
+    return (error as NodeJS.ErrnoException).code === "ENOENT"
+      ? { failed: `${url} does not exist: the subject has no map yet, or it is not the subject's id` }
+      : { failed: `${url} could not be read (${error instanceof Error ? error.message : String(error)})` };
+  }
+  let value: unknown;
+  try {
+    value = JSON.parse(text);
   } catch {
     return { failed: `${url} is not JSON` };
   }

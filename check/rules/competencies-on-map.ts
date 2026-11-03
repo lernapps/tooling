@@ -1,8 +1,9 @@
 // The strand of an explainer in format 2 and the competencies of its pages are on the learning map: the check loads
 // the map of the subject (https://lernapps.net/apps/map/<subject>.json, the subject the part of the strand before
 // "/") and warns before the push about a strand the subject does not have, an id it does not have, and an id of
-// another strand, and about a recap page whose `recap` is not on the map or belongs to the app's own strand (a
-// recap repeats a competency of another strand, maybe of another subject, whose map is then loaded too). Advice: at
+// another strand, and about a recap page whose `recap` is not on the map or that the app also practises on a page of
+// its own (a recap repeats a competency the app does not practise, of any strand, maybe of another subject, whose map
+// is then loaded too; KD-27 of the learning map). Advice: at
 // the listing the catalog checks the same as an error (entry-learning-map of
 // lernapps/apps). The map not reachable (no network, not deployed yet) is one hint that it could not check. It needs
 // the app's repo: src/app.yaml with `format: 2` and a strand other than `none`.
@@ -15,7 +16,7 @@ export default {
   id: "competencies-on-map",
   url: "https://lernapps.net/tooling/rules/#competencies-on-map",
   description:
-    "The strand of an explainer in format 2 is a strand of its subject's learning map, every page's competencies belong to it, and every recap page repeats a competency of another strand.",
+    "The strand of an explainer in format 2 is a strand of its subject's learning map, every page's competencies belong to it, and every recap page repeats a competency of the map that the app does not practise.",
   severity: "warning",
   run: async ({ project }) => {
     const explainer = project === undefined ? undefined : readExplainer(project);
@@ -36,6 +37,9 @@ export default {
     const strands = loaded.map.strands;
     const strandOf = strandsOf(loaded.map);
     const problems: Problem[] = [];
+    const practised = new Map<string, string>();
+    for (const page of explainer.pages)
+      for (const id of page.competencies) if (!practised.has(id)) practised.set(id, page.where);
     const strand = strands.find((candidate) => candidate.id === strandId);
     if (strand === undefined) {
       problems.push({
@@ -62,19 +66,19 @@ export default {
         }
       }
       if (page.recap !== undefined)
-        problems.push(...(await recapProblems(page.where, page.recap, { subject, strandId, map: loaded.map, url })));
+        problems.push(...(await recapProblems(page.where, page.recap, { subject, map: loaded.map, url, practised })));
     }
     return problems;
   },
 } satisfies Check;
 
-/** A recap page's `recap`: a competency of a map, of another strand than the app's. */
+/** A recap page's `recap`: a competency of a map, of any strand, that the app does not practise on a page of its own. */
 async function recapProblems(
   where: string,
   recap: string,
-  app: { subject: string; strandId: string; map: SubjectMap; url: string },
+  app: { subject: string; map: SubjectMap; url: string; practised: Map<string, string> },
 ): Promise<Problem[]> {
-  const { subject, strandId, url } = app;
+  const { subject, url, practised } = app;
   const [, recapSubject = "", id = ""] = RECAP.exec(recap) ?? [];
   if (recapSubject === "") {
     return [
@@ -106,12 +110,13 @@ async function recapProblems(
       },
     ];
   }
-  if (recapSubject === subject && of === strandId) {
+  const page = recapSubject === subject ? practised.get(id) : undefined;
+  if (page !== undefined) {
     return [
       {
         where,
-        found: `the recap ${recap} belongs to the app's own strand ${subject}/${strandId}`,
-        fix: `A competency of the app's strand is practised, not recapped: give it a page with competencies: [${id}] and exercises instead of recap`,
+        found: `the recap ${recap} is a competency the app also practises (${page})`,
+        fix: `A competency the app practises needs no recap: remove this recap page, or the competency ${id} from the page that practises it`,
       },
     ];
   }
