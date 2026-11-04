@@ -126,7 +126,18 @@ Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht
   - Zusätzlich Harbor in der Umgebung „Evals“ (Sitzung session_016NmpwdCZ5sNsKGxLuji4aj): Baseline und Iteration 1 (`2ed7a8c`), je n = 2, mit Juror; Ergebnis auf `evals/run-2026-11-03-juror`.
 - [ ] C6 Iteration 1: Guidance-Änderungen (Strategie 6), messen. Commit.
   - Guidance geändert (Musterseite als Checkpoint, Lernenden-Prüfung, `feedback-applied-everywhere`, Lernhandlung in „Content method“, Look and layout, Abschnittstitel); messen fehlt.
-- [ ] C7 Iterationen 2–3 nach Befunden (höchstens), messen. Commit je Iteration.
+  - Harbor-Lauf 2026-11-03-juror (Sonnet, n = 2, Ergebnis `evals/run-2026-11-03-juror` `5924643`): Prozesswerte da, Juror zunächst ohne Werte (Claude Code verweigert bypassPermissions als root; behoben in `d888731`, Juror läuft neu).
+
+    | Zelle | check | phase | Rückfragen nach Plan | Fragen/Zug max | Minuten |
+    |---|---|---|---|---|---|
+    | Brüche Baseline | 1 | 1 | 8,5 (6–11) | 5,5 | 26 |
+    | Brüche It. 1 | 1 | 1 | 7 (5–9) | 5 | 28 |
+    | Bewegung Baseline | 1 | 0,83 | 5,5 (4–7) | 5,5 | 24 |
+    | Bewegung It. 1 | 1 | 1 | 6 (6–6) | 5,5 | 36 |
+
+    Transkripte: In It. 1 bauen alle vier Läufe zuerst eine Musterseite, lassen sie von einem Subagenten prüfen und holen das Ja; in der Baseline keine Musterseite. `skills_in_phase` steigt (0,82 → 1; 0,73 → 0,94), Bewegung schlägt in It. 1 sofort `explainer` vor (Baseline: `interactive`). Probleme: Warten auf den Subagenten über mehrere Züge, echte Antwort für Wakeup gehalten, Bildschirmfotos nicht angesehen, „Zwischenstand“ fehlt (`early_preview` 0), Phasenansage seltener (Bewegung 0,54 → 0,27). Rückfragen nach dem Plan in allen Zellen über 3 (schon in der Baseline).
+- [ ] C7 Iteration 2: erste Änderungen `2b1872a` (Lernenden-Prüfung im Vordergrund, Bildschirmfotos ansehen, Checkpoint-Nachricht mit „**Code · Checkpoint** Zwischenstand“); Lernqualität nach den Juror-Befunden folgt.
+- [ ] C7b Iteration 3 (höchstens), nach Befunden, messen.
 - [x] C8 Architektur und Doku (Strategie 7). Commit.
 - [ ] C9 (offen, aus #257) Push des leeren `gh-pages`/`main` in `lernapps-github` scheitert am Pre-Push-Hook: Vorschlag `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages` aus dem App-Checkout statt `git switch --orphan`. In einer Probe-App ohne Hooks nicht nachstellbar; braucht eine mit `create` angelegte App. Nicht Teil der Messung.
 
