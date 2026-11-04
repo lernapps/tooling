@@ -106,8 +106,25 @@ Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht
 
 **Risiken:** Juror schwankt (n = 2, Befunde lesen statt nur zählen); Überanpassung (Guidance und Juror teilen die Regeln: gewollt, da die Regel der Maßstab ist; Kontrolle durch die Befunde und den Physik-Auftrag); GitHub-Installation des Zweigs (`prepare` baut) kann im Container scheitern → vorher hier testen; Kosten.
 
+### Nachplanung: Informationshierarchie vor Iteration 4 (Nutzer, 2026-11-04)
+
+Nutzer: „Ohne die Guidance messen wir nur Mist.“ Entscheidungen:
+- `AGENTS.md` enthält alle Regeln der Prozesssteuerung, als Tabelle; die Tabelle wird aus `guidance/workflow-rules.md` erzeugt (diese bleibt die gepflegte Quelle mit Volltext). Zeilenweise Tabelle, damit sie in einen Lesebefehl passt.
+- Einstieg bleibt `https://lernapps.net/tooling/llms.txt`. Sie prüft zuerst die Einstiegskriterien (Shell, Node, npm erreichbar, darf `npx` laufen) und hat einen Fallback (2b): ohne `npx` die Startdateien (Plan-Template, `AGENTS.md`, Skills) aus `github.com/lernapps/tooling` holen und von Hand anlegen.
+- Die vollständige `AGENTS.md` wird an die `llms.txt` angehängt (beim Build erzeugt), nicht als eigene Leseanweisung.
+- Das Plan-Template bleibt für die Reihenfolge zuständig.
+- Annahme (nicht widersprochen): `lernapps init` legt `AGENTS.md` und `CLAUDE.md` (`@AGENTS.md`) im aktuellen Ordner an; die App entsteht in diesem Ordner, nie in einem Unterordner.
+
+Umsetzung:
+1. `scripts/agents-md.ts`: liest die ` ```rule `-Blöcke aus `guidance/workflow-rules.md` (id, Titel, Punkte) und schreibt die Tabelle zwischen Markern in `guidance/AGENTS.md`; `--check` für den Test. Ein Test hält beide synchron.
+2. `guidance/AGENTS.md`: Abschnitt „Process rules“ (Tabelle), „Folder“ (alles im Ordner von `init`), bestehende Punkte bleiben.
+3. `generator/init.ts`: schreibt `AGENTS.md` und `CLAUDE.md`; `create` überschreibt `AGENTS.md` wie bisher und schreibt `CLAUDE.md`, falls fehlt. Tests in `test/create.test.ts`/Init-Tests.
+4. `site/llms.txt`: Einstiegskriterien mit `npx`-Erlaubnis, Fallback 2b, Verweis, dass `AGENTS.md` unten folgt. `scripts/llms.ts` erzeugt `_site/llms.txt` = `site/llms.txt` + `guidance/AGENTS.md`; `scripts/build.sh` nutzt es; `evals/harbor/run.sh` legt die erzeugte Datei ins Image.
+5. arc42 (Prozess-Guidance, Generator) und Tests; dann Iteration 4 mit Harbor (Sonnet, n = 2, beide Aufgaben).
+
 ### Tasks
-- [ ] Nutzer bestätigt den Plan → entfällt (Nutzer: autonom, „Leg los“).
+- [x] Nutzer bestätigt den Plan → entfällt (Nutzer: autonom, „Leg los“).
+- [x] Nachplanung Informationshierarchie (oben) mit dem Nutzer geklärt (2026-11-04).
 
 ### Completed
 - [x] Strategie, Regeln, Juror, Eichung, Zweig-Evals, Poor man's Evals, Guidance-Änderungen und Doku geplant.
@@ -155,6 +172,8 @@ Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht
   - DeepSeek/OpenCode: Nutzer (2026-11-04): „Lass Deepseek dann erst mal sein.“
   - Befund aus der Sitzung von It. 2 (Nutzerfrage dort): `guidance/AGENTS.md` kam bei keinem der vier Agenten an. Geprüft am Code: `create` schreibt `AGENTS.md` erst nach dem Plan (`generator/create.ts`), `init` nicht; die Apps haben keine `CLAUDE.md` mit `@AGENTS.md`, Claude Code lädt `AGENTS.md` nicht von selbst; die App lag in 3 von 4 Läufen in einem Unterordner. Eigenes Feature, nicht Teil dieses Zweigs.
 - [x] C8 Architektur und Doku (Strategie 7). Commit.
+- [ ] C10 Informationshierarchie: `scripts/agents-md.ts`, `guidance/AGENTS.md` mit Regeltabelle und Ordner-Regel, `init` schreibt `AGENTS.md` und `CLAUDE.md`, `llms.txt` mit Einstiegskriterien, Fallback und angehängter `AGENTS.md`, `run.sh` nutzt sie; Tests, arc42. Commit.
+- [ ] C11 Iteration 4: Harbor, Sonnet, n = 2, beide Aufgaben, Juror; Vergleich mit It. 3. Commit.
 - [ ] C9 (offen, aus #257) Push des leeren `gh-pages`/`main` in `lernapps-github` scheitert am Pre-Push-Hook: Vorschlag `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages` aus dem App-Checkout statt `git switch --orphan`. In einer Probe-App ohne Hooks nicht nachstellbar; braucht eine mit `create` angelegte App. Nicht Teil der Messung.
 
 ### Completed
