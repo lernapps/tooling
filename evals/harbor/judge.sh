@@ -6,7 +6,8 @@
 #   JUROR_MODEL  the juror's model (default anthropic's Sonnet, claude-sonnet-5-5)
 # The learner the juror plays comes from the task's task.toml (juror_grade, juror_subject, juror_competencies); a task
 # without them is skipped. The juror runs with the subscription token of the evals, through a scrubbed environment as
-# in harbor.sh, and sees the app without its plans, retrospective and history.
+# in harbor.sh, and sees the app without its plans, retrospective and history. Its tools are allowed by name
+# (--allowedTools), not by bypassing the permissions: Claude Code refuses that as root, and the eval host runs as root.
 set -euo pipefail
 [ $# -ge 1 ] || { sed -n '2,9p' "$0" >&2; exit 2; }
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -48,7 +49,8 @@ for job in "$@"; do
       rm -rf "$build"
       continue
     fi
-    bundle="$(dirname "$(find "$build" -path "$build/node_modules" -prune -o -name index.html -path '*/_site/*' -print -o -name index.html -path '*/dist/*' -print | sort | head -1)")"
+    # The root of the built site: the shortest path to an index.html (a page has its own index.html below it)
+    bundle="$(dirname "$(find "$build" -path "$build/node_modules" -prune -o -name index.html -path '*/_site/*' -print -o -name index.html -path '*/dist/*' -print | awk '{ print length, $0 }' | sort -n | head -1 | cut -d' ' -f2-)")"
     mkdir -p "$work/app" && cp -R "$build/src" "$build/package.json" "$work/app/"
     port=$((port + 1))
     (cd "$bundle" && exec python3 -m http.server "$port" --bind 127.0.0.1 > /dev/null 2>&1) &
@@ -64,11 +66,17 @@ INPUT
     # The scrubbed environment of harbor.sh, with the claude binary found before
     (
       token="$EVALS_ANTHROPIC_API_KEY"
+      # Playwright and its browser, as the calling environment has them (the juror uses the browser)
+      node_path="${NODE_PATH:-$(npm root -g)}" browsers="${PLAYWRIGHT_BROWSERS_PATH:-}"
+      bins="$(dirname "$claude_bin"):$(dirname "$(command -v node)")"
       while read -r name; do unset "$name" 2> /dev/null || true; done < <(compgen -e)
-      export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin HOME="${LERNAPPS_EVALS_HOME:-/root/.lernapps-evals}/home" TERM=dumb
+      export PATH="$bins:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" HOME="${LERNAPPS_EVALS_HOME:-/root/.lernapps-evals}/home" TERM=dumb
+      export NODE_PATH="$node_path"
+      [ -n "$browsers" ] && export PLAYWRIGHT_BROWSERS_PATH="$browsers"
       export CLAUDE_FORCE_OAUTH=1 CLAUDE_CODE_OAUTH_TOKEN="$token"
       unset token
-      cd "$work" && "$claude_bin" -p "$prompt" --model "$model" --permission-mode bypassPermissions \
+      cd "$work" && "$claude_bin" -p "$prompt" --model "$model" --permission-mode acceptEdits \
+        --allowedTools Bash Read Write Edit Glob Grep WebFetch \
         --output-format json > "$work/juror-session.json" 2> "$work/juror.log"
     ) || echo "$trial: the juror failed (juror/juror.log)" >&2
     kill "$server" 2> /dev/null || true
