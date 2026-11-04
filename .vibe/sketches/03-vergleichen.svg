@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="sans-serif" font-size="16">
+  <title>Skizze Seite „Brüche vergleichen“ (Beispiel mit Bar-Figuren)</title>
+  <rect x="0" y="0" width="640" height="300" fill="#fff" stroke="#999"/>
+  <text x="20" y="28" font-weight="bold">Anschaulich: Welcher Bruch ist größer, 3/4 oder 5/8?</text>
+  <text x="20" y="56">3/4</text>
+  <g stroke="#333" stroke-width="2"><rect x="80" y="40" width="450" height="30" fill="#3a6ea5"/><rect x="530" y="40" width="90" height="30" fill="#fff"/></g>
+  <text x="20" y="106">5/8</text>
+  <g stroke="#333" stroke-width="2"><rect x="80" y="90" width="375" height="30" fill="#3a6ea5"/><rect x="455" y="90" width="165" height="30" fill="#fff"/></g>
+  <text x="20" y="150" font-size="14" fill="#555">(Bilder in der Aufgabe zeigen nie die Lösung; hier im Erklärteil gleiche Länge = gleiches Ganzes.)</text>
+  <text x="20" y="184" font-weight="bold">Rechnerisch: erst auf gleichen Nenner erweitern</text>
+  <text x="20" y="210">3/4 = 6/8 (mit 2 erweitert), 5/8 bleibt.  6/8 &gt; 5/8, also 3/4 &gt; 5/8.</text>
+  <text x="20" y="246">Übung: Setze &lt;, &gt; oder = (Auswahl), Aufgaben mit gleichem Nenner, gleichem Zähler, verschiedenen Nennern.</text>
+  <text x="20" y="272" font-size="13" fill="#555">Schritte der Lösung nennen jeweils den Grund („4 geht in 8: erweitere mit 2“).</text>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="80" viewBox="0 0 500 80">
+  <title>Streifen in 6 gleich große Teile, 1 gefärbt</title>
+  <defs>
+    <pattern id="schraffur" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="8" height="8" fill="#4a90d9"/>
+      <rect width="3" height="8" fill="#1f5a99"/>
+    </pattern>
+  </defs>
+  <rect width="500" height="80" fill="#ffffff"/>
+  <rect x="10.00" y="10" width="80.00" height="60" fill="url(#schraffur)" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="90.00" y="10" width="80.00" height="60" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="170.00" y="10" width="80.00" height="60" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="250.00" y="10" width="80.00" height="60" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="330.00" y="10" width="80.00" height="60" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="410.00" y="10" width="80.00" height="60" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+</svg>

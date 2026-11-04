@@ -1,0 +1,46 @@
+{
+  "format": 1,
+  "strand": "mathematik/arithmetik",
+  "pages": [
+    {
+      "path": "bruch/was-ist-ein-bruch/",
+      "title": "Was ist ein Bruch?",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "bruch/bruch-darstellen/",
+      "title": "Einen Bruch darstellen",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "kuerzen-erweitern/erweitern/",
+      "title": "Brüche erweitern",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "kuerzen-erweitern/teiler-wiederholen/",
+      "title": "Teiler – kurz wiederholt",
+      "recap": "mathematik/teilbarkeit"
+    },
+    {
+      "path": "kuerzen-erweitern/kuerzen/",
+      "title": "Brüche kürzen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "kuerzen-erweitern/vergleichen/",
+      "title": "Brüche vergleichen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    }
+  ]
+}

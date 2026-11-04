@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Erweitern und Kürzen
+summary: Du erweiterst und kürzt Brüche und siehst, warum sich der Anteil dabei nicht ändert.
+pages: [erweitern, teiler-wiederholen, kuerzen, vergleichen]

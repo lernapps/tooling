@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="sans-serif" font-size="16">
+  <title>Skizze Komponente BruchEinteilung (Seite „Was ist ein Bruch?“)</title>
+  <rect x="0" y="0" width="640" height="300" fill="#fff" stroke="#999"/>
+  <text x="20" y="28" font-weight="bold">Ausprobieren: Teile das Ganze und färbe Teile</text>
+  <text x="20" y="56">Das Ganze ist der ganze Streifen. Wie viele gleich große Teile?</text>
+  <g>
+    <rect x="20" y="66" width="40" height="36" fill="#eee" stroke="#333"/><text x="34" y="90">2</text>
+    <rect x="66" y="66" width="40" height="36" fill="#eee" stroke="#333"/><text x="80" y="90">3</text>
+    <rect x="112" y="66" width="40" height="36" fill="#cde" stroke="#333" stroke-width="3"/><text x="126" y="90">4</text>
+    <rect x="158" y="66" width="40" height="36" fill="#eee" stroke="#333"/><text x="172" y="90">5</text>
+    <text x="210" y="90">… bis 12 (Knöpfe, mindestens 44 px hoch)</text>
+  </g>
+  <g stroke="#333" stroke-width="2">
+    <rect x="20" y="130" width="150" height="70" fill="#3a6ea5"/>
+    <rect x="170" y="130" width="150" height="70" fill="#3a6ea5"/>
+    <rect x="320" y="130" width="150" height="70" fill="#fff"/>
+    <rect x="470" y="130" width="150" height="70" fill="#fff"/>
+  </g>
+  <text x="70" y="172" fill="#fff">gefärbt</text><text x="220" y="172" fill="#fff">gefärbt</text>
+  <text x="20" y="226">Tippe auf ein Teil, um es zu färben oder die Farbe zu entfernen (mit Tastatur: Pfeile + Leertaste).</text>
+  <text x="20" y="256">Bruch: 2 von 4 Teilen gefärbt = <tspan font-weight="bold">2/4</tspan>  (Zähler oben: gefärbt, Nenner unten: alle Teile)</text>
+  <text x="20" y="282" font-size="13" fill="#555">Start: 4 Teile, nichts gefärbt. Muster (Streifen) zusätzlich zur Farbe. Zeigt die Anzeige nur hier (Erkundung, keine Aufgabe).</text>
+</svg>

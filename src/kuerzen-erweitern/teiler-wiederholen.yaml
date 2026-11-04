@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Teiler – kurz wiederholt
+description: "Teiler und gemeinsame Teiler wiederholen, bevor du Brüche kürzt."
+recap: mathematik/teilbarkeit
+blocks:
+  - type: section
+    id: einstieg
+    title: Das weißt du schon
+    blocks:
+      - type: text
+        text: |
+          Zum Kürzen brauchst du Teiler. Ein **Teiler** einer Zahl ist eine Zahl, durch die man sie ohne Rest teilen
+          kann. 6 ist ein Teiler von 12, denn $12 : 6 = 2$. 5 ist kein Teiler von 12, denn $12 : 5$ geht nicht ohne
+          Rest.
+      - type: definition
+        term: Gemeinsamer Teiler
+        explanation: Ein gemeinsamer Teiler zweier Zahlen ist eine Zahl, die beide ohne Rest teilt.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Gemeinsame Teiler von 12 und 18
+        blocks:
+          - type: table
+            caption: Die Teiler von 12 und von 18
+            rowHeaders: true
+            rows:
+              - [Teiler von 12, "1, 2, 3, 4, 6, 12"]
+              - [Teiler von 18, "1, 2, 3, 6, 9, 18"]
+              - [Gemeinsame Teiler, "1, 2, 3, 6"]
+          - type: text
+            text: |
+              Der größte gemeinsame Teiler von 12 und 18 ist 6. Mit der 6 kannst du beim Kürzen am meisten auf einmal
+              teilen. Wie du Teiler findest und Teilbarkeitsregeln nutzt, steht auf der Seite
+              [Teiler und Vielfache auf der Lernlandkarte](https://lernapps.net/apps/map/mathematik/c/teilbarkeit/).

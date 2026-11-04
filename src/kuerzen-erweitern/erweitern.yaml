@@ -1,0 +1,168 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche erweitern
+description: "Erweitern heißt: Zähler und Nenner mit derselben Zahl malnehmen. Die Teile werden kleiner, der Anteil bleibt gleich."
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Eine Pizza ist in 2 gleich große Stücke geschnitten. Du isst 1 Stück, also $\frac{1}{2}$ der Pizza. Deine
+          Freundin schneidet jedes Stück noch einmal durch. Jetzt sind es 4 Stücke, und du nimmst 2 davon. Du hast
+          genauso viel gegessen wie vorher, nur sind die Stücke kleiner. Du hast $\frac{2}{4}$ gegessen.
+          $\frac{1}{2}$ und $\frac{2}{4}$ sind verschiedene Schreibweisen für denselben Anteil.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Die zwei Streifen sind gleich lang, beide sind das Ganze. Oben ist der Anteil $\frac{2}{3}$. Mit den Knöpfen
+          wählst du eine Zahl, die **Erweiterungszahl**. Der untere Streifen wird dann in so viel mal mehr Teile
+          geteilt. Die Teile werden feiner, und du färbst auch so viel mal mehr Teile. Beim Start ist die Zahl 1:
+          Dann sind beide Streifen gleich. Probiere 2, 3 und 4 aus. Was ändert sich unten? Was bleibt gleich? Unter den
+          Streifen steht die Rechnung.
+      - type: vue-component
+        id: streifen-erweitern
+        component: Streifen
+        props:
+          mode: erweitern
+          z: 2
+          n: 3
+          factorLabel: "Mit welcher Zahl erweiterst du?"
+          before: "Vorher: {z} von {n} Teilen gefärbt"
+          after: "Erweitert mit {k}: {z2} von {n2} Teilen gefärbt"
+          stripLabel: "{z} von {n} Teilen gefärbt"
+          same: "Das gefärbte Stück ist gleich groß geblieben: {z} von {n} Teilen sind so viel wie {z2} von {n2} Teilen."
+        nojs: |
+          Zwei gleich lange Streifen sind das Ganze. Oben sind 2 von 3 Teilen gefärbt. Unten wird mit einer Zahl
+          erweitert, zum Beispiel mit 3: Der Streifen hat 9 Teile, 6 davon sind gefärbt. Das gefärbte Stück ist gleich
+          groß: $\frac{2}{3} = \frac{2 \cdot 3}{3 \cdot 3} = \frac{6}{9}$.
+  - type: section
+    id: regel
+    title: Regel
+    blocks:
+      - type: definition
+        term: Erweitern
+        explanation: Einen Bruch erweitern heißt, Zähler und Nenner mit derselben Zahl malzunehmen. Der Wert des Bruchs bleibt gleich.
+      - type: formula
+        formula: '\frac{a}{b} = \frac{a \cdot k}{b \cdot k}'
+      - type: text
+        text: |
+          Dabei ist $k$ die Erweiterungszahl (nicht null). Der Nenner wird mit $k$ malgenommen: Das Ganze wird in
+          $k$-mal so viele Teile geteilt. Der Zähler wird auch mit $k$ malgenommen: Du färbst $k$-mal so viele
+          Teile. Der gefärbte Teil ist gleich groß geblieben. Wichtig: Beide Zahlen mit **derselben** Zahl, und
+          **malnehmen**, nicht addieren.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: 3/4 mit 2 erweitern
+        blocks:
+          - type: text
+            text: "Zähler: 3 · 2 = 6. Nenner: 4 · 2 = 8. Also gilt $\\frac{3}{4} = \\frac{6}{8}$."
+          - type: figure
+            image: images/streifen-3-von-4.svg
+            alt: Ein Streifen mit vier gleich großen Teilen, drei davon sind gefärbt.
+            caption: Vorher. Das Ganze hat 4 Teile.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/streifen-6-von-8.svg
+            alt: Ein gleich langer Streifen mit acht gleich großen Teilen, sechs davon sind gefärbt.
+            caption: Erweitert mit 2. Das Ganze hat 8 Teile, das gefärbte Stück ist gleich groß.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: erweitern-zaehler
+        given:
+          a: { int: [1, 7] }
+          b: { int: [2, 9] }
+          k: { int: [2, 6] }
+        where: ["a < b", "a + k != a * k"]
+        task:
+          text: "Du erweiterst $\\frac{{{a}}}{{{b}}}$ mit {{k}}. Wie heißt der neue Zähler?"
+        answer: { value: "a * k", compare: number }
+        mistakes:
+          - { value: "a", message: "Der Zähler muss auch mit {{k}} malgenommen werden, nicht nur der Nenner." }
+          - { value: "a + k", message: "Beim Erweitern wird malgenommen, nicht addiert." }
+        hint: "Zähler und Nenner werden mit derselben Zahl malgenommen."
+        steps:
+          - "Beim Erweitern wird der Zähler mit {{k}} malgenommen."
+          - "Neuer Zähler: {{a}} · {{k}} = {{answer}}."
+      - type: generated
+        id: erweitern-nenner
+        given:
+          a: { int: [1, 7] }
+          b: { int: [2, 9] }
+          k: { int: [2, 6] }
+        where: ["a < b", "b + k != b * k"]
+        task:
+          text: "Du erweiterst $\\frac{{{a}}}{{{b}}}$ mit {{k}}. Wie heißt der neue Nenner?"
+        answer: { value: "b * k", compare: number }
+        mistakes:
+          - {
+              value: "b",
+              message: "Der Nenner muss mit {{k}} malgenommen werden, sonst sind die Teile nicht feiner geworden.",
+            }
+          - { value: "b + k", message: "Beim Erweitern wird malgenommen, nicht addiert." }
+        hint: "Der Nenner sagt, in wie viele Teile das Ganze geteilt ist."
+        steps:
+          - "Beim Erweitern wird der Nenner mit {{k}} malgenommen."
+          - "Neuer Nenner: {{b}} · {{k}} = {{answer}}."
+      - type: generated
+        id: erweitern-welche-zahl
+        given:
+          e: { pick: 1, from: { data: bruch-paare } }
+        task:
+          text: "Der Bruch $\\frac{{{e.z}}}{{{e.n}}}$ wurde erweitert. Es entstand $\\frac{{{e.a}}}{{{e.b}}}$. Mit welcher Zahl wurde erweitert?"
+        answer: { value: "e.k", compare: number }
+        mistakes:
+          - {
+              value: "e.b - e.n",
+              message: "Das ist der Unterschied der beiden Nenner. Beim Erweitern wird malgenommen: Mit welcher Zahl musst du den alten Nenner malnehmen?",
+            }
+        hint: "Mit welcher Zahl musst du den alten Nenner malnehmen, um den neuen zu bekommen?"
+        steps:
+          - "Alter Nenner {{e.n}}, neuer Nenner {{e.b}}: {{e.n}} · {{e.k}} = {{e.b}}."
+          - "Der Zähler passt dazu: {{e.z}} · {{e.k}} = {{e.a}}. Es wurde mit {{e.k}} erweitert."
+      - type: single-choice
+        id: erweitern-welcher
+        text: Welcher Bruch entsteht, wenn du 2/5 mit 3 erweiterst?
+        options:
+          - text: 2/15
+            correct: false
+            info: Hier wurde nur der Nenner malgenommen. Auch der Zähler muss mit 3 malgenommen werden.
+          - text: 5/8
+            correct: false
+            info: Hier wurde 3 addiert. Beim Erweitern wird malgenommen.
+          - text: 6/15
+            correct: true
+            info: 2 · 3 = 6 und 5 · 3 = 15. Der Anteil bleibt gleich.
+        explanation: Zähler und Nenner werden mit derselben Zahl malgenommen, hier mit 3.
+        links:
+          - title: Erweitern (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: erweitern-wert
+        text: Wenn du einen Bruch erweiterst, bleibt der Anteil vom Ganzen gleich.
+        answer: true
+        explanation: Die Teile werden feiner, aber du färbst entsprechend mehr davon. Das gefärbte Stück ist gleich groß.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: erweitern-addieren
+        text: Du erweiterst einen Bruch, indem du zu Zähler und Nenner dieselbe Zahl addierst.
+        answer: false
+        explanation: Man nimmt Zähler und Nenner mit derselben Zahl mal. Wer addiert, bekommt einen anderen Anteil. 1/2 und 2/3 sind zum Beispiel nicht gleich groß.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

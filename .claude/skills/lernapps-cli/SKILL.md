@@ -1,0 +1,165 @@
+---
+name: lernapps-cli
+description: Use in Code of a lernapps.net app - to create or update the app with the CLI, whenever a check, a git hook or a runtime test fails, and before you change the preset, the configuration or the storage. What `lernapps create`, `update`, `check` and `screenshots` do, how to fix from a message, when to suppress, and what of the preset you never change.
+license: MIT
+---
+
+# lernapps CLI and checks
+
+## Read when
+
+- [references/platform-rules.md](references/platform-rules.md): a check names a `listing` rule, and before the
+  listing.
+
+## Create
+
+1. Only after the creator's yes to the plan (`explore-before-code`). In the plan's folder:
+   `npx --no -- lernapps create --archetype <archetype>`.
+2. `create` installs nothing and commits nothing; its last lines say what follows, in this order: no git repo yet
+   (`lernapps init` makes one): `git init --initial-branch=work`; then `npm install` (runtime, git hooks); then commit
+   everything on `work` (`git add -A`, `git commit`; the hooks check it).
+3. Needs git, Node ≥ 22.18, registry.npmjs.org. Blocked → ask the creator to allow it, run again. Never write the
+   app by hand.
+4. It keeps the plan and the installed skills, and writes the content guide's skeleton.
+5. Maintainers only, to try a tooling that is not on the registry (a local build has version `0.0.0`): give it to
+   both, `lernapps init <short name> --tooling <spec>` and `create --tooling <spec>`, e.g.
+   `file:/path/to/lernapps-tooling-0.0.0.tgz` (from `npm pack`) or `github:lernapps/tooling#<commit>`. Run from a
+   checkout of the tooling, `init` packs it into a temporary folder and installs that tarball by itself; `create`
+   takes the same from `package.json`. A sandbox without a server for the map: `LERNAPPS_TEST_MAP_URL=<folder>` (or a
+   `file:` URL) makes `lernapps check` read `<folder>/<subject>.json`.
+
+## Update
+
+- `npx --yes @lernapps/tooling@latest update`, then `npm install`: moves the app to this
+  tooling's runtime and checks, replaces the `lernapps-*` skills, adds what an older app lacks.
+- `npm update` moves tooling and runtime only within their ranges (`^0.1.0` takes patches); `update` moves the ranges.
+
+## Check
+
+- `npx --no -- lernapps check`: format, lint, types, unit tests, build, checks of the built app, end-to-end tests. The hooks
+  run its parts (`--pre-commit`, `--pre-push`); CI runs it whole.
+- Report: `node_modules/.cache/lernapps/validation-report.yaml`. Options: `npx --no -- lernapps check --help`.
+
+## Look at the app
+
+A check says the rules hold; only a look says what a learner sees. Show the creator the pages before a push, and before
+a submission they declare something about.
+
+- Explainer or quiz: build (`npx vp build` writes `dist/`; `npm run build` writes `_site/`), then
+  `npx --no -- lernapps screenshots`: it takes the newer of `dist/` and `_site/`, or the folder you name. It writes
+  one image of every page, one of every figure, and an `index.html` that shows them in order to `screenshots/` (not
+  part of the app: do not commit it).
+  Show the images, or the `index.html` where you can show HTML. Check every figure in its own image
+  (`…-figure-<n>.png`): a page image is scaled down, its details are not readable. `--desktop` adds 1280 px images.
+  Options: `npx --no -- lernapps screenshots --help`. The folder ignores itself in git, so a later check never sees it.
+- Interactive app: `screenshots` does not support it. Open the built app with the Playwright the tooling installs
+  (`import { chromium } from "playwright"`), at 360 px width, and take `page.screenshot({ fullPage: true })` of each
+  state the creator should see, from a short script outside the app.
+
+## A check fails
+
+1. Read the message: it names the step and links the rule (`https://lernapps.net/tooling/rules/#<id>`).
+2. Failed commit: one line names the step and `node_modules/.cache/lernapps/pre-commit.log`. Read that log.
+3. Fix the cause. The rule's text is in the skill of the phase; the link says where.
+4. Run the check again. Go on only when it passes.
+
+- A runtime test (`@lernapps/app-templates`) fails while your content validates: a bug of the template.
+  1. Tell the creator. Open an issue at <https://github.com/lernapps/app-templates/issues> with the validation
+     report, or ask the creator to.
+  2. Never change tests, config or `node_modules` to get around it. Go on with the content.
+  3. After the fix: update, check, commit.
+- A link answers HTTP 429: "not checked", a hint that fails nothing. Tell the creator which; go on.
+
+## Rules
+
+### `checks-pass`: Run the checks before you push
+
+```rule
+id: checks-pass
+scope: tooling
+severity: error
+```
+
+- `lernapps check` passes before every push. The hooks run it too; CI runs the same command and keeps its report as
+  the artifact `validation-report`.
+
+### `fix-from-message`: Fix failed checks, never bypass them
+
+```rule
+id: fix-from-message
+scope: tooling
+severity: error
+```
+
+- Fix the cause the message names.
+- Never bypass a hook: no `--no-verify`, no acceptance such as `ARC42_CONSISTENT` without a finding shown.
+- Never delete a test to make it pass.
+
+### `suppression-reason`: Suppress only in place, with the reason
+
+```rule
+id: suppression-reason
+scope: tooling
+severity: error
+```
+
+- Lint: only on the line, with the rule named and the reason after `--`:
+  `// oxlint-disable-next-line lernapps/no-request-before-click -- the video loads after a click`.
+- Types: only `// @ts-expect-error -- <reason>`; never `@ts-ignore` or `@ts-nocheck`.
+- The review reads every suppression.
+
+### `lockfile-matches`: Commit the lock file with every dependency change
+
+```rule
+id: lockfile-matches
+scope: tooling
+severity: error
+```
+
+- Change dependencies with `npm install`, never in `package.json` alone; commit `package-lock.json` with it.
+- A git pin (`github:…#<commit>`) moves in both files together.
+
+### `keep-the-preset`: Extend the preset, change nothing of it
+
+```rule
+id: keep-the-preset
+scope: [archetype:explainer, archetype:interactive, archetype:quiz]
+severity: error
+```
+
+- `vite.config.ts` is `export default lernapps()`, with only the app's own settings as generated
+  (`lernapps({ plugins: [quiz()] })`).
+- `tsconfig.json` extends `@lernapps/tooling/tsconfig.json` as generated.
+- The hooks come from the package (`prepare` in `package.json`); never replace one.
+- Never turn a lint rule off or lower its severity.
+
+### `strict-typescript`: TypeScript only, strict
+
+```rule
+id: strict-typescript
+scope: [archetype:explainer, archetype:interactive, archetype:quiz]
+severity: error
+```
+
+- Every source file is TypeScript; no JavaScript files.
+- Never `any`: use `unknown` and narrow it, or write the type.
+- Type the creator's data; validate it at build time.
+
+### `storage-through-wrapper`: Store only through the preset's storage
+
+```rule
+id: storage-through-wrapper
+scope: [archetype:explainer, archetype:interactive, archetype:quiz]
+severity: error
+```
+
+- Only `createStorage` from `@lernapps/tooling/storage`, named after the app's id in the catalog (own prefix
+  `lernapps:<id>:`, rule `own-data-only`; works when storage is blocked).
+- At most 100 kB under the prefix (keys and values, 2 bytes per UTF-16 unit). Beyond, `save` returns false and the
+  app keeps working.
+- A setting of the learner that holds for every app or every app of the archetype: `createSettings("<id>",
+  "<archetype>")`, saved only where the learner chose it (`"app"`, `"archetype"` or `"all"`); the app's own goes first.
+- Keep the learning state, not growing histories.
+- What only a reload must not lose, such as an answer being written, lasts while the tab is open:
+  `createStorage("<id>", { type: "sessionStorage" })` (sessionStorage, same prefix and limit).
+- Never `localStorage`, `sessionStorage`, IndexedDB or cookies directly.

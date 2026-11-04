@@ -1,0 +1,195 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche vergleichen
+description: "Zwei Brüche der Größe nach vergleichen: gleicher Nenner, gleicher Zähler, sonst auf einen gemeinsamen Nenner erweitern."
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Zwei gleich große Tafeln Schokolade: Anna isst $\frac{3}{4}$ ihrer Tafel, Ben isst $\frac{5}{8}$ seiner
+          Tafel. Wer hat mehr gegessen? Das kannst du sehen, wenn du die Anteile als Bild vergleichst. Mit Rechnen geht
+          es auch, und zwar bei jedem Paar von Brüchen.
+  - type: section
+    id: anschaulich
+    title: Anschaulich erklärt
+    blocks:
+      - type: figure
+        image: images/vergleich-3-4-5-8.svg
+        alt: "Zwei gleich lange Streifen untereinander. Oben sind 3 von 4 Teilen gefärbt, unten 5 von 8 Teilen."
+        caption: Beide Streifen sind das Ganze. Achte darauf, wie weit die Färbung reicht.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Die Färbung oben reicht weiter als unten. Also ist $\frac{3}{4}$ größer als $\frac{5}{8}$. Das schreibt man
+          so: $\frac{3}{4} > \frac{5}{8}$. Das Zeichen $>$ bedeutet „größer als“, $<$ bedeutet „kleiner als“.
+  - type: section
+    id: regel
+    title: Regel
+    blocks:
+      - type: text
+        text: |
+          Es gibt drei Fälle:
+
+          1. **Gleicher Nenner.** Die Teile sind gleich groß. Der Bruch mit dem größeren Zähler ist größer, weil er mehr
+             Teile hat. $\frac{5}{7} > \frac{3}{7}$.
+          2. **Gleicher Zähler.** Beide haben gleich viele Teile, aber die Teile sind verschieden groß. Je größer der
+             Nenner, desto kleiner sind die Teile. Der Bruch mit dem größeren Nenner ist also der **kleinere**.
+             $\frac{2}{9} < \frac{2}{5}$.
+          3. **Verschiedene Nenner.** Erweitere beide Brüche auf denselben Nenner. Dann gilt Fall 1.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: 3/4 und 5/8 vergleichen
+        blocks:
+          - type: text
+            text: |
+              Die Nenner sind verschieden. 8 ist ein Vielfaches von 4. Du erweiterst $\frac{3}{4}$ mit 2:
+              $\frac{3}{4} = \frac{3 \cdot 2}{4 \cdot 2} = \frac{6}{8}$. Jetzt haben beide den Nenner 8. Vergleiche die
+              Zähler: $6 > 5$. Also gilt $\frac{6}{8} > \frac{5}{8}$ und damit $\frac{3}{4} > \frac{5}{8}$. Das passt zum
+              Bild: Anna hat mehr gegessen.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: vergleichen-gleicher-nenner
+        text: Welcher Bruch ist größer, 3/7 oder 5/7?
+        options:
+          - text: 3/7
+            correct: false
+            info: Beide Brüche haben Siebtel. 3 Siebtel sind weniger als 5 Siebtel.
+          - text: 5/7
+            correct: true
+            info: Die Teile sind gleich groß, und 5 Teile sind mehr als 3 Teile.
+          - text: Sie sind gleich groß.
+            correct: false
+            info: Sie haben zwar denselben Nenner, aber verschiedene Zähler.
+        explanation: Bei gleichem Nenner entscheidet der Zähler.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: vergleichen-gleicher-zaehler
+        text: Welcher Bruch ist größer, 2/5 oder 2/9?
+        options:
+          - text: 2/9
+            correct: false
+            info: Der Nenner 9 heißt, das Ganze ist in 9 Teile geteilt. Diese Teile sind kleiner als Fünftel.
+          - text: 2/5
+            correct: true
+            info: Fünftel sind größer als Neuntel, und beide Brüche haben 2 Teile.
+          - text: Sie sind gleich groß.
+            correct: false
+            info: Die Zähler sind gleich, aber die Teile sind verschieden groß.
+        explanation: Bei gleichem Zähler ist der Bruch mit dem kleineren Nenner der größere, weil seine Teile größer sind.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: vergleichen-zeichen
+        text: Welches Zeichen passt zwischen 1/2 und 3/8?
+        options:
+          - text: "$<$"
+            correct: false
+            info: Das hieße, 1/2 ist kleiner als 3/8. Erweitere 1/2 mit 4, dann siehst du es.
+          - text: "$>$"
+            correct: true
+            info: 1/2 = 4/8, und 4/8 ist größer als 3/8.
+          - text: "$=$"
+            correct: false
+            info: 1/2 ist 4/8. Das ist nicht 3/8.
+        explanation: Erweitere 1/2 mit 4 auf 4/8. Dann vergleichst du die Zähler 4 und 3.
+        hint: Erweitere einen Bruch so, dass beide denselben Nenner haben.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: vergleichen-gleich
+        text: Welches Zeichen passt zwischen 3/4 und 6/8?
+        options:
+          - text: "$<$"
+            correct: false
+            info: Erweitere 3/4 mit 2. Dann hat es dieselben Teile wie 6/8.
+          - text: "$>$"
+            correct: false
+            info: Erweitere 3/4 mit 2. Dann hat es dieselben Teile wie 6/8.
+          - text: "$=$"
+            correct: true
+            info: 3/4 mit 2 erweitert ist 6/8. Es ist derselbe Anteil.
+        explanation: Beim Erweitern bleibt der Anteil gleich. 3/4 und 6/8 sind gleich groß.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: vergleichen-schokolade
+        text: Anna isst 3/5 ihrer Tafel Schokolade, Ben isst 7/10 seiner gleich großen Tafel. Wer hat mehr gegessen?
+        options:
+          - text: Anna
+            correct: false
+            info: Anna hat 3/5 = 6/10 gegessen. Das ist weniger als 7/10.
+          - text: Ben
+            correct: true
+            info: 3/5 = 6/10, und 7/10 ist mehr als 6/10.
+          - text: Beide gleich viel
+            correct: false
+            info: 3/5 ist 6/10, nicht 7/10.
+        explanation: Erweitere 3/5 mit 2 zu 6/10. Dann vergleichst du 6/10 und 7/10.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: vergleichen-gemeinsamer-nenner
+        given:
+          e: { pick: 1, from: { data: bruch-vergleiche } }
+        task:
+          text: "Du willst $\\frac{{{e.a}}}{{{e.b}}}$ und $\\frac{{{e.c}}}{{{e.d}}}$ vergleichen. Auf welchen Nenner erweiterst du beide? Nimm den kleinsten, der geht."
+        answer: { value: "e.nn", compare: number }
+        mistakes:
+          - {
+              value: "e.b",
+              message: "Der Bruch mit dem Nenner {{e.d}} lässt sich nicht auf {{e.b}} erweitern. Der gemeinsame Nenner muss ein Vielfaches beider Nenner sein.",
+            }
+          - {
+              value: "e.b * e.d",
+              message: "Das geht auch, aber es gibt einen kleineren gemeinsamen Nenner. Ist ein Nenner ein Vielfaches des anderen?",
+            }
+        hint: "Ist ein Nenner ein Vielfaches des anderen?"
+        steps:
+          - "{{e.d}} ist ein Vielfaches von {{e.b}}."
+          - 'Du erweiterst $\frac{{{e.a}}}{{{e.b}}}$ so, dass der Nenner {{e.nn}} wird. Der gemeinsame Nenner ist {{e.nn}}.'
+      - type: generated
+        id: vergleichen-neuer-zaehler
+        given:
+          e: { pick: 1, from: { data: bruch-vergleiche } }
+        task:
+          text: "Du erweiterst $\\frac{{{e.a}}}{{{e.b}}}$ auf den Nenner {{e.nn}}. Wie heißt der neue Zähler?"
+        answer: { value: "e.p", compare: number }
+        mistakes:
+          - { value: "e.a", message: "Der Zähler muss mit derselben Zahl wie der Nenner malgenommen werden." }
+          - { value: "e.a + e.nn - e.b", message: "Beim Erweitern wird malgenommen, nicht addiert." }
+        hint: "Mit welcher Zahl musst du den Nenner malnehmen, um {{e.nn}} zu bekommen?"
+        steps:
+          - "{{e.b}} · {{e.m}} = {{e.nn}}, also wird mit {{e.m}} erweitert."
+          - "Neuer Zähler: {{e.a}} · {{e.m}} = {{e.p}}."
+      - type: true-false
+        id: vergleichen-zaehler-nenner
+        text: Von zwei Brüchen mit gleichem Zähler ist der Bruch mit dem größeren Nenner der größere.
+        answer: false
+        explanation: Ein größerer Nenner heißt kleinere Teile. Bei gleich vielen Teilen ist der Bruch dann kleiner.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: vergleichen-erweitern
+        text: Um zwei Brüche mit verschiedenen Nennern zu vergleichen, kannst du beide auf denselben Nenner erweitern.
+        answer: true
+        explanation: Beim Erweitern bleibt der Anteil gleich. Mit gleichem Nenner entscheidet dann der Zähler.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

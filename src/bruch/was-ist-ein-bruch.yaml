@@ -1,0 +1,223 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Was ist ein Bruch?
+description: "Ein Ganzes in gleich große Teile teilen: Der Nenner zählt alle Teile, der Zähler die gefärbten. Zum Ausprobieren mit einem Streifen."
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Eine Pizza wird in 4 gleich große Stücke geschnitten. Du isst 1 Stück. Wie viel von der Pizza hast du
+          gegessen? Du sagst: „Ein Viertel.“ Mit einem **Bruch** schreibst du das so: $\frac{1}{4}$.
+
+          Das kennst du schon vom Teilen: Das Ganze ist die ganze Pizza. Ein Bruch sagt, welchen **Anteil** vom
+          Ganzen du meinst. Die 4 unten sagt: Das Ganze ist in 4 gleich große Teile geteilt. Die 1 oben sagt: Du meinst
+          1 Teil davon. Der Strich dazwischen heißt **Bruchstrich**.
+
+          Du brauchst dafür nur natürliche Zahlen und das Teilen, das kennst du schon
+          ([natürliche Zahlen auf der Lernlandkarte](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/)).
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Das Ganze ist der ganze Streifen. Mit den Zahlen oben wählst du, in wie viele **gleich große** Teile er
+          geteilt ist. Dann tippst du auf Teile, um sie zu färben. Tippst du noch einmal, ist das Teil wieder weiß.
+          Teile, die du nicht färbst, bleiben weiß. Am Anfang sind es 4 Teile und nichts ist gefärbt. Wählst du eine
+          andere Zahl, wird der Streifen neu geteilt und alle Teile sind wieder weiß. Der Streifen bleibt immer gleich
+          lang, nur die Teile werden kleiner oder größer. Unter dem Streifen siehst du, wie viele von allen Teilen
+          gefärbt sind, und den Bruch dazu. Probiere zum Beispiel 8 Teile und färbe 3 davon, dann 5 Teile und
+          färbe 2 davon. Was ändert sich, wenn du mehr Teile wählst? Was bleibt gleich?
+      - type: vue-component
+        id: bruch-einteilung
+        component: BruchEinteilung
+        props:
+          partsLabel: In wie viele gleich große Teile ist das Ganze geteilt?
+          cell: Teil {i}
+          counter: "{z} von {n} Teilen gefärbt."
+        nojs: |
+          Ein Streifen ist das Ganze. Er ist in gleich große Teile geteilt, du kannst 2 bis 12 Teile wählen. Du
+          färbst einige Teile. Zum Beispiel: 8 Teile, 3 davon gefärbt, das sind 3 von 8 Teilen, der Bruch $\frac{3}{8}$.
+  - type: section
+    id: regel
+    title: Regel
+    blocks:
+      - type: definition
+        term: Bruch
+        explanation: Ein Bruch beschreibt einen Anteil vom Ganzen. Das Ganze ist in gleich große Teile geteilt, und der Bruch sagt, wie viele davon gemeint sind.
+      - type: definition
+        term: Nenner
+        explanation: Der Nenner steht unter dem Bruchstrich. Er sagt, in wie viele gleich große Teile das Ganze geteilt ist.
+      - type: definition
+        term: Zähler
+        explanation: Der Zähler steht über dem Bruchstrich. Er zählt, wie viele von diesen Teilen gemeint sind, zum Beispiel gefärbt.
+      - type: formula
+        formula: '\frac{\text{Zähler}}{\text{Nenner}} = \frac{\text{gefärbte Teile}}{\text{alle Teile}}'
+      - type: text
+        text: |
+          Wichtig: Die Teile müssen **gleich groß** sein. Sonst sagt der Nenner nichts über die Größe eines Teils.
+      - type: figure
+        image: images/streifen-ungleich.svg
+        alt: Ein Streifen, in vier Teile geteilt. Der linke Teil ist schmal und gefärbt, die drei anderen sind breit und weiß.
+        caption: Hier sind vier Teile, aber sie sind nicht gleich groß. Das gefärbte Teil ist kein Viertel.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: 3 von 8 Teilen
+        blocks:
+          - type: figure
+            image: images/streifen-3-von-8.svg
+            alt: Ein Streifen, in acht gleich große Teile geteilt. Die drei linken Teile sind gefärbt, die fünf rechten sind weiß.
+            caption: Das Ganze ist der Streifen. Zähle zuerst alle Teile, dann die gefärbten.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: |
+              Alle Teile: 8, das ist der Nenner. Gefärbte Teile: 3, das ist der Zähler. Der gefärbte Teil ist
+              $\frac{3}{8}$ vom Ganzen. Man liest: „drei Achtel“.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: bruch-ablesen-1
+        text: Der Streifen ist das Ganze. Welcher Bruch beschreibt den gefärbten Teil?
+        material:
+          - type: figure
+            image: images/streifen-5-von-8.svg
+            alt: Ein Streifen, in acht gleich große Teile geteilt. Fünf Teile sind gefärbt.
+            caption: Ein Streifen aus gleich großen Teilen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: $\frac{3}{8}$
+            correct: false
+            info: 3 Teile sind nicht gefärbt. Der Bruch beschreibt den gefärbten Teil, also zählt der Zähler die gefärbten Teile.
+          - text: $\frac{8}{5}$
+            correct: false
+            info: Hier stehen Zähler und Nenner vertauscht. Unter dem Bruchstrich steht die Zahl aller Teile.
+          - text: $\frac{5}{8}$
+            correct: true
+            info: 5 Teile sind gefärbt, und das Ganze hat 8 Teile.
+          - text: $\frac{5}{3}$
+            correct: false
+            info: Der Nenner zählt alle Teile, nicht nur die weißen.
+        explanation: Das Ganze hat 8 gleich große Teile, 5 davon sind gefärbt. Das ist der Bruch fünf Achtel.
+        hint: Zähle zuerst alle Teile des Streifens, dann die gefärbten.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: bruch-ablesen-2
+        text: Der Streifen ist das Ganze. Welcher Bruch beschreibt den gefärbten Teil?
+        material:
+          - type: figure
+            image: images/streifen-1-von-6.svg
+            alt: Ein Streifen, in sechs gleich große Teile geteilt. Ein Teil ist gefärbt.
+            caption: Ein Streifen aus gleich großen Teilen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: $\frac{1}{5}$
+            correct: false
+            info: Auch das gefärbte Teil gehört zu den Teilen des Ganzen. Der Nenner zählt alle Teile.
+          - text: $\frac{5}{6}$
+            correct: false
+            info: 5 Teile sind weiß. Der Bruch beschreibt hier aber den gefärbten Teil.
+          - text: $\frac{1}{6}$
+            correct: true
+            info: 1 Teil ist gefärbt, und das Ganze hat 6 Teile.
+          - text: $\frac{6}{1}$
+            correct: false
+            info: Hier stehen Zähler und Nenner vertauscht.
+        explanation: Das Ganze hat 6 gleich große Teile, 1 davon ist gefärbt. Das ist der Bruch ein Sechstel.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: bruch-zaehler-nenner
+        text: "Beim Bruch $\\frac{3}{5}$ ist das Ganze in 5 gleich große Teile geteilt und 3 davon sind gemeint."
+        answer: true
+        explanation: Der Nenner 5 sagt, in wie viele gleich große Teile das Ganze geteilt ist. Der Zähler 3 sagt, wie viele davon gemeint sind.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: bruch-nenner-gefaerbt
+        text: Der Nenner eines Bruchs zählt die gefärbten Teile.
+        answer: false
+        explanation: Der Nenner zählt alle gleich großen Teile des Ganzen. Die gefärbten Teile zählt der Zähler.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: bruch-gleich-gross
+        text: Der Streifen ist in 3 Teile geteilt, ein Teil ist gefärbt. Ist das gefärbte Teil ein Drittel des Streifens?
+        material:
+          - type: figure
+            image: images/streifen-ungleich-3.svg
+            alt: Ein Streifen mit drei Teilen verschiedener Breite. Das mittlere Teil ist gefärbt.
+            caption: Ein Streifen mit drei Teilen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Ja, denn der Streifen hat 3 Teile und 1 Teil ist gefärbt.
+            correct: false
+            info: Die Zahlen passen, aber ein Drittel gibt es nur, wenn alle 3 Teile gleich groß sind.
+          - text: Nein, denn ein Drittel braucht 2 gefärbte Teile.
+            correct: false
+            info: Ein Drittel ist 1 Teil von 3 gleich großen Teilen. Die Zahl der gefärbten Teile passt hier.
+          - text: Nein, denn die Teile sind nicht gleich groß.
+            correct: true
+            info: Ein Drittel gibt es nur, wenn das Ganze in 3 gleich große Teile geteilt ist.
+        explanation: Ein Bruch wie ein Drittel braucht gleich große Teile. Hier sind die drei Teile verschieden breit.
+        hint: Vergleiche die Breiten der drei Teile.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: bruch-nenner-lesen
+        given:
+          z: { int: [1, 6] }
+          n: { int: [7, 12] }
+        task:
+          text: "Der Bruch $\\frac{{{z}}}{{{n}}}$ beschreibt einen gefärbten Teil. In wie viele gleich große Teile ist das Ganze geteilt?"
+        answer: { value: "n", compare: number }
+        mistakes:
+          - {
+              value: "z",
+              message: "Das ist der Zähler: Er zählt die gefärbten Teile. Wie viele Teile das Ganze hat, steht unter dem Bruchstrich.",
+            }
+        hint: "Der Nenner steht unter dem Bruchstrich."
+        steps:
+          - "Der Nenner sagt, in wie viele gleich große Teile das Ganze geteilt ist."
+          - 'Bei $\frac{{{z}}}{{{n}}}$ steht unten die {{n}}, also hat das Ganze {{n}} Teile.'
+      - type: generated
+        id: bruch-weisse-teile
+        given:
+          z: { int: [1, 6] }
+          n: { int: [7, 12] }
+        task:
+          text: "Der Bruch $\\frac{{{z}}}{{{n}}}$ beschreibt den gefärbten Teil eines Streifens. Wie viele Teile des Streifens sind nicht gefärbt?"
+        where: ["n != 2 * z"]
+        answer: { value: "n - z", compare: number }
+        mistakes:
+          - {
+              value: "n",
+              message: "Das sind alle Teile des Streifens, auch die gefärbten. Gefragt sind nur die weißen.",
+            }
+          - {
+              value: "z",
+              message: "Das sind die gefärbten Teile, der Zähler. Gefragt sind die, die nicht gefärbt sind.",
+            }
+        hint: "Der Nenner zählt alle Teile, der Zähler die gefärbten."
+        steps:
+          - "Alle Teile: der Nenner {{n}}. Gefärbte Teile: der Zähler {{z}}."
+          - "Nicht gefärbt: {{n}} − {{z}} = {{answer}}."

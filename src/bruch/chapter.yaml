@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche verstehen
+summary: Was ein Bruch ist, was Zähler und Nenner bedeuten und wie du Anteile zeichnest und abliest.
+pages: [was-ist-ein-bruch, bruch-darstellen]

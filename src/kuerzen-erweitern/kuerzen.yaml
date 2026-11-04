@@ -1,0 +1,172 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche kürzen
+description: "Kürzen heißt: Zähler und Nenner durch denselben gemeinsamen Teiler teilen. Die Teile werden größer, der Anteil bleibt gleich."
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Beim Erweitern hast du die Teile feiner gemacht. Jetzt gehst du den Weg zurück: Du fasst Teile
+          zusammen. Von $\frac{6}{9}$ eines Streifens kannst du immer 3 Teile zu einem größeren Teil
+          zusammenfassen. Das nennt man **Kürzen**.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Die zwei Streifen sind gleich lang, beide sind das Ganze. Oben ist der Anteil $\frac{12}{18}$. Mit den
+          Knöpfen wählst du eine Zahl, durch die du teilst. Es gibt nur Knöpfe für Zahlen, die 12 **und** 18 ohne
+          Rest teilen, also für gemeinsame Teiler. Beim Start ist die Zahl 1: Dann sind beide Streifen gleich. Der
+          untere Streifen hat dann weniger, dafür größere Teile. Welcher Knopf macht den unteren Streifen am
+          gröbsten? Was bleibt dabei gleich?
+      - type: vue-component
+        id: streifen-kuerzen
+        component: Streifen
+        props:
+          mode: kuerzen
+          z: 12
+          n: 18
+          factorLabel: "Durch welche Zahl kürzt du?"
+          before: "Vorher: {z} von {n} Teilen gefärbt"
+          after: "Gekürzt mit {k}: {z2} von {n2} Teilen gefärbt"
+          stripLabel: "{z} von {n} Teilen gefärbt"
+          same: "Das gefärbte Stück ist gleich groß geblieben: {z} von {n} Teilen sind so viel wie {z2} von {n2} Teilen."
+        nojs: |
+          Zwei gleich lange Streifen sind das Ganze. Oben sind 12 von 18 Teilen gefärbt. Unten wird gekürzt, zum
+          Beispiel mit 6: Der Streifen hat 3 Teile, 2 davon sind gefärbt. Das gefärbte Stück ist gleich groß:
+          $\frac{12}{18} = \frac{12 : 6}{18 : 6} = \frac{2}{3}$.
+  - type: section
+    id: regel
+    title: Regel
+    blocks:
+      - type: definition
+        term: Kürzen
+        explanation: Einen Bruch kürzen heißt, Zähler und Nenner durch denselben gemeinsamen Teiler zu teilen. Der Wert des Bruchs bleibt gleich.
+      - type: formula
+        formula: '\frac{a}{b} = \frac{a : k}{b : k}'
+      - type: text
+        text: |
+          Dabei ist $k$ ein gemeinsamer Teiler von $a$ und $b$ (größer als 1). Beide Zahlen werden durch **dieselbe**
+          Zahl geteilt. Kürzen ist das Gegenteil von Erweitern.
+
+          Du kannst so lange kürzen, bis es keinen gemeinsamen Teiler außer 1 mehr gibt. Dann ist der Bruch
+          **vollständig gekürzt**. Am schnellsten geht es mit dem größten gemeinsamen Teiler.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: 12/18 kürzen
+        blocks:
+          - type: text
+            text: |
+              12 und 18 sind beide durch 2 teilbar: $\frac{12}{18} = \frac{6}{9}$. 6 und 9 sind beide durch 3
+              teilbar: $\frac{6}{9} = \frac{2}{3}$. 2 und 3 haben keinen gemeinsamen Teiler außer 1. Der Bruch
+              $\frac{2}{3}$ ist vollständig gekürzt.
+          - type: text
+            text: "Schneller: Der größte gemeinsame Teiler von 12 und 18 ist 6. Du teilst einmal durch 6 und bist fertig."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: kuerzen-zaehler
+        given:
+          e: { pick: 1, from: { data: bruch-paare } }
+        where: ["e.a - e.k != e.z"]
+        task:
+          text: "Du kürzt $\\frac{{{e.a}}}{{{e.b}}}$ mit {{e.k}}. Wie heißt der neue Zähler?"
+        answer: { value: "e.z", compare: number }
+        mistakes:
+          - { value: "e.a", message: "Der Zähler muss auch durch {{e.k}} geteilt werden, nicht nur der Nenner." }
+          - { value: "e.a - e.k", message: "Beim Kürzen wird geteilt, nicht subtrahiert." }
+        hint: "Zähler und Nenner werden durch dieselbe Zahl geteilt."
+        steps:
+          - "{{e.a}} und {{e.b}} sind beide durch {{e.k}} teilbar."
+          - "Neuer Zähler: {{e.a}} : {{e.k}} = {{e.z}}."
+      - type: generated
+        id: kuerzen-nenner
+        given:
+          e: { pick: 1, from: { data: bruch-paare } }
+        where: ["e.b - e.k != e.n"]
+        task:
+          text: "Du kürzt $\\frac{{{e.a}}}{{{e.b}}}$ mit {{e.k}}. Wie heißt der neue Nenner?"
+        answer: { value: "e.n", compare: number }
+        mistakes:
+          - { value: "e.b", message: "Der Nenner muss auch durch {{e.k}} geteilt werden, nicht nur der Zähler." }
+          - { value: "e.b - e.k", message: "Beim Kürzen wird geteilt, nicht subtrahiert." }
+        hint: "Zähler und Nenner werden durch dieselbe Zahl geteilt."
+        steps:
+          - "{{e.a}} und {{e.b}} sind beide durch {{e.k}} teilbar."
+          - "Neuer Nenner: {{e.b}} : {{e.k}} = {{e.n}}."
+      - type: generated
+        id: kuerzen-vollstaendig
+        given:
+          e: { pick: 1, from: { data: bruch-paare } }
+        where: ["e.h > 1"]
+        task:
+          text: "Kürze $\\frac{{{e.a}}}{{{e.b}}}$ so weit wie möglich. Wie heißt der neue Nenner?"
+        answer: { value: "e.n", compare: number }
+        mistakes:
+          - {
+              value: "e.b / e.h",
+              message: "Hier kannst du noch weiter kürzen. Gibt es noch einen gemeinsamen Teiler von Zähler und Nenner?",
+            }
+        hint: "Suche den größten gemeinsamen Teiler von Zähler und Nenner."
+        steps:
+          - "{{e.a}} und {{e.b}} haben den größten gemeinsamen Teiler {{e.k}}."
+          - "Neuer Nenner: {{e.b}} : {{e.k}} = {{e.n}}. Der Bruch ist vollständig gekürzt."
+      - type: single-choice
+        id: kuerzen-welche-zahl
+        text: Der Bruch 6/9 wurde zu 2/3 gekürzt. Durch welche Zahl wurde geteilt?
+        options:
+          - text: Durch 2
+            correct: false
+            info: "6 : 2 = 3, nicht 2. Außerdem ist 9 nicht durch 2 teilbar."
+          - text: Durch 3
+            correct: true
+            info: "6 : 3 = 2 und 9 : 3 = 3."
+          - text: Durch 4
+            correct: false
+            info: 6 ist nicht durch 4 teilbar. Ein gemeinsamer Teiler muss beide Zahlen ohne Rest teilen.
+        explanation: Zähler und Nenner wurden beide durch 3 geteilt.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: kuerzen-fertig
+        text: Welcher Bruch ist vollständig gekürzt?
+        options:
+          - text: 4/6
+            correct: false
+            info: 4 und 6 sind beide durch 2 teilbar. Du kannst noch zu 2/3 kürzen.
+          - text: 3/8
+            correct: true
+            info: 3 und 8 haben keinen gemeinsamen Teiler außer 1.
+          - text: 5/10
+            correct: false
+            info: 5 und 10 sind beide durch 5 teilbar. Du kannst noch zu 1/2 kürzen.
+        explanation: Ein Bruch ist vollständig gekürzt, wenn Zähler und Nenner außer 1 keinen gemeinsamen Teiler haben.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: kuerzen-wert
+        text: Wenn du einen Bruch kürzt, bleibt der Anteil vom Ganzen gleich.
+        answer: true
+        explanation: Die Teile werden größer, und du hast entsprechend weniger davon. Das gefärbte Stück ist gleich groß.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: kuerzen-nur-zaehler
+        text: Beim Kürzen darfst du nur den Zähler teilen. Der Nenner bleibt.
+        answer: false
+        explanation: Zähler und Nenner werden durch dieselbe Zahl geteilt. Sonst ändert sich der Anteil.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
