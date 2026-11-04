@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/elektrizitaetslehre
+title: Strom im Kreis
+intro: |
+  Hier liest du nach, wie ein Stromkreis funktioniert, und übst danach. Du lernst, was Stromstärke und Spannung sind
+  und wie man sie misst. Du vergleichst Reihen- und Parallelschaltung und erfährst, wie du sicher mit Strom umgehst.
+
+  Jede Seite hat vier Teile: eine Frage zum Einstieg, die Erklärung, ein Beispiel und Übungen. Schaltungen selbst
+  bauen kannst du in der App [Elektrizität](https://lernapps.net/apps/elektrizitaet/).
+languages: [de]
+chapters: [stromkreis, stromstaerke, spannung, schaltungen, sicherheit]

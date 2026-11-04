@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der einfache Stromkreis
+description: Warum eine Lampe nur leuchtet, wenn der Stromkreis geschlossen ist.
+competencies: [einfacher-stromkreis]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Aus der Grundschule kennst du Batterie, Lampe und Kabel. Die Lampe leuchtet nur, wenn du alles richtig
+          verbunden hast. Woran liegt das?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Ein einfacher Stromkreis besteht aus einer Spannungsquelle (hier die Batterie), einem Verbraucher (hier die
+          Lampe) und Leitungen, die alles zu einem Ring verbinden. Auch ein Schalter gehört oft dazu.
+      - type: definition
+        term: Stromkreis
+        explanation: Ein Stromkreis ist ein geschlossener Weg aus Spannungsquelle, Leitungen und Verbraucher, in dem der Strom fließen kann.
+      - type: figure
+        image: images/stromkreis.svg
+        alt: Ein Rechteck aus Leitungen. Links sitzt die Batterie, oben die Lampe, unten der geschlossene Schalter. Ein Pfeil rechts zeigt die Richtung des Stroms.
+        caption: Achte darauf, dass die Leitung an keiner Stelle unterbrochen ist. Der Pfeil zeigt die Stromrichtung von Plus nach Minus.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Der Strom fließt nur, wenn der Weg **geschlossen** ist. Ist er an einer Stelle unterbrochen, ist der
+          Stromkreis **offen**, und die Lampe bleibt dunkel. Der Strom wird dabei nicht in der Lampe aufgebraucht: Er
+          fließt im Kreis, auch durch die Batterie. Die Lampe wandelt nur Energie in Licht und Wärme um.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Die Lampe leuchtet nicht
+        blocks:
+          - type: text
+            text: |
+              Eine Lampe ist mit einer Batterie verbunden, aber ein Kabel steckt nur an einer Seite.
+
+              1. Der Weg vom Pluspol über die Lampe zum Minuspol ist unterbrochen.
+              2. Der Stromkreis ist offen, also fließt kein Strom.
+              3. Steckst du das Kabel fest an, ist der Kreis geschlossen, und die Lampe leuchtet.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: stromkreis-geschlossen
+        text: Die Lampe in einem einfachen Stromkreis leuchtet nicht. Welche Ursache passt?
+        options:
+          - text: Ein Kabel ist nicht richtig verbunden, der Kreis ist offen.
+            correct: true
+            info: Ist der Weg an einer Stelle unterbrochen, kann kein Strom fließen.
+          - text: Der Strom ist in der Lampe schon aufgebraucht.
+            correct: false
+            info: Strom wird nicht aufgebraucht. Er fließt im Kreis, und nur Energie wird umgewandelt.
+          - text: Der Strom kommt von beiden Seiten in die Lampe und stößt dort zusammen.
+            correct: false
+            info: Im Stromkreis gibt es einen Umlauf in eine Richtung. Es kommt nichts von beiden Seiten.
+        explanation: Die Lampe leuchtet nur, wenn der Stromkreis geschlossen ist.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromkreis
+      - type: true-false
+        id: strom-wird-verbraucht
+        text: "Stimmt die Aussage? Die Stromstärke ist nach der Lampe kleiner als davor, weil die Lampe Strom verbraucht."
+        answer: false
+        explanation: Falsch. Im geschlossenen Kreis fließt überall derselbe Strom. Die Lampe verbraucht keinen Strom, sie wandelt elektrische Energie um.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromkreis

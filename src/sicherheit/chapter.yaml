@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Sicher mit Strom
+summary: Warum Strom aus der Steckdose gefährlich ist, Strom aus einer Batterie aber nicht, und wie du dich schützt.
+pages: [gefahren, regeln]
+selfAssessment:
+  pages:
+    - exercises:
+        - /sicherheit/gefahren/#batterie-steckdose
+        - /sicherheit/gefahren/#feuchte-haut
+    - exercises:
+        - /sicherheit/regeln/#regeln-anwenden
+        - /sicherheit/regeln/#notfall

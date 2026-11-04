@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="module" crossorigin src="../../assets/index-9xEP6cCF.js"></script>
+    <link rel="stylesheet" crossorigin href="../../assets/index-DcKFRwJr.css">
+    <title>Die Parallelschaltung – Strom im Kreis</title>
+    <meta name="description" content="Bauteile nebeneinander schalten und was passiert, wenn ein Zweig ausfällt." />
+    <meta name="lernapps-archetype" content="explainer" />
+    <link rel="alternate" hreflang="de" href="../../schaltungen/parallelschaltung/" />
+  </head>
+  <body>
+    <nav class="explainer-breadcrumbs" aria-label="Du bist hier"><ol><li><a href="../../">Start</a></li><li><a href="../../schaltungen/">Reihen- und Parallelschaltung</a></li><li aria-current="page">Die Parallelschaltung</li></ol></nav>
+<main class="explainer" id="inhalt-der-seite">
+<div class="explainer-title-row">
+<h1>Die Parallelschaltung</h1>
+<div class="explainer-tutor explainer-tutor-page">
+<details class="explainer-tutor-off">
+<summary>Mit einem KI-Tutor lernen</summary>
+<p>Ein KI-Tutor erklärt dir diese Seite und hilft dir bei den Übungen. Wähl deinen Assistenten:</p>
+<p class="explainer-tutor-actions"><span class="explainer-tutor-way" hidden><select class="explainer-tutor-select" aria-label="Assistent"><option value="Claude">Claude</option><option value="ChatGPT">ChatGPT</option><option value="Mistral Vibe" data-hint="Mistral Vibe lädt keine Webseiten, wenn der Link aus einem Knopf kommt. Darum kopieren wir den Satz mit dem Link für dich. Ein Klick auf „Mit Mistral Vibe lernen“ öffnet Mistral Vibe mit einer kurzen Nachricht. Füg danach den kopierten Satz ein (Strg+V, am Mac ⌘+V) und schick ihn ab.">Mistral Vibe</option><option value="copy">Ein anderer: Text kopieren</option></select> <button type="button" class="explainer-tutor-on">Einschalten</button></span> <span class="explainer-tutor-plain"><a class="explainer-tutor-provider" href="https://claude.ai/new" rel="noopener" target="_blank">Mit Claude öffnen</a> <a class="explainer-tutor-provider" href="https://chatgpt.com/" rel="noopener" target="_blank">Mit ChatGPT öffnen</a> <a class="explainer-tutor-provider" href="https://chat.mistral.ai/chat" rel="noopener" target="_blank">Mit Mistral Vibe öffnen</a></span></p>
+<p class="explainer-tutor-hint" role="status" aria-live="polite" hidden></p>
+<p class="explainer-tutor-note">Du nutzt dein eigenes Konto beim Anbieter. Der Assistent ist kein Angebot von lernapps.net: lernapps liefert nur Inhalte und Übungen. Die Wahl gilt für alle Seiten, nur auf diesem Gerät.</p>
+<p><a class="explainer-tutor-guide" href="../../schaltungen/parallelschaltung/tutor/">Ansehen, was dein Tutor zu dieser Seite bekommt</a></p>
+</details>
+<p class="explainer-tutor-bar" hidden><button type="button" class="explainer-tutor-go"></button></p>
+<p class="explainer-tutor-status" role="status" aria-live="polite"></p>
+<script type="application/json" class="explainer-tutor-prompt">{"start":"Lade ⟦base⟧schaltungen/parallelschaltung/tutor/⟦query⟧ und sei mein Tutor.","base":"⟦base⟧","query":"⟦query⟧","root":"../../","storage":"strom-im-kreis","page":{"id":"parallelschaltung","title":"Die Parallelschaltung","exercises":[{"id":"parallel-ausfall","section":"uebung","numbered":false},{"id":"eigenschaft-schaltung","section":"uebung","numbered":false}],"sections":["warum","erklaerung","beispiel","uebung"]},"tutor":"schaltungen/parallelschaltung/tutor/","markdown":"schaltungen/parallelschaltung/tutor/index.md","ways":[{"name":"Claude","url":"https://claude.ai/new?q={prompt}"},{"name":"ChatGPT","url":"https://chatgpt.com/?q={prompt}"},{"name":"Mistral Vibe","url":"https://chat.mistral.ai/chat?q={prompt}","paste":true}],"placeholder":"Ich brauche Hilfe bei einer Lern-Einheit. Ich schreibe Dir gleich, worum es geht.","go":"Mit {name} lernen","done":"✓ Kopiert – jetzt in {name} einfügen","copy":"Text kopieren","copied":"Der Prompt ist kopiert. Füg ihn in den Chat deines KI-Assistenten ein.","failed":"Kopieren ging nicht. Versuch es noch einmal."}</script>
+</div>
+</div>
+
+<nav class="explainer-toc" aria-label="Auf dieser Seite"><p class="explainer-toc-title">Auf dieser Seite</p><ol><li><a href="#warum">Warum?</a></li><li><a href="#erklaerung">Erklärung</a></li><li><a href="#beispiel">Beispiel</a></li><li><a href="#uebung">Übung</a></li></ol></nav>
+<section class="explainer-section">
+<h2 id="warum">Warum?</h2>
+<div class="block-text"><p>Wenn eine Lampe im Zimmer kaputt ist, brennen die anderen weiter. Wie sind sie dann verbunden?</p></div>
+</section>
+<section class="explainer-section">
+<h2 id="erklaerung">Erklärung</h2>
+<div class="block-text"><p>Bei einer Parallelschaltung sind die Bauteile nebeneinander in getrennten Zweigen verbunden. Die Leitung
+teilt sich auf und kommt danach wieder zusammen.</p></div>
+<dl class="explainer-definition"><dt><dfn id="begriff-parallelschaltung"><a href="../../glossar/#parallelschaltung">Parallelschaltung</a></dfn></dt><dd><p>In einer Parallelschaltung sind Bauteile nebeneinander in eigenen Zweigen geschaltet. Der Strom hat mehrere Wege.</p></dd></dl>
+<figure class="block-figure"><img src="../../images/reihe-parallel.svg" alt="Zwei Schaltpläne untereinander. Oben sind zwei Lampen hintereinander verbunden. Unten sitzen zwei Lampen nebeneinander in zwei Zweigen." loading="lazy" decoding="async"><figcaption><p>Betrachte jetzt den unteren Plan. Jede Lampe hat einen eigenen Weg zur Batterie.</p> <span class="block-credit">Quelle: eigene Zeichnung. Lizenz: CC-BY-4.0.</span></figcaption></figure>
+<div class="block-text"><p>Fällt in einer Parallelschaltung ein Zweig aus, leuchten die anderen Zweige weiter, denn sie bleiben
+mit der Batterie verbunden.</p>
+<p>Darum sind die Lampen und Steckdosen im Haus parallel geschaltet. Jedes Gerät lässt sich einzeln ein- und ausschalten.</p></div>
+</section>
+<section class="explainer-section">
+<h2 id="beispiel">Beispiel</h2>
+<div class="explainer-box explainer-example">
+<h3 class="explainer-box-title">Eine Lampe wird herausgedreht</h3>
+<div class="block-text"><p>Zwei Lampen sind parallel geschaltet. Du drehst Lampe 1 heraus.</p>
+<ol>
+<li>Im Zweig von Lampe 1 ist jetzt eine Lücke.</li>
+<li>Der Zweig von Lampe 2 ist weiter geschlossen.</li>
+<li>Lampe 2 leuchtet unverändert weiter.</li>
+</ol></div>
+</div>
+</section>
+<section class="explainer-section">
+<h2 id="uebung">Übung</h2>
+<div class="explainer-exercise explainer-question" id="parallel-ausfall">
+<p class="explainer-exercise-label">Übung</p>
+<div class="question" id="frage-parallel-ausfall" data-id="parallel-ausfall" data-type="single-choice">
+<form class="question-form" novalidate>
+<fieldset>
+<legend class="question-text">Zwei Lampen sind parallel geschaltet, Lampe 1 fällt aus. Was passiert mit Lampe 2?</legend>
+<label class="question-option"><input type="radio" name="frage-parallel-ausfall" value="0"> <span>Sie leuchtet weiter.</span></label>
+<label class="question-option"><input type="radio" name="frage-parallel-ausfall" value="1"> <span>Sie geht ebenfalls aus.</span></label>
+<label class="question-option"><input type="radio" name="frage-parallel-ausfall" value="2"> <span>Sie flackert, bis Lampe 1 ersetzt ist.</span></label>
+</fieldset>
+<div class="question-feedback" role="status"></div>
+<div class="question-reveal" hidden>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>Sie leuchtet weiter.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>Lampe 2 hat einen eigenen Zweig und bleibt mit der Batterie verbunden.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>Sie geht ebenfalls aus.</strong></p><p>Das gilt für die Reihenschaltung. In der Parallelschaltung bleibt der andere Zweig geschlossen.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>Sie flackert, bis Lampe 1 ersetzt ist.</strong></p><p>Es gibt keinen Grund zu flackern. Der Zweig ist unabhängig vom ausgefallenen.</p></li>
+</ul>
+<p class="question-explanation">In einer Parallelschaltung leuchten die anderen Zweige weiter, wenn ein Zweig ausfällt.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</div>
+<p class="question-actions" hidden><button type="submit" class="question-check">Prüfen</button></p>
+</form>
+</div>
+<details class="explainer-solution"><summary>Lösung</summary>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>Sie leuchtet weiter.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>Lampe 2 hat einen eigenen Zweig und bleibt mit der Batterie verbunden.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>Sie geht ebenfalls aus.</strong></p><p>Das gilt für die Reihenschaltung. In der Parallelschaltung bleibt der andere Zweig geschlossen.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>Sie flackert, bis Lampe 1 ersetzt ist.</strong></p><p>Es gibt keinen Grund zu flackern. Der Zweig ist unabhängig vom ausgefallenen.</p></li>
+</ul>
+<p class="question-explanation">In einer Parallelschaltung leuchten die anderen Zweige weiter, wenn ein Zweig ausfällt.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</details>
+<script type="application/json" class="explainer-exercise-data">{"kind":"question","lang":"de","question":{"id":"parallel-ausfall","text":"Zwei Lampen sind parallel geschaltet, Lampe 1 fällt aus. Was passiert mit Lampe 2?","explanation":"In einer Parallelschaltung leuchten die anderen Zweige weiter, wenn ein Zweig ausfällt.","links":[{"title":"Parallelschaltung (Wikipedia)","url":"https://de.wikipedia.org/wiki/Parallelschaltung"}],"type":"single-choice","options":[{"text":"Sie leuchtet weiter.","correct":true,"info":"Lampe 2 hat einen eigenen Zweig und bleibt mit der Batterie verbunden."},{"text":"Sie geht ebenfalls aus.","correct":false,"info":"Das gilt für die Reihenschaltung. In der Parallelschaltung bleibt der andere Zweig geschlossen."},{"text":"Sie flackert, bis Lampe 1 ersetzt ist.","correct":false,"info":"Es gibt keinen Grund zu flackern. Der Zweig ist unabhängig vom ausgefallenen."}]},"rendered":{}}</script>
+</div>
+<div class="explainer-exercise explainer-question" id="eigenschaft-schaltung">
+<p class="explainer-exercise-label">Übung</p>
+<div class="question" id="frage-eigenschaft-schaltung" data-id="eigenschaft-schaltung" data-type="matching">
+<form class="question-form" novalidate>
+<fieldset>
+<legend class="question-text">Ordne jede Eigenschaft der passenden Schaltung zu.</legend>
+<p class="question-hint">Wähle zu jedem Eintrag das Passende.</p>
+<ul class="question-pairs">
+<li><label><span>Der Strom hat nur einen Weg</span> <select name="frage-eigenschaft-schaltung-0" data-left="0"><option value="">bitte wählen</option><option value="1">Parallelschaltung</option><option value="0">Reihenschaltung</option></select></label></li>
+<li><label><span>Jedes Bauteil hat einen eigenen Zweig</span> <select name="frage-eigenschaft-schaltung-1" data-left="1"><option value="">bitte wählen</option><option value="1">Parallelschaltung</option><option value="0">Reihenschaltung</option></select></label></li>
+</ul>
+</fieldset>
+<div class="question-feedback" role="status"></div>
+<div class="question-reveal" hidden>
+<p><strong>Richtige Antwort:</strong> Der Strom hat nur einen Weg – Reihenschaltung; Jedes Bauteil hat einen eigenen Zweig – Parallelschaltung</p>
+<p class="question-explanation">In der Reihenschaltung gibt es einen einzigen Weg. In der Parallelschaltung gibt es mehrere Zweige.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</div>
+<p class="question-actions" hidden><button type="submit" class="question-check">Prüfen</button></p>
+</form>
+</div>
+<details class="explainer-solution"><summary>Lösung</summary>
+<p><strong>Richtige Antwort:</strong> Der Strom hat nur einen Weg – Reihenschaltung; Jedes Bauteil hat einen eigenen Zweig – Parallelschaltung</p>
+<p class="question-explanation">In der Reihenschaltung gibt es einen einzigen Weg. In der Parallelschaltung gibt es mehrere Zweige.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</details>
+<script type="application/json" class="explainer-exercise-data">{"kind":"question","lang":"de","question":{"id":"eigenschaft-schaltung","text":"Ordne jede Eigenschaft der passenden Schaltung zu.","explanation":"In der Reihenschaltung gibt es einen einzigen Weg. In der Parallelschaltung gibt es mehrere Zweige.","links":[{"title":"Parallelschaltung (Wikipedia)","url":"https://de.wikipedia.org/wiki/Parallelschaltung"}],"type":"matching","pairs":[{"left":"Der Strom hat nur einen Weg","right":"Reihenschaltung"},{"left":"Jedes Bauteil hat einen eigenen Zweig","right":"Parallelschaltung"}]},"rendered":{}}</script>
+</div>
+</section>
+</main>
+<nav class="explainer-pager" aria-label="Weiterblättern"><a rel="prev" href="../../schaltungen/reihenschaltung/">Zurück: Die Reihenschaltung</a><a rel="next" href="../../sicherheit/gefahren/">Weiter: Gefahren des Stroms</a></nav>
+<footer class="page-footer"><p>Eine Erklär-App auf lernapps.net · <a href="https://lernapps.net/imprint/">Impressum</a> · <a href="https://lernapps.net/privacy/">Datenschutz</a></p></footer>
+  </body>
+</html>

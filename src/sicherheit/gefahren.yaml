@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Gefahren des Stroms
+description: Warum Strom aus der Steckdose gefährlich ist und Strom aus einer Batterie nicht.
+competencies: [gefahren-des-stroms]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Du darfst eine Batterie mit der Hand berühren, aber nie in eine Steckdose fassen. Beide liefern Strom. Wo ist
+          der Unterschied?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Ob Strom für den Menschen gefährlich wird, hängt von der Stromstärke ab, die durch den Körper fließt. Und
+          diese Stromstärke hängt davon ab, wie groß die Spannung ist.
+      - type: text
+        text: |
+          - **Batterie:** Die Spannung beträgt nur wenige Volt. Durch deinen Körper würde nur ein winziger Strom fließen. Das ist ungefährlich.
+          - **Steckdose:** Die Spannung beträgt 230 V. Sie treibt einen so großen Strom durch den Körper, dass er lebensgefährlich sein kann.
+      - type: note
+        title: Merke
+        blocks:
+          - type: text
+            text: |
+              Ein Stromschlag entsteht, wenn dein Körper Teil eines Stromkreises wird. Er leitet den Strom, weil er
+              Wasser mit gelösten Stoffen enthält. Feuchte Haut leitet noch besser als trockene.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Batterie oder Steckdose
+        blocks:
+          - type: text
+            text: |
+              Du hältst die beiden Pole einer Batterie mit den Fingern.
+
+              1. Die Spannung beträgt 1,5 V und ist sehr klein.
+              2. Durch deinen Körper fließt kein gefährlicher Strom.
+              3. An der Steckdose liegen 230 V an. Das ist über 150-mal so viel, und der Strom wäre gefährlich.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: batterie-steckdose
+        text: Warum ist Strom aus der Steckdose gefährlich, Strom aus einer Batterie dagegen nicht?
+        options:
+          - text: Die Spannung der Steckdose ist mit 230 V viel größer als die der Batterie.
+            correct: true
+            info: Eine große Spannung treibt einen großen Strom durch den Körper. Bei wenigen Volt ist er zu klein, um zu schaden.
+          - text: Aus der Steckdose kommt eine andere Sorte Strom, die man nicht mit der Batterie vergleichen kann.
+            correct: false
+            info: In beiden Fällen fließen Ladungen im Kreis. Der Unterschied liegt in der Spannung.
+          - text: Eine Batterie ist aus Kunststoff, und Kunststoff leitet nicht.
+            correct: false
+            info: Eine Batterie hat Metallkontakte. Sie ist nur wegen ihrer kleinen Spannung ungefährlich.
+        explanation: Die Spannung der Steckdose ist so groß, dass ein gefährlicher Strom durch den Körper fließen kann.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: true-false
+        id: feuchte-haut
+        text: "Stimmt die Aussage? Mit nasser Haut ist Strom gefährlicher als mit trockener Haut."
+        answer: true
+        explanation: Richtig. Feuchte Haut leitet den Strom besser. Dann fließt bei derselben Spannung ein größerer Strom durch den Körper.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall

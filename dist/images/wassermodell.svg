@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" width="360" height="240" font-family="sans-serif" font-size="12">
+  <title>Wassermodell: Pumpe, Rohr und Wasserrad</title>
+  <g fill="none" stroke="#222" stroke-width="3">
+    <path d="M70 60 H290 V180 H70 Z"/>
+  </g>
+  <!-- Pumpe links -->
+  <rect x="40" y="95" width="60" height="50" rx="8" fill="#fff" stroke="#222" stroke-width="2"/>
+  <text x="48" y="124">Pumpe</text>
+  <!-- Wasserrad oben -->
+  <circle cx="180" cy="60" r="22" fill="#fff" stroke="#222" stroke-width="2"/>
+  <path d="M180 38 V82 M158 60 H202 M164 44 L196 76 M196 44 L164 76" stroke="#222" stroke-width="1.5" fill="none"/>
+  <text x="152" y="28">Wasserrad</text>
+  <!-- Pfeile Wasserstrom -->
+  <g fill="none" stroke="#06c" stroke-width="2">
+    <path d="M110 180 H140 M134 174 L142 180 L134 186"/>
+    <path d="M290 100 V130 M284 124 L290 132 L296 124"/>
+    <path d="M250 60 H220 M226 54 L218 60 L226 66"/>
+  </g>
+  <text x="120" y="204" fill="#06c">Wasser fließt im Kreis</text>
+  <text x="16" y="226" font-size="11" fill="#555">Modell: Pumpe ≙ Spannungsquelle, Rohr ≙ Leitung, Wasserrad ≙ Lampe</text>
+</svg>

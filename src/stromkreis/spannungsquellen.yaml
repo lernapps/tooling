@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Spannungsquellen
+description: Batterie, Netzgerät und Steckdose als Spannungsquellen und wofür sie sich eignen.
+competencies: [spannungsquellen]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Eine Taschenlampe läuft mit Batterien, ein Fernseher steckt in der Steckdose. Wo kommt der Strom jeweils her?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Jeder Stromkreis braucht eine Spannungsquelle. Sie sorgt dafür, dass im Kreis Strom fließen kann. Es gibt
+          verschiedene Quellen:
+      - type: table
+        caption: Spannungsquellen im Vergleich
+        header: [Quelle, Typische Spannung, Wofür geeignet]
+        rows:
+          - ["Batterie", "1,5 V bis 9 V", "Taschenlampe, Fernbedienung, Experimente in der Schule"]
+          - ["Netzgerät", "einstellbar, meist 0 V bis 12 V", "Experimente im Unterricht, sicher einstellbar"]
+          - ["Steckdose", "230 V", "Haushaltsgeräte, nicht für eigene Experimente"]
+      - type: note
+        title: Wichtig
+        blocks:
+          - type: text
+            text: |
+              Mit der Steckdose experimentierst du nie. Die Spannung von 230 V kann lebensgefährlich sein. Batterien und
+              Netzgeräte mit kleiner Spannung sind für Versuche geeignet.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Welche Quelle passt?
+        blocks:
+          - type: text
+            text: |
+              Du willst im Unterricht eine kleine Lampe zum Leuchten bringen.
+
+              1. Die Lampe ist für wenige Volt gebaut. Die Steckdose liefert viel zu viel und ist gefährlich.
+              2. Eine Batterie oder ein Netzgerät mit passender Spannung eignet sich.
+              3. Du wählst eine Batterie, weil sie einfach und ungefährlich ist.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: quelle-einsatz
+        text: Ordne jede Spannungsquelle ihrem Einsatz zu.
+        pairs:
+          - { left: Batterie, right: Taschenlampe }
+          - { left: Netzgerät, right: Versuche im Unterricht mit einstellbarer Spannung }
+          - { left: Steckdose, right: Staubsauger und Fernseher }
+        explanation: Batterien sind mobil und ungefährlich. Netzgeräte lassen sich einstellen. Die Steckdose versorgt Haushaltsgeräte.
+        links:
+          - title: Spannungsquelle (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Spannungsquelle
+      - type: single-choice
+        id: quelle-experiment
+        text: Welche Spannungsquelle verwendest du für eigene Versuche mit einer kleinen Lampe?
+        options:
+          - text: Eine Batterie.
+            correct: true
+            info: Eine Batterie liefert nur wenige Volt und ist ungefährlich.
+          - text: Die Steckdose.
+            correct: false
+            info: Die Steckdose liefert 230 V. Damit sind Versuche lebensgefährlich.
+          - text: Eine Steckdose mit einem Verlängerungskabel.
+            correct: false
+            info: Auch das ändert nichts an den 230 V. Die Gefahr bleibt dieselbe.
+        explanation: Für eigene Versuche benutzt du nur Batterien oder Netzgeräte mit kleiner Spannung.
+        links:
+          - title: Spannungsquelle (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Spannungsquelle

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 340" width="360" height="340" font-family="sans-serif" font-size="12">
+  <title>Reihenschaltung und Parallelschaltung von zwei Lampen</title>
+  <text x="16" y="20" font-weight="bold">Reihenschaltung</text>
+  <g fill="none" stroke="#222" stroke-width="2">
+    <path d="M40 50 H108 M152 50 H208 M252 50 H320 V130 H40 V92 M40 76 V50"/>
+    <path d="M26 76 H54" stroke-width="3"/><path d="M33 88 H47" stroke-width="5"/><path d="M40 88 V92"/>
+    <circle cx="130" cy="50" r="22" fill="#fff"/><path d="M114 34 L146 66 M146 34 L114 66"/>
+    <circle cx="230" cy="50" r="22" fill="#fff"/><path d="M214 34 L246 66 M246 34 L214 66"/>
+  </g>
+  <text x="122" y="94">Lampe 1</text><text x="222" y="94">Lampe 2</text>
+  <text x="16" y="154" fill="#555">Ein Weg für den Strom durch beide Lampen.</text>
+  <text x="16" y="194" font-weight="bold">Parallelschaltung</text>
+  <g fill="none" stroke="#222" stroke-width="2">
+    <path d="M40 224 H320 V320 H40 V286 M40 270 V224"/>
+    <path d="M26 270 H54" stroke-width="3"/><path d="M33 282 H47" stroke-width="5"/><path d="M40 282 V286"/>
+    <path d="M110 224 V250 M110 294 V320"/>
+    <path d="M200 224 V250 M200 294 V320"/>
+    <circle cx="110" cy="272" r="22" fill="#fff"/><path d="M94 256 L126 288 M126 256 L94 288"/>
+    <circle cx="200" cy="272" r="22" fill="#fff"/><path d="M184 256 L216 288 M216 256 L184 288"/>
+  </g>
+  <text x="60" y="262" font-size="11">Lampe 1</text><text x="206" y="262" font-size="11">Lampe 2</text>
+  <text x="16" y="338" fill="#555">Zwei Wege: jede Lampe hat ihren eigenen Zweig.</text>
+</svg>

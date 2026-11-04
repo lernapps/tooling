@@ -1,0 +1,85 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Leiter und Nichtleiter
+description: Welche Stoffe den Strom leiten und welche nicht.
+competencies: [leiter-nichtleiter]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Kabel bestehen innen aus Metall, außen aus Kunststoff. Warum nimmt man nicht einfach zwei Stoffe aus Metall?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Nicht jeder Stoff lässt den Strom durch. Das kannst du mit einem Stromkreis prüfen: Setzt du einen Stoff in
+          die Leitung und die Lampe leuchtet, leitet der Stoff den Strom.
+      - type: definition
+        term: Leiter
+        explanation: Ein Leiter ist ein Stoff, in dem Strom fließen kann. Alle Metalle sind Leiter, ebenso Graphit und Salzwasser.
+      - type: definition
+        term: Nichtleiter
+        explanation: Ein Nichtleiter (Isolator) ist ein Stoff, in dem kein Strom fließt. Kunststoff, Gummi, Glas, Holz und trockene Luft sind Nichtleiter.
+      - type: text
+        text: |
+          Darum haben Kabel einen Kern aus Kupfer, der den Strom leitet, und eine Hülle aus Kunststoff, die dich vor
+          dem Strom schützt.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Ein Stoff wird geprüft
+        blocks:
+          - type: text
+            text: |
+              Du setzt eine Büroklammer in einen Stromkreis. Die Lampe leuchtet.
+
+              1. Der Strom kann durch die Klammer fließen.
+              2. Also ist Eisen (der Stoff der Klammer) ein Leiter.
+              3. Mit einem Radiergummi bleibt die Lampe dunkel. Gummi ist ein Nichtleiter.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: multiple-choice
+        id: stoffe-leiter
+        text: Welche Stoffe sind Leiter? Wähle alle richtigen aus.
+        options:
+          - text: Kupfer
+            correct: true
+            info: Kupfer ist ein Metall und leitet den Strom sehr gut.
+          - text: Aluminiumfolie
+            correct: true
+            info: Aluminium ist ein Metall, also ein Leiter.
+          - text: Glas
+            correct: false
+            info: Glas ist ein Nichtleiter und wird als Isolator verwendet.
+          - text: Gummi
+            correct: false
+            info: Gummi leitet nicht. Deshalb sind Griffe von Werkzeugen für Elektriker aus Gummi.
+        explanation: Metalle wie Kupfer und Aluminium sind Leiter. Glas und Gummi sind Nichtleiter.
+        links:
+          - title: Elektrischer Leiter (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Leiter
+      - type: single-choice
+        id: kabel-huelle
+        text: Warum sind Kabel außen mit Kunststoff umgeben?
+        options:
+          - text: Kunststoff ist ein Nichtleiter und schützt vor dem Strom.
+            correct: true
+            info: Die Hülle isoliert den Kern. So berührst du nicht den leitenden Draht.
+          - text: Kunststoff leitet den Strom besser als Kupfer.
+            correct: false
+            info: Es ist umgekehrt. Kupfer ist ein sehr guter Leiter, Kunststoff leitet nicht.
+          - text: Kunststoff macht die Lampe heller.
+            correct: false
+            info: Die Hülle hat keinen Einfluss auf die Helligkeit. Sie dient nur der Isolierung.
+        explanation: Die Kunststoffhülle isoliert das Kabel. Der Kupferkern leitet den Strom.
+        links:
+          - title: Isolator (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Isolator_(Elektrotechnik)

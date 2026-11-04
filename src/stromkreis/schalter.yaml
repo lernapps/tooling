@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Schalter
+description: Wie ein Schalter einen Stromkreis öffnet und schließt.
+competencies: [schalter]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Du schaltest das Licht ein und aus, ohne ein Kabel zu lösen. Wie schafft der Schalter das?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Ein Schalter baut eine Lücke in die Leitung ein oder nimmt sie wieder weg. Er besteht aus zwei Kontakten und
+          einem beweglichen Teil aus Metall.
+      - type: definition
+        term: Schalter
+        explanation: Ein Schalter öffnet oder schließt einen Stromkreis. Im geschlossenen Zustand verbindet er die beiden Kontakte, im offenen Zustand nicht.
+      - type: text
+        text: |
+          - **Schalter zu:** Das Metallteil verbindet die Kontakte. Der Stromkreis ist geschlossen, die Lampe leuchtet.
+          - **Schalter auf:** Zwischen den Kontakten ist Luft, und Luft ist ein Nichtleiter. Der Stromkreis ist offen,
+            die Lampe ist aus.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Taschenlampe
+        blocks:
+          - type: text
+            text: |
+              Du drückst den Knopf an einer Taschenlampe.
+
+              1. Der Knopf schiebt ein Metallteil gegen den Kontakt.
+              2. Der Stromkreis aus Batterie, Schalter und Lampe ist geschlossen.
+              3. Lässt du den Knopf los, entsteht wieder eine Lücke. Die Lampe geht aus.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: schalter-offen
+        text: Der Schalter in einem Stromkreis ist offen. Was gilt?
+        options:
+          - text: Der Stromkreis ist unterbrochen, die Lampe leuchtet nicht.
+            correct: true
+            info: Die Lücke im Schalter unterbricht den Weg. Es fließt kein Strom.
+          - text: Die Lampe leuchtet schwächer.
+            correct: false
+            info: Es gibt kein „ein bisschen“ bei einem offenen Kreis. Ist er offen, fließt gar kein Strom.
+          - text: Der Strom fließt nur von der Batterie bis zum Schalter und bleibt dort stehen.
+            correct: false
+            info: Im offenen Kreis fließt der Strom nirgends im Kreis. Auch vor dem Schalter bewegt sich nichts.
+        explanation: Ein offener Schalter unterbricht den Stromkreis. Deshalb ist die Lampe aus.
+        links:
+          - title: Elektrischer Schalter (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Schalter
+      - type: true-false
+        id: schalter-luft
+        text: "Stimmt die Aussage? Bei einem offenen Schalter ist zwischen den Kontakten Luft, die den Strom nicht leitet."
+        answer: true
+        explanation: Richtig. Trockene Luft ist ein Nichtleiter, deshalb ist der Kreis unterbrochen.
+        links:
+          - title: Elektrischer Schalter (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Schalter

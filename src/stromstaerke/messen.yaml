@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Stromstärke messen
+description: Ein Amperemeter richtig in den Stromkreis einbauen.
+competencies: [stromstaerke-messen]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Du weißt jetzt, was die Stromstärke ist. Wie findest du heraus, wie groß sie in einem bestimmten Stromkreis ist?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Die Stromstärke misst du mit einem **Amperemeter**. Im Schaltplan ist es ein Kreis mit dem Buchstaben A.
+          Es zeigt an, wie viel Strom durch das Gerät fließt.
+      - type: definition
+        term: Amperemeter
+        explanation: Ein Amperemeter misst die Stromstärke. Man baut es in Reihe in den Stromkreis ein, sodass der ganze Strom hindurchfließt.
+      - type: figure
+        image: images/messen-stromkreis.svg
+        alt: Ein Schaltplan mit Batterie, Lampe, Amperemeter in der Leitung rechts und Voltmeter mit gestrichelter Leitung über der Lampe.
+        caption: Achte auf das Amperemeter rechts. Es sitzt mitten in der Leitung, der Strom fließt durch das Gerät.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Damit du richtig misst:
+
+          - Öffne den Stromkreis an einer Stelle und setze das Amperemeter dort ein: **in Reihe**.
+          - Wähle zuerst den größten Messbereich und gehe dann schrittweise zu einem kleineren.
+          - Schließe das Amperemeter nie direkt an die Spannungsquelle an, ohne Lampe dazwischen.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Ein Amperemeter einbauen
+        blocks:
+          - type: text
+            text: |
+              Du willst die Stromstärke in einem Kreis aus Batterie und Lampe messen.
+
+              1. Trenne eine Leitung zwischen Batterie und Lampe auf.
+              2. Setze dort das Amperemeter ein, sodass der Strom hindurchfließt.
+              3. Schließe den Kreis wieder und lies die Zahl mit der Einheit A oder mA ab.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: amperemeter-anschliessen
+        text: Wie schließt du ein Amperemeter an, um die Stromstärke durch die Lampe zu messen?
+        material:
+          - type: figure
+            image: images/stromkreis.svg
+            alt: Ein einfacher Stromkreis aus Batterie, Schalter und Lampe, ohne Messgerät.
+            caption: Dieser Stromkreis hat noch kein Messgerät.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: In Reihe, an einer Stelle in der Leitung.
+            correct: true
+            info: Der ganze Strom muss durch das Amperemeter fließen, darum baut man es in die Leitung ein.
+          - text: Parallel zur Lampe.
+            correct: false
+            info: Parallel zur Lampe misst man die Spannung mit dem Voltmeter. Ein Amperemeter dort würde den Kreis fast kurzschließen.
+          - text: Neben dem Stromkreis, ohne Verbindung.
+            correct: false
+            info: Ohne Verbindung fließt kein Strom durch das Gerät, und es zeigt nichts an.
+        explanation: Das Amperemeter gehört in Reihe in den Stromkreis.
+        links:
+          - title: Amperemeter (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Amperemeter
+      - type: true-false
+        id: amperemeter-reihe
+        text: "Stimmt die Aussage? Ein Amperemeter wird parallel zum Bauteil angeschlossen, dessen Stromstärke man messen will."
+        answer: false
+        explanation: Falsch. Ein Amperemeter wird in Reihe eingebaut, damit der Strom hindurchfließt. Parallel schließt man ein Voltmeter an.
+        links:
+          - title: Amperemeter (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Amperemeter

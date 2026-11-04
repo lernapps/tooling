@@ -1,0 +1,89 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Spannung messen
+description: Ein Voltmeter richtig an eine Lampe oder Batterie anschließen.
+competencies: [spannung-messen]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Du hast gelernt, dass man die Stromstärke mit einem Amperemeter in Reihe misst. Gilt das auch für die
+          Spannung?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Die Spannung misst du mit einem **Voltmeter**. Im Schaltplan ist es ein Kreis mit dem Buchstaben V. Weil eine
+          Spannung **zwischen** zwei Punkten besteht, hält man das Voltmeter an diese beiden Punkte.
+      - type: definition
+        term: Voltmeter
+        explanation: Ein Voltmeter misst die Spannung. Man schließt es parallel zu dem Bauteil an, dessen Spannung man wissen will.
+      - type: figure
+        image: images/messen-stromkreis.svg
+        alt: Ein Schaltplan mit Batterie, Lampe, Amperemeter rechts und Voltmeter mit gestrichelter Leitung über der Lampe.
+        caption: Achte auf die gestrichelte Leitung. Sie führt vom Voltmeter an beide Anschlüsse der Lampe.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          So misst du richtig:
+
+          - Du musst den Stromkreis nicht auftrennen. Du verbindest das Voltmeter mit beiden Seiten des Bauteils.
+          - Achte auf Plus und Minus: Der Pluspol des Voltmeters kommt an die Seite, die näher am Pluspol der Batterie liegt.
+          - Beginne mit dem größten Messbereich.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Die Spannung an der Lampe messen
+        blocks:
+          - type: text
+            text: |
+              Du willst wissen, welche Spannung an einer Lampe anliegt.
+
+              1. Lass den Stromkreis geschlossen.
+              2. Verbinde einen Anschluss des Voltmeters mit der einen Seite der Lampe, den anderen mit der anderen Seite.
+              3. Lies die Zahl mit der Einheit V ab.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: voltmeter-anschliessen
+        text: Wie schließt du ein Voltmeter an, um die Spannung an der Lampe zu messen?
+        material:
+          - type: figure
+            image: images/stromkreis.svg
+            alt: Ein einfacher Stromkreis aus Batterie, Schalter und Lampe, ohne Messgerät.
+            caption: Dieser Stromkreis hat noch kein Messgerät.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Parallel zur Lampe, an ihre beiden Anschlüsse.
+            correct: true
+            info: Die Spannung besteht zwischen den beiden Anschlüssen. Dort hält man das Voltmeter an.
+          - text: In Reihe, mitten in der Leitung.
+            correct: false
+            info: So baut man ein Amperemeter ein. Ein Voltmeter in Reihe würde den Strom fast ganz sperren.
+          - text: Nur an den Pluspol der Batterie.
+            correct: false
+            info: Eine Spannung gibt es nur zwischen zwei Punkten. Mit einem Anschluss kann das Gerät nichts messen.
+        explanation: Das Voltmeter gehört parallel zum Bauteil.
+        links:
+          - title: Voltmeter (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Voltmeter
+      - type: matching
+        id: messgeraet-groesse
+        text: Ordne jedem Messgerät zu, was es misst und wie es angeschlossen wird.
+        pairs:
+          - { left: Amperemeter, right: "Stromstärke, in Reihe" }
+          - { left: Voltmeter, right: "Spannung, parallel" }
+        explanation: Das Amperemeter misst die Stromstärke und sitzt in Reihe. Das Voltmeter misst die Spannung und sitzt parallel.
+        links:
+          - title: Voltmeter (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Voltmeter

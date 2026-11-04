@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Reihen- und Parallelschaltung
+summary: Zwei Arten, mehrere Lampen zu verbinden, und was passiert, wenn eine ausfällt.
+pages: [reihenschaltung, parallelschaltung]
+selfAssessment:
+  pages:
+    - exercises:
+        - /schaltungen/reihenschaltung/#reihe-ausfall
+        - /schaltungen/reihenschaltung/#strom-beide-seiten
+    - exercises:
+        - /schaltungen/parallelschaltung/#parallel-ausfall
+        - /schaltungen/parallelschaltung/#eigenschaft-schaltung

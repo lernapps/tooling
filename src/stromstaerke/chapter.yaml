@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Stromstärke
+summary: Wie viel Strom in einem Stromkreis fließt, in welcher Einheit man das angibt und wie man es misst.
+pages: [stromstaerke, messen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /stromstaerke/stromstaerke/#ma-in-a
+        - /stromstaerke/stromstaerke/#strom-vor-nach-lampe
+        - /stromstaerke/stromstaerke/#ma-in-a
+    - exercises:
+        - /stromstaerke/messen/#amperemeter-anschliessen
+        - /stromstaerke/messen/#amperemeter-reihe

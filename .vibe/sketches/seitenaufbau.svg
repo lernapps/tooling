@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 520" width="360" height="520" font-family="sans-serif" font-size="13">
+  <title>Skizze: Aufbau einer Seite (360 px)</title>
+  <rect x="4" y="4" width="352" height="512" fill="#fff" stroke="#444"/>
+  <text x="16" y="28" font-size="11" fill="#666">Kapitel 3 · Spannung  ›  Seite 1 von 2</text>
+  <text x="16" y="56" font-size="18" font-weight="bold">Spannung: der Antrieb des Stroms</text>
+  <rect x="16" y="72" width="328" height="56" fill="#eef" stroke="#99a"/>
+  <text x="26" y="94">Warum? Was bringt die Ladungen in Bewegung?</text>
+  <text x="26" y="114" fill="#555">2–3 Sätze, knüpft an die vorige Seite an</text>
+  <rect x="16" y="140" width="328" height="130" fill="#f6f6f6" stroke="#999"/>
+  <text x="26" y="162">Erklärung  (Text + Abbildung)</text>
+  <rect x="26" y="172" width="150" height="88" fill="#fff" stroke="#999"/>
+  <text x="36" y="220" fill="#666">Figur: Wassermodell</text>
+  <text x="186" y="196">Definition: Spannung U,</text>
+  <text x="186" y="214">Einheit Volt (V)</text>
+  <rect x="16" y="282" width="328" height="64" fill="#efe" stroke="#9a9"/>
+  <text x="26" y="304">Beispiel (Kasten): Batterie 4,5 V</text>
+  <text x="26" y="324" fill="#555">Schritt für Schritt hergeleitet</text>
+  <text x="16" y="372" font-weight="bold">Übung</text>
+  <rect x="16" y="382" width="328" height="76" fill="#fff" stroke="#444"/>
+  <text x="26" y="404">Frage mit Auswahlantworten</text>
+  <text x="26" y="424" fill="#555">○ Antwort A   ○ Antwort B   ○ Antwort C</text>
+  <rect x="26" y="434" width="70" height="18" fill="#ddd" stroke="#888"/>
+  <text x="34" y="448" font-size="11">Prüfen</text>
+  <text x="16" y="486" fill="#555">Rückmeldung nennt bei jeder falschen Antwort den Grund</text>
+  <text x="16" y="506" font-size="11" fill="#666">‹ Zurück   Weiter ›</text>
+</svg>

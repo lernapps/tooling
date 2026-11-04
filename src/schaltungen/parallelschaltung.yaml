@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Parallelschaltung
+description: Bauteile nebeneinander schalten und was passiert, wenn ein Zweig ausfällt.
+competencies: [parallelschaltung]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Wenn eine Lampe im Zimmer kaputt ist, brennen die anderen weiter. Wie sind sie dann verbunden?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Bei einer Parallelschaltung sind die Bauteile nebeneinander in getrennten Zweigen verbunden. Die Leitung
+          teilt sich auf und kommt danach wieder zusammen.
+      - type: definition
+        term: Parallelschaltung
+        explanation: In einer Parallelschaltung sind Bauteile nebeneinander in eigenen Zweigen geschaltet. Der Strom hat mehrere Wege.
+      - type: figure
+        image: images/reihe-parallel.svg
+        alt: Zwei Schaltpläne untereinander. Oben sind zwei Lampen hintereinander verbunden. Unten sitzen zwei Lampen nebeneinander in zwei Zweigen.
+        caption: Betrachte jetzt den unteren Plan. Jede Lampe hat einen eigenen Weg zur Batterie.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Fällt in einer Parallelschaltung ein Zweig aus, leuchten die anderen Zweige weiter, denn sie bleiben
+          mit der Batterie verbunden.
+
+          Darum sind die Lampen und Steckdosen im Haus parallel geschaltet. Jedes Gerät lässt sich einzeln ein- und ausschalten.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Eine Lampe wird herausgedreht
+        blocks:
+          - type: text
+            text: |
+              Zwei Lampen sind parallel geschaltet. Du drehst Lampe 1 heraus.
+
+              1. Im Zweig von Lampe 1 ist jetzt eine Lücke.
+              2. Der Zweig von Lampe 2 ist weiter geschlossen.
+              3. Lampe 2 leuchtet unverändert weiter.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: parallel-ausfall
+        text: Zwei Lampen sind parallel geschaltet, Lampe 1 fällt aus. Was passiert mit Lampe 2?
+        options:
+          - text: Sie leuchtet weiter.
+            correct: true
+            info: Lampe 2 hat einen eigenen Zweig und bleibt mit der Batterie verbunden.
+          - text: Sie geht ebenfalls aus.
+            correct: false
+            info: Das gilt für die Reihenschaltung. In der Parallelschaltung bleibt der andere Zweig geschlossen.
+          - text: Sie flackert, bis Lampe 1 ersetzt ist.
+            correct: false
+            info: Es gibt keinen Grund zu flackern. Der Zweig ist unabhängig vom ausgefallenen.
+        explanation: In einer Parallelschaltung leuchten die anderen Zweige weiter, wenn ein Zweig ausfällt.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung
+      - type: matching
+        id: eigenschaft-schaltung
+        text: Ordne jede Eigenschaft der passenden Schaltung zu.
+        pairs:
+          - { left: "Der Strom hat nur einen Weg", right: Reihenschaltung }
+          - { left: "Jedes Bauteil hat einen eigenen Zweig", right: Parallelschaltung }
+        explanation: In der Reihenschaltung gibt es einen einzigen Weg. In der Parallelschaltung gibt es mehrere Zweige.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung

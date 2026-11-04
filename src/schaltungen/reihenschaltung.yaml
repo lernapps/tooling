@@ -1,0 +1,87 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Reihenschaltung
+description: Bauteile hintereinander schalten und was passiert, wenn eines ausfällt.
+competencies: [reihenschaltung]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Eine alte Lichterkette geht komplett aus, wenn eine Lampe kaputt ist. Warum ist das so?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Bei einer Reihenschaltung sind die Bauteile hintereinander verbunden. Der Strom hat nur einen Weg und muss
+          durch alle Bauteile nacheinander.
+      - type: definition
+        term: Reihenschaltung
+        explanation: In einer Reihenschaltung sind Bauteile hintereinander geschaltet. Der Strom hat nur einen Weg durch alle Bauteile.
+      - type: figure
+        image: images/reihe-parallel.svg
+        alt: Zwei Schaltpläne untereinander. Oben sind zwei Lampen hintereinander in einer Leitung mit der Batterie verbunden. Unten sind zwei Lampen nebeneinander in zwei Zweigen verbunden.
+        caption: Betrachte zuerst den oberen Plan. Folge der Leitung mit dem Finger, sie führt nacheinander durch beide Lampen.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Fällt in einer Reihenschaltung ein Bauteil aus, ist der Weg unterbrochen. Der Stromkreis ist offen, und **alle**
+          Bauteile gehen aus.
+
+          Der Strom fließt dabei in einem Umlauf in eine Richtung. Er kommt nicht von beiden Seiten in die Lampe.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Eine Lampe wird herausgedreht
+        blocks:
+          - type: text
+            text: |
+              Zwei Lampen sind in Reihe geschaltet. Du drehst Lampe 1 heraus.
+
+              1. An der Stelle von Lampe 1 ist jetzt eine Lücke.
+              2. Der einzige Weg des Stroms ist unterbrochen.
+              3. Auch Lampe 2 bekommt keinen Strom und geht aus.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: reihe-ausfall
+        text: Zwei Lampen sind in Reihe geschaltet, Lampe 1 fällt aus. Was passiert mit Lampe 2?
+        options:
+          - text: Sie geht ebenfalls aus.
+            correct: true
+            info: Der Strom hat nur einen Weg. Ist er an Lampe 1 unterbrochen, fließt nirgends Strom.
+          - text: Sie leuchtet weiter.
+            correct: false
+            info: Das gilt für die Parallelschaltung, in der jede Lampe einen eigenen Zweig hat.
+          - text: Sie leuchtet heller, weil der Strom nur noch zu ihr fließt.
+            correct: false
+            info: Es fließt gar kein Strom mehr. Der einzige Weg ist unterbrochen.
+        explanation: In einer Reihenschaltung unterbricht der Ausfall eines Bauteils den ganzen Stromkreis.
+        links:
+          - title: Reihenschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Reihenschaltung
+      - type: single-choice
+        id: strom-beide-seiten
+        text: Wie fließt der Strom durch die Lampen einer Reihenschaltung?
+        options:
+          - text: In einem Umlauf in eine Richtung durch alle Lampen nacheinander.
+            correct: true
+            info: Der Strom fließt vom einen Pol der Quelle durch die Bauteile zum anderen Pol.
+          - text: Von beiden Seiten in jede Lampe hinein.
+            correct: false
+            info: Das wäre kein Umlauf. Im Kreis fließt der Strom in eine Richtung, nichts stößt in der Lampe zusammen.
+          - text: Er wird in der ersten Lampe aufgebraucht, die zweite bekommt den Rest.
+            correct: false
+            info: Strom wird nicht aufgebraucht. In allen Lampen der Reihe fließt derselbe Strom.
+        explanation: In der Reihenschaltung fließt der Strom in einer Richtung durch alle Bauteile nacheinander.
+        links:
+          - title: Reihenschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Reihenschaltung

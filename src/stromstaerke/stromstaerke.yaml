@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Stromstärke
+description: Die Stromstärke als Maß dafür, wie viel Strom fließt, und ihre Einheit Ampere.
+competencies: [stromstaerke]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Eine kleine Lampe und ein Föhn hängen am Strom. Der Föhn braucht viel mehr als die Lampe. Wie kann man das
+          in einer Zahl ausdrücken?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Die **Stromstärke** sagt, wie viel Strom in einem Stromkreis fließt. Ihr Zeichen ist $I$, ihre Einheit ist
+          das Ampere (A). Für kleine Stromstärken verwendet man Milliampere (mA).
+      - type: definition
+        term: Stromstärke
+        explanation: Die Stromstärke $I$ gibt an, wie viel Strom in einem Stromkreis fließt. Sie wird in Ampere (A) gemessen.
+      - type: formula
+        formula: '1\,\text{A} = 1000\,\text{mA}'
+      - type: figure
+        image: images/wassermodell.svg
+        alt: Ein Rohrkreislauf mit einer Pumpe links und einem Wasserrad oben. Blaue Pfeile zeigen, dass das Wasser im Kreis fließt.
+        caption: Das Wassermodell hilft beim Vorstellen. Achte darauf, dass das Wasser im Kreis fließt und nicht verschwindet.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Im Wassermodell entspricht die Stromstärke der Wassermenge, die pro Sekunde durch das Rohr fließt. Das ist
+          nur ein Modell: In einer Leitung fließt kein Wasser.
+
+          Wichtig: Die Stromstärke ist an jeder Stelle im einfachen Stromkreis gleich groß, auch vor und hinter der
+          Lampe. Der Strom wird nicht verbraucht.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Von Milliampere in Ampere
+        blocks:
+          - type: text
+            text: |
+              Eine Lampe wird von $300\,\text{mA}$ durchflossen. Wie viel Ampere sind das?
+
+              1. $1\,\text{A}$ sind $1000\,\text{mA}$.
+              2. Also teilst du die Zahl in mA durch 1000.
+              3. $300 : 1000 = 0{,}3$, also $0{,}3\,\text{A}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: ma-in-a
+        given:
+          ma: { oneOf: [50, 100, 200, 250, 400, 500, 750, 800] }
+        task:
+          text: "Durch eine Lampe fließen {{ma}} mA. Wie groß ist die Stromstärke in Ampere?"
+        answer:
+          value: "ma / 1000"
+          compare: { number: { format: decimal, decimals: 3, unit: A } }
+        mistakes:
+          - { value: "ma / 100", message: "Ein Ampere sind 1000 Milliampere, nicht 100. Teile durch 1000." }
+          - {
+              value: "ma * 1000",
+              message: "Du hast mit 1000 multipliziert. Von Milliampere zu Ampere musst du teilen.",
+            }
+        hint: "1 A sind 1000 mA. Die Zahl in Ampere ist kleiner als die in Milliampere."
+        steps:
+          - '$I = \frac{{{ma}}\,\text{mA}}{1000}$'
+          - "Das sind {{answer}} A."
+      - type: single-choice
+        id: strom-vor-nach-lampe
+        text: Ein Amperemeter misst vor der Lampe 0,3 A. Was zeigt ein gleiches Gerät hinter der Lampe im selben Kreis?
+        options:
+          - text: Ebenfalls 0,3 A.
+            correct: true
+            info: Im einfachen Stromkreis ist die Stromstärke überall gleich. Der Strom fließt im Kreis.
+          - text: Weniger als 0,3 A, weil die Lampe Strom verbraucht.
+            correct: false
+            info: Die Lampe verbraucht keinen Strom. Sie wandelt elektrische Energie in Licht und Wärme um.
+          - text: Mehr als 0,3 A, weil sich der Strom dort staut.
+            correct: false
+            info: Strom staut sich im geschlossenen Kreis nicht. Überall fließt gleich viel.
+        explanation: Die Stromstärke ist an jeder Stelle des einfachen Stromkreises gleich groß.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromstärke

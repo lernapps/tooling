@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Spannung
+summary: Was den Strom antreibt, in welcher Einheit man das angibt und wie man es misst.
+pages: [spannung, messen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /spannung/spannung/#mv-in-v
+        - /spannung/spannung/#spannung-bedeutung
+        - /spannung/spannung/#mv-in-v
+    - exercises:
+        - /spannung/messen/#voltmeter-anschliessen
+        - /spannung/messen/#messgeraet-groesse

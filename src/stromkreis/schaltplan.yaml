@@ -1,0 +1,80 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Schaltplan
+description: Einen Stromkreis mit Schaltzeichen zeichnen und lesen.
+competencies: [schaltzeichen]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Einen Stromkreis mit echten Bauteilen zu zeichnen ist umständlich. Wie halten Fachleute eine Schaltung
+          schnell und für alle verständlich fest?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Im Schaltplan steht für jedes Bauteil ein einfaches Zeichen, das Schaltzeichen. Die Leitungen sind gerade
+          Linien mit rechten Winkeln.
+      - type: definition
+        term: Schaltplan
+        explanation: Ein Schaltplan zeigt mit Schaltzeichen und Linien, wie die Bauteile eines Stromkreises verbunden sind.
+      - type: figure
+        image: images/schaltzeichen.svg
+        alt: Sechs Schaltzeichen mit Beschriftung. Batterie als ein langer und ein kurzer Strich, Lampe als Kreis mit Kreuz, Schalter offen mit schräger Linie, Schalter geschlossen mit gerader Linie, Amperemeter als Kreis mit A, Voltmeter als Kreis mit V.
+        caption: Merke dir vor allem den Kreis mit Kreuz für die Lampe und den Unterschied zwischen offenem und geschlossenem Schalter.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Der lange Strich der Batterie ist der Pluspol, der kurze dicke Strich der Minuspol.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Einen Schaltplan zeichnen
+        blocks:
+          - type: text
+            text: |
+              Du willst eine Batterie, einen Schalter und eine Lampe zeichnen.
+
+              1. Zeichne die Schaltzeichen der drei Bauteile mit Abstand.
+              2. Verbinde sie mit geraden Linien zu einem geschlossenen Rechteck.
+              3. Prüfe, dass die Linie nirgends unterbrochen ist, wenn der Schalter geschlossen sein soll.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: zeichen-zuordnen
+        text: Ordne jedem Bauteil sein Schaltzeichen zu.
+        pairs:
+          - { left: Lampe, right: Kreis mit Kreuz }
+          - { left: Amperemeter, right: Kreis mit A }
+          - { left: Voltmeter, right: Kreis mit V }
+          - { left: Batterie, right: langer und kurzer Strich }
+        explanation: Jedes Bauteil hat ein festes Schaltzeichen. So versteht jeder denselben Plan.
+        links:
+          - title: Schaltplan (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Schaltplan
+      - type: single-choice
+        id: plan-lesen
+        text: Im Schaltplan ist ein Schalter als schräger Strich mit Lücke gezeichnet. Was bedeutet das?
+        options:
+          - text: Der Schalter ist offen, der Stromkreis ist unterbrochen.
+            correct: true
+            info: Der schräge Strich berührt den zweiten Kontakt nicht. Es gibt eine Lücke.
+          - text: Der Schalter ist geschlossen, die Lampe leuchtet.
+            correct: false
+            info: Ein geschlossener Schalter wird als gerader Strich gezeichnet, der beide Kontakte verbindet.
+          - text: Der Schalter ist defekt.
+            correct: false
+            info: Das Zeichen sagt nur, ob der Schalter offen oder zu ist, nicht, ob er funktioniert.
+        explanation: Ein schräger Strich ohne Verbindung steht für einen offenen Schalter.
+        links:
+          - title: Schaltplan (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Schaltplan

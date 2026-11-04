@@ -1,0 +1,97 @@
+{
+  "format": 1,
+  "strand": "physik/elektrizitaetslehre",
+  "pages": [
+    {
+      "path": "stromkreis/einfacher-stromkreis/",
+      "title": "Der einfache Stromkreis",
+      "competencies": [
+        "einfacher-stromkreis"
+      ]
+    },
+    {
+      "path": "stromkreis/leiter-nichtleiter/",
+      "title": "Leiter und Nichtleiter",
+      "competencies": [
+        "leiter-nichtleiter"
+      ]
+    },
+    {
+      "path": "stromkreis/schalter/",
+      "title": "Der Schalter",
+      "competencies": [
+        "schalter"
+      ]
+    },
+    {
+      "path": "stromkreis/schaltplan/",
+      "title": "Der Schaltplan",
+      "competencies": [
+        "schaltzeichen"
+      ]
+    },
+    {
+      "path": "stromkreis/spannungsquellen/",
+      "title": "Spannungsquellen",
+      "competencies": [
+        "spannungsquellen"
+      ]
+    },
+    {
+      "path": "stromstaerke/stromstaerke/",
+      "title": "Die Stromstärke",
+      "competencies": [
+        "stromstaerke"
+      ]
+    },
+    {
+      "path": "stromstaerke/messen/",
+      "title": "Stromstärke messen",
+      "competencies": [
+        "stromstaerke-messen"
+      ]
+    },
+    {
+      "path": "spannung/spannung/",
+      "title": "Die Spannung",
+      "competencies": [
+        "spannung"
+      ]
+    },
+    {
+      "path": "spannung/messen/",
+      "title": "Spannung messen",
+      "competencies": [
+        "spannung-messen"
+      ]
+    },
+    {
+      "path": "schaltungen/reihenschaltung/",
+      "title": "Die Reihenschaltung",
+      "competencies": [
+        "reihenschaltung"
+      ]
+    },
+    {
+      "path": "schaltungen/parallelschaltung/",
+      "title": "Die Parallelschaltung",
+      "competencies": [
+        "parallelschaltung"
+      ]
+    },
+    {
+      "path": "sicherheit/gefahren/",
+      "title": "Gefahren des Stroms",
+      "competencies": [
+        "gefahren-des-stroms"
+      ]
+    },
+    {
+      "path": "sicherheit/regeln/",
+      "title": "Sicher mit Strom umgehen",
+      "competencies": [
+        "sicher-mit-strom-umgehen"
+      ]
+    }
+  ]
+}

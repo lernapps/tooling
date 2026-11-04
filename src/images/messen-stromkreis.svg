@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" width="360" height="280" font-family="sans-serif" font-size="12">
+  <title>Schaltplan mit Amperemeter in Reihe und Voltmeter parallel zur Lampe</title>
+  <g fill="none" stroke="#222" stroke-width="2">
+    <path d="M60 70 H150 M210 70 H300 V120 M300 180 V240 H60 V170 M60 130 V70"/>
+    <path d="M42 130 H78" stroke-width="3"/>
+    <path d="M52 142 H68" stroke-width="5"/>
+    <path d="M60 142 V170"/>
+    <circle cx="180" cy="70" r="20" fill="#fff"/>
+    <path d="M166 56 L194 84 M194 56 L166 84"/>
+    <circle cx="300" cy="150" r="20" fill="#fff"/>
+  </g>
+  <text x="294" y="155" font-weight="bold">A</text>
+  <g fill="none" stroke="#06c" stroke-width="2" stroke-dasharray="5 3">
+    <path d="M150 70 V24 H210 V70"/>
+  </g>
+  <circle cx="180" cy="24" r="14" fill="#fff" stroke="#06c" stroke-width="2"/>
+  <text x="175" y="29" font-weight="bold" fill="#06c">V</text>
+  <text x="216" y="28" fill="#06c">Voltmeter: parallel zur Lampe</text>
+  <text x="206" y="154">Amperemeter: in Reihe</text>
+  <text x="84" y="142">Batterie</text>
+  <text x="160" y="110">Lampe</text>
+</svg>

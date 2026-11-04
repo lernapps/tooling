@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Spannung
+description: Die Spannung als Antrieb des Stroms und ihre Einheit Volt.
+competencies: [spannung]
+blocks:
+  - type: section
+    id: warum
+    title: Warum?
+    blocks:
+      - type: text
+        text: |
+          Dieselbe Lampe leuchtet mit einer Batterie hell und mit einer leeren Batterie kaum. Was ist in der Batterie
+          anders?
+  - type: section
+    id: erklaerung
+    title: Erklärung
+    blocks:
+      - type: text
+        text: |
+          Die Spannungsquelle treibt den Strom an. Wie stark sie das tut, gibt die **Spannung** an. Ihr Zeichen ist
+          $U$, ihre Einheit ist das Volt (V). Kleine Spannungen gibt man in Millivolt (mV) an.
+      - type: definition
+        term: Spannung
+        explanation: Die Spannung $U$ gibt an, wie stark eine Spannungsquelle den Strom antreibt. Sie wird in Volt (V) gemessen.
+      - type: formula
+        formula: '1\,\text{V} = 1000\,\text{mV}'
+      - type: figure
+        image: images/wassermodell.svg
+        alt: Ein Rohrkreislauf mit einer Pumpe links und einem Wasserrad oben. Die Pumpe ist als Spannungsquelle beschriftet.
+        caption: Achte auf die Pumpe. Sie treibt das Wasser an, so wie die Spannungsquelle den Strom antreibt.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Im Wassermodell ist die Spannung die Stärke der Pumpe. Eine stärkere Pumpe treibt mehr Wasser an. Auch das ist
+          nur ein Modell.
+
+          Merke: Eine Spannung gibt es **zwischen** zwei Punkten, zum Beispiel zwischen den Polen der Batterie. Strom
+          fließt dagegen **durch** eine Leitung. Typische Werte: Batterie 1,5 V, Autobatterie 12 V, Steckdose 230 V.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Von Millivolt in Volt
+        blocks:
+          - type: text
+            text: |
+              Ein Sensor liefert $400\,\text{mV}$. Wie viel Volt sind das?
+
+              1. $1\,\text{V}$ sind $1000\,\text{mV}$.
+              2. Teile die Zahl in mV durch 1000.
+              3. $400 : 1000 = 0{,}4$, also $0{,}4\,\text{V}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: mv-in-v
+        given:
+          mv: { oneOf: [250, 400, 500, 750, 1500, 2500, 4500] }
+        task:
+          text: "Ein Sensor liefert eine Spannung von {{mv}} mV. Wie groß ist die Spannung in Volt?"
+        answer:
+          value: "mv / 1000"
+          compare: { number: { format: decimal, decimals: 3, unit: V } }
+        mistakes:
+          - { value: "mv / 100", message: "Ein Volt sind 1000 Millivolt, nicht 100. Teile durch 1000." }
+          - { value: "mv * 1000", message: "Du hast mit 1000 multipliziert. Von Millivolt zu Volt musst du teilen." }
+        hint: "1 V sind 1000 mV. Die Zahl in Volt ist kleiner als die in Millivolt."
+        steps:
+          - '$U = \frac{{{mv}}\,\text{mV}}{1000}$'
+          - "Das sind {{answer}} V."
+      - type: single-choice
+        id: spannung-bedeutung
+        text: Was gibt die Spannung einer Batterie an?
+        options:
+          - text: Wie stark die Batterie den Strom antreibt.
+            correct: true
+            info: Die Spannung ist der Antrieb des Stroms, vergleichbar mit der Stärke einer Pumpe.
+          - text: Wie viel Strom in der Batterie gespeichert ist.
+            correct: false
+            info: Die Spannung sagt nichts darüber, wie lange die Batterie hält. Das hängt von ihrer Ladung ab.
+          - text: Wie viel Strom durch die Lampe fließt.
+            correct: false
+            info: Das ist die Stromstärke. Sie hängt auch von der Lampe ab, nicht nur von der Spannung.
+        explanation: Die Spannung gibt an, wie stark die Spannungsquelle den Strom antreibt.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung

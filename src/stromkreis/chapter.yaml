@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Stromkreis
+summary: Was ein Stromkreis braucht, welche Stoffe Strom leiten, wie ein Schalter wirkt und wie man eine Schaltung zeichnet.
+pages: [einfacher-stromkreis, leiter-nichtleiter, schalter, schaltplan, spannungsquellen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /stromkreis/einfacher-stromkreis/#stromkreis-geschlossen
+        - /stromkreis/einfacher-stromkreis/#strom-wird-verbraucht
+        - /stromkreis/leiter-nichtleiter/#stoffe-leiter
+    - exercises:
+        - /stromkreis/leiter-nichtleiter/#kabel-huelle
+        - /stromkreis/schalter/#schalter-offen
+        - /stromkreis/schalter/#schalter-luft
+    - exercises:
+        - /stromkreis/schaltplan/#zeichen-zuordnen
+        - /stromkreis/schaltplan/#plan-lesen
+        - /stromkreis/spannungsquellen/#quelle-einsatz
+        - /stromkreis/spannungsquellen/#quelle-experiment
