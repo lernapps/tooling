@@ -207,6 +207,7 @@ ROWS.push(
   ...(
     [
       ["l_mean", "Learning quality, mean of the items", "learning"],
+      ["l_explainer-page-goal", "The page says where it leads", "explainer-page-goal"],
       ["l_explainer-learner-start", "Starts where learners stand", "explainer-learner-start"],
       [
         "l_explainer-representation-explained",
@@ -217,6 +218,11 @@ ROWS.push(
       ["l_explainer-text-figure-agree", "Text, figure and task agree", "explainer-text-figure-agree"],
       ["l_explainer-one-step", "One new step per page", "explainer-one-step"],
       ["l_explainer-figure-hides-answer", "The task's figure hides the answer", "explainer-figure-hides-answer"],
+      [
+        "l_explainer-exercise-progression",
+        "Exercises go from recognising to applying",
+        "explainer-exercise-progression",
+      ],
       ["l_explainer-steps-explain", "Solution steps explain", "explainer-steps-explain"],
       ["l_explainer-honest-headings", "Headings say what the section does", "explainer-honest-headings"],
       ["l_explainer-age-appropriate", "Address fits the age", "explainer-age-appropriate"],

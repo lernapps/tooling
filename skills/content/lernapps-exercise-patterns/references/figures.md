@@ -1,6 +1,6 @@
 # Figures
 
-- Shows what the text next to it says; caption: what to look at; `alt`: what it shows (`explainer-figure-explains`).
+- Shows what the text next to it says; caption: what to look at; `alt`: what it shows (`explainer-representation-explained`).
 - Drawn from the given, never the answer (`explainer-figure-hides-answer`).
 - Bundled; nothing from other servers before a click (`no-request-before-click`); others' images with source and
   licence (`third-party-licence`).

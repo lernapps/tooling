@@ -66,7 +66,8 @@ id: learner-text-german
 
 Read the texts for learners, teachers and parents. A finding: a text that is not German; long nested sentences,
 passive voice where the learner should act, jargon a learner of the stated age does not know, or a term used before
-it is explained. Quote the sentence and give a plainer one as the fix.
+it is explained. Quote the sentence and give a plainer one as the fix. In an explainer, a term explained too late is a
+finding of `explainer-learner-start`, not of this item.
 
 ## No learner-specific data in public texts
 

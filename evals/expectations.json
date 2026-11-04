@@ -52,6 +52,8 @@
     "explainer-figure-hides-answer": ["A36"],
     "explainer-steps-explain": ["A36"],
     "explainer-age-appropriate": ["A36"],
-    "explainer-honest-headings": ["A36"]
+    "explainer-honest-headings": ["A36"],
+    "explainer-page-goal": ["A36"],
+    "explainer-exercise-progression": ["A36"]
   }
 }

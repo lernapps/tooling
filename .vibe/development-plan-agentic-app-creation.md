@@ -531,7 +531,7 @@ Overall:
   (T, rule `early-preview`; changed by feat/explainer-learning-juror, #257).
 - A36 An explainer's pages can be followed by a learner of its grade: they start from what the learner knows, say
   what their figures and models mean and what to do with them, and give nothing away before the check (J, the juror
-  `evals/juror/prompt.md`, rules `explainer-learner-start` … `explainer-age-appropriate`).
+  `evals/juror/prompt.md`, rules `explainer-page-goal`, `explainer-learner-start` … `explainer-age-appropriate`, `explainer-exercise-progression`).
 
 #### 3. What we expect of the review agent (R1)
 - B1 It reviews exactly the named commit on `main`, starting from the validation report (C).

@@ -15,8 +15,8 @@ id: topic-has-exercises
 The schema already requires an exercise on every page except a recap page (`recap`), which has none; judge whether it
 fits. Open every page. A finding: an exercise
 that practises something other than what its page explains, or one whose solution or feedback does not let learners
-check their answer; a task that shows several representations at once, or asks for content of a later page. Name the
-page and the exercise.
+check their answer; a task that shows several representations at once. Name the page and the exercise. Not here:
+content of a later page (`explainer-one-step`), the order of the exercises (`explainer-exercise-progression`).
 
 ## Typical mistakes, diagnosed
 
@@ -24,8 +24,9 @@ page and the exercise.
 id: explainer-mistakes-diagnosed
 ```
 
-Read every `generated` exercise. A finding: one without `mistakes` where learners make a typical mistake (forgetting
-to divide by 100, the reverse order), or a mistake whose message only says that it is wrong, not what went wrong.
+Read every `generated` exercise, and try a typical wrong answer in every exercise component. A finding: one without
+`mistakes` where learners make a typical mistake (forgetting to divide by 100, the reverse order), or a message that
+only says that it is wrong, not what went wrong.
 
 ## Points of an open task, from the material
 
@@ -56,16 +57,6 @@ id: explainer-plausible-numbers
 Read the ranges in `given` and a worked task of every `generated` exercise in the bundle. A finding: values that do
 not fit the thing in the text (a price of 3 € for a bicycle, 90.91 people), or a range so narrow that the tasks
 repeat.
-
-## The figure explains the text
-
-```rubric
-id: explainer-figure-explains
-```
-
-Look at every `figure` and `labelled-figure` with its caption and alt text. A finding: a figure that does not show
-what the text next to it says, a caption that does not say what to see, or an alt text that does not say what the
-figure shows.
 
 ## Quotes exact and sourced
 
@@ -133,10 +124,10 @@ The map cannot be opened: no finding; say that it was not judged.
 id: explainer-figure-hides-answer
 ```
 
-Do every exercise with a figure or a component in the browser: mark, slide and type, but do not press "Prüfen". A
-finding: the task's figure, its caption or `alt`, its text or the component shows the answer before the check (a
-counter or live sentence that states what is checked, a field it fills in, a mark on the right spot, an option
-repeated). Name the page, the exercise and what gave it away.
+Unit: an exercise. Do it in the browser: mark, slide and type, but do not press "Prüfen". 2: nothing on the page
+gives the answer before the check. 0: the task's figure, its caption or `alt`, its text or the component shows the
+answer (a counter or live sentence that states what is checked, a field it fills in, a mark on the right spot, an
+option repeated). Two levels only. Name the page, the exercise and what gave it away.
 
 # Learning quality
 
@@ -147,16 +138,28 @@ control. Each item names its unit (a page, a figure or component, an exercise) a
 finding for level 0 or 1, the eval juror (`evals/juror/prompt.md`) writes the level of every unit. Level 0: a learner
 gets stuck or is misled. Level 1: a learner gets there with a detour or a guess. Level 2: clear.
 
+## The page says where it leads
+
+```rubric
+id: explainer-page-goal
+```
+
+Unit: a page. 2: near its start the page says what learners will be able to do after it and how it builds on the page
+before (or on what they know); its exercises check that. 1: one of the two is missing, or the exercises check
+something else. 0: neither. Quote the sentence. Not here: how the page starts its explanation
+(`explainer-learner-start`).
+
 ## Learners start where they stand
 
 ```rubric
 id: explainer-learner-start
 ```
 
-Unit: a page. 2: it starts from something learners of that grade know (a prerequisite, an everyday situation), links
-the new idea to it with an analogy or a situation, and explains each term where it is first needed. 1: the start is
-there, but a term comes unexplained or too early, or an analogy is not connected to the idea. 0: it starts with a rule,
-a definition or a question that needs what the page is about to teach. Quote the first sentences and the term.
+Unit: a page. 2: the explanation starts from something learners of that grade know (a prerequisite, an everyday
+situation), links the new idea to it with an analogy or a situation, and explains each term where it is first
+needed. 1: the start is there, but a term comes unexplained or too early, or an analogy is not connected to the
+idea. 0: the first paragraph presupposes a term or rule of the page without linking it to anything known. Quote
+the first sentences and the term. Not here: long sentences (`learner-text-german`), tone (`explainer-age-appropriate`).
 
 ## Each figure and model says what it means
 
@@ -164,11 +167,12 @@ a definition or a question that needs what the page is about to teach. Quote the
 id: explainer-representation-explained
 ```
 
-Unit: a figure, diagram or component (with its text, `nojs` and `alt`). Ask the five questions of the rule: the whole
-or reference, the meaning of parts, colours, patterns and marks, what learners change and what stays, how that leads to
-the statement, what to enter or check. 2: the page answers all five before learners need them. 1: one or two are left
-to guess. 0: three or more, or a mark that reads as a sign it is not (a tick in a field, a pattern like a boundary).
-Name the figure and the unanswered questions.
+Unit: a figure, diagram or component, with its caption and `alt`. Count only the questions of the rule that apply
+(a static figure has no input): the whole or reference, the meaning of parts, colours and marks, how it leads to the
+statement, what to enter or check. 2: all that apply are answered before learners need them, and a common misreading
+is named. 1: one or two are left to guess. 0: three or more, the figure shows something else than the text says, or
+a mark reads as a sign it is not. Name the figure and the open questions. Not here: what a control does
+(`explainer-control-purpose`), the `nojs` text (`explainer-readable-without-js`).
 
 ## Every control has a visible purpose
 
@@ -176,10 +180,11 @@ Name the figure and the unanswered questions.
 id: explainer-control-purpose
 ```
 
-Unit: a component with controls. Use each control. 2: each one changes something visible, the text says why to use
-it, the start state shows first what stays the same, and labels, limits and positions agree after every change. 1: one
-control's purpose must be guessed, or the start state already shows the changed state. 0: a control has no visible
-effect or no purpose on the page, or labels and positions disagree. Name the control and what you did.
+Unit: a component with controls. Use each control. 2: the page names each control, says what to do with it and what
+to watch; each changes something visible; the start state shows what stays the same; labels, limits and positions
+agree after every change. 1: the page names a control but not what to watch, or the start state already shows the
+change. 0: the page does not mention a control, a control has no visible effect, or labels and positions disagree.
+Name the control and what you did.
 
 ## Text, figure and task tell the same
 
@@ -187,10 +192,10 @@ effect or no purpose on the page, or labels and positions disagree. Name the con
 id: explainer-text-figure-agree
 ```
 
-Unit: a figure or component with the text around it. 2: the same numbers and the same whole in text, figure and task,
-an announced switch to another example, and only tools and views the page has. 1: a switch of numbers without notice.
-0: the text names a view, a tool or a control the page does not have, or describes another figure. Quote the text and
-say what the figure shows.
+Unit: a section. 2: the same numbers and the same whole in its text, figures and task; a switch to another example
+announced; the text names only tools and views the page has. 1: a switch of numbers without notice. 0: the text names
+a view, a tool or a control the page does not have, or describes another figure. Quote the text and say what the
+page shows. Not here: headings (`explainer-honest-headings`).
 
 ## One new step per page
 
@@ -198,9 +203,20 @@ say what the figure shows.
 id: explainer-one-step
 ```
 
-Unit: a page. 2: one new step; nothing of a later competency or page; one example per box. 1: a second method or
-several examples in one box. 0: content of a later competency in its text, figures or exercises or its options (e.g. a
-case the next page introduces), or two competencies of their own on one page. Name what belongs elsewhere.
+Unit: a page. A new idea is a statement the page's exercises check. 2: one new idea; nothing of a later competency or
+page, also not in the options; one example per box. 1: two new ideas, a second way to the result without its own
+derivation, or several examples in one box. 0: content of a later competency or page in its text, figures, exercises
+or options, or two competencies of their own on one page. Name what belongs elsewhere.
+
+## Exercises go from recognising to applying
+
+```rubric
+id: explainer-exercise-progression
+```
+
+Unit: the exercises of a page. 2: they go from recognising or repeating what the page showed to applying it with other
+values and in a new situation (another context, a word problem, the reverse question). 1: two of these levels. 0: one
+level only. Name the exercises and their levels. Not here: whether each fits the page (`topic-has-exercises`).
 
 ## A solution step explains
 
@@ -208,9 +224,10 @@ case the next page introduces), or two competencies of their own on one page. Na
 id: explainer-steps-explain
 ```
 
-Unit: an exercise with steps or a worked example. Read the steps of three tasks. 2: each step uses the task's numbers
-and gives its reason; given values are worked out. 1: a step without its reason, or a given value as an unworked term.
-0: a step that only says to apply a rule ("Setze die Angaben in die Regel ein"). Quote the step.
+Unit: an exercise with steps or a worked example. Read the steps of three tasks; the level is that of the worst. 2:
+each step uses the task's numbers and gives its reason; given values are worked out. 1: a step without its reason, or
+a given value as an unworked term. 0: a step that only says to apply a rule ("Setze die Angaben in die Regel ein").
+Quote the step. Not here: the message to a wrong answer (`explainer-mistakes-diagnosed`).
 
 ## Headings say what the section does
 
@@ -218,9 +235,9 @@ and gives its reason; given values are worked out. 1: a step without its reason,
 id: explainer-honest-headings
 ```
 
-Unit: a page. 2: every title fits its section; "Ausprobieren" only where learners operate something. 1: one title that
-does not fit. 0: "Ausprobieren" or a like title over a section with nothing to operate, on several pages. Name the
-section.
+Unit: a page. 2: every heading fits its section; "Ausprobieren" only where learners operate something. 1: a heading
+that is vague or fits only half its section. 0: a heading that promises an action the section does not offer. Name
+the section.
 
 ## Address fits the age
 
@@ -228,6 +245,7 @@ section.
 id: explainer-age-appropriate
 ```
 
-Unit: a page. 2: tone, examples and length fit the grade (younger learners: short sentences, things from their day; older learners:
-not childish, situations of their world, a denser text is fine). 1: a passage too hard or too childish. 0: the page
-as a whole misses the grade. Quote the passage.
+Unit: a page. Tone and examples only. 2: they fit the grade (younger learners: things from their day, a friendly
+tone; older learners: not childish, situations of their world). 1: a passage with a tone or example that misses the
+grade. 0: more than half of the paragraphs miss it. Quote the passage. Not here: sentence length and jargon
+(`learner-text-german`), terms (`explainer-learner-start`).

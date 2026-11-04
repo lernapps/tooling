@@ -38,7 +38,9 @@ license: MIT
 - The content structure → the same sections on every page, with fixed ids (e.g. `einstieg`, `beispiel`, `uebung`).
   Their titles fit what each section does on that page (`explainer-honest-headings`); a section a page does not need
   is left out.
-- Each page: one new step (`explainer-one-step`), from what learners of the grade know (`explainer-learner-start`).
+- Each page: one new step (`explainer-one-step`), from what learners of the grade know (`explainer-learner-start`); it
+  says where it leads (`explainer-page-goal`), and its exercises go from recognising to applying
+  (`explainer-exercise-progression`).
 - Each figure, model and component: its learning action before its form (`explainer-representation-explained`):
   what is the whole, what do parts and marks mean, what do learners do, what stays the same, how does that lead to
   the statement. A slider or button only where that action needs it (`explainer-control-purpose`).
