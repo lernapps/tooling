@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Teiler – kurz wiederholt
+description: Zum Kürzen brauchst du Teiler. Hier steht, was du dafür aus Klasse 5 wiederholst.
+recap: mathematik/teilbarkeit
+blocks:
+  - type: section
+    id: teiler
+    title: Was ein Teiler ist
+    blocks:
+      - type: text
+        text: |
+          Zum Kürzen suchst du eine Zahl, durch die du Zähler und Nenner teilen kannst, ohne dass ein Rest bleibt.
+          Das ist ein gemeinsamer Teiler.
+      - type: definition
+        term: Teiler
+        explanation: "Eine Zahl ist ein Teiler von einer anderen, wenn die Division ohne Rest aufgeht. 3 ist ein Teiler von 12, denn $12 : 3 = 4$."
+      - type: example
+        title: Gemeinsame Teiler von 12 und 18
+        blocks:
+          - type: table
+            caption: Die Teiler von 12 und von 18
+            header: [Zahl, Teiler]
+            rows:
+              - ["12", "1, 2, 3, 4, 6, 12"]
+              - ["18", "1, 2, 3, 6, 9, 18"]
+          - type: text
+            text: Gemeinsame Teiler von 12 und 18 sind 1, 2, 3 und 6. Der größte gemeinsame Teiler ist 6.
+  - type: section
+    id: regeln
+    title: Wann eine Zahl durch 2, 3, 5 oder 10 teilbar ist
+    blocks:
+      - type: table
+        caption: Teilbarkeitsregeln
+        header: [Teilbar durch, Regel]
+        rows:
+          - ["2", "Die letzte Ziffer ist 0, 2, 4, 6 oder 8."]
+          - ["3", "Die Quersumme ist durch 3 teilbar."]
+          - ["5", "Die letzte Ziffer ist 0 oder 5."]
+          - ["10", "Die letzte Ziffer ist 0."]
+      - type: text
+        text: Mehr dazu findest du auf der [Karte zu Teilbarkeit](https://lernapps.net/apps/map/mathematik/c/teilbarkeit/).

@@ -1,0 +1,147 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche erweitern
+description: Du teilst ein Ganzes feiner und siehst, dass sich der Anteil nicht ändert. Dazu lernst du die Regel fürs Erweitern.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Gleich viel Pizza, anders geschnitten
+    blocks:
+      - type: text
+        text: |
+          Eine Pizza ist in 3 gleich große Stücke geschnitten. Du nimmst 2 Stücke, das sind $\frac{2}{3}$ der Pizza.
+          Jetzt schneidest du jedes Stück noch einmal in 3 kleinere Stücke. Die Pizza hat nun 9 Stücke, und du hast
+          6 davon: $\frac{6}{9}$. Du hast aber nicht mehr Pizza als vorher, nur kleiner geschnitten.
+
+          Zum Kürzen brauchst du später [Teiler und Vielfache](https://lernapps.net/apps/map/mathematik/c/teilbarkeit/).
+  - type: section
+    id: erklaerung
+    title: Feiner teilen heißt erweitern
+    blocks:
+      - type: text
+        text: |
+          Unten siehst du zwei Rechtecke. Beide sind das Ganze. Das linke bleibt immer gleich, es heißt „vorher“.
+          Das rechte wird feiner geteilt. Gestreifte Felder sind gefärbt, weiße Felder nicht.
+
+          Mit den Zahlen-Knöpfen stellst du ein, in wie viele kleinere Felder jedes Feld geteilt wird. Bei der 1
+          ändert sich noch nichts. Drücke danach die 2, die 3 und die anderen Zahlen und schau, was mit der
+          gefärbten Fläche und mit den Zahlen im Bruch passiert.
+      - type: vue-component
+        id: erweitern-bild
+        component: BruchVerfeinern
+        props:
+          modus: erweitern
+          z: 2
+          n: 3
+          vorherLabel: "vorher: {z} von {n} Feldern gefärbt"
+          nachherLabel: "erweitert mit {k}: {zz} von {nn} Feldern gefärbt"
+          faktorLabel: "Jedes Feld teilen in so viele Felder:"
+          knopfLabel: "Jedes Feld in {k} Felder teilen"
+          rechnung: "Zähler: {z} · {k} = {zz}. Nenner: {n} · {k} = {nn}. Die gefärbte Fläche ist gleich groß geblieben."
+          bildLabel: "Rechteck mit {n} gleich großen Feldern, davon {z} gefärbt"
+        nojs: |
+          Zwei Rechtecke, beide das Ganze. Links ist es in 3 gleich große Felder geteilt, 2 sind gefärbt: $\frac{2}{3}$.
+          Rechts ist jedes dieser Felder in 3 kleinere geteilt: 9 Felder, 6 davon gefärbt: $\frac{6}{9}$. Die gefärbte
+          Fläche ist in beiden Bildern gleich groß. Zähler und Nenner wurden beide mit 3 malgenommen.
+      - type: text
+        text: |
+          Du siehst: Die gefärbte Fläche bleibt gleich. Zähler und Nenner werden mit derselben Zahl
+          malgenommen. Das nennt man **Erweitern**. Die Brüche $\frac{2}{3}$ und $\frac{6}{9}$ sind **gleichwertig**.
+      - type: formula
+        formula: '\frac{2}{3} = \frac{2 \cdot 3}{3 \cdot 3} = \frac{6}{9}'
+      - type: definition
+        term: Erweitern
+        explanation: Zähler und Nenner werden mit derselben Zahl malgenommen. Der Bruch sieht anders aus, ist aber gleich groß.
+      - type: definition
+        term: gleichwertig
+        explanation: Zwei Brüche sind gleichwertig, wenn sie denselben Teil des Ganzen beschreiben, zum Beispiel $\frac{2}{3}$ und $\frac{6}{9}$.
+      - type: note
+        title: Beides malnehmen
+        blocks:
+          - type: text
+            text: Mit derselben Zahl malnehmen musst du Zähler und Nenner. Nimmst du nur eine der beiden Zahlen mal, wird der Bruch größer oder kleiner. Addieren verändert den Bruch auch.
+  - type: section
+    id: beispiel
+    title: Ein Beispiel
+    blocks:
+      - type: example
+        title: $\frac{3}{5}$ mit 4 erweitern
+        blocks:
+          - type: text
+            text: |
+              Du nimmst Zähler und Nenner mit 4 mal.
+
+              Zähler: $3 \cdot 4 = 12$. Nenner: $5 \cdot 4 = 20$.
+
+              Also ist $\frac{3}{5} = \frac{12}{20}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: erweitern-zaehler
+        given:
+          e: { pick: 1, from: { data: bruchpaare } }
+          k: { int: [2, 6] }
+        where: ["e.n > 1", "e.z * k != e.z + k"]
+        task:
+          text: "Erweitere $\\frac{{{e.z}}}{{{e.n}}}$ mit {{k}}. Wie heißt der neue Zähler?"
+        answer: { value: "e.z * k", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.z",
+              message: "Du hast den Zähler nicht verändert. Beim Erweitern wird auch der Zähler mit der Zahl malgenommen.",
+            }
+          - { value: "e.z + k", message: "Du hast addiert. Erweitern heißt: mit der Zahl malnehmen." }
+        hint: "Der Zähler wird mit derselben Zahl malgenommen wie der Nenner."
+        steps:
+          - "Du nimmst Zähler und Nenner mit {{k}} mal."
+          - "Zähler: {{e.z}} · {{k}} = {{answer}}."
+      - type: generated
+        id: erweitern-nenner
+        given:
+          e: { pick: 1, from: { data: bruchpaare } }
+          k: { int: [2, 6] }
+        where: ["e.n * k != e.n + k"]
+        task:
+          text: "Erweitere $\\frac{{{e.z}}}{{{e.n}}}$ mit {{k}}. Wie heißt der neue Nenner?"
+        answer: { value: "e.n * k", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.n",
+              message: "Du hast den Nenner nicht verändert. Beim Erweitern wird auch der Nenner mit der Zahl malgenommen.",
+            }
+          - { value: "e.n + k", message: "Du hast addiert. Erweitern heißt: mit der Zahl malnehmen." }
+        hint: "Der Nenner wird mit derselben Zahl malgenommen wie der Zähler."
+        steps:
+          - "Du nimmst Zähler und Nenner mit {{k}} mal."
+          - "Nenner: {{e.n}} · {{k}} = {{answer}}."
+      - type: single-choice
+        id: erweitern-gleichwertig
+        text: Welcher Bruch ist gleichwertig zu $\frac{2}{5}$?
+        options:
+          - text: $\frac{4}{10}$
+            correct: true
+            info: "Richtig: Zähler und Nenner sind beide mit 2 malgenommen."
+          - text: $\frac{4}{7}$
+            correct: false
+            info: "Falsch: Hier ist nur der Zähler mit 2 malgenommen, der Nenner wurde um 2 größer. Beide müssen mit derselben Zahl malgenommen werden."
+          - text: $\frac{2}{10}$
+            correct: false
+            info: "Falsch: Hier ist nur der Nenner mit 2 malgenommen. Dann sind die Felder kleiner, aber es sind noch immer 2 gefärbt."
+          - text: $\frac{7}{10}$
+            correct: false
+            info: "Falsch: Hier wurde zu beiden Zahlen 5 addiert. Addieren ändert den Bruch."
+        explanation: Gleichwertige Brüche entstehen, wenn du Zähler und Nenner mit derselben Zahl malnimmst.
+        hint: Prüfe, mit welcher Zahl du von 5 zu 10 kommst. Passt sie auch beim Zähler?
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: erweitern-gleich-gross
+        text: "Die Brüche $\\frac{2}{4}$ und $\\frac{3}{6}$ sind gleich groß."
+        answer: true
+        explanation: $\frac{2}{4}$ und $\frac{3}{6}$ sind beide gleichwertig zu $\frac{1}{2}$. Beim ersten wird $\frac{1}{2}$ mit 2 erweitert, beim zweiten mit 3.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

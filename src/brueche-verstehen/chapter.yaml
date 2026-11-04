@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche verstehen
+summary: Du lernst, was ein Bruch ist, und liest Zähler und Nenner an Bildern ab.
+pages: [anteile]
+selfAssessment:
+  pages:
+    - exercises:
+        - /brueche-verstehen/anteile/#anteile-ablesen
+        - /brueche-verstehen/anteile/#anteile-weisser-teil
+        - /brueche-verstehen/anteile/#anteile-faerben

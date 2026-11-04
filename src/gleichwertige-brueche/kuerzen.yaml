@@ -1,0 +1,143 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche kürzen
+description: Du fasst Felder zusammen und siehst, dass der Anteil gleich bleibt. Dazu lernst du, einen Bruch vollständig zu kürzen.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Zurück zu größeren Stücken
+    blocks:
+      - type: text
+        text: |
+          Beim Erweitern hast du ein Ganzes feiner geteilt. Jetzt gehst du den Weg zurück: Du fasst Stücke zu
+          größeren zusammen. Das geht aber nur, wenn die gefärbten und die weißen Stücke gleichmäßig zusammenpassen.
+  - type: section
+    id: erklaerung
+    title: Zusammenfassen heißt kürzen
+    blocks:
+      - type: text
+        text: |
+          Das Rechteck links, „vorher“, bleibt immer gleich: 18 gleich große Felder, 12 davon gefärbt. Das rechte
+          Rechteck fasst Felder zusammen.
+
+          Die Zahlen-Knöpfe sagen, wie viele Felder zu einem größeren zusammengefasst werden. Es gibt nur die Zahlen,
+          bei denen es ohne Rest aufgeht. Bei der 1 ändert sich noch nichts. Probiere die anderen Zahlen aus.
+      - type: vue-component
+        id: kuerzen-bild
+        component: BruchVerfeinern
+        props:
+          modus: kuerzen
+          z: 12
+          n: 18
+          vorherLabel: "vorher: {z} von {n} Feldern gefärbt"
+          nachherLabel: "gekürzt mit {k}: {zz} von {nn} Feldern gefärbt"
+          faktorLabel: "Immer so viele Felder zusammenfassen:"
+          knopfLabel: "Immer {k} Felder zusammenfassen"
+          rechnung: "Zähler: {z} : {k} = {zz}. Nenner: {n} : {k} = {nn}. Die gefärbte Fläche ist gleich groß geblieben."
+          bildLabel: "Rechteck mit {n} gleich großen Feldern, davon {z} gefärbt"
+        nojs: |
+          Zwei Rechtecke, beide das Ganze. Links sind es 18 gleich große Felder, 12 davon gefärbt: $\frac{12}{18}$.
+          Rechts sind je 6 Felder zu einem zusammengefasst: 3 Felder, 2 davon gefärbt: $\frac{2}{3}$. Die gefärbte
+          Fläche ist in beiden Bildern gleich groß. Zähler und Nenner wurden beide durch 6 geteilt.
+      - type: text
+        text: |
+          Du siehst: Die gefärbte Fläche bleibt gleich. Zähler und Nenner werden durch dieselbe Zahl geteilt. Das nennt
+          man **Kürzen**. Du kürzt mit einem gemeinsamen Teiler von Zähler und Nenner.
+      - type: formula
+        formula: '\frac{12}{18} = \frac{12 : 6}{18 : 6} = \frac{2}{3}'
+      - type: definition
+        term: Kürzen
+        explanation: Zähler und Nenner werden durch denselben gemeinsamen Teiler geteilt. Der Bruch sieht anders aus, ist aber gleich groß.
+      - type: text
+        text: |
+          Ein Bruch ist **vollständig gekürzt**, wenn Zähler und Nenner keinen gemeinsamen Teiler außer der 1 mehr haben.
+          Kürzt du nur mit 2 oder 3, ist der Bruch noch nicht fertig: $\frac{12}{18}$ wird mit 2 zu $\frac{6}{9}$, und
+          die 6 und die 9 haben noch den Teiler 3.
+      - type: note
+        title: Beides teilen
+        blocks:
+          - type: text
+            text: Du musst Zähler und Nenner durch dieselbe Zahl teilen. Teilst du nur eine der beiden Zahlen, oder ziehst du etwas ab, ändert sich der Bruch.
+  - type: section
+    id: beispiel
+    title: Ein Beispiel
+    blocks:
+      - type: example
+        title: $\frac{24}{36}$ kürzen
+        blocks:
+          - type: text
+            text: |
+              Gemeinsame Teiler von 24 und 36 sind zum Beispiel 2, 3, 4, 6 und 12. Mit dem größten, der 12, kürzt du
+              in einem Schritt.
+
+              Zähler: $24 : 12 = 2$. Nenner: $36 : 12 = 3$.
+
+              Also ist $\frac{24}{36} = \frac{2}{3}$. Mit 2, 3, 4 oder 6 wärst du nicht fertig gewesen.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: kuerzen-nenner
+        given:
+          e: { pick: 1, from: { data: kuerzbeispiele } }
+        where: ["e.gn - e.f != e.n"]
+        task:
+          text: "Kürze $\\frac{{{e.gz}}}{{{e.gn}}}$ durch {{e.f}}. Wie heißt der neue Nenner?"
+        answer: { value: "e.n", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.gn",
+              message: "Das ist der alte Nenner. Du hast ihn nicht verändert. Beim Kürzen teilst du Zähler und Nenner.",
+            }
+          - { value: "e.gn - e.f", message: "Du hast abgezogen. Kürzen heißt: durch die Zahl teilen." }
+        hint: "Teile den Nenner durch dieselbe Zahl, durch die du den Zähler teilst."
+        steps:
+          - "Du teilst Zähler und Nenner durch {{e.f}}."
+          - "Nenner: {{e.gn}} : {{e.f}} = {{answer}}."
+      - type: generated
+        id: kuerzen-vollstaendig
+        given:
+          e: { pick: 1, from: { data: kuerzbeispiele } }
+        where: ["e.f > 3"]
+        task:
+          text: "Der Bruch $\\frac{{{e.gz}}}{{{e.gn}}}$ soll in einem Schritt vollständig gekürzt werden. Durch welche Zahl teilst du Zähler und Nenner?"
+        answer: { value: "e.f", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "2",
+              message: "Mit 2 kannst du kürzen, aber der Bruch ist dann noch nicht vollständig gekürzt: Zähler und Nenner haben noch einen gemeinsamen Teiler.",
+            }
+        hint: "Suche den größten Teiler, der in Zähler und Nenner passt."
+        steps:
+          - "Zähler {{e.gz}} und Nenner {{e.gn}} haben den gemeinsamen Teiler {{e.f}}."
+          - "Danach steht $\\frac{{{e.z}}}{{{e.n}}}$ da. Mit ihm kann man nicht weiter kürzen."
+      - type: single-choice
+        id: kuerzen-richtig
+        text: Welche Umformung ist richtig gekürzt?
+        options:
+          - text: $\frac{6}{8} = \frac{3}{4}$
+            correct: true
+            info: "Richtig: Zähler und Nenner sind beide durch 2 geteilt."
+          - text: $\frac{6}{8} = \frac{4}{6}$
+            correct: false
+            info: "Falsch: Hier wurde von beiden Zahlen 2 abgezogen. Kürzen heißt teilen, nicht abziehen."
+          - text: $\frac{6}{8} = \frac{3}{8}$
+            correct: false
+            info: "Falsch: Hier ist nur der Zähler durch 2 geteilt. Der Nenner muss auch durch 2 geteilt werden."
+          - text: $\frac{6}{8} = \frac{12}{16}$
+            correct: false
+            info: "Falsch: Das ist erweitert, mit 2 malgenommen, nicht gekürzt."
+        explanation: Beim Kürzen teilst du Zähler und Nenner durch dieselbe Zahl.
+        hint: Schau, mit welcher Rechenart du von 6 und 8 zu den neuen Zahlen kommst.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: kuerzen-fertig
+        text: "Der Bruch $\\frac{6}{9}$ ist vollständig gekürzt."
+        answer: false
+        explanation: 6 und 9 haben den gemeinsamen Teiler 3. Mit 3 gekürzt ergibt $\frac{2}{3}$, und das ist vollständig gekürzt.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

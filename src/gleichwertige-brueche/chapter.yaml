@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Gleichwertige Brüche
+summary: Du erweiterst und kürzt Brüche und vergleichst sie der Größe nach.
+pages: [erweitern, teilbarkeit-wiederholen, kuerzen, vergleichen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /gleichwertige-brueche/erweitern/#erweitern-zaehler
+        - /gleichwertige-brueche/erweitern/#erweitern-nenner
+        - /gleichwertige-brueche/erweitern/#erweitern-gleichwertig
+    - exercises:
+        - /gleichwertige-brueche/kuerzen/#kuerzen-nenner
+        - /gleichwertige-brueche/kuerzen/#kuerzen-vollstaendig
+        - /gleichwertige-brueche/kuerzen/#kuerzen-richtig
+    - exercises:
+        - /gleichwertige-brueche/vergleichen/#vergleichen-gemeinsamer-nenner
+        - /gleichwertige-brueche/vergleichen/#vergleichen-ungleichnamig
+        - /gleichwertige-brueche/vergleichen/#vergleichen-gleicher-zaehler

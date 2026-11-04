@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: mathematik/arithmetik
+title: Brüche verstehen, erweitern, kürzen und vergleichen
+intro: |
+  Was ist ein Bruch? Du färbst Teile von Rechtecken, liest Zähler und Nenner ab und lernst, Brüche zu erweitern, zu
+  kürzen und der Größe nach zu vergleichen. Zu jedem Teil gibt es Übungen. Für Klasse 6.
+languages: [de]
+chapters: [brueche-verstehen, gleichwertige-brueche]
+sources:
+  - title: Bruchrechnung (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Bruchrechnung

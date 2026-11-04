@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 140" width="400" height="140">
+  <defs>
+    <pattern id="schraffur" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="10" height="10" fill="#2f5fb3"/>
+      <rect width="4" height="10" x="6" fill="#7ea0dc"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="140" fill="#ffffff"/>
+  <g stroke="#1a1a1a" stroke-width="3">
+    <rect x="20" y="30" width="72" height="80" fill="url(#schraffur)"/>
+    <rect x="92" y="30" width="72" height="80" fill="url(#schraffur)"/>
+    <rect x="164" y="30" width="72" height="80" fill="url(#schraffur)"/>
+    <rect x="236" y="30" width="72" height="80" fill="#ffffff"/>
+    <rect x="308" y="30" width="72" height="80" fill="#ffffff"/>
+  </g>
+</svg>
