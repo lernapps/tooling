@@ -33,7 +33,8 @@ severity: error
 
 - A task's figure shows the given values, never the answer.
 - In an exercise component, no counter or sentence states what is checked: "6 von 10 Teilen gefärbt" under "Färbe
-  6/10" is the answer. Count only what the task does not ask, or show it after "Prüfen".
+  6/10" is the answer, and so is a live sentence in the task's words under a slider ("Du wirst schneller" when the
+  story says "Du wirst schneller"). Count only what the task does not ask, or show it after "Prüfen".
 - A caption or figure of a task does not repeat an option ("Die Teile sind nicht gleich groß" under that question),
   and a comparison the figure shows at a glance (the longer strip) is an explanation, not a task.
 
@@ -127,7 +128,9 @@ severity: hint
   A control without a purpose goes.
 - The start state shows first what stays the same (factor 1, nothing coloured yet, the given fraction); only the next
   action changes it. After a change, labels, limits and positions agree.
-- Each page says what its controls do, also when an earlier page has the same component. A control that replaces what
+- Each page says what its controls do, also when an earlier page has the same component. A control that changes
+  nothing in one view on purpose (direction in a velocity-time diagram) says so there: "Hier ändert sich nichts: Das
+  Diagramm zeigt nur, wie schnell." A control that replaces what
   learners compare keeps the earlier state in view (side by side), or they compare from memory.
 
 ## `explainer-text-figure-agree`: Text, figure and task tell the same
@@ -150,7 +153,8 @@ scope: archetype:explainer
 severity: hint
 ```
 
-- A page adds one step to what learners know. Content of a later competency (by `requires` in the map, or a later
+- A page adds one step to what learners know. Count the new ideas of a page: a diagram with four readings (steady,
+  stop, back, faster) is four ideas, so several pages, one or two readings each, and a page that brings them together. Content of a later competency (by `requires` in the map, or a later
   page) stays out of its text, figures and exercises.
 - Different methods get their own derivation and example; one example per box.
 - Options and distractors stay inside the step too: no 7/4 among the options before fractions greater than one.
