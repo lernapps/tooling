@@ -29,6 +29,8 @@ for job in "$@"; do
   [ -n "$grade" ] || { echo "$task has no juror_grade: skipped" >&2; continue; }
   subject="$(meta "$toml" juror_subject)"
   competencies="$(meta "$toml" juror_competencies)"
+  guidance_commit="$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).guidanceCommit)' "$job/configuration.json")"
+  guidance_tgz="${LERNAPPS_EVALS_HOME:-$HOME/.lernapps-evals}/guidance/$guidance_commit/lernapps-tooling.tgz"
   for trial in "$job"/*/; do
     trial="${trial%/}"
     app=""
@@ -43,6 +45,12 @@ for job in "$@"; do
     # The build: a full copy without the plans, the retrospective and the history.
     build="$(mktemp -d)"
     (cd "$app" && tar --exclude=./.vibe --exclude=./docs --exclude=./.git --exclude=./node_modules -cf - .) | tar -C "$build" -xf -
+    # With GUIDANCE_REF, the app depends on the package run.sh packed into the image (/opt/lernapps/), which exists
+    # only there: point the build to the same package on this machine.
+    if [ -f "$guidance_tgz" ]; then
+      sed -i -E "s#file:[./]*opt/lernapps/lernapps-tooling\.tgz#file:$guidance_tgz#g" "$build/package.json" \
+        "$build/package-lock.json" 2> /dev/null || true
+    fi
     if ! (cd "$build" && npm ci --no-audit --no-fund --ignore-scripts > "$work/build.log" 2>&1 && npm run build >> "$work/build.log" 2>&1); then
       echo "$trial: the app does not build (juror/build.log)" >&2
       echo '{"mean": null, "zeros": 0, "items": {}, "pages": 0, "error": "build"}' > "$trial/learning-score.json"
