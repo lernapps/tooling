@@ -1,0 +1,481 @@
+url: http://127.0.0.1:4402/
+grade: 9-10
+subject: physik
+competencies:
+  - geschwindigkeitsaenderung
+  - bewegungsdiagramme
+pages:
+  - /bewegung-beschreiben/wiederholung/
+  - /bewegung-beschreiben/aenderung/
+  - /bewegungsdiagramme/weg-zeit/
+  - /bewegungsdiagramme/geschwindigkeit-zeit/
+  - /bewegungsdiagramme/verbinden/
+units:
+  - item: explainer-learner-start
+    page: /bewegung-beschreiben/wiederholung/
+    unit: Seite
+    level: 2
+    evidence:
+      "Beginnt bei Bekanntem: „Aus Klasse 7 weißt du: Die Geschwindigkeit v sagt, wie weit etwas in einer Zeit kommt.
+      Du teilst den Weg s durch die Zeit t.“ Formel als Block, Einheiten genannt."
+    did: Seite von oben gelesen, 1280 und 360 px.
+  - item: explainer-one-step
+    page: /bewegung-beschreiben/wiederholung/
+    unit: Seite
+    level: 2
+    evidence:
+      Nur Wiederholung von v = s/t; die Notiz „Was auf den nächsten Seiten neu ist“ kündigt das Neue an, ohne es zu
+      lehren.
+  - item: explainer-steps-explain
+    page: /bewegung-beschreiben/wiederholung/
+    unit: Beispiel „Ein Rad fährt 60 Meter in 10 Sekunden“
+    level: 2
+    evidence:
+      „v = 60 m / 10 s = 6 m/s. Das Rad kommt in jeder Sekunde 6 Meter weit. Das gilt, wenn das Tempo die ganze Zeit
+      gleich bleibt.“ Zahlen der Aufgabe, Deutung dabei.
+  - item: explainer-honest-headings
+    page: /bewegung-beschreiben/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: „Das kennst du schon“ und „Ein Beispiel zum Erinnern“ passen; kein „Ausprobieren“.
+  - item: explainer-age-appropriate
+    page: /bewegung-beschreiben/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: Kurz, sachlich, Fahrrad-Beispiel; passend für Klasse 9–10, nicht kindisch.
+  - item: explainer-learner-start
+    page: /bewegung-beschreiben/aenderung/
+    unit: Seite
+    level: 2
+    evidence:
+      „Ein Rad steht an der roten Ampel. Es wird grün, und du trittst an. Dann rollst du aus und bremst …“ – Alltag,
+      dann Anschluss an v = s/t aus Klasse 7. „beschleunigt“ und „bremst ab“ werden erst nach dem Bild eingeführt und definiert.
+    did: Seite gelesen, Definitionen und Hinweiskasten angesehen.
+  - item: explainer-one-step
+    page: /bewegung-beschreiben/aenderung/
+    unit: Seite
+    level: 1
+    evidence:
+      "Drei Dinge auf einer Seite: Tempo steigt, Tempo sinkt, Richtungsänderung (Geschwindigkeit als Betrag und Richtung:
+      „Deine Geschwindigkeit ändert sich also, auch wenn der Tacho immer dieselbe Zahl zeigt“). Das Beispiel sagt außerdem „zeigt,
+      dass sein Tempo gleichmäßig steigt“ (gleichmäßige Beschleunigung, späteres Thema)."
+  - item: explainer-honest-headings
+    page: /bewegung-beschreiben/aenderung/
+    unit: Seite
+    level: 2
+    evidence:
+      „Einstieg – Rad an der Ampel“, „Anschaulich erklärt – der Bewegungsstreifen“, „Beispiel – Welche Änderung ist
+      das?“, „Übung“ – kein „Ausprobieren“ ohne Bedienung.
+  - item: explainer-age-appropriate
+    page: /bewegung-beschreiben/aenderung/
+    unit: Seite
+    level: 2
+    evidence: Alltagssituationen (Ampel, Kreisverkehr, Tacho), kurze Sätze, nicht kindisch; passt zu Klasse 9–10.
+  - item: explainer-representation-explained
+    page: /bewegung-beschreiben/aenderung/
+    unit: Bewegungsstreifen (Bild mit Reihen A, B, C und Tabelle)
+    level: 2
+    evidence:
+      "Text vor dem Bild: „Die Punkte sind die Orte, und die Zahl über dem Punkt ist die Zeit. Der Abstand zwischen
+      zwei Punkten ist der Weg in einer Sekunde. Mit v = s/t und t = 1 s ist dieser Abstand zugleich das Tempo.“ Bild: „Weg
+      in Fahrtrichtung, 0 bis 42 m“; Bildunterschrift „Vergleiche die Abstände in jeder Reihe“; die Tabelle gibt die Abstände.
+      Alle fünf Fragen beantwortet (Bezug, Bedeutung der Punkte, Aussage, Aufgabe). Kleiner Mangel: bei A überdecken sich die
+      Punkte 0 s und 1 s fast."
+    did: "Bild und Tabelle verglichen: A 2…12 m, B 6 m, C 12…2 m – Summen 42/36/42 passen zur Skala."
+  - item: explainer-text-figure-agree
+    page: /bewegung-beschreiben/aenderung/
+    unit: Bewegungsstreifen mit Text und Tabelle
+    level: 2
+    evidence:
+      Text „Bei Rad A wachsen die Abstände … Rad C werden die Abstände kleiner“ passt zu Bild und Tabelle (Zahlen 2–12,
+      6, 12–2). Keine Ansicht oder Werkzeug, das fehlt.
+  - item: explainer-steps-explain
+    page: /bewegung-beschreiben/aenderung/
+    unit: Beispiel „Ein Roller fährt los“
+    level: 2
+    evidence:
+      "„Orte: 1 m, 4 m, 9 m. Die Abstände sind 1 m, 3 m und 5 m. Sie werden größer, also wird der Roller schneller:
+      Er beschleunigt.“ Zahlen und Begründung vorhanden."
+  - item: explainer-figure-hides-answer
+    page: /bewegung-beschreiben/aenderung/
+    unit: Übung „roller-tabelle“ (Tabelle der Orte)
+    level: 2
+    evidence:
+      Die Tabelle zeigt nur Orte 0, 8, 14, 18, 20 m; die Abstände (8, 6, 4, 2) muss man selbst bilden; vor „Prüfen“
+      zeigt die Seite keine Lösung.
+    did:
+      "Falsche Option gewählt, geprüft: Rückmeldung nennt die Abstände; richtige Option: „Richtig!“. Leer geprüft: „Antworte
+      zuerst“."
+  - item: explainer-learner-start
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Seite
+    level: 2
+    evidence:
+      „Lisa fährt mit dem Fahrrad von zu Hause los. Alle paar Sekunden messen wir, wie weit sie vom Startpunkt entfernt
+      ist. Eine lange Liste von Zahlen ist unübersichtlich. Ein Weg-Zeit-Diagramm schreibt dieselben Messungen als eine Linie
+      auf.“ Dazu v = s/t aus Klasse 7.
+    did: Seite gelesen.
+  - item: explainer-one-step
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Seite
+    level: 1
+    evidence:
+      "Ein Diagramm, aber mehrere Lesearten auf einmal: gerade = gleiches Tempo, waagerecht = Stillstand, fallend =
+      Rückweg, gekrümmt = schneller werden („Die Linie wird immer steiler: Lisa wird schneller“), dazu Tempo berechnen. Die
+      Laboraufgabe 2 fragt nach der Krümmung („Abschnitt 1 ist gebogen, die anderen sind gerade. Warum?“), die der Text nicht
+      erklärt. Beschleunigung im s-t-Diagramm gehört eher zur Folgeseite."
+  - item: explainer-honest-headings
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren im Bewegungslabor“ steht über Reglern und Diagramm – dort bedient man etwas. Übrige Titel passen.
+  - item: explainer-age-appropriate
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Seite
+    level: 2
+    evidence:
+      Radfahrerin Lisa, Haltestelle; sachlich; passt für 9–10. Hinweiskasten „Das Diagramm ist kein Bild des Weges“
+      trifft einen typischen Fehler.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Lisas Weg-Zeit-Diagramm (labelled-figure)
+    level: 2
+    evidence:
+      "Text: „Zeit t nach rechts, Entfernung vom Startpunkt s nach oben. Jeder Punkt der Linie sagt: Zu dieser Zeit
+      ist Lisa so weit vom Start weg … vier Abschnitte von je 5 Sekunden. Die gestrichelten Linien trennen sie.“ Nummerierte
+      Marken 1–4 mit Liste unter dem Bild („1. Die Linie steigt gerade nach oben: …“); Achsen mit Einheiten. Bezug, Marken,
+      Aussage und Aufgabe („Achte auf die Neigung“) beantwortet."
+    did: Bild und Liste gelesen (1280 px).
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Lisas Diagramm mit Text und Beispiel
+    level: 2
+    evidence:
+      "Text und Beispiel: „bei t = 5 s liegt die Linie bei s = 20 m … 4 m/s“ – im Bild 20 m bei 5 s; zweiter Abschnitt
+      bei 20 m; Abschnitt 3 fällt auf 5 m; Abschnitt 4 steigt auf etwa 18 m (passt zum Alt-Text). Beispiel kündigt „Lisas Diagramm
+      weiter oben“ an."
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Bewegungslabor (Weg-Zeit)
+    level: 1
+    evidence:
+      "Erklärt: 20 s, vier Abschnitte, Start bei 0 m mit 10 m/s, Regler = Tempo am Ende, „Die Quadrate auf der Linie
+      sind die Enden der Abschnitte“, „Die Skalen bleiben immer gleich“. Offen: die Achse reicht von −400 bis 400 m und die
+      gestrichelte Nulllinie wird nirgends gedeutet; was das Feld „rückwärts“ bedeutet, steht nur als Handlungsanweisung („Setze
+      … den Haken ‚rückwärts‘“), nicht als Erklärung; im Beispiel der Seite ist Rückweg zwar gezeigt, aber ohne Bezug zum Feld.
+      Die Linie liegt bei Standardwerten nur in der oberen Hälfte."
+    did: Alle Regler auf 0 und auf 20, Abschnitt 2 auf 20, „rückwärts“ bei Abschnitt 4 gesetzt, Zurücksetzen gedrückt.
+  - item: explainer-control-purpose
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: "Bewegungslabor (Weg-Zeit): Regler, „rückwärts“, Zurücksetzen"
+    level: 1
+    evidence:
+      "Regler und Zurücksetzen: sichtbare Wirkung (Linie, Satz „Du wirst schneller: von 10 auf 20 m/s.“), Startzustand
+      zeigt konstantes Tempo. „rückwärts“ ändert die Linie (fällt ab Abschnitt 4 von 150 auf 100 m), sein Zweck wird nur in
+      Aufgabe 3 gestellt; das Feld ist ausgegraut, wenn der Abschnitt kein Tempo hat, ohne Hinweis darum."
+    did: Regler an beide Enden, Haken bei Abschnitt 4 gesetzt (Linie fällt), alle auf 0 (Haken gesperrt), Reset.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Bewegungslabor (Weg-Zeit) mit Text
+    level: 2
+    evidence:
+      „Du startest bei 0 Metern mit 10 m/s“ – Startzustand zeigt eine gerade Linie bis 200 m; Aufgabe 1 „In Abschnitt
+      2 bremst du, die Linie wird dort flacher“ – im Labor so; Aufgabe 2 „Abschnitt 1 ist gebogen, die anderen sind gerade“
+      – so zu sehen.
+    did: Aufgaben 1–3 der Reihe nach nachgemacht.
+  - item: explainer-steps-explain
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Beispiel „Wie schnell ist Lisa im ersten Abschnitt?“
+    level: 2
+    evidence:
+      "„Bei t = 5 s liegt die Linie bei s = 20 m. Bei t = 0 s war sie bei 0 m … v = 20 m / 5 s = 4 m/s … Im zweiten
+      Abschnitt bleibt die Linie bei 20 Metern: Dort ist s gleich geblieben, also ist v = 0 m/s.“"
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Übung „stillstand-linie“ (drei Linien A, B, C)
+    level: 2
+    evidence:
+      "Das Bild beschriftet nur A, B, C an den Linien; keine Markierung der richtigen Antwort. Bildunterschrift: „Vergleiche,
+      ob und wie sich die Entfernung ändert.“"
+    did: Alle drei Optionen einzeln geprüft; falsche geben eine Erklärung, B „Richtig!“.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Übung „anna-nach-12-s“ (Diagramm mit Gitter)
+    level: 2
+    evidence: Das Diagramm zeigt Gitter und Achsenzahlen, keine Marke bei 12 s oder 40 m.
+    did: "Eingegeben: 12, 20, 30 (Rückmeldungen: „Das ist die Zeit, die du schon kennst …“ bzw. Hinweis), 40 richtig."
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Übung „tempo-ordnen“ (drei Linien Mia, Ben, Chris)
+    level: 2
+    evidence:
+      "Das Bild zeigt nur die Linien mit Namen; die Zahlen 30/60/120 m stehen erst in der Erklärung nach dem Prüfen.
+      Vor dem Prüfen: „Antworte zuerst“ bei leerer Antwort."
+    did: Ordnung nicht gesetzt und geprüft.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Übungsbild „drei Linien“ A, B, C
+    level: 2
+    evidence:
+      Achsen mit Einheiten, Linien direkt beschriftet, Bildunterschrift sagt, was zu vergleichen ist; Linienstil unterscheidet
+      A, B, C zusätzlich zur Beschriftung.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Übungsbild „Anna“ (Gitterlinien)
+    level: 2
+    evidence:
+      "Bildunterschrift: „Die Gitterlinien helfen beim Ablesen. Achte auf die Zahlen an beiden Achsen.“ Achsen mit Einheiten;
+      Ablesen im Beispiel vorher geübt."
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Übungsbild „Mia, Ben, Chris“
+    level: 2
+    evidence: Drei beschriftete Geraden von 0 aus; Bildunterschrift „Vergleiche die Neigung“; das Wort Neigung kam im Text vorher.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/weg-zeit/
+    unit: Übungsbilder der Seite
+    level: 2
+    evidence:
+      Aufgabentexte („Drei Personen … Entfernung vom Startpunkt“, „Mia, Ben und Chris“) passen zu den Bildern; Wechsel
+      zu anderen Personen ist in der Aufgabe benannt.
+  - item: explainer-learner-start
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Seite
+    level: 2
+    evidence:
+      „Stell dir vor, du schaust bei einer Radfahrt alle paar Sekunden auf den Tacho und schreibst das Tempo auf. Das
+      Weg-Zeit-Diagramm von der letzten Seite zeigt, wo du bist. Das Geschwindigkeit-Zeit-Diagramm zeigt, wie schnell du gerade
+      bist.“ Alltag und Anschluss an die letzte Seite.
+    did: Seite gelesen.
+  - item: explainer-one-step
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Seite
+    level: 2
+    evidence:
+      "Ein neues Diagramm: Höhe der Linie = Tempo; steigt/waagerecht/fällt/Null. Warnungen vor typischen Fehlern. Nichts
+      aus einer späteren Kompetenz."
+  - item: explainer-honest-headings
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren im Bewegungslabor“ steht über dem bedienbaren Labor; die anderen Titel passen.
+  - item: explainer-age-appropriate
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Seite
+    level: 2
+    evidence: Tacho, Radfahrt; sachlich; passend zu 9–10.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Fahrt eines Rades (labelled-figure)
+    level: 1
+    evidence:
+      "Erklärt: „Zeit t nach rechts, Geschwindigkeit v nach oben … Radfahrt in vier Abschnitten von je 5 Sekunden, die
+      gestrichelten senkrechten Linien trennen sie“, Marken 1–4 mit Liste. Aber die Tempo-Linie selbst ist blau gestrichelt,
+      die Trennlinien sind ebenfalls gestrichelt; der Text nennt nur die Trennlinien „gestrichelt“ – ein Muster, das wie eine
+      Grenze gelesen werden kann; die Linienart wird nicht erklärt."
+    did: Bild angesehen (1280 px), Liste gelesen.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Bild „Fahrt eines Rades“ mit Text und Beispiel
+    level: 2
+    evidence:
+      "Alt-Text und Beispiel: „Von 0 bis 5 s steigt die Linie von 0 auf 10 m/s … 10 bis 15 s fällt sie auf 0 … 15 bis
+      20 s liegt sie auf der Null“ – so im Bild."
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Bewegungslabor (Geschwindigkeit-Zeit)
+    level: 1
+    evidence:
+      "Erklärt: „Das Labor kennst du schon: 20 Sekunden in vier Abschnitten … am Anfang mit 10 m/s“, „Die Kreise auf
+      der Linie sind die Enden der Abschnitte“. Das Feld „rückwärts“ ist für dieses Diagramm unerklärt: Aufgabe 3 „Setze … den
+      Haken ‚rückwärts‘. Was ändert sich im Geschwindigkeit-Zeit-Diagramm?“ – es ändert sich nichts; der Satz „Hier steht nur
+      das Tempo, nicht die Richtung“ steht weit oberhalb."
+    did: Regler an beide Enden, Abschnitt 2 auf 20, alle auf 0, „rückwärts“ bei Abschnitt 4.
+  - item: explainer-control-purpose
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: "Bewegungslabor (Geschwindigkeit-Zeit): Regler, „rückwärts“, Zurücksetzen"
+    level: 0
+    evidence:
+      "Regler und Zurücksetzen wirken sichtbar. Das Feld „rückwärts“ hat auf dieser Seite keine sichtbare Wirkung: Haken
+      bei Abschnitt 4 gesetzt, Linie und Satz „Du bleibst bei 10 m/s.“ blieben gleich. Sein Zweck (zeigen, dass dieses Diagramm
+      die Richtung nicht kennt) wird auf der Seite nicht gesagt; der Lernende sucht eine Änderung, die es nicht gibt. Im Zweifel
+      die niedrigere Stufe."
+    did: Haken gesetzt und Diagramm beobachtet; Haken wird bei Tempo 0 gesperrt.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Bewegungslabor (Geschwindigkeit-Zeit) mit Text
+    level: 2
+    evidence:
+      Aufgabe 1 „Stelle Abschnitt 2 auf 20 m/s. Was macht die Linie in Abschnitt 2?“ – Linie steigt von 10 auf 20; Aufgabe
+      2 „Wo liegt die Linie, wenn du stehst?“ – auf der Null. Beide wie beschrieben zu sehen.
+  - item: explainer-steps-explain
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Beispiel „Was zeigt die Radfahrt von oben?“
+    level: 2
+    evidence:
+      "Jeder Abschnitt mit Zahlen und Deutung: „Von 5 bis 10 s ist sie waagerecht bei 10 m/s: Das Rad fährt mit gleichem
+      Tempo.“"
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Übung „welche-wird-langsamer“ (drei Linien)
+    level: 2
+    evidence:
+      Nur Linien A, B, C ohne Markierung der Antwort; Bildunterschrift „Achte auf die Höhe der Linie“. Info nach dem
+      Prüfen nennt 13 auf 3 m/s.
+    did: Alle drei Optionen geprüft.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Übung „ben-nach-8-s“ (Diagramm mit Gitter)
+    level: 2
+    evidence: Gitter und Achsenzahlen, keine Marke bei 8 s oder 12 m/s. Eingabe 11 wird toleriert (±1).
+    did: "Eingegeben: 8 (Rückmeldung „Das ist die Zeit, die du schon kennst …“), 11 (richtig)."
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Übungsbild „drei Linien“ A, B, C
+    level: 2
+    evidence:
+      Achsen mit Einheiten, Linien direkt beschriftet und verschieden gezeichnet, Bildunterschrift sagt, worauf man
+      achtet.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Übungsbild „Ben“ (Gitterlinien)
+    level: 2
+    evidence:
+      Bildunterschrift „Die Gitterlinien helfen beim Ablesen. Achte auf die Zahlen an beiden Achsen.“ Achsen 0–20 s
+      und 0–15 m/s in 2- und 3er-Schritten beschriftet.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/geschwindigkeit-zeit/
+    unit: Übungsbilder der Seite
+    level: 2
+    evidence: Aufgabentexte („Drei Radfahrer …“, „Wie schnell ist Ben nach 8 Sekunden?“) passen zu den Bildern.
+  - item: explainer-learner-start
+    page: /bewegungsdiagramme/verbinden/
+    unit: Seite
+    level: 2
+    evidence:
+      „Auf den letzten Seiten hast du zwei Diagramme gelesen. Das Weg-Zeit-Diagramm zeigt, wo ein Rad zu welcher Zeit
+      ist. Das Geschwindigkeit-Zeit-Diagramm zeigt, wie schnell es ist. Beide zeigen dieselbe Fahrt, nur anders.“
+    did: Seite gelesen.
+  - item: explainer-one-step
+    page: /bewegungsdiagramme/verbinden/
+    unit: Seite
+    level: 2
+    evidence:
+      "Ein Schritt: beide Diagramme derselben Fahrt zusammenlesen; Beispiel prüft das Tempo aus dem Weg-Zeit-Diagramm.
+      Die Beziehung „Neigung oben = Höhe unten“ ist das Ziel der Seite; nichts aus einer späteren Kompetenz."
+  - item: explainer-honest-headings
+    page: /bewegungsdiagramme/verbinden/
+    unit: Seite
+    level: 2
+    evidence:
+      „Ausprobieren im Bewegungslabor“ steht über dem bedienbaren Labor; „Beispiel – Tempo aus dem Weg-Zeit-Diagramm
+      prüfen“ passt.
+  - item: explainer-age-appropriate
+    page: /bewegungsdiagramme/verbinden/
+    unit: Seite
+    level: 2
+    evidence: Radfahrt, Roller, Geschichten; passend für 9–10.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/verbinden/
+    unit: Bild „beide Diagramme“ (labelled-figure)
+    level: 1
+    evidence:
+      "Erklärt: „Oben das Weg-Zeit-Diagramm, unten das Geschwindigkeit-Zeit-Diagramm, mit derselben Zeitachse. Die gestrichelten
+      senkrechten Linien gehen durch beide Diagramme und trennen die Abschnitte.“ Marken 1–4 mit Liste. Aber im Bild laufen
+      die Trennlinien durch die Zahlen 5, 10, 15 der oberen Achse (Ziffern erscheinen durchgestrichen), die Marken 1–4 überdecken
+      die Titelzeile „Geschwindigkeit-Zeit-Diagramm“, und die gestrichelte blaue Tempo-Linie sieht wie die gestrichelten Trennlinien
+      aus."
+    did: Bild bei 1280 px angesehen.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/verbinden/
+    unit: Bild „beide Diagramme“ mit Text und Beispiel
+    level: 2
+    evidence:
+      "Text und Beispiel: „Oben steigt die Weg-Linie in diesem Abschnitt von 25 m auf 75 m, das sind 50 m in 5 s … 10
+      m/s“ – im Bild 25 m bei 5 s und 75 m bei 10 s, unten 10 m/s. Alt-Text passt."
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/verbinden/
+    unit: Bewegungslabor (beide Diagramme)
+    level: 1
+    evidence:
+      "Erklärt: „Das Labor zeigt jetzt beide Diagramme untereinander. Du startest mit 10 m/s … Beide Diagramme ändern
+      sich gleichzeitig, die Skalen bleiben fest.“ Offen: Bedeutung von „rückwärts“ (Aufgabe 3 fragt „Welches Diagramm ändert
+      sich, welches nicht? Warum?“ ohne vorherige Erklärung), Skala −400…400 m ohne Deutung der Nulllinie; das Bild oben läuft
+      bis 100 m, das Labor bis 200 m und mehr."
+    did: "Alle Regler auf 0 und 20, Abschnitt 2 auf 20, „rückwärts“, Reset; 360 px geprüft: Diagramme stapeln, bleiben lesbar."
+  - item: explainer-control-purpose
+    page: /bewegungsdiagramme/verbinden/
+    unit: Bewegungslabor (beide Diagramme)
+    level: 1
+    evidence:
+      Regler und Zurücksetzen wirken in beiden Diagrammen, Startzustand zeigt konstantes Tempo. „rückwärts“ ändert nur
+      das obere Diagramm (Linie fällt); Zweck erst durch Aufgabe 3 erkennbar, Sperre bei Tempo 0 unerklärt.
+    did: Regler an beide Enden, „rückwärts“ bei Abschnitt 4, auf 0 gestellt, Reset, bei 1280 und 360 px.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/verbinden/
+    unit: Bewegungslabor (beide Diagramme) mit Text
+    level: 2
+    evidence:
+      "„Du startest mit 10 m/s“ ist angesagt (das Bild oben beginnt dagegen bei 0 m/s, was durch das Wort „Labor“ erkennbar
+      eigenständig ist); Aufgaben 1–3 stimmen mit dem Gesehenen überein (Abschnitt 1 auf 20: v steigt, s steiler; Abschnitte
+      2–3 auf 0: beide Linien flach bzw. auf Null)."
+  - item: explainer-steps-explain
+    page: /bewegungsdiagramme/verbinden/
+    unit: Beispiel „Abschnitt 2 der Radfahrt“
+    level: 2
+    evidence:
+      „Oben steigt die Weg-Linie … von 25 m auf 75 m, das sind 50 m in 5 s. Mit v = 50 m / 5 s = 10 m/s stimmt das mit
+      der Tempo-Linie überein.“
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/verbinden/
+    unit: Übung „wz-schneller“ (drei Weg-Zeit-Diagramme)
+    level: 2
+    evidence: Drei Diagramme A, B, C ohne Markierung; Bildunterschrift „Achte auf die Form der Linie“. Keine Antwort sichtbar.
+    did: Alle drei Optionen geprüft.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/verbinden/
+    unit: Übung „gz-langsamer“ (drei Geschwindigkeit-Zeit-Diagramme)
+    level: 2
+    evidence:
+      Drei Diagramme ohne Markierung; Bildunterschrift „Achte auf die Höhe der Linie“. Buchstaben A, B, C sitzen leicht
+      über dem Achsentitel „v in m/s“ (nur kosmetisch).
+    did: Alle drei Optionen geprüft.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/verbinden/
+    unit: Übung „fahrt-einstellen“ (Bewegungslabor als Eingabe)
+    level: 0
+    evidence:
+      "Unter jedem Regler steht ein Satz, der die Art des Abschnitts in den Wörtern der Geschichte nennt („Du wirst
+      schneller: von 10 auf 20 m/s.“, „Du bleibst bei 10 m/s.“, „Du stehst.“). Die Geschichte nennt dieselben Wörter („Abschnitt
+      1 und 2: Du wirst schneller“). Man kann die Aufgabe schon vor „Prüfen“ abhaken, ohne ein Diagramm zu lesen; die Komponente
+      zeigt das Ergebnis der Eingabe in der Sprache der Lösung."
+    did:
+      "Geschichten für mehrere Ladungen gesehen (6 Varianten); [20,20,20,20], [10,5,10,10] u. a. gesetzt: „Prüfen“ ist erst
+      nach einer Änderung aktiv; Rückmeldung nennt den ersten falschen Abschnitt."
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/verbinden/
+    unit: Übungsbild „drei Weg-Zeit-Diagramme“
+    level: 2
+    evidence:
+      Drei beschriftete Felder A–C mit gleichen Skalen und Achsentiteln; Bildunterschrift „Achte auf die Form der Linie“;
+      die Formen (gerade, steiler, flacher) wurden im Text vorher erklärt.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/verbinden/
+    unit: Übungsbild „drei Geschwindigkeit-Zeit-Diagramme“
+    level: 2
+    evidence:
+      Drei Felder A–C, gleiche Skalen, Achsentitel; Bildunterschrift „Achte auf die Höhe der Linie“. Die Buchstaben
+      berühren den Achsentitel (kosmetisch).
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/verbinden/
+    unit: Übungsbilder und Aufgabe „fahrt-einstellen“
+    level: 2
+    evidence:
+      Aufgabentexte („Ein Roller wird die ganze Zeit schneller“, „Ein Rad wird die ganze Zeit langsamer“) passen zu
+      den Bildern; die Einstellaufgabe benutzt dasselbe Labor wie oben und die Wörter „Abschnitt 1 … 4“.
+notes:
+  "Map https://lernapps.net/apps/map/physik.json opened but not read in detail: learner assumed to know v = s/t (geschwindigkeit,
+  Klasse 7) and everyday life. Glossary and tutor pages left out. Pages judged at 1280 x 800 and 360 x 740; no horizontal
+  scroll at 360 px. Generated exercises: none (the one component exercise, fahrt-einstellen, was tried with six seeds' stories).
+  Wiederholung page has a recap with no exercise or component."
+at: "2026-11-04"

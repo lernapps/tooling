@@ -1,0 +1,341 @@
+url: http://127.0.0.1:4402/
+grade: "6"
+subject: mathematik
+competencies:
+  - brueche-begriff
+  - brueche-kuerzen-erweitern
+pages:
+  - /brueche-verstehen/anteile/
+  - /gleichwertige-brueche/erweitern/
+  - /gleichwertige-brueche/teilbarkeit-wiederholen/
+  - /gleichwertige-brueche/kuerzen/
+  - /gleichwertige-brueche/vergleichen/
+units:
+  - item: explainer-learner-start
+    page: /brueche-verstehen/anteile/
+    unit: Seite
+    level: 2
+    evidence:
+      "Beginnt mit der Tafel Schokolade: „Eine Tafel Schokolade hat 8 gleich große Stücke. Du isst 3 davon.“ Zähler,
+      Nenner, Ganzes werden direkt danach erklärt („Das Ganze ist hier die ganze Tafel“). Kleiner Makel: „Vorher solltest du
+      die natürlichen Zahlen kennen“ ist ein Meta-Satz, aber harmlos."
+  - item: explainer-learner-start
+    page: /gleichwertige-brueche/erweitern/
+    unit: Seite
+    level: 2
+    evidence:
+      "Beginnt mit der Pizza: „Eine Pizza ist in 3 gleich große Stücke geschnitten. Du nimmst 2 Stücke … 6/9 … Du hast
+      aber nicht mehr Pizza als vorher.“ Knüpft an Bruchbegriff an; „erweitern“ wird erst danach benannt."
+  - item: explainer-learner-start
+    page: /gleichwertige-brueche/teilbarkeit-wiederholen/
+    unit: Seite
+    level: 2
+    evidence:
+      "Wiederholungsseite, beginnt mit dem Anlass: „Zum Kürzen suchst du eine Zahl, durch die du Zähler und Nenner teilen
+      kannst, ohne dass ein Rest bleibt.“ Teiler wird mit 12 : 3 = 4 erklärt; sagt klar, dass es Wiederholung aus Klasse 5 ist."
+  - item: explainer-learner-start
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Seite
+    level: 1
+    evidence:
+      Beginnt mit „Beim Erweitern hast du ein Ganzes feiner geteilt. Jetzt gehst du den Weg zurück“ – gut an Erweitern
+      angeknüpft, aber ohne Alltagssituation, und „wenn die gefärbten und die weißen Stücke gleichmäßig zusammenpassen“ ist
+      vage. „gemeinsamer Teiler“ wird auf dieser Seite nicht erklärt und nicht auf die Wiederholungsseite verwiesen.
+  - item: explainer-learner-start
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Seite
+    level: 2
+    evidence:
+      Beginnt mit „Anna isst 3/4 einer Pizza, Ben isst 2/3 einer gleich großen Pizza. Wer hat mehr gegessen? Das kannst
+      du nicht sofort sehen.“ „gleichnamig“ wird beim ersten Gebrauch erklärt.
+  - item: explainer-representation-explained
+    page: /brueche-verstehen/anteile/
+    unit: Figur Schokolade (3 von 8) mit Zähler/Nenner-Formel
+    level: 2
+    evidence:
+      Ganzes genannt („Das Ganze ist hier die ganze Tafel“), gestreift = gefärbt, weiß = übrige („Die 3 gegessenen Teile
+      sind gefärbt und gestreift, die übrigen 5 sind weiß“), Bildunterschrift „Schau, wie viele davon gestreift sind“, danach
+      3/8 mit Nenner/Zähler-Erklärung. Im Screenshot steht das 3/8 allein unter dem Bild; die Zuordnung klappt über den Text
+      „Der Nenner 8 zählt alle Teile … Der Zähler 3 nur die gefärbten“.
+  - item: explainer-representation-explained
+    page: /brueche-verstehen/anteile/
+    unit: Figur „Die Teile müssen gleich groß sein“ (ungleiche Teile)
+    level: 2
+    evidence:
+      "Text: „Hier sind 4 Teile, die nicht alle gleich groß sind. Der gestreifte Teil ist kein Viertel.“ Bild zeigt
+      einen breiten gestreiften und drei schmale weiße Teile; Ganzes und Bedeutung der Streifen aus der Seite bekannt."
+  - item: explainer-representation-explained
+    page: /brueche-verstehen/anteile/
+    unit: Komponente Übung „Rechteck färben“ (BruchFeld)
+    level: 1
+    evidence:
+      "Der Text sagt: „Das ganze Rechteck ist das Ganze. Tippe auf ein Feld, dann wird es gefärbt und gestreift“ und
+      „Färbe den Bruch 5/8, gelesen: 5 von 8“. Das Ganze, Muster und Aktion sind erklärt. Es bleibt zu raten, dass bei 5/8 genau
+      5 Felder gefärbt werden (der Zähler zählt gefärbte Felder – steht auf der Seite, aber die Aufgabe verlangt es nicht ausdrücklich);
+      es gibt keine Zählanzeige (gut)."
+    did:
+      "Felder getippt (3 gefärbt bei 5/8), Prüfen: „Du hast die Felder gefärbt, die nicht zum Bruch gehören.“ Bei 1 gefärbtem
+      Feld nur „Leider nicht richtig.“ ohne Hinweis."
+  - item: explainer-representation-explained
+    page: /brueche-verstehen/anteile/
+    unit: Figur Übung „Welcher Bruch gehört zu dem gefärbten Teil des Streifens?“
+    level: 2
+    evidence:
+      „Der ganze Streifen ist das Ganze.“ 5 Felder, 3 gestreift; Antworten 3/5, 3/2, 2/5, 5/3 – Muster wie zuvor erklärt.
+      Rückmeldungen erklären die Fehler („2 ist die Zahl der weißen Felder“).
+    did: Alle drei falschen Optionen gewählt und geprüft.
+  - item: explainer-representation-explained
+    page: /gleichwertige-brueche/erweitern/
+    unit: Komponente „Jedes Feld teilen in so viele Felder“ (BruchVerfeinern)
+    level: 2
+    evidence:
+      "Ganzes: „Beide sind das Ganze.“ Links „vorher“ bleibt gleich, rechts wird feiner geteilt; „Gestreifte Felder
+      sind gefärbt, weiße Felder nicht.“ Beschriftungen „vorher: 2 von 3 Feldern gefärbt“ / „erweitert mit 6: 12 von 18 Feldern
+      gefärbt“, Rechnung „Zähler: 2 · 6 = 12. Nenner: 3 · 6 = 18. Die gefärbte Fläche ist gleich groß geblieben.“ Was eingegeben
+      wird, ist klar (Knöpfe)."
+    did: Alle sechs Knöpfe 1–6 gedrückt, bei 1280 und 360 px.
+  - item: explainer-representation-explained
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Komponente „Immer so viele Felder zusammenfassen“ (BruchVerfeinern)
+    level: 2
+    evidence:
+      "Gleiche Struktur wie beim Erweitern: „Das Rechteck links, „vorher“, bleibt immer gleich: 18 gleich große Felder,
+      12 davon gefärbt.“ Knöpfe 1, 2, 3, 6; „Es gibt nur die Zahlen, bei denen es ohne Rest aufgeht.“ Anzeige „gekürzt mit 6:
+      2 von 3 Feldern gefärbt“ und „Zähler: 12 : 6 = 2. Nenner: 18 : 6 = 3.“"
+    did: Knöpfe 1, 2, 3, 6 gedrückt, 1280 und 360 px.
+  - item: explainer-representation-explained
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Figur Streifen gleichnamig (3/8 und 5/8)
+    level: 2
+    evidence:
+      "Text vorher: „zwei gleich lange Streifen, beide sind das Ganze. Gestreifte Felder sind gefärbt.“ Bildunterschrift:
+      „Schau, welcher Streifen mehr gestreifte Felder hat.“ Folgerung „Also ist 5/8 größer als 3/8.“"
+  - item: explainer-representation-explained
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Figur Streifen Zwölftel (9/12 und 8/12)
+    level: 1
+    evidence:
+      "Bildunterschrift: „Beide Streifen sind jetzt in Zwölftel geteilt. Der obere hat ein gestreiftes Feld mehr.“ Der
+      Text nennt aber nicht, dass der obere 3/4 und der untere 2/3 ist; man muss das selbst zuordnen."
+  - item: explainer-control-purpose
+    page: /brueche-verstehen/anteile/
+    unit: BruchFeld (Felder antippen)
+    level: 2
+    evidence:
+      "Jedes Feld ist ein Knopf mit sichtbarer Wirkung (gefärbt und gestreift, noch einmal tippen: weiß); der Text sagt
+      wozu („Färbe so viele Felder, wie der Bruch verlangt, und drücke dann „Prüfen““); keine Zählanzeige, die Antwort verrät.
+      „Neue Aufgabe“ gibt andere Zahlen. Start: alle Felder weiß."
+    did: Felder an- und ausgeschaltet; Prüfen mit falscher Anzahl.
+  - item: explainer-control-purpose
+    page: /gleichwertige-brueche/erweitern/
+    unit: Zahlen-Knöpfe 1–6 (BruchVerfeinern)
+    level: 2
+    evidence:
+      "„Mit den Zahlen-Knöpfen stellst du ein, in wie viele kleinere Felder jedes Feld geteilt wird. Bei der 1 ändert
+      sich noch nichts.“ Startzustand ist 1 = unverändert, Beschriftung, Bild und Rechnung stimmen nach jedem Knopf überein
+      (z. B. 5: „10 von 15“)."
+    did: Alle Knöpfe gedrückt.
+  - item: explainer-control-purpose
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Zahlen-Knöpfe 1, 2, 3, 6 (BruchVerfeinern)
+    level: 2
+    evidence:
+      "Startzustand bei 1 „ändert sich noch nichts“; Knöpfe begrenzt auf Teiler von 12 und 18 (gemeinsame Teiler), erklärt:
+      „Es gibt nur die Zahlen, bei denen es ohne Rest aufgeht.“ Zahlen, Bild und Rechnung stimmen überein."
+    did: Alle Knöpfe gedrückt.
+  - item: explainer-text-figure-agree
+    page: /brueche-verstehen/anteile/
+    unit: Figur Schokolade mit Text
+    level: 2
+    evidence:
+      Text 8 Teile, 3 gegessen, Figur 8 Felder, 3 gestreift, Formel 3/8, Beispiel danach „2 von 5 Feldern“ als angekündigter
+      Wechsel (eigene Überschrift).
+  - item: explainer-text-figure-agree
+    page: /gleichwertige-brueche/erweitern/
+    unit: Komponente mit Text
+    level: 1
+    evidence:
+      Der Text nach der Komponente lautet „Die Brüche 2/3 und 6/9 sind gleichwertig“ und die Formel nutzt „mal 3“, während
+      die Komponente je nach Knopf z. B. 2 · 6 = 12 zeigt; ohne Ankündigung, dass 6/9 der Knopf 3 ist. Kleiner Zahlensprung
+      ohne Hinweis.
+    did: Knopf 6 stehen gelassen und gelesen.
+  - item: explainer-text-figure-agree
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Komponente mit Text
+    level: 1
+    evidence:
+      Nach dem Bild folgt „12/18 wird mit 2 zu 6/9“ und die Formel mit 6 ((12:6)/(18:6)=2/3); die Zahlen sind richtig,
+      aber ein Wechsel zwischen Knöpfen (2 und 6) ohne Hinweis. Beispiel „24/36“ ist als eigener Kasten angekündigt.
+  - item: explainer-text-figure-agree
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Figuren mit Text
+    level: 2
+    evidence:
+      Text 3/4 und 2/3, Formelzeilen 9/12 und 8/12, Figur „Zwölftel“ passend; Wechsel zu 1/2 und 2/5 im Kasten „Ein
+      Beispiel“ angekündigt.
+  - item: explainer-one-step
+    page: /brueche-verstehen/anteile/
+    unit: Seite
+    level: 2
+    evidence:
+      "Ein Schritt: Zähler/Nenner lesen; Beispiel „2 von 5“; nichts Späteres. Die Übung nach dem weißen Teil verlangt
+      einen Perspektivwechsel, bleibt aber im Begriff."
+  - item: explainer-one-step
+    page: /gleichwertige-brueche/erweitern/
+    unit: Seite
+    level: 2
+    evidence: Nur Erweitern; Hinweis „Zum Kürzen brauchst du später Teiler“ ist ein Verweis, kein Inhalt.
+  - item: explainer-one-step
+    page: /gleichwertige-brueche/teilbarkeit-wiederholen/
+    unit: Seite
+    level: 2
+    evidence: Wiederholung, nur Teiler und gemeinsame Teiler/Teilbarkeitsregeln.
+  - item: explainer-one-step
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Seite
+    level: 1
+    evidence:
+      Kürzen und zusätzlich „vollständig kürzen“ mit größtem gemeinsamem Teiler („Mit dem größten, der 12, kürzt du
+      in einem Schritt“) – zwei Verfahren (schrittweise vs. in einem Schritt) auf einer Seite.
+  - item: explainer-one-step
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Seite
+    level: 2
+    evidence:
+      Ein Schritt (vergleichen); gleichnamig und ungleichnamig sind eine Linie; Übung „Ordne die Brüche“ verlangt beides,
+      gehört aber dazu.
+  - item: explainer-honest-headings
+    page: /brueche-verstehen/anteile/
+    unit: Seite
+    level: 2
+    evidence:
+      "Überschriften: „Eine Tafel Schokolade“, „So liest du einen Bruch“, „Ein Beispiel“, „Übung“ – passen; „Ausprobieren“
+      kommt nicht vor."
+  - item: explainer-honest-headings
+    page: /gleichwertige-brueche/erweitern/
+    unit: Seite
+    level: 2
+    evidence: „Feiner teilen heißt erweitern“ mit Knöpfen – passt; kein „Ausprobieren“ ohne Bedienen.
+  - item: explainer-honest-headings
+    page: /gleichwertige-brueche/teilbarkeit-wiederholen/
+    unit: Seite
+    level: 2
+    evidence: „Was ein Teiler ist“, „Wann eine Zahl durch 2, 3, 5 oder 10 teilbar ist“ – passen.
+  - item: explainer-honest-headings
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Seite
+    level: 2
+    evidence: „Zusammenfassen heißt kürzen“ über der Komponente passt; „Ein Beispiel“, „Übung“ passen.
+  - item: explainer-honest-headings
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Gleicher Nenner, einfach zu vergleichen“ und „Verschiedene Nenner gleich machen“ passen; die erste Überschrift
+      verspricht „einfach“, das Argument folgt.
+  - item: explainer-age-appropriate
+    page: /brueche-verstehen/anteile/
+    unit: Seite
+    level: 2
+    evidence: "Kurze Sätze, Schokolade: „Du isst 3 davon.“ Passend für Klasse 6."
+  - item: explainer-age-appropriate
+    page: /gleichwertige-brueche/erweitern/
+    unit: Seite
+    level: 2
+    evidence: Pizza, kurze Sätze; „malgenommen“ ist kindnah.
+  - item: explainer-age-appropriate
+    page: /gleichwertige-brueche/teilbarkeit-wiederholen/
+    unit: Seite
+    level: 2
+    evidence: Kurz; „Diese Seite wiederholt etwas, das du schon können solltest.“
+  - item: explainer-age-appropriate
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Seite
+    level: 1
+    evidence:
+      „Das geht aber nur, wenn die gefärbten und die weißen Stücke gleichmäßig zusammenpassen“ und „gemeinsamer Teiler
+      von Zähler und Nenner“ in einem Satz sind für Klasse 6 dicht.
+  - item: explainer-age-appropriate
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Seite
+    level: 2
+    evidence: Anna und Ben mit Pizza; „gleichnamig“ erklärt; kurze Sätze.
+  - item: explainer-steps-explain
+    page: /brueche-verstehen/anteile/
+    unit: Generierte Übung „Weißer Teil“ (Nr. 1, andere Zahlen)
+    level: 2
+    evidence:
+      "Schritte: „Von {N} Feldern sind {Z} gefärbt. Die übrigen sind weiß.“ „Der Zähler zählt die weißen Felder: …“
+      – Zahlen und Grund."
+    did:
+      Falsche Antworten 1, 5, 4 eingegeben; Rückmeldung nur „Leider nicht richtig. Lies dazu noch einmal den Text“ ohne Diagnose,
+      weil die Zahlen nicht den definierten Fehlern entsprachen.
+  - item: explainer-steps-explain
+    page: /gleichwertige-brueche/erweitern/
+    unit: Generierte Übungen „neuer Zähler“ / „neuer Nenner“
+    level: 2
+    evidence:
+      "Schritte: „Du nimmst Zähler und Nenner mit {k} mal.“ „Zähler: {z} · {k} = {answer}.“ Zahlen und Rechnung ausgeschrieben;
+      der Grund ist die Regel, nicht die Fläche."
+  - item: explainer-steps-explain
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Generierte Übung „Kürze durch …, neuer Nenner“
+    level: 2
+    evidence: "Schritte: „Du teilst Zähler und Nenner durch {f}.“ „Nenner: {gn} : {f} = {answer}.“"
+  - item: explainer-steps-explain
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Generierte Übung „vollständig kürzen in einem Schritt“
+    level: 1
+    evidence:
+      "Schritt 1: „Zähler {gz} und Nenner {gn} haben den gemeinsamen Teiler {f}.“ Der Teiler wird nicht hergeleitet
+      (kein Teilerlisten-Schritt), er ist der gegebene Wert ohne Weg."
+  - item: explainer-steps-explain
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Generierte Übung „gemeinsamer Nenner, Zähler des ersten Bruchs“
+    level: 1
+    evidence:
+      "Schritt 1: „Du erweiterst mit der Zahl, die vom ersten Nenner zu {nn} führt.“ – die Zahl wird nicht ausgerechnet;
+      Schritt 2 „Der erste Zähler wird mit derselben Zahl malgenommen: {answer}.“ ohne Rechnung."
+  - item: explainer-figure-hides-answer
+    page: /brueche-verstehen/anteile/
+    unit: BruchFeld (Rechteck färben)
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Seite nur Aufgabentext und Felder; keine Zählanzeige, kein Bruch aus den gefärbten Feldern
+      (nach 3 Tippen unverändert).
+    did: Drei Felder getippt, Seite beobachtet.
+  - item: explainer-figure-hides-answer
+    page: /brueche-verstehen/anteile/
+    unit: Single-Choice mit Streifenfigur
+    level: 2
+    evidence:
+      Figur zeigt nur den Streifen mit 3 von 5 gestreift; die Antwort muss aus der Figur abgelesen werden – das ist
+      die Aufgabe selbst, nichts markiert die richtige Option.
+  - item: explainer-figure-hides-answer
+    page: /gleichwertige-brueche/erweitern/
+    unit: Komponente BruchVerfeinern (Teil der Erklärung)
+    level: 2
+    evidence:
+      Die Komponente steht in der Erklärung, nicht in einer Aufgabe; sie startet bei 1 („2 von 3“) und die Übungen darunter
+      („Erweitere 2/3 mit 5. Wie heißt der neue Zähler?“) enthalten keine Figur. Wer Knopf 5 drückt, sieht zwar 10 von 15 –
+      das ist aber die Erklärung, nicht die Aufgabe, und ist als Lernweg gewollt.
+    did: Alle Knöpfe gedrückt, Übungen beobachtet.
+  - item: explainer-figure-hides-answer
+    page: /gleichwertige-brueche/kuerzen/
+    unit: Komponente BruchVerfeinern (Teil der Erklärung)
+    level: 2
+    evidence:
+      "Wie beim Erweitern: Erklärung mit 12/18; die Übungen „Kürze 6/9 durch 3“ und „18/24 vollständig kürzen“ haben
+      keine Figur und andere Zahlen."
+  - item: explainer-figure-hides-answer
+    page: /gleichwertige-brueche/vergleichen/
+    unit: Streifenfiguren (Erklärung)
+    level: 2
+    evidence:
+      Figuren gehören zur Erklärung (3/4 vs. 2/3); die Aufgaben „2/3 oder 2/5“ und „5/6 oder 3/4“ haben keine Figur
+      und andere Zahlen.
+notes:
+  Karte nicht geöffnet; es wurde angenommen, was Klasse 6 üblicherweise kann (natürliche Zahlen, Teilen, Malnehmen, Brüche-Anschauung
+  nur aus Alltag). Übersichtsseiten der Kapitel, Glossar, Tutor und Selbsteinschätzung nicht beurteilt. Rückmeldungen zu Fehlern
+  in BruchFeld/generierten Aufgaben bei nicht vorgesehenen Fehlern allgemein („Leider nicht richtig“); nicht Teil der Items.
+at: "2026-11-04"

@@ -1,0 +1,278 @@
+url: http://127.0.0.1:4401/
+grade: 9-10
+subject: physik
+competencies:
+  - geschwindigkeitsaenderung
+  - bewegungsdiagramme
+pages:
+  - /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+  - /beschleunigte-bewegung/geschwindigkeitsaenderung/
+  - /beschleunigte-bewegung/weg-zeit-diagramm/
+  - /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+units:
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: Seite
+    level: 2
+    evidence:
+      "Beginnt mit dem Bekannten: „Die Geschwindigkeit sagt, wie weit etwas in einer bestimmten Zeit kommt. Ein Fahrrad,
+      das in 10 Sekunden 30 Meter fährt …“. Alltagsbeispiel, Begriffe v, s, t werden beim Merksatz erklärt."
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: Seite
+    level: 2
+    evidence: Nur v = s/t mit einem Beispiel und einer Umrechnung m/s–km/h; nichts aus späteren Seiten.
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: Seite
+    level: 2
+    evidence: „Was du schon weißt“, „Zum Merken“ passen; kein „Ausprobieren“-Abschnitt.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: Seite
+    level: 2
+    evidence:
+      Kurze, sachliche Sätze („Die Geschwindigkeit $v$ ist die Strecke $s$ geteilt durch die Zeit $t$“); passt für Klasse
+      9 als Wiederholung.
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: Beispiel „Ein Fahrrad“
+    level: 2
+    evidence:
+      „Das Fahrrad fährt in 10 s eine Strecke von 30 m. Dann ist v = 30 m / 10 s = 3 m/s. Das Fahrrad legt also in jeder
+      Sekunde 3 m zurück.“ Eigene Zahlen, Rechnung ausgeführt, Deutung.
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Seite
+    level: 2
+    evidence:
+      „Ein Bus fährt an der Haltestelle los, wird schneller, rollt gleichmäßig …“ – bekannte Situation, dann Anknüpfung
+      an Geschwindigkeit = Strecke pro Zeit. Tempo und Richtung werden beim Pfeilbild erklärt, bevor sie gebraucht werden.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Seite
+    level: 1
+    evidence:
+      "Ein Schritt (Geschwindigkeit ändert sich: schneller/langsamer/Richtung), aber Richtung/Vorzeichen (−1, −3 m/s)
+      kommt zusätzlich dazu und ist ein zweiter Begriff neben Tempo; in den Übungen steht „−1, −3“ ohne vorherige Übung mit
+      negativen Werten außer dem Text. Nichts aus späteren Seiten."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Seite
+    level: 2
+    evidence:
+      „Aus dem Alltag“, „Anschaulich erklärt“, „Beispiel“, „Ausprobieren“ (Plus/Minus-Komponente, wirklich bedienbar),
+      „Übung“ – alle passend.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Seite
+    level: 2
+    evidence:
+      Klare Sprache ohne Kindlichkeit; der Bus ist eine Situation aus dem Alltag. Absatz zu „Sekunde 1 ist die Zeit
+      zwischen dem Foto bei 0 s …“ ist lang, aber verständlich.
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Statische Abbildung „Die Punkte sind die Fotos …“ (Pfeile über der Straße)
+    level: 2
+    evidence:
+      "Text vorab: Punkte = Fotos je Sekunde, Pfeil = Geschwindigkeit, Länge = Tempo, Richtung = rechts/links, „Die
+      Pfeile liegen abwechselnd in zwei Höhen“. Tabelle schließt die Bedeutung an. Bildunterschrift sagt, worauf zu achten ist."
+    did: Bild betrachtet bei 1280 und 360 px.
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Komponente FahrtStreifen im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      Legende und Text nennen Punkt, Pfeil, Zahl, Minus = links, Sekundenzählung. Aber im Bild sind die Pfeile winzig
+      (bei 2 m/s nur ein kurzer Stummel), Zahlen und Zeitbeschriftungen überlappen („−26“, „0, 23 ss“, „4,5 s“) wenn Punkte
+      nah beieinander liegen. Was die zwei Höhen im Bild sind, wird erklärt, doch lesbar ist es nur mit Raten. Wertebereich
+      −6…6 nicht genannt.
+    did: Alle Werte auf Grenzen gestellt (Sekunde 1 auf +6, Sekunde 2 auf −6), Screenshots bei 1280 und 360 px.
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Komponente FahrtStreifen (− / +, Zurücksetzen, Prüfen)
+    level: 1
+    evidence:
+      "Jede Taste ändert sofort Zahl, Pfeil und Punktlage, der Text sagt wozu („Baue die Fahrt, die die Aufgabe verlangt“);
+      Startzustand 2 m/s überall ist erklärt. Aber: bei −6/+6 sind die Tasten ohne Hinweis gesperrt, und bei Überlappung der
+      Beschriftungen stimmen Beschriftungen und Positionen visuell nicht überein („−26“). „Prüfen“ ist bis zur ersten Änderung
+      gesperrt."
+    did:
+      "Sekunde 1 bis Maximum erhöht (nach 4 Klicks gesperrt), Sekunde 2 bis Minimum gesenkt, Prüfen gedrückt: „Leider nicht
+      richtig. Die Geschwindigkeit soll in allen fünf Sekunden gleich sein und nach links zeigen …“"
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Komponente FahrtStreifen mit Text
+    level: 2
+    evidence:
+      "Text: „Am Anfang fährt das Auto in jeder Sekunde mit 2 m/s nach rechts“ – Komponente zeigt 2/2/2/2/2; „Mit −
+      und + änderst du … um 1 m/s“ stimmt; „Zurücksetzen“ und „Prüfen“ existieren. Die Tabellen der Übung kündigen ein Fahrrad
+      bzw. Auto an."
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Beispiel „Ein Bus fährt zur Haltestelle“
+    level: 2
+    evidence:
+      "„Von Sekunde 1 zu 2, von 2 zu 3 und von 3 zu 4 wird die Zahl kleiner: Der Bus bremst ab. In Sekunde 5 ist sie
+      null: Der Bus steht.“ Zahlen aus der Tabelle (10, 8, 4, 2, 0) mit Begründung."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Komponente FahrtStreifen (Aufgabe fahrt-bauen)
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt das Bild nur die eingestellte Fahrt (2 m/s überall), keine Lösung, kein Häkchen; „Prüfen“ gesperrt
+      bis zur Änderung.
+    did: Aufgabe 1–3 geöffnet, Werte verstellt, nicht geprüft.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeitsaenderung/
+    unit: Tabelle in den Übungen fahrrad-sekunde-vier / richtung-wechselt
+    level: 2
+    evidence: Tabellen geben nur die Messwerte, die Antwort („bremst ab“) steht nirgends vor „Prüfen“.
+    did: Optionen gelesen, nichts geprüft.
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      „Ein Navi zeigt dir, wie weit du schon gefahren bist. Schaust du jede Minute darauf und schreibst die Zahlen auf,
+      hast du eine Liste … Ein Weg-Zeit-Diagramm zeichnet diese Liste als Linie.“ Alltag, dann Begriff; Warnung „Das Diagramm
+      zeigt nicht die Straße“.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Seite
+    level: 1
+    evidence:
+      Ein Hauptschritt (Weg-Zeit-Diagramm lesen), aber in den Übungen kommt zusätzlich „Wie schnell fährt das Auto zwischen
+      4 s und 6 s?“ (Geschwindigkeit aus Steigung, Differenz durch Zeit) – das erklärt die Seite nur im Satz „Je mehr Meter
+      pro Sekunde dazukommen, desto steiler“, nicht die Rechnung; das gehört eher zur nächsten Seite.
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren“ enthält Regler und Tasten, die man bedient; übrige Titel passen.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: Sachlich, Navi als Beispiel, Satzlänge passt zu Klasse 9.
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Komponente WegZeitWerkstatt im Abschnitt „Ausprobieren“ (Straße + Diagramm)
+    level: 2
+    evidence:
+      "Text: „Die blaue Linie auf der Straße ist der Weg, den es schon gefahren ist … der orange Punkt wandert gleichzeitig
+      auf der Linie. Die Straße bleibt gerade, die Linie nicht immer.“ Achsen s in m / t in s beschriftet, Ablesung „Nach 6
+      s ist das Auto 44 m gefahren.“; gestrichelte Hilfslinien vom Punkt zu den Achsen. Alle fünf Fragen beantwortet."
+    did: Regler auf 0, 6, 10; Fahrt „Bus bremst vor der Haltestelle“ gewählt.
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Komponente WegZeitWerkstatt (Regler „Zeit t“, − / +, Auswahl „Fahrt wählen“)
+    level: 2
+    evidence:
+      "Regler bewegt Auto, Punkt und Satz „Nach {t} s …“ synchron; Text empfiehlt „Stell eine Stufe auf 0 m/s und schau,
+      was die Linie dort macht“; Startzustand 5 m/s gleichmäßig = Tabelle oben. Werte stimmen nach jeder Änderung (Bus: nach
+      6 s 44 m = 20+16+8 ✓). Grenzen 0…10 m/s, Tasten werden sichtbar grau."
+    did: Regler an beide Enden; Stufe 2–4 s auf 10 (Taste gesperrt), 6–8 s auf 0; alle Fahrten gewählt.
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Komponente WegZeitWerkstatt mit Text und Tabelle
+    level: 2
+    evidence:
+      "Tabelle oben: 5 m/s, 0/10/20/30/40/50 m; Text: „Das ist die Fahrt aus der Tabelle oben“; Komponente startet mit
+      5 m/s und zeigt nach 10 s 50 m. Beispiel Fahrrad wechselt Zahlen angekündigt („Ein Fahrrad rollt an“)."
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Beispiel „Ein Fahrrad rollt an“
+    level: 2
+    evidence:
+      „Von 0 bis 2 s kommen 4 m dazu, von 2 bis 4 s schon 8 m, von 4 bis 6 s sogar 12 m. Die Linie wird also steiler.
+      Ab 4 s … 12 m …“ Zahlen aus der Tabelle, Schlussfolgerung begründet.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Aufgabe diagramme-zuordnen (Figur A/B/C)
+    level: 2
+    evidence: Die Figur zeigt drei Diagramme mit Buchstaben, die Zuordnung steht nicht in der Figur.
+    did: Alle Auswahlfelder „bitte wählen“ gesehen, nicht geprüft.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Aufgaben knick-bedeutung, weg-nach-sechs, tempo-vier-bis-sechs (Figur)
+    level: 2
+    evidence:
+      wz-ablesen/wz-knick zeigen Gitter und Linie, aber keine Markierung bei 6 s oder 40 m; Bildunterschrift sagt nur,
+      wie abgelesen wird.
+    did: Zahl-Feld leer gelassen, nichts geprüft.
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      „Der Tacho eines Fahrrads zeigt dir nicht, wie weit du gefahren bist, sondern wie schnell du gerade bist.“ Verknüpft
+      mit dem Weg-Zeit-Diagramm der Vorseite.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Dinge auf einer Seite: Geschwindigkeit-Zeit-Diagramm lesen und das Ableiten der Säulen aus dem Weg-Zeit-Diagramm
+      (Differenz durch 2 s) sowie selbst Zeichnen; dazu die Umkehrung (v-t → s-t) in vt-zu-wz. Gehört teils zu zwei Schritten."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren“ mit bedienbarer Komponente; Titel passen.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: Tacho-Beispiel, nüchterner Ton, passt.
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Komponente GeschwindigkeitZeitWerkstatt (Säulen oben, Weg-Zeit unten)
+    level: 2
+    evidence:
+      "Text: „Oben siehst du das Geschwindigkeit-Zeit-Diagramm mit fünf Säulen, darunter das Weg-Zeit-Diagramm derselben
+      Fahrt. Beide haben dieselbe Zeitachse.“ Säulenhöhe = Geschwindigkeit, Achsen beschriftet, Stufen 2 s erklärt."
+    did: "Säule 2–4 s auf 10, 4–6 s auf 0 gestellt: Linie unten knickt erst steil, dann waagerecht."
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Komponente GeschwindigkeitZeitWerkstatt (− / +, „Fahrt wählen“)
+    level: 1
+    evidence:
+      "Wirkung sofort sichtbar und im Text begründet („Die Linie wird dort steiler …“). Kleiner Mangel: nach manuellen
+      Änderungen zeigt die Auswahl weiter „Radfahrt gleichmäßig“, obwohl es nicht mehr diese Fahrt ist."
+    did: Säulen verändert; Auswahl blieb unverändert.
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Komponente mit Text und Tabelle
+    level: 2
+    evidence:
+      "Text: „Am Anfang sind alle Säulen gleich hoch (5 m/s) und die Linie darunter ist gerade“ – Komponente zeigt genau
+      das. Beispiel mit Fahrrad (4, 12, 24, 36, 42 m) wird als neues Beispiel angekündigt."
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Beispiel „Vom Weg-Zeit-Diagramm zur Säule“
+    level: 1
+    evidence:
+      "Tabelle zeigt Weg am Ende, Weg in der Stufe und v; Text: „In jeder Stufe teilst du den Weg, der dazukommt, durch
+      2 Sekunden.“ Der Schritt „Weg in der Stufe“ (z. B. 12 − 4 = 8) ist nur als Zahl da, nicht gerechnet; die Division steht
+      nur allgemein."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Aufgabe vt-zeichnen (Komponente VtZeichnen)
+    level: 2
+    evidence:
+      Startzustand 3 m/s überall passt zu keiner der Aufgaben; kein Hinweis auf die Lösung im Bild. Falsche Eingabe
+      gibt allgemeine Rückmeldung („Prüfe jede Stufe …“).
+    did: 3 Aufgaben gesehen, + gedrückt, Prüfen mit falscher Eingabe.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Aufgaben vt-zuordnen und tempo-vier-bis-sechs-vt (Figur)
+    level: 2
+    evidence: Figuren ohne Markierung der Lösung (Säule über 4–6 s ist nicht beschriftet).
+    did: Nichts geprüft.
+notes:
+  "Lernlandkarte nicht gelesen (Abruf nicht ausgewertet), daher Vorwissen nach üblichem Stand der Klasse 9; Vorwissen
+  der Klasse 9: Geschwindigkeit v = s/t, Strecke und Zeit messen. Alle Seiten bei 1280×800 und 360×740 geöffnet, kein horizontales
+  Scrollen. Aufgaben mit generierten Schritten gibt es nicht; die Prüfung von FahrtStreifen/VtZeichnen mit mehreren Seeds
+  zeigte Aufgaben 1–3 mit sinnvollen Rückmeldungen, bei VtZeichnen Aufgabe 3 nur allgemeine Rückmeldung."
+at: "2026-11-04"
