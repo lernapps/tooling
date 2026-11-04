@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Spannung
+summary: Welche Spannungsquellen es gibt, was die Spannung angibt und wie man sie mit dem Voltmeter richtig misst.
+pages: [spannungsquellen, spannung, voltmeter]
+selfAssessment:
+  pages:
+    - exercises:
+        - /spannung/spannungsquellen/#spannungsquellen-1
+        - /spannung/spannungsquellen/#spannungsquellen-3
+        - /spannung/spannung/#spannung-1
+    - exercises:
+        - /spannung/spannung/#spannung-2
+        - /spannung/voltmeter/#voltmeter-1
+        - /spannung/voltmeter/#voltmeter-2

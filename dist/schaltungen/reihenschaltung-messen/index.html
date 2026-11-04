@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="module" crossorigin src="../../assets/index-f8JWISqD.js"></script>
+    <link rel="stylesheet" crossorigin href="../../assets/index-CBoc-F0e.css">
+    <title>Messen in der Reihenschaltung – Stromkreis und elektrischer Strom</title>
+    <meta name="description" content="Stromstärke und Spannungen in der Reihenschaltung messen und vergleichen." />
+    <meta name="lernapps-archetype" content="explainer" />
+    <link rel="alternate" hreflang="de" href="../../schaltungen/reihenschaltung-messen/" />
+  </head>
+  <body>
+    <nav class="explainer-breadcrumbs" aria-label="Du bist hier"><ol><li><a href="../../">Start</a></li><li><a href="../../schaltungen/">Reihen- und Parallelschaltung</a></li><li aria-current="page">Messen in der Reihenschaltung</li></ol></nav>
+<main class="explainer" id="inhalt-der-seite">
+<div class="explainer-title-row">
+<h1>Messen in der Reihenschaltung</h1>
+<div class="explainer-tutor explainer-tutor-page">
+<details class="explainer-tutor-off">
+<summary>Mit einem KI-Tutor lernen</summary>
+<p>Ein KI-Tutor erklärt dir diese Seite und hilft dir bei den Übungen. Wähl deinen Assistenten:</p>
+<p class="explainer-tutor-actions"><span class="explainer-tutor-way" hidden><select class="explainer-tutor-select" aria-label="Assistent"><option value="Claude">Claude</option><option value="ChatGPT">ChatGPT</option><option value="Mistral Vibe" data-hint="Mistral Vibe lädt keine Webseiten, wenn der Link aus einem Knopf kommt. Darum kopieren wir den Satz mit dem Link für dich. Ein Klick auf „Mit Mistral Vibe lernen“ öffnet Mistral Vibe mit einer kurzen Nachricht. Füg danach den kopierten Satz ein (Strg+V, am Mac ⌘+V) und schick ihn ab.">Mistral Vibe</option><option value="copy">Ein anderer: Text kopieren</option></select> <button type="button" class="explainer-tutor-on">Einschalten</button></span> <span class="explainer-tutor-plain"><a class="explainer-tutor-provider" href="https://claude.ai/new" rel="noopener" target="_blank">Mit Claude öffnen</a> <a class="explainer-tutor-provider" href="https://chatgpt.com/" rel="noopener" target="_blank">Mit ChatGPT öffnen</a> <a class="explainer-tutor-provider" href="https://chat.mistral.ai/chat" rel="noopener" target="_blank">Mit Mistral Vibe öffnen</a></span></p>
+<p class="explainer-tutor-hint" role="status" aria-live="polite" hidden></p>
+<p class="explainer-tutor-note">Du nutzt dein eigenes Konto beim Anbieter. Der Assistent ist kein Angebot von lernapps.net: lernapps liefert nur Inhalte und Übungen. Die Wahl gilt für alle Seiten, nur auf diesem Gerät.</p>
+<p><a class="explainer-tutor-guide" href="../../schaltungen/reihenschaltung-messen/tutor/">Ansehen, was dein Tutor zu dieser Seite bekommt</a></p>
+</details>
+<p class="explainer-tutor-bar" hidden><button type="button" class="explainer-tutor-go"></button></p>
+<p class="explainer-tutor-status" role="status" aria-live="polite"></p>
+<script type="application/json" class="explainer-tutor-prompt">{"start":"Lade ⟦base⟧schaltungen/reihenschaltung-messen/tutor/⟦query⟧ und sei mein Tutor.","base":"⟦base⟧","query":"⟦query⟧","root":"../../","storage":"stromkreis","page":{"id":"reihenschaltung-messen","title":"Messen in der Reihenschaltung","exercises":[{"id":"reihenschaltung-messen-1","section":"uebung","numbered":false},{"id":"reihenschaltung-messen-2","section":"uebung","numbered":true},{"id":"reihenschaltung-messen-3","section":"uebung","numbered":false},{"id":"reihenschaltung-messen-4","section":"uebung","numbered":false}],"sections":["einstieg","erklaerung","beispiel","uebung"]},"tutor":"schaltungen/reihenschaltung-messen/tutor/","markdown":"schaltungen/reihenschaltung-messen/tutor/index.md","ways":[{"name":"Claude","url":"https://claude.ai/new?q={prompt}"},{"name":"ChatGPT","url":"https://chatgpt.com/?q={prompt}"},{"name":"Mistral Vibe","url":"https://chat.mistral.ai/chat?q={prompt}","paste":true}],"placeholder":"Ich brauche Hilfe bei einer Lern-Einheit. Ich schreibe Dir gleich, worum es geht.","go":"Mit {name} lernen","done":"✓ Kopiert – jetzt in {name} einfügen","copy":"Text kopieren","copied":"Der Prompt ist kopiert. Füg ihn in den Chat deines KI-Assistenten ein.","failed":"Kopieren ging nicht. Versuch es noch einmal."}</script>
+</div>
+</div>
+
+<nav class="explainer-toc" aria-label="Auf dieser Seite"><p class="explainer-toc-title">Auf dieser Seite</p><ol><li><a href="#einstieg">Was messen wir in der Reihenschaltung?</a></li><li><a href="#erklaerung">Messwerte vergleichen</a></li><li><a href="#beispiel">Eine Spannung ergänzen</a></li><li><a href="#uebung">Übung</a></li></ol></nav>
+<section class="explainer-section">
+<h2 id="einstieg">Was messen wir in der Reihenschaltung?</h2>
+<div class="block-text"><p>Du kennst die Reihenschaltung und weißt, wie man Stromstärke und Spannung misst. Jetzt misst du in einer
+Reihenschaltung an mehreren Stellen und vergleichst die Werte.</p></div>
+</section>
+<section class="explainer-section">
+<h2 id="erklaerung">Messwerte vergleichen</h2>
+<figure class="block-figure"><img src="../../images/reihenschaltung-3.svg" alt="Zeichnung eines Stromkreises mit Batterie und zwei Lampen L1 und L2 hintereinander. Die Stellen 1, 2 und 3 liegen in der Leitung, 1 vor L1, 2 zwischen den Lampen, 3 nach L2." loading="lazy" decoding="async"><figcaption><p>Die Stromstärke wird an den Stellen 1, 2 und 3 gemessen, die Spannung an L1 und an L2.</p> <span class="block-credit">Quelle: eigene Zeichnung. Lizenz: CC-BY-4.0.</span></figcaption></figure>
+<div class="block-table" role="region" aria-label="Messwerte einer Reihenschaltung mit zwei gleichen Lampen (Beispielwerte)" tabindex="0"><table><caption>Messwerte einer Reihenschaltung mit zwei gleichen Lampen (Beispielwerte)</caption><thead><tr><th scope="col">Messgröße</th><th scope="col">Wert</th></tr></thead><tbody><tr><th scope="row">Stromstärke an Stelle 1</th><td>0,30 A</td></tr><tr><th scope="row">Stromstärke an Stelle 2</th><td>0,30 A</td></tr><tr><th scope="row">Stromstärke an Stelle 3</th><td>0,30 A</td></tr><tr><th scope="row">Spannung an L1</th><td>1,5 V</td></tr><tr><th scope="row">Spannung an L2</th><td>1,5 V</td></tr><tr><th scope="row">Spannung der Batterie</th><td>3,0 V</td></tr></tbody></table></div>
+<div class="block-text"><p><strong>Die Stromstärke</strong> ist an allen Stellen gleich groß, vor, zwischen und nach den Lampen. Das hast du schon
+bei der Stromstärke gesehen: Der Strom wird nicht weniger.</p>
+<p><strong>Die Spannungen</strong> an den einzelnen Lampen ergeben zusammen die Spannung der Batterie: Die Batterie treibt den
+Strom durch beide Lampen, und jede Lampe bekommt einen Teil davon.</p></div>
+<div class="explainer-box explainer-note">
+<h3 class="explainer-box-title">Ohne Rechnen mit Widerstand</h3>
+<div class="block-text"><p>Mit gleichen Lampen sind die Teilspannungen gleich groß. Bei verschiedenen Lampen sind sie verschieden. Wie
+genau sie sich verteilen, lernst du später. Das Muster bleibt: Die Teilspannungen ergeben zusammen die
+Gesamtspannung.</p></div>
+</div>
+</section>
+<section class="explainer-section">
+<h2 id="beispiel">Eine Spannung ergänzen</h2>
+<div class="explainer-box explainer-example">
+<h3 class="explainer-box-title">Gesamtspannung und eine Teilspannung sind bekannt</h3>
+<div class="block-text"><p>Die Batterie hat <math><mrow><mn>4,5</mn><mspace width="0.1667em"></mspace><mtext>V</mtext></mrow></math>. Am Voltmeter an L1 liest du <math><mrow><mn>1,5</mn><mspace width="0.1667em"></mspace><mtext>V</mtext></mrow></math> ab. An L2 liegt dann
+der Rest: <math><mrow><mn>4,5</mn><mspace width="0.1667em"></mspace><mtext>V</mtext><mo>−</mo><mn>1,5</mn><mspace width="0.1667em"></mspace><mtext>V</mtext><mo>=</mo><mn>3,0</mn><mspace width="0.1667em"></mspace><mtext>V</mtext></mrow></math>.</p></div>
+</div>
+</section>
+<section class="explainer-section">
+<h2 id="uebung">Übung</h2>
+<div class="explainer-exercise explainer-question" id="reihenschaltung-messen-1">
+<p class="explainer-exercise-label">Übung</p>
+<div class="question" id="frage-reihenschaltung-messen-1" data-id="reihenschaltung-messen-1" data-type="single-choice">
+<form class="question-form" novalidate>
+<fieldset>
+<legend class="question-text">An Stelle 1 misst du 0,30 A. Was zeigt das Amperemeter an Stelle 3?</legend>
+<div class="question-material"><figure class="block-figure"><img src="../../images/reihenschaltung-3.svg" alt="Zeichnung eines Stromkreises mit Batterie und zwei Lampen hintereinander mit den Stellen 1, 2 und 3." loading="lazy" decoding="async"><figcaption><p>Stelle 1 liegt vor L1, Stelle 3 nach L2.</p> <span class="block-credit">Quelle: eigene Zeichnung. Lizenz: CC-BY-4.0.</span></figcaption></figure></div>
+<label class="question-option"><input type="radio" name="frage-reihenschaltung-messen-1" value="0"> <span>Ebenfalls 0,30 A.</span></label>
+<label class="question-option"><input type="radio" name="frage-reihenschaltung-messen-1" value="1"> <span>Weniger als 0,30 A, weil die Lampen Strom verbrauchen.</span></label>
+<label class="question-option"><input type="radio" name="frage-reihenschaltung-messen-1" value="2"> <span>Mehr als 0,30 A.</span></label>
+</fieldset>
+<div class="question-feedback" role="status"></div>
+<div class="question-reveal" hidden>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>Ebenfalls 0,30 A.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>In der Reihenschaltung ist die Stromstärke überall gleich.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>Weniger als 0,30 A, weil die Lampen Strom verbrauchen.</strong></p><p>Lampen wandeln Energie um. Der Strom wird nicht weniger.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>Mehr als 0,30 A.</strong></p><p>Es kommt nichts dazu, die Stromstärke bleibt gleich.</p></li>
+</ul>
+<p class="question-explanation">Die Stromstärke ist an jeder Stelle der Reihenschaltung gleich.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Reihenschaltung" rel="noopener">Reihenschaltung (Wikipedia)</a></li>
+</ul>
+</div>
+<p class="question-actions" hidden><button type="submit" class="question-check">Prüfen</button></p>
+</form>
+</div>
+<details class="explainer-solution"><summary>Lösung</summary>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>Ebenfalls 0,30 A.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>In der Reihenschaltung ist die Stromstärke überall gleich.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>Weniger als 0,30 A, weil die Lampen Strom verbrauchen.</strong></p><p>Lampen wandeln Energie um. Der Strom wird nicht weniger.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>Mehr als 0,30 A.</strong></p><p>Es kommt nichts dazu, die Stromstärke bleibt gleich.</p></li>
+</ul>
+<p class="question-explanation">Die Stromstärke ist an jeder Stelle der Reihenschaltung gleich.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Reihenschaltung" rel="noopener">Reihenschaltung (Wikipedia)</a></li>
+</ul>
+</details>
+<script type="application/json" class="explainer-exercise-data">{"kind":"question","lang":"de","question":{"id":"reihenschaltung-messen-1","text":"An Stelle 1 misst du 0,30 A. Was zeigt das Amperemeter an Stelle 3?","explanation":"Die Stromstärke ist an jeder Stelle der Reihenschaltung gleich.","links":[{"title":"Reihenschaltung (Wikipedia)","url":"https://de.wikipedia.org/wiki/Reihenschaltung"}],"material":[{"type":"figure","image":"images/reihenschaltung-3.svg","alt":"Zeichnung eines Stromkreises mit Batterie und zwei Lampen hintereinander mit den Stellen 1, 2 und 3.","caption":"Stelle 1 liegt vor L1, Stelle 3 nach L2.","source":"eigene Zeichnung","licence":"CC-BY-4.0"}],"type":"single-choice","options":[{"text":"Ebenfalls 0,30 A.","correct":true,"info":"In der Reihenschaltung ist die Stromstärke überall gleich."},{"text":"Weniger als 0,30 A, weil die Lampen Strom verbrauchen.","correct":false,"info":"Lampen wandeln Energie um. Der Strom wird nicht weniger."},{"text":"Mehr als 0,30 A.","correct":false,"info":"Es kommt nichts dazu, die Stromstärke bleibt gleich."}]},"rendered":{}}</script>
+</div>
+<div class="explainer-exercise explainer-generated" id="reihenschaltung-messen-2">
+<p class="explainer-exercise-label">Übung</p>
+<div class="explainer-live" hidden></div>
+<p class="explainer-worked-intro">Drei Beispielaufgaben, jede mit ihrer Lösung:</p>
+<ol class="explainer-worked"><li class="explainer-worked-task"><p class="explainer-task-number">Aufgabe Nr. 1</p><p class="explainer-task">Eine Batterie hat 9 V. In einer Reihenschaltung liegen an der ersten Lampe 1,5 V. Wie viel Volt liegen an der zweiten Lampe?</p><details class="explainer-hint"><summary>Tipp</summary><p>Die Spannungen an den Lampen ergeben zusammen die Spannung der Batterie. Ziehe die bekannte Teilspannung ab.</p></details><details class="explainer-solution"><summary>Lösung</summary><ol class="explainer-steps"><li><math><mrow><msub><mi>U</mi><mn>2</mn></msub><mo>=</mo><mi>U</mi><mo>−</mo><msub><mi>U</mi><mn>1</mn></msub></mrow></math></li><li><math><mrow><msub><mi>U</mi><mn>2</mn></msub><mo>=</mo><mn>9</mn><mspace width="0.1667em"></mspace><mtext>V</mtext><mo>−</mo><mn>1,5</mn><mspace width="0.1667em"></mspace><mtext>V</mtext><mo>=</mo><mn>7,5</mn></mrow></math></li></ol><p><strong>Richtige Antwort:</strong> 7,5 V</p></details></li>
+<li class="explainer-worked-task"><p class="explainer-task-number">Aufgabe Nr. 2</p><p class="explainer-task">Eine Batterie hat 9 V. In einer Reihenschaltung liegen an der ersten Lampe 2 V. Wie viel Volt liegen an der zweiten Lampe?</p><details class="explainer-hint"><summary>Tipp</summary><p>Die Spannungen an den Lampen ergeben zusammen die Spannung der Batterie. Ziehe die bekannte Teilspannung ab.</p></details><details class="explainer-solution"><summary>Lösung</summary><ol class="explainer-steps"><li><math><mrow><msub><mi>U</mi><mn>2</mn></msub><mo>=</mo><mi>U</mi><mo>−</mo><msub><mi>U</mi><mn>1</mn></msub></mrow></math></li><li><math><mrow><msub><mi>U</mi><mn>2</mn></msub><mo>=</mo><mn>9</mn><mspace width="0.1667em"></mspace><mtext>V</mtext><mo>−</mo><mn>2</mn><mspace width="0.1667em"></mspace><mtext>V</mtext><mo>=</mo><mn>7</mn></mrow></math></li></ol><p><strong>Richtige Antwort:</strong> 7 V</p></details></li>
+<li class="explainer-worked-task"><p class="explainer-task-number">Aufgabe Nr. 3</p><p class="explainer-task">Eine Batterie hat 6 V. In einer Reihenschaltung liegen an der ersten Lampe 1 V. Wie viel Volt liegen an der zweiten Lampe?</p><details class="explainer-hint"><summary>Tipp</summary><p>Die Spannungen an den Lampen ergeben zusammen die Spannung der Batterie. Ziehe die bekannte Teilspannung ab.</p></details><details class="explainer-solution"><summary>Lösung</summary><ol class="explainer-steps"><li><math><mrow><msub><mi>U</mi><mn>2</mn></msub><mo>=</mo><mi>U</mi><mo>−</mo><msub><mi>U</mi><mn>1</mn></msub></mrow></math></li><li><math><mrow><msub><mi>U</mi><mn>2</mn></msub><mo>=</mo><mn>6</mn><mspace width="0.1667em"></mspace><mtext>V</mtext><mo>−</mo><mn>1</mn><mspace width="0.1667em"></mspace><mtext>V</mtext><mo>=</mo><mn>5</mn></mrow></math></li></ol><p><strong>Richtige Antwort:</strong> 5 V</p></details></li></ol>
+<script type="application/json" class="explainer-exercise-data">{"kind":"generated","lang":"de","spec":{"type":"generated","id":"reihenschaltung-messen-2","given":{"U":{"oneOf":[3,4.5,6,9]},"U1":{"oneOf":[1,1.5,2]}},"where":["U != 2 * U1"],"task":{"text":"Eine Batterie hat {{U}} V. In einer Reihenschaltung liegen an der ersten Lampe {{U1}} V. Wie viel Volt liegen an der zweiten Lampe?"},"answer":{"value":"U - U1","compare":{"number":{"format":"decimal","decimals":1,"unit":"V"}}},"mistakes":[{"value":"U + U1","message":"Du hast die Teilspannung zur Gesamtspannung addiert. Die Teilspannungen ergeben zusammen die Gesamtspannung."},{"value":"U1","message":"Das ist die Spannung an der ersten Lampe. Für die zweite bleibt der Rest übrig."}],"hint":"Die Spannungen an den Lampen ergeben zusammen die Spannung der Batterie. Ziehe die bekannte Teilspannung ab.","steps":["$U_2 = U - U_1$","$U_2 = {{U}}\\,\\text{V} - {{U1}}\\,\\text{V} = {{answer}}$"]},"templates":{"de":{"task":"Eine Batterie hat ⟦U⟧ V. In einer Reihenschaltung liegen an der ersten Lampe ⟦U1⟧ V. Wie viel Volt liegen an der zweiten Lampe?","steps":["\u003cmath>\u003cmrow>\u003cmsub>\u003cmi>U\u003c/mi>\u003cmn>2\u003c/mn>\u003c/msub>\u003cmo>=\u003c/mo>\u003cmi>U\u003c/mi>\u003cmo>−\u003c/mo>\u003cmsub>\u003cmi>U\u003c/mi>\u003cmn>1\u003c/mn>\u003c/msub>\u003c/mrow>\u003c/math>","\u003cmath>\u003cmrow>\u003cmsub>\u003cmi>U\u003c/mi>\u003cmn>2\u003c/mn>\u003c/msub>\u003cmo>=\u003c/mo>\u003cmtext>⟦U⟧\u003c/mtext>\u003cmspace width=\"0.1667em\">\u003c/mspace>\u003cmtext>V\u003c/mtext>\u003cmo>−\u003c/mo>\u003cmtext>⟦U1⟧\u003c/mtext>\u003cmspace width=\"0.1667em\">\u003c/mspace>\u003cmtext>V\u003c/mtext>\u003cmo>=\u003c/mo>\u003cmtext>⟦answer⟧\u003c/mtext>\u003c/mrow>\u003c/math>"],"hint":"Die Spannungen an den Lampen ergeben zusammen die Spannung der Batterie. Ziehe die bekannte Teilspannung ab.","messages":["Du hast die Teilspannung zur Gesamtspannung addiert. Die Teilspannungen ergeben zusammen die Gesamtspannung.","Das ist die Spannung an der ersten Lampe. Für die zweite bleibt der Rest übrig."]}},"data":{},"seeds":[1,2,3,4,5,6,10,11,17,18,23],"texts":{"newTask":"Neue Aufgabe","practice":"Übe selbst, mit immer neuen Aufgaben:","hint":"Tipp","solution":"Lösung","taskNumber":"Aufgabe Nr. {n}"}}</script>
+</div>
+<div class="explainer-exercise explainer-question" id="reihenschaltung-messen-3">
+<p class="explainer-exercise-label">Übung</p>
+<div class="question" id="frage-reihenschaltung-messen-3" data-id="reihenschaltung-messen-3" data-type="true-false">
+<form class="question-form" novalidate>
+<fieldset>
+<legend class="question-text">Hinter der zweiten Lampe ist die Stromstärke kleiner als vor der ersten.</legend>
+<label class="question-option"><input type="radio" name="frage-reihenschaltung-messen-3" value="true"> <span>Stimmt</span></label>
+<label class="question-option"><input type="radio" name="frage-reihenschaltung-messen-3" value="false"> <span>Stimmt nicht</span></label>
+</fieldset>
+<div class="question-feedback" role="status"></div>
+<div class="question-reveal" hidden>
+<p><strong>Richtige Antwort:</strong> Die Aussage stimmt nicht.</p>
+<p class="question-explanation">In der Reihenschaltung fließt überall gleich viel Strom. Der Strom wird in den Lampen nicht weniger.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Reihenschaltung" rel="noopener">Reihenschaltung (Wikipedia)</a></li>
+</ul>
+</div>
+<p class="question-actions" hidden><button type="submit" class="question-check">Prüfen</button></p>
+</form>
+</div>
+<details class="explainer-solution"><summary>Lösung</summary>
+<p><strong>Richtige Antwort:</strong> Die Aussage stimmt nicht.</p>
+<p class="question-explanation">In der Reihenschaltung fließt überall gleich viel Strom. Der Strom wird in den Lampen nicht weniger.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Reihenschaltung" rel="noopener">Reihenschaltung (Wikipedia)</a></li>
+</ul>
+</details>
+<script type="application/json" class="explainer-exercise-data">{"kind":"question","lang":"de","question":{"id":"reihenschaltung-messen-3","text":"Hinter der zweiten Lampe ist die Stromstärke kleiner als vor der ersten.","explanation":"In der Reihenschaltung fließt überall gleich viel Strom. Der Strom wird in den Lampen nicht weniger.","links":[{"title":"Reihenschaltung (Wikipedia)","url":"https://de.wikipedia.org/wiki/Reihenschaltung"}],"type":"true-false","answer":false},"rendered":{}}</script>
+</div>
+<div class="explainer-exercise explainer-question" id="reihenschaltung-messen-4">
+<p class="explainer-exercise-label">Übung</p>
+<div class="question" id="frage-reihenschaltung-messen-4" data-id="reihenschaltung-messen-4" data-type="single-choice">
+<form class="question-form" novalidate>
+<fieldset>
+<legend class="question-text">Eine Batterie hat 6 V. Zwei gleiche Lampen sind in Reihe geschaltet. Welche Spannung erwartest du an jeder Lampe?</legend>
+<label class="question-option"><input type="radio" name="frage-reihenschaltung-messen-4" value="0"> <span>3 V an jeder Lampe.</span></label>
+<label class="question-option"><input type="radio" name="frage-reihenschaltung-messen-4" value="1"> <span>6 V an jeder Lampe.</span></label>
+<label class="question-option"><input type="radio" name="frage-reihenschaltung-messen-4" value="2"> <span>12 V an jeder Lampe.</span></label>
+</fieldset>
+<div class="question-feedback" role="status"></div>
+<div class="question-reveal" hidden>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>3 V an jeder Lampe.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>Bei gleichen Lampen verteilt sich die Spannung gleichmäßig. 3 V und 3 V ergeben zusammen 6 V.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>6 V an jeder Lampe.</strong></p><p>Zusammen wären das 12 V, mehr als die Batterie liefert.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>12 V an jeder Lampe.</strong></p><p>Das ist mehr als die Gesamtspannung der Batterie.</p></li>
+</ul>
+<p class="question-explanation">Die Spannungen der Lampen ergeben zusammen die Spannung der Batterie, bei gleichen Lampen je die Hälfte.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Reihenschaltung" rel="noopener">Reihenschaltung (Wikipedia)</a></li>
+</ul>
+</div>
+<p class="question-actions" hidden><button type="submit" class="question-check">Prüfen</button></p>
+</form>
+</div>
+<details class="explainer-solution"><summary>Lösung</summary>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>3 V an jeder Lampe.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>Bei gleichen Lampen verteilt sich die Spannung gleichmäßig. 3 V und 3 V ergeben zusammen 6 V.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>6 V an jeder Lampe.</strong></p><p>Zusammen wären das 12 V, mehr als die Batterie liefert.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>12 V an jeder Lampe.</strong></p><p>Das ist mehr als die Gesamtspannung der Batterie.</p></li>
+</ul>
+<p class="question-explanation">Die Spannungen der Lampen ergeben zusammen die Spannung der Batterie, bei gleichen Lampen je die Hälfte.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Reihenschaltung" rel="noopener">Reihenschaltung (Wikipedia)</a></li>
+</ul>
+</details>
+<script type="application/json" class="explainer-exercise-data">{"kind":"question","lang":"de","question":{"id":"reihenschaltung-messen-4","text":"Eine Batterie hat 6 V. Zwei gleiche Lampen sind in Reihe geschaltet. Welche Spannung erwartest du an jeder Lampe?","explanation":"Die Spannungen der Lampen ergeben zusammen die Spannung der Batterie, bei gleichen Lampen je die Hälfte.","links":[{"title":"Reihenschaltung (Wikipedia)","url":"https://de.wikipedia.org/wiki/Reihenschaltung"}],"type":"single-choice","options":[{"text":"3 V an jeder Lampe.","correct":true,"info":"Bei gleichen Lampen verteilt sich die Spannung gleichmäßig. 3 V und 3 V ergeben zusammen 6 V."},{"text":"6 V an jeder Lampe.","correct":false,"info":"Zusammen wären das 12 V, mehr als die Batterie liefert."},{"text":"12 V an jeder Lampe.","correct":false,"info":"Das ist mehr als die Gesamtspannung der Batterie."}]},"rendered":{}}</script>
+</div>
+</section>
+</main>
+<nav class="explainer-pager" aria-label="Weiterblättern"><a rel="prev" href="../../schaltungen/reihenschaltung/">Zurück: Die Reihenschaltung</a><a rel="next" href="../../schaltungen/parallelschaltung/">Weiter: Die Parallelschaltung</a></nav>
+<footer class="page-footer"><p>Eine Erklär-App auf lernapps.net · <a href="https://lernapps.net/imprint/">Impressum</a> · <a href="https://lernapps.net/privacy/">Datenschutz</a></p></footer>
+  </body>
+</html>

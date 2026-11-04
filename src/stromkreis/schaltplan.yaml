@@ -1,0 +1,127 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Schaltplan
+description: "Stromkreise mit Schaltzeichen zeichnen und Schaltpläne lesen."
+competencies: [schaltzeichen]
+blocks:
+  - type: section
+    id: einstieg
+    title: Eine Zeichnung, die alle verstehen
+    blocks:
+      - type: text
+        text: |
+          Willst du einem anderen zeigen, wie ein Stromkreis aufgebaut ist, brauchst du kein Foto. Es genügt eine
+          Zeichnung aus einfachen Zeichen, die überall auf der Welt gleich aussehen. Eine solche Zeichnung heißt
+          **Schaltplan**.
+  - type: section
+    id: erklaerung
+    title: Schaltzeichen und Schaltplan
+    blocks:
+      - type: text
+        text: |
+          Jedes Bauteil hat ein festes **Schaltzeichen**. Leitungen zeichnest du als gerade Linien mit rechten Winkeln.
+          Der Strom soll im Plan immer auf einem lückenlosen Weg laufen, wenn der Stromkreis geschlossen ist.
+      - type: figure
+        image: images/schaltplan-1.svg
+        alt: Übersicht von sieben Schaltzeichen mit ihren Namen. Batterie, zwei lange und kurze Striche. Lampe, ein Kreis mit Kreuz. Schalter offen, Hebel schräg abgehoben. Schalter geschlossen, durchgehende Linie. Leitung, eine Linie. Amperemeter, ein Kreis mit A. Voltmeter, ein Kreis mit V.
+        caption: Die Schaltzeichen, die du in dieser App brauchst. Bei der Batterie ist der lange Strich der Pluspol.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: definition
+        term: Schaltplan
+        explanation: Ein Schaltplan ist eine Zeichnung eines Stromkreises, in der jedes Bauteil durch sein Schaltzeichen und jede Leitung durch eine Linie dargestellt wird.
+      - type: text
+        text: |
+          Um einen Schaltplan zu lesen, verfolgst du den Weg von der Batterie durch alle Bauteile und zurück. Hat der
+          Weg eine Lücke, etwa einen offenen Schalter, ist der Stromkreis offen.
+  - type: section
+    id: beispiel
+    title: Den Schaltplan lesen
+    blocks:
+      - type: example
+        title: Batterie, Schalter und Lampe
+        blocks:
+          - type: figure
+            image: images/schaltplan-3.svg
+            alt: Schaltplan mit einer Batterie links, einem geschlossenen Schalter oben und einer Lampe rechts, verbunden zu einem Rechteck.
+            caption: Ein Schaltplan mit drei Bauteilen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: |
+              Du liest ihn so: Vom Pluspol der Batterie geht es durch den Schalter zur Lampe und zurück zum Minuspol.
+              Der Schalter ist als durchgehende Linie gezeichnet, also geschlossen. Der Stromkreis ist geschlossen, und
+              die Lampe leuchtet.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: schaltplan-1
+        text: Welches Bauteil gehört zu welchem Schaltzeichen?
+        material:
+          - type: labelled-figure
+            image: images/schaltplan-2.svg
+            alt: Vier Schaltzeichen nebeneinander, darunter die Marker A bis D. A ist eine Batterie, B eine Lampe, C ein offener Schalter, D ein Kreis mit A.
+            legend: false
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+            labels:
+              - { marker: A, x: 12, y: 88, text: Batterie }
+              - { marker: B, x: 37, y: 88, text: Lampe }
+              - { marker: C, x: 62, y: 88, text: Schalter }
+              - { marker: D, x: 87, y: 88, text: Amperemeter }
+        pairsFrom: material
+        distractors: [Voltmeter]
+        explanation: Die Batterie hat einen langen und einen kurzen Strich, die Lampe ist ein Kreis mit Kreuz, der Schalter hat einen abgehobenen Hebel, das Amperemeter ist ein Kreis mit A.
+        links:
+          - title: Schaltzeichen (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Schaltzeichen
+      - type: single-choice
+        id: schaltplan-2
+        text: Leuchtet die Lampe in diesem Schaltplan?
+        material:
+          - type: figure
+            image: images/schalter-2.svg
+            alt: Schaltplan mit Batterie, Lampe und einem Schalter, dessen Hebel schräg nach oben ragt.
+            caption: Lies den Schaltplan vom Pluspol aus.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Nein, der Schalter ist offen.
+            correct: true
+            info: Der abgehobene Hebel bedeutet eine Lücke. Der Weg ist nicht geschlossen.
+          - text: Ja, denn alle Bauteile sind gezeichnet.
+            correct: false
+            info: Dass die Bauteile da sind, genügt nicht. Der Weg muss auch ohne Lücke sein.
+          - text: Ja, denn die Lampe ist mit der Batterie verbunden.
+            correct: false
+            info: Sie ist verbunden, aber nur über den Schalter, und der ist offen.
+        explanation: Ein offener Schalter unterbricht den Weg, also leuchtet die Lampe nicht.
+        links:
+          - title: Schaltzeichen (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Schaltzeichen
+      - type: true-false
+        id: schaltplan-3
+        text: Im Schaltplan zeichnet man Bauteile so, wie sie in Wirklichkeit aussehen.
+        answer: false
+        explanation: Man zeichnet Schaltzeichen. Sie sind einfach und überall gleich, so versteht jeder den Plan.
+        links:
+          - title: Schaltzeichen (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Schaltzeichen
+      - type: multiple-choice
+        id: schaltplan-4
+        text: Was kannst du am Schaltzeichen einer Batterie erkennen?
+        options:
+          - text: Der lange Strich ist der Pluspol.
+            correct: true
+            info: Der kurze, dicke Strich ist der Minuspol.
+          - text: Der kurze Strich ist der Minuspol.
+            correct: true
+            info: Lang ist plus, kurz ist minus.
+          - text: Der lange Strich ist der Minuspol.
+            correct: false
+            info: Es ist umgekehrt. Der lange Strich ist der Pluspol.
+        explanation: Beim Schaltzeichen der Batterie ist der lange, dünne Strich der Pluspol und der kurze, dicke Strich der Minuspol.
+        links:
+          - title: Schaltzeichen (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Schaltzeichen

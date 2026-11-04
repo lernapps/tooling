@@ -1,0 +1,125 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Reihenschaltung
+description: "Bauteile hintereinander schalten und erklären, was passiert, wenn eines ausfällt."
+competencies: [reihenschaltung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Zwei Lampen hintereinander
+    blocks:
+      - type: text
+        text: |
+          Früher gab es Lichterketten, bei denen alle Lämpchen ausgingen, sobald eines kaputt war. Das liegt daran, dass
+          die Lämpchen in einer **Reihenschaltung** hintereinander hingen.
+  - type: section
+    id: erklaerung
+    title: Alles in einem Weg
+    blocks:
+      - type: definition
+        term: Reihenschaltung
+        explanation: In einer Reihenschaltung sind die Bauteile hintereinander geschaltet. Der Strom hat nur einen Weg, der durch alle Bauteile führt.
+      - type: figure
+        image: images/reihenschaltung-1.svg
+        alt: Zeichnung eines Stromkreises mit einer Batterie und zwei Lampen L1 und L2 hintereinander in der oberen Leitung. Es gibt nur einen Weg.
+        caption: Der Strom läuft zuerst durch L1, dann durch L2 und zurück zur Batterie.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Weil es nur einen Weg gibt, fließt der Strom durch jedes Bauteil. Fällt ein Bauteil aus oder wird die Leitung
+          an einer Stelle unterbrochen, ist der ganze Kreis offen. Dann fließt nirgends Strom, und **alle** Bauteile
+          sind aus.
+      - type: note
+        title: Der Schalter in einer Reihenschaltung
+        blocks:
+          - type: text
+            text: |
+              Ein Schalter, der irgendwo im Kreis sitzt, schaltet alle Bauteile der Reihenschaltung zugleich aus, wenn
+              er geöffnet wird.
+  - type: section
+    id: beispiel
+    title: Eine Lampe fällt aus
+    blocks:
+      - type: example
+        title: L1 wird herausgeschraubt
+        blocks:
+          - type: figure
+            image: images/reihenschaltung-2.svg
+            alt: Zeichnung eines Stromkreises mit Batterie und zwei Lampen hintereinander. Bei L1 fehlt die Lampe, die Leitung ist dort unterbrochen. L2 sitzt noch im Kreis.
+            caption: Bei L1 fehlt die Lampe. Der Weg ist unterbrochen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: |
+              Du schraubst L1 heraus. Der Weg des Stroms ist jetzt an dieser Stelle unterbrochen. Obwohl L2 in Ordnung ist,
+              fließt durch sie kein Strom, und sie bleibt dunkel.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: reihenschaltung-1
+        text: In diesem Stromkreis fehlt bei L1 die Lampe. Leuchtet L2?
+        material:
+          - type: figure
+            image: images/reihenschaltung-2.svg
+            alt: Zeichnung eines Stromkreises mit Batterie und zwei Lampen hintereinander. Bei L1 fehlt die Lampe, die Leitung ist unterbrochen.
+            caption: Bei L1 fehlt die Lampe.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Nein, der Weg ist unterbrochen, also fließt nirgends Strom.
+            correct: true
+            info: In einer Reihenschaltung gibt es nur diesen einen Weg. Ohne L1 ist der Kreis offen.
+          - text: Ja, denn L2 ist ja heil.
+            correct: false
+            info: Dass L2 heil ist, reicht nicht. Sie braucht einen geschlossenen Stromweg.
+          - text: Ja, aber nur schwach.
+            correct: false
+            info: Ohne geschlossenen Kreis fließt auch kein schwacher Strom.
+        explanation: Die Lücke bei L1 öffnet den ganzen Kreis. Deshalb bleibt auch L2 dunkel.
+        links:
+          - title: Reihenschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Reihenschaltung
+      - type: true-false
+        id: reihenschaltung-2
+        text: In einer Reihenschaltung hat der Strom nur einen Weg.
+        answer: true
+        explanation: Alle Bauteile liegen hintereinander. Der Strom muss durch jedes einzelne hindurch.
+        links:
+          - title: Reihenschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Reihenschaltung
+      - type: single-choice
+        id: reihenschaltung-3
+        text: In einer Reihenschaltung aus zwei Lampen sitzt ein Schalter. Wann leuchten beide Lampen?
+        options:
+          - text: Wenn der Schalter geschlossen ist.
+            correct: true
+            info: Dann ist der einzige Weg geschlossen, und der Strom fließt durch beide Lampen.
+          - text: Wenn der Schalter offen ist.
+            correct: false
+            info: Ein offener Schalter unterbricht den einzigen Weg.
+          - text: Immer, der Schalter betrifft nur eine Lampe.
+            correct: false
+            info: In einer Reihenschaltung betrifft jede Unterbrechung alle Bauteile.
+        explanation: In einer Reihenschaltung schaltet der Schalter alle Bauteile zugleich ein oder aus.
+        links:
+          - title: Reihenschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Reihenschaltung
+      - type: multiple-choice
+        id: reihenschaltung-4
+        text: Was gilt in einer Reihenschaltung?
+        options:
+          - text: Die Bauteile liegen hintereinander.
+            correct: true
+            info: Das ist die Bedeutung des Wortes Reihe.
+          - text: Fällt ein Bauteil aus, gehen alle anderen aus.
+            correct: true
+            info: Der einzige Weg ist dann unterbrochen.
+          - text: Jedes Bauteil hat seinen eigenen Stromweg.
+            correct: false
+            info: Das gilt für die Parallelschaltung, nicht für die Reihenschaltung.
+        explanation: In der Reihenschaltung gibt es einen Weg durch alle Bauteile. Eine Unterbrechung betrifft alle.
+        links:
+          - title: Reihenschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Reihenschaltung

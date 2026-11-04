@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Stromstärke
+summary: Was die Stromstärke angibt, in welcher Einheit man sie misst und wie man sie mit dem Amperemeter richtig misst.
+pages: [stromstaerke, amperemeter]
+selfAssessment:
+  pages:
+    - exercises:
+        - /stromstaerke/stromstaerke/#stromstaerke-1
+        - /stromstaerke/stromstaerke/#stromstaerke-2
+        - /stromstaerke/stromstaerke/#stromstaerke-3
+    - exercises:
+        - /stromstaerke/amperemeter/#amperemeter-1
+        - /stromstaerke/amperemeter/#amperemeter-2
+        - /stromstaerke/amperemeter/#amperemeter-3

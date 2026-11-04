@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 260" role="img" aria-labelledby="t d">
+  <title id="t">Stromkreis mit zwei möglichen Messstellen</title>
+  <desc id="d">Batterie und Lampe im geschlossenen Stromkreis. Messstelle A liegt in der oberen Leitung vor der Lampe, Messstelle B parallel zur Lampe.</desc>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round">
+    <path d="M80 50 H170 M250 50 H340 V105 M340 155 V210 H80 V160 M80 50 V100"/>
+    <path d="M60 100 H100"/><path d="M70 116 H90" stroke-width="7"/>
+    <circle cx="340" cy="130" r="25"/><path d="M322 112 L358 148 M358 112 L322 148"/>
+    <rect x="170" y="35" width="80" height="30" stroke-dasharray="6 5"/>
+    <path d="M300 50 V90 H380 V50" stroke-dasharray="6 5" transform="translate(0 0)"/>
+  </g>
+  <g font-family="sans-serif" font-size="16" fill="#1a1a1a">
+    <circle cx="210" cy="28" r="12" fill="#fff" stroke="#1a1a1a"/><text x="205" y="34">A</text>
+    <circle cx="340" cy="78" r="12" fill="#fff" stroke="#1a1a1a"/><text x="335" y="84">B</text>
+  </g>
+</svg>

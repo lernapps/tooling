@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Reihen- und Parallelschaltung
+summary: Wie Bauteile hintereinander oder nebeneinander geschaltet werden und was man dabei an Stromstärke und Spannung misst.
+pages: [reihenschaltung, reihenschaltung-messen, parallelschaltung, parallelschaltung-messen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /schaltungen/reihenschaltung/#reihenschaltung-1
+        - /schaltungen/reihenschaltung/#reihenschaltung-3
+        - /schaltungen/reihenschaltung-messen/#reihenschaltung-messen-1
+        - /schaltungen/reihenschaltung-messen/#reihenschaltung-messen-2
+    - exercises:
+        - /schaltungen/parallelschaltung/#parallelschaltung-1
+        - /schaltungen/parallelschaltung/#parallelschaltung-4
+        - /schaltungen/parallelschaltung-messen/#parallelschaltung-messen-1
+        - /schaltungen/parallelschaltung-messen/#parallelschaltung-messen-2

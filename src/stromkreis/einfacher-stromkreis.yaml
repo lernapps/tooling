@@ -1,0 +1,162 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der einfache Stromkreis
+description: "Batterie, Lampe und Leitungen: warum die Lampe nur in einem geschlossenen Stromkreis leuchtet."
+competencies: [einfacher-stromkreis]
+blocks:
+  - type: section
+    id: einstieg
+    title: Warum leuchtet die Taschenlampe?
+    blocks:
+      - type: text
+        text: |
+          Du drückst den Schalter der Taschenlampe, und das Licht geht an. Lässt du die Batterie herausfallen, bleibt es
+          dunkel. Auf dieser Seite siehst du, welche Teile zusammengehören und warum der Weg des Stroms keine Lücke haben darf.
+  - type: section
+    id: erklaerung
+    title: Die Teile und der Weg des Stroms
+    blocks:
+      - type: text
+        text: |
+          Ein einfacher Stromkreis hat drei Teile: eine **Spannungsquelle** (sie treibt den Strom an, hier die Batterie
+          mit ihrem Pluspol und ihrem Minuspol), einen **Verbraucher** (ein Gerät, das den Strom nutzt, hier die Lampe)
+          und **Leitungen**, die beide verbinden. Die Leitungen führen vom Pluspol der Batterie zur Lampe und von der
+          Lampe zurück zum Minuspol. Das Wort „Verbraucher“ ist missverständlich: Der Strom wird nicht verbraucht, wie
+          du gleich siehst.
+      - type: figure
+        image: images/einfacher-stromkreis-1.svg
+        alt: Zeichnung eines Stromkreises. Links eine Batterie mit Pluspol oben und Minuspol unten, rechts eine Lampe. Zwei Leitungen verbinden beide zu einem geschlossenen Rechteck. Ein Pfeil an der oberen Leitung zeigt von der Batterie zur Lampe.
+        caption: Pluspol und Minuspol der Batterie sind beschriftet. Verfolge den Weg vom Pluspol über die Lampe zurück zum Minuspol. Er hat nirgends eine Lücke.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: definition
+        term: Stromkreis
+        explanation: Ein Stromkreis ist ein geschlossener Weg aus Spannungsquelle, Verbraucher und Leitungen, auf dem der Strom fließen kann.
+      - type: text
+        text: |
+          Der Weg beginnt und endet an der Batterie. Ist er irgendwo unterbrochen, fließt nirgends Strom, auch nicht
+          in den Leitungen vor der Lücke. Man sagt: Der Stromkreis ist **geschlossen**, wenn der Weg ohne Lücke ist, und
+          **offen**, wenn eine Stelle fehlt.
+      - type: note
+        title: Die Pfeilrichtung
+        blocks:
+          - type: text
+            text: |
+              Der Pfeil zeigt vom Pluspol über die Lampe zum Minuspol. Das nennt man die **technische Stromrichtung**:
+              Die Menschen haben sich geeinigt, den Strom in Zeichnungen immer in diese Richtung einzuzeichnen, damit alle
+              dasselbe meinen. Die Lampe verbraucht den Strom nicht. Die Batterie liefert Energie, und die Lampe wandelt
+              sie in Licht und Wärme um. Der Strom selbst fließt durch die Lampe hindurch weiter zur Batterie.
+  - type: section
+    id: beispiel
+    title: Die Taschenlampe als Stromkreis
+    blocks:
+      - type: example
+        title: Die Teile der Taschenlampe
+        blocks:
+          - type: table
+            caption: Die Teile der Taschenlampe
+            rowHeaders: true
+            rows:
+              - [Spannungsquelle, Die Batterie in der Lampe]
+              - [Verbraucher, Die kleine Glühlampe oder LED]
+              - [Leitungen, Das Metallgehäuse und die Kontaktfeder]
+              - [Schalter, Der Knopf; er schließt den Kreis oder öffnet ihn]
+          - type: text
+            text: |
+              Ist der Knopf nicht gedrückt, ist der Kreis offen: Die Lampe bleibt dunkel. Drückst du ihn, schließt sich
+              der Kreis, und der Strom fließt vom Pluspol über die Lampe zum Minuspol.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: true-false
+        id: einfacher-stromkreis-1
+        text: Eine Lampe leuchtet, wenn sie nur mit einem Kabel an den Pluspol der Batterie angeschlossen ist.
+        answer: false
+        explanation: Das Kabel allein führt nicht zurück zur Batterie. Erst mit einem zweiten Kabel zum Minuspol ist der Weg geschlossen.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+      - type: single-choice
+        id: einfacher-stromkreis-2
+        text: Die Lampe leuchtet nicht. Woran liegt das?
+        material:
+          - type: figure
+            image: images/einfacher-stromkreis-2.svg
+            alt: Schaltplan mit Batterie und Lampe. Die obere Leitung ist durchgehend, die untere Leitung hat in der Mitte eine Lücke.
+            caption: Batterie, Lampe und Leitungen. Suche die Stelle, an der der Weg nicht durchgeht.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Der Weg ist unterbrochen, deshalb fließt nirgends Strom.
+            correct: true
+            info: Durch die Lücke fehlt der Rückweg zur Batterie. Ohne geschlossenen Weg fließt in keiner Leitung Strom.
+          - text: Der Strom ist in der oberen Leitung schon verbraucht.
+            correct: false
+            info: Strom wird in einer Leitung nicht verbraucht. Er fließt nur, wenn der ganze Weg geschlossen ist.
+          - text: Der Strom kommt nur bis zur Lücke und bleibt dort.
+            correct: false
+            info: Wo der Weg endet, fließt auch davor kein Strom, denn der Strom braucht den ganzen Kreis.
+          - text: Die Lampe braucht ein zweites Kabel zum Pluspol.
+            correct: false
+            info: Die Lampe hat schon zwei Anschlüsse. Es fehlt nur das Stück der unteren Leitung.
+        explanation: Eine Lücke in der Leitung öffnet den Stromkreis. Dann fließt nirgends Strom, und die Lampe bleibt dunkel.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+      - type: ordering
+        id: einfacher-stromkreis-3
+        text: In welcher Reihenfolge durchläuft der Strom den Stromkreis (technische Stromrichtung)? Beginne am Pluspol.
+        material:
+          - type: figure
+            image: images/einfacher-stromkreis-1.svg
+            alt: Zeichnung eines Stromkreises. Links eine Batterie mit Pluspol oben und Minuspol unten, rechts eine Lampe. Zwei Leitungen verbinden beide zu einem geschlossenen Rechteck.
+            caption: Der Stromkreis, durch den der Strom läuft.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        items:
+          - Pluspol der Batterie
+          - obere Leitung
+          - Lampe
+          - untere Leitung
+          - Minuspol der Batterie
+        explanation: Der Strom fließt vom Pluspol durch die obere Leitung und die Lampe, dann durch die untere Leitung zum Minuspol.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+      - type: single-choice
+        id: einfacher-stromkreis-4
+        text: Was geschieht mit dem Strom in der leuchtenden Lampe?
+        options:
+          - text: Er fließt weiter und erreicht den Minuspol der Batterie.
+            correct: true
+            info: Der Strom ist in der Lampe nicht weg. Die Lampe wandelt elektrische Energie in Licht und Wärme um.
+          - text: Er wird in der Lampe verbraucht, deshalb leuchtet sie.
+            correct: false
+            info: Verbraucht wird Energie, nicht der Strom. Der Strom fließt weiter, sonst wäre der Kreis nicht geschlossen.
+          - text: Er fließt nur bis zur Lampe und kommt nicht zurück.
+            correct: false
+            info: Ohne Rückweg zur Batterie gäbe es keinen geschlossenen Kreis, und die Lampe würde nicht leuchten.
+        explanation: Die Lampe wandelt Energie um, der Strom selbst fließt im geschlossenen Kreis weiter.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+      - type: multiple-choice
+        id: einfacher-stromkreis-5
+        text: Welche Aussagen über einen einfachen Stromkreis stimmen?
+        options:
+          - text: Er braucht eine Spannungsquelle, zum Beispiel eine Batterie.
+            correct: true
+            info: Die Spannungsquelle treibt den Strom an.
+          - text: Er braucht einen Verbraucher, zum Beispiel eine Lampe.
+            correct: true
+            info: Der Verbraucher wandelt Energie um, hier in Licht und Wärme.
+          - text: Er ist geschlossen, wenn der Weg von der Batterie zurück zur Batterie keine Lücke hat.
+            correct: true
+            info: Nur dann kann der Strom fließen.
+          - text: Ein Kabel von der Batterie zur Lampe reicht aus.
+            correct: false
+            info: Es muss auch ein Rückweg von der Lampe zur Batterie geben.
+        explanation: Spannungsquelle, Verbraucher und Leitungen bilden einen geschlossenen Weg. Ein einzelnes Kabel zur Lampe reicht nicht.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis

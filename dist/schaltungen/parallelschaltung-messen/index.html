@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="module" crossorigin src="../../assets/index-f8JWISqD.js"></script>
+    <link rel="stylesheet" crossorigin href="../../assets/index-CBoc-F0e.css">
+    <title>Messen in der Parallelschaltung – Stromkreis und elektrischer Strom</title>
+    <meta name="description" content="Stromstärken und Spannung in der Parallelschaltung messen und vergleichen." />
+    <meta name="lernapps-archetype" content="explainer" />
+    <link rel="alternate" hreflang="de" href="../../schaltungen/parallelschaltung-messen/" />
+  </head>
+  <body>
+    <nav class="explainer-breadcrumbs" aria-label="Du bist hier"><ol><li><a href="../../">Start</a></li><li><a href="../../schaltungen/">Reihen- und Parallelschaltung</a></li><li aria-current="page">Messen in der Parallelschaltung</li></ol></nav>
+<main class="explainer" id="inhalt-der-seite">
+<div class="explainer-title-row">
+<h1>Messen in der Parallelschaltung</h1>
+<div class="explainer-tutor explainer-tutor-page">
+<details class="explainer-tutor-off">
+<summary>Mit einem KI-Tutor lernen</summary>
+<p>Ein KI-Tutor erklärt dir diese Seite und hilft dir bei den Übungen. Wähl deinen Assistenten:</p>
+<p class="explainer-tutor-actions"><span class="explainer-tutor-way" hidden><select class="explainer-tutor-select" aria-label="Assistent"><option value="Claude">Claude</option><option value="ChatGPT">ChatGPT</option><option value="Mistral Vibe" data-hint="Mistral Vibe lädt keine Webseiten, wenn der Link aus einem Knopf kommt. Darum kopieren wir den Satz mit dem Link für dich. Ein Klick auf „Mit Mistral Vibe lernen“ öffnet Mistral Vibe mit einer kurzen Nachricht. Füg danach den kopierten Satz ein (Strg+V, am Mac ⌘+V) und schick ihn ab.">Mistral Vibe</option><option value="copy">Ein anderer: Text kopieren</option></select> <button type="button" class="explainer-tutor-on">Einschalten</button></span> <span class="explainer-tutor-plain"><a class="explainer-tutor-provider" href="https://claude.ai/new" rel="noopener" target="_blank">Mit Claude öffnen</a> <a class="explainer-tutor-provider" href="https://chatgpt.com/" rel="noopener" target="_blank">Mit ChatGPT öffnen</a> <a class="explainer-tutor-provider" href="https://chat.mistral.ai/chat" rel="noopener" target="_blank">Mit Mistral Vibe öffnen</a></span></p>
+<p class="explainer-tutor-hint" role="status" aria-live="polite" hidden></p>
+<p class="explainer-tutor-note">Du nutzt dein eigenes Konto beim Anbieter. Der Assistent ist kein Angebot von lernapps.net: lernapps liefert nur Inhalte und Übungen. Die Wahl gilt für alle Seiten, nur auf diesem Gerät.</p>
+<p><a class="explainer-tutor-guide" href="../../schaltungen/parallelschaltung-messen/tutor/">Ansehen, was dein Tutor zu dieser Seite bekommt</a></p>
+</details>
+<p class="explainer-tutor-bar" hidden><button type="button" class="explainer-tutor-go"></button></p>
+<p class="explainer-tutor-status" role="status" aria-live="polite"></p>
+<script type="application/json" class="explainer-tutor-prompt">{"start":"Lade ⟦base⟧schaltungen/parallelschaltung-messen/tutor/⟦query⟧ und sei mein Tutor.","base":"⟦base⟧","query":"⟦query⟧","root":"../../","storage":"stromkreis","page":{"id":"parallelschaltung-messen","title":"Messen in der Parallelschaltung","exercises":[{"id":"parallelschaltung-messen-1","section":"uebung","numbered":false},{"id":"parallelschaltung-messen-2","section":"uebung","numbered":true},{"id":"parallelschaltung-messen-3","section":"uebung","numbered":false},{"id":"parallelschaltung-messen-4","section":"uebung","numbered":false}],"sections":["einstieg","erklaerung","beispiel","uebung"]},"tutor":"schaltungen/parallelschaltung-messen/tutor/","markdown":"schaltungen/parallelschaltung-messen/tutor/index.md","ways":[{"name":"Claude","url":"https://claude.ai/new?q={prompt}"},{"name":"ChatGPT","url":"https://chatgpt.com/?q={prompt}"},{"name":"Mistral Vibe","url":"https://chat.mistral.ai/chat?q={prompt}","paste":true}],"placeholder":"Ich brauche Hilfe bei einer Lern-Einheit. Ich schreibe Dir gleich, worum es geht.","go":"Mit {name} lernen","done":"✓ Kopiert – jetzt in {name} einfügen","copy":"Text kopieren","copied":"Der Prompt ist kopiert. Füg ihn in den Chat deines KI-Assistenten ein.","failed":"Kopieren ging nicht. Versuch es noch einmal."}</script>
+</div>
+</div>
+
+<nav class="explainer-toc" aria-label="Auf dieser Seite"><p class="explainer-toc-title">Auf dieser Seite</p><ol><li><a href="#einstieg">Was messen wir in der Parallelschaltung?</a></li><li><a href="#erklaerung">Messwerte vergleichen</a></li><li><a href="#beispiel">Stromstärken zusammenzählen</a></li><li><a href="#uebung">Übung</a></li></ol></nav>
+<section class="explainer-section">
+<h2 id="einstieg">Was messen wir in der Parallelschaltung?</h2>
+<div class="block-text"><p>Auch in der Parallelschaltung misst du an mehreren Stellen. Die Werte verhalten sich anders als in der
+Reihenschaltung, und genau das findest du hier heraus.</p></div>
+</section>
+<section class="explainer-section">
+<h2 id="erklaerung">Messwerte vergleichen</h2>
+<figure class="block-figure"><img src="../../images/parallelschaltung-3.svg" alt="Zeichnung eines Stromkreises mit Batterie und zwei Lampen nebeneinander. Stelle 1 liegt in der Zuleitung, Stelle 2 im Zweig von L1, Stelle 3 im Zweig von L2, Stelle 4 in der Rückleitung." loading="lazy" decoding="async"><figcaption><p>Die Stromstärke wird an den Stellen 1 bis 4 gemessen, die Spannung an der Batterie und an jeder Lampe.</p> <span class="block-credit">Quelle: eigene Zeichnung. Lizenz: CC-BY-4.0.</span></figcaption></figure>
+<div class="block-table" role="region" aria-label="Messwerte einer Parallelschaltung mit zwei gleichen Lampen (Beispielwerte)" tabindex="0"><table><caption>Messwerte einer Parallelschaltung mit zwei gleichen Lampen (Beispielwerte)</caption><thead><tr><th scope="col">Messgröße</th><th scope="col">Wert</th></tr></thead><tbody><tr><th scope="row">Stromstärke an Stelle 1 (Zuleitung)</th><td>0,60 A</td></tr><tr><th scope="row">Stromstärke an Stelle 2 (Zweig L1)</th><td>0,30 A</td></tr><tr><th scope="row">Stromstärke an Stelle 3 (Zweig L2)</th><td>0,30 A</td></tr><tr><th scope="row">Stromstärke an Stelle 4 (Rückleitung)</th><td>0,60 A</td></tr><tr><th scope="row">Spannung der Batterie</th><td>3,0 V</td></tr><tr><th scope="row">Spannung an L1</th><td>3,0 V</td></tr><tr><th scope="row">Spannung an L2</th><td>3,0 V</td></tr></tbody></table></div>
+<div class="block-text"><p>Die <strong>Zuleitung</strong> führt von der Batterie zu den Lampen, die <strong>Rückleitung</strong> von den Lampen zurück zur Batterie.
+Jede Lampe liegt in einem <strong>Zweig</strong>. An der <strong>Verzweigung</strong> teilt sich der Weg des Stroms auf.</p>
+<p><strong>Die Spannung</strong> ist an jedem Zweig so groß wie die Spannung der Batterie. Sie teilt sich also nicht auf: Jeder
+Zweig hängt direkt an den beiden Polen.</p>
+<p><strong>Die Stromstärken</strong> der Zweige ergeben zusammen die Stromstärke in der Zuleitung. Der Strom teilt sich an der
+Verzweigung auf und fließt hinter den Lampen wieder zusammen.</p></div>
+<div class="explainer-box explainer-note">
+<h3 class="explainer-box-title">Mehr Lampen, mehr Strom</h3>
+<div class="block-text"><p>Mit jeder weiteren gleichen Lampe, die du parallel dazu anschließt, fließt durch die Batterie mehr Strom. Die Spannung der Batterie bleibt
+gleich. Eine Batterie liefert also nicht immer gleich viel Strom.</p></div>
+</div>
+</section>
+<section class="explainer-section">
+<h2 id="beispiel">Stromstärken zusammenzählen</h2>
+<div class="explainer-box explainer-example">
+<h3 class="explainer-box-title">Zwei Zweige mit verschiedenen Lampen</h3>
+<div class="block-text"><p>Durch den Zweig mit der kleinen Lampe fließen <math><mrow><mn>0,2</mn><mspace width="0.1667em"></mspace><mtext>A</mtext></mrow></math>, durch den mit der großen <math><mrow><mn>0,5</mn><mspace width="0.1667em"></mspace><mtext>A</mtext></mrow></math>.
+In der Zuleitung, die von der Batterie kommt, messen wir <math><mrow><mn>0,2</mn><mspace width="0.1667em"></mspace><mtext>A</mtext><mo>+</mo><mn>0,5</mn><mspace width="0.1667em"></mspace><mtext>A</mtext><mo>=</mo><mn>0,7</mn><mspace width="0.1667em"></mspace><mtext>A</mtext></mrow></math>.</p></div>
+</div>
+</section>
+<section class="explainer-section">
+<h2 id="uebung">Übung</h2>
+<div class="explainer-exercise explainer-question" id="parallelschaltung-messen-1">
+<p class="explainer-exercise-label">Übung</p>
+<div class="question" id="frage-parallelschaltung-messen-1" data-id="parallelschaltung-messen-1" data-type="single-choice">
+<form class="question-form" novalidate>
+<fieldset>
+<legend class="question-text">Die Batterie hat 4,5 V. Welche Spannung misst du an L2, der rechten Lampe?</legend>
+<div class="question-material"><figure class="block-figure"><img src="../../images/parallelschaltung-3.svg" alt="Zeichnung eines Stromkreises mit Batterie und zwei Lampen nebeneinander mit den Stellen 1 bis 4. Links L1, rechts L2." loading="lazy" decoding="async"><figcaption><p>L1 und L2 liegen in eigenen Zweigen an der Batterie.</p> <span class="block-credit">Quelle: eigene Zeichnung. Lizenz: CC-BY-4.0.</span></figcaption></figure></div>
+<label class="question-option"><input type="radio" name="frage-parallelschaltung-messen-1" value="0"> <span>4,5 V, so viel wie die Batterie.</span></label>
+<label class="question-option"><input type="radio" name="frage-parallelschaltung-messen-1" value="1"> <span>2,25 V, weil sich die Spannung auf die Lampen aufteilt.</span></label>
+<label class="question-option"><input type="radio" name="frage-parallelschaltung-messen-1" value="2"> <span>0 V, weil L1 den Strom schon aufbraucht.</span></label>
+</fieldset>
+<div class="question-feedback" role="status"></div>
+<div class="question-reveal" hidden>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>4,5 V, so viel wie die Batterie.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>Jeder Zweig hängt direkt an den beiden Polen der Batterie.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>2,25 V, weil sich die Spannung auf die Lampen aufteilt.</strong></p><p>Das gilt für die Reihenschaltung. In der Parallelschaltung bekommt jede Lampe die volle Spannung.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>0 V, weil L1 den Strom schon aufbraucht.</strong></p><p>Strom wird in einer Lampe nicht aufgebraucht, und die Spannung liegt an beiden Zweigen an.</p></li>
+</ul>
+<p class="question-explanation">In der Parallelschaltung liegt an jedem Zweig die volle Spannung der Batterie.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</div>
+<p class="question-actions" hidden><button type="submit" class="question-check">Prüfen</button></p>
+</form>
+</div>
+<details class="explainer-solution"><summary>Lösung</summary>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>4,5 V, so viel wie die Batterie.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>Jeder Zweig hängt direkt an den beiden Polen der Batterie.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>2,25 V, weil sich die Spannung auf die Lampen aufteilt.</strong></p><p>Das gilt für die Reihenschaltung. In der Parallelschaltung bekommt jede Lampe die volle Spannung.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>0 V, weil L1 den Strom schon aufbraucht.</strong></p><p>Strom wird in einer Lampe nicht aufgebraucht, und die Spannung liegt an beiden Zweigen an.</p></li>
+</ul>
+<p class="question-explanation">In der Parallelschaltung liegt an jedem Zweig die volle Spannung der Batterie.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</details>
+<script type="application/json" class="explainer-exercise-data">{"kind":"question","lang":"de","question":{"id":"parallelschaltung-messen-1","text":"Die Batterie hat 4,5 V. Welche Spannung misst du an L2, der rechten Lampe?","explanation":"In der Parallelschaltung liegt an jedem Zweig die volle Spannung der Batterie.","links":[{"title":"Parallelschaltung (Wikipedia)","url":"https://de.wikipedia.org/wiki/Parallelschaltung"}],"material":[{"type":"figure","image":"images/parallelschaltung-3.svg","alt":"Zeichnung eines Stromkreises mit Batterie und zwei Lampen nebeneinander mit den Stellen 1 bis 4. Links L1, rechts L2.","caption":"L1 und L2 liegen in eigenen Zweigen an der Batterie.","source":"eigene Zeichnung","licence":"CC-BY-4.0"}],"type":"single-choice","options":[{"text":"4,5 V, so viel wie die Batterie.","correct":true,"info":"Jeder Zweig hängt direkt an den beiden Polen der Batterie."},{"text":"2,25 V, weil sich die Spannung auf die Lampen aufteilt.","correct":false,"info":"Das gilt für die Reihenschaltung. In der Parallelschaltung bekommt jede Lampe die volle Spannung."},{"text":"0 V, weil L1 den Strom schon aufbraucht.","correct":false,"info":"Strom wird in einer Lampe nicht aufgebraucht, und die Spannung liegt an beiden Zweigen an."}]},"rendered":{}}</script>
+</div>
+<div class="explainer-exercise explainer-generated" id="parallelschaltung-messen-2">
+<p class="explainer-exercise-label">Übung</p>
+<div class="explainer-live" hidden></div>
+<p class="explainer-worked-intro">Drei Beispielaufgaben, jede mit ihrer Lösung:</p>
+<ol class="explainer-worked"><li class="explainer-worked-task"><p class="explainer-task-number">Aufgabe Nr. 1</p><p class="explainer-task">Durch den Zweig von L1 fließen 0,4 A, durch den Zweig von L2 fließen 0,5 A. Wie groß ist die Stromstärke in der Zuleitung?</p><details class="explainer-hint"><summary>Tipp</summary><p>Der Strom teilt sich an der Verzweigung auf. In der Zuleitung fließt die Summe der beiden Zweigströme.</p></details><details class="explainer-solution"><summary>Lösung</summary><ol class="explainer-steps"><li><math><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mn>1</mn></msub><mo>+</mo><msub><mi>I</mi><mn>2</mn></msub></mrow></math></li><li><math><mrow><mi>I</mi><mo>=</mo><mn>0,4</mn><mspace width="0.1667em"></mspace><mtext>A</mtext><mo>+</mo><mn>0,5</mn><mspace width="0.1667em"></mspace><mtext>A</mtext><mo>=</mo><mn>0,9</mn></mrow></math></li></ol><p><strong>Richtige Antwort:</strong> 0,9 A</p></details></li>
+<li class="explainer-worked-task"><p class="explainer-task-number">Aufgabe Nr. 2</p><p class="explainer-task">Durch den Zweig von L1 fließen 0,4 A, durch den Zweig von L2 fließen 0,1 A. Wie groß ist die Stromstärke in der Zuleitung?</p><details class="explainer-hint"><summary>Tipp</summary><p>Der Strom teilt sich an der Verzweigung auf. In der Zuleitung fließt die Summe der beiden Zweigströme.</p></details><details class="explainer-solution"><summary>Lösung</summary><ol class="explainer-steps"><li><math><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mn>1</mn></msub><mo>+</mo><msub><mi>I</mi><mn>2</mn></msub></mrow></math></li><li><math><mrow><mi>I</mi><mo>=</mo><mn>0,4</mn><mspace width="0.1667em"></mspace><mtext>A</mtext><mo>+</mo><mn>0,1</mn><mspace width="0.1667em"></mspace><mtext>A</mtext><mo>=</mo><mn>0,5</mn></mrow></math></li></ol><p><strong>Richtige Antwort:</strong> 0,5 A</p></details></li>
+<li class="explainer-worked-task"><p class="explainer-task-number">Aufgabe Nr. 3</p><p class="explainer-task">Durch den Zweig von L1 fließen 0,2 A, durch den Zweig von L2 fließen 0,3 A. Wie groß ist die Stromstärke in der Zuleitung?</p><details class="explainer-hint"><summary>Tipp</summary><p>Der Strom teilt sich an der Verzweigung auf. In der Zuleitung fließt die Summe der beiden Zweigströme.</p></details><details class="explainer-solution"><summary>Lösung</summary><ol class="explainer-steps"><li><math><mrow><mi>I</mi><mo>=</mo><msub><mi>I</mi><mn>1</mn></msub><mo>+</mo><msub><mi>I</mi><mn>2</mn></msub></mrow></math></li><li><math><mrow><mi>I</mi><mo>=</mo><mn>0,2</mn><mspace width="0.1667em"></mspace><mtext>A</mtext><mo>+</mo><mn>0,3</mn><mspace width="0.1667em"></mspace><mtext>A</mtext><mo>=</mo><mn>0,5</mn></mrow></math></li></ol><p><strong>Richtige Antwort:</strong> 0,5 A</p></details></li></ol>
+<script type="application/json" class="explainer-exercise-data">{"kind":"generated","lang":"de","spec":{"type":"generated","id":"parallelschaltung-messen-2","given":{"I1":{"oneOf":[0.1,0.2,0.3,0.4]},"I2":{"oneOf":[0.1,0.2,0.3,0.5]}},"task":{"text":"Durch den Zweig von L1 fließen {{I1}} A, durch den Zweig von L2 fließen {{I2}} A. Wie groß ist die Stromstärke in der Zuleitung?"},"answer":{"value":"I1 + I2","compare":{"number":{"format":"decimal","decimals":1,"unit":"A"}}},"mistakes":[{"value":"I1","message":"Das ist nur der Strom durch L1. In der Zuleitung fließt der Strom beider Zweige."},{"value":"I2","message":"Das ist nur der Strom durch L2. In der Zuleitung fließt der Strom beider Zweige."},{"value":"I1 * I2","message":"Du hast multipliziert. Die Stromstärken der Zweige zählst du zusammen."}],"hint":"Der Strom teilt sich an der Verzweigung auf. In der Zuleitung fließt die Summe der beiden Zweigströme.","steps":["$I = I_1 + I_2$","$I = {{I1}}\\,\\text{A} + {{I2}}\\,\\text{A} = {{answer}}$"]},"templates":{"de":{"task":"Durch den Zweig von L1 fließen ⟦I1⟧ A, durch den Zweig von L2 fließen ⟦I2⟧ A. Wie groß ist die Stromstärke in der Zuleitung?","steps":["\u003cmath>\u003cmrow>\u003cmi>I\u003c/mi>\u003cmo>=\u003c/mo>\u003cmsub>\u003cmi>I\u003c/mi>\u003cmn>1\u003c/mn>\u003c/msub>\u003cmo>+\u003c/mo>\u003cmsub>\u003cmi>I\u003c/mi>\u003cmn>2\u003c/mn>\u003c/msub>\u003c/mrow>\u003c/math>","\u003cmath>\u003cmrow>\u003cmi>I\u003c/mi>\u003cmo>=\u003c/mo>\u003cmtext>⟦I1⟧\u003c/mtext>\u003cmspace width=\"0.1667em\">\u003c/mspace>\u003cmtext>A\u003c/mtext>\u003cmo>+\u003c/mo>\u003cmtext>⟦I2⟧\u003c/mtext>\u003cmspace width=\"0.1667em\">\u003c/mspace>\u003cmtext>A\u003c/mtext>\u003cmo>=\u003c/mo>\u003cmtext>⟦answer⟧\u003c/mtext>\u003c/mrow>\u003c/math>"],"hint":"Der Strom teilt sich an der Verzweigung auf. In der Zuleitung fließt die Summe der beiden Zweigströme.","messages":["Das ist nur der Strom durch L1. In der Zuleitung fließt der Strom beider Zweige.","Das ist nur der Strom durch L2. In der Zuleitung fließt der Strom beider Zweige.","Du hast multipliziert. Die Stromstärken der Zweige zählst du zusammen."]}},"data":{},"seeds":[1,2,3,5,7,8,10,11,13,15,19,21,23,29,38,62],"texts":{"newTask":"Neue Aufgabe","practice":"Übe selbst, mit immer neuen Aufgaben:","hint":"Tipp","solution":"Lösung","taskNumber":"Aufgabe Nr. {n}"}}</script>
+</div>
+<div class="explainer-exercise explainer-question" id="parallelschaltung-messen-3">
+<p class="explainer-exercise-label">Übung</p>
+<div class="question" id="frage-parallelschaltung-messen-3" data-id="parallelschaltung-messen-3" data-type="true-false">
+<form class="question-form" novalidate>
+<fieldset>
+<legend class="question-text">Eine Batterie liefert immer gleich viel Strom, egal wie viele Lampen parallel hängen.</legend>
+<label class="question-option"><input type="radio" name="frage-parallelschaltung-messen-3" value="true"> <span>Stimmt</span></label>
+<label class="question-option"><input type="radio" name="frage-parallelschaltung-messen-3" value="false"> <span>Stimmt nicht</span></label>
+</fieldset>
+<div class="question-feedback" role="status"></div>
+<div class="question-reveal" hidden>
+<p><strong>Richtige Antwort:</strong> Die Aussage stimmt nicht.</p>
+<p class="question-explanation">Mit jeder weiteren parallelen Lampe fließt durch die Batterie mehr Strom. Nur ihre Spannung bleibt gleich.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</div>
+<p class="question-actions" hidden><button type="submit" class="question-check">Prüfen</button></p>
+</form>
+</div>
+<details class="explainer-solution"><summary>Lösung</summary>
+<p><strong>Richtige Antwort:</strong> Die Aussage stimmt nicht.</p>
+<p class="question-explanation">Mit jeder weiteren parallelen Lampe fließt durch die Batterie mehr Strom. Nur ihre Spannung bleibt gleich.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</details>
+<script type="application/json" class="explainer-exercise-data">{"kind":"question","lang":"de","question":{"id":"parallelschaltung-messen-3","text":"Eine Batterie liefert immer gleich viel Strom, egal wie viele Lampen parallel hängen.","explanation":"Mit jeder weiteren parallelen Lampe fließt durch die Batterie mehr Strom. Nur ihre Spannung bleibt gleich.","links":[{"title":"Parallelschaltung (Wikipedia)","url":"https://de.wikipedia.org/wiki/Parallelschaltung"}],"type":"true-false","answer":false},"rendered":{}}</script>
+</div>
+<div class="explainer-exercise explainer-question" id="parallelschaltung-messen-4">
+<p class="explainer-exercise-label">Übung</p>
+<div class="question" id="frage-parallelschaltung-messen-4" data-id="parallelschaltung-messen-4" data-type="single-choice">
+<form class="question-form" novalidate>
+<fieldset>
+<legend class="question-text">Zwei gleiche Lampen hängen parallel an der Batterie. Du schraubst eine dritte, gleiche Lampe parallel dazu. Was ändert sich an der Stromstärke in der Zuleitung?</legend>
+<label class="question-option"><input type="radio" name="frage-parallelschaltung-messen-4" value="0"> <span>Sie wird größer.</span></label>
+<label class="question-option"><input type="radio" name="frage-parallelschaltung-messen-4" value="1"> <span>Sie bleibt gleich.</span></label>
+<label class="question-option"><input type="radio" name="frage-parallelschaltung-messen-4" value="2"> <span>Sie wird kleiner.</span></label>
+</fieldset>
+<div class="question-feedback" role="status"></div>
+<div class="question-reveal" hidden>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>Sie wird größer.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>Ein weiterer Zweig bringt zusätzlichen Strom. Die Zweigströme zählen zusammen.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>Sie bleibt gleich.</strong></p><p>Ein weiterer Zweig braucht auch Strom, also muss die Batterie mehr liefern.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>Sie wird kleiner.</strong></p><p>Mehr Zweige bedeuten mehr Strom, nicht weniger.</p></li>
+</ul>
+<p class="question-explanation">Jeder zusätzliche Zweig erhöht die Stromstärke in der Zuleitung. Die Spannung der Batterie bleibt gleich.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</div>
+<p class="question-actions" hidden><button type="submit" class="question-check">Prüfen</button></p>
+</form>
+</div>
+<details class="explainer-solution"><summary>Lösung</summary>
+<ul class="question-infos">
+<li class="question-info question-info-right" data-option="0"><p class="question-info-head"><strong>Sie wird größer.</strong> <span class="question-badge question-badge-right">richtige Antwort</span></p><p>Ein weiterer Zweig bringt zusätzlichen Strom. Die Zweigströme zählen zusammen.</p></li>
+<li class="question-info" data-option="1"><p class="question-info-head"><strong>Sie bleibt gleich.</strong></p><p>Ein weiterer Zweig braucht auch Strom, also muss die Batterie mehr liefern.</p></li>
+<li class="question-info" data-option="2"><p class="question-info-head"><strong>Sie wird kleiner.</strong></p><p>Mehr Zweige bedeuten mehr Strom, nicht weniger.</p></li>
+</ul>
+<p class="question-explanation">Jeder zusätzliche Zweig erhöht die Stromstärke in der Zuleitung. Die Spannung der Batterie bleibt gleich.</p>
+<p class="question-more">Mehr dazu:</p>
+<ul class="question-links">
+<li><a href="https://de.wikipedia.org/wiki/Parallelschaltung" rel="noopener">Parallelschaltung (Wikipedia)</a></li>
+</ul>
+</details>
+<script type="application/json" class="explainer-exercise-data">{"kind":"question","lang":"de","question":{"id":"parallelschaltung-messen-4","text":"Zwei gleiche Lampen hängen parallel an der Batterie. Du schraubst eine dritte, gleiche Lampe parallel dazu. Was ändert sich an der Stromstärke in der Zuleitung?","explanation":"Jeder zusätzliche Zweig erhöht die Stromstärke in der Zuleitung. Die Spannung der Batterie bleibt gleich.","links":[{"title":"Parallelschaltung (Wikipedia)","url":"https://de.wikipedia.org/wiki/Parallelschaltung"}],"type":"single-choice","options":[{"text":"Sie wird größer.","correct":true,"info":"Ein weiterer Zweig bringt zusätzlichen Strom. Die Zweigströme zählen zusammen."},{"text":"Sie bleibt gleich.","correct":false,"info":"Ein weiterer Zweig braucht auch Strom, also muss die Batterie mehr liefern."},{"text":"Sie wird kleiner.","correct":false,"info":"Mehr Zweige bedeuten mehr Strom, nicht weniger."}]},"rendered":{}}</script>
+</div>
+</section>
+</main>
+<nav class="explainer-pager" aria-label="Weiterblättern"><a rel="prev" href="../../schaltungen/parallelschaltung/">Zurück: Die Parallelschaltung</a><a rel="next" href="../../sicherheit/gefahren/">Weiter: Gefahren des Stroms</a></nav>
+<footer class="page-footer"><p>Eine Erklär-App auf lernapps.net · <a href="https://lernapps.net/imprint/">Impressum</a> · <a href="https://lernapps.net/privacy/">Datenschutz</a></p></footer>
+  </body>
+</html>

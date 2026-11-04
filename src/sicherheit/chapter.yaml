@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Sicherheit
+summary: Warum Strom aus der Steckdose gefährlich ist und welche Regeln dich schützen.
+pages: [gefahren, regeln]
+selfAssessment:
+  pages:
+    - exercises:
+        - /sicherheit/gefahren/#gefahren-1
+        - /sicherheit/gefahren/#gefahren-3
+    - exercises:
+        - /sicherheit/regeln/#regeln-1
+        - /sicherheit/regeln/#regeln-3

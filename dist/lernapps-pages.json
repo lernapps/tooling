@@ -1,0 +1,111 @@
+{
+  "format": 1,
+  "strand": "physik/elektrizitaetslehre",
+  "pages": [
+    {
+      "path": "stromkreis/einfacher-stromkreis/",
+      "title": "Der einfache Stromkreis",
+      "competencies": [
+        "einfacher-stromkreis"
+      ]
+    },
+    {
+      "path": "stromkreis/schalter/",
+      "title": "Der Schalter",
+      "competencies": [
+        "schalter"
+      ]
+    },
+    {
+      "path": "stromkreis/leiter-isolator/",
+      "title": "Leiter und Isolator",
+      "competencies": [
+        "leiter-nichtleiter"
+      ]
+    },
+    {
+      "path": "stromkreis/schaltplan/",
+      "title": "Der Schaltplan",
+      "competencies": [
+        "schaltzeichen"
+      ]
+    },
+    {
+      "path": "stromstaerke/stromstaerke/",
+      "title": "Die Stromstärke",
+      "competencies": [
+        "stromstaerke"
+      ]
+    },
+    {
+      "path": "stromstaerke/amperemeter/",
+      "title": "Das Amperemeter",
+      "competencies": [
+        "stromstaerke-messen"
+      ]
+    },
+    {
+      "path": "spannung/spannungsquellen/",
+      "title": "Spannungsquellen",
+      "competencies": [
+        "spannungsquellen"
+      ]
+    },
+    {
+      "path": "spannung/spannung/",
+      "title": "Die Spannung",
+      "competencies": [
+        "spannung"
+      ]
+    },
+    {
+      "path": "spannung/voltmeter/",
+      "title": "Das Voltmeter",
+      "competencies": [
+        "spannung-messen"
+      ]
+    },
+    {
+      "path": "schaltungen/reihenschaltung/",
+      "title": "Die Reihenschaltung",
+      "competencies": [
+        "reihenschaltung"
+      ]
+    },
+    {
+      "path": "schaltungen/reihenschaltung-messen/",
+      "title": "Messen in der Reihenschaltung",
+      "competencies": [
+        "reihenschaltung"
+      ]
+    },
+    {
+      "path": "schaltungen/parallelschaltung/",
+      "title": "Die Parallelschaltung",
+      "competencies": [
+        "parallelschaltung"
+      ]
+    },
+    {
+      "path": "schaltungen/parallelschaltung-messen/",
+      "title": "Messen in der Parallelschaltung",
+      "competencies": [
+        "parallelschaltung"
+      ]
+    },
+    {
+      "path": "sicherheit/gefahren/",
+      "title": "Gefahren des Stroms",
+      "competencies": [
+        "gefahren-des-stroms"
+      ]
+    },
+    {
+      "path": "sicherheit/regeln/",
+      "title": "Sicher mit Strom umgehen",
+      "competencies": [
+        "sicher-mit-strom-umgehen"
+      ]
+    }
+  ]
+}

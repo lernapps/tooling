@@ -1,0 +1,148 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Amperemeter
+description: "Wie man die Stromstärke richtig misst: das Amperemeter in den Stromweg einbauen und die Skala ablesen."
+competencies: [stromstaerke-messen]
+blocks:
+  - type: section
+    id: einstieg
+    title: Wie misst man den Strom?
+    blocks:
+      - type: text
+        text: |
+          Die Stromstärke siehst du nicht. Du brauchst ein Messgerät, das den Strom zählt, der durch es hindurchfließt.
+          Dieses Gerät heißt **Amperemeter**. Wo du es anschließt, entscheidet, ob du richtig misst.
+  - type: section
+    id: erklaerung
+    title: Das Amperemeter in den Stromweg einbauen
+    blocks:
+      - type: definition
+        term: Amperemeter
+        explanation: Ein Amperemeter misst die Stromstärke. Man baut es in den Stromweg ein, sodass der ganze Strom durch das Gerät fließt.
+      - type: text
+        text: |
+          Das Amperemeter misst den Strom, der durch es hindurchfließt. Deshalb muss der Strom, den du messen willst,
+          durch das Gerät laufen. Du öffnest dafür den Stromkreis an einer Stelle und setzt das Amperemeter in die Lücke:
+          Es liegt **in Reihe** mit dem Verbraucher. Der Kreis bleibt geschlossen, nur jetzt läuft der Strom durch das Gerät.
+      - type: figure
+        image: images/amperemeter-4.svg
+        alt: Zeichnung eines Stromkreises mit Batterie und Lampe. In der oberen Leitung sitzt ein Kreis mit A. Die Leitung läuft von beiden Seiten in das Gerät hinein.
+        caption: Das Amperemeter liegt im Stromweg. Der ganze Strom fließt durch das Gerät.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: note
+        title: Niemals parallel
+        blocks:
+          - type: text
+            text: |
+              Schließt du ein Amperemeter parallel zur Lampe oder zur Batterie an, fließt der Strom fast nur durch das
+              Gerät. Es zeigt dann einen viel zu großen Wert und kann kaputtgehen. Du schaltest das Amperemeter immer in
+              Reihe.
+      - type: text
+        text: |
+          **Ablesen:** Auf der Skala steht, wie viel Ampere zwischen zwei Strichen liegen. Schau auf die Beschriftung der
+          großen Striche, zähle die kleinen Striche dazwischen und lies den Zeiger senkrecht von oben ab. Die Einheit
+          steht auf dem Gerät. Ein Messbereich in mA zeigt Milliampere.
+  - type: section
+    id: beispiel
+    title: Eine Skala ablesen
+    blocks:
+      - type: example
+        title: Zeiger zwischen den Strichen
+        blocks:
+          - type: figure
+            image: images/amperemeter-2.svg
+            alt: Zeigermessgerät mit der Skala 0 bis 1 A. Beschriftet sind 0, 0,2, 0,4, 0,6, 0,8 und 1. Der Zeiger steht auf dem großen Strich bei 0,6 A.
+            caption: Zeigerstand bei einer Skala von 0 bis 1 A.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: |
+              Der Zeiger steht auf dem großen Strich zwischen 0,4 und 0,8. Die Beschriftung dort ist 0,6. Die
+              Stromstärke ist also $0{,}6\,\text{A}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: amperemeter-1
+        text: Du willst die Stromstärke in der Lampe messen. An welcher Stelle schließt du das Amperemeter an?
+        material:
+          - type: figure
+            image: images/amperemeter-1.svg
+            alt: Zeichnung eines Stromkreises mit Batterie und Lampe. Die Messstelle A liegt als Lücke in der oberen Leitung. Die Messstelle B liegt als Kasten rechts um die Lampe, die Messstelle C links um die Batterie.
+            caption: Drei mögliche Messstellen A, B und C.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: A, in der Leitung, sodass der Strom durch das Gerät fließt.
+            correct: true
+            info: Dort liegt das Amperemeter in Reihe mit der Lampe. Es zeigt die Stromstärke der Lampe.
+          - text: B, parallel zur Lampe.
+            correct: false
+            info: Dann fließt der Strom um die Lampe herum durch das Gerät. Es misst falsch und kann kaputtgehen.
+          - text: C, parallel zur Batterie.
+            correct: false
+            info: Dann verbindest du die beiden Pole der Batterie fast ohne Hindernis. Das ist gefährlich für das Gerät.
+        explanation: Ein Amperemeter gehört in den Stromweg, in Reihe zu dem, was du messen willst.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke
+      - type: number
+        id: amperemeter-2
+        text: Lies die Stromstärke ab.
+        material:
+          - type: figure
+            image: images/amperemeter-2.svg
+            alt: Zeigermessgerät mit der Skala 0 bis 1 A. Der Zeiger steht auf dem großen Strich bei 0,6 A.
+            caption: Skala von 0 bis 1 A, ein großer Strich alle 0,2 A.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 0.6
+        tolerance: 0.02
+        unit: A
+        explanation: Der Zeiger steht auf dem großen Strich bei 0,6 A.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke
+      - type: number
+        id: amperemeter-3
+        text: Lies die Stromstärke ab. Achte auf die Einheit.
+        material:
+          - type: figure
+            image: images/amperemeter-3.svg
+            alt: Zeigermessgerät mit der Skala 0 bis 500 mA. Beschriftet sind 0, 100, 200, 300, 400 und 500. Der Zeiger steht auf dem kleinen Strich zwischen 300 und 400.
+            caption: Skala von 0 bis 500 mA, ein großer Strich alle 100 mA, dazwischen ein kleiner.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 350
+        tolerance: 10
+        unit: mA
+        explanation: Der Zeiger steht auf dem kleinen Strich zwischen 300 und 400, also bei 350 mA. Auf dem Gerät steht mA, nicht A.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke
+      - type: true-false
+        id: amperemeter-4
+        text: Um die Stromstärke zu messen, öffnest du den Stromkreis und setzt das Amperemeter in die Lücke.
+        answer: true
+        explanation: Nur so fließt der Strom durch das Gerät. Der Kreis bleibt dabei geschlossen, weil das Gerät die Lücke überbrückt.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke
+      - type: single-choice
+        id: amperemeter-5
+        text: Ein Mitschüler sagt, das Amperemeter misst man parallel zur Lampe. Was antwortest du?
+        options:
+          - text: Nein, in Reihe, sonst fließt der Strom am Gerät vorbei oder zu stark durch es hindurch.
+            correct: true
+            info: Das Amperemeter zählt nur den Strom, der durch es fließt. Es gehört in den Stromweg.
+          - text: Ja, so sieht man den Strom der Lampe am besten.
+            correct: false
+            info: Parallel angeschlossen, würde ein Amperemeter fast den ganzen Strom an der Lampe vorbei leiten.
+          - text: Es ist egal, wie man es anschließt.
+            correct: false
+            info: Der Anschluss entscheidet, ob der Messwert stimmt und ob das Gerät heil bleibt.
+        explanation: Ein Amperemeter wird in Reihe geschaltet, nie parallel.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke

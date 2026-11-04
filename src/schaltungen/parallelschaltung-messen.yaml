@@ -1,0 +1,132 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Messen in der Parallelschaltung
+description: "Stromstärken und Spannung in der Parallelschaltung messen und vergleichen."
+competencies: [parallelschaltung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was messen wir in der Parallelschaltung?
+    blocks:
+      - type: text
+        text: |
+          Auch in der Parallelschaltung misst du an mehreren Stellen. Die Werte verhalten sich anders als in der
+          Reihenschaltung, und genau das findest du hier heraus.
+  - type: section
+    id: erklaerung
+    title: Messwerte vergleichen
+    blocks:
+      - type: figure
+        image: images/parallelschaltung-3.svg
+        alt: Zeichnung eines Stromkreises mit Batterie und zwei Lampen nebeneinander. Stelle 1 liegt in der Zuleitung, Stelle 2 im Zweig von L1, Stelle 3 im Zweig von L2, Stelle 4 in der Rückleitung.
+        caption: Die Stromstärke wird an den Stellen 1 bis 4 gemessen, die Spannung an der Batterie und an jeder Lampe.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: table
+        caption: Messwerte einer Parallelschaltung mit zwei gleichen Lampen (Beispielwerte)
+        header: [Messgröße, Wert]
+        rowHeaders: true
+        rows:
+          - ["Stromstärke an Stelle 1 (Zuleitung)", "0,60 A"]
+          - ["Stromstärke an Stelle 2 (Zweig L1)", "0,30 A"]
+          - ["Stromstärke an Stelle 3 (Zweig L2)", "0,30 A"]
+          - ["Stromstärke an Stelle 4 (Rückleitung)", "0,60 A"]
+          - ["Spannung der Batterie", "3,0 V"]
+          - ["Spannung an L1", "3,0 V"]
+          - ["Spannung an L2", "3,0 V"]
+      - type: text
+        text: |
+          Die **Zuleitung** führt von der Batterie zu den Lampen, die **Rückleitung** von den Lampen zurück zur Batterie.
+          Jede Lampe liegt in einem **Zweig**. An der **Verzweigung** teilt sich der Weg des Stroms auf.
+
+          **Die Spannung** ist an jedem Zweig so groß wie die Spannung der Batterie. Sie teilt sich also nicht auf: Jeder
+          Zweig hängt direkt an den beiden Polen.
+
+          **Die Stromstärken** der Zweige ergeben zusammen die Stromstärke in der Zuleitung. Der Strom teilt sich an der
+          Verzweigung auf und fließt hinter den Lampen wieder zusammen.
+      - type: note
+        title: Mehr Lampen, mehr Strom
+        blocks:
+          - type: text
+            text: |
+              Mit jeder weiteren gleichen Lampe, die du parallel dazu anschließt, fließt durch die Batterie mehr Strom. Die Spannung der Batterie bleibt
+              gleich. Eine Batterie liefert also nicht immer gleich viel Strom.
+  - type: section
+    id: beispiel
+    title: Stromstärken zusammenzählen
+    blocks:
+      - type: example
+        title: Zwei Zweige mit verschiedenen Lampen
+        blocks:
+          - type: text
+            text: |
+              Durch den Zweig mit der kleinen Lampe fließen $0{,}2\,\text{A}$, durch den mit der großen $0{,}5\,\text{A}$.
+              In der Zuleitung, die von der Batterie kommt, messen wir $0{,}2\,\text{A} + 0{,}5\,\text{A} = 0{,}7\,\text{A}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: parallelschaltung-messen-1
+        text: Die Batterie hat 4,5 V. Welche Spannung misst du an L2, der rechten Lampe?
+        material:
+          - type: figure
+            image: images/parallelschaltung-3.svg
+            alt: Zeichnung eines Stromkreises mit Batterie und zwei Lampen nebeneinander mit den Stellen 1 bis 4. Links L1, rechts L2.
+            caption: L1 und L2 liegen in eigenen Zweigen an der Batterie.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: 4,5 V, so viel wie die Batterie.
+            correct: true
+            info: Jeder Zweig hängt direkt an den beiden Polen der Batterie.
+          - text: 2,25 V, weil sich die Spannung auf die Lampen aufteilt.
+            correct: false
+            info: Das gilt für die Reihenschaltung. In der Parallelschaltung bekommt jede Lampe die volle Spannung.
+          - text: 0 V, weil L1 den Strom schon aufbraucht.
+            correct: false
+            info: Strom wird in einer Lampe nicht aufgebraucht, und die Spannung liegt an beiden Zweigen an.
+        explanation: In der Parallelschaltung liegt an jedem Zweig die volle Spannung der Batterie.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung
+      - type: generated
+        id: parallelschaltung-messen-2
+        given:
+          I1: { oneOf: [0.1, 0.2, 0.3, 0.4] }
+          I2: { oneOf: [0.1, 0.2, 0.3, 0.5] }
+        task:
+          text: "Durch den Zweig von L1 fließen {{I1}} A, durch den Zweig von L2 fließen {{I2}} A. Wie groß ist die Stromstärke in der Zuleitung?"
+        answer: { value: "I1 + I2", compare: { number: { format: decimal, decimals: 1, unit: A } } }
+        mistakes:
+          - { value: "I1", message: "Das ist nur der Strom durch L1. In der Zuleitung fließt der Strom beider Zweige." }
+          - { value: "I2", message: "Das ist nur der Strom durch L2. In der Zuleitung fließt der Strom beider Zweige." }
+          - { value: "I1 * I2", message: "Du hast multipliziert. Die Stromstärken der Zweige zählst du zusammen." }
+        hint: "Der Strom teilt sich an der Verzweigung auf. In der Zuleitung fließt die Summe der beiden Zweigströme."
+        steps:
+          - "$I = I_1 + I_2$"
+          - '$I = {{I1}}\,\text{A} + {{I2}}\,\text{A} = {{answer}}$'
+      - type: true-false
+        id: parallelschaltung-messen-3
+        text: Eine Batterie liefert immer gleich viel Strom, egal wie viele Lampen parallel hängen.
+        answer: false
+        explanation: Mit jeder weiteren parallelen Lampe fließt durch die Batterie mehr Strom. Nur ihre Spannung bleibt gleich.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung
+      - type: single-choice
+        id: parallelschaltung-messen-4
+        text: Zwei gleiche Lampen hängen parallel an der Batterie. Du schraubst eine dritte, gleiche Lampe parallel dazu. Was ändert sich an der Stromstärke in der Zuleitung?
+        options:
+          - text: Sie wird größer.
+            correct: true
+            info: Ein weiterer Zweig bringt zusätzlichen Strom. Die Zweigströme zählen zusammen.
+          - text: Sie bleibt gleich.
+            correct: false
+            info: Ein weiterer Zweig braucht auch Strom, also muss die Batterie mehr liefern.
+          - text: Sie wird kleiner.
+            correct: false
+            info: Mehr Zweige bedeuten mehr Strom, nicht weniger.
+        explanation: Jeder zusätzliche Zweig erhöht die Stromstärke in der Zuleitung. Die Spannung der Batterie bleibt gleich.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung

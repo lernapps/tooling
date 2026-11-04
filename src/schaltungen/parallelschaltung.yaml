@@ -1,0 +1,118 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Parallelschaltung
+description: "Bauteile nebeneinander schalten und erklären, was passiert, wenn ein Zweig ausfällt."
+competencies: [parallelschaltung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Zwei Lampen nebeneinander
+    blocks:
+      - type: text
+        text: |
+          Zu Hause kannst du eine Lampe ausschalten, und die anderen bleiben an. Das funktioniert, weil sie nicht
+          hintereinander, sondern nebeneinander geschaltet sind, in einer **Parallelschaltung**.
+  - type: section
+    id: erklaerung
+    title: Mehrere Wege für den Strom
+    blocks:
+      - type: definition
+        term: Parallelschaltung
+        explanation: In einer Parallelschaltung sind die Bauteile nebeneinander geschaltet. Der Strom hat mehrere Wege, auf jedem Weg liegt ein Bauteil.
+      - type: figure
+        image: images/parallelschaltung-1.svg
+        alt: Zeichnung eines Stromkreises mit einer Batterie und zwei Lampen nebeneinander. Von der Batterie führen zwei Leitungen zu beiden Lampen, zwei Punkte zeigen, wo sich der Weg teilt und wieder zusammenkommt.
+        caption: Der Weg teilt sich an einer Verzweigung auf und kommt hinter den Lampen wieder zusammen.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Jede Lampe liegt auf einem eigenen Weg, einem **Zweig**. Jeder Zweig bildet mit der Batterie einen eigenen
+          geschlossenen Stromkreis. Fällt eine Lampe aus oder wird ein Zweig unterbrochen, fließt der Strom weiter durch
+          die anderen Zweige, und deren Lampen leuchten weiter.
+  - type: section
+    id: beispiel
+    title: Ein Zweig fällt aus
+    blocks:
+      - type: example
+        title: L1 wird herausgeschraubt
+        blocks:
+          - type: figure
+            image: images/parallelschaltung-2.svg
+            alt: Zeichnung eines Stromkreises mit Batterie und zwei Lampen nebeneinander. Im Zweig von L1 fehlt die Lampe, die Leitung ist dort unterbrochen. L2 hängt weiter an der Batterie.
+            caption: Im Zweig von L1 fehlt die Lampe. L2 ist weiter an die Batterie angeschlossen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: |
+              Du schraubst L1 heraus. Der Zweig von L1 ist offen. Der Zweig von L2 ist aber weiter geschlossen, also
+              fließt dort Strom, und L2 leuchtet weiter.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: parallelschaltung-1
+        text: Im Zweig von L1 fehlt die Lampe. Leuchtet L2?
+        material:
+          - type: figure
+            image: images/parallelschaltung-2.svg
+            alt: Zeichnung eines Stromkreises mit Batterie und zwei Lampen nebeneinander. Im Zweig von L1 ist die Leitung unterbrochen.
+            caption: Der Zweig von L1 ist offen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Ja, L2 hat einen eigenen geschlossenen Stromweg zur Batterie.
+            correct: true
+            info: Jeder Zweig ist ein eigener Stromkreis. Der offene Zweig von L1 stört ihn nicht.
+          - text: Nein, wenn eine Lampe fehlt, geht auch die andere aus.
+            correct: false
+            info: Das gilt für die Reihenschaltung. In der Parallelschaltung hat jede Lampe ihren eigenen Weg.
+          - text: Nein, weil die Batterie dann keinen Strom mehr liefert.
+            correct: false
+            info: Die Batterie liefert weiter Strom, nur durch den anderen Zweig.
+        explanation: In der Parallelschaltung hat jede Lampe ihren eigenen Stromweg. Fällt eine aus, leuchten die anderen weiter.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung
+      - type: true-false
+        id: parallelschaltung-2
+        text: In einer Parallelschaltung gehen alle Lampen aus, wenn eine kaputtgeht.
+        answer: false
+        explanation: Das passiert in der Reihenschaltung. In der Parallelschaltung leuchten die anderen Lampen weiter.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung
+      - type: single-choice
+        id: parallelschaltung-3
+        text: Warum sind die Lampen in einem Haus parallel geschaltet?
+        options:
+          - text: Damit jede Lampe einzeln an- und ausgehen kann und bei einem Defekt die anderen weiterleuchten.
+            correct: true
+            info: Jede Lampe hat ihren eigenen Zweig.
+          - text: Damit alle Lampen gleichzeitig angehen.
+            correct: false
+            info: Das wäre in einer Reihenschaltung mit einem Schalter der Fall.
+          - text: Damit weniger Strom fließt.
+            correct: false
+            info: Parallel angeschlossene Lampen brauchen insgesamt mehr Strom, nicht weniger.
+        explanation: Parallel geschaltete Lampen arbeiten unabhängig voneinander.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung
+      - type: multiple-choice
+        id: parallelschaltung-4
+        text: Was gilt in einer Parallelschaltung?
+        options:
+          - text: Der Strom hat mehrere Wege.
+            correct: true
+            info: Auf jedem Zweig liegt ein Bauteil.
+          - text: Jeder Zweig bildet mit der Batterie einen eigenen Stromkreis.
+            correct: true
+            info: Deshalb stört ein offener Zweig die anderen nicht.
+          - text: Die Bauteile liegen hintereinander.
+            correct: false
+            info: Das beschreibt die Reihenschaltung.
+        explanation: In der Parallelschaltung sind die Bauteile nebeneinander geschaltet, jedes auf einem eigenen Zweig.
+        links:
+          - title: Parallelschaltung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Parallelschaltung

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" aria-labelledby="t d">
+  <title id="t">Parallelschaltung mit Messstellen</title>
+  <desc id="d">Batterie und zwei Lampen nebeneinander. Stelle 1 liegt in der Zuleitung, Stelle 2 im Zweig von L1, Stelle 3 im Zweig von L2, Stelle 4 in der Rückleitung.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1a1a1a"/></marker></defs>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 40 H320 M80 200 H320 M80 112 V40 M80 128 V200" />
+    <path d="M200 40 V96 M200 144 V200" />
+    <path d="M320 40 V96 M320 144 V200" />
+    <path d="M60 112 H100" />
+    <path d="M70 128 H90" stroke-width="7"/>
+    <circle cx="200" cy="120" r="24"/>
+    <path d="M183.2 103.2 L216.8 136.8 M216.8 103.2 L183.2 136.8" />
+    <circle cx="320" cy="120" r="24"/>
+    <path d="M303.2 103.2 L336.8 136.8 M336.8 103.2 L303.2 136.8" />
+    <circle cx="200" cy="40" r="5" fill="#1a1a1a"/>
+    <circle cx="200" cy="200" r="5" fill="#1a1a1a"/>
+    <text x="228" y="126" font-family="sans-serif" font-size="18" fill="#1a1a1a" stroke="none" text-anchor="start">L1</text>
+    <text x="256" y="126" font-family="sans-serif" font-size="18" fill="#1a1a1a" stroke="none" text-anchor="start">L2</text>
+    <circle cx="140" cy="40" r="13" fill="#fff"/>
+    <text x="140" y="46" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="middle">1</text>
+    <circle cx="200" cy="70" r="13" fill="#fff"/>
+    <text x="200" y="76" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="middle">2</text>
+    <circle cx="320" cy="70" r="13" fill="#fff"/>
+    <text x="320" y="76" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="middle">3</text>
+    <circle cx="140" cy="200" r="13" fill="#fff"/>
+    <text x="140" y="206" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="middle">4</text>
+  </g>
+</svg>

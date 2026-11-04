@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" aria-labelledby="t d">
+  <title id="t">Schaltplan eines einfachen Stromkreises</title>
+  <desc id="d">Eine Batterie links und eine Lampe rechts sind durch zwei Leitungen zu einem geschlossenen Rechteck verbunden. Ein Pfeil an der oberen Leitung zeigt von der Batterie zur Lampe.</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1a1a1a"/></marker>
+  </defs>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M60 92 H100"/><path d="M70 108 H90" stroke-width="7"/>
+    <path d="M80 92 V40 H320 V92"/>
+    <path d="M80 108 V200 H320 V148"/>
+    <circle cx="320" cy="120" r="28"/>
+    <path d="M300 100 L340 140 M340 100 L300 140"/>
+    <path d="M150 40 H230" marker-end="url(#a)"/>
+  </g>
+  <g font-family="sans-serif" font-size="20" fill="#1a1a1a">
+    <text x="106" y="97">Pluspol (+)</text>
+    <text x="106" y="124">Minuspol (−)</text>
+    <text x="270" y="228">Lampe</text>
+    <text x="10" y="228">Batterie</text>
+  </g>
+</svg>

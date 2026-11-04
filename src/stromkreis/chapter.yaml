@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Stromkreis
+summary: Wie ein einfacher Stromkreis aufgebaut ist, wie ein Schalter wirkt, welche Stoffe leiten und wie man einen Schaltplan liest.
+pages: [einfacher-stromkreis, schalter, leiter-isolator, schaltplan]
+selfAssessment:
+  pages:
+    - exercises:
+        - /stromkreis/einfacher-stromkreis/#einfacher-stromkreis-2
+        - /stromkreis/einfacher-stromkreis/#einfacher-stromkreis-3
+        - /stromkreis/schalter/#schalter-1
+        - /stromkreis/schalter/#schalter-5
+    - exercises:
+        - /stromkreis/leiter-isolator/#leiter-isolator-1
+        - /stromkreis/leiter-isolator/#leiter-isolator-5
+        - /stromkreis/schaltplan/#schaltplan-1
+        - /stromkreis/schaltplan/#schaltplan-2

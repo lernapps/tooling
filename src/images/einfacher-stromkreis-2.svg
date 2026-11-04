@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" aria-labelledby="t d">
+  <title id="t">Stromkreis mit einer Lücke</title>
+  <desc id="d">Eine Batterie und eine Lampe sind durch Leitungen verbunden. In der unteren Leitung ist eine Lücke, die Leitung ist dort durchtrennt.</desc>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M60 92 H100"/><path d="M70 108 H90" stroke-width="7"/>
+    <path d="M80 92 V40 H320 V92"/>
+    <path d="M80 108 V200 H170"/>
+    <path d="M230 200 H320 V148"/>
+    <circle cx="320" cy="120" r="28"/>
+    <path d="M300 100 L340 140 M340 100 L300 140"/>
+  </g>
+  <g font-family="sans-serif" font-size="20" fill="#1a1a1a">
+    <text x="106" y="97">+</text><text x="106" y="124">−</text>
+    <text x="10" y="228">Batterie</text><text x="270" y="228">Lampe</text>
+  </g>
+</svg>

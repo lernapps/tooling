@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" aria-labelledby="t d">
+  <title id="t">Stromkreis mit drei möglichen Messstellen</title>
+  <desc id="d">Batterie und Lampe im Stromkreis. Messstelle A liegt in der oberen Leitung, Messstelle B parallel zur Lampe, Messstelle C parallel zur Batterie.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1a1a1a"/></marker></defs>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 40 H320 V94 M320 146 V200 H80 V128 M80 112 V40" />
+    <path d="M60 112 H100" />
+    <path d="M70 128 H90" stroke-width="7"/>
+    <circle cx="320" cy="120" r="24"/>
+    <path d="M303.2 103.2 L336.8 136.8 M336.8 103.2 L303.2 136.8" />
+    <rect x="165" y="22" width="70" height="36" stroke-dasharray="6 5"/>
+    <circle cx="200" cy="14" r="13" fill="#fff"/>
+    <text x="200" y="20" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="middle">A</text>
+    <rect x="284" y="70" width="72" height="100" stroke-dasharray="6 5"/>
+    <circle cx="370" cy="70" r="13" fill="#fff"/>
+    <text x="370" y="76" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="middle">B</text>
+    <rect x="46" y="88" width="68" height="64" stroke-dasharray="6 5"/>
+    <circle cx="30" cy="88" r="13" fill="#fff"/>
+    <text x="30" y="94" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="middle">C</text>
+  </g>
+</svg>

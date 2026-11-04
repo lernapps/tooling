@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/elektrizitaetslehre
+title: Stromkreis und elektrischer Strom
+intro: |
+  Wie ein Stromkreis aufgebaut ist, was Stromstärke und Spannung bedeuten, wie du sie misst und wie du sicher mit Strom
+  umgehst. Zu jedem Teil gibt es Übungen. Für Klasse 8.
+languages: [de]
+chapters: [stromkreis, stromstaerke, spannung, schaltungen, sicherheit]
+sources:
+  - title: Stromkreis (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+  - title: Stromunfall (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Stromunfall

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 520" role="img" aria-labelledby="t d">
+  <title id="t">Skizze: Aufbau einer Seite (Muster)</title>
+  <desc id="d">Von oben nach unten: Titel, Einstieg mit Alltagsbezug, Erklärung mit Schaltplan und Bildunterschrift, Merkkasten, Beispiel, Übung mit Auswahlfrage und Zahlenaufgabe, Hinweis auf die nächste Seite.</desc>
+  <g font-family="sans-serif" font-size="14" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.5">
+    <rect x="20" y="10" width="380" height="500" fill="#fff"/>
+    <text x="32" y="38" stroke="none" font-size="20">Der einfache Stromkreis</text>
+    <text x="32" y="64" stroke="none">Einstieg: Warum leuchtet die Taschenlampe nur …</text>
+    <rect x="32" y="82" width="356" height="130" fill="#f4f4f4"/>
+    <text x="40" y="150" stroke="none">[Schaltplan: Batterie, Lampe, Pfeil]</text>
+    <text x="32" y="232" stroke="none">Bildunterschrift: Verfolge den Weg der Pfeile.</text>
+    <rect x="32" y="248" width="356" height="46" fill="#eef3fa"/>
+    <text x="40" y="276" stroke="none">Merke: Nur ein geschlossener Kreis …</text>
+    <rect x="32" y="306" width="356" height="46" fill="#fafafa"/>
+    <text x="40" y="334" stroke="none">Beispiel: Taschenlampe, Schritt für Schritt</text>
+    <text x="32" y="378" stroke="none" font-size="16">Übung</text>
+    <rect x="32" y="388" width="356" height="52" fill="#fff"/>
+    <text x="40" y="418" stroke="none">1  Auswahl: Wo ist der Kreis unterbrochen?  (Prüfen)</text>
+    <rect x="32" y="448" width="356" height="52" fill="#fff"/>
+    <text x="40" y="478" stroke="none">2  Wahr/Falsch mit Begründung  (Prüfen)</text>
+  </g>
+</svg>

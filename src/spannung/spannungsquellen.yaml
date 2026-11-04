@@ -1,0 +1,123 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Spannungsquellen
+description: "Welche Spannungsquellen es gibt, wofür sie sich eignen und warum eine Batterie nicht immer gleich viel Strom liefert."
+competencies: [spannungsquellen]
+blocks:
+  - type: section
+    id: einstieg
+    title: Woher kommt die Spannung?
+    blocks:
+      - type: text
+        text: |
+          Ein Fahrradlicht läuft mit einer kleinen Batterie, ein Fernseher steckt in der Steckdose, und das Handy hängt am
+          Ladegerät. Alle brauchen eine Spannungsquelle. Hier lernst du die wichtigsten kennen.
+  - type: section
+    id: erklaerung
+    title: Spannungsquellen und ihre Spannung
+    blocks:
+      - type: definition
+        term: Spannungsquelle
+        explanation: Eine Spannungsquelle treibt den Strom in einem Stromkreis an. Beispiele sind Batterie, Netzgerät und Steckdose.
+      - type: text
+        text: |
+          Jede Spannungsquelle hat eine bestimmte **Spannung**, die man in Volt (V) angibt. Die Spannung steht auf der
+          Batterie. Eine Batterie hat zwei Pole, den Pluspol und den Minuspol.
+      - type: table
+        caption: Spannungsquellen und ihre typische Spannung
+        header: [Spannungsquelle, Typische Spannung, Wofür sie sich eignet]
+        rows:
+          - ["Rundzelle (Mignon, AA)", "1,5 V", "Taschenlampe, Fernbedienung"]
+          - [Blockbatterie, 9 V, Rauchmelder]
+          - [Autobatterie, 12 V, "Auto starten, Licht und Radio"]
+          - [Steckdose, 230 V, "Haushaltsgeräte wie Kühlschrank, Fernseher"]
+      - type: text
+        text: |
+          Ein **Netzgerät** wandelt die Spannung der Steckdose in eine kleinere, ungefährliche Spannung um. In der Schule
+          kannst du am Netzgerät die Spannung einstellen. Es ist sicherer als die Steckdose, weil die kleinere Spannung
+          dich nicht gefährdet.
+      - type: note
+        title: Eine Batterie liefert nicht immer gleich viel Strom
+        blocks:
+          - type: text
+            text: |
+              Eine Batterie hat eine feste Spannung, zum Beispiel 4,5 V. Wie viel Strom fließt, hängt aber vom Verbraucher
+              ab: Eine kleine Lampe zieht wenig Strom, eine große Lampe an derselben Batterie zieht viel mehr. Auch bei
+              derselben Spannung fließt also nicht immer die gleiche Stromstärke.
+  - type: section
+    id: beispiel
+    title: Dieselbe Batterie, zwei Lampen
+    blocks:
+      - type: example
+        title: Eine Flachbatterie mit 4,5 V
+        blocks:
+          - type: table
+            caption: Eine Batterie, zwei Verbraucher (Beispielwerte)
+            header: [Verbraucher, Spannung der Batterie, Stromstärke]
+            rows:
+              - [Kleine Lampe, "4,5 V", "0,1 A"]
+              - [Große Lampe, "4,5 V", "0,3 A"]
+          - type: text
+            text: |
+              Die Batterie bleibt gleich und hat immer 4,5 V. Die Stromstärke ist bei der großen Lampe dreimal so groß,
+              weil sie mehr Strom braucht.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: spannungsquellen-1
+        text: Ordne jeder Spannungsquelle ihre typische Spannung zu.
+        pairs:
+          - { left: Rundzelle (AA), right: "1,5 V" }
+          - { left: Blockbatterie, right: 9 V }
+          - { left: Autobatterie, right: 12 V }
+          - { left: Steckdose, right: 230 V }
+        explanation: Die Rundzelle hat 1,5 V, die Blockbatterie 9 V, die Autobatterie 12 V und die Steckdose 230 V.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung
+      - type: multiple-choice
+        id: spannungsquellen-2
+        text: Welche dieser Dinge sind Spannungsquellen?
+        options:
+          - text: Batterie
+            correct: true
+            info: Eine Batterie liefert eine feste Spannung.
+          - text: Netzgerät
+            correct: true
+            info: Es stellt eine kleinere Spannung bereit, die in der Schule ungefährlich ist.
+          - text: Steckdose
+            correct: true
+            info: Sie liefert 230 V und ist für Geräte im Haushalt gedacht.
+          - text: Glühlampe
+            correct: false
+            info: Die Lampe ist ein Verbraucher. Sie wandelt Energie um, treibt aber keinen Strom an.
+        explanation: Batterie, Netzgerät und Steckdose treiben den Strom an. Die Lampe verbraucht Energie.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung
+      - type: single-choice
+        id: spannungsquellen-3
+        text: Eine Mitschülerin sagt, eine Batterie liefert immer gleich viel Strom. Was stimmt?
+        options:
+          - text: Die Spannung der Batterie ist fest, die Stromstärke hängt vom Verbraucher ab.
+            correct: true
+            info: Eine große Lampe zieht an derselben Batterie mehr Strom als eine kleine.
+          - text: Ja, eine Batterie liefert immer die gleiche Stromstärke.
+            correct: false
+            info: Die Stromstärke ändert sich, wenn du einen anderen Verbraucher anschließt.
+          - text: Die Stromstärke hängt nur von der Größe der Batterie ab.
+            correct: false
+            info: Eine größere Batterie hält länger, aber die Stromstärke bestimmt der Verbraucher.
+        explanation: Die Batterie liefert eine feste Spannung. Welche Stromstärke fließt, entscheidet der Verbraucher.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung
+      - type: true-false
+        id: spannungsquellen-4
+        text: Die Spannung an der Steckdose beträgt 230 V.
+        answer: true
+        explanation: In Deutschland liefert die Steckdose 230 V. Das ist viel mehr als bei einer Batterie.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung

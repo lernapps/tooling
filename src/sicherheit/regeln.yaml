@@ -1,0 +1,138 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Sicher mit Strom umgehen
+description: "Regeln für den sicheren Umgang mit Strom nennen und auf Alltagssituationen anwenden."
+competencies: [sicher-mit-strom-umgehen]
+blocks:
+  - type: section
+    id: einstieg
+    title: Regeln, die Unfälle verhindern
+    blocks:
+      - type: text
+        text: |
+          Die meisten Stromunfälle haben dieselben Ursachen: Wasser, defekte Kabel und Stecker und selbst reparierte Geräte. Mit
+          einigen Regeln kannst du dich davor schützen.
+  - type: section
+    id: erklaerung
+    title: Die wichtigsten Regeln
+    blocks:
+      - type: table
+        caption: Regeln für den Umgang mit Strom
+        header: [Regel, Warum]
+        rows:
+          - [
+              "Stecke nur Stecker in eine Steckdose, nie andere Gegenstände",
+              "Ein Nagel, eine Haarnadel oder ein Schraubenzieher leitet den Strom zu dir.",
+            ]
+          - [
+              "Halte elektrische Geräte von Wasser fern",
+              "Wasser leitet den Strom, und nasse Haut leitet noch besser. Fasse Geräte und Steckdosen nie mit nassen Händen an. Ein Föhn in der Badewanne ist lebensgefährlich.",
+            ]
+          - [
+              "Benutze keine beschädigten Kabel und Stecker",
+              "Ohne Hülle liegt der Draht frei. Berührst du ihn, fließt Strom durch dich. Klebeband ersetzt die Hülle nicht.",
+            ]
+          - [
+              "Repariere keine Geräte selbst",
+              "Im Gerät können Teile unter Spannung stehen, und Fehler siehst du von außen nicht. Selbst reparieren ist eine häufige Unfallursache.",
+            ]
+          - [
+              "Halte Abstand zu Stromleitungen in der Luft (Freileitungen)",
+              "Bei Hochspannung, also sehr hoher Spannung, kann der Strom überspringen, ohne dass du die Leitung berührst. Lass dort auch keinen Drachen steigen.",
+            ]
+          - [
+              "Experimentiere nur mit Batterien kleiner Spannung oder mit dem Netzgerät der Schule",
+              "Eine kleine Spannung treibt nur einen winzigen Strom durch deinen Körper. Nimm keine Autobatterie: Sie kann sehr hohe Stromstärken liefern.",
+            ]
+      - type: note
+        title: Hilfe holen
+        blocks:
+          - type: text
+            text: |
+              Nach einem Stromunfall fasst du die Person nicht an, solange sie noch unter Strom stehen kann. Hole sofort
+              Erwachsene und rufe den Notruf 112. Der Strom muss zuerst ausgeschaltet werden, das macht ein Erwachsener.
+  - type: section
+    id: beispiel
+    title: Eine Situation beurteilen
+    blocks:
+      - type: example
+        title: Der Föhn am Waschbecken
+        blocks:
+          - type: text
+            text: |
+              Dein kleiner Bruder will seine Haare im Bad föhnen, direkt am vollen Waschbecken. Elektrische Geräte gehören
+              nicht in die Nähe von Wasser. Fällt der Föhn ins Wasser, kann Strom durch das Wasser und durch den Körper
+              fließen. Also föhnt man an einem trockenen Ort, weit weg vom Wasser.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: multiple-choice
+        id: regeln-1
+        text: Welche dieser Regeln sind richtig?
+        options:
+          - text: Nie andere Gegenstände als Stecker in Steckdosen stecken.
+            correct: true
+            info: Sie leiten den Strom zu dir.
+          - text: Elektrische Geräte von Wasser fernhalten und nur mit trockenen Händen anfassen.
+            correct: true
+            info: Wasser leitet den Strom, besonders an nasser Haut.
+          - text: Ein Gerät mit gerissenem Kabel erst benutzen und dann reparieren.
+            correct: false
+            info: Beschädigte Kabel benutzt man nicht. Ein Erwachsener muss Bescheid wissen.
+          - text: Geräte selbst reparieren, solange sie ausgeschaltet sind.
+            correct: false
+            info: Selbst reparieren ist eine häufige Unfallursache. Reparaturen gehören in Fachhände.
+        explanation: Steckdosen frei lassen und Wasser fernhalten sind richtig. Beschädigte Geräte nicht benutzen, nicht selbst reparieren.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: true-false
+        id: regeln-2
+        text: Mit nassen Händen darf man Steckdosen und Geräte berühren, wenn man vorsichtig ist.
+        answer: false
+        explanation: Wasser leitet den Strom und nasse Haut leitet besser als trockene. Vorsicht reicht nicht, die Hände müssen trocken sein.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: single-choice
+        id: regeln-3
+        text: Das Kabel deines Handyladegeräts ist an einer Stelle aufgerissen, der Draht schaut heraus. Was machst du?
+        options:
+          - text: Ich benutze es nicht mehr und sage einem Erwachsenen Bescheid.
+            correct: true
+            info: Der freie Draht kann dich unter Strom setzen. Ein neues Kabel ist die sichere Lösung.
+          - text: Ich klebe schnell Tesafilm darum und benutze es weiter.
+            correct: false
+            info: Tesafilm ersetzt keine Isolation und hält nicht sicher.
+          - text: Ich fasse es an, um zu sehen, ob es noch funktioniert.
+            correct: false
+            info: Beschädigte Kabel dürfen nie berührt werden, während sie an der Steckdose hängen.
+        explanation: Beschädigte Kabel werden nicht benutzt. Man sagt einem Erwachsenen Bescheid.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: single-choice
+        id: regeln-4
+        text: Du möchtest einen Stromkreis ausprobieren. Welche Stromquelle ist die sichere Wahl?
+        options:
+          - text: Eine Batterie mit kleiner Spannung.
+            correct: true
+            info: Sie ist für den Körper ungefährlich.
+          - text: Die Steckdose, aber nur kurz.
+            correct: false
+            info: Schon ein kurzer Kontakt kann gefährlich werden.
+          - text: Eine Autobatterie, weil sie in der Garage liegt.
+            correct: false
+            info: Sie hat zwar nur 12 V, kann aber sehr hohe Stromstärken liefern. Für Experimente ist sie ungeeignet.
+        explanation: Experimente macht man nur mit Batterien kleiner Spannung oder mit den Netzgeräten der Schule.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: true-false
+        id: regeln-5
+        text: In der Nähe von Freileitungen darf man einen Drachen steigen lassen, solange man sie nicht berührt.
+        answer: false
+        explanation: Bei Hochspannung kann der Strom auch ohne Berührung überspringen. Halte deshalb Abstand zu Freileitungen.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall

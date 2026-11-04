@@ -1,0 +1,129 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Voltmeter
+description: "Wie man die Spannung richtig misst: das Voltmeter parallel anschließen und die Skala ablesen."
+competencies: [spannung-messen]
+blocks:
+  - type: section
+    id: einstieg
+    title: Wie misst man die Spannung?
+    blocks:
+      - type: text
+        text: |
+          Auch die Spannung siehst du nicht. Das Messgerät dafür heißt **Voltmeter**. Anders als das Amperemeter baust
+          du es nicht in den Stromweg ein, sondern schließt es neben dem Bauteil an.
+  - type: section
+    id: erklaerung
+    title: Das Voltmeter parallel anschließen
+    blocks:
+      - type: definition
+        term: Voltmeter
+        explanation: Ein Voltmeter misst die Spannung zwischen zwei Punkten. Man schließt es parallel zu dem Bauteil an, dessen Spannung man messen will.
+      - type: text
+        text: |
+          Die Spannung misst man **zwischen zwei Punkten**, hier an den beiden Enden einer Lampe. Du führst von jedem Ende
+          eine Leitung zum Voltmeter. Der Stromkreis bleibt dabei unverändert geschlossen: Du musst ihn nicht auftrennen.
+          Man sagt, das Voltmeter liegt **parallel** zur Lampe.
+      - type: figure
+        image: images/voltmeter-1.svg
+        alt: Zeichnung eines Stromkreises mit Batterie und zwei Lampen L1 und L2 hintereinander. Unter L1 hängt ein Kreis mit V. Von beiden Seiten von L1 führt je eine Leitung zum Voltmeter.
+        caption: Das Voltmeter ist an beide Enden von L1 angeschlossen. Der Stromkreis bleibt geschlossen.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: note
+        title: Nicht in Reihe
+        blocks:
+          - type: text
+            text: |
+              Ein Voltmeter in den Stromweg einzubauen, wäre falsch. Dann würde fast kein Strom mehr fließen, und die
+              Lampen würden dunkel. Das Voltmeter gehört immer neben das Bauteil.
+      - type: text
+        text: |
+          **Ablesen:** Wie beim Amperemeter schaust du auf die Beschriftung der großen Striche, zählst die kleinen Striche
+          dazwischen und liest den Zeiger von oben ab. Die Einheit ist hier Volt (V).
+  - type: section
+    id: beispiel
+    title: Eine Spannung ablesen
+    blocks:
+      - type: example
+        title: Zeiger auf einem großen Strich
+        blocks:
+          - type: figure
+            image: images/voltmeter-3.svg
+            alt: Zeigermessgerät mit der Skala 0 bis 10 V. Beschriftet sind 0, 2, 4, 6, 8 und 10. Der Zeiger steht auf dem kleinen Strich zwischen 6 und 8.
+            caption: Skala von 0 bis 10 V, ein großer Strich alle 2 V, dazwischen ein kleiner.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: |
+              Der Zeiger steht auf dem kleinen Strich zwischen 6 und 8. Der kleine Strich liegt in der Mitte, also bei 7.
+              Die Spannung beträgt $7\,\text{V}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: voltmeter-1
+        text: Du willst die Spannung an der Lampe L1 messen. Wo schließt du das Voltmeter an?
+        material:
+          - type: figure
+            image: images/voltmeter-2.svg
+            alt: Zeichnung mit Batterie und zwei Lampen L1 und L2 hintereinander. Messstelle A liegt als Lücke in der Leitung zwischen den Lampen, Messstelle B als Kasten unter L1, Messstelle C als Kasten unter beiden Lampen.
+            caption: Drei mögliche Messstellen A, B und C.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: B, parallel zu L1, an beide Enden der Lampe.
+            correct: true
+            info: Das Voltmeter liegt zwischen den beiden Enden von L1 und misst deren Spannung.
+          - text: A, in der Leitung zwischen den Lampen.
+            correct: false
+            info: Dort würdest du das Voltmeter in Reihe setzen. Dann fließt fast kein Strom mehr.
+          - text: C, parallel zu beiden Lampen.
+            correct: false
+            info: Dort misst du die Spannung beider Lampen zusammen, nicht die von L1 allein.
+        explanation: Die Spannung an L1 misst du, indem du das Voltmeter parallel zu L1 anschließt.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung
+      - type: number
+        id: voltmeter-2
+        text: Lies die Spannung ab.
+        material:
+          - type: figure
+            image: images/voltmeter-3.svg
+            alt: Zeigermessgerät mit der Skala 0 bis 10 V. Der Zeiger steht zwischen 6 und 8 auf dem kleinen Strich bei 7 V.
+            caption: Skala von 0 bis 10 V, ein großer Strich alle 2 V, dazwischen ein kleiner.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 7
+        tolerance: 0.2
+        unit: V
+        explanation: Der Zeiger steht auf dem kleinen Strich zwischen 6 und 8, also bei 7 V.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung
+      - type: true-false
+        id: voltmeter-3
+        text: Ein Voltmeter baut man genauso in den Stromkreis ein wie ein Amperemeter.
+        answer: false
+        explanation: Das Amperemeter kommt in Reihe in den Stromweg, das Voltmeter parallel neben das Bauteil.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung
+      - type: single-choice
+        id: voltmeter-4
+        text: Warum musst du den Stromkreis für eine Spannungsmessung nicht auftrennen?
+        options:
+          - text: Das Voltmeter misst zwischen zwei Punkten, es braucht keinen Strom hindurch.
+            correct: true
+            info: Du hängst es an die Enden des Bauteils an. Der Kreis bleibt geschlossen.
+          - text: Weil die Spannung durch die Luft gemessen wird.
+            correct: false
+            info: Das Voltmeter braucht Anschlüsse an beiden Enden des Bauteils.
+          - text: Weil das Voltmeter selbst als Leitung dient.
+            correct: false
+            info: Das Voltmeter liegt neben dem Bauteil, nicht im Stromweg.
+        explanation: Die Spannung gilt zwischen zwei Punkten. Das Voltmeter wird an beide angeschlossen.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung

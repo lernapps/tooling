@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" aria-labelledby="t d">
+  <title id="t">Parallelschaltung mit zwei Lampen</title>
+  <desc id="d">Batterie und zwei Lampen L1 und L2 nebeneinander. Von der Batterie führen zwei Leitungen zu beiden Lampen, der Strom hat zwei Wege.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1a1a1a"/></marker></defs>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 40 H320 M80 200 H320 M80 112 V40 M80 128 V200" />
+    <path d="M200 40 V96 M200 144 V200" />
+    <path d="M320 40 V96 M320 144 V200" />
+    <path d="M60 112 H100" />
+    <path d="M70 128 H90" stroke-width="7"/>
+    <circle cx="200" cy="120" r="24"/>
+    <path d="M183.2 103.2 L216.8 136.8 M216.8 103.2 L183.2 136.8" />
+    <circle cx="320" cy="120" r="24"/>
+    <path d="M303.2 103.2 L336.8 136.8 M336.8 103.2 L303.2 136.8" />
+    <circle cx="200" cy="40" r="5" fill="#1a1a1a"/>
+    <circle cx="200" cy="200" r="5" fill="#1a1a1a"/>
+    <text x="228" y="126" font-family="sans-serif" font-size="18" fill="#1a1a1a" stroke="none" text-anchor="start">L1</text>
+    <text x="256" y="126" font-family="sans-serif" font-size="18" fill="#1a1a1a" stroke="none" text-anchor="start">L2</text>
+
+  </g>
+</svg>

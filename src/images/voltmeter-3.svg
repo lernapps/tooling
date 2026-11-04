@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 205" role="img" aria-labelledby="t d">
+  <title id="t">Zeigermessgerät, Bereich bis 10 V</title>
+  <desc id="d">Zeigermessgerät für die Spannung. Die Skala reicht von 0 bis 10 V, ein großer Strich liegt bei jeweils 2 V, dazwischen ein kleiner bei 1 V. Der Zeiger steht auf 7 V.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1a1a1a"/></marker></defs>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M46.6 103.2 A135 135 0 0 1 253.4 103.2" />
+    <path d="M46.6 103.2 L58.8 113.5" />
+    <text x="72.6" y="130.1" font-family="sans-serif" font-size="15" fill="#1a1a1a" stroke="none" text-anchor="middle">0</text>
+    <path d="M63.2 86.6 L69.0 93.5" />
+    <path d="M82.5 73.1 L90.5 86.9" />
+    <text x="99.5" y="107.5" font-family="sans-serif" font-size="15" fill="#1a1a1a" stroke="none" text-anchor="middle">2</text>
+    <path d="M103.8 63.1 L106.9 71.6" />
+    <path d="M126.6 57.1 L129.3 72.8" />
+    <text x="132.5" y="95.5" font-family="sans-serif" font-size="15" fill="#1a1a1a" stroke="none" text-anchor="middle">4</text>
+    <path d="M150.0 55.0 L150.0 64.0" />
+    <path d="M173.4 57.1 L170.7 72.8" />
+    <text x="167.5" y="95.5" font-family="sans-serif" font-size="15" fill="#1a1a1a" stroke="none" text-anchor="middle">6</text>
+    <path d="M196.2 63.1 L193.1 71.6" />
+    <path d="M217.5 73.1 L209.5 86.9" />
+    <text x="200.5" y="107.5" font-family="sans-serif" font-size="15" fill="#1a1a1a" stroke="none" text-anchor="middle">8</text>
+    <path d="M236.8 86.6 L231.0 93.5" />
+    <path d="M253.4 103.2 L241.2 113.5" />
+    <text x="227.4" y="130.1" font-family="sans-serif" font-size="15" fill="#1a1a1a" stroke="none" text-anchor="middle">10</text>
+    <path d="M150 190 L193.4 70.7" stroke-width="4"/>
+    <circle cx="150" cy="190" r="7" fill="#1a1a1a"/>
+    <text x="150" y="135" font-family="sans-serif" font-size="22" fill="#1a1a1a" stroke="none" text-anchor="middle">V</text>
+  </g>
+</svg>

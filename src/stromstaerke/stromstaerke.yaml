@@ -1,0 +1,151 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Stromstärke
+description: "Was die Stromstärke angibt, in welcher Einheit man sie misst und warum sie im einfachen Stromkreis überall gleich ist."
+competencies: [stromstaerke]
+blocks:
+  - type: section
+    id: einstieg
+    title: Wie viel Strom fließt?
+    blocks:
+      - type: text
+        text: |
+          Eine kleine Taschenlampe und ein Scheinwerfer hängen beide an einer Batterie, und trotzdem ist der Scheinwerfer
+          viel heller. Offenbar fließt durch ihn mehr Strom. Auf dieser Seite lernst du, wie man das in Zahlen sagt.
+  - type: section
+    id: erklaerung
+    title: Stromstärke in Ampere
+    blocks:
+      - type: definition
+        term: Stromstärke
+        explanation: Die Stromstärke $I$ gibt an, wie stark der elektrische Strom fließt. Man misst sie in Ampere (A).
+      - type: text
+        text: |
+          Je größer die Stromstärke, desto mehr Strom fließt durch die Leitung. Die Einheit ist das **Ampere**,
+          abgekürzt A. Für kleine Stromstärken nimmt man das **Milliampere**, abgekürzt mA.
+      - type: formula
+        formula: '1\,\text{A} = 1000\,\text{mA}'
+      - type: table
+        caption: Typische Stromstärken
+        header: [Gerät, Stromstärke]
+        rows:
+          - [Leuchtdiode (LED), etwa 20 mA]
+          - [Kleine Glühlampe in der Taschenlampe, etwa 300 mA]
+          - [Staubsauger, etwa 4 A]
+          - [Haartrockner, etwa 9 A]
+      - type: text
+        text: |
+          Die Stromstärke ist in einem einfachen Stromkreis ohne Verzweigung an jeder Stelle gleich groß. Der Strom
+          wird in der Lampe nicht weniger.
+      - type: figure
+        image: images/stromstaerke-1.svg
+        alt: Zeichnung eines Stromkreises mit Batterie und Lampe. Stelle 1 liegt in der oberen Leitung vor der Lampe, Stelle 2 in der unteren Leitung nach der Lampe. Ein Pfeil zeigt die Stromrichtung.
+        caption: Stelle 1 liegt vor der Lampe, Stelle 2 dahinter. An beiden fließt gleich viel Strom.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: note
+        title: Was in der Lampe geschieht
+        blocks:
+          - type: text
+            text: |
+              In der Lampe wird nicht der Strom weniger, sondern Energie umgewandelt: Aus der Energie der Batterie wird
+              Licht und Wärme. Der Strom selbst fließt vollständig weiter, denn sonst würde er sich irgendwo stauen.
+  - type: section
+    id: beispiel
+    title: Milliampere in Ampere
+    blocks:
+      - type: example
+        title: 300 mA der Taschenlampe
+        blocks:
+          - type: text
+            text: |
+              Eine Taschenlampe hat die Stromstärke $300\,\text{mA}$. In Ampere sind das $300 : 1000 = 0{,}3\,\text{A}$,
+              denn 1000 mA sind 1 A. Umgekehrt sind $2\,\text{A}$ gleich $2 \cdot 1000 = 2000\,\text{mA}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: stromstaerke-1
+        given:
+          mA: { int: [50, 900], step: 50 }
+        task:
+          text: "Eine Lampe hat eine Stromstärke von {{mA}} mA. Wie viel Ampere sind das?"
+        answer: { value: "mA / 1000", compare: { number: { format: decimal, decimals: 2, unit: A } } }
+        mistakes:
+          - { value: "mA", message: "Das ist noch die Zahl in mA. Rechne sie in A um." }
+          - {
+              value: "mA / 100",
+              message: "Du hast durch 100 geteilt. 1 A sind aber 1000 mA, du musst durch 1000 teilen.",
+            }
+          - {
+              value: "mA * 1000",
+              message: "Du hast mal 1000 gerechnet. Von mA nach A wird die Zahl kleiner, also teilst du.",
+            }
+        hint: "1 A sind 1000 mA. Du rechnest von der kleinen Einheit zur großen, also teilst du durch 1000."
+        steps:
+          - '$I = {{mA}}\,\text{mA} : 1000$'
+          - "$I = {{answer}}$"
+      - type: generated
+        id: stromstaerke-2
+        given:
+          A: { decimal: [0.1, 2.5], step: 0.1 }
+        task:
+          text: "Ein Gerät hat die Stromstärke {{A}} A. Wie viel Milliampere sind das?"
+        answer: { value: "A * 1000", compare: { number: { format: integer, unit: mA } } }
+        mistakes:
+          - { value: "A", message: "Das ist noch die Zahl in A. Rechne sie in mA um." }
+          - { value: "A * 100", message: "Du hast mal 100 gerechnet. 1 A sind 1000 mA." }
+          - { value: "A / 1000", message: "Von A nach mA wird die Zahl größer, also rechnest du mal 1000." }
+        hint: "1 A sind 1000 mA. Du rechnest von der großen zur kleinen Einheit, also mal 1000."
+        steps:
+          - '$I = {{A}}\,\text{A} \cdot 1000$'
+          - "$I = {{answer}}$"
+      - type: single-choice
+        id: stromstaerke-3
+        text: Wie vergleichst du die Stromstärke an Stelle 1 und an Stelle 2?
+        material:
+          - type: figure
+            image: images/stromstaerke-1.svg
+            alt: Zeichnung eines Stromkreises mit Batterie und Lampe. Stelle 1 liegt in der oberen Leitung vor der Lampe, Stelle 2 in der unteren Leitung nach der Lampe.
+            caption: Stelle 1 liegt vor, Stelle 2 hinter der Lampe.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Sie ist an beiden Stellen gleich groß.
+            correct: true
+            info: In einem unverzweigten Stromkreis fließt überall gleich viel Strom.
+          - text: An Stelle 2 ist sie kleiner, weil die Lampe Strom verbraucht.
+            correct: false
+            info: Die Lampe wandelt Energie um, aber der Strom wird nicht weniger. Er muss ja zur Batterie zurück.
+          - text: An Stelle 2 ist sie größer, weil die Lampe Strom abgibt.
+            correct: false
+            info: Die Lampe erzeugt keinen Strom. Die Stromstärke bleibt gleich.
+        explanation: Die Stromstärke ist in einem einfachen Stromkreis an jeder Stelle gleich.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke
+      - type: true-false
+        id: stromstaerke-4
+        text: Die Stromstärke wird in Volt angegeben.
+        answer: false
+        explanation: Die Stromstärke wird in Ampere gemessen. Volt ist die Einheit der Spannung, um die es später geht.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke
+      - type: single-choice
+        id: stromstaerke-5
+        text: Eine Mitschülerin sagt, in der Lampe wird der Strom verbraucht, deshalb fließt zurück zur Batterie weniger. Was stimmt?
+        options:
+          - text: Es fließt gleich viel zurück. Verbraucht wird Energie, nicht der Strom.
+            correct: true
+            info: Die Lampe wandelt Energie in Licht und Wärme um. Der Strom bleibt gleich stark.
+          - text: Es fließt weniger zurück, die Lampe nimmt etwas Strom auf.
+            correct: false
+            info: Die Lampe speichert keinen Strom. Sonst würde sich Strom in ihr ansammeln.
+          - text: Es fließt gar nichts zurück, der Strom endet in der Lampe.
+            correct: false
+            info: Dann wäre der Stromkreis nicht geschlossen, und die Lampe würde nicht leuchten.
+        explanation: Im Stromkreis fließt überall gleich viel Strom, auch nach der Lampe.
+        links:
+          - title: Elektrische Stromstärke (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke

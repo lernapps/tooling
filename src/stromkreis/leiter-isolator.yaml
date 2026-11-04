@@ -1,0 +1,129 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Leiter und Isolator
+description: "Welche Stoffe den Strom leiten, welche nicht, und wofür man sie braucht."
+competencies: [leiter-nichtleiter]
+blocks:
+  - type: section
+    id: einstieg
+    title: Warum ist ein Kabel außen aus Kunststoff?
+    blocks:
+      - type: text
+        text: |
+          Schneidest du ein Kabel durch, siehst du innen glänzendes Metall und außen eine bunte Hülle aus Kunststoff.
+          Beides hat einen Grund: Das Metall bringt den Strom ans Ziel, die Hülle hält ihn dort, wo er fließen soll.
+  - type: section
+    id: erklaerung
+    title: Stoffe, die leiten, und Stoffe, die nicht leiten
+    blocks:
+      - type: definition
+        term: Leiter
+        explanation: Ein Leiter ist ein Stoff, durch den der elektrische Strom gut fließen kann, zum Beispiel Kupfer.
+      - type: definition
+        term: Isolator
+        explanation: Ein Isolator, auch Nichtleiter genannt, ist ein Stoff, durch den fast kein Strom fließt, zum Beispiel Kunststoff.
+      - type: table
+        caption: Leiter und Isolatoren im Alltag
+        header: [Stoff, Leiter oder Isolator, Wo du ihn findest]
+        rows:
+          - [Kupfer, Leiter, Das Metall im Inneren von Kabeln]
+          - [Eisen, Leiter, "Schrauben, Nägel, Werkzeug"]
+          - [Graphit, Leiter, Die Mine eines Bleistifts]
+          - [Salzwasser, Leiter, Meerwasser]
+          - [Kunststoff, Isolator, Die Hülle von Kabeln]
+          - [Gummi, Isolator, "Griffe von Zangen, Schuhsohlen"]
+          - [Glas, Isolator, Glaskolben einer Lampe]
+          - [Porzellan, Isolator, Sockel von Steckdosen]
+          - [Luft, Isolator, Zwischen zwei Leitungen]
+      - type: text
+        text: |
+          Metalle sind gute Leiter. Nicht jeder Leiter ist ein Metall: Auch Graphit und Wasser mit gelösten Stoffen
+          leiten. Gewöhnliches Leitungswasser enthält solche Stoffe, es leitet also ein wenig. Das ist ein Grund, warum
+          man mit nassen Händen nichts an Steckdosen anfassen sollte.
+      - type: note
+        title: Isolator heißt nicht „nutzlos“
+        blocks:
+          - type: text
+            text: |
+              Ohne Isolatoren wäre Strom gefährlich: Die Hülle eines Kabels, der Kunststoff am Stecker und der Griff
+              eines Schraubendrehers schützen dich, weil sie den Strom nicht zu dir lassen.
+  - type: section
+    id: beispiel
+    title: Das Kabel einer Lampe
+    blocks:
+      - type: example
+        title: Ein Kabel mit zwei Aufgaben
+        blocks:
+          - type: text
+            text: |
+              Das Kabel einer Lampe hat zwei dünne Drähte aus Kupfer. Sie sind **Leiter**: Durch sie fließt der Strom zur
+              Lampe und zurück. Jeder Draht steckt in einer Hülle aus Kunststoff. Sie ist ein **Isolator**: Sie verhindert,
+              dass sich die Drähte berühren, und schützt dich vor dem Strom.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: multiple-choice
+        id: leiter-isolator-1
+        text: Welche dieser Stoffe sind Leiter?
+        options:
+          - text: Kupfer
+            correct: true
+            info: Kupfer ist ein Metall und leitet den Strom sehr gut, darum sind Kabel daraus.
+          - text: Eisen
+            correct: true
+            info: Auch Eisen ist ein Metall und leitet den Strom.
+          - text: Graphit
+            correct: true
+            info: Graphit, etwa in der Bleistiftmine, ist kein Metall, leitet aber.
+          - text: Glas
+            correct: false
+            info: Glas ist ein Isolator. Der Glaskolben einer Lampe lässt keinen Strom nach außen.
+        explanation: Metalle und Graphit leiten, Glas, Kunststoff und Gummi nicht.
+        links:
+          - title: Leiter (Physik) (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Leiter
+      - type: single-choice
+        id: leiter-isolator-2
+        text: Warum ist die Hülle eines Kabels aus Kunststoff?
+        options:
+          - text: Kunststoff ist ein Isolator und lässt keinen Strom zu dir.
+            correct: true
+            info: Die Hülle hält den Strom im Draht und schützt dich und die Umgebung.
+          - text: Kunststoff leitet den Strom besonders gut.
+            correct: false
+            info: Kunststoff ist ein Isolator. Der Strom fließt im Metall im Inneren.
+          - text: Die Hülle macht das Kabel nur bunt.
+            correct: false
+            info: Die Farbe hilft beim Erkennen der Drähte, aber die Hülle ist vor allem ein Schutz.
+        explanation: Das Metall im Kabel leitet, die Hülle isoliert.
+        links:
+          - title: Leiter (Physik) (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Leiter
+      - type: true-false
+        id: leiter-isolator-3
+        text: Wasser leitet den Strom nie.
+        answer: false
+        explanation: Reines Wasser leitet kaum, aber Leitungswasser und Salzwasser enthalten gelöste Stoffe und leiten. Deshalb sind nasse Hände gefährlich.
+        links:
+          - title: Leiter (Physik) (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Leiter
+      - type: true-false
+        id: leiter-isolator-4
+        text: Nur Metalle können den Strom leiten.
+        answer: false
+        explanation: Graphit und Wasser mit gelösten Stoffen sind keine Metalle, leiten aber trotzdem.
+        links:
+          - title: Leiter (Physik) (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Leiter
+      - type: matching
+        id: leiter-isolator-5
+        text: Ordne jeden Stoff seiner Aufgabe zu.
+        pairs:
+          - { left: Kupfer, right: Draht im Inneren eines Kabels (leitet) }
+          - { left: Kunststoff, right: Hülle um den Draht (isoliert) }
+          - { left: Gummi, right: Griff einer Zange (isoliert) }
+          - { left: Graphit, right: Mine eines Bleistifts (leitet) }
+        explanation: Kupfer und Graphit leiten den Strom. Kunststoff und Gummi isolieren, sie schützen dich vor dem Strom.
+        links:
+          - title: Leiter (Physik) (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Leiter

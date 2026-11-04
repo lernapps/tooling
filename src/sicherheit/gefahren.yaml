@@ -1,0 +1,126 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Gefahren des Stroms
+description: "Warum Strom aus der Steckdose gefährlich ist und Strom aus einer Batterie nicht."
+competencies: [gefahren-des-stroms]
+blocks:
+  - type: section
+    id: einstieg
+    title: Warum ist die Steckdose gefährlich und die Batterie nicht?
+    blocks:
+      - type: text
+        text: |
+          Eine Taschenlampenbatterie kannst du ohne Sorge anfassen. An die Steckdose gehst du nie mit einem Nagel. Beide
+          liefern Strom. Der Unterschied liegt in der Spannung und darin, was der Strom im Körper anrichtet.
+  - type: section
+    id: erklaerung
+    title: Was Strom im Körper bewirkt
+    blocks:
+      - type: text
+        text: |
+          Gefährlich ist der Strom, der durch deinen **Körper** fließt. Wie schlimm es wird, hängt von zwei Dingen ab: von
+          der **Stromstärke** und davon, **wie lange** der Strom einwirkt.
+      - type: text
+        text: |
+          Welche Stromstärke durch den Körper fließt, bestimmt die **Spannung**. Auch dein Körper leitet den Strom
+          ein wenig, besonders wenn die Haut nass ist (vergleiche die Seite über Leiter). Bei einer Batterie mit 1,5 V
+          oder 4,5 V fließt dadurch so wenig Strom, dass du nichts spürst. An der Steckdose mit 230 V kann so viel
+          fließen, dass es lebensgefährlich wird.
+      - type: table
+        caption: Was Strom aus der Steckdose (Wechselstrom) im Körper bewirken kann
+        header: [Stromstärke durch den Körper, Wirkung]
+        rows:
+          - [wenige Milliampere, Man spürt den Strom]
+          - [etwa 10 mA, "Die Muskeln verkrampfen, man kann nicht mehr loslassen"]
+          - [etwa 25 mA, Herzrhythmusstörungen sind möglich]
+          - [etwa 50 mA und mehr, Lebensgefahr]
+      - type: note
+        title: Die Zahlen sind Richtwerte
+        blocks:
+          - type: text
+            text: |
+              Bei Kindern, bei nasser Haut und bei einem längeren Kontakt können schon kleinere Stromstärken gefährlich
+              sein. Verlasse dich nie darauf, dass etwas „nur ein bisschen“ Strom ist.
+  - type: section
+    id: beispiel
+    title: Zwei Quellen im Vergleich
+    blocks:
+      - type: example
+        title: Batterie und Steckdose
+        blocks:
+          - type: table
+            caption: Batterie und Steckdose
+            header: [Quelle, Spannung, Gefahr für dich]
+            rows:
+              - [Rundzelle (AA), "1,5 V", "Du spürst nichts. Ungefährlich."]
+              - [Steckdose, "230 V", "Kann lebensgefährlich sein."]
+          - type: text
+            text: |
+              Bei der Batterie treibt die kleine Spannung nur einen winzigen Strom durch deinen Körper. An der Steckdose
+              treibt die große Spannung einen Strom durch dich, der viel größer sein kann. Darum ist die Steckdose
+              gefährlich und die Batterie nicht.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: gefahren-1
+        text: Warum ist die Steckdose gefährlich, eine Taschenlampenbatterie aber nicht?
+        options:
+          - text: Die Spannung der Steckdose (230 V) treibt viel mehr Strom durch den Körper als 1,5 V.
+            correct: true
+            info: Die Gefahr hängt von der Stromstärke im Körper ab, und die bestimmt die Spannung.
+          - text: In der Steckdose steckt mehr Strom, der sich ansammelt.
+            correct: false
+            info: Strom sammelt sich nirgends an. Die Spannung bestimmt, wie stark er durch dich fließt.
+          - text: Batterien sind immer ungefährlich, egal wie groß.
+            correct: false
+            info: Kleine Batterien sind ungefährlich, aber mit großen Spannungen oder anderen Quellen sieht es anders aus.
+        explanation: Bei 230 V kann ein gefährlich starker Strom durch den Körper fließen, bei 1,5 V nicht.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: true-false
+        id: gefahren-2
+        text: Für die Gefahr eines Stromunfalls sind die Stromstärke und die Einwirkdauer entscheidend.
+        answer: true
+        explanation: Je größer der Strom durch den Körper und je länger er fließt, desto schwerer sind die Folgen.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: ordering
+        id: gefahren-3
+        text: Ordne die Wirkungen nach der Stromstärke durch den Körper, die kleinste zuerst.
+        items:
+          - Man spürt den Strom.
+          - Die Muskeln verkrampfen, man kann nicht loslassen.
+          - Herzrhythmusstörungen sind möglich.
+          - Lebensgefahr.
+        explanation: Mit größerer Stromstärke werden die Folgen schlimmer. Schon etwa 10 mA können das Loslassen unmöglich machen.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: true-false
+        id: gefahren-4
+        text: Nur sehr große Stromstärken von mehreren Ampere sind für Menschen gefährlich.
+        answer: false
+        explanation: Schon einige zehn Milliampere können durch den Körper lebensgefährlich sein. Ein Ampere sind 1000 mA.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall
+      - type: single-choice
+        id: gefahren-5
+        text: Welche Aussage über Batterie und Steckdose stimmt?
+        options:
+          - text: Bei einer Batterie mit 1,5 V ist der Strom durch den Körper winzig, an der Steckdose kann er sehr groß sein.
+            correct: true
+            info: Das liegt an der unterschiedlichen Spannung.
+          - text: Beide sind gleich gefährlich, denn beide liefern Strom.
+            correct: false
+            info: Beide liefern Strom, aber bei 230 V fließt viel mehr durch den Körper als bei 1,5 V.
+          - text: Die Steckdose ist harmlos, weil sie ausgeschaltet werden kann.
+            correct: false
+            info: Eine Steckdose steht ständig unter Spannung, auch wenn kein Gerät steckt.
+        explanation: Die Spannung entscheidet, wie viel Strom durch den Körper fließt.
+        links:
+          - title: Stromunfall (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Stromunfall

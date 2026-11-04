@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" aria-labelledby="t d">
+  <title id="t">Wasserkreislauf und Stromkreis nebeneinander</title>
+  <desc id="d">Links ein Wasserkreislauf: Eine Pumpe treibt Wasser durch ein Rohr, das ein Wasserrad antreibt. Rechts der Stromkreis: Eine Batterie treibt den Strom durch eine Lampe. Pumpe entspricht Batterie, Wasserrad entspricht Lampe.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1a1a1a"/></marker></defs>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M30 50 H110 M150 50 H170 V100 M170 140 V200 H30 V140 M30 140 V50" />
+    <circle cx="130" cy="50" r="20"/>
+    <path d="M118 50 H142" marker-end="url(#a)"/>
+    <text x="85" y="40" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="middle">Pumpe</text>
+    <circle cx="170" cy="120" r="22"/>
+    <path d="M170 98 V142 M148 120 H192" />
+    <text x="195" y="125" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="start">Wasserrad</text>
+    <text x="30" y="228" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="start">Wasser</text>
+    <path d="M250 50 H330 V100 M330 140 V200 H250 V128 M250 112 V50" />
+    <path d="M230 112 H270" />
+    <path d="M240 128 H260" stroke-width="7"/>
+    <circle cx="330" cy="120" r="20"/>
+    <path d="M316 106 L344 134 M344 106 L316 134" />
+    <text x="262" y="228" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="start">Strom</text>
+    <text x="300" y="30" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="start">Batterie</text>
+  </g>
+</svg>

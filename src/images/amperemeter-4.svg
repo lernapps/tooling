@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" aria-labelledby="t d">
+  <title id="t">Stromkreis mit eingebautem Amperemeter</title>
+  <desc id="d">Batterie und Lampe im Stromkreis. In der oberen Leitung sitzt ein Amperemeter im Stromweg, die Leitung läuft durch das Gerät.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1a1a1a"/></marker></defs>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 40 H146 M194 40 H320 V94 M320 146 V200 H80 V128 M80 112 V40" />
+    <path d="M60 112 H100" />
+    <path d="M70 128 H90" stroke-width="7"/>
+    <circle cx="320" cy="120" r="24"/>
+    <path d="M303.2 103.2 L336.8 136.8 M336.8 103.2 L303.2 136.8" />
+    <circle cx="170" cy="40" r="24"/>
+    <text x="170" y="47" font-family="sans-serif" font-size="22" fill="#1a1a1a" stroke="none" text-anchor="middle">A</text>
+    <text x="160" y="90" font-family="sans-serif" font-size="16" fill="#1a1a1a" stroke="none" text-anchor="start">Amperemeter</text>
+  </g>
+</svg>

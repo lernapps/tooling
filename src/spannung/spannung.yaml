@@ -1,0 +1,132 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Spannung
+description: "Was die Spannung angibt, wie man sie mit einem Wasserkreislauf vergleichen kann und in welcher Einheit man sie misst."
+competencies: [spannung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was treibt den Strom an?
+    blocks:
+      - type: text
+        text: |
+          In einem Stromkreis fließt Strom nur, wenn etwas ihn antreibt. Das ist die Spannungsquelle, zum Beispiel eine
+          Batterie. Wie stark sie antreibt, sagt die **Spannung**.
+  - type: section
+    id: erklaerung
+    title: Spannung in Volt
+    blocks:
+      - type: definition
+        term: Spannung
+        explanation: Die Spannung $U$ ist der Antrieb des Stroms. Man misst sie in Volt (V).
+      - type: text
+        text: |
+          Je größer die Spannung, desto stärker treibt die Quelle den Strom an. Für kleine Spannungen nimmt man Millivolt
+          (mV), für große Kilovolt (kV).
+      - type: formula
+        formula: '1\,\text{V} = 1000\,\text{mV} \qquad 1\,\text{kV} = 1000\,\text{V}'
+      - type: text
+        text: |
+          Ein Vergleich hilft: Stell dir einen Wasserkreislauf vor. Eine Pumpe treibt das Wasser durch ein Rohr, und es
+          dreht ein Wasserrad. Die Pumpe entspricht der Batterie, das Wasserrad der Lampe, das Wasser dem Strom. Je
+          stärker die Pumpe drückt, desto mehr Wasser fließt. Entsprechend treibt eine größere Spannung mehr Strom an.
+      - type: figure
+        image: images/spannung-1.svg
+        alt: Links ein Wasserkreislauf mit einer Pumpe, einem Rohr und einem Wasserrad. Rechts ein Stromkreis mit Batterie und Lampe. Die Pumpe entspricht der Batterie, das Wasserrad der Lampe, das Wasser dem Strom.
+        caption: Pumpe und Batterie treiben an, Wasserrad und Lampe werden angetrieben.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: note
+        title: Grenzen des Vergleichs
+        blocks:
+          - type: text
+            text: |
+              Der Vergleich passt nur zum Teil. Wasser ist ein Stoff, den man sehen kann. Der Strom fließt durch die
+              Leitung und durch die Lampe, und er wird dabei nicht weniger. Die Spannung dagegen fließt nicht: Sie **liegt
+              an** der Lampe an, und der Strom **fließt durch** sie.
+  - type: section
+    id: beispiel
+    title: Umrechnen von Spannungen
+    blocks:
+      - type: example
+        title: Millivolt und Kilovolt
+        blocks:
+          - type: text
+            text: |
+              Ein Messwert von $2500\,\text{mV}$ sind $2500 : 1000 = 2{,}5\,\text{V}$. Eine Überlandleitung mit
+              $110\,\text{kV}$ hat $110 \cdot 1000 = 110000\,\text{V}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: spannung-1
+        given:
+          mV: { int: [500, 4500], step: 500 }
+        task:
+          text: "Ein Messgerät zeigt {{mV}} mV. Wie viel Volt sind das?"
+        answer: { value: "mV / 1000", compare: { number: { format: decimal, decimals: 1, unit: V } } }
+        mistakes:
+          - { value: "mV", message: "Das ist noch die Zahl in mV. Rechne sie in V um." }
+          - { value: "mV / 100", message: "Du hast durch 100 geteilt. 1 V sind 1000 mV." }
+          - { value: "mV * 1000", message: "Von mV nach V wird die Zahl kleiner, also teilst du." }
+        hint: "1 V sind 1000 mV. Du rechnest von der kleinen zur großen Einheit, also teilst du durch 1000."
+        steps:
+          - '$U = {{mV}}\,\text{mV} : 1000$'
+          - "$U = {{answer}}$"
+      - type: generated
+        id: spannung-2
+        given:
+          kV: { oneOf: [1, 2, 5, 10, 20, 110] }
+        task:
+          text: "Eine Spannung beträgt {{kV}} kV. Wie viel Volt sind das? Schreibe die Zahl ohne Punkt."
+        answer: { value: "kV * 1000", compare: { number: { format: integer, unit: V } } }
+        mistakes:
+          - { value: "kV", message: "Das ist noch die Zahl in kV. Rechne sie in V um." }
+          - { value: "kV * 100", message: "Du hast mal 100 gerechnet. 1 kV sind 1000 V." }
+          - { value: "kV / 1000", message: "Von kV nach V wird die Zahl größer, also rechnest du mal 1000." }
+        hint: "1 kV sind 1000 V. Du rechnest von der großen zur kleinen Einheit, also mal 1000."
+        steps:
+          - '$U = {{kV}}\,\text{kV} \cdot 1000$'
+          - "$U = {{answer}}$"
+      - type: true-false
+        id: spannung-3
+        text: Die Spannung fließt durch die Lampe.
+        answer: false
+        explanation: Durch die Lampe fließt der Strom. Die Spannung liegt an der Lampe an und treibt den Strom an.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung
+      - type: single-choice
+        id: spannung-4
+        text: Im Wasserkreislauf entspricht die Pumpe im Stromkreis …
+        options:
+          - text: der Batterie, die den Strom antreibt.
+            correct: true
+            info: Pumpe und Batterie treiben beide an.
+          - text: der Lampe, die etwas antreibt.
+            correct: false
+            info: Das Wasserrad entspricht der Lampe, nicht die Pumpe.
+          - text: dem Schalter, der den Weg öffnet.
+            correct: false
+            info: Der Schalter hat keine Pumpe als Gegenstück. Er entspräche einem Absperrhahn im Rohr.
+        explanation: Die Pumpe treibt das Wasser an, die Batterie den Strom.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung
+      - type: single-choice
+        id: spannung-5
+        text: Welche Aussage über die Spannung stimmt?
+        options:
+          - text: Sie ist der Antrieb für den Strom und wird in Volt gemessen.
+            correct: true
+            info: Je größer die Spannung, desto stärker wird der Strom angetrieben.
+          - text: Sie gibt an, wie viel Strom fließt, und wird in Ampere gemessen.
+            correct: false
+            info: Das beschreibt die Stromstärke, nicht die Spannung.
+          - text: Sie wird in der Lampe aufgebraucht, bis keine mehr da ist.
+            correct: false
+            info: Die Spannung der Quelle bleibt bestehen, solange die Batterie nicht leer ist.
+        explanation: Spannung in Volt ist der Antrieb, Stromstärke in Ampere zeigt, wie viel Strom fließt.
+        links:
+          - title: Elektrische Spannung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrische_Spannung

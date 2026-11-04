@@ -1,0 +1,129 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Schalter
+description: "Wie ein Schalter den Stromkreis öffnet und schließt und damit die Lampe ein- und ausschaltet."
+competencies: [schalter]
+blocks:
+  - type: section
+    id: einstieg
+    title: Wie geht das Licht an und aus?
+    blocks:
+      - type: text
+        text: |
+          Du drückst den Lichtschalter, und die Lampe geht an. Du drückst ihn noch einmal, und sie geht aus. Auf dieser
+          Seite siehst du, was im Schalter passiert, und warum das den Stromkreis öffnet oder schließt.
+  - type: section
+    id: erklaerung
+    title: Offen und geschlossen
+    blocks:
+      - type: text
+        text: |
+          Ein **Schalter** sitzt in der Leitung des Stromkreises. Er hat einen beweglichen Hebel. Liegt der Hebel an
+          beiden Kontakten an, ist die Leitung durchgehend: Der Schalter ist **geschlossen**, und der Strom kann fließen.
+          Ist der Hebel abgehoben, ist die Leitung an dieser Stelle unterbrochen: Der Schalter ist **offen**, und es
+          fließt nirgends Strom.
+      - type: figure
+        image: images/schalter-1.svg
+        alt: Zeichnung eines Stromkreises mit Batterie, Lampe und einem Schalter in der oberen Leitung. Der Hebel des Schalters liegt an beiden Kontakten an, die Leitung ist durchgehend.
+        caption: Der Schalter ist zu. Verfolge den Weg vom Pluspol über den Schalter und die Lampe zurück zum Minuspol.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: definition
+        term: Schalter
+        explanation: Ein Schalter öffnet oder schließt einen Stromkreis. Geschlossen lässt er den Strom durch, offen unterbricht er den Weg.
+      - type: text
+        text: |
+          Ob der Schalter vor oder hinter der Lampe sitzt, ist egal: Der Weg des Stroms ist ein Kreis, und eine Lücke
+          an irgendeiner Stelle unterbricht ihn überall.
+  - type: section
+    id: beispiel
+    title: Das Licht im Flur
+    blocks:
+      - type: example
+        title: Der Lichtschalter an der Wand
+        blocks:
+          - type: text
+            text: |
+              Im Haus führt eine Leitung vom Stromnetz zum Lichtschalter und weiter zur Lampe. Der
+              Schalter ist ein Kippschalter. Kippst du ihn nach unten, schließt er die Leitung, und die Lampe leuchtet.
+              Kippst du ihn nach oben, öffnet er sie, und die Lampe geht aus. Die Lampe selbst ist unverändert und
+              intakt, nur der Weg ist unterbrochen.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: schalter-1
+        text: Leuchtet die Lampe in diesem Stromkreis?
+        material:
+          - type: figure
+            image: images/schalter-2.svg
+            alt: Zeichnung eines Stromkreises mit Batterie, Lampe und einem Schalter in der oberen Leitung. Der Hebel des Schalters ragt schräg nach oben, die Leitung ist unterbrochen.
+            caption: Achte auf die Stellung des Hebels im Schalter.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Nein, der Schalter ist offen und unterbricht den Kreis.
+            correct: true
+            info: Ist der Hebel abgehoben, fehlt ein Stück Weg. Dann fließt im ganzen Kreis kein Strom.
+          - text: Ja, die Batterie schickt Strom bis zum Schalter, und die Lampe leuchtet.
+            correct: false
+            info: Strom fließt nur, wenn der ganze Kreis geschlossen ist. Bis zum Schalter allein kommt keiner.
+          - text: Ja, aber nur schwach.
+            correct: false
+            info: Eine Lücke im Weg lässt gar keinen Strom durch, auch keinen kleinen.
+        explanation: Der offene Schalter unterbricht den Stromkreis. Dann fließt nirgends Strom, und die Lampe bleibt dunkel.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+      - type: single-choice
+        id: schalter-2
+        text: Die Lampe leuchtet. Was musst du tun, damit sie ausgeht?
+        material:
+          - type: figure
+            image: images/schalter-1.svg
+            alt: Zeichnung eines Stromkreises mit Batterie, Lampe und einem geschlossenen Schalter in der oberen Leitung.
+            caption: Die Lampe leuchtet.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Den Schalter öffnen.
+            correct: true
+            info: Dann ist der Weg unterbrochen, und die Lampe geht aus.
+          - text: Den Schalter schließen.
+            correct: false
+            info: Er ist schon geschlossen. Ein geschlossener Schalter lässt den Strom durch.
+          - text: Die Batterie umdrehen.
+            correct: false
+            info: Dann fließt der Strom in die andere Richtung. Eine Glühlampe leuchtet trotzdem.
+        explanation: Zum Ausschalten öffnest du den Stromkreis. Der Schalter ist dafür da.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+      - type: true-false
+        id: schalter-3
+        text: Ein geschlossener Schalter wirkt wie eine durchgehende Leitung.
+        answer: true
+        explanation: Der Hebel verbindet beide Kontakte. Der Strom fließt durch, als gäbe es den Schalter nicht.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+      - type: true-false
+        id: schalter-4
+        text: Bei einem offenen Schalter fließt wenigstens vor dem Schalter noch Strom.
+        answer: false
+        explanation: Strom fließt nur in einem geschlossenen Kreis. Ist der Weg irgendwo offen, fließt er nirgends.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
+      - type: ordering
+        id: schalter-5
+        text: Ordne, was beim Einschalten der Lampe nacheinander geschieht.
+        items:
+          - Du kippst den Schalter.
+          - Der Schalter schließt den Stromkreis.
+          - Der Strom fließt durch die Lampe.
+          - Die Lampe leuchtet.
+        explanation: Der Schalter schließt zuerst den Kreis. Erst dann fließt Strom, und die Lampe leuchtet.
+        links:
+          - title: Stromkreis (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Elektrischer_Stromkreis
