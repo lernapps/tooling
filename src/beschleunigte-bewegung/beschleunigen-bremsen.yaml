@@ -1,0 +1,115 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beschleunigen, Abbremsen, Richtung ändern
+description: "Wann sich eine Bewegung beschleunigt, verlangsamt oder die Richtung ändert, und was sich dabei ändert."
+competencies: [geschwindigkeitsaenderung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was sich beim Fahren ändert
+    blocks:
+      - type: text
+        text: |
+          Ein Bus fährt an der Haltestelle ab, wird schneller, fährt eine Weile gleichmäßig und bremst vor der
+          nächsten Kreuzung wieder ab. Dann biegt er ab. Du kennst die [Geschwindigkeit](https://lernapps.net/apps/map/physik/c/geschwindigkeit/) vom Tacho: Er zeigt, wie schnell du bist. Beim
+          Fahren ändert sich aber mehr als nur die Zahl auf dem Tacho. Hier lernst du, was sich ändern kann.
+  - type: section
+    id: erklaert
+    title: Tempo und Richtung
+    blocks:
+      - type: text
+        text: |
+          Zur Geschwindigkeit eines Körpers gehören zwei Dinge: **wie schnell** er ist (das Tempo) und **in welche
+          Richtung** er sich bewegt. Die Bewegung ändert sich, sobald sich eins von beiden ändert.
+      - type: table
+        caption: Drei Arten, wie sich eine Bewegung ändert
+        header: [Was passiert, Tempo, Richtung]
+        rows:
+          - [Beschleunigen, wird größer, bleibt gleich]
+          - [Abbremsen, wird kleiner, bleibt gleich]
+          - [Richtung ändern, kann gleich bleiben, ändert sich]
+      - type: definition
+        term: Beschleunigen
+        explanation: Ein Körper beschleunigt, wenn sein Tempo größer wird, er also schneller wird.
+      - type: definition
+        term: Abbremsen
+        explanation: Ein Körper bremst ab, wenn sein Tempo kleiner wird, er also langsamer wird.
+      - type: text
+        text: |
+          Wer mit gleichbleibendem Tempo um eine Kurve fährt, ändert nur die Richtung, und das gehört ebenfalls zu
+          einer Änderung der Bewegung. Wie sich das in Diagrammen zeigt, lernst du auf den nächsten Seiten.
+      - type: note
+        title: Ausblick
+        blocks:
+          - type: text
+            text: |
+              Wie stark sich die Bewegung pro Sekunde ändert, beschreibt man später mit einer eigenen Größe, der
+              Beschleunigung. Das brauchst du hier noch nicht. Zuerst geht es darum, die Änderungen zu erkennen und
+              zu beschreiben.
+  - type: section
+    id: beispiel
+    title: Der Bus an der Kreuzung
+    blocks:
+      - type: example
+        title: Vom Halt bis zum Abbiegen
+        blocks:
+          - type: table
+            caption: Eine Busfahrt in vier Stücken
+            header: [Stück der Fahrt, Tempo, Richtung, Was ändert sich]
+            rows:
+              - [Abfahren, wird größer, gleich, Er beschleunigt.]
+              - [Gleichmäßig fahren, gleich, gleich, Nichts ändert sich.]
+              - [Vor der Kreuzung, wird kleiner, gleich, Er bremst ab.]
+              - [Abbiegen mit gleichem Tempo, gleich, ändert sich, Nur die Richtung ändert sich.]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: bb-zuordnen
+        text: Ordne jedem Vorgang zu, was sich ändert.
+        pairs:
+          - { left: Ein Zug fährt aus dem Bahnhof ab., right: Das Tempo wird größer. }
+          - { left: Ein Auto nähert sich einer roten Ampel., right: Das Tempo wird kleiner. }
+          - { left: Ein Rad fährt mit gleichem Tempo um eine Kurve., right: Die Richtung ändert sich. }
+        distractors:
+          - Weder Tempo noch Richtung ändern sich.
+        explanation: "Beim Abfahren wird das Tempo größer, vor der Ampel wird es kleiner, und in der Kurve ändert sich die Richtung, auch wenn das Tempo gleich bleibt."
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung
+      - type: true-false
+        id: bb-kurve
+        text: Ein Auto fährt mit gleichbleibendem Tempo durch eine Kurve. Seine Bewegung ändert sich dabei nicht.
+        answer: false
+        explanation: "Zur Bewegung gehört auch die Richtung. In der Kurve ändert sie sich, auch wenn der Tacho dieselbe Zahl zeigt."
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung
+      - type: true-false
+        id: bb-bremsen
+        text: Wer abbremst, hat eine negative Geschwindigkeit.
+        answer: false
+        explanation: "Beim Abbremsen wird das Tempo kleiner, es bleibt aber in dieselbe Richtung. Das Vorzeichen der Geschwindigkeit sagt etwas über die Richtung, nicht darüber, ob jemand bremst."
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Geschwindigkeit
+      - type: single-choice
+        id: bb-bus
+        text: Ein Bus fährt von der Haltestelle ab, wird dabei immer schneller und biegt gleichzeitig nach rechts ab. Was ändert sich?
+        options:
+          - text: Nur das Tempo
+            correct: false
+            info: Das Tempo wird größer, aber der Bus biegt auch ab. Damit ändert sich außerdem die Richtung.
+          - text: Nur die Richtung
+            correct: false
+            info: Die Richtung ändert sich, aber der Bus wird auch immer schneller. Damit ändert sich außerdem das Tempo.
+          - text: Tempo und Richtung
+            correct: true
+            info: Richtig, der Bus beschleunigt und ändert seine Richtung.
+          - text: Weder Tempo noch Richtung
+            correct: false
+            info: Beim Abfahren steigt das Tempo, und beim Abbiegen dreht sich die Richtung.
+        explanation: "Tempo und Richtung können sich unabhängig ändern. Hier ändern sich beide gleichzeitig."
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung

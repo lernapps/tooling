@@ -1,0 +1,30 @@
+- geschichte: Ein Fahrrad fährt in 4 s von 0 auf 8 m/s an, rollt dann 4 s lang gleichmäßig und bremst in den letzten 4 s bis zum Stillstand ab.
+  v0: 0
+  v1: 8
+  v2: 8
+  v3: 0
+- geschichte: Ein Auto fährt 8 s lang gleichmäßig mit 10 m/s und bremst dann in 4 s bis zum Halt ab.
+  v0: 10
+  v1: 10
+  v2: 10
+  v3: 0
+- geschichte: Ein Zug fährt in 4 s von 0 auf 12 m/s an, fährt 4 s lang gleichmäßig und bremst dann in 4 s auf 6 m/s ab.
+  v0: 0
+  v1: 12
+  v2: 12
+  v3: 6
+- geschichte: Ein Roller fährt 4 s lang mit 4 m/s, wird dann in 4 s auf 10 m/s schneller und fährt die letzten 4 s mit 10 m/s weiter.
+  v0: 4
+  v1: 4
+  v2: 10
+  v3: 10
+- geschichte: Ein Skater rollt 4 s lang mit 6 m/s, wird dann in 4 s auf 2 m/s langsamer und rollt die letzten 4 s mit 2 m/s weiter.
+  v0: 6
+  v1: 6
+  v2: 2
+  v3: 2
+- geschichte: Ein Schlitten beschleunigt in den ersten 4 s von 2 auf 8 m/s und fährt dann 8 s lang gleichmäßig mit 8 m/s.
+  v0: 2
+  v1: 8
+  v2: 8
+  v3: 8

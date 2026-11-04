@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beschleunigte Bewegung
+summary: Beschleunigen, Abbremsen und Richtungswechsel beschreiben und in Diagrammen lesen und zeichnen.
+pages:
+  [
+    wiederholung-geschwindigkeit,
+    beschleunigen-bremsen,
+    weg-zeit-diagramm,
+    geschwindigkeit-zeit-diagramm,
+    diagramme-zeichnen,
+    diagramme-zusammen,
+  ]

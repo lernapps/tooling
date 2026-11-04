@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="sans-serif" font-size="14">
+<title>Skizze Seite 4: Bewegungslabor, Geschwindigkeit-Zeit-Diagramm</title>
+<rect width="640" height="380" fill="#fff" stroke="#999"/>
+<text x="16" y="24" font-weight="bold">Geschwindigkeit-Zeit-Diagramm (Bewegungslabor)</text>
+<g stroke="#ccc"><path d="M60 208H380M60 166H380M60 124H380M60 82H380M140 40V250M220 40V250M300 40V250M380 40V250"/></g>
+<g stroke="#333" fill="none"><path d="M60 40V250H380"/></g>
+<path d="M60 250L140 90 L260 90 L380 250Z" fill="#cde"/>
+<path d="M60 250L140 90 L260 90 L380 250" stroke="#06c" stroke-width="3" fill="none"/>
+<text x="8" y="44">v in m/s</text><text x="330" y="272">t in s</text>
+<text x="200" y="200" text-anchor="middle">Fläche unter der Linie</text>
+<text x="400" y="60">Geschwindigkeit am Anfang des Abschnitts</text>
+<rect x="400" y="70" width="200" height="14" fill="#eee" stroke="#666"/><circle cx="430" cy="77" r="9" fill="#06c"/>
+<text x="400" y="120">Geschwindigkeit am Ende des Abschnitts</text>
+<rect x="400" y="130" width="200" height="14" fill="#eee" stroke="#666"/><circle cx="560" cy="137" r="9" fill="#06c"/>
+<text x="16" y="310">Aufgabe: Stelle die Regler so ein, dass das Auto nach 12 s genau 90 m weit ist.</text>
+<text x="16" y="360" fill="#555">Gleiche Achsen und Farben wie auf Seite 3.</text>
+</svg>

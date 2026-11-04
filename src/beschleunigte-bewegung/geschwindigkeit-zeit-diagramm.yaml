@@ -1,0 +1,198 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Geschwindigkeit-Zeit-Diagramm lesen
+description: "Wie schnell ein Körper zu jedem Zeitpunkt ist: Die Höhe der Linie ist die Geschwindigkeit, die Fläche darunter der Weg."
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Vom Tacho zur Linie
+    blocks:
+      - type: text
+        text: |
+          Im Weg-Zeit-Diagramm hast du gesehen, wie weit ein Körper vom Start entfernt ist. Auf dem Tacho eines Autos
+          liest du etwas anderes ab: **wie schnell** es gerade fährt. Schreibst du den Tachowert über die Zeit auf,
+          bekommst du eine Linie. Sie heißt Geschwindigkeit-Zeit-Diagramm.
+  - type: section
+    id: erklaert
+    title: So liest du das Diagramm
+    blocks:
+      - type: definition
+        term: Geschwindigkeit-Zeit-Diagramm
+        explanation: |
+          Ein Geschwindigkeit-Zeit-Diagramm zeigt für jeden Zeitpunkt $t$ die Geschwindigkeit $v$ des Körpers. Die Zeit
+          liegt auf der waagerechten Achse, die Geschwindigkeit auf der senkrechten.
+      - type: figure
+        image: images/vzd-fahrt.svg
+        alt: Ein Geschwindigkeit-Zeit-Diagramm, Zeit von 0 bis 12 Sekunden, Geschwindigkeit von 0 bis 12 Metern pro Sekunde. Die Linie steigt von 0 auf 8 Meter pro Sekunde, verläuft dann waagerecht und fällt danach wieder auf 0. Die Fläche unter der Linie ist schraffiert.
+        caption: "Das Ganze ist die Fahrt von 12 s. Die Höhe der Linie ist die Geschwindigkeit zu diesem Zeitpunkt. Die schraffierte Fläche liegt zwischen Linie und Zeitachse."
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Steigt die Linie, wird der Körper **schneller**. Fällt sie, wird er **langsamer**. Verläuft sie
+          waagerecht, **bleibt die Geschwindigkeit gleich**: Der Körper fährt gleichmäßig weiter. Er steht nur dann,
+          wenn die Linie auf der Zeitachse liegt, also bei $v = 0$.
+      - type: text
+        text: |
+          Die schraffierte Fläche hat eine zweite Bedeutung: Sie ist der **Weg**. Bei gleichbleibender Geschwindigkeit
+          ist die Fläche ein Rechteck, und Breite mal Höhe ist $t \cdot v = s$. Steigt oder fällt die Linie gleichmäßig,
+          ist die Fläche ein Dreieck, und du rechnest „Grundseite mal Höhe durch zwei“.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren im Bewegungslabor
+    blocks:
+      - type: text
+        text: |
+          Im Labor legst du die Geschwindigkeit zu den Zeitpunkten 0, 4, 8 und 12 s fest. Dazwischen ändert sie sich
+          gleichmäßig, die Linie ist dort eine Gerade. Die Achsen bleiben an ihrem Platz. Zu Beginn ist die Linie
+          waagerecht: Das Auto fährt immer mit 6 m/s. Verschiebe die Regler und beobachte, wie sich die Linie und
+          die schraffierte Fläche verändern. Die Messmarke zeigt dir den Weg bis zum gewählten Zeitpunkt.
+          Probiere aus: Was passiert mit dem Weg, wenn die Linie höher liegt? Was, wenn sie am Ende auf 0 fällt?
+      - type: vue-component
+        component: Bewegungslabor
+        props:
+          modus: vt
+          werte: [6, 6, 6, 6]
+          vMin: 0
+          vMax: 12
+          sMin: 0
+          sMax: 150
+          vSchritt: 1
+          sSchritt: 50
+          texte:
+            zeit: t in s
+            weg: s in m
+            geschwindigkeit: v in m/s
+            reglerSt: "Geschwindigkeit in Abschnitt {n}"
+            reglerVt: "Geschwindigkeit bei {t} s"
+            messmarke: Zeitpunkt der Messmarke
+            ablesenS: "Messmarke: Bei t = {t} s ist der Weg s = {s} m."
+            ablesenV: "Messmarke: Bei t = {t} s ist die Geschwindigkeit v = {v} m/s."
+            diagrammS: Weg-Zeit-Diagramm
+            diagrammV: Geschwindigkeit-Zeit-Diagramm
+            flaeche: Die schraffierte Fläche zwischen Linie und Zeitachse ist der Weg.
+            zuruecksetzen: Zurücksetzen
+        nojs: |
+          Das Bewegungslabor zeigt ein Geschwindigkeit-Zeit-Diagramm einer Fahrt von 12 s. Mit vier Reglern legst du
+          die Geschwindigkeit bei 0, 4, 8 und 12 s fest (0 bis 12 m/s); dazwischen ändert sie sich gleichmäßig.
+          Beispiele:
+
+          - Geschwindigkeiten 6, 6, 6 und 6 m/s: die Linie ist waagerecht, nach 12 s sind es 72 m.
+          - Geschwindigkeiten 0, 8, 8 und 0 m/s: die Linie steigt, verläuft waagerecht und fällt; nach 12 s sind es 64 m.
+          - Geschwindigkeiten 0, 12, 12 und 12 m/s: die Linie steigt bis 4 s und bleibt dann oben; nach 12 s sind es 120 m.
+
+          Der Weg ist immer die Fläche zwischen Linie und Zeitachse.
+  - type: section
+    id: beispiel
+    title: Den Weg aus der Fläche berechnen
+    blocks:
+      - type: example
+        title: Ein Auto fährt an und bremst ab
+        blocks:
+          - type: text
+            text: Das Auto im Diagramm oben fährt in A an und ist am Ende von A mit 8 m/s unterwegs. Wie weit kommt es in den ersten 4 s (A)?
+          - type: text
+            text: |
+              In A steigt die Linie gleichmäßig von 0 auf 8 m/s. Die Fläche ist ein Dreieck mit der Grundseite 4 s
+              und der Höhe 8 m/s.
+          - type: formula
+            formula: 's = \frac{4\,\text{s} \cdot 8\,\frac{\text{m}}{\text{s}}}{2} = 16\,\text{m}'
+          - type: text
+            text: |
+              In B ist die Fläche ein Rechteck: $s = 4\,\text{s} \cdot 8\,\frac{\text{m}}{\text{s}} = 32\,\text{m}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: vzd-ablesen
+        text: Wie schnell ist das Auto bei t = 6 s?
+        material:
+          - type: figure
+            image: images/vzd-fahrt.svg
+            alt: "Geschwindigkeit-Zeit-Diagramm mit drei Abschnitten A (0 bis 4 s), B (4 bis 8 s) und C (8 bis 12 s). In A steigt die Geschwindigkeit von 0 auf 8 m/s, in B bleibt sie bei 8 m/s, in C fällt sie auf 0."
+            caption: Die Fahrt in den drei Abschnitten A, B und C.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: 0 m/s
+            correct: false
+            info: "Die Linie liegt bei 6 s nicht auf der Zeitachse, sondern bei 8 m/s. Das Auto steht nicht."
+          - text: 4 m/s
+            correct: false
+            info: "4 m/s ist die Höhe der Gitterlinie. Bei 6 s liegt die Linie darüber, bei 8 m/s."
+          - text: 8 m/s
+            correct: true
+            info: "Richtig: Bei 6 s liegt die Linie auf der Höhe 8 m/s."
+          - text: 12 m/s
+            correct: false
+            info: "12 m/s ist die obere Kante des Diagramms. Die Linie erreicht sie nie."
+        explanation: "Du suchst 6 s auf der Zeitachse, gehst nach oben bis zur Linie und liest die Höhe an der Geschwindigkeitsachse ab."
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Geschwindigkeit
+      - type: true-false
+        id: vzd-waagerecht
+        text: Verläuft die Linie im Geschwindigkeit-Zeit-Diagramm waagerecht, steht der Körper.
+        answer: false
+        explanation: "Eine waagerechte Linie heißt: Die Geschwindigkeit bleibt gleich, der Körper fährt gleichmäßig weiter. Er steht nur, wenn die Linie auf der Zeitachse liegt, bei v = 0."
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Geschwindigkeit
+      - type: single-choice
+        id: vzd-abschnitt-c
+        text: Im Abschnitt C fällt die Linie von 8 m/s auf 0. Was macht das Auto?
+        options:
+          - text: Es fährt rückwärts.
+            correct: false
+            info: "Eine fallende Linie heißt nur: Die Geschwindigkeit wird kleiner. Die Fahrtrichtung bleibt. Rückwärts fährt es erst, wenn die Linie unter die Zeitachse geht."
+          - text: Es wird langsamer und hält am Ende an.
+            correct: true
+            info: "Richtig: Die Geschwindigkeit sinkt gleichmäßig auf 0, das Auto bremst ab."
+          - text: Es steht schon die ganze Zeit.
+            correct: false
+            info: "Zu Beginn von C hat das Auto noch 8 m/s. Es steht erst am Ende, wenn die Linie die Zeitachse erreicht."
+        explanation: "Fällt die Linie, wird der Körper langsamer. Bei 0 steht er."
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung
+      - type: number
+        id: vzd-weg-b
+        text: Wie viele Meter fährt das Auto im Abschnitt B (von 4 s bis 8 s)?
+        material:
+          - type: figure
+            image: images/vzd-fahrt.svg
+            alt: "Geschwindigkeit-Zeit-Diagramm mit drei Abschnitten A (0 bis 4 s), B (4 bis 8 s) und C (8 bis 12 s). In A steigt die Geschwindigkeit von 0 auf 8 m/s, in B bleibt sie bei 8 m/s, in C fällt sie auf 0."
+            caption: Die Fahrt in den drei Abschnitten A, B und C.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 32
+        tolerance: 0
+        unit: m
+        explanation: "In B ist die Fläche unter der Linie ein Rechteck: 4 s breit und 8 m/s hoch. 4 s · 8 m/s = 32 m."
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Geschwindigkeit
+      - type: generated
+        id: vzd-dreieck
+        given:
+          t: { oneOf: [2, 4, 6, 8] }
+          v: { oneOf: [4, 6, 8, 10, 12] }
+        where:
+          - "decimals(v * t / 2) == 0"
+        task:
+          text: "Ein Auto beschleunigt {{t}} s lang gleichmäßig von 0 auf {{v}} m/s. Wie viele Meter fährt es in dieser Zeit?"
+        answer: { value: "v * t / 2", compare: { number: { format: integer, unit: "m" } } }
+        mistakes:
+          - {
+              value: "v * t",
+              message: "Das wäre der Weg, wenn das Auto die ganze Zeit mit {{v}} m/s führe, also ein Rechteck. Hier steigt die Linie von 0 an, die Fläche ist ein Dreieck: Halbiere das Ergebnis.",
+            }
+          - {
+              value: "v / t",
+              message: "Du hast geteilt, aber der Weg ist die Fläche unter der Linie: Zeit mal Geschwindigkeit, bei einem Dreieck noch durch 2.",
+            }
+        hint: "Die Fläche unter der Linie ist ein Dreieck mit der Grundseite {{t}} s und der Höhe {{v}} m/s."
+        steps:
+          - "Die Linie steigt gleichmäßig von 0 auf {{v}} m/s. Die Fläche ist ein Dreieck mit der Grundseite {{t}} s und der Höhe {{v}} m/s."
+          - '$s = \frac{{{t}} \cdot {{v}}}{2} = {{answer}}$, also {{answer}} m.'

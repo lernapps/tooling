@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 470" font-family="sans-serif" font-size="12">
+<title>Geschwindigkeit-Zeit-Diagramm und Weg-Zeit-Diagramm derselben Fahrt, untereinander</title>
+<rect width="400" height="470" fill="#fff"/>
+<defs>
+<pattern id="h" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#b45309" stroke-width="2"/></pattern>
+</defs>
+<text x="50" y="14" font-weight="bold" fill="#222">Oben: Geschwindigkeit-Zeit-Diagramm (v in m/s)</text>
+<g stroke="#c8c8c8" stroke-width="1">
+<path d="M50 20H370M50 57.5H370M50 95H370M50 132.5H370M50 170H370"/>
+<path d="M50 20V170M156.7 20V170M263.3 20V170M370 20V170"/>
+</g>
+<path d="M50 57.5L156.7 57.5L263.3 132.5L370 132.5" fill="none" stroke="#b45309" stroke-width="3" stroke-dasharray="10 4"/>
+<path d="M50 20V170M50 95H370" fill="none" stroke="#222" stroke-width="1.5"/>
+<g fill="#222" text-anchor="end"><text x="44" y="24">12</text><text x="44" y="61">6</text><text x="44" y="99">0</text><text x="44" y="136">-6</text><text x="44" y="174">-12</text></g>
+<g fill="#222" text-anchor="middle"><text x="156.7" y="110">4</text><text x="263.3" y="110">8</text><text x="370" y="110">12</text><text x="360" y="188" text-anchor="end">t in s</text></g>
+<text x="50" y="256" font-weight="bold" fill="#222">Unten: Weg-Zeit-Diagramm (s in m)</text>
+<g stroke="#c8c8c8" stroke-width="1">
+<path d="M50 270H370M50 307.5H370M50 345H370M50 382.5H370M50 420H370"/>
+<path d="M50 270V420M156.7 270V420M263.3 270V420M370 270V420"/>
+</g>
+<path d="M50 420L156.7 330Q210 285 263.3 330L370 420" fill="none" stroke="#1f5fbf" stroke-width="3"/>
+<path d="M50 270V420H370" fill="none" stroke="#222" stroke-width="1.5"/>
+<g fill="#222" text-anchor="end"><text x="44" y="424">0</text><text x="44" y="386">10</text><text x="44" y="349">20</text><text x="44" y="311">30</text><text x="44" y="274">40</text></g>
+<g fill="#222" text-anchor="middle"><text x="50" y="436">0</text><text x="156.7" y="436">4</text><text x="263.3" y="436">8</text><text x="370" y="436">12</text><text x="360" y="458" text-anchor="end">t in s</text></g>
+</svg>

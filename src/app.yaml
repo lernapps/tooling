@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/mechanik
+title: Beschleunigte Bewegung
+intro: |
+  Beschleunigen, Abbremsen und die Richtung ändern: Du erfährst, wie sich das in einem Weg-Zeit-Diagramm und einem
+  Geschwindigkeit-Zeit-Diagramm zeigt, und veränderst die Diagramme selbst. Für Physik in Klasse 9.
+languages: [de]
+chapters: [beschleunigte-bewegung]
+sources:
+  - title: Weg-Zeit-Diagramm (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm
+  - title: Gleichmäßig beschleunigte Bewegung (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Gleichm%C3%A4%C3%9Fig_beschleunigte_Bewegung

@@ -1,0 +1,182 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Weg-Zeit-Diagramm lesen
+description: "Wie eine Fahrt als Linie aussieht: Die Steigung der Linie im Weg-Zeit-Diagramm ist die Geschwindigkeit."
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Von der Fahrt zur Linie
+    blocks:
+      - type: text
+        text: |
+          Du kennst $v = \frac{s}{t}$ aus Klasse 7: Wer in 4 s genau 20 m weit kommt, fährt mit 5 m/s. Mit einer
+          einzigen Rechnung beschreibst du aber nur ein Stück der Fahrt. Wie sieht die ganze Fahrt aus, mit Anfahren,
+          Stehen und Weiterfahren? Dafür gibt es das Weg-Zeit-Diagramm: Es zeigt für jeden Zeitpunkt, wie weit das Auto
+          schon vom Start entfernt ist.
+  - type: section
+    id: erklaert
+    title: So liest du das Diagramm
+    blocks:
+      - type: definition
+        term: Weg-Zeit-Diagramm
+        explanation: |
+          Ein Weg-Zeit-Diagramm zeigt für jeden Zeitpunkt $t$ den Weg $s$, den ein Körper seit dem Start zurückgelegt
+          hat. Die Zeit liegt auf der waagerechten Achse, der Weg auf der senkrechten.
+      - type: figure
+        image: images/wzd-fahrt.svg
+        alt: Ein Weg-Zeit-Diagramm, Zeit von 0 bis 12 Sekunden, Weg von 0 bis 60 Metern. Die Linie steigt zuerst an, verläuft dann waagerecht und steigt danach wieder an.
+        caption: "Das Ganze ist die Fahrt von 12 s. Die Linie zeigt zu jedem Zeitpunkt den Weg vom Start. Achte darauf, ob die Linie steigt oder waagerecht verläuft."
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Die Linie ist **kein Bild der Straße**. Sie zeigt nicht, ob das Auto bergauf, bergab oder um die Kurve fährt.
+          Sie zeigt nur, wie weit es zu jedem Zeitpunkt vom Start entfernt ist. Steigt die Linie, wird der Weg größer:
+          das Auto fährt. Verläuft sie waagerecht, ändert sich der Weg nicht mehr: das Auto steht.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren im Bewegungslabor
+    blocks:
+      - type: text
+        text: |
+          Im Labor besteht die Fahrt aus drei Abschnitten von je 4 s. Mit jedem Regler stellst du die Geschwindigkeit
+          eines Abschnitts ein, die Linie im Diagramm folgt. Die Achsen bleiben dabei an ihrem Platz. Mit der
+          Messmarke wählst du einen Zeitpunkt und liest dafür den Weg ab. Zu Beginn fährt das Auto in allen Abschnitten
+          gleich schnell, die Linie ist eine Gerade. Verändere einen Regler und beobachte, wie sich die Linie in genau
+          diesem Abschnitt neigt: Was ändert sich, wenn die Geschwindigkeit größer wird? Und bei 0 m/s?
+      - type: vue-component
+        component: Bewegungslabor
+        props:
+          modus: st
+          werte: [4, 4, 4]
+          vMin: 0
+          vMax: 12
+          sMin: 0
+          sMax: 150
+          vSchritt: 1
+          sSchritt: 50
+          texte:
+            zeit: t in s
+            weg: s in m
+            geschwindigkeit: v in m/s
+            reglerSt: "Geschwindigkeit in Abschnitt {n}"
+            reglerVt: "Geschwindigkeit bei {t} s"
+            messmarke: Zeitpunkt der Messmarke
+            ablesenS: "Messmarke: Bei t = {t} s ist der Weg s = {s} m."
+            ablesenV: "Messmarke: Bei t = {t} s ist die Geschwindigkeit v = {v} m/s."
+            diagrammS: Weg-Zeit-Diagramm
+            diagrammV: Geschwindigkeit-Zeit-Diagramm
+            flaeche: Die schraffierte Fläche zwischen Linie und Zeitachse ist der Weg.
+            zuruecksetzen: Zurücksetzen
+        nojs: |
+          Das Bewegungslabor zeigt ein Weg-Zeit-Diagramm einer Fahrt von 12 s in drei Abschnitten von je 4 s. Mit
+          einem Regler je Abschnitt stellst du die Geschwindigkeit von 0 bis 12 m/s ein. Beispiele:
+
+          - Geschwindigkeiten 4, 4 und 4 m/s: nach 4 s sind es 16 m, nach 8 s 32 m, nach 12 s 48 m.
+          - Geschwindigkeiten 6, 0 und 3 m/s: nach 4 s sind es 24 m, nach 8 s 24 m, nach 12 s 36 m.
+          - Geschwindigkeiten 2, 8 und 12 m/s: nach 4 s sind es 8 m, nach 8 s 40 m, nach 12 s 88 m.
+
+          Eine größere Geschwindigkeit macht die Linie im Abschnitt steiler, bei 0 m/s verläuft sie waagerecht.
+  - type: section
+    id: beispiel
+    title: Die Steigung ist die Geschwindigkeit
+    blocks:
+      - type: example
+        title: Eine Radfahrt, zwei Messwerte
+        blocks:
+          - type: text
+            text: Bei $t = 2$ s ist ein Rad 10 m vom Start entfernt, bei $t = 6$ s sind es 30 m. Wie schnell fährt es zwischen den beiden Zeitpunkten?
+          - type: table
+            caption: Zwei Punkte der Linie
+            header: [Zeitpunkt, Weg]
+            rows:
+              - [2 s, 10 m]
+              - [6 s, 30 m]
+          - type: formula
+            formula: 'v = \frac{s_2 - s_1}{t_2 - t_1}'
+          - type: formula
+            formula: 'v = \frac{30\,\text{m} - 10\,\text{m}}{6\,\text{s} - 2\,\text{s}}'
+          - type: formula
+            formula: 'v = \frac{20\,\text{m}}{4\,\text{s}} = 5\,\frac{\text{m}}{\text{s}}'
+          - type: text
+            text: |
+              Du teilst, wie weit die Linie nach oben geht, durch die Zeit, die dafür vergeht. Das ist die
+              **Steigung** der Linie. Im Weg-Zeit-Diagramm ist die Steigung die Geschwindigkeit: Je steiler die
+              Linie, desto schneller die Fahrt.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: wzd-ablesen
+        text: In welchem Abschnitt fährt das Auto am schnellsten?
+        material:
+          - type: figure
+            image: images/wzd-fahrt.svg
+            alt: "Weg-Zeit-Diagramm mit drei Abschnitten A (0 bis 4 s), B (4 bis 8 s) und C (8 bis 12 s). In A steigt der Weg von 0 auf 20 m, in B bleibt er bei 20 m, in C steigt er von 20 auf 50 m."
+            caption: Die Fahrt in den drei Abschnitten A, B und C.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Abschnitt A
+            correct: false
+            info: "In A kommt das Auto in 4 s 20 m weit, das sind 5 m/s. In C schafft es 30 m in 4 s, das ist mehr."
+          - text: Abschnitt B
+            correct: false
+            info: "In B verläuft die Linie waagerecht, der Weg ändert sich nicht: Das Auto steht."
+          - text: Abschnitt C
+            correct: true
+            info: "In C steigt die Linie am steilsten: 30 m in 4 s sind 7,5 m/s."
+        explanation: "Je steiler die Linie im Weg-Zeit-Diagramm, desto größer ist die Geschwindigkeit. In C ist sie am steilsten."
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm
+      - type: true-false
+        id: wzd-berg
+        text: Wenn die Linie im Weg-Zeit-Diagramm ansteigt, fährt das Auto bergauf.
+        answer: false
+        explanation: "Das Diagramm ist kein Bild der Straße. Eine steigende Linie heißt nur: Der Weg vom Start wird größer, das Auto fährt. Ob die Straße eben ist oder ansteigt, steht nicht im Diagramm."
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm
+      - type: number
+        id: wzd-zielwert
+        text: "Stelle im Bewegungslabor den Abschnitt 1 so ein, dass das Auto nach 4 s genau 20 m weit ist. Welche Geschwindigkeit hast du eingestellt?"
+        answer: 5
+        tolerance: 0
+        unit: m/s
+        explanation: "Weg durch Zeit: 20 m : 4 s = 5 m/s. Die Linie hat dann nach 4 s die Höhe 20 m."
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Geschwindigkeit
+      - type: generated
+        id: wzd-rechnen
+        given:
+          t1: { oneOf: [2, 4, 6] }
+          t2: { oneOf: [8, 10, 12] }
+          s1: { int: [10, 40], step: 10 }
+          s2: { int: [50, 150], step: 10 }
+        where:
+          - "decimals((s2 - s1) / (t2 - t1)) == 0"
+          - "(s2 - s1) / (t2 - t1) <= 20"
+          - "s2 / t2 != (s2 - s1) / (t2 - t1)"
+        task:
+          text: "Im Weg-Zeit-Diagramm eines Rads liegt ein Punkt der Linie bei {{t1}} s und {{s1}} m, der nächste bei {{t2}} s und {{s2}} m. Wie schnell fährt das Rad zwischen den beiden Punkten in m/s?"
+        answer:
+          {
+            value: "(s2 - s1) / (t2 - t1)",
+            compare: { number: { format: decimal, decimals: 1, tolerance: 0, unit: "m/s" } },
+          }
+        mistakes:
+          - {
+              value: "s2 / t2",
+              message: "Du hast den ganzen Weg {{s2}} m durch die ganze Zeit {{t2}} s geteilt. Gefragt ist die Geschwindigkeit zwischen den beiden Punkten: Rechne mit dem Unterschied der Wege und dem Unterschied der Zeiten.",
+            }
+          - {
+              value: "s2 - s1",
+              message: "Das ist nur der Weg zwischen den Punkten. Teile ihn noch durch die Zeit, die dafür vergeht.",
+            }
+        hint: "Wie weit kommt das Rad zwischen den Punkten, und wie lange braucht es dafür?"
+        steps:
+          - "Weg zwischen den Punkten: {{s2}} m − {{s1}} m. Zeit dazwischen: {{t2}} s − {{t1}} s."
+          - '$v = \frac{s_2 - s_1}{t_2 - t_1} = {{answer}}$, also {{answer}} m/s.'

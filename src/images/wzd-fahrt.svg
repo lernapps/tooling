@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" font-family="sans-serif" font-size="12">
+<title>Weg-Zeit-Diagramm einer Fahrt in drei Abschnitten</title>
+<rect width="400" height="250" fill="#fff"/>
+<g stroke="#c8c8c8" stroke-width="1">
+<path d="M50 200H370M50 140H370M50 80H370M50 20H370"/>
+<path d="M50 20V200M156.7 20V200M263.3 20V200M370 20V200"/>
+</g>
+<path d="M50 20V200H370" fill="none" stroke="#222" stroke-width="1.5"/>
+<path d="M50 200L156.7 140L263.3 140L370 50" fill="none" stroke="#1f5fbf" stroke-width="3"/>
+<g fill="#222" text-anchor="middle">
+<text x="50" y="216">0</text><text x="156.7" y="216">4</text><text x="263.3" y="216">8</text><text x="370" y="216">12</text>
+<text x="370" y="238" text-anchor="end">t in s</text>
+</g>
+<g fill="#222" text-anchor="end">
+<text x="44" y="204">0</text><text x="44" y="144">20</text><text x="44" y="84">40</text><text x="44" y="24">60</text>
+</g>
+<text x="50" y="12" fill="#222" font-weight="bold">s in m</text>
+<g fill="#222" font-weight="bold" text-anchor="middle">
+<text x="103" y="236">A</text><text x="210" y="236">B</text><text x="317" y="236">C</text>
+</g>
+</svg>

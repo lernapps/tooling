@@ -1,0 +1,106 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Diagramme zeichnen
+description: "Aus einer Geschichte wird ein Geschwindigkeit-Zeit-Diagramm: Anfahren steigt, gleichmäßig fahren ist waagerecht, Abbremsen fällt."
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Von der Geschichte zum Diagramm
+    blocks:
+      - type: text
+        text: |
+          Bisher hast du Diagramme gelesen. Jetzt drehst du es um: Du bekommst eine Geschichte über eine Fahrt und
+          zeichnest das Geschwindigkeit-Zeit-Diagramm dazu. Dafür musst du nur wissen, was die Linie in jedem Stück
+          macht.
+  - type: section
+    id: erklaert
+    title: Stück für Stück zeichnen
+    blocks:
+      - type: text
+        text: |
+          Wir teilen die Fahrt von 12 s in drei Stücke zu je 4 s. Im Diagramm setzt du vier Punkte, bei 0, 4, 8 und
+          12 s. Die Höhe eines Punktes ist die Geschwindigkeit zu diesem Zeitpunkt. Zwischen zwei Punkten verläuft die
+          Linie gerade.
+      - type: table
+        caption: Was die Geschichte für die Linie bedeutet
+        header: [In der Geschichte, Die Linie im Stück]
+        rows:
+          - [Das Fahrzeug wird schneller, steigt]
+          - [Das Fahrzeug fährt gleichmäßig, verläuft waagerecht]
+          - [Das Fahrzeug wird langsamer, fällt]
+          - [Das Fahrzeug hält an, endet auf der Zeitachse]
+      - type: text
+        text: |
+          Gehe die Geschichte in der Reihenfolge der Zeit durch: Wie schnell ist das Fahrzeug am Anfang? Wie schnell
+          nach 4 s, nach 8 s, nach 12 s? Das sind deine vier Punkte.
+  - type: section
+    id: beispiel
+    title: Ein Beispiel
+    blocks:
+      - type: example
+        title: Ein Lastenrad
+        blocks:
+          - type: text
+            text: Ein Lastenrad steht, fährt in 4 s auf 6 m/s an, behält 4 s lang diese Geschwindigkeit und wird dann in 4 s auf 3 m/s langsamer.
+          - type: table
+            caption: Die vier Punkte des Lastenrads
+            header: [Zeitpunkt, Geschwindigkeit, Warum]
+            rows:
+              - [0 s, 0 m/s, Das Rad steht noch.]
+              - [4 s, 6 m/s, Es ist fertig angefahren.]
+              - [8 s, 6 m/s, Es fuhr gleichmäßig weiter.]
+              - [12 s, 3 m/s, "Es ist langsamer geworden, aber nicht stehengeblieben."]
+          - type: text
+            text: Verbindest du die Punkte der Reihe nach, steigt die Linie, verläuft waagerecht und fällt am Ende auf die Höhe 3 m/s.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: dz-passt
+        text: Welche Geschichte passt zum Diagramm?
+        material:
+          - type: figure
+            image: images/vzd-fahrt.svg
+            alt: "Geschwindigkeit-Zeit-Diagramm einer Fahrt von 12 s: Die Linie steigt in den ersten 4 s von 0 auf 8 m/s, bleibt 4 s lang bei 8 m/s und fällt in den letzten 4 s auf 0."
+            caption: Ein Geschwindigkeit-Zeit-Diagramm einer Fahrt.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Ein Auto fährt an, fährt 4 s gleichmäßig und bremst dann bis zum Halt ab.
+            correct: true
+            info: "Richtig: Die Linie steigt (anfahren), verläuft waagerecht (gleichmäßig) und fällt auf 0 (anhalten)."
+          - text: Ein Auto steht 4 s, fährt dann 4 s gleichmäßig und bremst am Ende.
+            correct: false
+            info: "Am Anfang liegt die Linie nicht auf der Zeitachse: Sie steigt, das Auto fährt also schon an."
+          - text: Ein Auto fährt 12 s lang gleichmäßig.
+            correct: false
+            info: "Dann müsste die Linie die ganze Zeit waagerecht verlaufen. Hier steigt sie am Anfang und fällt am Ende."
+        explanation: "Du gehst das Diagramm in der Reihenfolge der Zeit durch und beschreibst jedes Stück: steigt, waagerecht, fällt."
+        links:
+          - title: Gleichmäßig beschleunigte Bewegung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Gleichm%C3%A4%C3%9Fig_beschleunigte_Bewegung
+      - type: vue-component
+        id: diagramm-zeichnen
+        component: DiagrammZeichnen
+        props:
+          aufgabe: "Zeichne das Geschwindigkeit-Zeit-Diagramm. {geschichte}"
+          bewegungen: { data: bewegungen }
+          mistakes:
+            - "Du hast das Abbremsen oder Langsamerwerden am Ende nicht eingezeichnet: Der letzte Punkt liegt so hoch wie der davor. Lies in der Geschichte nach, was in den letzten 4 s passiert."
+            - "Du hast die Fahrt gleich mit der höchsten Geschwindigkeit begonnen. Lies nach, wie schnell das Fahrzeug bei 0 s ist: Wenn es erst anfährt, liegt der erste Punkt tiefer."
+            - "Du hast die Fahrt von hinten gelesen: Die Punkte stehen in umgekehrter Reihenfolge. Die Zeit läuft von links nach rechts, die Geschichte beginnt links."
+          texte:
+            regler: "Geschwindigkeit bei {t} s"
+            zeit: t in s
+            geschwindigkeit: v in m/s
+            diagramm: "Dein Diagramm: vier Punkte, gerade verbunden."
+            alt: "Geschwindigkeit-Zeit-Diagramm mit vier Punkten bei 0, 4, 8 und 12 Sekunden. Die Höhe der Punkte stellst du mit den Reglern darunter ein."
+        examples:
+          accepted:
+            - { answer: [0, 8, 8, 0], seed: 1 }
+            - { answer: [10, 10, 10, 0], seed: 2 }
+          rejected:
+            - { answer: [0, 8, 8, 8], seed: 1 }
+            - { answer: [8, 8, 8, 0], seed: 1 }
+            - { answer: [0, 0, 0, 0] }

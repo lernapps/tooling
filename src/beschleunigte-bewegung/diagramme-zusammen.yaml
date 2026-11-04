@@ -1,0 +1,172 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beide Diagramme zusammen
+description: "Weg-Zeit- und Geschwindigkeit-Zeit-Diagramm derselben Fahrt, auch wenn die Richtung wechselt."
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Zwei Diagramme, eine Fahrt
+    blocks:
+      - type: text
+        text: |
+          Du kannst beide Diagramme einzeln lesen. Jetzt legst du sie zusammen: Sie beschreiben dieselbe Fahrt, nur aus
+          zwei Blickwinkeln. Das Weg-Zeit-Diagramm zeigt, **wo** der Körper ist. Das Geschwindigkeit-Zeit-Diagramm zeigt,
+          **wie schnell** er ist. Besonders spannend wird es, wenn ein Körper umkehrt und wieder zum Start zurückfährt.
+  - type: section
+    id: erklaert
+    title: Wie die Diagramme zusammenhängen
+    blocks:
+      - type: text
+        text: |
+          Im Bild stehen die beiden Diagramme untereinander, mit derselben Zeitachse. Oben liest du die Geschwindigkeit
+          ab, unten den Weg vom Start. Aus der Höhe der oberen Linie wird die Steigung der unteren Linie.
+      - type: figure
+        image: images/beide-fahrt.svg
+        alt: "Zwei Diagramme untereinander. Oben das Geschwindigkeit-Zeit-Diagramm: Die Linie liegt bis 4 Sekunden bei 6 Metern pro Sekunde, fällt dann bis 8 Sekunden auf minus 6 und bleibt bis 12 Sekunden dort. Unten das Weg-Zeit-Diagramm derselben Fahrt: Der Weg steigt bis 4 Sekunden auf 24 Meter, steigt noch bis 6 Sekunden auf 30 Meter, fällt dann bis 8 Sekunden auf 24 Meter und weiter bis 12 Sekunden auf 0."
+        caption: "Oben die Geschwindigkeit, unten der Weg derselben Fahrt. Achte darauf, was unten passiert, wenn die obere Linie die Zeitachse kreuzt."
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Für die Richtung gilt: Eine **positive** Geschwindigkeit bedeutet, dass der Körper sich vom Start wegbewegt.
+          Eine **negative** Geschwindigkeit bedeutet, dass er sich in die Gegenrichtung bewegt, hier auf den Start zu.
+          Dann liegt die obere Linie unter der Zeitachse, und die untere Linie fällt: Der Weg vom Start wird kleiner.
+          Bei $v = 0$ kehrt der Körper um. Dort ist der Weg am größten.
+      - type: note
+        title: Weg und Entfernung
+        blocks:
+          - type: text
+            text: |
+              Im Weg-Zeit-Diagramm steht hier die **Entfernung vom Start**. Fährt der Körper zurück, wird sie kleiner,
+              obwohl er weiter fährt. Die Strecke, die der Tacho zählt, würde dagegen immer weiter wachsen.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren im Bewegungslabor
+    blocks:
+      - type: text
+        text: |
+          Im Labor siehst du beide Diagramme untereinander. Oben stellst du mit den Reglern die Geschwindigkeit bei 0,
+          4, 8 und 12 s ein, jetzt auch unter 0 bis −12 m/s. Unten folgt die Entfernung vom Start. Die Achsen bleiben
+          an ihrem Platz. Zu Beginn fährt das Auto immer mit 6 m/s. Ziehe den Regler bei 12 s unter 0 und beobachte,
+          was unten mit der Linie passiert. Die Messmarke zeigt dir Geschwindigkeit und Entfernung zu einem Zeitpunkt.
+      - type: vue-component
+        component: Bewegungslabor
+        props:
+          modus: beide
+          werte: [6, 6, 6, 6]
+          vMin: -12
+          vMax: 12
+          sMin: -150
+          sMax: 150
+          vSchritt: 1
+          sSchritt: 50
+          texte:
+            zeit: t in s
+            weg: s in m
+            geschwindigkeit: v in m/s
+            reglerSt: "Geschwindigkeit in Abschnitt {n}"
+            reglerVt: "Geschwindigkeit bei {t} s"
+            messmarke: Zeitpunkt der Messmarke
+            ablesenS: "Messmarke: Bei t = {t} s ist das Auto {s} m vom Start entfernt."
+            ablesenV: "Messmarke: Bei t = {t} s ist die Geschwindigkeit v = {v} m/s."
+            diagrammS: Weg-Zeit-Diagramm
+            diagrammV: Geschwindigkeit-Zeit-Diagramm
+            flaeche: Die schraffierte Fläche zwischen Linie und Zeitachse ist der Weg. Unter der Zeitachse zählt sie rückwärts.
+            zuruecksetzen: Zurücksetzen
+        nojs: |
+          Das Bewegungslabor zeigt das Geschwindigkeit-Zeit-Diagramm (oben) und das Weg-Zeit-Diagramm (unten) einer Fahrt
+          von 12 s. Mit vier Reglern legst du die Geschwindigkeit bei 0, 4, 8 und 12 s fest (−12 bis 12 m/s). Beispiele:
+
+          - Geschwindigkeiten 6, 6, 6 und 6 m/s: Die obere Linie ist waagerecht, die untere steigt gerade bis 72 m.
+          - Geschwindigkeiten 6, 6, −6 und −6 m/s: Der Weg steigt bis 4 s auf 24 m und bis 6 s auf 30 m, fällt dann auf 24 m bei 8 s und auf 0 m bei 12 s.
+          - Geschwindigkeiten 4, 4, 4 und −4 m/s: Der Weg steigt bis 8 s auf 32 m, noch bis 10 s auf 36 m und fällt dann auf 32 m bei 12 s.
+
+          Liegt die obere Linie unter der Zeitachse, fällt die untere.
+  - type: section
+    id: beispiel
+    title: Eine Fahrt mit Umkehr
+    blocks:
+      - type: example
+        title: Das Auto auf dem Parkplatz
+        blocks:
+          - type: text
+            text: Das Auto im Bild fährt los, wird langsamer, kehrt um und kommt zum Start zurück. So erzählen beide Diagramme dieselbe Fahrt.
+          - type: table
+            caption: Eine Fahrt, in den Diagrammen gelesen
+            header: [Zeit, Oben (Geschwindigkeit), Unten (Entfernung vom Start)]
+            rows:
+              - [0 bis 4 s, bleibt bei 6 m/s, steigt von 0 auf 24 m]
+              - [4 bis 6 s, fällt von 6 auf 0, steigt noch bis 30 m]
+              - [bei 6 s, ist 0, "ist am größten: Das Auto kehrt um"]
+              - [6 bis 8 s, fällt unter 0, fällt von 30 auf 24 m]
+              - [8 bis 12 s, bleibt bei −6 m/s, fällt von 24 auf 0 m]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: dz2-umkehr
+        text: Was passiert bei t = 6 s?
+        material:
+          - type: figure
+            image: images/beide-fahrt.svg
+            alt: "Zwei Diagramme untereinander. Oben die Geschwindigkeit: bis 4 s bei 6 m/s, dann fallend bis minus 6 m/s bei 8 s, danach gleich. Unten der Weg: steigt bis 6 s auf 30 m, fällt dann auf 0 bei 12 s."
+            caption: Geschwindigkeit oben, Weg unten.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Das Auto fährt am schnellsten.
+            correct: false
+            info: "Die obere Linie liegt bei 6 s auf der Zeitachse: Die Geschwindigkeit ist 0. Am schnellsten ist das Auto am Anfang, mit 6 m/s."
+          - text: Das Auto kehrt um.
+            correct: true
+            info: "Richtig: Oben ist v = 0, und unten ist der Weg am größten. Danach fährt das Auto zum Start zurück."
+          - text: Das Auto ist wieder am Start.
+            correct: false
+            info: "Unten liegt die Linie bei 6 s noch bei 30 m. Den Start erreicht das Auto erst bei 12 s."
+        explanation: "Bei 6 s kreuzt die obere Linie die Zeitachse (v = 0), und die untere Linie hat ihren höchsten Punkt: Der Körper kehrt um."
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm
+      - type: single-choice
+        id: dz2-ende
+        text: Wo ist das Auto bei t = 12 s?
+        material:
+          - type: figure
+            image: images/beide-fahrt.svg
+            alt: "Zwei Diagramme untereinander. Oben die Geschwindigkeit: bis 4 s bei 6 m/s, dann fallend bis minus 6 m/s bei 8 s, danach gleich. Unten der Weg: steigt bis 6 s auf 30 m, fällt dann auf 0 bei 12 s."
+            caption: Geschwindigkeit oben, Weg unten.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: 30 m vom Start entfernt
+            correct: false
+            info: "30 m war die größte Entfernung, bei 6 s. Danach ist das Auto zurückgefahren."
+          - text: 24 m vom Start entfernt
+            correct: false
+            info: "24 m ist die Entfernung bei 4 s und noch einmal bei 8 s. Bis 12 s fährt das Auto weiter zurück."
+          - text: Am Start
+            correct: true
+            info: "Richtig: Unten endet die Linie bei 12 s bei 0 m. Das Auto ist zurück am Start."
+        explanation: "Du liest den Weg am Ende der unteren Linie ab: 0 m, also wieder am Start."
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm
+      - type: true-false
+        id: dz2-negativ
+        text: Liegt die Linie im Geschwindigkeit-Zeit-Diagramm unter der Zeitachse, wird im Weg-Zeit-Diagramm die Entfernung vom Start kleiner.
+        answer: true
+        explanation: "Eine negative Geschwindigkeit heißt: Der Körper bewegt sich auf den Start zu. Darum fällt die Linie im Weg-Zeit-Diagramm."
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Geschwindigkeit
+      - type: number
+        id: dz2-zielwert
+        text: "Stelle im Bewegungslabor die Regler bei 0, 4 und 8 s auf 4, 4 und −4 m/s. Welche Geschwindigkeit muss der Regler bei 12 s haben, damit das Auto nach 12 s genau am Start ankommt?"
+        answer: -4
+        tolerance: 0
+        unit: m/s
+        explanation: "Bei 8 s ist das Auto 16 m vom Start entfernt (16 m bis 4 s, danach hebt sich Vorwärts- und Rückwärtsfahren auf). In den letzten 4 s muss es 16 m zurückfahren, im Mittel also mit −4 m/s. Der Mittelwert aus −4 m/s am Anfang des Stücks und der gesuchten Geschwindigkeit am Ende muss −4 m/s sein, also ist sie −4 m/s."
+        links:
+          - title: Gleichmäßig beschleunigte Bewegung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Gleichm%C3%A4%C3%9Fig_beschleunigte_Bewegung
