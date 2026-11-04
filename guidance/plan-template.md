@@ -196,6 +196,8 @@ the app does not practise, and which get a recap page, which a link. Becomes the
 - [ ] `npx --no -- lernapps check` passes.
 - [ ] Look at a screenshot of every screen and state (start, each mode, pause, end), desktop and 360 px. Compare
       each with the confirmed sketches; each figure in its own image (`npx --no -- lernapps screenshots --desktop`).
+      Your tools cannot show an image: check each screen in the browser instead (text, element boxes at both widths),
+      write that under "Notes" and tick the box.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
       No checkpoint here: set it before you ask or report anything, then start Commit in the same message.

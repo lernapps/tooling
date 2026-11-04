@@ -218,6 +218,7 @@ ROWS.push(
       ["l_explainer-one-step", "One new step per page", "explainer-one-step"],
       ["l_explainer-figure-hides-answer", "The task's figure hides the answer", "explainer-figure-hides-answer"],
       ["l_explainer-steps-explain", "Solution steps explain", "explainer-steps-explain"],
+      ["l_explainer-honest-headings", "Headings say what the section does", "explainer-honest-headings"],
       ["l_explainer-age-appropriate", "Address fits the age", "explainer-age-appropriate"],
     ] as const
   ).map(([key, label, source]): Row => ({

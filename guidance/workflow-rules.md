@@ -68,7 +68,8 @@ severity: hint
   sub-agent in the foreground and wait for its report in the same turn; no turn ends while it runs. No sub-agent
   tool: do the learner check yourself, in the browser, with the same brief. Fix what they find.
 - Look at the screenshots yourself, each image (`npx --no -- lernapps screenshots --desktop`, desktop and 360 px):
-  what you have not seen you cannot show.
+  what you have not seen you cannot show. Your tools cannot show an image (a read gives only bytes): check the page in
+  the browser instead (its text, the boxes of its elements at both widths) and say so to the creator.
 - Then send the creator one message that begins "**Code · Checkpoint** Zwischenstand": the screenshots (their paths,
   or the images where the chat shows them), on the creator's machine also the address of `npm run dev`, started in
   the background; what learners do on the page in one or two sentences; one question: may the other pages follow

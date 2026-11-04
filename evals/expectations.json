@@ -51,6 +51,7 @@
     "explainer-one-step": ["A36"],
     "explainer-figure-hides-answer": ["A36"],
     "explainer-steps-explain": ["A36"],
-    "explainer-age-appropriate": ["A36"]
+    "explainer-age-appropriate": ["A36"],
+    "explainer-honest-headings": ["A36"]
   }
 }
