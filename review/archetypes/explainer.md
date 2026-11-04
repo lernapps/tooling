@@ -124,10 +124,12 @@ The map cannot be opened: no finding; say that it was not judged.
 id: explainer-figure-hides-answer
 ```
 
-Unit: an exercise. Do it in the browser: mark, slide and type, but do not press "Prüfen". 2: nothing on the page
-gives the answer before the check. 0: the task's figure, its caption or `alt`, its text or the component shows the
-answer (a counter or live sentence that states what is checked, a field it fills in, a mark on the right spot, an
-option repeated). Two levels only. Name the page, the exercise and what gave it away.
+Unit: an exercise. Do it in the browser: mark, slide and type, but do not press "Prüfen". Judge only what belongs to
+the task: its figure, caption, `alt`, text and component. 2: none of them gives the answer before the check. 0: one of
+them shows it (a counter or live sentence that states what is checked, a field it fills in, a mark on the right spot,
+the task's text naming the option to choose). Two levels only. Name the page, the exercise and what gave it away. Not
+here: a question that repeats what the page explained above it; that is a check of understanding
+(`explainer-exercise-progression` judges whether the exercises go further).
 
 # Learning quality
 
