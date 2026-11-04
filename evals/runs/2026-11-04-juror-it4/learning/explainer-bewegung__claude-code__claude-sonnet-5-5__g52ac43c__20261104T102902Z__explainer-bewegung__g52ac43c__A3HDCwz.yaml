@@ -1,0 +1,406 @@
+url: http://127.0.0.1:4401/
+grade: 9-10
+subject: physik
+competencies:
+  - geschwindigkeitsaenderung
+  - bewegungsdiagramme
+pages:
+  - /beschleunigte-bewegung/wiederholung-geschwindigkeit/
+  - /beschleunigte-bewegung/beschleunigen-bremsen/
+  - /beschleunigte-bewegung/weg-zeit-diagramm/
+  - /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+  - /beschleunigte-bewegung/diagramme-zeichnen/
+  - /beschleunigte-bewegung/diagramme-zusammen/
+units:
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/wiederholung-geschwindigkeit/
+    unit: Seite
+    level: 2
+    evidence:
+      Beginnt mit „Wenn ein Fahrrad schnell fährt, kommt es in kurzer Zeit weit.“ (Alltag), Tacho und Navi; v, s, t
+      werden bei der Formel erklärt.
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/beschleunigen-bremsen/
+    unit: Seite
+    level: 2
+    evidence:
+      "Beginnt mit dem Bus: „Ein Bus fährt an der Haltestelle ab, wird schneller…“, knüpft an den Tacho an; „Tempo“
+      und „Richtung“ werden sofort erklärt. Kleiner Bruch: Geschwindigkeit war eben „wie schnell du bist“, dann gehört Richtung
+      dazu."
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      "Beginnt mit „Du kennst v = s/t aus Klasse 7: Wer in 4 s genau 20 m weit kommt, fährt mit 5 m/s.“ und der Frage
+      nach der ganzen Fahrt; „Steigung“ wird im Beispiel erklärt, wo sie gebraucht wird."
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      "Beginnt mit dem Tacho: „Schreibst du den Tachowert über die Zeit auf, bekommst du eine Linie.“ Knüpft an das
+      Weg-Zeit-Diagramm an."
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Seite
+    level: 2
+    evidence: „Bisher hast du Diagramme gelesen. Jetzt drehst du es um“; verlangt nur, was die vorige Seite lehrte.
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Du kannst beide Diagramme einzeln lesen… dieselbe Fahrt, nur aus zwei Blickwinkeln.“ „Negative Geschwindigkeit“
+      wird im Text vor dem Einsatz erklärt.
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Statische Figur „Weg-Zeit-Diagramm“ (Linie, Abschnitte A B C)
+    level: 1
+    evidence:
+      Das Ganze („die Fahrt von 12 s“), Achsen und Aussage stehen da („Steigt die Linie, wird der Weg größer… waagerecht…
+      das Auto steht“). A, B, C sind im Text nirgends erklärt, erst die Übung sagt „drei Abschnitte A, B und C“.
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Bewegungslabor (Regler Abschnitt 1–3, Messmarke)
+    level: 2
+    evidence:
+      "Text vor dem Labor: je 4 s pro Regler, Achsen bleiben, Messmarke liest den Weg ab; die Linie folgt den Reglern;
+      Messmarke gibt „Bei t = 6 s ist der Weg s = 24 m.“"
+    did: "Regler auf 0 und 12, Messmarke auf 0 und 12 s: s = 0 m bzw. 144 m; Linie folgt, Achse bleibt (bis 150)."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Statische Figur „Geschwindigkeit-Zeit-Diagramm“ mit schraffierter Fläche
+    level: 2
+    evidence:
+      "Caption: „Das Ganze ist die Fahrt von 12 s. Die Höhe der Linie ist die Geschwindigkeit… Die schraffierte Fläche
+      liegt zwischen Linie und Zeitachse.“ Danach: „Sie ist der Weg.“ Ablesen und Bedeutung der Fläche stehen vor den Aufgaben."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Bewegungslabor (4 Regler, Messmarke, Fläche)
+    level: 2
+    evidence:
+      Text erklärt Stützpunkte 0, 4, 8, 12 s, Geraden dazwischen, Startzustand 6 m/s; Messmarke zeigt Weg und v; Fläche
+      ist als Weg beschriftet.
+    did: "Regler auf 0/12 gestellt, Messmarke 0/12 s: Weg 0 bzw. 144 m, v = 12 m/s; 360 px breit bedienbar."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Zeichen-Komponente „Dein Diagramm“ (4 Regler)
+    level: 2
+    evidence:
+      „Im Diagramm setzt du vier Punkte, bei 0, 4, 8 und 12 s. Die Höhe eines Punktes ist die Geschwindigkeit… Zwischen
+      zwei Punkten verläuft die Linie gerade.“ Tabelle „Was die Geschichte für die Linie bedeutet“. Startlinie auf der Zeitachse.
+    did: Regler bedient, Linie folgt, Prüfen.
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Statische Figur: v-t oben, s-t unten"
+    level: 2
+    evidence:
+      "Text: „oben liest du die Geschwindigkeit ab, unten den Weg… derselben Zeitachse“; positive/negative Geschwindigkeit
+      und Wirkung auf die Weglinie erklärt; Box „Weg und Entfernung“."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Bewegungslabor mit zwei Diagrammen
+    level: 1
+    evidence:
+      Text sagt, was oben/unten zu sehen ist und was zu tun ist („Regler bei 12 s unter 0“). Beim v-Diagramm stehen
+      alle Ganzzahlen von −12 bis 12 an der Achse, die Beschriftungen drängen sich; „Unter der Zeitachse zählt sie rückwärts“
+      (Fläche) wird nicht erklärt, wie das in die untere Linie führt.
+    did: "Alle Regler auf −12 und 12, Messmarke 0/12: Entfernung 0 bzw. 144 m."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Übung: Figur „In welchem Abschnitt am schnellsten“"
+    level: 2
+    evidence:
+      Gleiche Darstellung wie im Erklärteil, Beschriftung der Achsen und Abschnitte A/B/C, Caption „Die Fahrt in den
+      drei Abschnitten A, B und C.“
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Übungsfigur „Wie schnell bei t = 6 s“
+    level: 2
+    evidence:
+      Gleiche Darstellung wie im Erklärteil, Beschriftung der Achsen und Abschnitte A/B/C, Caption „Die Fahrt in den
+      drei Abschnitten A, B und C.“
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Übungsfigur „Wie viele Meter im Abschnitt B“
+    level: 2
+    evidence:
+      Gleiche Darstellung wie im Erklärteil, Beschriftung der Achsen und Abschnitte A/B/C, Caption „Die Fahrt in den
+      drei Abschnitten A, B und C.“
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Übungsfigur „Welche Geschichte passt zum Diagramm?“
+    level: 2
+    evidence:
+      Gleiche Darstellung wie im Erklärteil, Beschriftung der Achsen und Abschnitte A/B/C, Caption „Die Fahrt in den
+      drei Abschnitten A, B und C.“
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Übungsfiguren „Was passiert bei t = 6 s“ und „Wo ist das Auto bei t = 12 s“
+    level: 2
+    evidence:
+      Gleiche Darstellung wie im Erklärteil, Beschriftung der Achsen und Abschnitte A/B/C, Caption „Die Fahrt in den
+      drei Abschnitten A, B und C.“
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Bewegungslabor
+    level: 2
+    evidence:
+      "Jeder Regler ändert sichtbar seinen Abschnitt; Text nennt den Zweck („Was ändert sich, wenn die Geschwindigkeit
+      größer wird? Und bei 0 m/s?“); Start: gerade Linie, 4 m/s. Zurücksetzen vorhanden. Beschriftungen und Linie stimmen nach
+      jeder Änderung."
+    did: Alle Regler auf Grenzen, Messmarke bewegt.
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Bewegungslabor
+    level: 2
+    evidence:
+      Regler setzen v bei 0/4/8/12 s, Fläche und Messmarke folgen, Fragen im Text nennen den Zweck. Start waagerecht
+      auf 6 m/s.
+    did: Regler 0/12, Messmarke 0/12, Zurücksetzen.
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Zeichen-Regler der Aufgabe
+    level: 2
+    evidence: Vier Regler, die Linie folgt, Startlinie auf der Zeitachse; Zweck in der Aufgabe klar.
+    did:
+      "Regler bedient; Aufgabe 1 mit [0,8,8,0]: „Richtig!“; falsche Eingaben: „Leider nicht richtig.“ Bei meinem ersten Skript
+      (fill auf Regler) kam auch bei [0,8,8,0] „Leider nicht richtig“, mit gesendeten input-Ereignissen „Richtig!“; nicht weiter
+      geklärt."
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Bewegungslabor mit zwei Diagrammen
+    level: 2
+    evidence:
+      Regler reichen jetzt bis −12 (angekündigt), unten folgt die Entfernung; Text sagt, was zu beobachten ist; Start
+      6 m/s konstant.
+    did: Regler −12/12, Messmarke 0/12; Zurücksetzen.
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Text, Figur, Labor, Beispiel
+    level: 2
+    evidence:
+      Figur und Labor zeigen dasselbe Auto-Weg-Zeit-Diagramm; Beispiel wechselt angekündigt zu „Eine Radfahrt, zwei
+      Messwerte“. Nur Regler und Messmarke, die im Text stehen.
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Text, Figur, Labor, Beispiel „Ein Auto fährt an und bremst ab“
+    level: 1
+    evidence:
+      „Das Auto im Diagramm oben fährt in A an und ist am Ende von A mit 8 m/s unterwegs.“ Das Diagramm direkt darüber
+      ist das Labor mit 6 m/s waagerecht; gemeint ist die statische Figur weiter oben.
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Text, Beispiel, Aufgabe
+    level: 2
+    evidence:
+      Beispiel „Ein Lastenrad“ mit Tabelle und Beschreibung stimmt; Aufgabe nennt ihr Fahrrad mit eigenen Zahlen, beides
+      angekündigt als Beispiel/Übung.
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Text, Figur, Labor, Beispiel Parkplatz
+    level: 2
+    evidence:
+      Tabelle „Eine Fahrt, in den Diagrammen gelesen“ passt zur Figur (6 m/s bis 4 s, 0 bei 6 s, −6 m/s ab 8 s, 30 m
+      Maximum, 0 m am Ende).
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/wiederholung-geschwindigkeit/
+    unit: Seite
+    level: 2
+    evidence: Wiederholung einer Formel mit einem Beispiel.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/beschleunigen-bremsen/
+    unit: Seite
+    level: 1
+    evidence:
+      Eine Idee, aber Übung „Wer abbremst, hat eine negative Geschwindigkeit.“ greift der Seite „Beide Diagramme zusammen“
+      (negative Geschwindigkeit) vor; „Ausblick“ nennt die Beschleunigung.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: Weg-Zeit-Diagramm lesen; Steigung als Geschwindigkeit mit einem Beispiel.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Dinge in einer Seite: Höhe der Linie lesen und die Fläche als Weg berechnen (Rechteck und Dreieck, „Grundseite
+      mal Höhe durch zwei“)."
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Seite
+    level: 2
+    evidence: "Ein Schritt: Geschichte in vier Punkte übersetzen; ein Beispiel."
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Seite
+    level: 1
+    evidence:
+      Zusammenlegen der Diagramme, dazu negative Geschwindigkeit, Umkehr und die Unterscheidung Weg/Entfernung; „Weg“
+      hieß vorher zurückgelegter Weg, hier „Entfernung vom Start“.
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Generierte Aufgabe wzd-rechnen
+    level: 1
+    evidence:
+      "Schritt 1: „Weg zwischen den Punkten: {{s2}} m − {{s1}} m. Zeit dazwischen: {{t2}} s − {{t1}} s.“ bleibt ein
+      unausgerechneter Term, Schritt 2 setzt v = (s2−s1)/(t2−t1) = Ergebnis ohne Begründung. Aufgabe Nr. 48 gesehen; Quelltext
+      für weitere Seeds gelesen."
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Generierte Aufgabe vzd-dreieck
+    level: 2
+    evidence:
+      "Schritt 1: „Die Linie steigt gleichmäßig von 0 auf {{v}} m/s. Die Fläche ist ein Dreieck mit der Grundseite {{t}}
+      s und der Höhe {{v}} m/s.“ Schritt 2 rechnet mit den Zahlen. Mistake-Meldungen erklären, was schiefging."
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Zeichenaufgabe
+    level: 2
+    evidence:
+      Das Feedback bei falscher Eingabe nennt den Fehler (Abbremsen vergessen, Start voll, Reihenfolge); Beispiel mit
+      Tabelle „Warum“ pro Punkt.
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Beispiel „Ein Auto fährt an und bremst ab“
+    level: 2
+    evidence: Rechnung „s = 4 s · 8 m/s / 2 = 16 m“ mit dem Grund (Dreieck) davor.
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Beispiel „Eine Radfahrt, zwei Messwerte“
+    level: 2
+    evidence: "Werte aus der Tabelle werden ausgerechnet: „v = 20 m / 4 s = 5 m/s“, danach in Worten erklärt."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/wiederholung-geschwindigkeit/
+    unit: Seite
+    level: 2
+    evidence: Überschriften „Was du schon weißt“, „Die Formel und ihre Einheit“, „Ein Beispiel“ passen.
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/beschleunigen-bremsen/
+    unit: Seite
+    level: 2
+    evidence: Kein „Ausprobieren“; „Der Bus an der Kreuzung“, „Übung“ passen.
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren im Bewegungslabor“ über dem Labor mit Reglern.
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren im Bewegungslabor“ über dem Labor.
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Seite
+    level: 2
+    evidence: Keine Ausprobieren-Überschrift; „Stück für Stück zeichnen“ passt.
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren im Bewegungslabor“ über dem Labor.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/wiederholung-geschwindigkeit/
+    unit: Seite
+    level: 2
+    evidence: Knapp, „Tacho und Navi“, Klasse 9 angemessen.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/beschleunigen-bremsen/
+    unit: Seite
+    level: 1
+    evidence:
+      „Ein Bus fährt… Dann biegt er ab“ ist sehr einfach, „Hier lernst du, was sich ändern kann.“ eher kindlich für
+      Klasse 9.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: „Die Linie ist kein Bild der Straße.“ sachlich, passend.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: Tacho, Fläche, Formeln, dicht aber passend.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Seite
+    level: 2
+    evidence: Lastenrad, Skater, Schlitten; passend.
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Seite
+    level: 1
+    evidence: „Besonders spannend wird es, wenn ein Körper umkehrt“ etwas bemüht, sonst passend.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Aufgabe „Stelle im Bewegungslabor Abschnitt 1 so ein, dass das Auto nach 4 s genau 20 m weit ist“
+    level: 0
+    evidence:
+      Das Labor zeigt sofort den Weg bei der Messmarke („Bei t = 4 s ist der Weg s = …“) und die Reglerbeschriftung
+      „x m/s“; man schiebt, bis 20 m erscheint, und liest die Antwort am Regler ab.
+    did: Regler verschoben, Messmarke auf 4 s.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Aufgabe „Regler bei 12 s … Auto nach 12 s genau am Start“
+    level: 0
+    evidence:
+      Das Labor zeigt „Bei t = 12 s ist das Auto … m vom Start entfernt“; man schiebt den Regler, bis 0 m erscheint,
+      und liest die Geschwindigkeit am Regler ab.
+    did: Regler 4, 4, −4, dann 12 s-Regler verschoben, Messmarke auf 12 s.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: Aufgabe „In welchem Abschnitt am schnellsten?“
+    level: 2
+    evidence:
+      Die Figur zeigt nur die Daten, keine Marke, keine Zahl, keine Lösung vor „Prüfen“; die Antwort muss gelesen oder
+      gerechnet werden. Bei der Zeichenaufgabe starten die Regler bei 0.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Aufgabe „Wie schnell bei t = 6 s?“
+    level: 2
+    evidence:
+      Die Figur zeigt nur die Daten, keine Marke, keine Zahl, keine Lösung vor „Prüfen“; die Antwort muss gelesen oder
+      gerechnet werden. Bei der Zeichenaufgabe starten die Regler bei 0.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: Aufgabe „Wie viele Meter im Abschnitt B“
+    level: 2
+    evidence:
+      Die Figur zeigt nur die Daten, keine Marke, keine Zahl, keine Lösung vor „Prüfen“; die Antwort muss gelesen oder
+      gerechnet werden. Bei der Zeichenaufgabe starten die Regler bei 0.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Aufgabe „Welche Geschichte passt?“
+    level: 2
+    evidence:
+      Die Figur zeigt nur die Daten, keine Marke, keine Zahl, keine Lösung vor „Prüfen“; die Antwort muss gelesen oder
+      gerechnet werden. Bei der Zeichenaufgabe starten die Regler bei 0.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/diagramme-zeichnen/
+    unit: Zeichenaufgabe Nr. 1
+    level: 2
+    evidence:
+      Die Figur zeigt nur die Daten, keine Marke, keine Zahl, keine Lösung vor „Prüfen“; die Antwort muss gelesen oder
+      gerechnet werden. Bei der Zeichenaufgabe starten die Regler bei 0.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Aufgabe „Was passiert bei t = 6 s?“
+    level: 2
+    evidence:
+      Die Figur zeigt nur die Daten, keine Marke, keine Zahl, keine Lösung vor „Prüfen“; die Antwort muss gelesen oder
+      gerechnet werden. Bei der Zeichenaufgabe starten die Regler bei 0.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: Aufgabe „Wo ist das Auto bei t = 12 s?“
+    level: 2
+    evidence:
+      Die Figur zeigt nur die Daten, keine Marke, keine Zahl, keine Lösung vor „Prüfen“; die Antwort muss gelesen oder
+      gerechnet werden. Bei der Zeichenaufgabe starten die Regler bei 0.
+notes:
+  "Map read: geschwindigkeitsaenderung requires geschwindigkeit (strecke-und-zeit-messen); bewegungsdiagramme requires
+  geschwindigkeit-berechnen. Gesichtet bei 1280 und 360 px (Screenshots der Seiten, Regler bei 360 px an den Enden bedient).
+  Glossar/Tutor nicht beurteilt. Der Wiederholungsseite fehlen Übung und Komponenten."
+at: "2026-11-04"
