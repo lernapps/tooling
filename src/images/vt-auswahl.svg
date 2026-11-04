@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180" font-family="sans-serif" font-size="17" role="img">
+  <title>Drei Geschwindigkeit-Zeit-Diagramme A, B und C</title>
+  <rect width="400" height="180" fill="#ffffff"/>
+  <text x="80" y="20" text-anchor="middle" font-weight="bold" fill="#1a1a1a">A</text>
+  <g stroke="#1a1a1a" stroke-width="1.5"><line x1="40" y1="30" x2="40" y2="140"/><line x1="40" y1="140" x2="128" y2="140"/></g>
+  <text x="42" y="28" fill="#1a1a1a" font-size="16">v</text><text x="128" y="158" text-anchor="end" fill="#1a1a1a" font-size="16">t</text>
+  <polyline points="40,127.5 120,52.5" fill="none" stroke="#1d5fc4" stroke-width="3"/>
+  <text x="208" y="20" text-anchor="middle" font-weight="bold" fill="#1a1a1a">B</text>
+  <g stroke="#1a1a1a" stroke-width="1.5"><line x1="168" y1="30" x2="168" y2="140"/><line x1="168" y1="140" x2="256" y2="140"/></g>
+  <text x="170" y="28" fill="#1a1a1a" font-size="16">v</text><text x="256" y="158" text-anchor="end" fill="#1a1a1a" font-size="16">t</text>
+  <polyline points="168,52.5 248,140" fill="none" stroke="#1d5fc4" stroke-width="3"/>
+  <text x="336" y="20" text-anchor="middle" font-weight="bold" fill="#1a1a1a">C</text>
+  <g stroke="#1a1a1a" stroke-width="1.5"><line x1="296" y1="30" x2="296" y2="140"/><line x1="296" y1="140" x2="384" y2="140"/></g>
+  <text x="298" y="28" fill="#1a1a1a" font-size="16">v</text><text x="384" y="158" text-anchor="end" fill="#1a1a1a" font-size="16">t</text>
+  <polyline points="296,77.5 376,77.5" fill="none" stroke="#1d5fc4" stroke-width="3"/>
+</svg>

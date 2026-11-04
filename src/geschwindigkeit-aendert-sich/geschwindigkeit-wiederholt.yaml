@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Geschwindigkeit – kurz wiederholt
+description: Du wiederholst, was Geschwindigkeit ist und wie du sie aus Weg und Zeit berechnest.
+recap: physik/geschwindigkeit
+blocks:
+  - type: section
+    id: einstieg
+    title: Das kennst du schon
+    blocks:
+      - type: text
+        text: >-
+          Aus Klasse 7 weißt du: Die **Geschwindigkeit** sagt, wie weit etwas in einer bestimmten Zeit kommt. Wer schnell
+          ist, schafft in derselben Zeit mehr Meter. Auf den nächsten Seiten fragen wir, was passiert, wenn sich diese
+          Geschwindigkeit während der Fahrt ändert.
+  - type: section
+    id: erklaert
+    title: Weg pro Zeit
+    blocks:
+      - type: definition
+        term: Geschwindigkeit
+        explanation: Die Geschwindigkeit $v$ sagt, welchen Weg $s$ ein Körper in einer bestimmten Zeit $t$ zurücklegt, zum Beispiel in Metern pro Sekunde (m/s) oder in Kilometern pro Stunde (km/h).
+      - type: formula
+        formula: 'v = \frac{s}{t}'
+      - type: text
+        text: >-
+          Du teilst den Weg durch die Zeit. 1 m/s sind 3,6 km/h. Ein Fahrrad fährt im Alltag oft mit 5 m/s, das sind
+          18 km/h.
+  - type: section
+    id: beispiel
+    title: Ein Beispiel
+    blocks:
+      - type: example
+        title: Ein Fahrrad auf gerader Strecke
+        blocks:
+          - type: text
+            text: >-
+              Ein Fahrrad schafft in 6 Sekunden 30 Meter. Dann ist die Geschwindigkeit
+              $v = \frac{30\,\text{m}}{6\,\text{s}} = 5\,\frac{\text{m}}{\text{s}}$. Das heißt: In jeder Sekunde kommt
+              das Fahrrad 5 Meter weiter, wenn es immer gleich schnell fährt.

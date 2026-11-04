@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="sans-serif" font-size="14">
+  <title>Skizze Bewegungsspur: Wagen mit Blitzbild-Punkten im Sekundenabstand</title>
+  <rect width="640" height="300" fill="#fff" stroke="#999"/>
+  <text x="16" y="24" font-weight="bold">Seite „Beschleunigen und Abbremsen“, Abschnitt „Ausprobieren“</text>
+  <text x="16" y="52">Wähle eine Bewegung:</text>
+  <rect x="16" y="62" width="130" height="36" fill="#2a6fdb"/><text x="30" y="85" fill="#fff">schneller werden</text>
+  <rect x="156" y="62" width="130" height="36" fill="#eee" stroke="#333"/><text x="170" y="85">gleich schnell</text>
+  <rect x="296" y="62" width="130" height="36" fill="#eee" stroke="#333"/><text x="310" y="85">langsamer werden</text>
+  <rect x="436" y="62" width="90" height="36" fill="#eee" stroke="#333"/><text x="452" y="85">▶ Start</text>
+  <!-- Bahn -->
+  <line x1="30" y1="170" x2="610" y2="170" stroke="#333" stroke-width="2"/>
+  <rect x="150" y="140" width="46" height="24" fill="#2a6fdb"/><circle cx="162" cy="168" r="5"/><circle cx="184" cy="168" r="5"/>
+  <!-- Blitzbild-Punkte: Abstände wachsen -->
+  <g fill="#d6336c"><circle cx="40" cy="200" r="6"/><circle cx="58" cy="200" r="6"/><circle cx="90" cy="200" r="6"/><circle cx="140" cy="200" r="6"/><circle cx="210" cy="200" r="6"/></g>
+  <g font-size="12"><text x="34" y="222">0 s</text><text x="52" y="238">1 s</text><text x="84" y="222">2 s</text><text x="134" y="238">3 s</text><text x="204" y="222">4 s</text></g>
+  <g stroke="#d6336c"><line x1="46" y1="190" x2="52" y2="190"/><line x1="64" y1="190" x2="84" y2="190"/><line x1="96" y1="190" x2="134" y2="190"/><line x1="146" y1="190" x2="204" y2="190"/></g>
+  <text x="16" y="270">Ein Punkt je Sekunde. Die Abstände wachsen: In derselben Zeit legt der Wagen immer mehr Weg zurück.</text>
+</svg>

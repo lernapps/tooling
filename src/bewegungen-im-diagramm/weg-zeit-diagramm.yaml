@@ -1,0 +1,168 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Weg-Zeit-Diagramm
+description: Du liest und veränderst ein Weg-Zeit-Diagramm und erkennst an der Steigung, wie schnell sich etwas bewegt.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Eine Fahrt als Linie
+    blocks:
+      - type: text
+        text: >-
+          Du kennst $v = \frac{s}{t}$ aus Klasse 7: Wer in 4 Sekunden 20 Meter fährt, hat 5 m/s. Aber was ist, wenn die
+          Fahrt aus mehreren Teilen besteht? Erst fährst du los, dann stehst du an der Ampel, dann fährst du weiter.
+          Dann hilft ein **Weg-Zeit-Diagramm**: Es zeigt die ganze Fahrt als eine Linie. Auf den folgenden Seiten
+          fährt immer ein Wagen auf einer geraden Bahn. Fährt er **gleichmäßig**, dann ist er die ganze Zeit gleich
+          schnell.
+  - type: section
+    id: erklaert
+    title: So liest du das Diagramm
+    blocks:
+      - type: definition
+        term: Weg-Zeit-Diagramm
+        explanation: Ein Diagramm, in dem waagerecht die Zeit $t$ und senkrecht der Weg $s$ vom Startpunkt steht. Jeder Punkt der Linie, des Graphen, sagt, wie weit der Wagen nach dieser Zeit vom Start entfernt ist.
+      - type: text
+        text: >-
+          Waagerecht steht die Zeit $t$ in Sekunden, senkrecht der Weg $s$ in Metern. Der Weg ist hier immer die
+          Entfernung vom Startpunkt der Bahn. Die Linie im Diagramm heißt **Graph**. Sie ist **nicht** das Bild der
+          Strecke, auf der der Wagen fährt. Sie zeigt nur: Nach so vielen Sekunden ist der Wagen so weit vom Start weg.
+      - type: text
+        text: >-
+          Achte auf die **Steigung**, also darauf, wie steil der Graph ist. Je steiler, desto mehr Weg kommt in
+          derselben Zeit dazu, desto größer ist die Geschwindigkeit. Ein waagerechter Graph heißt: Es kommt kein Weg
+          dazu, der Wagen steht. Geht der Graph nach unten, wird der Weg kleiner: Der Wagen fährt zum Start zurück.
+  - type: section
+    id: ausprobieren
+    title: Stelle eine Fahrt ein
+    blocks:
+      - type: text
+        text: >-
+          Unten siehst du oben die Bahn mit dem Wagen. Sie ist 100 m lang, so wie die senkrechte Achse des Diagramms:
+          Wo der Wagen auf der Bahn steht, so groß ist der Weg $s$. Darunter ist das Diagramm. Die Fahrt hat vier
+          **Abschnitte** von je 2 Sekunden. Mit den vier Reglern legst du fest, wie schnell der Wagen in jedem Abschnitt
+          ist. Dein Graph entsteht sofort. Die Zahlen an den Achsen bleiben dabei gleich.
+      - type: text
+        text: >-
+          Die rosa gestrichelte Linie zeigt eine Zeit. Der rosa Punkt zeigt, wo der Wagen zu dieser Zeit im Diagramm
+          ist. Mit „Start“ läuft die Zeit, und der Wagen fährt los. Mit dem Regler „Zeit“ stellst du eine Zeit selbst
+          ein. Unter dem Diagramm steht, wie weit der Wagen dann ist und wie schnell. „Zurücksetzen“ stellt alles auf
+          den Anfang.
+      - type: text
+        text: >-
+          Ein Regler unter 0 m/s heißt: Der Wagen fährt zum Start zurück. Er kann aber nie hinter den Start fahren.
+          Darum lässt sich ein Regler nur so weit nach links schieben, wie der Wagen vor diesem Abschnitt Weg
+          geschafft hat. Verschiebst du einen früheren Regler, kann sich ein späterer deshalb von selbst verschieben.
+      - type: text
+        text: >-
+          Probiere aus: Alle Regler stehen auf 5 m/s. Was für ein Graph ist das? Stelle dann Abschnitt 2 auf 0 m/s. Wie
+          sieht der Graph dort aus, und wo steht der Wagen? Stelle Abschnitt 3 auf 10 m/s. Was ist anders als
+          in Abschnitt 1? Stelle zuletzt Abschnitt 4 auf einen Wert unter 0 m/s.
+      - type: vue-component
+        id: weg-zeit-regler
+        component: Bewegungsdiagramm
+        props:
+          ansicht: weg
+          art: abschnitte
+          start: [5, 5, 5, 5]
+          alt: "Weg-Zeit-Diagramm eines Wagens."
+          achseT: "t in s"
+          achseY: "s in m"
+          einheitY: "m"
+          abschnitt: "Abschnitt {n} ({von} bis {bis} s)"
+          knoten: "Geschwindigkeit bei {t} s"
+          zeit: "Zeit"
+          anzeige: "Bei {t} s: Weg {s} m, Geschwindigkeit {v} m/s"
+          bahn: "Bahn von 0 bis 100 m"
+          startKnopf: "Start"
+          pauseKnopf: "Pause"
+          zuruecksetzen: "Zurücksetzen"
+        nojs: >-
+          Ein Weg-Zeit-Diagramm eines Wagens. Waagerecht die Zeit von 0 bis 8 s, senkrecht der Weg von 0 bis 100 m.
+          Die Fahrt hat vier Abschnitte von je 2 s, in jedem fährt der Wagen mit 5 m/s. Der Graph ist eine gerade
+          Linie: nach 2 s sind es 10 m, nach 4 s 20 m, nach 6 s 30 m, nach 8 s 40 m. Mit den Reglern ändert man die
+          Geschwindigkeit je Abschnitt. Ein steilerer Abschnitt heißt: schneller, ein waagerechter: Stillstand, ein
+          fallender: zurück zum Start.
+  - type: section
+    id: beispiel
+    title: Ein Punkt verrät die Geschwindigkeit
+    blocks:
+      - type: example
+        title: Ein Scooter fährt gleichmäßig
+        blocks:
+          - type: figure
+            image: images/wz-scooter.svg
+            alt: Ein Weg-Zeit-Diagramm mit einer Geraden vom Start aus. Bei 6 s liegt ein Punkt der Geraden bei 18 m.
+            caption: Der Punkt bei 6 s und 18 m ist markiert.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: >-
+              Im Diagramm liest du den Punkt bei $t = 6\,\text{s}$ und $s = 18\,\text{m}$ ab. Der Graph ist eine
+              Gerade vom Start aus, der Scooter fährt also gleichmäßig. Dann ist die Geschwindigkeit der Weg durch die
+              Zeit:
+          - type: formula
+            formula: 'v = \frac{s}{t} = \frac{18\,\text{m}}{6\,\text{s}} = 3\,\frac{\text{m}}{\text{s}}'
+          - type: text
+            text: >-
+              Das ist die Steigung der Geraden: In jeder Sekunde kommen 3 m dazu. Ein steilerer Graph hätte eine
+              größere Geschwindigkeit.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: steigung-ablesen
+        given:
+          e: { pick: 1, from: { data: ablesen-st } }
+        task:
+          text: >-
+            Ein Wagen fährt gleichmäßig. Sein Graph im Weg-Zeit-Diagramm ist eine Gerade vom Start aus. Du liest einen
+            Punkt der Geraden ab: nach {{e.t}} s ist der Wagen {{e.s}} m vom Start entfernt. Wie schnell fährt der
+            Wagen?
+        answer:
+          value: "e.v"
+          compare: { number: { format: integer, unit: "m/s" } }
+        mistakes:
+          - value: "e.s * e.t"
+            message: "Du hast Weg mal Zeit gerechnet. Die Geschwindigkeit ist der Weg durch die Zeit."
+          - value: "e.t / e.s"
+            message: "Du hast die Zeit durch den Weg geteilt. Der Weg steht oben: Weg geteilt durch Zeit."
+        hint: "Wie viele Meter kommen in einer Sekunde dazu?"
+        steps:
+          - 'Die Geschwindigkeit ist der Weg durch die Zeit: $v = \frac{s}{t}$.'
+          - 'Mit den Werten der Aufgabe: $v = \frac{{{e.s}}\,\text{m}}{{{e.t}}\,\text{s}} = {{answer}}\,\text{m/s}$.'
+      - type: single-choice
+        id: schnellster-abschnitt
+        text: In welchem Abschnitt fährt der Wagen am schnellsten?
+        material:
+          - type: figure
+            image: images/wz-abschnitte.svg
+            alt: Ein Weg-Zeit-Diagramm eines Wagens mit vier Abschnitten von je 2 s. Der Graph steigt von 0 auf 12 m, bleibt dann bei 12 m, steigt auf 32 m und zuletzt auf 38 m.
+            caption: Weg-Zeit-Diagramm eines Wagens in vier Abschnitten von je 2 s.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: von 0 bis 2 s
+            correct: false
+            info: Hier steigt der Graph auf 12 m. Das sind 12 m in 2 s, also 6 m/s. Vergleiche das mit den anderen Abschnitten.
+          - text: von 2 bis 4 s
+            correct: false
+            info: Hier ist der Graph waagerecht. Es kommt kein Weg dazu, der Wagen steht.
+          - text: von 4 bis 6 s
+            correct: true
+            info: Hier ist der Graph am steilsten, denn der Weg wächst um 20 m in 2 s. Das sind 10 m/s.
+          - text: von 6 bis 8 s
+            correct: false
+            info: Hier liegt der höchste Punkt, aber der Graph ist flacher als vorher. Es kommen nur 6 m in 2 s dazu, das sind 3 m/s.
+        explanation: Wie schnell der Wagen ist, zeigt die Steilheit des Graphen, nicht wie hoch er liegt. Im Abschnitt von 4 bis 6 s wächst der Weg am stärksten.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm
+      - type: true-false
+        id: waagerecht-wahr-falsch
+        text: Ein waagerechter Graph im Weg-Zeit-Diagramm bedeutet, dass der Wagen gleichmäßig schnell fährt.
+        answer: false
+        explanation: Ein waagerechter Graph heißt, dass der Weg nicht wächst. Der Wagen steht. Gleichmäßig schnell fahren zeigt eine gerade, schräge Linie.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm

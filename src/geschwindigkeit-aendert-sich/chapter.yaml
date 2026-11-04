@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Wenn sich die Geschwindigkeit ändert
+summary: Du erkennst, wann sich eine Bewegung beschleunigt, verlangsamt oder die Richtung ändert.
+pages: [geschwindigkeit-wiederholt, beschleunigen-abbremsen, richtung-aendert-sich]
+selfAssessment:
+  pages:
+    - exercises:
+        - /geschwindigkeit-aendert-sich/beschleunigen-abbremsen/#spur-deuten
+        - /geschwindigkeit-aendert-sich/beschleunigen-abbremsen/#abbremsen-stillstand
+    - exercises:
+        - /geschwindigkeit-aendert-sich/richtung-aendert-sich/#situation-zuordnen
+        - /geschwindigkeit-aendert-sich/richtung-aendert-sich/#richtung-wahl
+        - /geschwindigkeit-aendert-sich/richtung-aendert-sich/#umkehr-erkennen

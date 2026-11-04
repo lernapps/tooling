@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" font-family="sans-serif" font-size="17" role="img">
+  <title>Weg-Zeit-Diagramm: der Graph wird immer flacher</title>
+  <rect width="400" height="280" fill="#ffffff"/>
+  <g stroke="#cfd4da" stroke-width="1">
+    <line x1="50" y1="190" x2="370" y2="190"/>
+    <line x1="50" y1="150" x2="370" y2="150"/>
+    <line x1="50" y1="110" x2="370" y2="110"/>
+    <line x1="50" y1="70" x2="370" y2="70"/>
+    <line x1="50" y1="30" x2="370" y2="30"/>
+    <line x1="130" y1="30" x2="130" y2="230"/>
+    <line x1="210" y1="30" x2="210" y2="230"/>
+    <line x1="290" y1="30" x2="290" y2="230"/>
+    <line x1="370" y1="30" x2="370" y2="230"/>
+  </g>
+  <g stroke="#1a1a1a" stroke-width="1.5"><line x1="50" y1="20" x2="50" y2="230"/><line x1="50" y1="230" x2="372" y2="230"/></g>
+  <g fill="#1a1a1a" text-anchor="end"><text x="44" y="234">0</text><text x="44" y="194">10</text><text x="44" y="154">20</text><text x="44" y="114">30</text><text x="44" y="74">40</text><text x="44" y="34">50</text></g>
+  <g fill="#1a1a1a" text-anchor="middle"><text x="50" y="248">0</text><text x="130" y="248">2</text><text x="210" y="248">4</text><text x="290" y="248">6</text><text x="370" y="248">8</text></g>
+  <text x="56" y="16" fill="#1a1a1a">s in m</text>
+  <text x="370" y="270" fill="#1a1a1a" text-anchor="end">t in s</text>
+  <polyline points="50.0,230.0 60.0,222.1 70.0,214.5 80.0,207.1 90.0,200.0 100.0,193.1 110.0,186.5 120.0,180.1 130.0,174.0 140.0,168.1 150.0,162.5 160.0,157.1 170.0,152.0 180.0,147.1 190.0,142.5 200.0,138.1 210.0,134.0 220.0,130.1 230.0,126.5 240.0,123.1 250.0,120.0 260.0,117.1 270.0,114.5 280.0,112.1 290.0,110.0 300.0,108.1 310.0,106.5 320.0,105.1 330.0,104.0 340.0,103.1 350.0,102.5 360.0,102.1 370.0,102.0" fill="none" stroke="#1d5fc4" stroke-width="3" stroke-linejoin="round"/>
+</svg>

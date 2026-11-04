@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Bewegungen im Diagramm
+summary: Du liest und zeichnest Weg-Zeit- und Geschwindigkeit-Zeit-Diagramme und erkennst, wie sich ein Körper bewegt.
+pages:
+  [
+    geschwindigkeit-berechnen-wiederholt,
+    weg-zeit-diagramm,
+    weg-zeit-kurven,
+    geschwindigkeit-zeit-diagramm,
+    bewegung-darstellen,
+  ]
+selfAssessment:
+  pages:
+    - exercises:
+        - /bewegungen-im-diagramm/weg-zeit-diagramm/#steigung-ablesen
+        - /bewegungen-im-diagramm/weg-zeit-diagramm/#schnellster-abschnitt
+        - /bewegungen-im-diagramm/weg-zeit-diagramm/#steigung-ablesen
+    - exercises:
+        - /bewegungen-im-diagramm/weg-zeit-kurven/#kurve-zuordnen
+        - /bewegungen-im-diagramm/weg-zeit-kurven/#kurve-bewegung
+    - exercises:
+        - /bewegungen-im-diagramm/geschwindigkeit-zeit-diagramm/#vt-ablesen
+        - /bewegungen-im-diagramm/geschwindigkeit-zeit-diagramm/#vt-deuten
+        - /bewegungen-im-diagramm/geschwindigkeit-zeit-diagramm/#vt-zuordnen
+    - exercises:
+        - /bewegungen-im-diagramm/bewegung-darstellen/#fahrrad-diagramm
+        - /bewegungen-im-diagramm/bewegung-darstellen/#fahrrad-diagramm
+        - /bewegungen-im-diagramm/bewegung-darstellen/#diagramm-zuordnen

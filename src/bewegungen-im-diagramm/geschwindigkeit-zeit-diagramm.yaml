@@ -1,0 +1,147 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Geschwindigkeit-Zeit-Diagramm
+description: Du liest ein Geschwindigkeit-Zeit-Diagramm und erkennst am Verlauf der Linie, ob der Wagen schneller, langsamer oder gleich schnell wird.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Der Tacho als Diagramm
+    blocks:
+      - type: text
+        text: >-
+          Im Weg-Zeit-Diagramm musstest du aus der Steilheit auf die Geschwindigkeit schließen. Es geht auch direkter:
+          Ein **Geschwindigkeit-Zeit-Diagramm** zeigt zu jeder Zeit, wie schnell der Wagen gerade ist, so als würdest du
+          alle paar Sekunden auf den Tacho schauen und den Wert eintragen.
+  - type: section
+    id: erklaert
+    title: So liest du das Diagramm
+    blocks:
+      - type: definition
+        term: Geschwindigkeit-Zeit-Diagramm
+        explanation: Ein Diagramm, in dem waagerecht die Zeit $t$ und senkrecht die Geschwindigkeit $v$ steht. Jeder Punkt des Graphen sagt, wie schnell der Körper zu dieser Zeit ist.
+      - type: text
+        text: >-
+          Waagerecht steht wieder die Zeit in Sekunden, senkrecht aber die **Geschwindigkeit** in Metern pro Sekunde. Die
+          Höhe des Graphen ist die Geschwindigkeit. Steigt die Linie, wird der Wagen schneller. Fällt sie, wird er
+          langsamer. Verläuft sie waagerecht, ist er gleich schnell. Liegt sie auf 0, steht er.
+      - type: text
+        text: >-
+          Das Diagramm zeigt nur, **wie schnell** der Wagen ist, nicht in welche Richtung er fährt. Eine fallende Linie
+          heißt also nicht, dass der Wagen rückwärts fährt, sondern nur, dass er langsamer wird.
+  - type: section
+    id: ausprobieren
+    title: Stelle die Geschwindigkeit ein
+    blocks:
+      - type: text
+        text: >-
+          Die fünf Regler legen die Geschwindigkeit bei 0, 2, 4, 6 und 8 Sekunden fest. Dazwischen verbindet der Graph die
+          Werte mit geraden Strichen. Die Zahlen an den Achsen bleiben gleich. Der Wagen oben auf der Bahn fährt so, wie
+          es die Geschwindigkeit vorgibt. Mit „Start“ läuft die Zeit und der Wagen fährt, mit dem Regler „Zeit“ stellst du eine Zeit selbst ein, und „Zurücksetzen“ stellt auch alle Geschwindigkeiten wieder auf 4 m/s. Zu Beginn stehen
+          alle Regler auf 4 m/s.
+      - type: text
+        text: >-
+          Probiere aus: Stelle die Regler auf 0, 3, 6, 9, 12 m/s. Wie sieht der Graph aus, und was macht der Wagen? Stelle
+          sie dann auf 12, 9, 6, 3, 0 m/s. Was ist jetzt anders? Mit welcher Einstellung steht der Wagen die ganze Zeit?
+      - type: vue-component
+        id: geschwindigkeit-zeit-regler
+        component: Bewegungsdiagramm
+        props:
+          ansicht: geschwindigkeit
+          art: knoten
+          start: [4, 4, 4, 4, 4]
+          alt: "Geschwindigkeit-Zeit-Diagramm eines Wagens."
+          achseT: "t in s"
+          achseY: "v in m/s"
+          einheitY: "m/s"
+          abschnitt: "Abschnitt {n} ({von} bis {bis} s)"
+          knoten: "Geschwindigkeit bei {t} s"
+          zeit: "Zeit"
+          anzeige: "Bei {t} s: Geschwindigkeit {v} m/s, Weg {s} m"
+          bahn: "Bahn von 0 bis 100 m"
+          startKnopf: "Start"
+          pauseKnopf: "Pause"
+          zuruecksetzen: "Zurücksetzen"
+        nojs: >-
+          Ein Geschwindigkeit-Zeit-Diagramm eines Wagens. Waagerecht die Zeit von 0 bis 8 s, senkrecht die Geschwindigkeit
+          von 0 bis 12 m/s. Fünf Regler legen die Geschwindigkeit bei 0, 2, 4, 6 und 8 s fest, anfangs überall 4 m/s: Der
+          Graph ist eine waagerechte Linie. Bei 0, 3, 6, 9, 12 m/s steigt die Linie, der Wagen wird schneller. Bei 12, 9, 6,
+          3, 0 m/s fällt die Linie, der Wagen wird langsamer. Bei 0 m/s überall liegt die Linie auf der Zeitachse, der Wagen
+          steht.
+  - type: section
+    id: beispiel
+    title: Anfahren und gleichmäßig weiterfahren
+    blocks:
+      - type: example
+        title: Ein Fahrrad fährt an
+        blocks:
+          - type: figure
+            image: images/vt-anfahren.svg
+            alt: Ein Geschwindigkeit-Zeit-Diagramm. Die Linie steigt von 0 m/s bei 0 s auf 8 m/s bei 4 s und verläuft dann waagerecht bis 8 s.
+            caption: Das Fahrrad fährt an und bleibt dann bei 8 m/s.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: >-
+              Von 0 bis 4 s steigt die Linie: Das Fahrrad wird schneller, es beschleunigt. Von 4 bis 8 s ist sie
+              waagerecht: Es fährt gleich schnell mit 8 m/s. Bei 2 s liest du 4 m/s ab, denn die Linie liegt dort halb so hoch
+              wie bei 4 s.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: number
+        id: vt-ablesen
+        text: Lies im Diagramm ab, wie schnell der Wagen bei 3 s ist.
+        material:
+          - type: figure
+            image: images/vt-fahrt.svg
+            alt: Ein Geschwindigkeit-Zeit-Diagramm. Die Linie steigt von 0 m/s bei 0 s auf 6 m/s bei 2 s, bleibt bis 4 s waagerecht und fällt dann auf 0 m/s bei 8 s.
+            caption: Geschwindigkeit eines Wagens in 8 Sekunden.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 6
+        tolerance: 0
+        unit: m/s
+        explanation: Bei 3 s verläuft die Linie waagerecht auf der Höhe 6. Der Wagen fährt dort gleich schnell mit 6 m/s.
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung
+      - type: single-choice
+        id: vt-deuten
+        text: Was macht der Wagen zwischen 4 s und 8 s?
+        material:
+          - type: figure
+            image: images/vt-fahrt.svg
+            alt: Ein Geschwindigkeit-Zeit-Diagramm. Die Linie steigt von 0 m/s bei 0 s auf 6 m/s bei 2 s, bleibt bis 4 s waagerecht und fällt dann auf 0 m/s bei 8 s.
+            caption: Geschwindigkeit eines Wagens in 8 Sekunden.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Er wird langsamer und steht am Ende.
+            correct: true
+            info: Die Linie fällt von 6 m/s auf 0 m/s. Der Wagen wird immer langsamer, bei 8 s steht er.
+          - text: Er fährt rückwärts zum Start.
+            correct: false
+            info: Eine fallende Linie heißt nur, dass die Geschwindigkeit kleiner wird. Die Richtung zeigt dieses Diagramm nicht.
+          - text: Er fährt gleich schnell weiter.
+            correct: false
+            info: Gleich schnell wäre eine waagerechte Linie. Zwischen 4 s und 8 s fällt sie.
+          - text: Er wird schneller.
+            correct: false
+            info: Schneller werden zeigt eine steigende Linie. Hier fällt sie.
+        explanation: Die fallende Linie zeigt, dass die Geschwindigkeit abnimmt. Der Wagen bremst bis zum Stillstand ab.
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung
+      - type: matching
+        id: vt-zuordnen
+        text: Was bedeutet die Linie im Geschwindigkeit-Zeit-Diagramm? Ordne zu.
+        pairs:
+          - { left: "Die Linie steigt.", right: "Der Wagen wird schneller." }
+          - { left: "Die Linie fällt.", right: "Der Wagen wird langsamer." }
+          - { left: "Die Linie ist waagerecht, über null.", right: "Der Wagen fährt gleich schnell." }
+          - { left: "Die Linie liegt auf null.", right: "Der Wagen steht." }
+        explanation: Die Höhe der Linie ist die Geschwindigkeit. Wie sie sich ändert, zeigt, ob der Wagen schneller oder langsamer wird.
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung

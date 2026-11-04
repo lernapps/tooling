@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/mechanik
+title: Beschleunigte Bewegung
+intro: >-
+  Wie bewegt sich ein Fahrrad, das anfährt, bremst oder um die Kurve fährt? Hier erkundest du, wie sich die
+  Geschwindigkeit ändert, und liest und zeichnest Weg-Zeit- und Geschwindigkeit-Zeit-Diagramme. Du verschiebst
+  Regler, siehst die Bewegung dazu und übst danach.
+languages: [de]
+chapters: [geschwindigkeit-aendert-sich, bewegungen-im-diagramm]
+sources:
+  - title: Kernlehrplan für die Gesamtschule – Sekundarstufe I in Nordrhein-Westfalen, Naturwissenschaften (Ministerium für Schule und Weiterbildung NRW, 2013), als Orientierung
+    url: https://lehrplannavigator.nrw.de/system/files/media/document/file/klp_ge_nw.pdf
+  - title: Weg-Zeit-Diagramm (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm
+  - title: Beschleunigung (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Beschleunigung

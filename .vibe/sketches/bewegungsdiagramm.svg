@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" font-family="sans-serif" font-size="14">
+  <title>Skizze Bewegungsdiagramm: Weg-Zeit-Diagramm mit Reglern und Wagen</title>
+  <rect width="640" height="400" fill="#fff" stroke="#999"/>
+  <text x="16" y="24" font-weight="bold">Seite „Das Weg-Zeit-Diagramm“, Abschnitt „Ausprobieren“</text>
+  <!-- Wagen auf Bahn -->
+  <line x1="40" y1="70" x2="600" y2="70" stroke="#333" stroke-width="2"/>
+  <text x="40" y="58">Start (0 m)</text><text x="540" y="58">60 m</text>
+  <rect x="250" y="48" width="44" height="20" fill="#2a6fdb"/>
+  <circle cx="260" cy="72" r="5"/><circle cx="284" cy="72" r="5"/>
+  <!-- Diagramm -->
+  <line x1="60" y1="330" x2="60" y2="110" stroke="#333"/><line x1="60" y1="330" x2="400" y2="330" stroke="#333"/>
+  <text x="14" y="120">s in m</text><text x="360" y="352">t in s</text>
+  <g stroke="#ccc"><line x1="60" y1="270" x2="400" y2="270"/><line x1="60" y1="210" x2="400" y2="210"/><line x1="60" y1="150" x2="400" y2="150"/>
+  <line x1="130" y1="110" x2="130" y2="330"/><line x1="200" y1="110" x2="200" y2="330"/><line x1="270" y1="110" x2="270" y2="330"/><line x1="340" y1="110" x2="340" y2="330"/></g>
+  <text x="30" y="274">20</text><text x="30" y="214">40</text><text x="30" y="154">60</text>
+  <text x="124" y="346">2</text><text x="194" y="346">4</text><text x="264" y="346">6</text><text x="334" y="346">8</text>
+  <polyline points="60,330 130,270 200,270 340,330" fill="none" stroke="#2a6fdb" stroke-width="3"/>
+  <line x1="200" y1="110" x2="200" y2="330" stroke="#d6336c" stroke-width="2" stroke-dasharray="6 4"/>
+  <circle cx="200" cy="270" r="6" fill="#d6336c"/>
+  <text x="206" y="124" fill="#d6336c">Zeitmarke t = 4 s</text>
+  <!-- Regler -->
+  <text x="430" y="130" font-weight="bold">Geschwindigkeit je Abschnitt</text>
+  <text x="430" y="162">Abschnitt 1 (0–2 s)</text><line x1="430" y1="174" x2="610" y2="174" stroke="#333" stroke-width="3"/><circle cx="520" cy="174" r="9" fill="#2a6fdb"/><text x="430" y="198">10 m/s</text>
+  <text x="430" y="226">Abschnitt 2 (2–4 s)</text><line x1="430" y1="238" x2="610" y2="238" stroke="#333" stroke-width="3"/><circle cx="520" cy="238" r="9" fill="#2a6fdb"/><text x="430" y="262">0 m/s</text>
+  <text x="430" y="290">Abschnitt 3 (4–8 s)</text><line x1="430" y1="302" x2="610" y2="302" stroke="#333" stroke-width="3"/><circle cx="470" cy="302" r="9" fill="#2a6fdb"/><text x="430" y="326">−5 m/s (zurück)</text>
+  <rect x="430" y="344" width="90" height="34" fill="#eee" stroke="#333"/><text x="446" y="366">▶ Start</text>
+  <rect x="530" y="344" width="80" height="34" fill="#eee" stroke="#333"/><text x="538" y="366">Zurück</text>
+</svg>

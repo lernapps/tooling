@@ -1,0 +1,141 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Richtung ändert sich
+description: Du erkennst, dass sich eine Bewegung auch ändert, wenn die Richtung wechselt, und benennst die Änderungen.
+competencies: [geschwindigkeitsaenderung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Nicht nur schneller und langsamer
+    blocks:
+      - type: text
+        text: >-
+          Du kennst jetzt zwei Arten, wie sich eine Bewegung ändern kann: Sie wird schneller oder langsamer. Es gibt
+          eine dritte: Die **Richtung** ändert sich. Ein Bus fährt mit gleichem Tempo durch eine Kurve. Auf dem Tacho
+          bleibt die Zahl gleich, trotzdem fährt der Bus nach der Kurve in eine andere Richtung als davor. Auch das ist
+          eine Änderung der Bewegung.
+  - type: section
+    id: erklaert
+    title: Hin und zurück im Blitzbild
+    blocks:
+      - type: text
+        text: >-
+          Auf einer geraden Bahn gibt es nur eine Art, die Richtung zu ändern: umkehren. Der Wagen fährt erst vom Start
+          weg und dann zurück. Im Blitzbild liegen die Punkte vom Rückweg in einer **zweiten Reihe** unter denen vom
+          Hinweg, sonst würden sie sich überdecken. Die Bahn bleibt dieselbe: Wo ein Punkt auf der Bahn liegt, siehst du
+          an den Zahlen oben.
+      - type: text
+        text: >-
+          Ein echtes Fahrzeug wird vor dem Umkehren langsamer, steht am Umkehrpunkt einen Augenblick und fährt danach in die
+          andere Richtung wieder schneller. Das zeigt die Bewegung „bremsen, umkehren“. Bei „hin und zurück, gleich schnell“
+          ist das vereinfacht: Dort bleiben alle Abstände gleich groß.
+  - type: section
+    id: ausprobieren
+    title: Lass den Wagen umkehren
+    blocks:
+      - type: text
+        text: >-
+          Wähle eine Bewegung und drücke „Start“. Bei „geradeaus“ fährt der Wagen immer in dieselbe Richtung, dient
+          also zum Vergleichen. Bei den anderen beiden kehrt er um. Beobachte, in welcher Reihe die Punkte nach dem
+          Umkehren liegen und wie sich die Abstände vor dem Umkehren ändern.
+      - type: vue-component
+        id: spur-umkehr
+        component: Bewegungsspur
+        props:
+          bewegungen:
+            - { name: "geradeaus", orte: [0, 6, 12, 18, 24, 30] }
+            - { name: "hin und zurück, gleich schnell", orte: [0, 6, 12, 18, 12, 6, 0] }
+            - { name: "bremsen, umkehren", orte: [0, 8, 14, 18, 20, 16, 10] }
+          alt: "Eine Bahn von 0 bis 40 m mit einem Wagen. Darunter ein Punkt für jede Sekunde. Fährt der Wagen zurück, liegen die Punkte in einer zweiten Reihe."
+          bahn: "Bahn in m"
+          auswahl: "Bewegung wählen"
+          abstand: "Von {n} s bis {m} s: {d} m"
+          zurueck: " (zurück)"
+          abstandUeberschrift: "Abstände zwischen den Punkten"
+          sekunde: "{t} s"
+          startKnopf: "Start"
+          pauseKnopf: "Pause"
+        nojs: >-
+          Eine Bahn von 0 bis 40 m. Bewegung „geradeaus“: Der Wagen ist bei 0 s bis 5 s an den Stellen 0, 6, 12, 18, 24
+          und 30 m, immer in dieselbe Richtung. Bewegung „hin und zurück, gleich schnell“: bei 0 s bis 6 s an den
+          Stellen 0, 6, 12, 18, 12, 6 und 0 m; ab 3 s fährt er zurück, die Punkte liegen in einer zweiten Reihe.
+          Bewegung „bremsen, umkehren“: bei 0 s bis 6 s an den Stellen 0, 8, 14, 18, 20, 16 und 10 m; die Abstände
+          werden kleiner (8, 6, 4, 2 m), bei 4 s kehrt der Wagen um und fährt dann zurück (4 m, 6 m).
+  - type: section
+    id: beispiel
+    title: Drei Änderungen
+    blocks:
+      - type: example
+        title: Ein Bus im Stadtverkehr
+        blocks:
+          - type: text
+            text: >-
+              Ein Bus fährt von der Haltestelle los: Er wird **schneller**. Vor der Ampel bremst er: Er wird
+              **langsamer**. An der Kreuzung biegt er mit gleichem Tempo ab: Die **Richtung** ändert sich. Auf der langen
+              geraden Straße mit gleichem Tempo ändert sich nichts. Die Bewegung ändert sich also, wenn der Bus schneller
+              oder langsamer wird oder die Richtung wechselt.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: situation-zuordnen
+        text: Was ändert sich in der Situation? Ordne zu.
+        pairs:
+          - { left: "Ein Zug fährt aus dem Bahnhof und fährt immer schneller.", right: "Die Bewegung wird schneller." }
+          - {
+              left: "Ein Auto bremst vor der roten Ampel bis zum Stillstand ab.",
+              right: "Die Bewegung wird langsamer.",
+            }
+          - { left: "Ein Bus fährt mit gleichem Tempo durch eine Kurve.", right: "Die Richtung ändert sich." }
+          - { left: "Ein Rad fährt auf gerader Straße gleich schnell.", right: "Nichts ändert sich." }
+        explanation: Schneller und langsamer erkennst du an der Geschwindigkeit, die Kurve an der Richtung. Fährt etwas gerade und gleich schnell, ändert sich nichts.
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung
+      - type: multiple-choice
+        id: richtung-wahl
+        text: Bei welchen Vorgängen ändert sich die Bewegung? Wähle alle aus.
+        options:
+          - text: Ein Rad rollt an der Ampel an.
+            correct: true
+            info: Das Rad wird schneller, die Bewegung ändert sich.
+          - text: Ein Auto fährt mit gleichem Tempo durch eine Kurve.
+            correct: true
+            info: Das Tempo bleibt gleich, aber die Richtung ändert sich. Auch das ist eine Änderung der Bewegung.
+          - text: Ein Zug fährt mit gleichem Tempo geradeaus.
+            correct: false
+            info: Weder die Geschwindigkeit noch die Richtung ändern sich, die Bewegung bleibt gleich.
+          - text: Ein Aufzug bremst kurz vor dem Stockwerk ab.
+            correct: true
+            info: Der Aufzug wird langsamer, die Geschwindigkeit ändert sich.
+        explanation: Die Bewegung ändert sich, sobald der Körper schneller oder langsamer wird oder die Richtung wechselt.
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung
+      - type: single-choice
+        id: umkehr-erkennen
+        text: Was passiert in diesem Blitzbild bei 4 s?
+        material:
+          - type: figure
+            image: images/spur-umkehr.svg
+            alt: Ein Blitzbild mit sieben Punkten für 0 bis 6 Sekunden. Die Punkte für 0 bis 4 Sekunden liegen in der oberen Reihe bei 0, 8, 14, 18 und 20 Metern, die für 5 und 6 Sekunden in der unteren Reihe bei 16 und 10 Metern.
+            caption: Ein Punkt je Sekunde auf der Bahn.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Der Wagen kehrt um und fährt zurück.
+            correct: true
+            info: Die Punkte nach 4 s liegen in der zweiten Reihe und weiter links. Der Wagen fährt wieder in Richtung Start.
+          - text: Der Wagen bleibt dauerhaft stehen.
+            correct: false
+            info: Bei 5 s und 6 s sind es neue Punkte an anderen Stellen. Der Wagen steht nicht, er fährt zurück.
+          - text: Der Wagen beschleunigt weiter in dieselbe Richtung.
+            correct: false
+            info: Vor 4 s werden die Abstände kleiner, nicht größer. Danach fährt der Wagen in die andere Richtung.
+          - text: Der Wagen fährt mit gleichem Tempo geradeaus weiter.
+            correct: false
+            info: Die Punkte nach 4 s liegen links vom Punkt bei 4 s. Der Wagen fährt nicht mehr geradeaus weiter.
+        explanation: Die zweite Reihe zeigt, dass sich die Richtung geändert hat. Davor wurde der Wagen langsamer, am Umkehrpunkt stand er kurz.
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung

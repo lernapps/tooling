@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" font-family="sans-serif" font-size="16" role="img">
+  <title>Weg-Zeit-Diagramm mit vier Abschnitten</title>
+  <rect width="400" height="280" fill="#ffffff"/>
+  <g stroke="#cfd4da" stroke-width="1">
+    <line x1="50" y1="30" x2="370" y2="30"/><line x1="50" y1="80" x2="370" y2="80"/><line x1="50" y1="130" x2="370" y2="130"/><line x1="50" y1="180" x2="370" y2="180"/><line x1="50" y1="230" x2="370" y2="230"/>
+    <line x1="90" y1="30" x2="90" y2="230"/><line x1="130" y1="30" x2="130" y2="230"/><line x1="170" y1="30" x2="170" y2="230"/><line x1="210" y1="30" x2="210" y2="230"/><line x1="250" y1="30" x2="250" y2="230"/><line x1="290" y1="30" x2="290" y2="230"/><line x1="330" y1="30" x2="330" y2="230"/><line x1="370" y1="30" x2="370" y2="230"/>
+  </g>
+  <g stroke="#1a1a1a" stroke-width="1.5"><line x1="50" y1="20" x2="50" y2="230"/><line x1="50" y1="230" x2="372" y2="230"/></g>
+  <g fill="#1a1a1a" text-anchor="end"><text x="44" y="234">0</text><text x="44" y="184">10</text><text x="44" y="134">20</text><text x="44" y="84">30</text><text x="44" y="34">40</text></g>
+  <g fill="#1a1a1a" text-anchor="middle"><text x="50" y="246">0</text><text x="130" y="246">2</text><text x="210" y="246">4</text><text x="290" y="246">6</text><text x="370" y="246">8</text></g>
+  <text x="50" y="14" fill="#1a1a1a">s in m</text>
+  <text x="370" y="266" fill="#1a1a1a" text-anchor="end">t in s</text>
+  <polyline points="50,230 130,170 210,170 290,70 370,40" fill="none" stroke="#1d5fc4" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#1d5fc4"><circle cx="50" cy="230" r="4"/><circle cx="130" cy="170" r="4"/><circle cx="210" cy="170" r="4"/><circle cx="290" cy="70" r="4"/><circle cx="370" cy="40" r="4"/></g>
+</svg>

@@ -1,0 +1,144 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Eine Bewegung im Diagramm darstellen
+description: Du stellst eine beschriebene Bewegung in einem Geschwindigkeit-Zeit-Diagramm dar und ordnest Diagramm und Bewegung einander zu.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Von der Geschichte zum Diagramm
+    blocks:
+      - type: text
+        text: >-
+          Du kannst beide Diagramme jetzt lesen. Jetzt drehst du es um: Jemand erzählt dir, wie ein Wagen fährt, und du
+          zeichnest dazu das Diagramm. So gehst du vor: Zuerst überlegst du, was der Wagen in jedem Zeitabschnitt macht,
+          ob er schneller wird, gleich schnell bleibt oder langsamer wird. Dann überlegst du, wie die Linie dazu
+          verläuft.
+  - type: section
+    id: erklaert
+    title: Dieselbe Fahrt in zwei Diagrammen
+    blocks:
+      - type: text
+        text: >-
+          Ein Fahrrad fährt in 4 Sekunden von 0 auf 8 m/s an und fährt dann weitere 4 Sekunden gleich schnell. Die beiden
+          Bilder zeigen dieselbe Fahrt. Das obere Bild zeigt den Weg, das untere die Geschwindigkeit. Die Zeitachse ist in beiden
+          gleich.
+      - type: figure
+        image: images/fahrt-st.svg
+        alt: Ein Weg-Zeit-Diagramm. Der Graph beginnt bei 0 m, wird bis 4 s immer steiler und erreicht dort 16 m, danach ist er eine gerade, schräge Linie bis 48 m bei 8 s.
+        caption: Weg-Zeit-Diagramm der Fahrt. Erst wird der Graph steiler, dann bleibt er gerade.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: figure
+        image: images/fahrt-vt.svg
+        alt: Ein Geschwindigkeit-Zeit-Diagramm. Die Linie steigt von 0 m/s bei 0 s auf 8 m/s bei 4 s und verläuft dann waagerecht bis 8 s.
+        caption: Geschwindigkeit-Zeit-Diagramm derselben Fahrt. Erst steigt die Linie, dann ist sie waagerecht.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: >-
+          Das siehst du in beiden: Bis 4 s wird das Fahrrad schneller, das zeigt das Weg-Zeit-Diagramm durch den immer
+          steileren Graphen und das Geschwindigkeit-Zeit-Diagramm durch die steigende Linie. Danach fährt es gleich
+          schnell: Der Weg-Zeit-Graph ist gerade, die Geschwindigkeit-Zeit-Linie waagerecht.
+  - type: section
+    id: durchschnitt
+    title: Die Durchschnittsgeschwindigkeit
+    blocks:
+      - type: definition
+        term: Durchschnittsgeschwindigkeit
+        explanation: Die Durchschnittsgeschwindigkeit ist der ganze Weg einer Fahrt geteilt durch die ganze Zeit. Sie sagt, wie schnell ein Körper im Mittel war, auch wenn er zwischendurch schneller oder langsamer fuhr.
+      - type: text
+        text: >-
+          Beim Fahrrad oben sind es nach 8 s im Weg-Zeit-Diagramm 48 m. Die Durchschnittsgeschwindigkeit ist dann
+          $\frac{48\,\text{m}}{8\,\text{s}} = 6\,\frac{\text{m}}{\text{s}}$, obwohl das Fahrrad am Anfang langsamer und am Ende
+          schneller war (8 m/s).
+  - type: section
+    id: beispiel
+    title: Eine Geschichte in ein Diagramm übersetzen
+    blocks:
+      - type: example
+        title: Ein Scooter fährt an, fährt weiter und bremst
+        blocks:
+          - type: text
+            text: >-
+              Ein Scooter fährt 3 Sekunden lang an bis 5 m/s, fährt 3 Sekunden mit 5 m/s weiter und bremst dann 3 Sekunden
+              bis zum Stillstand. Im Geschwindigkeit-Zeit-Diagramm brauchst du vier Punkte, einen bei 0 s, 3 s, 6 s und 9 s.
+              Bei 0 s steht der Scooter, also 0 m/s. Nach dem Anfahren bei 3 s sind es 5 m/s, bei 6 s immer noch 5 m/s,
+              und nach dem Bremsen bei 9 s wieder 0 m/s. Verbindest du die Punkte, steigt die Linie, ist dann waagerecht
+              und fällt am Ende.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: text
+        text: >-
+          In der ersten Aufgabe stellst du das Geschwindigkeit-Zeit-Diagramm selbst ein. Die Aufgabe beschreibt eine Fahrt
+          mit drei Zeitabschnitten von je 3 Sekunden. Die vier Regler legen die Geschwindigkeit bei 0, 3, 6 und 9 Sekunden
+          fest. Die Linie verbindet die vier Punkte. Die Zahlen an den Achsen bleiben gleich. Wenn das Diagramm zur Geschichte
+          passt, drückst du „Prüfen“. Eine Abweichung von 1 m/s ist in Ordnung.
+      - type: vue-component
+        id: fahrrad-diagramm
+        component: DiagrammZeichnen
+        props:
+          szenarien:
+            - "Ein Wagen fährt 3 s lang an, bis er {v} m/s schnell ist. Dann fährt er 3 s lang gleich schnell. In den letzten 3 s bremst er bis zum Stillstand."
+            - "Ein Wagen fährt 3 s lang mit {v} m/s. Dann bremst er 3 s lang auf {h} m/s ab und fährt die letzten 3 s mit {h} m/s weiter."
+            - "Ein Wagen steht 3 s lang. Dann fährt er 3 s lang an, bis er {v} m/s schnell ist, und fährt die letzten 3 s mit {v} m/s weiter."
+          mistakes:
+            - "Deine Linie ist überall waagerecht. Der Wagen ändert aber in der Geschichte seine Geschwindigkeit. Lies nach, wann."
+            - "Die Form deiner Linie passt, aber die Zahlen nicht. Vergleiche die Höhe der Punkte mit den Geschwindigkeiten in der Geschichte."
+          fehlerAbschnitt: "Abschnitt {n} ({von} bis {bis} s) passt noch nicht zur Geschichte. Lies nach, ob der Wagen dort schneller, langsamer oder gleich schnell wird, und schau, wie die Linie dort verläuft."
+          fehlerWert: "Die Form deiner Linie passt, aber mindestens ein Wert nicht. Vergleiche die Höhe der Punkte mit den Geschwindigkeiten in der Geschichte."
+          alt: "Geschwindigkeit-Zeit-Diagramm mit vier Punkten bei 0, 3, 6 und 9 Sekunden."
+          regler: "Geschwindigkeit bei {t} s"
+          achseT: "t in s"
+          achseY: "v in m/s"
+        examples:
+          accepted:
+            - { answer: [4, 4, 2, 2], seed: 1 }
+            - { answer: [5, 4, 2, 2], seed: 1 }
+            - { answer: [0, 0, 4, 4], seed: 2 }
+          rejected:
+            - { answer: [4, 4, 4, 4], seed: 1 }
+            - { answer: [7, 7, 5, 5], seed: 1 }
+            - { answer: [0, 0, 0, 0], seed: 2 }
+      - type: single-choice
+        id: diagramm-zuordnen
+        text: Ein Scooter bremst bis zum Stillstand ab. Welches Geschwindigkeit-Zeit-Diagramm passt?
+        material:
+          - type: figure
+            image: images/vt-auswahl.svg
+            alt: Drei kleine Geschwindigkeit-Zeit-Diagramme. In A steigt die Linie, in B fällt sie bis auf null, in C ist sie waagerecht.
+            caption: Drei Diagramme mit Zeit waagerecht und Geschwindigkeit senkrecht.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: A
+            correct: false
+            info: In A steigt die Linie. Der Scooter würde schneller, nicht langsamer.
+          - text: B
+            correct: true
+            info: In B fällt die Linie bis auf null. Der Scooter wird immer langsamer und steht am Ende.
+          - text: C
+            correct: false
+            info: In C ist die Linie waagerecht. Der Scooter bliebe gleich schnell.
+        explanation: Abbremsen bis zum Stillstand heißt, dass die Geschwindigkeit bis auf null sinkt. Im Geschwindigkeit-Zeit-Diagramm fällt die Linie.
+        links:
+          - title: Beschleunigung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Beschleunigung
+      - type: number
+        id: durchschnitt-ablesen
+        text: Der Wagen hat nach 8 s im Weg-Zeit-Diagramm 32 m geschafft. Wie groß ist seine Durchschnittsgeschwindigkeit auf der ganzen Fahrt?
+        material:
+          - type: figure
+            image: images/kurve-flacher.svg
+            alt: Ein Weg-Zeit-Diagramm mit einer Kurve, die immer flacher wird. Sie liegt bei 0 s bei 0 m, bei 2 s bei 14 m, bei 4 s bei 24 m, bei 6 s bei 30 m und bei 8 s bei 32 m.
+            caption: Weg-Zeit-Diagramm eines Wagens.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 4
+        tolerance: 0
+        unit: m/s
+        explanation: Die Durchschnittsgeschwindigkeit ist der ganze Weg durch die ganze Zeit, also 32 m durch 8 s, das sind 4 m/s. Der Wagen war am Anfang schneller und am Ende langsamer.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm

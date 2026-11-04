@@ -1,0 +1,125 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Kurven im Weg-Zeit-Diagramm
+description: Du erkennst im Weg-Zeit-Diagramm, ob ein Wagen schneller oder langsamer wird, an der Krümmung des Graphen.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Wenn der Graph nicht mehr gerade ist
+    blocks:
+      - type: text
+        text: >-
+          Bisher war der Graph aus geraden Stücken. Das heißt: In jedem Stück war der Wagen gleichmäßig schnell. Was
+          passiert mit dem Graphen, wenn der Wagen beim Anfahren immer schneller wird? Du weißt schon: Die Steigung
+          zeigt die Geschwindigkeit. Dann muss sich die Steigung ändern.
+  - type: section
+    id: erklaert
+    title: Steiler oder flacher werden
+    blocks:
+      - type: text
+        text: >-
+          Wird der Wagen **schneller**, kommt in jeder Sekunde mehr Weg dazu als in der Sekunde davor. Der Graph wird
+          immer **steiler**. Wird der Wagen **langsamer**, kommt in jeder Sekunde weniger Weg dazu. Der Graph wird immer
+          **flacher**. Der Graph ist dann eine Kurve. Die Kurve geht aber immer weiter nach oben, solange der Wagen noch
+          fährt. Nur wenn er steht, ist der Graph waagerecht.
+  - type: section
+    id: ausprobieren
+    title: Forme die Kurve selbst
+    blocks:
+      - type: text
+        text: >-
+          Das Diagramm ist aufgebaut wie auf der Seite zum Weg-Zeit-Diagramm. Aber die fünf Regler sind jetzt anders: Jeder legt die Geschwindigkeit zu einer
+          bestimmten Zeit fest, bei 0, 2, 4, 6 und 8 Sekunden. Dazwischen ändert sich die Geschwindigkeit gleichmäßig. Zu
+          Beginn stehen alle Regler auf 4 m/s, der Graph ist eine Gerade. Die Zahlen an den Achsen bleiben gleich, und
+          Mit „Start“ läuft die Zeit und der Wagen fährt, mit dem Regler „Zeit“ stellst du eine Zeit selbst ein, und „Zurücksetzen“ stellt auch alle Geschwindigkeiten wieder auf 4 m/s.
+      - type: text
+        text: >-
+          Probiere aus: Stelle die Regler von links nach rechts auf immer größere Werte, zum Beispiel 0, 2, 4, 6, 8 m/s.
+          Was macht der Graph? Stelle sie dann auf immer kleinere Werte, zum Beispiel 8, 6, 4, 2, 0 m/s. Wie sieht der
+          Graph jetzt aus, und wie sieht er am Ende aus?
+      - type: vue-component
+        id: weg-zeit-kurve
+        component: Bewegungsdiagramm
+        props:
+          ansicht: weg
+          art: knoten
+          start: [4, 4, 4, 4, 4]
+          alt: "Weg-Zeit-Diagramm eines Wagens, dessen Geschwindigkeit sich ändert."
+          achseT: "t in s"
+          achseY: "s in m"
+          einheitY: "m"
+          abschnitt: "Abschnitt {n} ({von} bis {bis} s)"
+          knoten: "Geschwindigkeit bei {t} s"
+          zeit: "Zeit"
+          anzeige: "Bei {t} s: Weg {s} m, Geschwindigkeit {v} m/s"
+          bahn: "Bahn von 0 bis 100 m"
+          startKnopf: "Start"
+          pauseKnopf: "Pause"
+          zuruecksetzen: "Zurücksetzen"
+        nojs: >-
+          Ein Weg-Zeit-Diagramm eines Wagens. Waagerecht die Zeit von 0 bis 8 s, senkrecht der Weg von 0 bis 100 m. Fünf
+          Regler legen die Geschwindigkeit bei 0, 2, 4, 6 und 8 s fest, dazwischen ändert sie sich gleichmäßig. Anfangs
+          sind es überall 4 m/s, der Graph ist eine gerade Linie mit 8 m nach 2 s bis 32 m nach 8 s. Wählt man 0, 2,
+          4, 6 und 8 m/s, wird der Graph immer steiler: 2 m nach 2 s, 8 m nach 4 s, 18 m nach 6 s, 32 m nach 8 s.
+          Wählt man 8, 6, 4, 2 und 0 m/s, wird er immer flacher und ist am Ende waagerecht: 14 m, 24 m, 30 m, 32 m.
+  - type: section
+    id: beispiel
+    title: Steiler heißt schneller
+    blocks:
+      - type: example
+        title: Ein Wagen fährt an
+        blocks:
+          - type: figure
+            image: images/kurve-steiler.svg
+            alt: Ein Weg-Zeit-Diagramm mit einer Kurve, die immer steiler wird. Sie liegt bei 0 s bei 0 m, bei 2 s bei 2 m, bei 4 s bei 8 m, bei 6 s bei 18 m und bei 8 s bei 32 m.
+            caption: Der Graph eines Wagens, der anfährt.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: >-
+              Von 0 bis 2 s kommen nur 2 m dazu, von 6 bis 8 s sind es 14 m. In der gleichen Zeit von 2 Sekunden schafft
+              der Wagen am Ende also viel mehr Weg. Der Graph ist am Ende steiler, der Wagen ist schneller geworden:
+              Er hat beschleunigt.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: kurve-zuordnen
+        text: Welche Bewegung gehört zu diesem Graphen?
+        material:
+          - type: figure
+            image: images/kurve-flacher.svg
+            alt: Ein Weg-Zeit-Diagramm mit einer Kurve, die immer flacher wird. Sie liegt bei 0 s bei 0 m, bei 2 s bei 14 m, bei 4 s bei 24 m, bei 6 s bei 30 m und bei 8 s bei 32 m.
+            caption: Der Graph eines Wagens im Weg-Zeit-Diagramm.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Der Wagen wird schneller.
+            correct: false
+            info: Bei einem schneller werdenden Wagen wird der Graph steiler. Hier wird er flacher.
+          - text: Der Wagen wird langsamer und steht am Ende fast.
+            correct: true
+            info: Der Graph wird immer flacher, am Ende ist er fast waagerecht. Es kommt kaum noch Weg dazu.
+          - text: Der Wagen fährt zurück.
+            correct: false
+            info: Beim Zurückfahren würde der Graph nach unten gehen. Hier steigt er die ganze Zeit.
+          - text: Der Wagen fährt gleichmäßig schnell.
+            correct: false
+            info: Bei gleichmäßiger Fahrt ist der Graph eine Gerade mit gleich bleibender Steigung. Hier ändert sie sich.
+        explanation: Die Kurve wird immer flacher, also kommt in jeder Sekunde weniger Weg dazu. Der Wagen wird langsamer.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm
+      - type: matching
+        id: kurve-bewegung
+        text: Wie sieht der Graph im Weg-Zeit-Diagramm aus? Ordne zu.
+        pairs:
+          - { left: "Der Wagen wird immer schneller.", right: "Der Graph wird immer steiler." }
+          - { left: "Der Wagen wird immer langsamer.", right: "Der Graph wird immer flacher." }
+          - { left: "Der Wagen fährt gleichmäßig.", right: "Der Graph ist eine schräge Gerade." }
+          - { left: "Der Wagen steht.", right: "Der Graph ist waagerecht." }
+        explanation: Die Steilheit des Graphen zeigt die Geschwindigkeit. Wächst sie, wird der Graph steiler, schrumpft sie, wird er flacher.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm

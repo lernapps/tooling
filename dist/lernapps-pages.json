@@ -1,0 +1,58 @@
+{
+  "format": 1,
+  "strand": "physik/mechanik",
+  "pages": [
+    {
+      "path": "geschwindigkeit-aendert-sich/geschwindigkeit-wiederholt/",
+      "title": "Geschwindigkeit – kurz wiederholt",
+      "recap": "physik/geschwindigkeit"
+    },
+    {
+      "path": "geschwindigkeit-aendert-sich/beschleunigen-abbremsen/",
+      "title": "Beschleunigen und Abbremsen",
+      "competencies": [
+        "geschwindigkeitsaenderung"
+      ]
+    },
+    {
+      "path": "geschwindigkeit-aendert-sich/richtung-aendert-sich/",
+      "title": "Die Richtung ändert sich",
+      "competencies": [
+        "geschwindigkeitsaenderung"
+      ]
+    },
+    {
+      "path": "bewegungen-im-diagramm/geschwindigkeit-berechnen-wiederholt/",
+      "title": "Geschwindigkeit berechnen – kurz wiederholt",
+      "recap": "physik/geschwindigkeit-berechnen"
+    },
+    {
+      "path": "bewegungen-im-diagramm/weg-zeit-diagramm/",
+      "title": "Das Weg-Zeit-Diagramm",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "bewegungen-im-diagramm/weg-zeit-kurven/",
+      "title": "Kurven im Weg-Zeit-Diagramm",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "bewegungen-im-diagramm/geschwindigkeit-zeit-diagramm/",
+      "title": "Das Geschwindigkeit-Zeit-Diagramm",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "bewegungen-im-diagramm/bewegung-darstellen/",
+      "title": "Eine Bewegung im Diagramm darstellen",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    }
+  ]
+}
