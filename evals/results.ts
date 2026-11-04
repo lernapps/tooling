@@ -6,7 +6,8 @@
 //
 // What is left out, and why (each with its reason in the file):
 // - a job with excluded.txt: ruled out by the orchestrator (a harness fault, not the agent's);
-// - a trial that hit the subscription's usage limit (HTTP 429) or broke off before its agent started: not a result;
+// - a trial that hit the subscription's usage limit (HTTP 429), whose provider refused the model (no active
+//   subscription) or that broke off before its agent started: not a result;
 //   a job whose trials were all left out is listed with the job of the same task, model and configuration that
 //   replaced it, if any;
 // - a trial whose verifier crashed stays a result of the agent, without the verifier's numbers ("partial").
@@ -69,6 +70,9 @@ const readJson = <T>(path: string): T | undefined =>
  */
 const USAGE_LIMIT = /usage_limit_reached|rate_limit_error/;
 
+/** A provider that refuses every request of the model: OpenCode Go without an active subscription. */
+const NO_SUBSCRIPTION = /An active OpenCode Go subscription is required/;
+
 /** The text files of a directory, recursively (the agent's logs are a few megabytes at most). */
 function textsUnder(dir: string): string[] {
   if (!existsSync(dir)) return [];
@@ -95,6 +99,7 @@ export function exclusionOf(trial: string): string | undefined {
   const texts = [JSON.stringify(exception ?? ""), ...textsUnder(join(trial, "agent"))];
   if (existsSync(join(trial, "trial.log"))) texts.push(readFileSync(join(trial, "trial.log"), "utf8"));
   if (texts.some((text) => USAGE_LIMIT.test(text))) return "the subscription's usage limit (HTTP 429)";
+  if (texts.some((text) => NO_SUBSCRIPTION.test(text))) return "the provider refused the model: no active subscription";
   if (exception && !result?.agent_execution?.started_at) {
     return `broke off before the agent started (${exception.exception_type ?? "exception"})`;
   }
