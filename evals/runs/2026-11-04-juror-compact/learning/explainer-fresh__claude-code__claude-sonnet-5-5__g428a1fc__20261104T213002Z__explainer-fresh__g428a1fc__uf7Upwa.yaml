@@ -1,0 +1,1070 @@
+url: http://127.0.0.1:4403/
+grade: "8"
+subject: physik
+competencies:
+  - stromstaerke
+  - spannung
+  - stromstaerke-messen
+  - spannung-messen
+  - reihenschaltung-groessen
+  - parallelschaltung-groessen
+pages:
+  - /stromkreis/einfacher-stromkreis/
+  - /stromkreis/leiter-nichtleiter/
+  - /stromkreis/schalter/
+  - /stromkreis/schaltzeichen/
+  - /stromstaerke-spannung/stromstaerke/
+  - /stromstaerke-spannung/stromstaerke-messen/
+  - /stromstaerke-spannung/spannung/
+  - /stromstaerke-spannung/spannung-messen/
+  - /schaltungen/reihenschaltung/
+  - /schaltungen/parallelschaltung/
+  - /sicherheit/gefahren-des-stroms/
+  - /sicherheit/sicher-mit-strom-umgehen/
+units:
+  - item: explainer-page-goal
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 2
+    evidence:
+      „Danach kannst du einen einfachen Stromkreis aufbauen und erklären, warum er geschlossen sein muss“; knüpft an
+      „Du hast schon einmal eine Lampe mit einer Batterie zum Leuchten gebracht“ an; Übungen prüfen genau das (offen/geschlossen).
+  - item: explainer-learner-start
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 2
+    evidence:
+      Beginnt mit „Vielleicht hat eine Taschenlampe einmal nicht geleuchtet, obwohl die Batterie neu war“; „Pole“ wird
+      beim ersten Gebrauch erklärt, „Stromkreis“ nach der Zeichnung definiert.
+  - item: explainer-one-step
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 2
+    evidence: "Eine neue Idee: geschlossener Kreis. Ein Beispiel pro Kasten."
+  - item: explainer-exercise-progression
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Übungen der Seite
+    level: 2
+    evidence:
+      stromkreis-1 Zuordnen (Erkennen) → stromkreis-2 Aussage → stromkreis-3 Schaltungen vergleichen (Anwenden auf neue
+      Zeichnungen) → stromkreis-4 Taschenlampe (neue Situation).
+  - item: explainer-honest-headings
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 1
+    evidence:
+      „Folge den Pfeilen mit dem Finger“ und „Folge dem Weg des Stroms mit dem Finger“ klingt für Klasse 8 kindlich;
+      der Rest passt.
+  - item: explainer-text-figure-agree
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Abschnitt „Warum der Kreis geschlossen sein muss“
+    level: 2
+    evidence:
+      "Text: „Die Zahlen in den kleinen Kreisen … gehören zu der Liste darunter“; die Zeichnung zeigt Kreise 1–3, die
+      Liste Batterie, Lampe, Kabel. Dieselbe Batterie-Lampe-Zwei-Kabel-Schaltung in Text, Figur und Übung."
+  - item: explainer-representation-explained
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Beschriftete Figur „Batterie, Lampe, Kabel“ (labelled-figure, stromkreis-1)
+    level: 2
+    evidence:
+      "Ganzes: „Die Zeichnung zeigt eine Batterie, eine Lampe und zwei Kabel“; Zahlen→Liste; Pole „langer dünner Strich
+      der Pluspol (+)“; Pfeile = Weg des Stroms; Fehlvorstellung in „Ein Irrtum, den viele haben“. Statisch, nichts einzugeben."
+  - item: explainer-representation-explained
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Figuren Schaltung A–C (stromkreis-3)
+    level: 2
+    evidence:
+      "Aufgabe: „Folge in jeder Zeichnung dem Weg … und suche eine Lücke“; Unterschriften „Schaltung A/B/C“, alt beschreibt
+      die Zeichnung."
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Übung stromkreis-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Übung stromkreis-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Übung stromkreis-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Übung stromkreis-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Seite
+    level: 2
+    evidence:
+      "„Du weißt jetzt, dass der Strom einen geschlossenen Weg braucht“ und „Danach kannst du Leiter und Nichtleiter
+      unterscheiden und Beispiele nennen“; Übungen: Stoffe zuordnen, Prüfstelle deuten."
+  - item: explainer-learner-start
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Wenn du ein Kabel aufschneidest, siehst du innen einen glänzenden Draht aus Metall und außen eine Hülle
+      aus Kunststoff.“ „Prüfstelle“ wird sofort erklärt."
+  - item: explainer-one-step
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Seite
+    level: 2
+    evidence:
+      "Eine neue Idee: Leiter/Nichtleiter; Prüfstelle ist das Werkzeug dafür. Kasten „Nicht nur Metalle leiten“ gehört
+      dazu."
+  - item: explainer-exercise-progression
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Übungen der Seite
+    level: 2
+    evidence:
+      "leiter-1 Stoffe erkennen → leiter-2 Gegenfrage → leiter-3 Prüfstelle: aus dunkler Lampe schließen (umgekehrt)
+      → leiter-4 Kabelhülle (neue Situation)."
+  - item: explainer-honest-headings
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-text-figure-agree
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Abschnitt „Wie du prüfst, ob ein Stoff den Strom leitet“
+    level: 2
+    evidence: "Text: „die beiden Enden der Lücke als kleine Kreise“; Figur und Tabelle passen."
+  - item: explainer-text-figure-agree
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Abschnitt „Übung“
+    level: 1
+    evidence: leiter-1 nennt „ein Radiergummi“, die Tabelle hat „Gummiband“ – ein Wechsel des Beispiels ohne Hinweis.
+  - item: explainer-representation-explained
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Figur Prüfstelle (leiter-1.svg)
+    level: 2
+    evidence:
+      Unterschrift „Die Prüfstelle im unteren Kabel ist die Lücke, in die du den Gegenstand legst“; Text erklärt die
+      kleinen Kreise; Bezug zum Ergebnis „Lampe leuchtet = Leiter“ steht im Text. Fehlvorstellung „Metall leitet, alles andere
+      nicht“ in der Box.
+  - item: explainer-representation-explained
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Figur in leiter-3
+    level: 2
+    evidence: Dieselbe Figur, Unterschrift „Der Stromkreis mit der Prüfstelle“.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Übung leiter-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Übung leiter-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Übung leiter-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Übung leiter-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /stromkreis/leiter-nichtleiter/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 2
+    evidence:
+      "„Du weißt schon: Eine Lampe leuchtet nur in einem geschlossenen Stromkreis“ und „Danach kannst du erklären, wie
+      ein Schalter einen Stromkreis öffnet und schließt“; Übungen prüfen offen/geschlossen."
+  - item: explainer-learner-start
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Du drückst den Lichtschalter, und das Licht geht an.“ „Kontakte“ und „Klinge“ werden eingeführt, wo sie
+      gebraucht werden."
+  - item: explainer-one-step
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 2
+    evidence: "Eine neue Idee: Schalter öffnet/schließt den Kreis."
+  - item: explainer-exercise-progression
+    page: /stromkreis/schalter/
+    unit: Übungen der Seite
+    level: 2
+    evidence:
+      schalter-1 Schaltpläne lesen → schalter-2 Aussage → schalter-3 Begründung → schalter-4 Schalter unten statt oben
+      (neue Lage).
+  - item: explainer-honest-headings
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-text-figure-agree
+    page: /stromkreis/schalter/
+    unit: Abschnitt „Der Schalter öffnet und schließt den Weg“
+    level: 2
+    evidence: „Die beiden Zeichnungen zeigen denselben Stromkreis“; zwei Figuren offen/geschlossen mit passenden Beschriftungen.
+  - item: explainer-representation-explained
+    page: /stromkreis/schalter/
+    unit: Figuren Schalter offen/geschlossen
+    level: 2
+    evidence:
+      Kontakte („dicke Punkte“) und Klinge erklärt, Unterschriften „Schalter offen. Zwischen Klinge und rechtem Kontakt
+      ist eine Lücke“; Fehlvorstellung in „Der Schalter wirkt im ganzen Kreis“.
+  - item: explainer-representation-explained
+    page: /stromkreis/schalter/
+    unit: Figuren Schaltplan A–C (schalter-1)
+    level: 2
+    evidence: Unterschriften „Schaltplan A/B/C“, Zeichnung wie auf der Seite erklärt.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schalter/
+    unit: Übung schalter-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schalter/
+    unit: Übung schalter-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schalter/
+    unit: Übung schalter-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schalter/
+    unit: Übung schalter-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /stromkreis/schalter/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 1
+    evidence:
+      Ziel „einen Stromkreis als Schaltplan zeichnen und einen Schaltplan lesen“; knüpft an „Die Zeichnungen auf den
+      letzten Seiten“ an. Die Übungen lassen nur zuordnen, lesen und auswählen, nie zeichnen – eine Hälfte des Ziels wird nicht
+      geprüft.
+  - item: explainer-learner-start
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Die Zeichnungen auf den letzten Seiten waren schon Schaltpläne.“ Begründung für einfache Zeichen; „Schaltzeichen“
+      wird erklärt."
+  - item: explainer-one-step
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 2
+    evidence: "Eine Idee: Schaltzeichen und Schaltplan."
+  - item: explainer-exercise-progression
+    page: /stromkreis/schaltzeichen/
+    unit: Übungen der Seite
+    level: 2
+    evidence:
+      "schaltzeichen-1 Zuordnen → -2 Aussage → -3 Plan mit zwei Schaltern lesen → -4 Umgekehrt: aus Beschreibung den
+      Plan wählen."
+  - item: explainer-honest-headings
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-text-figure-agree
+    page: /stromkreis/schaltzeichen/
+    unit: Abschnitt „Vier Schaltzeichen“
+    level: 2
+    evidence: „Jedes ist mit einer Zahl markiert; die Liste darunter nennt das Bauteil“ – Figur hat Nummern und Liste.
+  - item: explainer-text-figure-agree
+    page: /stromkreis/schaltzeichen/
+    unit: "Abschnitt „Beispiel: Einen Schaltplan lesen“"
+    level: 2
+    evidence: Text „Die Klinge liegt waagerecht, der Schalter ist geschlossen“ passt zur Figur.
+  - item: explainer-representation-explained
+    page: /stromkreis/schaltzeichen/
+    unit: Beschriftete Figur „Vier Schaltzeichen“
+    level: 1
+    evidence:
+      "Zahlen→Liste ist erklärt. Offen: dass das gezeigte Schalterzeichen die geöffnete Stellung ist (steht erst in
+      der Erklärung zu schaltzeichen-1) und dass die Klinge waagerecht den geschlossenen Schalter bedeutet (erst im Beispiel);
+      Plus/Minus der Batterie ohne Hinweis. Eine Fehlvorstellung wird bei Länge der Linien in der Regel genannt."
+  - item: explainer-representation-explained
+    page: /stromkreis/schaltzeichen/
+    unit: Figur Schaltplan im Beispiel (schaltzeichen-3.svg)
+    level: 2
+    evidence:
+      Unterschrift „Folge dem Weg vom Pluspol der Batterie durch den Schalter und die Lampe zurück zum Minuspol“, Schritte
+      1–4 folgen.
+  - item: explainer-representation-explained
+    page: /stromkreis/schaltzeichen/
+    unit: Figuren in schaltzeichen-3 und -4
+    level: 2
+    evidence: Zeichnungen schon bekannt (Schalter-Seite), Unterschriften benennen sie.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schaltzeichen/
+    unit: Übung schaltzeichen-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schaltzeichen/
+    unit: Übung schaltzeichen-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schaltzeichen/
+    unit: Übung schaltzeichen-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schaltzeichen/
+    unit: Übung schaltzeichen-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /stromkreis/schaltzeichen/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Seite
+    level: 1
+    evidence:
+      „Danach kannst du die Stromstärke … erklären, und sie in Ampere angeben“; Anknüpfung „Du kennst den Stromkreis“.
+      Zwei der vier Übungen verlangen Umrechnen mA↔A und Vergleichen, das im Ziel nicht steht.
+  - item: explainer-learner-start
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Seite
+    level: 1
+    evidence:
+      Start mit Handy-Ladegerät und Wasserleitung ist da. Aber die Analogie „In der Leitung ist Wasser, das sich verbrauchen
+      lässt“ ist irreführend (Wasser in einer geschlossenen Leitung verbraucht sich auch nicht) und verknüpft sich nicht sauber
+      mit der Idee.
+  - item: explainer-one-step
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Ideen: Stromstärke als Größe und Umrechnen mA↔A / Vergleichen verschiedener Einheiten („Wenn du von Milliampere
+      in Ampere umrechnest, teilst du durch 1000“). Der Umrechnungsweg hat einen eigenen Abschnitt (Tabelle, Formel)."
+  - item: explainer-exercise-progression
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Übungen der Seite
+    level: 2
+    evidence:
+      staerke-1 Einheit (Erkennen) → staerke-2/-3 generierte Umrechnungen in beide Richtungen mit wechselnden Werten
+      → staerke-4 Vergleich in Sachsituation.
+  - item: explainer-honest-headings
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Übung staerke-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Übung staerke-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Übung staerke-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Übung staerke-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-steps-explain
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Übung staerke-2 (generiert), Lösungsschritte
+    level: 2
+    evidence:
+      "Drei Samen geladen (z. B. „20 mA“, „400 mA“, „500 mA“ bzw. „1,5 A“, „0,5 A“, „1 A“): „1 A sind 1000 mA, also
+      teilst du die Milliampere durch 1000.“ / „20 mA : 1000 = 0,02 A.“ – Zahlen der Aufgabe, mit Grund, Ergebnis ausgerechnet."
+    did: Falsche Antwort „7“ eingegeben, „Prüfen“, drei Seitenladungen.
+  - item: explainer-steps-explain
+    page: /stromstaerke-spannung/stromstaerke/
+    unit: Übung staerke-3 (generiert), Lösungsschritte
+    level: 2
+    evidence:
+      "Drei Samen geladen (z. B. „20 mA“, „400 mA“, „500 mA“ bzw. „1,5 A“, „0,5 A“, „1 A“): „1 A sind 1000 mA, also
+      teilst du die Milliampere durch 1000.“ / „20 mA : 1000 = 0,02 A.“ – Zahlen der Aufgabe, mit Grund, Ergebnis ausgerechnet."
+    did: Falsche Antwort „7“ eingegeben, „Prüfen“, drei Seitenladungen.
+  - item: explainer-page-goal
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 2
+    evidence:
+      "„Du weißt jetzt, was die Stromstärke bedeutet …“ und „Danach kannst du die Stromstärke mit einem Amperemeter
+      richtig messen“; Übungen: Anschluss wählen, Skala ablesen, Einbau."
+  - item: explainer-learner-start
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 1
+    evidence:
+      Start „Du weißt jetzt, was die Stromstärke bedeutet“ ist gut. „in Reihe mit den anderen Teilen“ kommt aber vor,
+      ohne dass „Reihe“ erklärt wäre (Reihenschaltung folgt erst später); ein Lernender muss raten.
+  - item: explainer-one-step
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Ideen: Einbau des Amperemeters und Ablesen der Skala („Zähle, wie viele kurze Striche …“); dazu das Beispiel
+      „Strom vor und hinter der Lampe“ (nicht verbraucht) – drei Aussagen, die die Übungen prüfen."
+  - item: explainer-exercise-progression
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Übungen der Seite
+    level: 2
+    evidence: messen-1 Anschluss wählen → messen-2 Skala ablesen (neuer Wert) → messen-3/-4 Aussagen über Einbau und Verbrauch.
+  - item: explainer-honest-headings
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Das Amperemeter sitzt im Weg des Stroms“ passt nur zur Hälfte: derselbe Abschnitt erklärt auch das Ablesen der
+      Skala („Ablesen: …“)."
+  - item: explainer-age-appropriate
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-text-figure-agree
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Abschnitt „Das Amperemeter sitzt im Weg des Stroms“
+    level: 2
+    evidence:
+      "„von 0 bis 1 A in Schritten von 0,2 A … je ein kurzer Strich: 0,1 A“ – die Skala zeigt dasselbe; Figurenunterschrift
+      0,8 A passt zum Zeiger."
+  - item: explainer-text-figure-agree
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: "Abschnitt „Beispiel: Strom vor und hinter der Lampe“"
+    level: 2
+    evidence: A1 und A2 in Text, Figur und Tabelle; 0,25 A in beiden.
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Figur Amperemeter im Stromkreis (strom-1)
+    level: 2
+    evidence:
+      Unterschrift „Das Amperemeter ersetzt ein Stück Kabel“; Kreis mit A erklärt; Fehlvorstellung in „Nicht neben die
+      Lampe!“.
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Figur Skala 0,8 A (strom-4)
+    level: 2
+    evidence:
+      Text erklärt lange/kurze Striche und 0,1 A pro kurzem Strich; Unterschrift „zeigt hier 0,8 A“. Der Zeiger steht
+      auf einem langen Strich, der kurze Strich wird erst in der Übung wichtig.
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Figur A1/A2 (strom-5)
+    level: 2
+    evidence: Unterschrift „A1 misst vor der Lampe, A2 hinter der Lampe“ und Tabelle.
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Figuren Anschluss A/B (messen-1)
+    level: 2
+    evidence: Aufgabe fragt nach dem richtigen Anschluss; Seite erklärt beides („Nicht neben die Lampe!“).
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Figur Skala in messen-2
+    level: 2
+    evidence: Einheit A und „Messbereich bis 1 A“ in der Unterschrift; Ablesen vorher erklärt.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Übung messen-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Übung messen-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Übung messen-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Übung messen-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /stromstaerke-spannung/stromstaerke-messen/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /stromstaerke-spannung/spannung/
+    unit: Seite
+    level: 2
+    evidence:
+      „Du weißt, dass in einem geschlossenen Stromkreis Strom fließt …“ und „Danach kannst du die Spannung als Antrieb
+      des Stroms erklären und sie in Volt angeben“; Übungen prüfen Einheit und Antrieb.
+  - item: explainer-learner-start
+    page: /stromstaerke-spannung/spannung/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Auf einer Batterie steht zum Beispiel ‚1,5 V‘“, Wasserleitung mit Pumpe als Analogie, „Spannung“ wird
+      beim ersten Bedarf erklärt; die Missverständnis-Box nennt die Grenze."
+  - item: explainer-one-step
+    page: /stromstaerke-spannung/spannung/
+    unit: Seite
+    level: 1
+    evidence:
+      Eine Kernidee, aber die Option in spannung-4 „Die Steckdose mit 230 V“ mit der Info „Darum ist die Steckdose gefährlich“
+      greift den Inhalt der späteren Seite „Gefahren des Stroms“ vor.
+  - item: explainer-exercise-progression
+    page: /stromstaerke-spannung/spannung/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "spannung-1 Einheit, spannung-2/-3 Aussagen (Wiederholen), spannung-4 größte Spannung aus der Tabelle vergleichen:
+      nur Erkennen/Wiedergeben, keine Anwendung mit anderen Werten oder in neuer Situation."
+  - item: explainer-honest-headings
+    page: /stromstaerke-spannung/spannung/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /stromstaerke-spannung/spannung/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/spannung/
+    unit: Übung spannung-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/spannung/
+    unit: Übung spannung-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/spannung/
+    unit: Übung spannung-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/spannung/
+    unit: Übung spannung-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /stromstaerke-spannung/spannung/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Seite
+    level: 2
+    evidence:
+      "„Das Amperemeter misst die Stromstärke, indem es … eingebaut wird“ und „Danach kannst du die Spannung mit einem
+      Voltmeter richtig messen“; Übungen: Anschluss, Skala, Auftrennen."
+  - item: explainer-learner-start
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Das Amperemeter misst die Stromstärke, indem es in den Weg des Stroms eingebaut wird.“ „parallel“ wird
+      mit „an die beiden Enden des Bauteils“ erklärt."
+  - item: explainer-one-step
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Seite
+    level: 1
+    evidence:
+      „Das Voltmeter wird parallel zum Bauteil geschaltet“ nimmt den Begriff der späteren Seite „Parallelschaltung“
+      vorweg; dazu kommt Ablesen der Skala und „Spannung ohne Stromkreis“ (spannung-messen-4).
+  - item: explainer-exercise-progression
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Übungen der Seite
+    level: 2
+    evidence:
+      spannung-messen-1 Anschluss → -2 Skala ablesen (7 V statt 4 V) → -3/-4 Aussagen, auch Batterie ohne Kreis (neue
+      Situation).
+  - item: explainer-honest-headings
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Das Voltmeter liegt neben dem Bauteil“ passt nur zur Hälfte: derselbe Abschnitt erklärt auch das Ablesen der
+      Skala."
+  - item: explainer-age-appropriate
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-text-figure-agree
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Abschnitt „Das Voltmeter liegt neben dem Bauteil“
+    level: 2
+    evidence: Skala 0–10 V in Schritten von 2 V, Zeiger bei 4 V wie in der Unterschrift.
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Figur Voltmeter parallel (spannung-1)
+    level: 2
+    evidence:
+      Unterschrift „Die Lampe und das Voltmeter hängen an denselben zwei Punkten“; „parallel“ im Text erklärt; Fehlvorstellung
+      in der Box „Nicht in den Weg des Stroms einbauen“.
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Figur Skala 4 V (spannung-4)
+    level: 2
+    evidence: "Text: „von 0 bis 10 V in Schritten von 2 V, dazwischen … 1 V“; Unterschrift „zeigt hier 4 V“."
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Figuren Anschluss A/B (spannung-messen-1)
+    level: 2
+    evidence: Anschluss A = im Weg des Stroms, B = parallel, beides im Text erklärt.
+  - item: explainer-representation-explained
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Figur Skala in spannung-messen-2
+    level: 2
+    evidence: „Messbereich bis 10 V“ in der Unterschrift; Ablesen vorher erklärt.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Übung spannung-messen-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Übung spannung-messen-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Übung spannung-messen-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Übung spannung-messen-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /stromstaerke-spannung/spannung-messen/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 1
+    evidence:
+      „Danach kannst du eine Reihenschaltung aufbauen und erklären, was passiert, wenn ein Bauteil ausfällt“; Anknüpfung
+      „Du nutzt dabei, was du über Schaltpläne, Stromstärke und Spannung weißt“. Zwei Übungen (reihe-2, reihe-3) prüfen Stromstärke
+      und Spannung, das Ziel nennt nur den Ausfall.
+  - item: explainer-learner-start
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Bisher hatte jeder Stromkreis eine Lampe. Was geschieht, wenn du zwei Lampen an eine Batterie hängst?“
+      „hintereinander“ wird sofort erklärt."
+  - item: explainer-one-step
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Ideen: Ausfall (Ziel) und die beiden Regeln „Stromstärke an jeder Stelle gleich“ / „Spannung teilt sich
+      auf“ aus der Tabelle (Übungen reihe-2, reihe-3)."
+  - item: explainer-exercise-progression
+    page: /schaltungen/reihenschaltung/
+    unit: Übungen der Seite
+    level: 2
+    evidence:
+      reihe-1 drei Lampen (neue Situation) → reihe-2 Aussage → reihe-3 Spannungsverteilung → reihe-4 Schalter im Zimmer
+      (Anwenden).
+  - item: explainer-honest-headings
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-text-figure-agree
+    page: /schaltungen/reihenschaltung/
+    unit: Abschnitt „Ein einziger Weg für den Strom“
+    level: 2
+    evidence:
+      Zwei Lampen L1, L2 in Text, Figur und Tabelle (6-V-Batterie). Übung wechselt mit angekündigter Figur „Drei Lampen
+      in Reihe“.
+  - item: explainer-representation-explained
+    page: /schaltungen/reihenschaltung/
+    unit: Figur Reihenschaltung (reihe-1.svg)
+    level: 2
+    evidence:
+      Unterschrift „Zähle die möglichen Wege des Stroms“, Text „Es gibt keine Abzweigung“; L1, L2 bezeichnet; Tabelle
+      ohne Messgeräte in der Figur, aber als „Beispielwerte“ markiert.
+  - item: explainer-representation-explained
+    page: /schaltungen/reihenschaltung/
+    unit: Figur drei Lampen (reihe-2)
+    level: 2
+    evidence: Unterschrift „Drei Lampen in Reihe“, L1–L3 beschriftet.
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/reihenschaltung/
+    unit: Übung reihe-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/reihenschaltung/
+    unit: Übung reihe-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/reihenschaltung/
+    unit: Übung reihe-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/reihenschaltung/
+    unit: Übung reihe-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /schaltungen/reihenschaltung/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 1
+    evidence:
+      „Danach kannst du eine Parallelschaltung aufbauen und erklären, was passiert, wenn ein Zweig ausfällt“; Anknüpfung
+      „In der Reihenschaltung gehen alle Lampen aus“. parallel-2 und parallel-3 prüfen Spannung und Stromstärke, die das Ziel
+      nicht nennt.
+  - item: explainer-learner-start
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Zu Hause ist das anders: Fällt eine Lampe aus, leuchten die anderen weiter.“ „Zweige“ und Verzweigungspunkte
+      werden erklärt."
+  - item: explainer-one-step
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 1
+    evidence: "Zwei Ideen: Ausfall eines Zweigs und die Regeln für Spannung und Stromstärke (parallel-2, parallel-3)."
+  - item: explainer-exercise-progression
+    page: /schaltungen/parallelschaltung/
+    unit: Übungen der Seite
+    level: 2
+    evidence:
+      parallel-1 drei Lampen → parallel-2 Spannung → parallel-3 Stromstärken → parallel-4 Schaltung für Wunsch wählen
+      (Anwenden).
+  - item: explainer-honest-headings
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-text-figure-agree
+    page: /schaltungen/parallelschaltung/
+    unit: Abschnitt „Mehrere Wege für den Strom“
+    level: 2
+    evidence: "Zwei Lampen, Zweige und dicke Punkte in Text und Figur; Tabelle passt. Übung: „Drei Lampen parallel“ angekündigt."
+  - item: explainer-representation-explained
+    page: /schaltungen/parallelschaltung/
+    unit: Figur Parallelschaltung (parallel-1)
+    level: 2
+    evidence:
+      Dicke Punkte an den Verzweigungen im Text erklärt; Unterschrift „Zähle die möglichen Wege des Stroms“; Zweige
+      L1/L2 bezeichnet.
+  - item: explainer-representation-explained
+    page: /schaltungen/parallelschaltung/
+    unit: Figur drei Lampen (parallel-2)
+    level: 2
+    evidence: Unterschrift „Drei Lampen parallel“, Zweige beschriftet.
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/parallelschaltung/
+    unit: Übung parallel-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/parallelschaltung/
+    unit: Übung parallel-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/parallelschaltung/
+    unit: Übung parallel-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/parallelschaltung/
+    unit: Übung parallel-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /schaltungen/parallelschaltung/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 2
+    evidence:
+      „Danach kannst du erklären, warum Strom aus der Steckdose gefährlich ist und Strom aus einer Batterie nicht“;
+      Anknüpfung an Batterie-Lampe-Alltag; Übungen prüfen genau diese Erklärung.
+  - item: explainer-learner-start
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Mit einer Batterie darfst du gefahrlos eine Lampe zum Leuchten bringen. In die Steckdose darfst du nie
+      etwas hineinstecken.“ Der Körper wird über Leiter (Salzwasser) angeschlossen."
+  - item: explainer-one-step
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 2
+    evidence: "Eine Idee: Gefahr hängt von Stromstärke durch den Körper, Zeit und Spannung ab; ein Beispiel pro Kasten."
+  - item: explainer-exercise-progression
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Übungen der Seite
+    level: 2
+    evidence: gefahren-1 Vergleich → -2 Aussage → -3 Situationen erkennen (Anwenden) → -4 12-V-Batterie.
+  - item: explainer-honest-headings
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-text-figure-agree
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Abschnitt „Der Körper als Teil eines Stromkreises“
+    level: 1
+    evidence:
+      „ähnlich wie das Salzwasser in der Tabelle von früher“ verweist auf eine Tabelle, die die Seite selbst nicht hat
+      (sie steht auf „Leiter und Nichtleiter“); Hinweis „von früher“ ist da.
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Übung gefahren-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Übung gefahren-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Übung gefahren-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Übung gefahren-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+  - item: explainer-page-goal
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Du weißt jetzt, wann Strom gefährlich wird …“ und „Danach kannst du Regeln für den sicheren Umgang mit Strom
+      nennen und anwenden“; Übungen wenden die Regeln an.
+  - item: explainer-learner-start
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Du weißt jetzt, wann Strom gefährlich wird: bei großer Spannung …“; die Regeln folgen mit Grund in der
+      Tabelle."
+  - item: explainer-one-step
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 2
+    evidence: "Eine Idee: Regeln mit Grund; ein Beispiel (Föhn)."
+  - item: explainer-exercise-progression
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Übungen der Seite
+    level: 2
+    evidence: sicher-1 Situationen beurteilen → -2 Aussage → -3 Handlungssituation Schreibtischlampe → -4 Metallnagel.
+  - item: explainer-honest-headings
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 2
+    evidence: "Alle Überschriften passen („Was du schon kennst“, „Beispiel: …“, „Übung“); „Ausprobieren“ kommt nicht vor."
+  - item: explainer-age-appropriate
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 2
+    evidence: "Beispiele passen zu Klasse 8: Taschenlampe, Handy-Ladegerät, Lichterkette, Föhn im Bad."
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Übung sicher-1
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Übung sicher-2
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Übung sicher-3
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Übung sicher-4
+    level: 2
+    evidence: Aufgabentext, Figur, Unterschrift und alt nennen die Antwort nicht vor dem Prüfen; nur die Aufgabenstellung.
+    did: Aufgabe gelesen, Figur/Unterschrift/alt und Text angesehen, ohne „Prüfen“ zu drücken.
+  - item: explainer-steps-explain
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Beispielkasten der Seite
+    level: 2
+    evidence:
+      Nummerierte Schritte mit eigenen Zahlen/Situation und Begründung (z. B. „Von der Lampe aus gibt es keinen Weg
+      zurück … Hier ist die Lücke“).
+notes:
+  Karte nicht abgerufen (Lesen außerhalb der erlaubten Verzeichnisse); es wurde angenommen, was Klasse 8 gewöhnlich kennt
+  (Stromkreis, Alltag). Alle Seiten in 1280×800 und 360×740 geöffnet und als Screenshot angesehen, kein waagerechtes Scrollen.
+  Die App hat keine interaktiven Komponenten außer den Standardübungen, daher keine Einträge zu explainer-control-purpose.
+  Nur die generierten Aufgaben (staerke-2/-3) wurden mit falscher Antwort bedient; die übrigen Übungen wurden gelesen, aber
+  nicht alle mit richtiger/falscher/unvollständiger Antwort geprüft. Ob die Skala-Zeiger (strom-3, spannung-3) genau auf 0,3
+  A bzw. 7 V stehen, wurde nur nach Screenshot beurteilt.
+at: "2026-11-04"

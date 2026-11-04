@@ -1,0 +1,1447 @@
+{
+  "schema": "results.v1",
+  "run": "2026-11-04-juror-compact",
+  "dataDate": "2026-11-04",
+  "runsFrom": "2026-11-04T20:56:49.034930Z",
+  "runsTo": "2026-11-04T23:25:24.886888Z",
+  "configurations": {
+    "c1": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.318",
+      "harbor": "0.24.0",
+      "bridge": "acp",
+      "userModel": "anthropic/claude-sonnet-5-5",
+      "guidanceCommit": "88d8290b3f198919a89673db1225c01c89aa380b",
+      "guidanceRef": "main"
+    },
+    "c2": {
+      "harness": "claude-code",
+      "harnessVersion": "2.1.318",
+      "harbor": "0.24.0",
+      "bridge": "acp",
+      "userModel": "anthropic/claude-sonnet-5-5",
+      "guidanceCommit": "428a1fcf7b333ec544dc88796efca30c8d6b7b47",
+      "guidanceRef": "428a1fcf7b333ec544dc88796efca30c8d6b7b47"
+    }
+  },
+  "rows": [
+    {
+      "id": "plan_boxes_ticked",
+      "label": "Plan boxes ticked",
+      "group": "process",
+      "source": "plan_boxes_ticked",
+      "kind": "share",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "competencies_written",
+      "label": "Competencies written (“Ich kann …”)",
+      "group": "process",
+      "source": "competencies_written",
+      "kind": "runs",
+      "expectations": ["A12"]
+    },
+    {
+      "id": "app_content_filled",
+      "label": "Content guide filled (app-content)",
+      "group": "process",
+      "source": "app_content_filled",
+      "kind": "runs",
+      "expectations": ["A13"]
+    },
+    {
+      "id": "archetype_expected",
+      "label": "Archetype chosen right",
+      "group": "process",
+      "source": "archetype_expected",
+      "kind": "runs",
+      "expectations": ["A19"]
+    },
+    {
+      "id": "check_passes",
+      "label": "lernapps check passes",
+      "group": "process",
+      "source": "check_passes",
+      "kind": "runs",
+      "expectations": ["A21", "A16", "A17", "A18"]
+    },
+    {
+      "id": "phase_reached",
+      "label": "Phase in the plan at the end (commit = 100 %)",
+      "group": "process",
+      "source": "phase_reached",
+      "kind": "share",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "committed_clean",
+      "label": "Committed clean",
+      "group": "process",
+      "source": "committed_clean",
+      "kind": "runs",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "turns_after_plan_max_3",
+      "label": "At most 3 creator turns after the plan",
+      "group": "transcript",
+      "source": "creator_turns_after_plan",
+      "kind": "runs",
+      "expectations": ["A11"]
+    },
+    {
+      "id": "code_done",
+      "label": "Code done: check green and the scenario ended after the plan",
+      "group": "transcript",
+      "source": "scenario_end",
+      "kind": "runs",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "phase_announced",
+      "label": "Replies that begin with the phase",
+      "group": "transcript",
+      "source": "phase_announced",
+      "kind": "share",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "phase_announced_right",
+      "label": "Announced phase is the plan's",
+      "group": "transcript",
+      "source": "phase_announced_right",
+      "kind": "share",
+      "expectations": ["A4"]
+    },
+    {
+      "id": "early_preview",
+      "label": "First look shown in Code",
+      "group": "transcript",
+      "source": "early_preview",
+      "kind": "runs",
+      "expectations": ["A35"]
+    },
+    {
+      "id": "questions_max_2",
+      "label": "At most 2 questions in every turn",
+      "group": "transcript",
+      "source": "questions_per_turn_max",
+      "kind": "runs",
+      "expectations": ["A9"]
+    },
+    {
+      "id": "not_created_before_plan",
+      "label": "No app created before the plan was confirmed",
+      "group": "transcript",
+      "source": "installs_before_plan",
+      "kind": "runs",
+      "expectations": ["A3", "A5"]
+    },
+    {
+      "id": "code_after_plan_confirmed",
+      "label": "Phase code set only after the plan's yes",
+      "group": "transcript",
+      "source": "code_before_plan_confirmed",
+      "kind": "runs",
+      "expectations": ["A3", "A6"]
+    },
+    {
+      "id": "plan_template_read_raw",
+      "label": "Plan template read word for word",
+      "group": "transcript",
+      "source": "plan_template_read_raw",
+      "kind": "runs",
+      "expectations": ["A1"]
+    },
+    {
+      "id": "skills_in_phase",
+      "label": "Skills loaded in their phase",
+      "group": "transcript",
+      "source": "skills_in_phase",
+      "kind": "share",
+      "expectations": ["A2"]
+    },
+    {
+      "id": "no_skill_out_of_place",
+      "label": "No skill of another archetype or before its phase",
+      "group": "transcript",
+      "source": "skills_out_of_place",
+      "kind": "runs",
+      "expectations": ["A2"]
+    },
+    {
+      "id": "archetype_first_proposed_right",
+      "label": "First archetype the agent proposed is the expected one",
+      "group": "transcript",
+      "source": "archetype_first_proposed_right",
+      "kind": "runs",
+      "expectations": ["A19"]
+    },
+    {
+      "id": "creator_without_mistakes",
+      "label": "The simulated creator made no mistake of its own",
+      "group": "transcript",
+      "source": "creator_mistakes",
+      "kind": "runs",
+      "expectations": []
+    },
+    {
+      "id": "l_mean",
+      "label": "Learning quality, mean of the items",
+      "group": "learning",
+      "source": "learning",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-page-goal",
+      "label": "The page says where it leads",
+      "group": "learning",
+      "source": "explainer-page-goal",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-learner-start",
+      "label": "Starts where learners stand",
+      "group": "learning",
+      "source": "explainer-learner-start",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-representation-explained",
+      "label": "Figures and models say what they mean",
+      "group": "learning",
+      "source": "explainer-representation-explained",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-control-purpose",
+      "label": "Every control has a purpose",
+      "group": "learning",
+      "source": "explainer-control-purpose",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-text-figure-agree",
+      "label": "Text, figure and task agree",
+      "group": "learning",
+      "source": "explainer-text-figure-agree",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-one-step",
+      "label": "One new step per page",
+      "group": "learning",
+      "source": "explainer-one-step",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-figure-hides-answer",
+      "label": "The task's figure hides the answer",
+      "group": "learning",
+      "source": "explainer-figure-hides-answer",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-exercise-progression",
+      "label": "Exercises go from recognising to applying",
+      "group": "learning",
+      "source": "explainer-exercise-progression",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-steps-explain",
+      "label": "Solution steps explain",
+      "group": "learning",
+      "source": "explainer-steps-explain",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-honest-headings",
+      "label": "Headings say what the section does",
+      "group": "learning",
+      "source": "explainer-honest-headings",
+      "kind": "share",
+      "expectations": ["A36"]
+    },
+    {
+      "id": "l_explainer-age-appropriate",
+      "label": "Address fits the age",
+      "group": "learning",
+      "source": "explainer-age-appropriate",
+      "kind": "share",
+      "expectations": ["A36"]
+    }
+  ],
+  "cells": [
+    {
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "n": 2,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "app_content_filled": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "phase_reached": {
+          "mean": 0.834,
+          "min": 0.667,
+          "max": 1,
+          "n": 2
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "turns_after_plan_max_3": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 2
+        },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "phase_announced": {
+          "mean": 0.415,
+          "min": 0.33,
+          "max": 0.5,
+          "n": 2
+        },
+        "phase_announced_right": {
+          "mean": 0.665,
+          "min": 0.33,
+          "max": 1,
+          "n": 2
+        },
+        "early_preview": {
+          "mean": 0.5,
+          "min": 0,
+          "max": 1,
+          "n": 2
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 2
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "code_after_plan_confirmed": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "plan_template_read_raw": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 2
+        },
+        "skills_in_phase": {
+          "mean": 0.855,
+          "min": 0.83,
+          "max": 0.88,
+          "n": 2
+        },
+        "no_skill_out_of_place": {
+          "mean": 0.5,
+          "min": 0,
+          "max": 1,
+          "n": 2
+        },
+        "archetype_first_proposed_right": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "creator_without_mistakes": {
+          "mean": 0.5,
+          "min": 0,
+          "max": 1,
+          "n": 2
+        },
+        "l_mean": {
+          "mean": 0.715,
+          "min": 0.705,
+          "max": 0.725,
+          "n": 2
+        },
+        "l_explainer-page-goal": {
+          "mean": 0.078,
+          "min": 0,
+          "max": 0.155,
+          "n": 2
+        },
+        "l_explainer-learner-start": {
+          "mean": 0.858,
+          "min": 0.79,
+          "max": 0.925,
+          "n": 2
+        },
+        "l_explainer-representation-explained": {
+          "mean": 0.5,
+          "min": 0.35,
+          "max": 0.65,
+          "n": 2
+        },
+        "l_explainer-text-figure-agree": {
+          "mean": 0.847,
+          "min": 0.845,
+          "max": 0.85,
+          "n": 2
+        },
+        "l_explainer-one-step": {
+          "mean": 0.48,
+          "min": 0.46,
+          "max": 0.5,
+          "n": 2
+        },
+        "l_explainer-figure-hides-answer": {
+          "mean": 0.98,
+          "min": 0.96,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-exercise-progression": {
+          "mean": 0.505,
+          "min": 0.425,
+          "max": 0.585,
+          "n": 2
+        },
+        "l_explainer-steps-explain": {
+          "mean": 0.933,
+          "min": 0.865,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-honest-headings": {
+          "mean": 0.958,
+          "min": 0.915,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-age-appropriate": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 25.21,
+          "min": 23.397,
+          "max": 27.023,
+          "n": 2
+        },
+        "creator_turns": {
+          "mean": 9.5,
+          "min": 9,
+          "max": 10,
+          "n": 2
+        },
+        "creator_turns_after_plan": {
+          "mean": 6,
+          "min": 6,
+          "max": 6,
+          "n": 2
+        },
+        "questions_per_turn_max": {
+          "mean": 6.5,
+          "min": 6,
+          "max": 7,
+          "n": 2
+        },
+        "questions_per_turn_mean": {
+          "mean": 2.045,
+          "min": 1.89,
+          "max": 2.2,
+          "n": 2
+        },
+        "output_tokens": {
+          "mean": 82323.5,
+          "min": 76327,
+          "max": 88320,
+          "n": 2
+        },
+        "input_tokens": {
+          "mean": 180254.5,
+          "min": 156071,
+          "max": 204438,
+          "n": 2
+        },
+        "cache_read_tokens": {
+          "mean": 7387102,
+          "min": 6460731,
+          "max": 8313473,
+          "n": 2
+        }
+      },
+      "minutes": [23.4, 27]
+    },
+    {
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c2",
+      "n": 2,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "app_content_filled": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "committed_clean": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "phase_announced": {
+          "mean": 0.46,
+          "min": 0.29,
+          "max": 0.63,
+          "n": 2
+        },
+        "phase_announced_right": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "early_preview": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 2
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "code_after_plan_confirmed": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "plan_template_read_raw": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 2
+        },
+        "skills_in_phase": {
+          "mean": 0.94,
+          "min": 0.88,
+          "max": 1,
+          "n": 2
+        },
+        "no_skill_out_of_place": {
+          "mean": 0.5,
+          "min": 0,
+          "max": 1,
+          "n": 2
+        },
+        "creator_without_mistakes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "l_mean": {
+          "mean": 0.865,
+          "min": 0.805,
+          "max": 0.925,
+          "n": 2
+        },
+        "l_explainer-page-goal": {
+          "mean": 0.585,
+          "min": 0.335,
+          "max": 0.835,
+          "n": 2
+        },
+        "l_explainer-learner-start": {
+          "mean": 0.908,
+          "min": 0.9,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-representation-explained": {
+          "mean": 0.863,
+          "min": 0.75,
+          "max": 0.975,
+          "n": 2
+        },
+        "l_explainer-text-figure-agree": {
+          "mean": 0.938,
+          "min": 0.915,
+          "max": 0.96,
+          "n": 2
+        },
+        "l_explainer-one-step": {
+          "mean": 0.725,
+          "min": 0.7,
+          "max": 0.75,
+          "n": 2
+        },
+        "l_explainer-figure-hides-answer": {
+          "mean": 0.955,
+          "min": 0.91,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-exercise-progression": {
+          "mean": 0.898,
+          "min": 0.835,
+          "max": 0.96,
+          "n": 2
+        },
+        "l_explainer-steps-explain": {
+          "mean": 0.833,
+          "min": 0.665,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-honest-headings": {
+          "mean": 0.958,
+          "min": 0.915,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-age-appropriate": {
+          "mean": 0.98,
+          "min": 0.96,
+          "max": 1,
+          "n": 2
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 52.219,
+          "min": 39.39,
+          "max": 65.048,
+          "n": 2
+        },
+        "creator_turns": {
+          "mean": 8.5,
+          "min": 8,
+          "max": 9,
+          "n": 2
+        },
+        "creator_turns_after_plan": {
+          "mean": 3,
+          "min": 3,
+          "max": 3,
+          "n": 2
+        },
+        "questions_per_turn_max": {
+          "mean": 4,
+          "min": 4,
+          "max": 4,
+          "n": 2
+        },
+        "questions_per_turn_mean": {
+          "mean": 1.525,
+          "min": 1.38,
+          "max": 1.67,
+          "n": 2
+        },
+        "output_tokens": {
+          "mean": 167811.5,
+          "min": 151068,
+          "max": 184555,
+          "n": 2
+        },
+        "input_tokens": {
+          "mean": 306404,
+          "min": 299202,
+          "max": 313606,
+          "n": 2
+        },
+        "cache_read_tokens": {
+          "mean": 22818109,
+          "min": 19526002,
+          "max": 26110216,
+          "n": 2
+        }
+      },
+      "minutes": [39.4, 65]
+    },
+    {
+      "task": "explainer-brueche",
+      "model": "Sonnet 5.5",
+      "configuration": "c2",
+      "n": 2,
+      "rows": {
+        "plan_boxes_ticked": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "competencies_written": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "app_content_filled": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "archetype_expected": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "check_passes": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "phase_reached": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "committed_clean": {
+          "mean": 0.5,
+          "min": 0,
+          "max": 1,
+          "n": 2
+        },
+        "turns_after_plan_max_3": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "code_done": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "phase_announced": {
+          "mean": 0.36,
+          "min": 0.29,
+          "max": 0.43,
+          "n": 2
+        },
+        "phase_announced_right": {
+          "mean": 0.835,
+          "min": 0.67,
+          "max": 1,
+          "n": 2
+        },
+        "early_preview": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "questions_max_2": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 2
+        },
+        "not_created_before_plan": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "code_after_plan_confirmed": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "plan_template_read_raw": {
+          "mean": 0,
+          "min": 0,
+          "max": 0,
+          "n": 2
+        },
+        "skills_in_phase": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "no_skill_out_of_place": {
+          "mean": 0.5,
+          "min": 0,
+          "max": 1,
+          "n": 2
+        },
+        "creator_without_mistakes": {
+          "mean": 0.5,
+          "min": 0,
+          "max": 1,
+          "n": 2
+        },
+        "l_mean": {
+          "mean": 0.867,
+          "min": 0.84,
+          "max": 0.895,
+          "n": 2
+        },
+        "l_explainer-page-goal": {
+          "mean": 0.908,
+          "min": 0.9,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-learner-start": {
+          "mean": 0.908,
+          "min": 0.9,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-representation-explained": {
+          "mean": 0.87,
+          "min": 0.785,
+          "max": 0.955,
+          "n": 2
+        },
+        "l_explainer-control-purpose": {
+          "mean": 0.65,
+          "min": 0.3,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-text-figure-agree": {
+          "mean": 0.918,
+          "min": 0.835,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-one-step": {
+          "mean": 0.818,
+          "min": 0.8,
+          "max": 0.835,
+          "n": 2
+        },
+        "l_explainer-figure-hides-answer": {
+          "mean": 0.958,
+          "min": 0.915,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-exercise-progression": {
+          "mean": 0.875,
+          "min": 0.75,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-steps-explain": {
+          "mean": 0.688,
+          "min": 0.5,
+          "max": 0.875,
+          "n": 2
+        },
+        "l_explainer-honest-headings": {
+          "mean": 0.958,
+          "min": 0.915,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-age-appropriate": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        }
+      },
+      "metrics": {
+        "agent_minutes": {
+          "mean": 36.287,
+          "min": 29.586,
+          "max": 42.987,
+          "n": 2
+        },
+        "creator_turns": {
+          "mean": 8,
+          "min": 8,
+          "max": 8,
+          "n": 2
+        },
+        "creator_turns_after_plan": {
+          "mean": 3,
+          "min": 3,
+          "max": 3,
+          "n": 2
+        },
+        "questions_per_turn_max": {
+          "mean": 4.5,
+          "min": 4,
+          "max": 5,
+          "n": 2
+        },
+        "questions_per_turn_mean": {
+          "mean": 1.69,
+          "min": 1.63,
+          "max": 1.75,
+          "n": 2
+        },
+        "output_tokens": {
+          "mean": 113957.5,
+          "min": 94359,
+          "max": 133556,
+          "n": 2
+        },
+        "input_tokens": {
+          "mean": 207936.5,
+          "min": 177212,
+          "max": 238661,
+          "n": 2
+        },
+        "cache_read_tokens": {
+          "mean": 14837143.5,
+          "min": 11438933,
+          "max": 18235354,
+          "n": 2
+        }
+      },
+      "minutes": [29.6, 43]
+    }
+  ],
+  "trials": [
+    {
+      "job": "explainer-fresh__claude-code__claude-sonnet-5-5__g88d8290__20261104T205646Z",
+      "trial": "explainer-fresh__AqQTgAA",
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-11-04T20:56:49.124126Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "failed_checks": 2,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 10,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 2.2,
+        "t_questions_per_turn_max": 7,
+        "t_turns_over_two_questions": 3,
+        "t_question_marks_per_turn_max": 9,
+        "t_approvals_after_question": 0.8,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 0,
+        "t_guidance_summary_fetches": 5,
+        "t_reads_outside_guidance": 2,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
+        "t_phase_announced": 0.33,
+        "t_creator_turns_after_plan": 6,
+        "t_early_preview": 1,
+        "t_code_before_plan_confirmed": 0,
+        "t_creator_mistakes": 1,
+        "t_creator_questions_missed": 0,
+        "t_archetype_first_proposed_right": 1,
+        "t_phase_announced_right": 0.33,
+        "t_skills_in_phase": 0.88,
+        "t_skills_out_of_place": 1,
+        "t_agent_input_tokens": 204438,
+        "t_agent_cache_read_tokens": 8313473,
+        "t_agent_output_tokens": 88320,
+        "l_mean": 1.41,
+        "l_zeros": 20,
+        "l_explainer-figure-hides-answer": 1.92,
+        "l_explainer-page-goal": 0.31,
+        "l_explainer-learner-start": 1.85,
+        "l_explainer-representation-explained": 0.7,
+        "l_explainer-text-figure-agree": 1.69,
+        "l_explainer-one-step": 1,
+        "l_explainer-exercise-progression": 0.85,
+        "l_explainer-steps-explain": 1.73,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 2,
+        "input_tokens": 668164,
+        "cache_tokens": 644972,
+        "output_tokens": 3658,
+        "cost_usd": 0.194,
+        "agent_minutes": 27.023
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-code__claude-sonnet-5-5__g88d8290__20261104T205646Z",
+      "trial": "explainer-fresh__C5Hvr9Z",
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c1",
+      "status": "valid",
+      "startedAt": "2026-11-04T20:56:49.034930Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 0.667,
+        "pre_push_failures": 0,
+        "failed_checks": 5,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 9,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.89,
+        "t_questions_per_turn_max": 6,
+        "t_turns_over_two_questions": 2,
+        "t_question_marks_per_turn_max": 7,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 0,
+        "t_guidance_summary_fetches": 19,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
+        "t_phase_announced": 0.5,
+        "t_creator_turns_after_plan": 6,
+        "t_early_preview": 0,
+        "t_code_before_plan_confirmed": 0,
+        "t_creator_mistakes": 0,
+        "t_creator_questions_missed": 0,
+        "t_archetype_first_proposed_right": 1,
+        "t_phase_announced_right": 1,
+        "t_skills_in_phase": 0.83,
+        "t_skills_out_of_place": 0,
+        "t_agent_input_tokens": 156071,
+        "t_agent_cache_read_tokens": 6460731,
+        "t_agent_output_tokens": 76327,
+        "l_mean": 1.45,
+        "l_zeros": 17,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-page-goal": 0,
+        "l_explainer-learner-start": 1.58,
+        "l_explainer-representation-explained": 1.3,
+        "l_explainer-text-figure-agree": 1.7,
+        "l_explainer-one-step": 0.92,
+        "l_explainer-exercise-progression": 1.17,
+        "l_explainer-steps-explain": 2,
+        "l_explainer-honest-headings": 1.83,
+        "l_explainer-age-appropriate": 2,
+        "input_tokens": 535353,
+        "cache_tokens": 514554,
+        "output_tokens": 2928,
+        "cost_usd": 0.164,
+        "agent_minutes": 23.397
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-code__claude-sonnet-5-5__g428a1fc__20261104T213002Z",
+      "trial": "explainer-fresh__g428a1fc__uf7Upwa",
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c2",
+      "status": "valid",
+      "startedAt": "2026-11-04T21:30:04.045374Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "failed_checks": 9,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.38,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 1,
+        "t_question_marks_per_turn_max": 4,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 0,
+        "t_guidance_summary_fetches": 0,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
+        "t_phase_announced": 0.29,
+        "t_creator_turns_after_plan": 3,
+        "t_early_preview": 1,
+        "t_code_before_plan_confirmed": 0,
+        "t_creator_mistakes": 0,
+        "t_creator_questions_missed": 0,
+        "t_phase_announced_right": 1,
+        "t_skills_in_phase": 1,
+        "t_skills_out_of_place": 0,
+        "t_agent_input_tokens": 299202,
+        "t_agent_cache_read_tokens": 19526002,
+        "t_agent_output_tokens": 151068,
+        "l_mean": 1.85,
+        "l_zeros": 0,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-page-goal": 1.67,
+        "l_explainer-learner-start": 1.83,
+        "l_explainer-representation-explained": 1.95,
+        "l_explainer-text-figure-agree": 1.83,
+        "l_explainer-one-step": 1.5,
+        "l_explainer-exercise-progression": 1.92,
+        "l_explainer-steps-explain": 2,
+        "l_explainer-honest-headings": 1.83,
+        "l_explainer-age-appropriate": 1.92,
+        "input_tokens": 781755,
+        "cache_tokens": 762202,
+        "output_tokens": 3535,
+        "cost_usd": 0.19,
+        "agent_minutes": 39.39
+      }
+    },
+    {
+      "job": "explainer-fresh__claude-code__claude-sonnet-5-5__g428a1fc__20261104T213002Z",
+      "trial": "explainer-fresh__g428a1fc__uftzXRq",
+      "task": "explainer-fresh",
+      "model": "Sonnet 5.5",
+      "configuration": "c2",
+      "status": "valid",
+      "startedAt": "2026-11-04T21:30:04.102745Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "failed_checks": 9,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 9,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.67,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 1,
+        "t_question_marks_per_turn_max": 4,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 0,
+        "t_guidance_summary_fetches": 0,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
+        "t_phase_announced": 0.63,
+        "t_creator_turns_after_plan": 3,
+        "t_early_preview": 1,
+        "t_code_before_plan_confirmed": 0,
+        "t_creator_mistakes": 0,
+        "t_creator_questions_missed": 0,
+        "t_phase_announced_right": 1,
+        "t_skills_in_phase": 0.88,
+        "t_skills_out_of_place": 1,
+        "t_agent_input_tokens": 313606,
+        "t_agent_cache_read_tokens": 26110216,
+        "t_agent_output_tokens": 184555,
+        "l_mean": 1.61,
+        "l_zeros": 13,
+        "l_explainer-figure-hides-answer": 1.82,
+        "l_explainer-page-goal": 0.67,
+        "l_explainer-learner-start": 1.8,
+        "l_explainer-representation-explained": 1.5,
+        "l_explainer-text-figure-agree": 1.92,
+        "l_explainer-one-step": 1.4,
+        "l_explainer-exercise-progression": 1.67,
+        "l_explainer-steps-explain": 1.33,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 2,
+        "input_tokens": 1210661,
+        "cache_tokens": 1189007,
+        "output_tokens": 4568,
+        "cost_usd": 0.251,
+        "agent_minutes": 65.048
+      }
+    },
+    {
+      "job": "explainer-brueche__claude-code__claude-sonnet-5-5__g428a1fc__20261104T223916Z",
+      "trial": "explainer-brueche__g428a1fc__6uHtRqB",
+      "task": "explainer-brueche",
+      "model": "Sonnet 5.5",
+      "configuration": "c2",
+      "status": "valid",
+      "startedAt": "2026-11-04T22:39:17.163673Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 1,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "failed_checks": 5,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.75,
+        "t_questions_per_turn_max": 5,
+        "t_turns_over_two_questions": 1,
+        "t_question_marks_per_turn_max": 6,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 0,
+        "t_guidance_summary_fetches": 0,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
+        "t_phase_announced": 0.43,
+        "t_creator_turns_after_plan": 3,
+        "t_early_preview": 1,
+        "t_code_before_plan_confirmed": 0,
+        "t_creator_mistakes": 0,
+        "t_creator_questions_missed": 1,
+        "t_phase_announced_right": 0.67,
+        "t_skills_in_phase": 1,
+        "t_skills_out_of_place": 1,
+        "t_agent_input_tokens": 238661,
+        "t_agent_cache_read_tokens": 18235354,
+        "t_agent_output_tokens": 133556,
+        "l_mean": 1.79,
+        "l_zeros": 0,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-page-goal": 1.83,
+        "l_explainer-learner-start": 1.83,
+        "l_explainer-representation-explained": 1.91,
+        "l_explainer-control-purpose": 2,
+        "l_explainer-text-figure-agree": 1.67,
+        "l_explainer-one-step": 1.67,
+        "l_explainer-exercise-progression": 2,
+        "l_explainer-steps-explain": 1,
+        "l_explainer-honest-headings": 1.83,
+        "l_explainer-age-appropriate": 2,
+        "input_tokens": 814596,
+        "cache_tokens": 794512,
+        "output_tokens": 4314,
+        "cost_usd": 0.203,
+        "agent_minutes": 42.987
+      }
+    },
+    {
+      "job": "explainer-brueche__claude-code__claude-sonnet-5-5__g428a1fc__20261104T223916Z",
+      "trial": "explainer-brueche__g428a1fc__LpgFaWy",
+      "task": "explainer-brueche",
+      "model": "Sonnet 5.5",
+      "configuration": "c2",
+      "status": "valid",
+      "startedAt": "2026-11-04T22:39:17.226214Z",
+      "numbers": {
+        "plan_exists": 1,
+        "committed_clean": 0,
+        "app_created": 1,
+        "check_passes": 1,
+        "plan_front_matter_valid": 1,
+        "archetype_expected": 1,
+        "phase_reached": 1,
+        "pre_push_failures": 0,
+        "failed_checks": 3,
+        "plan_boxes_ticked": 1,
+        "competencies_written": 1,
+        "app_content_filled": 1,
+        "t_creator_turns": 8,
+        "t_plan_confirmed": 1,
+        "t_questions_per_turn_mean": 1.63,
+        "t_questions_per_turn_max": 4,
+        "t_turns_over_two_questions": 1,
+        "t_question_marks_per_turn_max": 4,
+        "t_approvals_after_question": 1,
+        "t_skill_read_raw": 1,
+        "t_plan_template_read_raw": 0,
+        "t_guidance_summary_fetches": 0,
+        "t_reads_outside_guidance": 0,
+        "t_installs_before_plan": 0,
+        "t_created_with_plan_command": 1,
+        "t_no_verify_bypass": 1,
+        "t_pre_push_counter_edits": 0,
+        "t_scenario_end": 1,
+        "t_phase_announced": 0.29,
+        "t_creator_turns_after_plan": 3,
+        "t_early_preview": 1,
+        "t_code_before_plan_confirmed": 0,
+        "t_creator_mistakes": 1,
+        "t_creator_questions_missed": 0,
+        "t_phase_announced_right": 1,
+        "t_skills_in_phase": 1,
+        "t_skills_out_of_place": 0,
+        "t_agent_input_tokens": 177212,
+        "t_agent_cache_read_tokens": 11438933,
+        "t_agent_output_tokens": 94359,
+        "l_mean": 1.68,
+        "l_zeros": 4,
+        "l_explainer-figure-hides-answer": 1.83,
+        "l_explainer-page-goal": 1.8,
+        "l_explainer-learner-start": 1.8,
+        "l_explainer-representation-explained": 1.57,
+        "l_explainer-control-purpose": 0.6,
+        "l_explainer-text-figure-agree": 2,
+        "l_explainer-one-step": 1.6,
+        "l_explainer-exercise-progression": 1.5,
+        "l_explainer-steps-explain": 1.75,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 2,
+        "input_tokens": 576009,
+        "cache_tokens": 563793,
+        "output_tokens": 3822,
+        "cost_usd": 0.143,
+        "agent_minutes": 29.586
+      }
+    }
+  ],
+  "excludedJobs": [
+    {
+      "job": "explainer-bewegung__claude-code__claude-sonnet-5-5__g428a1fc__20261104T232528Z",
+      "task": "explainer-bewegung",
+      "model": "Sonnet 5.5",
+      "reason": "The session's container restarted during the job (about 23:3x UTC); both trials were cut off mid-scenario (4 and 6 creator turns) before the verifier ran: a harness fault, not the agent's. Not re-run: the run's rules allow a re-run only for a job that dies before any agent started."
+    }
+  ],
+  "totals": {
+    "trials": 6,
+    "excludedTrials": 0,
+    "partialTrials": 0,
+    "checkPasses": 6,
+    "createdBeforePlanRuns": 0,
+    "installsBeforePlanRuns": 0,
+    "agentHours": 3.8
+  }
+}

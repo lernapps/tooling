@@ -1,0 +1,1006 @@
+url: http://127.0.0.1:4402/
+grade: "8"
+subject: physik
+competencies:
+  - stromstaerke
+  - spannung
+  - stromstaerke-messen
+  - spannung-messen
+  - reihenschaltung-groessen
+  - parallelschaltung-groessen
+pages:
+  - /stromkreis/einfacher-stromkreis/
+  - /stromkreis/schalter/
+  - /stromkreis/schaltzeichen/
+  - /leiter/leiter-nichtleiter/
+  - /strom-spannung/stromstaerke/
+  - /strom-spannung/spannung/
+  - /strom-spannung/stromstaerke-messen/
+  - /strom-spannung/spannung-messen/
+  - /schaltungen/reihenschaltung/
+  - /schaltungen/parallelschaltung/
+  - /sicherheit/gefahren-des-stroms/
+  - /sicherheit/sicher-mit-strom-umgehen/
+units:
+  - item: explainer-page-goal
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Eine Lampe leuchtet nur, wenn Strom durch sie fließt.“); ein Satz,
+      was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Ein Schalter öffnet oder schließt den Stromkreis an einer Stelle.“);
+      ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Damit man nicht jedes Bauteil malen muss, benutzt man Schaltzeichen.“);
+      ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /leiter/leiter-nichtleiter/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Nicht jeder Stoff lässt Strom durch.“); ein Satz, was man danach
+      können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /strom-spannung/stromstaerke/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („In einer Lampe mit hellem Licht fließt mehr Strom als in einer, die
+      nur schwach glimmt.“); ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze
+      stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /strom-spannung/spannung/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Damit in einem Stromkreis Strom fließt, braucht er einen Antrieb.“);
+      ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Die Stromstärke misst du mit dem Strommesser, auch Amperemeter genannt.“);
+      ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /strom-spannung/spannung-messen/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Die Spannung misst du mit dem Spannungsmesser, auch Voltmeter genannt.“);
+      ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Bei einer Reihenschaltung liegen die Verbraucher hintereinander in
+      einem einzigen Kreis.“); ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze
+      stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Bei einer Parallelschaltung liegen die Verbraucher nebeneinander
+      in getrennten Zweigen.“); ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze
+      stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Mit einer Taschenlampenbatterie kannst du gefahrlos experimentieren.“);
+      ein Satz, was man danach können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-page-goal
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 0
+    evidence:
+      Die Seite beginnt direkt mit der Erklärung („Diese Regeln schützen dich im Alltag:“); ein Satz, was man danach
+      können soll, und ein Rückbezug auf die Seite davor fehlen. Die Zielsätze stehen nur auf der Startseite.
+  - item: explainer-learner-start
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 1
+    evidence:
+      "Start bei der Lampe: „Eine Lampe leuchtet nur, wenn Strom durch sie fließt.“ Spannungsquelle und Verbraucher
+      werden mit Beispiel erklärt. „Pol“ steht aber in der Definition („von einem Pol der Spannungsquelle … zum anderen Pol“),
+      ohne erklärt zu sein; die Zeichnung zeigt nur „−“ und „+“."
+  - item: explainer-learner-start
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 1
+    evidence:
+      Die Seite beginnt mit der Definition („Ein Schalter öffnet oder schließt den Stromkreis“); erst danach kommt das
+      Alltagsbeispiel „Wenn du das Licht im Zimmer anmachst …“ im Kasten „Im Alltag“.
+  - item: explainer-learner-start
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Damit man nicht jedes Bauteil malen muss …“ knüpft an die bekannten Bauteile Batterie, Lampe, Schalter an; Schaltzeichen
+      und Schaltplan werden bei der ersten Nennung erklärt.
+  - item: explainer-learner-start
+    page: /leiter/leiter-nichtleiter/
+    unit: Seite
+    level: 2
+    evidence:
+      „Baust du einen Gegenstand in einen Stromkreis ein, leuchtet die Lampe nur, wenn der Stoff den Strom leitet.“
+      Anknüpfung an den Stromkreis mit Lampe; Leiter/Nichtleiter werden sofort definiert.
+  - item: explainer-learner-start
+    page: /strom-spannung/stromstaerke/
+    unit: Seite
+    level: 2
+    evidence:
+      Start bei der Helligkeit einer Lampe („mehr Strom … als in einer, die nur schwach glimmt“), dann Definition Stromstärke
+      und Ampere.
+  - item: explainer-learner-start
+    page: /strom-spannung/spannung/
+    unit: Seite
+    level: 2
+    evidence:
+      „braucht er einen Antrieb“, dann Wasserkreislauf-Vergleich („Die Pumpe entspricht der Spannungsquelle, das fließende
+      Wasser dem Strom“), der mit der Idee verbunden ist.
+  - item: explainer-learner-start
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 1
+    evidence:
+      Start mit Strommesser und „in Reihe“ („so als wäre er ein Stück Leitung“). „Messbereich“ („Beginne mit dem größten
+      Messbereich“) wird nirgends erklärt, und „in Reihe“ wird erst auf der übernächsten Seite als Schaltung eingeführt.
+  - item: explainer-learner-start
+    page: /strom-spannung/spannung-messen/
+    unit: Seite
+    level: 1
+    evidence:
+      „Der Spannungsmesser misst den Unterschied zwischen zwei Punkten“ ist abstrakt und ohne Anschluss an Bekanntes;
+      „parallel“ wird nur als „neben“ umschrieben (Seite zur Parallelschaltung kommt später), „Pluspol des Geräts“ und „Messbereich“
+      sind unerklärt.
+  - item: explainer-learner-start
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 2
+    evidence:
+      Definition „liegen die Verbraucher hintereinander in einem einzigen Kreis“ mit Figur, danach „Das kennst du von
+      alten Lichterketten“.
+  - item: explainer-learner-start
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 1
+    evidence:
+      Der erste Absatz führt „Zweigen“ und „Verzweigungspunkt“ ein, ohne an Bekanntes anzuknüpfen; das Haus-Beispiel
+      kommt erst im zweiten Abschnitt.
+  - item: explainer-learner-start
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 2
+    evidence:
+      „Mit einer Taschenlampenbatterie kannst du gefahrlos experimentieren. An der Steckdose ist das lebensgefährlich.
+      Der Unterschied liegt in der Spannung.“ – Alltagsvergleich, Spannung ist bekannt.
+  - item: explainer-learner-start
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 2
+    evidence: „Diese Regeln schützen dich im Alltag:“ – Regeln aus dem Alltag, keine neuen Fachbegriffe.
+  - item: explainer-representation-explained
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Abbildung „Ein geschlossener Stromkreis“ (Abschnitt Was ein Stromkreis braucht)
+    level: 1
+    evidence:
+      "Das Ganze ist klar (Rechteck, Pole). Offen bleibt: Was „⊗“ und die zwei verschieden langen Striche mit „−“/„+“
+      bedeuten (steht im Text nicht); der alt-Text nennt einen geschlossenen Schalter unten, im Bild ist da nur eine durchgehende
+      Linie. Die Bildunterschrift „Die Lampe leuchtet“ ist im Bild nicht zu sehen; ein häufiges Fehlverständnis wird nicht genannt."
+    did: Seite 360 und 1280 px angeschaut, nichts zu bedienen.
+  - item: explainer-representation-explained
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Abbildung „Ein offener Stromkreis“
+    level: 1
+    evidence:
+      Die Lücke am Schalter wird in der Bildunterschrift genannt („Die Lücke am Schalter unterbricht den Weg“); „Schalter“
+      ist im Text der Seite nicht erklärt, der Schalter ist nur ein schräger Strich. Die Symbole bleiben ungedeutet.
+    did: angeschaut
+  - item: explainer-representation-explained
+    page: /stromkreis/schalter/
+    unit: Abbildung „Der Schalter ist offen“
+    level: 1
+    evidence:
+      Bildunterschrift „In der Leitung ist eine Lücke, die Lampe ist aus“ passt. Das geschlossene Gegenstück fehlt auf
+      der Seite; dass der schräge Strich der Schalterhebel ist, steht nur im alt-Text, nicht sichtbar auf der Seite.
+    did: angeschaut
+  - item: explainer-representation-explained
+    page: /stromkreis/schaltzeichen/
+    unit: Abbildung „Die wichtigsten Schaltzeichen“
+    level: 1
+    evidence:
+      "Die Zeichen stehen mit Namen daneben. Nicht erklärt: was die langen/kurzen Striche der Batterie bedeuten (erst
+      in der Übungserklärung), und dass „Schalter, geschlossen“ genauso aussieht wie „Leitung“ – ein naheliegendes Fehlverständnis,
+      das nicht genannt wird."
+    did: angeschaut
+  - item: explainer-representation-explained
+    page: /stromkreis/schaltzeichen/
+    unit: Beschriftete Abbildung in der Übung (Schaltplan mit A–D)
+    level: 1
+    evidence:
+      Bildunterschrift „Die Buchstaben A bis D markieren vier Stellen“ und die Aufgabe sagen, was zu tun ist. C liegt
+      auf einer einfachen Linie, der geschlossene Schalter ist im Bild nicht als Zeichen erkennbar, C muss durch Ausschluss
+      geraten werden; „−“/„+“ an der Batterie bleiben unerklärt.
+    did: Marker A–D angeschaut, ohne Prüfen.
+  - item: explainer-representation-explained
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Abbildung „Strommesser in der Leitung“
+    level: 1
+    evidence:
+      "Text und Bildunterschrift („Der Strommesser liegt in der Leitung“) sagen, wo A sitzt. Offen: „−“/„+“ an der Batterie
+      ungedeutet; Beschriftung im Bild „Strommesser (A) liegt in der Leitun…“ ist abgeschnitten; Fehlverständnis (neben die
+      Lampe) kommt erst in der Aufgabe."
+    did: angeschaut, 1280 px
+  - item: explainer-representation-explained
+    page: /strom-spannung/spannung-messen/
+    unit: Abbildung „Spannungsmesser parallel“
+    level: 1
+    evidence:
+      Der V-Kreis liegt mit zwei Leitungen an der Lampe, das passt zur Bildunterschrift. Der im Text genannte „Pluspol
+      des Geräts“ ist am Messgerät nicht gezeichnet, „−“/„+“ an der Batterie sind winzig und überlagern den Strich; die Beschriftung
+      im Bild ist abgeschnitten („… neben der La“).
+    did: angeschaut, 1280 px
+  - item: explainer-representation-explained
+    page: /schaltungen/reihenschaltung/
+    unit: Abbildung „Reihenschaltung von zwei Lampen“
+    level: 2
+    evidence:
+      Bildunterschrift „Der Strom hat nur einen Weg“ nennt, was zu sehen ist; Lampe 1/2 beschriftet, ein Kreis ohne
+      Abzweig. Bezug zu „alle Lampen gehen aus“ ist klar.
+    did: angeschaut
+  - item: explainer-representation-explained
+    page: /schaltungen/reihenschaltung/
+    unit: Abbildung mit Strommessern A1 und A2 in der Übung
+    level: 2
+    evidence:
+      "Aufgabentext: „A1 den Wert 0,3 A. Was zeigt der Strommesser A2 hinter der Lampe?“; Bild mit A1, Lampe, A2 hintereinander
+      und Bildunterschrift „Zwei Strommesser vor und hinter der Lampe“ – Einheit steht am Eingabefeld."
+    did: Eingabe 0, 0,15 und 0,3 geplant; Bild angeschaut.
+  - item: explainer-representation-explained
+    page: /schaltungen/parallelschaltung/
+    unit: Abbildung „Parallelschaltung von zwei Lampen“
+    level: 2
+    evidence:
+      "Bildunterschrift „Die Punkte zeigen die Verzweigungen“ erklärt die Marken; zwei Zweige mit Lampe 1/2 passen zum
+      Text „Die Leitung teilt sich an einem Verzweigungspunkt“. Kleiner Makel: Das Wort „Lampe 1“ wird vom Lampensymbol berührt."
+    did: angeschaut
+  - item: explainer-text-figure-agree
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Abschnitt „Was ein Stromkreis braucht“
+    level: 1
+    evidence:
+      Der Text nennt drei Dinge (Quelle, Verbraucher, Leitungen); der alt-Text der Figur nennt zusätzlich einen Schalter,
+      der im Text nicht vorkommt und im Bild nicht als solcher sichtbar ist.
+  - item: explainer-text-figure-agree
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Abschnitt „Der Kreis muss geschlossen sein“
+    level: 2
+    evidence:
+      „Fehlt irgendwo ein Stück Leitung, ist der Stromkreis offen“ – Bild zeigt dieselbe Lücke, die Bildunterschrift
+      nennt sie am Schalter („Dieselbe Schaltung“, Lampe bleibt dunkel).
+  - item: explainer-text-figure-agree
+    page: /stromkreis/schalter/
+    unit: Abschnitt „Was ein Schalter tut“
+    level: 2
+    evidence:
+      Text „Ist er offen, ist der Weg unterbrochen“ und Bild/Unterschrift „Der Schalter ist offen“ zeigen dasselbe;
+      keine Werkzeuge, die es nicht gibt.
+  - item: explainer-text-figure-agree
+    page: /stromkreis/schaltzeichen/
+    unit: Abschnitt „Die Schaltzeichen“
+    level: 2
+    evidence: Text und Figur nennen dieselben fünf Zeichen.
+  - item: explainer-text-figure-agree
+    page: /stromkreis/schaltzeichen/
+    unit: Abschnitt „Übung“ (Schaltplan mit A–D)
+    level: 1
+    evidence:
+      Die Erklärung der Übung sagt „C der geschlossene Schalter“ und „A … Batterie mit den zwei verschieden langen Strichen“;
+      im Bild ist der Schalter nicht als Zeichen sichtbar. Der Plan ist derselbe Kreis wie auf der ersten Seite, ohne Hinweis.
+  - item: explainer-text-figure-agree
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Abschnitt „Das Messgerät“
+    level: 2
+    evidence: „In der oberen Leitung vor der Lampe“ (alt) und „Der ganze Strom fließt durch ihn“ stimmen mit dem Bild überein.
+  - item: explainer-text-figure-agree
+    page: /strom-spannung/spannung-messen/
+    unit: Abschnitt „Das Messgerät“ / „So misst du richtig“
+    level: 1
+    evidence:
+      "Text: „Der Pluspol des Geräts kommt auf die Seite, die zum Pluspol der Batterie führt“ – am Messgerät im Bild
+      ist kein Pluspol gezeichnet."
+  - item: explainer-text-figure-agree
+    page: /schaltungen/reihenschaltung/
+    unit: Abschnitt „Hintereinander geschaltet“
+    level: 2
+    evidence: Text „einziger Kreis, ein Weg“ = Bild mit zwei Lampen in einem Kreis.
+  - item: explainer-text-figure-agree
+    page: /schaltungen/reihenschaltung/
+    unit: Abschnitt „Übung“ (A1/A2)
+    level: 2
+    evidence: Aufgabe und Bild nennen A1, A2 und die Lampe, 0,3 A als gegebenen Wert.
+  - item: explainer-text-figure-agree
+    page: /schaltungen/parallelschaltung/
+    unit: Abschnitt „Nebeneinander geschaltet“
+    level: 2
+    evidence: Text „teilt sich an einem Verzweigungspunkt“ und Bild mit Punkten stimmen überein.
+  - item: explainer-one-step
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Ideen: Stromkreis muss geschlossen sein und „Strom wird nicht verbraucht“ (Kasten); beides wird in Übungen
+      geprüft (lampe-dunkel, strom-verbraucht)."
+  - item: explainer-one-step
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 2
+    evidence: Eine Idee (offen/geschlossen am Schalter); Übungen prüfen nur das.
+  - item: explainer-one-step
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 2
+    evidence: "Eine Idee: Schaltzeichen lesen/zuordnen."
+  - item: explainer-one-step
+    page: /leiter/leiter-nichtleiter/
+    unit: Seite
+    level: 1
+    evidence: Leiter/Nichtleiter plus Leitfähigkeit von Wasser („Vorsicht bei Wasser“, Aufgabe wasser-leitet) als zweite Idee.
+  - item: explainer-one-step
+    page: /strom-spannung/stromstaerke/
+    unit: Seite
+    level: 0
+    evidence:
+      Neben der Stromstärke steht Spannung mit „U“ und „Volt“ im Kasten „Merke“, und die Zuordnung „Spannung → Volt
+      (V)“ in der Übung groesse-einheit; Spannung gehört auf die nächste Seite. Dazu mA-Umrechnung.
+  - item: explainer-one-step
+    page: /strom-spannung/spannung/
+    unit: Seite
+    level: 1
+    evidence:
+      Spannung als Antrieb und zusätzlich „Eine Batterie hat auch dann Spannung, wenn der Stromkreis offen ist“ (eigene
+      Aufgabe spannung-offen) und Formelzeichen U/I.
+  - item: explainer-one-step
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 0
+    evidence:
+      "Neben dem Messen: „in Reihe“ (Seite Reihenschaltung kommt später), Messbereich, „Misst du die Stromstärke vor
+      und hinter einer Lampe, bekommst du denselben Wert“ (Inhalt von reihenschaltung-groessen) sowie „Kurzschluss“ und Spannungsmesser
+      in den Optionen."
+  - item: explainer-one-step
+    page: /strom-spannung/spannung-messen/
+    unit: Seite
+    level: 0
+    evidence:
+      "Neben dem Messen: „parallel“ vor der Parallelschaltung, Anschlussrichtung (Pluspol), Messbereich, und die Gegenüberstellung
+      mit dem Strommesser in der Übung."
+  - item: explainer-one-step
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 0
+    evidence:
+      Reihenschaltung und „Die Stromstärke bleibt gleich“ (Kasten, Aufgabe a2-wert mit Messwerten) – Letzteres ist die
+      Kompetenz reihenschaltung-groessen.
+  - item: explainer-one-step
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 2
+    evidence: Eine Idee (Zweige, ein Ausfall betrifft nur den Zweig); die Reihenschaltung wird nur zum Vergleich genannt.
+  - item: explainer-one-step
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Ideen: Spannung der Quelle (Batterie/Steckdose) und Wirkung im Körper/nasse Haut („wenige zehn Milliampere
+      durch das Herz“, Faustregel 50 V)."
+  - item: explainer-one-step
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 1
+    evidence: "Zwei Ideen: Verhaltensregeln und Verhalten im Notfall (Stecker ziehen, Notruf 112)."
+  - item: explainer-exercise-progression
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "recognising (true-false, matching, gap); one application: lampe-dunkel with a broken cable. No other values or
+      situation."
+  - item: explainer-exercise-progression
+    page: /stromkreis/schalter/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      recognising (schalter-offen, matching, true-false) and an everyday application in schalter-luecke („Wer das Licht
+      ausschaltet, ___ den Stromkreis“).
+  - item: explainer-exercise-progression
+    page: /stromkreis/schaltzeichen/
+    unit: Übungen der Seite
+    level: 1
+    evidence: recognising/reading (matching A–D, gap); schaltplan-kreis asks to apply the criterion; no new plan.
+  - item: explainer-exercise-progression
+    page: /leiter/leiter-nichtleiter/
+    unit: Übungen der Seite
+    level: 1
+    evidence: recognising (welche-leiten, gap) and application (kabel-huelle, wasser-leitet) – no other situation.
+  - item: explainer-exercise-progression
+    page: /strom-spannung/stromstaerke/
+    unit: Übungen der Seite
+    level: 2
+    evidence: "recognising (matching, gap, true-false) and applying with a new value (ma-in-a: 0,25 A in mA)."
+  - item: explainer-exercise-progression
+    page: /strom-spannung/spannung/
+    unit: Übungen der Seite
+    level: 1
+    evidence: recognising (matching, true-false) and ordering numbers (spannungen-ordnen); no new situation.
+  - item: explainer-exercise-progression
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Übungen der Seite
+    level: 0
+    evidence: all four exercises ask for repeated facts (how to connect, range, sign A).
+  - item: explainer-exercise-progression
+    page: /strom-spannung/spannung-messen/
+    unit: Übungen der Seite
+    level: 1
+    evidence: recognising (matching, gap) and applying to a lamp (voltmeter-anschluss).
+  - item: explainer-exercise-progression
+    page: /schaltungen/reihenschaltung/
+    unit: Übungen der Seite
+    level: 2
+    evidence: recognising (gap, true-false), situation (reihe-ausfall) and applying with a value (a2-wert 0,3 A).
+  - item: explainer-exercise-progression
+    page: /schaltungen/parallelschaltung/
+    unit: Übungen der Seite
+    level: 1
+    evidence: recognising (matching, gap) and applying to the house (haus-schaltung, parallel-ausfall).
+  - item: explainer-exercise-progression
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Übungen der Seite
+    level: 1
+    evidence: recognising (gap, true-false) and classifying sources (gefahrenquellen).
+  - item: explainer-exercise-progression
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Übungen der Seite
+    level: 2
+    evidence: recognising (situation-regel), applying rules (regeln-anwenden) and a new situation (notfall-erste-schritte, foehn-wanne).
+  - item: explainer-steps-explain
+    page: /strom-spannung/stromstaerke/
+    unit: Aufgabe ma-in-a (Umrechnung 0,25 A in mA)
+    level: 2
+    evidence:
+      "Erklärung: „0,25 A · 1000 = 250 mA. Von Ampere nach Milliampere multiplizierst du mit 1000.“ – Zahlen der Aufgabe
+      und Begründung."
+    did:
+      "250 richtig, 25 und 0,00025 falsch eingegeben: „Prüfe die Umrechnung: 1 A sind 1000 mA.“ bzw. „Du hast durch 1000
+      geteilt …“."
+  - item: explainer-steps-explain
+    page: /schaltungen/reihenschaltung/
+    unit: Aufgabe a2-wert (A2 hinter der Lampe)
+    level: 2
+    evidence:
+      "Erklärung: „A2 zeigt ebenfalls 0,3 A. Die Lampe verbraucht keinen Strom, in einer Reihenschaltung ist die Stromstärke
+      überall gleich.“ – Zahl und Begründung."
+  - item: explainer-honest-headings
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 1
+    evidence:
+      „So zeichnest du einen Schaltplan“ verspricht eine Anleitung, der Abschnitt gibt nur zwei Sätze Regeln und eine
+      Papieraufgabe im Kasten „Zum Üben“.
+  - item: explainer-honest-headings
+    page: /leiter/leiter-nichtleiter/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /strom-spannung/stromstaerke/
+    unit: Seite
+    level: 1
+    evidence: "„Merke“ ist vage und enthält zugleich die Spannung (Überschrift des Kastens: „Stromstärke und Spannung sind verschieden“)."
+  - item: explainer-honest-headings
+    page: /strom-spannung/spannung/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /strom-spannung/spannung-messen/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-honest-headings
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 2
+    evidence: Alle Überschriften passen zum Abschnitt; „Übung“ steht nur über Aufgaben, „Ausprobieren“ kommt nicht vor.
+  - item: explainer-age-appropriate
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /stromkreis/schalter/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /stromkreis/schaltzeichen/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /leiter/leiter-nichtleiter/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /strom-spannung/stromstaerke/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /strom-spannung/spannung/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /strom-spannung/spannung-messen/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /schaltungen/reihenschaltung/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /schaltungen/parallelschaltung/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zu Klasse 8 (Lichterkette, Föhn, Taschenlampe, Steckdose); sachlich, nicht kindisch.
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Aufgabe lampe-dunkel
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Aufgabe strom-verbraucht
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Aufgabe bauteile-aufgaben
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/einfacher-stromkreis/
+    unit: Aufgabe luecke-geschlossen
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schalter/
+    unit: Aufgabe schalter-offen
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schalter/
+    unit: Aufgabe schalter-lampe-an
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schalter/
+    unit: Aufgabe schalter-zustand
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schalter/
+    unit: Aufgabe schalter-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schaltzeichen/
+    unit: Aufgabe zeichen-bauteile
+    level: 2
+    evidence: Die Marker A–D im Bild tragen nur Buchstaben (legend false), die Namen stehen nicht im Bild.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schaltzeichen/
+    unit: Aufgabe schaltplan-kreis
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schaltzeichen/
+    unit: Aufgabe schaltzeichen-gleich
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /stromkreis/schaltzeichen/
+    unit: Aufgabe schaltzeichen-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /leiter/leiter-nichtleiter/
+    unit: Aufgabe welche-leiten
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /leiter/leiter-nichtleiter/
+    unit: Aufgabe kabel-huelle
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /leiter/leiter-nichtleiter/
+    unit: Aufgabe wasser-leitet
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /leiter/leiter-nichtleiter/
+    unit: Aufgabe leiter-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/stromstaerke/
+    unit: Aufgabe ma-in-a
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/stromstaerke/
+    unit: Aufgabe groesse-einheit
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/stromstaerke/
+    unit: Aufgabe strom-schwach
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/stromstaerke/
+    unit: Aufgabe stromstaerke-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/spannung/
+    unit: Aufgabe spannung-bedeutung
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/spannung/
+    unit: Aufgabe spannung-offen
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/spannung/
+    unit: Aufgabe spannungen-ordnen
+    level: 2
+    evidence:
+      "Die Einträge stehen nicht schon in richtiger Reihenfolge: „Flachbatterie (4,5 V)“, „Steckdose (230 V)“, „Autobatterie
+      (12 V)“, alle auf „bitte wählen“."
+    did: Drei Ladungen der Seite, gleiche Reihenfolge, Plätze gewählt ohne Prüfen.
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/spannung/
+    unit: Aufgabe groesse-zeichen
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Aufgabe strommesser-anschluss
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Aufgabe messbereich
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Aufgabe vor-hinter-lampe
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/stromstaerke-messen/
+    unit: Aufgabe strommesser-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/spannung-messen/
+    unit: Aufgabe geraet-groesse
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/spannung-messen/
+    unit: Aufgabe voltmeter-anschluss
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/spannung-messen/
+    unit: Aufgabe messgeraete-verwechseln
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /strom-spannung/spannung-messen/
+    unit: Aufgabe spannungsmesser-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/reihenschaltung/
+    unit: Aufgabe reihe-ausfall
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/reihenschaltung/
+    unit: Aufgabe a2-wert
+    level: 2
+    evidence: Gegeben ist nur A1 = 0,3 A; das Eingabefeld ist leer, der Hinweis erscheint erst nach Prüfen.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/reihenschaltung/
+    unit: Aufgabe reihe-wege
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/reihenschaltung/
+    unit: Aufgabe reihe-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/parallelschaltung/
+    unit: Aufgabe parallel-ausfall
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/parallelschaltung/
+    unit: Aufgabe schaltung-merkmal
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/parallelschaltung/
+    unit: Aufgabe haus-schaltung
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /schaltungen/parallelschaltung/
+    unit: Aufgabe parallel-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Aufgabe netz-gefahr
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Aufgabe gefahrenquellen
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Aufgabe nasse-haut
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/gefahren-des-stroms/
+    unit: Aufgabe gefahren-luecke
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Aufgabe regeln-anwenden
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Aufgabe notfall-erste-schritte
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Aufgabe foehn-wanne
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+  - item: explainer-figure-hides-answer
+    page: /sicherheit/sicher-mit-strom-umgehen/
+    unit: Aufgabe situation-regel
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt die Aufgabe nur Frage und Auswahl bzw. leere Felder; weder Text noch Figur noch Zähler nennen
+      die Lösung.
+    did: Ausgewählt/eingegeben ohne zu prüfen, Anzeige unverändert (1280 und 360 px).
+notes:
+  "Map read (physik.json): stromstaerke und spannung require einfacher-stromkreis; stromstaerke-messen/spannung-messen
+  require schaltzeichen; reihenschaltung-groessen/parallelschaltung-groessen (Band 9-10) require reihenschaltung/parallelschaltung
+  und ohmsches-gesetz-rechnen. Die App hat keine interaktiven Komponenten, nur Standardübungen (Auswahl, Zuordnung, Zahl,
+  Reihenfolge) und statische Abbildungen; daher keine Einträge zu explainer-control-purpose. Zu number-Aufgaben nur ma-in-a
+  im Browser mit richtiger und falschen Eingaben geprüft. Beide Fenstergrößen ohne Überlauf. Spannungsmesser/Strommesser-Bilder
+  haben abgeschnittene Beschriftungen."
+at: "2026-11-04"
