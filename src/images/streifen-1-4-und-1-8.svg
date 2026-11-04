@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 150" width="420" height="150" font-family="sans-serif">
+  <defs>
+    <pattern id="streifen" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="8" height="8" fill="#2f5fb3"/>
+      <rect width="2" height="8" fill="#ffffff"/>
+    </pattern>
+  </defs>
+  <rect width="420" height="150" fill="#ffffff"/>
+  <text x="10" y="22" text-anchor="start" font-size="16" fill="#1a1a1a">1/4</text>
+  <rect x="10" y="30" width="100" height="40" fill="url(#streifen)" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="110" y="30" width="100" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="210" y="30" width="100" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="310" y="30" width="100" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="10" y="100" text-anchor="start" font-size="16" fill="#1a1a1a">1/8</text>
+  <rect x="10" y="108" width="50" height="40" fill="url(#streifen)" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="60" y="108" width="50" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="110" y="108" width="50" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="160" y="108" width="50" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="210" y="108" width="50" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="260" y="108" width="50" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="310" y="108" width="50" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="360" y="108" width="50" height="40" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+</svg>

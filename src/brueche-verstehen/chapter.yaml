@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche verstehen
+summary: Du lernst, was ein Bruch ist und wie du Anteile mit Zähler und Nenner beschreibst.
+pages: [was-ist-ein-bruch, brueche-darstellen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /brueche-verstehen/was-ist-ein-bruch/#nenner-ablesen
+        - /brueche-verstehen/was-ist-ein-bruch/#zaehler-ablesen
+        - /brueche-verstehen/was-ist-ein-bruch/#bruch-streifen
+    - exercises:
+        - /brueche-verstehen/brueche-darstellen/#kreis-lesen
+        - /brueche-verstehen/brueche-darstellen/#zahlenstrahl-lesen
+        - /brueche-verstehen/brueche-darstellen/#viertel-zahlenstrahl

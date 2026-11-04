@@ -1,0 +1,144 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche darstellen
+description: Du zeichnest Brüche als Streifen, Kreis und Punkt am Zahlenstrahl und siehst, dass ein Bruch auch mehr als ein Ganzes sein kann.
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Derselbe Bruch, verschiedene Bilder
+    blocks:
+      - type: text
+        text: |
+          Du kennst schon den Streifen: Er ist das Ganze, in gleich große Teile geteilt. Ein Ganzes kann aber auch eine
+          runde Pizza sein oder eine Strecke. Der Bruch bleibt derselbe, nur das Bild ändert sich. Den Zahlenstrahl
+          kennst du von den [natürlichen Zahlen](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/).
+  - type: section
+    id: kreis-zahlenstrahl
+    title: Kreis und Zahlenstrahl
+    blocks:
+      - type: text
+        text: |
+          Im **Kreis** ist die ganze Scheibe das Ganze. Sie ist in gleich große Stücke geteilt, wie eine Pizza. Die
+          gefärbten Stücke mit Streifen sind die genommenen Teile.
+      - type: figure
+        image: images/kreis-5-von-8.svg
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        alt: Ein Kreis, in acht gleich große Stücke geteilt. Fünf Stücke sind blau mit Streifen gefärbt, drei sind weiß.
+        caption: Der ganze Kreis ist das Ganze. Zähle zuerst alle Stücke, dann die gefärbten.
+      - type: text
+        text: |
+          Am **Zahlenstrahl** ist das Ganze die Strecke von 0 bis 1. Sie ist in gleich lange Abschnitte geteilt. Der
+          Bruch zeigt, wie viele Abschnitte du von der 0 aus gehst. Das Dreieck markiert den Punkt, an dem du ankommst.
+      - type: figure
+        image: images/zahlenstrahl-3-von-4.svg
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        alt: Ein Zahlenstrahl von 0 bis 1, in vier gleich lange Abschnitte geteilt. Ein Dreieck markiert den dritten Strich nach der 0.
+        caption: Zähle die Abschnitte von 0 bis 1 und dann die Abschnitte bis zum Dreieck.
+      - type: note
+        title: Zähle Abschnitte, nicht Striche
+        blocks:
+          - type: text
+            text: |
+              Am Zahlenstrahl zählst du die Abschnitte zwischen den Strichen. Die 0 ist der Anfang und zählt nicht
+              als Abschnitt.
+  - type: section
+    id: mehr-als-ein-ganzes
+    title: Wenn der Zähler größer wird als der Nenner
+    blocks:
+      - type: text
+        text: |
+          Vier Viertel sind ein ganzer Streifen. Nimmst du noch ein Viertel dazu, brauchst du einen zweiten Streifen. Du
+          hast dann **fünf Viertel** und schreibst $\frac{5}{4}$. Der Zähler ist größer als der Nenner. Das heißt: mehr
+          als ein Ganzes.
+      - type: figure
+        image: images/streifen-5-von-4.svg
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        alt: Zwei Streifen untereinander, jeder in vier gleich große Teile geteilt. Im ersten Streifen sind alle vier Teile gefärbt, im zweiten ein Teil.
+        caption: Jeder Streifen ist ein Ganzes. Zähle alle gefärbten Teile in beiden Streifen.
+      - type: figure
+        image: images/zahlenstrahl-5-von-4.svg
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        alt: Ein Zahlenstrahl von 0 bis 2, in acht gleich lange Abschnitte geteilt. Ein Dreieck markiert den fünften Strich nach der 0.
+        caption: Der Zahlenstrahl reicht bis 2. Zwischen zwei ganzen Zahlen liegen vier Abschnitte.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: kreis-lesen
+        text: "Welcher Bruch gehört zum Kreis? Er ist in 8 gleich große Stücke geteilt, 5 sind gefärbt."
+        material:
+          - type: figure
+            image: images/kreis-5-von-8.svg
+            alt: Ein Kreis, in acht gleich große Stücke geteilt. Fünf Stücke sind blau mit Streifen gefärbt, drei sind weiß.
+            caption: Der ganze Kreis ist das Ganze.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: "5/8"
+            correct: true
+            info: "Die 8 Stücke sind alle gleich groß, also ist der Nenner 8. Gefärbt sind 5 davon: Zähler 5."
+          - text: "3/8"
+            correct: false
+            info: "Das wären die 3 weißen Stücke. Der Bruch gehört zu den gefärbten Stücken."
+          - text: "5/3"
+            correct: false
+            info: "Der Nenner zählt alle gleich großen Teile des Ganzen, nicht nur die weißen. Hier sind es 8."
+          - text: "8/5"
+            correct: false
+            info: "Zähler und Nenner sind vertauscht: Der Nenner steht für die Teile des Ganzen, der Zähler für die genommenen."
+        explanation: "Der Nenner ist die Zahl aller gleich großen Teile, der Zähler die Zahl der gefärbten."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"
+      - type: single-choice
+        id: zahlenstrahl-lesen
+        text: "Welcher Bruch ist am Zahlenstrahl markiert? Zwischen 0 und 1 sind 4 gleich lange Abschnitte."
+        material:
+          - type: figure
+            image: images/zahlenstrahl-3-von-4.svg
+            alt: Ein Zahlenstrahl von 0 bis 1, in vier gleich lange Abschnitte geteilt. Ein Dreieck markiert den dritten Strich nach der 0.
+            caption: Zähle die Abschnitte von der 0 bis zum Dreieck.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: "3/4"
+            correct: true
+            info: "Von der 0 bis zum Dreieck sind es 3 Abschnitte, und 4 Abschnitte machen das Ganze."
+          - text: "4/3"
+            correct: false
+            info: "Zähler und Nenner sind vertauscht. Ein Ganzes besteht hier aus 4 Abschnitten."
+          - text: "1/4"
+            correct: false
+            info: "Das wäre ein Abschnitt von der 0 aus. Das Dreieck steht weiter rechts."
+          - text: "3/5"
+            correct: false
+            info: "Du hast die Striche gezählt, nicht die Abschnitte. Zwischen 0 und 1 sind 4 Abschnitte, nicht 5."
+        explanation: "Am Zahlenstrahl zählst du Abschnitte: 4 Abschnitte bis zur 1, 3 Abschnitte bis zum Dreieck."
+        links:
+          - title: Zahlenstrahl (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Zahlenstrahl"
+      - type: true-false
+        id: bruch-ueber-eins-wahr
+        text: "Ein Bruch mit größerem Zähler als Nenner, zum Beispiel 5/4, ist größer als ein Ganzes."
+        answer: true
+        explanation: "5/4 sind fünf Viertel. Vier Viertel sind schon ein Ganzes, also ist 5/4 mehr als ein Ganzes."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"
+      - type: number
+        id: viertel-zahlenstrahl
+        text: "Bei Vierteln machen 4 Viertel ein Ganzes. Wie viele volle Ganze stecken in 7/4?"
+        answer: 1
+        tolerance: 0
+        mistakes:
+          - { answer: 2, message: "Zwei volle Ganze wären 8 Viertel. Du hast erst 7." }
+          - { answer: 0, message: "Schon 4 Viertel sind ein volles Ganzes." }
+        explanation: "4 Abschnitte machen ein Ganzes. 7 Abschnitte sind 7/4: ein Ganzes und noch 3 Abschnitte."
+        links:
+          - title: Zahlenstrahl (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Zahlenstrahl"

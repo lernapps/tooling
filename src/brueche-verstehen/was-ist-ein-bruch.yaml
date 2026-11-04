@@ -1,0 +1,132 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Was ist ein Bruch?
+description: Ein Bruch beschreibt einen Anteil von einem Ganzen. Du lernst, was Zähler und Nenner sagen.
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Eine Pizza gerecht teilen
+    blocks:
+      - type: text
+        text: |
+          Eine Pizza wird in vier gleich große Stücke geschnitten. Du isst ein Stück. Dann sagst du: „Ich habe **ein
+          Viertel** gegessen.“ Ein Viertel ist ein Anteil vom Ganzen. Dafür gibt es eine Schreibweise: den **Bruch**.
+          Mit natürlichen Zahlen zählst du ganze Dinge
+          ([natürliche Zahlen auf der Lernlandkarte](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/)).
+          Für einen Teil von einem Ganzen brauchst du den Bruch.
+  - type: section
+    id: zaehler-nenner
+    title: Zähler und Nenner
+    blocks:
+      - type: text
+        text: |
+          Das Bild zeigt einen Streifen. Der ganze Streifen ist **ein Ganzes**, so wie die ganze Pizza. Er ist in vier
+          gleich große Teile geteilt. Die blauen Teile mit Streifen sind gefärbt, das weiße Teil ist nicht gefärbt.
+      - type: figure
+        image: images/streifen-3-von-4.svg
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        alt: Ein Streifen aus vier gleich großen Feldern. Drei Felder sind blau mit Streifen gefärbt, ein Feld ist weiß.
+        caption: Schau, in wie viele gleich große Teile das Ganze geteilt ist und wie viele davon gefärbt sind.
+      - type: text
+        text: |
+          Der Streifen ist in 4 gleich große Teile geteilt. 3 davon sind gefärbt. Das schreibst du als Bruch:
+      - type: formula
+        formula: '\frac{3}{4}'
+      - type: definition
+        term: Nenner
+        explanation: Der Nenner steht unter dem Bruchstrich. Er sagt, in wie viele gleich große Teile das Ganze geteilt ist.
+      - type: definition
+        term: Zähler
+        explanation: Der Zähler steht über dem Bruchstrich. Er sagt, wie viele dieser Teile genommen sind.
+      - type: definition
+        term: Bruch
+        explanation: Ein Bruch beschreibt einen Anteil von einem Ganzen. Er besteht aus Zähler und Nenner, getrennt durch den Bruchstrich.
+      - type: note
+        title: Die Teile müssen gleich groß sein
+        blocks:
+          - type: text
+            text: |
+              Ein Bruch gilt nur, wenn alle Teile gleich groß sind. Ist eine Pizza in vier ungleiche Stücke
+              geschnitten, ist ein Stück kein Viertel.
+  - type: section
+    id: ausprobieren
+    title: Probier es aus
+    blocks:
+      - type: text
+        text: |
+          Unten ist wieder ein Streifen. Er ist das Ganze und in gleich große Felder geteilt. Du siehst einen Bruch.
+          Tippe so viele Felder an, wie der Zähler sagt: Sie werden blau mit Streifen. Tippst du ein Feld noch einmal
+          an, wird es wieder weiß. Der Nenner ändert sich dabei nicht, weil das Ganze gleich bleibt. Dann drückst du
+          „Prüfen“.
+      - type: vue-component
+        id: bruch-streifen
+        component: BruchStreifen
+        props:
+          task: "Der Streifen hat {n} gleich große Felder. Färbe {z}/{n} davon."
+          cell: "Feld {k}"
+          mistakes:
+            - "Du hast {k} Felder gefärbt. Das ist der Rest: Gefärbt sein sollen die Felder, die der Zähler nennt."
+            - "Du hast nur ein Feld gefärbt. Der Zähler sagt, wie viele Felder du färbst."
+        examples:
+          accepted:
+            - { answer: 2, seed: 1 }
+          rejected:
+            - { answer: 8, seed: 1 }
+            - { answer: 1, seed: 1 }
+            - { answer: 0 }
+        nojs: |
+          Ein Streifen aus gleich großen Feldern ist ein Ganzes. Du färbst so viele Felder, wie der Zähler nennt. Zum
+          Beispiel bei 3/4: Der Streifen hat 4 Felder, 3 davon färbst du.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: nenner-ablesen
+        given:
+          e: { pick: 1, from: { data: brueche } }
+        task:
+          text: "{{e.sache}} wird in {{e.n}} gleich große Stücke geschnitten. {{e.z}} Stücke sind schon gegessen. Wie heißt der Nenner?"
+        answer: { value: "e.n", compare: number }
+        mistakes:
+          - {
+              value: "e.z",
+              message: "Das ist die Zahl der gegessenen Stücke, also der Zähler. Der Nenner sagt, in wie viele Teile das Ganze geteilt ist.",
+            }
+          - {
+              value: "e.n - e.z",
+              message: "Das sind die Stücke, die noch übrig sind. Der Nenner zählt alle gleich großen Teile des Ganzen.",
+            }
+        hint: "Der Nenner steht unter dem Bruchstrich und sagt, in wie viele gleich große Teile das Ganze geteilt ist."
+        steps:
+          - "Das Ganze ist {{e.sache}}, in {{e.n}} gleich große Stücke geteilt."
+          - '$\frac{{{e.z}}}{{{e.n}}}$: Der Nenner ist {{answer}}.'
+      - type: generated
+        id: zaehler-ablesen
+        given:
+          e: { pick: 1, from: { data: brueche } }
+        task:
+          text: "{{e.sache}} wird in {{e.n}} gleich große Stücke geschnitten. {{e.z}} Stücke sind schon gegessen. Wie heißt der Zähler?"
+        answer: { value: "e.z", compare: number }
+        mistakes:
+          - {
+              value: "e.n",
+              message: "Das ist der Nenner: die Zahl aller gleich großen Teile. Der Zähler sagt, wie viele Teile genommen sind.",
+            }
+          - {
+              value: "e.n - e.z",
+              message: "Das sind die Stücke, die noch übrig sind. Der Zähler zählt die Stücke, von denen die Rede ist: die gegessenen.",
+            }
+        hint: "Der Zähler steht über dem Bruchstrich und sagt, wie viele Teile genommen sind."
+        steps:
+          - "Gegessen sind {{e.z}} von {{e.n}} Stücken."
+          - '$\frac{{{e.z}}}{{{e.n}}}$: Der Zähler ist {{answer}}.'
+      - type: true-false
+        id: ungleiche-teile
+        text: "Eine Pizza ist in vier Stücke geschnitten. Ein Stück ist viel größer als die anderen drei. Jedes Stück ist ein Viertel der Pizza."
+        answer: false
+        explanation: "Ein Viertel gibt es nur, wenn alle vier Teile gleich groß sind. Das große Stück ist mehr als ein Viertel, die kleinen sind weniger."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"

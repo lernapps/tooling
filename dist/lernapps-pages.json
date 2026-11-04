@@ -1,0 +1,41 @@
+{
+  "format": 1,
+  "strand": "mathematik/arithmetik",
+  "pages": [
+    {
+      "path": "brueche-verstehen/was-ist-ein-bruch/",
+      "title": "Was ist ein Bruch?",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "brueche-verstehen/brueche-darstellen/",
+      "title": "Brüche darstellen",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "kuerzen-erweitern/brueche-erweitern/",
+      "title": "Brüche erweitern",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "kuerzen-erweitern/brueche-kuerzen/",
+      "title": "Brüche kürzen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "kuerzen-erweitern/brueche-vergleichen/",
+      "title": "Brüche vergleichen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    }
+  ]
+}

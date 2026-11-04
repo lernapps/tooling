@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 250" role="img" aria-labelledby="t d">
+<title id="t">Skizze: Modell Streifen feiner teilen</title>
+<desc id="d">Oben ein Streifen in 3 Teile, 2 gefärbt: 2/3. Darunter derselbe Streifen, jedes Teil in 2 geteilt: 4 von 6 gefärbt, 4/6. Ein Knopf wählt, in wie viele Teile jedes Stück geteilt wird.</desc>
+<rect width="480" height="250" fill="#fff" stroke="#888"/>
+<text x="20" y="28" font-size="14" font-family="sans-serif">vorher: 2/3</text>
+<g stroke="#222" stroke-width="2"><rect x="20" y="36" width="130" height="40" fill="#7aa7e8"/><rect x="150" y="36" width="130" height="40" fill="#7aa7e8"/><rect x="280" y="36" width="130" height="40" fill="#fff"/></g>
+<text x="20" y="116" font-size="14" font-family="sans-serif">erweitert mit 2: 4/6</text>
+<g stroke="#222" stroke-width="1.5"><rect x="20" y="124" width="65" height="40" fill="#7aa7e8"/><rect x="85" y="124" width="65" height="40" fill="#7aa7e8"/><rect x="150" y="124" width="65" height="40" fill="#7aa7e8"/><rect x="215" y="124" width="65" height="40" fill="#7aa7e8"/><rect x="280" y="124" width="65" height="40" fill="#fff"/><rect x="345" y="124" width="65" height="40" fill="#fff"/></g>
+<text x="20" y="200" font-size="14" font-family="sans-serif">Jedes Stück teilen in: [1] [2] [3] [4] [5] [6] gleiche Teile</text>
+<text x="20" y="228" font-size="14" font-family="sans-serif">Gefärbte Fläche bleibt gleich; Zähler und Nenner werden beide mit der Zahl mal genommen.</text>
+</svg>

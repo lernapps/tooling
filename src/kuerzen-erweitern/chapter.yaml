@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Kürzen und erweitern
+summary: Du lernst, wie du Brüche erweiterst und kürzt, und wie du sie damit vergleichst.
+pages: [brueche-erweitern, brueche-kuerzen, brueche-vergleichen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /kuerzen-erweitern/brueche-erweitern/#erweitern-zaehler
+        - /kuerzen-erweitern/brueche-erweitern/#erweitern-nenner
+        - /kuerzen-erweitern/brueche-erweitern/#gleichwertig-addieren
+    - exercises:
+        - /kuerzen-erweitern/brueche-kuerzen/#kuerzen-nenner
+        - /kuerzen-erweitern/brueche-kuerzen/#kuerzen-ganz
+        - /kuerzen-erweitern/brueche-kuerzen/#kuerzen-teiler
+    - exercises:
+        - /kuerzen-erweitern/brueche-vergleichen/#gleichnamig-zaehler
+        - /kuerzen-erweitern/brueche-vergleichen/#groesser-gleichnamig
+        - /kuerzen-erweitern/brueche-vergleichen/#brueche-ordnen

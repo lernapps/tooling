@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" font-family="sans-serif">
+  <defs>
+    <pattern id="streifen" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="8" height="8" fill="#2f5fb3"/>
+      <rect width="2" height="8" fill="#ffffff"/>
+    </pattern>
+  </defs>
+  <rect width="240" height="240" fill="#ffffff"/>
+  <path d="M120 120 L120.00 20.00 A100 100 0 0 1 190.71 49.29 Z" fill="url(#streifen)" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M120 120 L190.71 49.29 A100 100 0 0 1 220.00 120.00 Z" fill="url(#streifen)" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M120 120 L220.00 120.00 A100 100 0 0 1 190.71 190.71 Z" fill="url(#streifen)" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M120 120 L190.71 190.71 A100 100 0 0 1 120.00 220.00 Z" fill="url(#streifen)" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M120 120 L120.00 220.00 A100 100 0 0 1 49.29 190.71 Z" fill="url(#streifen)" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M120 120 L49.29 190.71 A100 100 0 0 1 20.00 120.00 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M120 120 L20.00 120.00 A100 100 0 0 1 49.29 49.29 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M120 120 L49.29 49.29 A100 100 0 0 1 120.00 20.00 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+</svg>

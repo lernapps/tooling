@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 190" role="img" aria-labelledby="t d">
+<title id="t">Skizze: Übungskomponente Bruchstreifen</title>
+<desc id="d">Aufgabe: Färbe 3/4 des Streifens. Ein Streifen mit 4 gleich großen Feldern, zwei sind angeklickt, daneben der Knopf Prüfen.</desc>
+<rect width="480" height="190" fill="#fff" stroke="#888"/>
+<text x="20" y="30" font-size="16" font-family="sans-serif">Aufgabe: Färbe den Bruch 3/4 des Streifens. (1 Streifen = 1 Ganzes)</text>
+<g stroke="#222" stroke-width="2"><rect x="20" y="50" width="100" height="50" fill="#7aa7e8"/><rect x="120" y="50" width="100" height="50" fill="#7aa7e8"/><rect x="220" y="50" width="100" height="50" fill="#fff"/><rect x="320" y="50" width="100" height="50" fill="#fff"/></g>
+<text x="20" y="125" font-size="14" font-family="sans-serif">Klicke ein Feld an, um es zu färben oder wieder zu leeren.</text>
+<rect x="20" y="140" width="90" height="34" rx="6" fill="#eee" stroke="#222"/><text x="40" y="162" font-size="16" font-family="sans-serif">Prüfen</text>
+<text x="130" y="162" font-size="14" font-family="sans-serif">Kein Zähler vor dem Prüfen. Rückmeldung danach, mit typischem Fehler.</text>
+</svg>

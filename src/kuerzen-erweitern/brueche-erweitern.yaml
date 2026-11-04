@@ -1,0 +1,119 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche erweitern
+description: Du teilst die Teile eines Bruchs feiner und erkennst, dass der Bruch gleich viel bleibt, auch wenn Zähler und Nenner größer werden.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Dieselbe Menge, feiner geschnitten
+    blocks:
+      - type: text
+        text: |
+          Du hast $\frac{2}{3}$ von einer Tafel Schokolade. Jetzt schneidest du jedes Stück noch einmal in der Mitte
+          durch. Hast du dadurch mehr oder weniger Schokolade? Du hast genauso viel, nur in kleineren Stücken. Mit
+          Brüchen sagst du: Dieselbe Menge hat verschiedene Brüche. Das nennt man **gleichwertige Brüche**. Beim Malnehmen helfen
+          dir Vielfache ([Teilbarkeit auf der Lernlandkarte](https://lernapps.net/apps/map/mathematik/c/teilbarkeit/)).
+  - type: section
+    id: erweitern
+    title: Erweitern heißt feiner teilen
+    blocks:
+      - type: text
+        text: |
+          Oben siehst du einen Streifen mit seinem Bruch. Er ist das Ganze. Darunter ist derselbe Streifen. Wählst du
+          eine Zahl, wird jedes Feld in so viele gleich große Teile geteilt. Bei 1 passiert nichts. Die gefärbte Fläche
+          bleibt gleich. Verändert werden nur die Zahlen: Es gibt mehr Teile (der Nenner wird größer), und mehr Teile
+          sind gefärbt (der Zähler wird größer).
+      - type: vue-component
+        component: StreifenTeilen
+        props:
+          n: 3
+          z: 2
+          richtung: erweitern
+          vorher: "vorher: {z}/{n}"
+          nachher: "mit {k} erweitert: {z2}/{n2}"
+          frage: "Wähle, in wie viele gleich große Teile jedes Feld geteilt wird:"
+          satz: "Zähler und Nenner sind mit {k} malgenommen: {z} · {k} = {z2} und {n} · {k} = {n2}."
+          feld: "Streifen mit gefärbten Feldern"
+        nojs: |
+          Ein Streifen mit 3 Feldern, 2 davon gefärbt: $\frac{2}{3}$. Teilst du jedes Feld in 2 Teile, hat der Streifen
+          6 Felder, 4 davon gefärbt: $\frac{4}{6}$. Teilst du jedes Feld in 4 Teile, sind es 12 Felder und 8 gefärbte:
+          $\frac{8}{12}$. Die gefärbte Fläche bleibt immer gleich groß.
+      - type: text
+        text: |
+          Das Feiner-Teilen nennt man **Erweitern**. Du erweiterst mit einer Zahl, indem du Zähler und Nenner mit
+          derselben Zahl malnimmst:
+      - type: formula
+        formula: '\frac{2}{3} = \frac{2 \cdot 4}{3 \cdot 4} = \frac{8}{12}'
+      - type: definition
+        term: erweitern
+        explanation: Beim Erweitern multiplizierst du Zähler und Nenner mit derselben Zahl. Der Bruch ändert sich dadurch nicht in seinem Wert.
+      - type: definition
+        term: gleichwertige Brüche
+        explanation: Gleichwertige Brüche sind verschiedene Brüche für dieselbe Menge, zum Beispiel 2/3 und 8/12.
+      - type: note
+        title: Malnehmen, nicht dazuzählen
+        blocks:
+          - type: text
+            text: |
+              Addierst du zu Zähler und Nenner dieselbe Zahl, ändert sich die Menge. Aus $\frac{2}{3}$ mit „plus 2“
+              wird $\frac{4}{5}$, und das ist ein anderer Wert als $\frac{2}{3}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: erweitern-zaehler
+        given:
+          n: { oneOf: [2, 3, 4, 5, 6, 8, 10] }
+          z: { int: [1, 9] }
+          k: { int: [2, 6] }
+        where: ["z < n", "not (n == 2 and k == 2)", "not (z == 2 and k == 2)"]
+        task:
+          text: "Erweitere $\\frac{{{z}}}{{{n}}}$ mit {{k}}. Wie heißt der neue Zähler?"
+        answer: { value: "z * k", compare: number }
+        mistakes:
+          - { value: "z + k", message: "Du hast {{k}} addiert. Beim Erweitern nimmst du den Zähler mal {{k}}." }
+          - {
+              value: "z",
+              message: "Der Zähler ist gleich geblieben. Beim Erweitern wird er auch mit {{k}} malgenommen, nicht nur der Nenner.",
+            }
+        hint: "Du erweiterst mit {{k}}: Zähler und Nenner werden beide mit {{k}} malgenommen."
+        steps:
+          - '$\frac{{{z}}}{{{n}}} = \frac{{{z}} \cdot {{k}}}{{{n}} \cdot {{k}}}$'
+          - "Der neue Zähler ist {{z}} · {{k}} = {{answer}}."
+      - type: generated
+        id: erweitern-nenner
+        given:
+          n: { oneOf: [2, 3, 4, 5, 6, 8, 10] }
+          z: { int: [1, 9] }
+          k: { int: [2, 6] }
+        where: ["z < n", "not (n == 2 and k == 2)"]
+        task:
+          text: "Erweitere $\\frac{{{z}}}{{{n}}}$ mit {{k}}. Wie heißt der neue Nenner?"
+        answer: { value: "n * k", compare: number }
+        mistakes:
+          - { value: "n + k", message: "Du hast {{k}} addiert. Beim Erweitern nimmst du den Nenner mal {{k}}." }
+          - {
+              value: "n",
+              message: "Der Nenner ist gleich geblieben. Beim Erweitern wird er auch mit {{k}} malgenommen, nicht nur der Zähler.",
+            }
+        hint: "Du erweiterst mit {{k}}: Zähler und Nenner werden beide mit {{k}} malgenommen."
+        steps:
+          - '$\frac{{{z}}}{{{n}}} = \frac{{{z}} \cdot {{k}}}{{{n}} \cdot {{k}}}$'
+          - "Der neue Nenner ist {{n}} · {{k}} = {{answer}}."
+      - type: true-false
+        id: gleichwertig-malnehmen
+        text: "Die Brüche 2/3 und 4/6 sind gleichwertig."
+        answer: true
+        explanation: "4/6 entsteht aus 2/3, wenn du Zähler und Nenner mit 2 malnimmst. Der Streifen ist dann feiner geteilt, die gefärbte Fläche ist gleich groß."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"
+      - type: true-false
+        id: gleichwertig-addieren
+        text: "Die Brüche 2/3 und 4/5 sind gleichwertig, denn bei beiden wurde zu Zähler und Nenner 2 dazugezählt."
+        answer: false
+        explanation: "Dazuzählen ändert die Menge. Gleichwertig sind Brüche nur, wenn Zähler und Nenner mit derselben Zahl malgenommen werden: 2/3 = 4/6."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"

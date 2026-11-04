@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche kürzen
+description: Du fasst Teile eines Bruchs zu größeren Teilen zusammen und kürzt Brüche, bis sie sich nicht mehr kürzen lassen.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Gröber schneiden
+    blocks:
+      - type: text
+        text: |
+          Beim Erweitern hast du jedes Feld feiner geteilt. Jetzt gehst du den Weg zurück. Du hast
+          $\frac{8}{12}$ von einer Tafel Schokolade, in zwölf kleine Stücke geteilt. Legst du immer vier Stücke
+          zusammen, sind es nur noch drei große Stücke, und zwei davon gehören dir. Die Menge ist gleich geblieben.
+  - type: section
+    id: kuerzen
+    title: Kürzen heißt zusammenfassen
+    blocks:
+      - type: text
+        text: |
+          Oben siehst du einen Streifen mit seinem Bruch. Er ist das Ganze. Darunter ist derselbe Streifen. Wählst du
+          eine Zahl, werden immer so viele Felder zu einem Feld zusammengefasst. Bei 1 bleibt alles, wie es ist. Zur
+          Auswahl stehen nur Zahlen, bei denen die Felder genau aufgehen: Teiler von Zähler **und** Nenner.
+      - type: vue-component
+        component: StreifenTeilen
+        props:
+          n: 12
+          z: 8
+          richtung: kuerzen
+          vorher: "vorher: {z}/{n}"
+          nachher: "durch {k} gekürzt: {z2}/{n2}"
+          frage: "Wähle, wie viele Felder zu einem zusammengefasst werden:"
+          satz: "Zähler und Nenner sind durch {k} geteilt: {z} : {k} = {z2} und {n} : {k} = {n2}."
+          feld: "Streifen mit gefärbten Feldern"
+        nojs: |
+          Ein Streifen mit 12 Feldern, 8 davon gefärbt: $\frac{8}{12}$. Fasst du immer 2 Felder zusammen, sind es 6
+          Felder mit 4 gefärbten: $\frac{4}{6}$. Fasst du immer 4 Felder zusammen, sind es 3 Felder mit 2 gefärbten:
+          $\frac{2}{3}$. Die gefärbte Fläche bleibt immer gleich groß.
+      - type: text
+        text: |
+          Das Zusammenfassen nennt man **Kürzen**. Du kürzt mit einer Zahl, indem du Zähler und Nenner durch dieselbe Zahl
+          teilst. Die Zahl muss ein Teiler von beiden sein. Wenn du Teiler und Vielfache wiederholen willst, helfen dir
+          die [Teilbarkeit auf der Lernlandkarte](https://lernapps.net/apps/map/mathematik/c/teilbarkeit/) und die
+          Teilbarkeitsregeln.
+      - type: formula
+        formula: '\frac{8}{12} = \frac{8 : 4}{12 : 4} = \frac{2}{3}'
+      - type: definition
+        term: kürzen
+        explanation: Beim Kürzen teilst du Zähler und Nenner durch dieselbe Zahl, die in beiden aufgeht. Der Bruch ändert sich dadurch nicht in seinem Wert.
+      - type: text
+        text: |
+          Du kannst weiter kürzen, solange Zähler und Nenner noch einen gemeinsamen Teiler haben. Bei $\frac{2}{3}$
+          geht das nicht mehr: Der Bruch ist **vollständig gekürzt**. Am schnellsten kommst du dorthin, wenn du durch den
+          größten gemeinsamen Teiler kürzt, hier durch 4.
+      - type: note
+        title: Beide Zahlen teilen
+        blocks:
+          - type: text
+            text: |
+              Teilst du nur den Zähler, wird aus $\frac{8}{12}$ der Bruch $\frac{2}{12}$. Das ist weniger als vorher. Zähler
+              und Nenner gehören zusammen: beide durch dieselbe Zahl.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: kuerzen-nenner
+        given:
+          r: { pick: 1, from: { data: kuerzen } }
+        task:
+          text: "Kürze $\\frac{{{r.z}}}{{{r.n}}}$ durch {{r.t}}. Wie heißt der neue Nenner?"
+        answer: { value: "r.nk", compare: number }
+        mistakes:
+          - {
+              value: "r.n",
+              message: "Der Nenner ist gleich geblieben. Beim Kürzen teilst du auch den Nenner durch {{r.t}}, nicht nur den Zähler.",
+            }
+          - {
+              value: "r.zk",
+              message: "Das ist der neue Zähler. Gefragt ist der Nenner: {{r.n}} geteilt durch {{r.t}}.",
+            }
+        hint: "Du kürzt durch {{r.t}}: Zähler und Nenner werden beide durch {{r.t}} geteilt."
+        steps:
+          - '$\frac{{{r.z}}}{{{r.n}}} = \frac{{{r.z}} : {{r.t}}}{{{r.n}} : {{r.t}}}$'
+          - "Der neue Nenner ist {{r.n}} : {{r.t}} = {{answer}}."
+      - type: generated
+        id: kuerzen-ganz
+        given:
+          r: { pick: 1, from: { data: kuerzen-ganz } }
+        task:
+          text: "Kürze $\\frac{{{r.z}}}{{{r.n}}}$ so weit wie möglich. Wie heißt der Zähler des vollständig gekürzten Bruchs?"
+        answer: { value: "r.zk", compare: number }
+        mistakes:
+          - {
+              value: "r.zs",
+              message: "Du hast gekürzt, aber noch nicht vollständig: {{r.zs}}/{{r.ns}} geht noch weiter. Suche einen weiteren gemeinsamen Teiler.",
+            }
+          - {
+              value: "r.z",
+              message: "Der Zähler ist gleich geblieben. Kürze Zähler und Nenner durch denselben Teiler.",
+            }
+        hint: "Suche eine Zahl, die in {{r.z}} und {{r.n}} aufgeht. Danach prüfe, ob du noch einmal kürzen kannst."
+        steps:
+          - "Kürze zuerst durch eine Zahl, die in beiden aufgeht, und prüfe dann weiter."
+          - "Vollständig gekürzt ist der Zähler {{answer}}."
+      - type: multiple-choice
+        id: kuerzen-teiler
+        text: "Durch welche Zahlen kannst du 8/12 kürzen? Wähle alle richtigen."
+        options:
+          - text: "2"
+            correct: true
+            info: "2 geht in 8 und in 12 auf: 8/12 = 4/6."
+          - text: "4"
+            correct: true
+            info: "4 geht in 8 und in 12 auf: 8/12 = 2/3."
+          - text: "3"
+            correct: false
+            info: "3 geht in 12 auf, aber nicht in 8. Beide Zahlen müssen durch die Kürzungszahl teilbar sein."
+          - text: "6"
+            correct: false
+            info: "6 geht in 12 auf, aber nicht in 8."
+        explanation: "Gekürzt wird nur mit einer Zahl, die in Zähler und Nenner aufgeht."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"
+      - type: true-false
+        id: kuerzen-nur-zaehler
+        text: "Aus 4/6 wird 2/6, wenn du durch 2 kürzt."
+        answer: false
+        explanation: "Beim Kürzen teilst du Zähler und Nenner. Richtig ist 4/6 = 2/3. 2/6 ist weniger als 4/6."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"

@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: mathematik/arithmetik
+title: Brüche verstehen, kürzen und erweitern
+intro: |
+  Was ist ein Bruch? Du lernst Zähler und Nenner kennen, wie du Anteile darstellst und wie du Brüche erweiterst, kürzt
+  und vergleichst. Für die Klasse 6.
+languages: [de]
+chapters: [brueche-verstehen, kuerzen-erweitern]
+sources:
+  - title: Kerncurriculum Mathematik, Sekundarstufe I, Gymnasium (Hessisches Kultusministerium)
+    url: https://kultus.hessen.de/sites/kultus.hessen.de/files/2021-07/kerncurriculum_mathematik_gymnasium.pdf
+  - title: Bruchrechnung (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Bruchrechnung

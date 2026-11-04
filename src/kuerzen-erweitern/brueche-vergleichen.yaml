@@ -1,0 +1,131 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche vergleichen
+description: Du vergleichst Brüche, indem du auf gleiche Teile achtest oder die Brüche gleichnamig machst.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Welches Stück ist größer?
+    blocks:
+      - type: text
+        text: |
+          Du darfst dir ein Stück Pizza aussuchen: ein Viertel oder ein Achtel. Welches nimmst du? Viele denken: 8 ist
+          mehr als 4, also ist ein Achtel mehr. Schau dir die Streifen an. Für das Gleichnamig-Machen brauchst du
+          Vielfache ([Teilbarkeit auf der Lernlandkarte](https://lernapps.net/apps/map/mathematik/c/teilbarkeit/)).
+  - type: section
+    id: gleicher-zaehler
+    title: Gleicher Zähler, verschiedene Nenner
+    blocks:
+      - type: figure
+        image: images/streifen-1-4-und-1-8.svg
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        alt: Zwei Streifen untereinander. Der obere ist in vier gleich große Felder geteilt, eines ist gefärbt. Der untere ist in acht gleich große Felder geteilt, eines ist gefärbt. Das gefärbte Feld des oberen Streifens ist doppelt so breit.
+        caption: Beide Streifen sind ein Ganzes. Vergleiche, wie breit das gefärbte Feld jeweils ist.
+      - type: text
+        text: |
+          Je mehr Teile das Ganze hat, desto kleiner ist jedes Teil. Ein Achtel ist kleiner als ein Viertel, obwohl 8 größer
+          ist als 4. Haben zwei Brüche denselben Zähler, ist der Bruch mit dem **kleineren Nenner** größer:
+      - type: formula
+        formula: '\frac{1}{8} < \frac{1}{4}'
+  - type: section
+    id: gleichnamig
+    title: Gleichnamig machen
+    blocks:
+      - type: text
+        text: |
+          Sind auch die Zähler verschieden, wird es schwerer. Dann machst du die Brüche **gleichnamig**: Du erweiterst
+          sie so, dass beide denselben Nenner haben. Danach sind die Teile gleich groß, und du vergleichst nur noch die
+          Zähler. Hier siehst du $\frac{3}{4}$ und $\frac{5}{6}$, beide auf den Nenner 12 erweitert.
+      - type: figure
+        image: images/streifen-3-4-und-5-6.svg
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        alt: Zwei Streifen untereinander, beide in zwölf gleich große Felder geteilt. Im oberen Streifen sind neun Felder gefärbt, im unteren zehn.
+        caption: Beide Streifen haben zwölf gleich große Felder. Zähle die gefärbten Felder.
+      - type: formula
+        formula: '\frac{3}{4} = \frac{9}{12} \qquad \frac{5}{6} = \frac{10}{12} \qquad \frac{9}{12} < \frac{10}{12}'
+      - type: definition
+        term: gleichnamig
+        explanation: Zwei Brüche sind gleichnamig, wenn sie denselben Nenner haben. Dann ist der Bruch mit dem größeren Zähler größer.
+      - type: note
+        title: Einen gemeinsamen Nenner finden
+        blocks:
+          - type: text
+            text: |
+              Als gemeinsamen Nenner nimmst du eine Zahl, in der beide Nenner aufgehen. Das Produkt der Nenner geht immer
+              (4 · 6 = 24). Oft gibt es eine kleinere Zahl: Bei 4 und 6 reicht 12.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: groesser-gleicher-zaehler
+        text: "Welcher Bruch ist größer?"
+        options:
+          - text: "1/5"
+            correct: true
+            info: "Ein Fünftel ist größer als ein Siebtel: Das Ganze ist in weniger Teile geteilt, also ist jedes Teil größer."
+          - text: "1/7"
+            correct: false
+            info: "Ein Siebtel ist kleiner. Je mehr Teile das Ganze hat, desto kleiner ist jedes."
+          - text: "Beide sind gleich groß"
+            correct: false
+            info: "Sie haben zwar denselben Zähler, aber die Teile sind verschieden groß: Fünftel sind größer als Siebtel."
+        explanation: "Bei gleichem Zähler ist der Bruch mit dem kleineren Nenner größer."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"
+      - type: true-false
+        id: ein-achtel-groesser
+        text: "1/8 ist größer als 1/4, weil 8 größer ist als 4."
+        answer: false
+        explanation: "Je größer der Nenner, desto kleiner ist jedes Teil. Ein Achtel ist nur halb so groß wie ein Viertel."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"
+      - type: ordering
+        id: brueche-ordnen
+        text: "Ordne die Brüche vom kleinsten zum größten."
+        items: ["1/8", "1/4", "1/2"]
+        explanation: "Die Zähler sind gleich. Je kleiner der Nenner, desto größer der Bruch: Ein Achtel ist am kleinsten, ein Halbes am größten."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"
+      - type: generated
+        id: gleichnamig-zaehler
+        given:
+          v: { pick: 1, from: { data: vergleich } }
+        task:
+          text: "Du vergleichst $\\frac{{{v.a}}}{{{v.b}}}$ und $\\frac{{{v.c}}}{{{v.d}}}$. Erweitere beide Brüche auf den Nenner {{v.n}}. Wie heißt der neue Zähler von $\\frac{{{v.a}}}{{{v.b}}}$?"
+        answer: { value: "v.za", compare: number }
+        mistakes:
+          - {
+              value: "v.a + v.n - v.b",
+              message: "Du hast zum Zähler dieselbe Zahl addiert wie zum Nenner. Beim Erweitern nimmst du beide mit derselben Zahl mal.",
+            }
+          - {
+              value: "v.a",
+              message: "Der Zähler ist gleich geblieben. Wenn der Nenner mit einer Zahl malgenommen wird, muss der Zähler auch.",
+            }
+        hint: "Mit welcher Zahl musst du {{v.b}} malnehmen, um {{v.n}} zu bekommen? Nimm den Zähler mit derselben Zahl mal."
+        steps:
+          - "{{v.n}} : {{v.b}} sagt dir, mit welcher Zahl du erweiterst."
+          - "Der neue Zähler ist {{answer}}."
+      - type: single-choice
+        id: groesser-gleichnamig
+        text: "Welcher Bruch ist größer, 2/3 oder 3/4?"
+        options:
+          - text: "3/4"
+            correct: true
+            info: "Auf den Nenner 12 erweitert: 2/3 = 8/12 und 3/4 = 9/12. 9 ist mehr als 8."
+          - text: "2/3"
+            correct: false
+            info: "Auf den Nenner 12 erweitert ist 2/3 = 8/12 und 3/4 = 9/12. Also ist 2/3 kleiner."
+          - text: "Beide sind gleich groß"
+            correct: false
+            info: "Auf den Nenner 12 erweitert sind es 8/12 und 9/12, und die sind verschieden."
+        explanation: "Mache die Brüche gleichnamig, dann vergleichst du nur noch die Zähler."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Bruchrechnung"

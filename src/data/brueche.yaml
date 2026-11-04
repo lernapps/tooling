@@ -1,0 +1,8 @@
+- { sache: "Eine Pizza", n: 8, z: 3 }
+- { sache: "Eine Pizza", n: 6, z: 5 }
+- { sache: "Eine Tafel Schokolade", n: 12, z: 5 }
+- { sache: "Eine Tafel Schokolade", n: 10, z: 7 }
+- { sache: "Ein Kuchen", n: 12, z: 7 }
+- { sache: "Ein Kuchen", n: 10, z: 3 }
+- { sache: "Ein Pfannkuchen", n: 6, z: 1 }
+- { sache: "Ein Pfannkuchen", n: 9, z: 4 }
