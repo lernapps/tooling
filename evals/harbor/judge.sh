@@ -18,8 +18,12 @@ claude_bin="$(command -v claude)" || { echo "no claude on PATH" >&2; exit 2; }
 [ -n "${EVALS_ANTHROPIC_API_KEY:-}" ] || { echo "EVALS_ANTHROPIC_API_KEY is not set" >&2; exit 2; }
 port=4400
 
-meta() { # <task.toml> <key>: the value of a metadata key, unquoted
-  sed -n "s/^$2 = //p" "$1" | head -1 | sed 's/^"//; s/"$//'
+meta() { # <task.toml> <key>: the value of a metadata key, unquoted; an array over several lines joined into one
+  awk -v key="$2" '
+    open { sub(/^[ \t]+/, ""); value = value $0 }
+    !open && index($0, key " = ") == 1 { value = substr($0, length(key) + 4); open = 1 }
+    open { if (value !~ /^\[/ || value ~ /\]$/) { print value; exit } }
+  ' "$1" | sed 's/^"//; s/"$//; s/,\]$/]/; s/,"/, "/g'
 }
 
 for job in "$@"; do
