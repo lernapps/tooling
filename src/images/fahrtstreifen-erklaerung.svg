@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 120" font-family="sans-serif">
+  <rect width="260" height="120" fill="#ffffff"/>
+  <line x1="8" y1="78" x2="252" y2="78" stroke="#222222" stroke-width="2"/>
+  <g fill="#222222">
+    <circle cx="20" cy="78" r="5"/><circle cx="44" cy="78" r="5"/><circle cx="92" cy="78" r="5"/>
+    <circle cx="164" cy="78" r="5"/><circle cx="200" cy="78" r="5"/><circle cx="212" cy="78" r="5"/>
+  </g>
+  <g font-size="9" fill="#222222" text-anchor="middle">
+    <text x="20" y="98">0 s</text><text x="44" y="108">1 s</text><text x="92" y="98">2 s</text>
+    <text x="164" y="98">3 s</text><text x="200" y="108">4 s</text><text x="214" y="98">5 s</text>
+  </g>
+  <g stroke="#b34700" stroke-width="2.5" fill="#b34700">
+    <line x1="20" y1="52" x2="40" y2="52"/><polygon points="44,52 37,48 37,56" stroke="none"/>
+    <line x1="44" y1="30" x2="88" y2="30"/><polygon points="92,30 85,26 85,34" stroke="none"/>
+    <line x1="92" y1="52" x2="160" y2="52"/><polygon points="164,52 157,48 157,56" stroke="none"/>
+    <line x1="164" y1="30" x2="196" y2="30"/><polygon points="200,30 193,26 193,34" stroke="none"/>
+    <line x1="200" y1="52" x2="208" y2="52"/><polygon points="212,52 205,48 205,56" stroke="none"/>
+  </g>
+  <g font-size="9" fill="#222222" text-anchor="middle">
+    <text x="32" y="45">2 m/s</text><text x="68" y="23">4 m/s</text><text x="128" y="45">6 m/s</text>
+    <text x="182" y="23">3 m/s</text><text x="206" y="45">1 m/s</text>
+  </g>
+</svg>

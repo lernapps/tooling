@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beschleunigte Bewegung
+summary: Du beschreibst, wann sich eine Bewegung ändert, und liest Weg-Zeit- und Geschwindigkeit-Zeit-Diagramme.
+pages: [geschwindigkeit-wiederholen, geschwindigkeitsaenderung, weg-zeit-diagramm, geschwindigkeit-zeit-diagramm]
+# Die Selbsteinschätzung des Kapitels: je drei Aufgaben der Seiten 2 bis 4, die ohne ihre Seite verständlich sind.
+# Die Wiederholungsseite hat keine Aufgabe und kommt nicht vor.
+selfAssessment:
+  pages:
+    - exercises:
+        - /beschleunigte-bewegung/geschwindigkeitsaenderung/#fahrrad-sekunde-vier
+        - /beschleunigte-bewegung/geschwindigkeitsaenderung/#richtung-wechselt
+        - /beschleunigte-bewegung/geschwindigkeitsaenderung/#fahrt-bauen
+    - exercises:
+        - /beschleunigte-bewegung/weg-zeit-diagramm/#diagramme-zuordnen
+        - /beschleunigte-bewegung/weg-zeit-diagramm/#knick-bedeutung
+        - /beschleunigte-bewegung/weg-zeit-diagramm/#weg-nach-sechs
+    - exercises:
+        - /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/#vt-zuordnen
+        - /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/#tempo-vier-bis-sechs-vt
+        - /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/#vt-zeichnen

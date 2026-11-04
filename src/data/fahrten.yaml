@@ -1,0 +1,41 @@
+# Fahrten: v1 bis v5 sind die Geschwindigkeiten in m/s in fünf Abschnitten von je 2 s (zusammen 10 s).
+- id: gleichmaessig
+  name: Radfahrt gleichmäßig
+  beschreibung: Das Fahrrad fährt die ganze Zeit mit 5 m/s.
+  v1: 5
+  v2: 5
+  v3: 5
+  v4: 5
+  v5: 5
+- id: rad-anrollen
+  name: Fahrrad rollt an
+  beschreibung: Das Fahrrad wird schneller und fährt dann gleichmäßig.
+  v1: 2
+  v2: 4
+  v3: 6
+  v4: 6
+  v5: 6
+- id: bus-bremst
+  name: Bus bremst vor der Haltestelle
+  beschreibung: Der Bus bremst ab und bleibt dann stehen.
+  v1: 10
+  v2: 8
+  v3: 4
+  v4: 2
+  v5: 0
+- id: ampel
+  name: Auto an der Ampel
+  beschreibung: Das Auto steht, fährt los und wird immer schneller.
+  v1: 0
+  v2: 0
+  v3: 3
+  v4: 6
+  v5: 9
+- id: sprint
+  name: Sprint
+  beschreibung: Die Läuferin startet, hält ihr Tempo und wird am Ende etwas langsamer.
+  v1: 4
+  v2: 8
+  v3: 8
+  v4: 8
+  v5: 6

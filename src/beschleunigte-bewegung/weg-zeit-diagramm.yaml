@@ -1,0 +1,237 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Weg-Zeit-Diagramm
+description: Du liest und deutest ein Weg-Zeit-Diagramm und erkennst daran, wie sich ein Auto bewegt.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Aus dem Alltag
+    blocks:
+      - type: text
+        text: |
+          Ein Navi zeigt dir, wie weit du schon gefahren bist. Schaust du jede Minute darauf und schreibst die Zahlen auf,
+          hast du eine Liste: nach so viel Zeit so viel Weg. Ein **Weg-Zeit-Diagramm** zeichnet diese Liste als Linie.
+      - type: text
+        text: |
+          Wichtig vorab: Das Diagramm zeigt nicht die Straße. Es zeigt nur, **wie weit** das Auto **nach wie viel Zeit**
+          gekommen ist. Die Straße kann dabei ganz gerade sein.
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Ein Auto fährt auf einer geraden Straße. Wir halten fest, wie viele Meter es nach 0, 2, 4, 6, 8 und 10 Sekunden
+          gefahren ist. Jedes Paar aus Zeit und Weg ist ein Punkt im Diagramm. Die **Zeit** $t$ steht waagerecht, der
+          **Weg** $s$ senkrecht. Verbindest du die Punkte, entsteht eine Linie. Die Achsen haben Zahlen und Einheiten
+          (Sekunden und Meter), damit du Werte ablesen kannst.
+      - type: table
+        caption: Ein Auto, das die ganze Zeit mit 5 m/s fährt, hält Zeit und Weg fest
+        header: [Zeit t in s, "0", "2", "4", "6", "8", "10"]
+        rows:
+          - [Weg s in m, "0", "10", "20", "30", "40", "50"]
+      - type: text
+        text: |
+          Jede 2 Sekunden kommen hier gleich viele Meter dazu, nämlich 10. Die Punkte liegen deshalb auf einer geraden,
+          ansteigenden Linie. Wie steil die Linie ist, hängt mit der Geschwindigkeit zusammen: Je mehr Meter pro Sekunde
+          dazukommen, desto steiler steigt die Linie.
+      - type: table
+        caption: Was du an der Linie siehst und was das Auto macht
+        header: [Die Linie, Das Auto]
+        rows:
+          - [steigt gerade an, fährt mit gleichbleibender Geschwindigkeit]
+          - [wird steiler, wird schneller]
+          - [wird flacher, wird langsamer]
+          - [verläuft waagerecht, steht (der Weg wird nicht größer)]
+      - type: definition
+        term: Weg-Zeit-Diagramm
+        explanation: Ein Weg-Zeit-Diagramm zeigt, wie weit ein Körper nach einer bestimmten Zeit gekommen ist. Die Zeit steht waagerecht, der Weg senkrecht.
+      - type: note
+        title: Gerade Straße, geknickte Linie
+        blocks:
+          - type: text
+            text: |
+              Ein Knick in der Linie heißt nicht, dass die Straße einen Knick hat. Er zeigt, dass sich die Geschwindigkeit
+              geändert hat: Ab dem Knick kommen pro Sekunde mehr oder weniger Meter dazu als vorher.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Ein Fahrrad rollt an
+        blocks:
+          - type: text
+            text: |
+              Ein Fahrrad fährt in den ersten 2 s mit 2 m/s, in den nächsten 2 s mit 4 m/s und danach mit 6 m/s.
+          - type: table
+            caption: Zeit und Weg des Fahrrads
+            header: [Zeit t in s, "0", "2", "4", "6", "8", "10"]
+            rows:
+              - [Weg s in m, "0", "4", "12", "24", "36", "48"]
+          - type: text
+            text: |
+              Von 0 bis 2 s kommen 4 m dazu, von 2 bis 4 s schon 8 m, von 4 bis 6 s sogar 12 m. Die Linie wird also
+              steiler. Ab 4 s kommen in jeder Zwei-Sekunden-Stufe wieder 12 m dazu: Ab da steigt die Linie gerade und
+              gleich steil, das Fahrrad fährt gleichmäßig.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Unten fährt ein Auto zehn Sekunden lang auf einer geraden Straße. Über dem Diagramm siehst du die Straße mit
+          dem Auto. Die blaue Linie auf der Straße ist der Weg, den es schon gefahren ist.
+
+          Am Anfang fährt das Auto die ganze Zeit mit 5 m/s. Das ist die Fahrt aus der Tabelle oben. Schiebe den Regler
+          „Zeit t“ nach rechts: Das Auto fährt auf der Straße, und der orange Punkt wandert gleichzeitig auf der Linie.
+          Die Straße bleibt gerade, die Linie nicht immer.
+
+          Mit **−** und **+** änderst du die Geschwindigkeit in einer Zwei-Sekunden-Stufe um 1 m/s. Probiere zum Beispiel:
+          Stell eine Stufe auf 0 m/s und schau, was die Linie dort macht. Mit der Auswahl oben holst du fertige Fahrten.
+      - type: vue-component
+        id: weg-zeit-werkstatt
+        component: WegZeitWerkstatt
+        props:
+          fahrten:
+            data: fahrten
+          chooseLabel: "Fahrt wählen:"
+          speedLabel: "Von {from} s bis {to} s"
+          lessLabel: "Geschwindigkeit von {from} s bis {to} s verringern"
+          moreLabel: "Geschwindigkeit von {from} s bis {to} s erhöhen"
+          valueLabel: "{v} m/s"
+          timeLabel: "Zeit t:"
+          readout: "Nach {t} s ist das Auto {s} m gefahren."
+          roadTitle: "Die Straße (0 bis 100 m)"
+          diagramTitle: "Das Weg-Zeit-Diagramm"
+          roadAlt: >-
+            Eine gerade Straße von 0 bis 100 Metern. Das Auto steht an der Stelle, die zur eingestellten Zeit gehört. Der
+            schon gefahrene Weg ist blau markiert.
+          diagramAlt: >-
+            Ein Weg-Zeit-Diagramm. Waagerecht die Zeit von 0 bis 10 Sekunden, senkrecht der Weg von 0 bis 100 Metern. Eine
+            blaue Linie zeigt den Weg der gewählten Fahrt, ein oranger Punkt markiert die eingestellte Zeit.
+          timeAxis: "t in s"
+          distanceAxis: "s in m"
+        nojs: |
+          Das Bild zeigt eine gerade Straße mit einem Auto und darunter ein Weg-Zeit-Diagramm. Zeit und Weg gehören
+          zusammen: Fährt das Auto die ganze Zeit mit 5 m/s, sind es nach 2 s 10 m, nach 4 s 20 m und nach 10 s 50 m, und
+          die Linie steigt gerade an. Stellst du für eine Zwei-Sekunden-Stufe 0 m/s ein, bleibt der Weg dort gleich und die
+          Linie verläuft waagerecht. Bei höherer Geschwindigkeit steigt die Linie dort steiler. Die Straße bleibt dabei
+          immer gerade.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: diagramme-zuordnen
+        text: Ordne jeder Fahrt das passende Diagramm zu.
+        material:
+          - type: figure
+            image: images/wz-drei-diagramme.svg
+            alt: >-
+              Drei Weg-Zeit-Diagramme. A: eine gerade, ansteigende Linie. B: eine steile Linie, die nach etwa 4 Sekunden
+              waagerecht wird. C: eine Linie, die immer steiler wird.
+            caption: Die Diagramme A, B und C zeigen jeweils Weg über Zeit von 0 bis 10 Sekunden.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        pairs:
+          - left: Das Auto fährt die ganze Zeit mit gleichbleibender Geschwindigkeit.
+            right: Diagramm A
+          - left: Das Auto fährt los und bleibt dann stehen.
+            right: Diagramm B
+          - left: Das Auto wird immer schneller.
+            right: Diagramm C
+        explanation: >-
+          Eine gerade, gleich steile Linie heißt: In jeder Sekunde kommen gleich viele Meter dazu. Eine Linie, die waagerecht
+          wird, heißt: Der Weg wächst nicht mehr, das Auto steht. Eine Linie, die immer steiler wird, heißt: In jeder
+          Sekunde kommen mehr Meter dazu, das Auto wird schneller.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Zeit-Weg-Diagramm"
+      - type: single-choice
+        id: knick-bedeutung
+        text: Ein Auto fährt auf einer geraden Straße. Im Diagramm knickt die Linie bei 4 s ab und steigt danach flacher. Was bedeutet das?
+        material:
+          - type: figure
+            image: images/wz-knick.svg
+            alt: Ein Weg-Zeit-Diagramm. Die Linie steigt bis 4 Sekunden steil, knickt dort ab und steigt danach flacher weiter.
+            caption: Die Linie knickt bei 4 s ab.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Das Auto ist ab 4 s langsamer.
+            correct: true
+            info: Nach dem Knick kommen pro Sekunde weniger Meter dazu, die Linie ist flacher. Das heißt, das Auto fährt langsamer.
+          - text: Die Straße macht bei 4 s eine Kurve.
+            correct: false
+            info: Das Diagramm zeigt Weg über Zeit, nicht die Form der Straße. Die Straße ist hier gerade.
+          - text: Das Auto steht ab 4 s.
+            correct: false
+            info: Beim Stehen wäre die Linie waagerecht, denn der Weg würde nicht mehr größer. Hier steigt sie weiter.
+          - text: Das Auto fährt ab 4 s schneller.
+            correct: false
+            info: Schneller würde bedeuten, dass die Linie nach dem Knick steiler ist. Sie ist aber flacher.
+        explanation: Ein Knick zeigt eine Änderung der Geschwindigkeit. Flacher heißt langsamer, steiler heißt schneller.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Zeit-Weg-Diagramm"
+      - type: number
+        id: weg-nach-sechs
+        text: Wie viele Meter ist das Auto nach 6 Sekunden gefahren? Eine Abweichung von bis zu 2 m ist in Ordnung.
+        material:
+          - type: figure
+            image: images/wz-ablesen.svg
+            alt: >-
+              Ein Weg-Zeit-Diagramm mit Gitter. Die Linie steigt bis 4 Sekunden flach, dann steiler, ab 8 Sekunden ist sie
+              waagerecht.
+            caption: Lies den Weg bei 6 s an der senkrechten Achse ab.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 40
+        tolerance: 2
+        unit: m
+        mistakes:
+          - answer: 6
+            message: Das ist die Zeit. Der Weg steht an der senkrechten Achse.
+          - answer: 20
+            message: Das ist der Weg nach 4 s. Such 6 s auf der waagerechten Achse.
+          - answer: 60
+            message: Das ist der Weg nach 8 s. Such 6 s auf der waagerechten Achse.
+        hint: Suche 6 s auf der waagerechten Achse, gehe nach oben bis zur Linie und dann nach links zur senkrechten Achse.
+        explanation: Bei 6 s liegt die Linie bei 40 m. Das Auto ist nach 6 Sekunden 40 m gefahren.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Zeit-Weg-Diagramm"
+      - type: number
+        id: tempo-vier-bis-sechs
+        text: Wie schnell fährt das Auto zwischen 4 s und 6 s? Eine Abweichung von bis zu 0,5 m/s ist in Ordnung.
+        material:
+          - type: figure
+            image: images/wz-ablesen.svg
+            alt: >-
+              Ein Weg-Zeit-Diagramm mit Gitter. Die Linie steigt bis 4 Sekunden flach, dann steiler, ab 8 Sekunden ist sie
+              waagerecht.
+            caption: Lies den Weg bei 4 s und bei 6 s ab. Wie viele Meter kommen in 2 s dazu?
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 10
+        tolerance: 0.5
+        unit: m/s
+        mistakes:
+          - answer: 40
+            message: Das ist der Weg nach 6 s. Gefragt ist die Geschwindigkeit, also wie viele Meter pro Sekunde dazukommen.
+          - answer: 20
+            message: Das ist der Weg, der in diesen zwei Sekunden dazukommt. Die Geschwindigkeit sind die Meter pro Sekunde.
+        hint: Lies den Weg bei 4 s und bei 6 s ab. Der Unterschied ist der Weg in dieser Zeit. Wie viele Meter sind das in einer Sekunde?
+        explanation: Bei 4 s sind es 20 m, bei 6 s 40 m. In 2 Sekunden kommen 20 m dazu, also 10 m in jeder Sekunde.
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Geschwindigkeit"
+      - type: true-false
+        id: waagerecht-steht
+        text: Verläuft die Linie im Weg-Zeit-Diagramm waagerecht, steht das Auto.
+        answer: true
+        explanation: >-
+          Waagerecht heißt: Der Weg wird nicht größer, obwohl die Zeit weiterläuft. Das Auto kommt also nicht voran, es steht.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Zeit-Weg-Diagramm"

@@ -1,0 +1,32 @@
+{
+  "format": 1,
+  "strand": "physik/mechanik",
+  "pages": [
+    {
+      "path": "beschleunigte-bewegung/geschwindigkeit-wiederholen/",
+      "title": "Geschwindigkeit wiederholen",
+      "recap": "physik/geschwindigkeit-berechnen"
+    },
+    {
+      "path": "beschleunigte-bewegung/geschwindigkeitsaenderung/",
+      "title": "Beschleunigen, abbremsen, Richtung ändern",
+      "competencies": [
+        "geschwindigkeitsaenderung"
+      ]
+    },
+    {
+      "path": "beschleunigte-bewegung/weg-zeit-diagramm/",
+      "title": "Das Weg-Zeit-Diagramm",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/",
+      "title": "Das Geschwindigkeit-Zeit-Diagramm",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    }
+  ]
+}

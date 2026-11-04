@@ -1,0 +1,232 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beschleunigen, abbremsen, Richtung ändern
+description: Du erkennst und beschreibst, wann ein Körper schneller wird, langsamer wird oder die Richtung wechselt.
+competencies: [geschwindigkeitsaenderung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Aus dem Alltag
+    blocks:
+      - type: text
+        text: |
+          Ein Bus fährt an der Haltestelle los, wird schneller, rollt gleichmäßig durch die Stadt, bremst vor der
+          nächsten Haltestelle und hält an. An der Endstation wendet er und fährt zurück. In den meisten dieser Schritte
+          ändert sich die Bewegung des Busses.
+      - type: text
+        text: |
+          Wie schnell etwas fährt, weißt du schon: Die Geschwindigkeit ist die Strecke pro Zeit
+          ([Geschwindigkeit auf der Lernlandkarte](https://lernapps.net/apps/map/physik/c/geschwindigkeit/)). Auf dieser
+          Seite geht es darum, **wie sich** die Geschwindigkeit ändert und wie du das beschreibst.
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Stell dir ein Auto auf einer geraden Straße vor. Jede Sekunde wird es fotografiert. Auf dem Bild unten sind
+          die Punkte alle dasselbe Auto, jeweils zu einer anderen Zeit. Über jeder Sekunde liegt ein Pfeil. Er zeigt die
+          **Geschwindigkeit** in dieser Sekunde. Wie lang er ist, zeigt das **Tempo**: Je länger der Pfeil, desto weiter
+          kommt das Auto in einer Sekunde, so weit wie der Pfeil lang ist. Wohin er zeigt, ist die Richtung des Autos:
+          nach rechts oder nach links. Die Pfeile liegen abwechselnd in zwei Höhen, damit man sie auseinanderhalten kann.
+      - type: figure
+        image: images/fahrtstreifen-erklaerung.svg
+        alt: >-
+          Eine gerade Straße mit sechs Punkten für die Fotos nach 0 bis 5 Sekunden. Über den Abständen zeigen
+          Pfeile nach rechts, sie werden erst länger, dann kürzer.
+        caption: >-
+          Die Punkte sind die Fotos im Abstand von einer Sekunde. Achte darauf, wie sich die Pfeile von Sekunde zu
+          Sekunde verändern.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: table
+        caption: Was du am Pfeil siehst und wie du die Bewegung nennst
+        header: [Der Pfeil von Sekunde zu Sekunde, Das Auto, Beispiel]
+        rows:
+          - [wird länger, beschleunigt (wird schneller), Anfahren an der Ampel]
+          - [wird kürzer, bremst ab (wird langsamer), Bremsen vor der Haltestelle]
+          - [wechselt auf die andere Seite, ändert die Richtung, Wenden an der Endstation]
+          - [
+              bleibt gleich lang und zeigt auf dieselbe Seite,
+              fährt mit gleichbleibender Geschwindigkeit,
+              Fahrt auf der Landstraße,
+            ]
+      - type: text
+        text: |
+          Wechselt der Pfeil auf die andere Seite, ändert das Auto die Richtung, egal wie lang der Pfeil danach ist.
+          Bleibt er auf derselben Seite, zählt nur, ob er länger oder kürzer wird.
+      - type: definition
+        term: beschleunigen
+        explanation: Ein Körper beschleunigt, wenn sein Tempo größer wird, er also schneller wird.
+      - type: definition
+        term: abbremsen
+        explanation: Ein Körper bremst ab, wenn sein Tempo kleiner wird, er also langsamer wird. Dabei fährt er noch; erst am Ende steht er.
+      - type: note
+        title: Zwei Missverständnisse
+        blocks:
+          - type: text
+            text: |
+              **Abbremsen heißt nicht "Geschwindigkeit null".** Beim Bremsen wird die Geschwindigkeit Sekunde für Sekunde
+              kleiner. Null ist erst das Ende, wenn das Auto steht.
+
+              **Gleichbleibend heißt: Der Pfeil bleibt gleich.** Das Auto fährt dann mit demselben Tempo in dieselbe
+              Richtung weiter. Steht es (0 m/s), gibt es gar keinen Pfeil.
+      - type: text
+        text: |
+          Eine Richtungsänderung ist auch eine Änderung der Geschwindigkeit, selbst wenn das Tempo gleich bleibt: Zur
+          Geschwindigkeit gehört die Richtung. In der Wirklichkeit steht ein Auto beim Wenden kurz. Hier ist das nicht
+          zu sehen, weil das Bild nur den Pfeil jeder ganzen Sekunde zeigt.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Ein Bus fährt zur Haltestelle
+        blocks:
+          - type: text
+            text: |
+              Ein Bus fährt fünf Sekunden lang. Die Tabelle zeigt, wie schnell er in jeder dieser Sekunden fährt.
+          - type: table
+            caption: Geschwindigkeit des Busses in m/s
+            header: [Sekunde, "1", "2", "3", "4", "5"]
+            rows:
+              - [Geschwindigkeit in m/s, "10", "8", "4", "2", "0"]
+          - type: text
+            text: |
+              Von Sekunde 1 zu 2, von 2 zu 3 und von 3 zu 4 wird die Zahl kleiner: Der Bus **bremst ab**. In Sekunde 5
+              ist sie null: Der Bus **steht**. Er ist langsamer geworden, bis er stand. Er hat nicht sofort angehalten.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Unten fährt ein Auto fünf Sekunden lang auf einer geraden Straße. Das Bild zeigt die Fotos als Punkte, über
+          jeder Sekunde den Pfeil mit der Geschwindigkeit in m/s. Ein Minus bedeutet: in die andere Richtung, der Pfeil
+          zeigt dann nach links.
+
+          Am Anfang fährt das Auto in jeder Sekunde mit 2 m/s nach rechts. „Sekunde 1“ ist die Zeit zwischen dem Foto bei
+          0 s und dem Foto bei 1 s, „Sekunde 2“ die Zeit danach, und so weiter. Mit **−** und **+** änderst du die
+          Geschwindigkeit einer einzelnen Sekunde um 1 m/s. Unter 0 kommst du auf Minus, dann fährt das Auto nach links.
+          Bei 0 m/s hat der Pfeil keine Länge, es steht nur eine 0 da. Du siehst sofort, wie sich die Punkte und die
+          Pfeile verschieben. Mit „Zurücksetzen“ stellst du wieder überall 2 m/s ein. Baue die Fahrt, die die Aufgabe
+          verlangt, und drücke „Prüfen“.
+      - type: vue-component
+        id: fahrt-bauen
+        component: FahrtStreifen
+        props:
+          tasks:
+            - "Baue eine Fahrt, bei der das Auto erst abbremst und dann die Richtung ändert."
+            - "Baue eine Fahrt, bei der das Auto erst schneller wird, dann abbremst und am Ende steht."
+            - "Baue eine Fahrt, bei der das Auto mit gleichbleibender Geschwindigkeit nach links fährt."
+          mistakes:
+            - "Beim Bremsen geht die Geschwindigkeit nicht auf einmal auf 0. Das Auto wird zuerst langsamer und fährt dabei noch."
+            - "Hier wechselt die Richtung, aber das Auto wird vorher nicht langsamer. Bremse zuerst ab, dann wende."
+            - "Bei 0 m/s steht das Auto. Es soll nach links fahren, und der Pfeil bleibt in jeder Sekunde gleich."
+            - "Hier wird das Auto nur schneller. Am Ende soll es abbremsen und stehen."
+          missing:
+            - "Es fehlt ein Abbremsen: eine Sekunde, in der der Pfeil kürzer wird, ohne die Seite zu wechseln und ohne auf 0 zu fallen."
+            - "Das Auto bremst zwar, ändert aber danach nicht die Richtung. Der Pfeil muss danach auf die andere Seite zeigen."
+            - "Es fehlt ein Beschleunigen: eine Sekunde, in der der Pfeil länger wird."
+            - "Das Auto soll zuerst schneller werden, dann abbremsen (dabei fährt es noch) und am Ende stehen, ohne die Richtung zu wechseln."
+            - "Die Geschwindigkeit soll in allen fünf Sekunden gleich sein und nach links zeigen, also ein Minus haben."
+          secondLabel: "Sekunde {n}"
+          lessLabel: "Sekunde {n}: Geschwindigkeit verringern"
+          moreLabel: "Sekunde {n}: Geschwindigkeit erhöhen"
+          valueLabel: "{v} m/s"
+          figureAlt: >-
+            Eine gerade Straße mit sechs Punkten für die Fotos nach 0 bis 5 Sekunden. Über jeder Sekunde steht ein
+            Pfeil mit der Geschwindigkeit in m/s.
+          legend: "Punkt: Foto des Autos nach 0 bis 5 Sekunden. Pfeil: Geschwindigkeit in dieser Sekunde, die Zahl darüber in m/s. Minus heißt: nach links."
+          resetLabel: "Zurücksetzen"
+        examples:
+          accepted:
+            - { answer: [5, 3, 1, -1, -3], seed: 1 }
+            - { answer: [-5, -2, 2, 4, 4], seed: 1 }
+            - { answer: [0, 2, 5, 3, 0], seed: 2 }
+            - { answer: [-2, -4, -4, -1, 0], seed: 2 }
+            - { answer: [-2, -2, -2, -2, -2], seed: 3 }
+            - { answer: [-6, -6, -6, -6, -6], seed: 3 }
+          rejected:
+            - { answer: [4, 0, 0, 0, 0], seed: 1 }
+            - { answer: [4, 4, -4, -4, -4], seed: 1 }
+            - { answer: [0, 0, 0, 0, 0], seed: 3 }
+            - { answer: [3, 3, 3, 3, 3], seed: 3 }
+            - { answer: [5, 0, 0, 0, -5], seed: 1 }
+            - { answer: [2, 6, 0, 0, 0], seed: 2 }
+            - { answer: [1, 2, 3, 4, 5], seed: 2 }
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: true-false
+        id: bremsen-nicht-null
+        text: Ein Auto beginnt zu bremsen. Schon in diesem Moment ist seine Geschwindigkeit null.
+        answer: false
+        explanation: >-
+          Beim Abbremsen wird das Tempo kleiner, das Auto fährt aber noch. Null ist die Geschwindigkeit erst, wenn das
+          Auto steht.
+        links:
+          - title: "Beschleunigung (Wikipedia, ausführlicher und schwieriger)"
+            url: "https://de.wikipedia.org/wiki/Beschleunigung"
+      - type: single-choice
+        id: fahrrad-sekunde-vier
+        text: Was macht das Fahrrad von Sekunde 3 zu Sekunde 4 und von Sekunde 4 zu Sekunde 5?
+        material:
+          - type: table
+            caption: Geschwindigkeit eines Fahrrads in m/s
+            header: [Sekunde, "1", "2", "3", "4", "5"]
+            rows:
+              - [Geschwindigkeit in m/s, "5", "5", "5", "3", "1"]
+        options:
+          - text: Es bremst ab.
+            correct: true
+            info: Das Tempo wird kleiner, von 5 auf 3 und dann auf 1 m/s. Das Fahrrad wird langsamer.
+          - text: Es beschleunigt.
+            correct: false
+            info: Beim Beschleunigen würde das Tempo größer. Hier sinkt es aber.
+          - text: Es steht still.
+            correct: false
+            info: Stillstand wäre die Geschwindigkeit 0 m/s. Das Fahrrad fährt noch mit 3 und mit 1 m/s.
+          - text: Es fährt mit gleichbleibender Geschwindigkeit.
+            correct: false
+            info: Gleichbleibend wäre es, wenn die Zahl sich nicht ändert, wie in den ersten drei Sekunden mit 5 m/s.
+        explanation: Die Geschwindigkeit sinkt von 5 auf 3 und dann auf 1 m/s, das Fahrrad bremst ab, ohne stehen zu bleiben.
+        links:
+          - title: "Beschleunigung (Wikipedia, ausführlicher und schwieriger)"
+            url: "https://de.wikipedia.org/wiki/Beschleunigung"
+      - type: single-choice
+        id: richtung-wechselt
+        text: Welche Aussage über die Fahrt des Autos passt?
+        material:
+          - type: table
+            caption: "Geschwindigkeit eines Autos in m/s (ein Minus heißt: in die andere Richtung)"
+            header: [Sekunde, "1", "2", "3", "4", "5"]
+            rows:
+              - [Geschwindigkeit in m/s, "3", "1", "−1", "−3", "−3"]
+        options:
+          - text: Es bremst ab, ändert die Richtung und wird dann in der anderen Richtung schneller.
+            correct: true
+            info: Erst sinkt das Tempo von 3 auf 1, dann wechselt das Vorzeichen auf −1. Danach wird das Tempo in der anderen Richtung größer, bis 3 m/s.
+          - text: Es bremst ab und bleibt dann stehen.
+            correct: false
+            info: Dann müsste am Ende 0 m/s stehen. Das Auto fährt aber am Ende mit −3 m/s, also mit Tempo 3 in die andere Richtung.
+          - text: Es beschleunigt die ganze Zeit in dieselbe Richtung.
+            correct: false
+            info: Das Vorzeichen wechselt von + zu −, das Auto ändert also die Richtung.
+          - text: Es fährt mit gleichbleibender Geschwindigkeit.
+            correct: false
+            info: Die Zahlen ändern sich von Sekunde zu Sekunde, nur in den letzten beiden Sekunden bleiben sie gleich.
+        explanation: Der Wechsel von + zu − zeigt die Richtungsänderung. Davor wird das Tempo kleiner und danach in der anderen Richtung größer.
+        links:
+          - title: "Beschleunigung (Wikipedia, ausführlicher und schwieriger)"
+            url: "https://de.wikipedia.org/wiki/Beschleunigung"
+      - type: true-false
+        id: richtung-ist-aenderung
+        text: Ein Auto wendet und fährt mit demselben Tempo zurück. Seine Geschwindigkeit hat sich trotzdem geändert.
+        answer: true
+        explanation: >-
+          Zur Geschwindigkeit gehört nicht nur, wie schnell etwas fährt, sondern auch die Richtung. Wechselt die
+          Richtung, ändert sich die Geschwindigkeit, auch wenn der Pfeil gleich lang bleibt.
+        links:
+          - title: "Beschleunigung (Wikipedia, ausführlicher und schwieriger)"
+            url: "https://de.wikipedia.org/wiki/Beschleunigung"

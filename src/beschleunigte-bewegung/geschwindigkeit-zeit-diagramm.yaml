@@ -1,0 +1,270 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Geschwindigkeit-Zeit-Diagramm
+description: Du leitest das Geschwindigkeit-Zeit-Diagramm aus dem Weg-Zeit-Diagramm ab, liest es ab und zeichnest es selbst.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Aus dem Alltag
+    blocks:
+      - type: text
+        text: |
+          Der Tacho eines Fahrrads zeigt dir nicht, wie weit du gefahren bist, sondern **wie schnell** du gerade bist.
+          Schreibst du jede Zeit mit dem Tacho-Wert auf, hast du eine zweite Liste: nach so viel Zeit so viel Geschwindigkeit.
+          Ein **Geschwindigkeit-Zeit-Diagramm** zeichnet diese Liste.
+      - type: text
+        text: |
+          Im Weg-Zeit-Diagramm hast du gesehen: Je steiler die Linie, desto schneller das Auto. Hier siehst du die
+          Geschwindigkeit direkt als Höhe.
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Das Diagramm zeigt zehn Sekunden, in fünf Stufen von je 2 Sekunden. Waagerecht steht die **Zeit** $t$ in
+          Sekunden, senkrecht die **Geschwindigkeit** $v$ in m/s. Über jeder Stufe steht eine Säule. Sie ist so hoch wie die
+          Geschwindigkeit in dieser Stufe.
+      - type: text
+        text: |
+          Du kannst die Säulen aus dem Weg-Zeit-Diagramm ableiten. Schau dir für jede Stufe an, wie viele Meter in den
+          2 Sekunden dazukommen, und teile durch 2: Das sind die Meter pro Sekunde. Eine steile Stufe im Weg-Zeit-Diagramm
+          ergibt eine hohe Säule, eine flache Stufe eine niedrige.
+      - type: table
+        caption: Was du an den Säulen siehst und was das Auto macht
+        header: [Die Säulen, Das Auto]
+        rows:
+          - [alle gleich hoch, fährt mit gleichbleibender Geschwindigkeit]
+          - [jede höher als die davor, wird schneller]
+          - [jede niedriger als die davor, wird langsamer]
+          - [Höhe 0 (keine Säule), steht]
+      - type: definition
+        term: Geschwindigkeit-Zeit-Diagramm
+        explanation: Ein Geschwindigkeit-Zeit-Diagramm zeigt, wie schnell ein Körper zu jeder Zeit ist. Die Zeit steht waagerecht, die Geschwindigkeit senkrecht.
+      - type: note
+        title: Zwei Missverständnisse
+        blocks:
+          - type: text
+            text: |
+              **Waagerecht heißt nicht "Stillstand".** Sind die Säulen gleich hoch, fährt das Auto mit gleichbleibender
+              Geschwindigkeit weiter. Stillstand ist Höhe 0.
+
+              **Fallend heißt nicht "rückwärts".** Werden die Säulen niedriger, wird das Auto langsamer. Es fährt weiter
+              nach vorn, bis die Höhe 0 erreicht ist.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Vom Weg-Zeit-Diagramm zur Säule
+        blocks:
+          - type: text
+            text: |
+              Ein Fahrrad hat nach 0, 2, 4, 6, 8 und 10 Sekunden diese Wege zurückgelegt. In jeder Stufe teilst du den
+              Weg, der dazukommt, durch 2 Sekunden.
+          - type: table
+            caption: Vom Weg zur Geschwindigkeit
+            header: [Stufe, Weg am Ende in m, Weg in der Stufe in m, Geschwindigkeit in m/s]
+            rows:
+              - [0 s bis 2 s, "4", "4", "2"]
+              - [2 s bis 4 s, "12", "8", "4"]
+              - [4 s bis 6 s, "24", "12", "6"]
+              - [6 s bis 8 s, "36", "12", "6"]
+              - [8 s bis 10 s, "42", "6", "3"]
+          - type: text
+            text: |
+              Die Säulen sind also 2, 4, 6, 6 und 3 m/s hoch. Die ersten drei werden höher: Das Fahrrad wird schneller.
+              Dann bleibt die Säule gleich hoch: gleichbleibende Geschwindigkeit. Zum Schluss ist sie niedriger: Das Fahrrad
+              wird langsamer.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Oben siehst du das Geschwindigkeit-Zeit-Diagramm mit fünf Säulen, darunter das Weg-Zeit-Diagramm derselben
+          Fahrt. Beide haben dieselbe Zeitachse.
+
+          Am Anfang sind alle Säulen gleich hoch (5 m/s) und die Linie darunter ist gerade. Mit **−** und **+** änderst du
+          die Höhe einer Säule um 1 m/s. Beobachte, was sich in der Stufe mit derselben Zeit im unteren Diagramm ändert:
+          Die Linie wird dort steiler, wenn du die Säule höher machst, und flacher, wenn du sie niedriger machst. Setzt du
+          eine Säule auf 0, wird die Linie dort waagerecht. Mit der Auswahl oben holst du fertige Fahrten.
+      - type: vue-component
+        id: geschwindigkeit-zeit-werkstatt
+        component: GeschwindigkeitZeitWerkstatt
+        props:
+          fahrten:
+            data: fahrten
+          chooseLabel: "Fahrt wählen:"
+          speedLabel: "Von {from} s bis {to} s"
+          lessLabel: "Geschwindigkeit von {from} s bis {to} s verringern"
+          moreLabel: "Geschwindigkeit von {from} s bis {to} s erhöhen"
+          valueLabel: "{v} m/s"
+          speedTitle: "Das Geschwindigkeit-Zeit-Diagramm"
+          distanceTitle: "Das Weg-Zeit-Diagramm derselben Fahrt"
+          speedAlt: >-
+            Ein Geschwindigkeit-Zeit-Diagramm. Waagerecht die Zeit von 0 bis 10 Sekunden, senkrecht die Geschwindigkeit von
+            0 bis 10 m/s. Fünf blaue Säulen zeigen die Geschwindigkeit in den fünf Stufen von je 2 Sekunden.
+          distanceAlt: >-
+            Ein Weg-Zeit-Diagramm derselben Fahrt. Waagerecht die Zeit von 0 bis 10 Sekunden, senkrecht der Weg von 0 bis 100
+            Metern. Eine blaue Linie zeigt den Weg; sie ist dort steil, wo die Säule oben hoch ist.
+          timeAxis: "t in s"
+          speedAxis: "v in m/s"
+          distanceAxis: "s in m"
+        nojs: |
+          Das Bild zeigt oben ein Geschwindigkeit-Zeit-Diagramm mit fünf Säulen und darunter das Weg-Zeit-Diagramm derselben
+          Fahrt. Fährt ein Auto die ganze Zeit mit 5 m/s, sind alle Säulen 5 m/s hoch und die Linie unten steigt gerade an,
+          in jeder Zwei-Sekunden-Stufe um 10 m. Ist eine Säule höher, steigt die Linie in dieser Stufe steiler. Ist eine
+          Säule 0 m/s hoch, verläuft die Linie dort waagerecht.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: vt-zuordnen
+        text: Ordne jeder Fahrt das passende Geschwindigkeit-Zeit-Diagramm zu.
+        material:
+          - type: figure
+            image: images/vt-drei-diagramme.svg
+            alt: >-
+              Drei Geschwindigkeit-Zeit-Diagramme mit je fünf Säulen. A: alle Säulen gleich hoch. B: jede Säule höher als die
+              davor. C: jede Säule niedriger als die davor, die letzte ist null.
+            caption: Die Diagramme A, B und C zeigen jeweils die Geschwindigkeit von 0 bis 10 Sekunden.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        pairs:
+          - left: Das Auto fährt die ganze Zeit gleich schnell.
+            right: Diagramm A
+          - left: Das Auto wird immer schneller.
+            right: Diagramm B
+          - left: Das Auto bremst ab, bis es steht.
+            right: Diagramm C
+        explanation: >-
+          Gleich hohe Säulen heißen: Die Geschwindigkeit bleibt gleich. Immer höhere Säulen heißen: Das Auto wird schneller.
+          Immer niedrigere Säulen heißen: Es wird langsamer, bis die Höhe 0 erreicht ist und es steht.
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Geschwindigkeit"
+      - type: number
+        id: tempo-vier-bis-sechs-vt
+        text: Wie schnell fährt das Fahrrad zwischen 4 s und 6 s?
+        material:
+          - type: figure
+            image: images/vt-ablesen.svg
+            alt: >-
+              Ein Geschwindigkeit-Zeit-Diagramm mit Gitter und fünf Säulen. Die Säulen werden erst höher, sind in der Mitte
+              gleich hoch und die letzte ist niedriger.
+            caption: Such die Säule über der Zeit von 4 s bis 6 s und lies ihre Höhe an der senkrechten Achse ab.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 6
+        tolerance: 0
+        unit: m/s
+        mistakes:
+          - answer: 4
+            message: Das ist die Geschwindigkeit von 2 s bis 4 s, die Säule davor. Such die Säule über 4 s bis 6 s.
+          - answer: 3
+            message: Das ist die Geschwindigkeit von 8 s bis 10 s, die letzte Säule. Such die Säule über 4 s bis 6 s.
+        hint: Gehe von 4 s bis 6 s auf der waagerechten Achse nach oben bis zum Ende der Säule und dann nach links.
+        explanation: Die Säule über 4 s bis 6 s ist 6 m/s hoch. Das Fahrrad fährt in dieser Zeit mit 6 m/s.
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Geschwindigkeit"
+      - type: single-choice
+        id: waagerecht-vt
+        text: Im Geschwindigkeit-Zeit-Diagramm sind die Säulen von 4 s bis 8 s gleich hoch (6 m/s). Was macht das Fahrrad in dieser Zeit?
+        options:
+          - text: Es fährt mit gleichbleibender Geschwindigkeit.
+            correct: true
+            info: Gleich hohe Säulen heißen, dass sich die Geschwindigkeit nicht ändert. Das Fahrrad fährt mit 6 m/s weiter.
+          - text: Es steht.
+            correct: false
+            info: Stillstand wäre Höhe 0. Die Säulen sind aber 6 m/s hoch, das Fahrrad fährt.
+          - text: Es wird langsamer.
+            correct: false
+            info: Dann müssten die Säulen von Stufe zu Stufe niedriger werden. Hier sind sie gleich hoch.
+          - text: Es fährt rückwärts.
+            correct: false
+            info: Eine Säule zeigt nur, wie schnell das Fahrrad ist. Im Diagramm gibt es keine Richtung nach hinten.
+        explanation: Gleich hohe Säulen sind gleichbleibende Geschwindigkeit. Stillstand ist nur dann, wenn die Höhe 0 ist.
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Geschwindigkeit"
+      - type: true-false
+        id: fallend-nicht-rueckwaerts
+        text: Werden die Säulen im Geschwindigkeit-Zeit-Diagramm von Stufe zu Stufe niedriger, fährt das Auto rückwärts.
+        answer: false
+        explanation: >-
+          Niedrigere Säulen heißen: Die Geschwindigkeit wird kleiner, das Auto wird langsamer. Es fährt weiter nach vorn, bis
+          es steht.
+        links:
+          - title: Geschwindigkeit (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Geschwindigkeit"
+      - type: single-choice
+        id: vt-zu-wz
+        text: Im Geschwindigkeit-Zeit-Diagramm sind die ersten Säulen niedrig und die letzten hoch. Wie sieht das Weg-Zeit-Diagramm derselben Fahrt aus?
+        options:
+          - text: Die Linie ist am Anfang flach und wird dann steiler.
+            correct: true
+            info: Niedrige Säulen sind kleine Geschwindigkeiten, dort kommen wenig Meter dazu, die Linie ist flach. Hohe Säulen machen sie steil.
+          - text: Die Linie ist am Anfang steil und wird dann flacher.
+            correct: false
+            info: Das wäre eine Fahrt, die am Anfang schnell ist und dann langsamer wird, also erst hohe, dann niedrige Säulen.
+          - text: Die Linie ist von Anfang bis Ende gerade.
+            correct: false
+            info: Eine gerade Linie gehört zu gleichbleibender Geschwindigkeit, also zu gleich hohen Säulen.
+          - text: Die Linie fällt von Anfang bis Ende ab.
+            correct: false
+            info: Der Weg wird nie kleiner, solange das Auto vorwärts fährt. Die Linie steigt oder bleibt waagerecht.
+        explanation: Die Höhe der Säule bestimmt, wie steil die Linie im Weg-Zeit-Diagramm in dieser Stufe ist.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: "https://de.wikipedia.org/wiki/Zeit-Weg-Diagramm"
+      - type: text
+        text: |
+          Jetzt zeichnest du selbst. Mit **−** und **+** stellst du die Höhe jeder Säule ein, also die Geschwindigkeit in
+          einer Stufe von 2 Sekunden. Am Anfang sind alle Säulen 3 m/s hoch. Baue das Diagramm, das zur Fahrt in der
+          Aufgabe passt, und drücke „Prüfen“.
+      - type: vue-component
+        id: vt-zeichnen
+        component: VtZeichnen
+        props:
+          tasks:
+            - "Zeichne das Diagramm: Das Auto steht in den ersten 2 s und wird danach in jeder Stufe schneller."
+            - "Zeichne das Diagramm: Das Fahrrad fährt zuerst 4 s gleich schnell, wird dann in jeder Stufe langsamer und steht am Ende."
+            - "Zeichne das Diagramm: Der Roller fährt 4 s lang mit 6 m/s, steht dann 2 s lang und fährt danach 4 s lang mit 3 m/s."
+          mistakes:
+            - "Alle Säulen gleich hoch bedeuten gleichbleibende Geschwindigkeit. In der Aufgabe ändert sich die Geschwindigkeit."
+            - "Beim Abbremsen geht die Geschwindigkeit nicht auf einmal auf 0. Die Säulen werden Stufe für Stufe niedriger."
+            - "Stillstand ist Geschwindigkeit 0. Die Säule ist dann null hoch, nicht gleich hoch wie die davor."
+            - "Zuerst soll das Auto stehen. Die erste Säule ist dann null hoch."
+          missing:
+            - "Die erste Säule passt nicht: In den ersten 2 s soll das Auto stehen."
+            - "Die Säulen nach der ersten sollen von Stufe zu Stufe höher werden: jede höher als die davor."
+            - "Die ersten beiden Säulen sollen gleich hoch sein, und das Auto soll dabei fahren."
+            - "Danach soll das Auto in jeder Stufe langsamer werden: jede Säule niedriger als die davor."
+            - "Am Ende soll das Auto stehen: Welche Höhe hat dann die letzte Säule?"
+            - "Prüfe jede Stufe: Zu welchen Sekunden gehört sie, und welche Geschwindigkeit soll sie haben?"
+          stretchLabel: "Von {from} s bis {to} s"
+          lessLabel: "Geschwindigkeit von {from} s bis {to} s verringern"
+          moreLabel: "Geschwindigkeit von {from} s bis {to} s erhöhen"
+          valueLabel: "{v} m/s"
+          diagramAlt: >-
+            Ein Geschwindigkeit-Zeit-Diagramm mit fünf Säulen für fünf Stufen von je 2 Sekunden. Die Höhe jeder Säule ist die
+            eingestellte Geschwindigkeit in m/s.
+          timeAxis: "t in s"
+          speedAxis: "v in m/s"
+          resetLabel: "Zurücksetzen"
+        examples:
+          accepted:
+            - { answer: [0, 2, 4, 6, 8], seed: 1 }
+            - { answer: [0, 1, 3, 4, 9], seed: 1 }
+            - { answer: [6, 6, 4, 2, 0], seed: 2 }
+            - { answer: [8, 8, 5, 3, 0], seed: 2 }
+            - { answer: [6, 6, 0, 3, 3], seed: 3 }
+          rejected:
+            - { answer: [5, 5, 5, 5, 5], seed: 1 }
+            - { answer: [2, 3, 4, 5, 6], seed: 1 }
+            - { answer: [6, 6, 0, 0, 0], seed: 2 }
+            - { answer: [6, 6, 6, 3, 3], seed: 3 }
+            - { answer: [6, 6, 0, 3, 4], seed: 3 }

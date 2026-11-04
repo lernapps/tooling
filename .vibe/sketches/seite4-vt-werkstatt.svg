@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 430" font-family="sans-serif" font-size="13">
+  <title>Skizze Seite 4: Geschwindigkeit-Zeit-Diagramm zeichnen, darunter das Weg-Zeit-Diagramm derselben Fahrt</title>
+  <rect width="560" height="430" fill="#fff" stroke="#999"/>
+  <text x="20" y="24" font-weight="bold">Ausprobieren: Ziehe die Balken und vergleiche beide Diagramme</text>
+  <!-- v-t oben: Ursprung (70,180), t 30 px/s, v 0-10 m/s = 12 px pro m/s -->
+  <text x="20" y="46" font-weight="bold">Geschwindigkeit-Zeit-Diagramm (v in m/s)</text>
+  <g stroke="#333" stroke-width="1.5"><line x1="70" y1="180" x2="380" y2="180"/><line x1="70" y1="180" x2="70" y2="55"/></g>
+  <g fill="#9ec1ee" stroke="#1a5fb4">
+    <rect x="70" y="156" width="60" height="24"/><rect x="130" y="132" width="60" height="48"/>
+    <rect x="190" y="84" width="60" height="96"/><rect x="250" y="84" width="60" height="96"/><rect x="310" y="132" width="60" height="48"/>
+  </g>
+  <g font-size="11" fill="#333" text-anchor="middle">
+    <text x="70" y="195">0</text><text x="130" y="195">2</text><text x="190" y="195">4</text><text x="250" y="195">6</text><text x="310" y="195">8</text><text x="370" y="195">10</text>
+    <text x="225" y="210" font-size="12">t in s</text>
+    <text x="62" y="184" text-anchor="end">0</text><text x="62" y="132" text-anchor="end">5</text><text x="62" y="84" text-anchor="end">10</text>
+  </g>
+  <text x="400" y="100" fill="#c64600">Waagerecht: gleiche</text><text x="400" y="116" fill="#c64600">Geschwindigkeit,</text><text x="400" y="132" fill="#c64600">nicht Stillstand.</text>
+  <!-- s-t unten: Ursprung (70,390), s 0-60 m = 2.4 px/m -->
+  <text x="20" y="236" font-weight="bold">Weg-Zeit-Diagramm derselben Fahrt (s in m)</text>
+  <g stroke="#333" stroke-width="1.5"><line x1="70" y1="390" x2="380" y2="390"/><line x1="70" y1="390" x2="70" y2="245"/></g>
+  <polyline points="70,390 130,380 190,361 250,323 310,285 370,265" fill="none" stroke="#1a5fb4" stroke-width="3"/>
+  <g font-size="11" fill="#333" text-anchor="middle">
+    <text x="70" y="406">0</text><text x="130" y="406">2</text><text x="190" y="406">4</text><text x="250" y="406">6</text><text x="310" y="406">8</text><text x="370" y="406">10</text>
+    <text x="225" y="422" font-size="12">t in s</text><text x="62" y="394" text-anchor="end">0</text><text x="62" y="318" text-anchor="end">30</text>
+  </g>
+  <text x="400" y="330" fill="#c64600">Steiler im s-t-Diagramm</text><text x="400" y="346" fill="#c64600">= höherer Balken</text><text x="400" y="362" fill="#c64600">im v-t-Diagramm.</text>
+</svg>

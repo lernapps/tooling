@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Geschwindigkeit wiederholen
+description: Eine kurze Wiederholung, was Geschwindigkeit ist und wie du sie ausrechnest.
+recap: physik/geschwindigkeit-berechnen
+blocks:
+  - type: section
+    id: einstieg
+    title: Was du schon weißt
+    blocks:
+      - type: text
+        text: |
+          Die Geschwindigkeit sagt, wie weit etwas in einer bestimmten Zeit kommt. Ein Fahrrad, das in 10 Sekunden
+          30 Meter fährt, ist langsamer als ein Auto, das in 10 Sekunden 150 Meter fährt.
+      - type: text
+        text: |
+          Du kannst sie ausrechnen, wenn du die Strecke und die Zeit kennst. Wie du Strecken und Zeiten misst, steht
+          auf der Karte unter [Strecken und Zeiten messen](https://lernapps.net/apps/map/physik/c/strecke-und-zeit-messen/),
+          was Geschwindigkeit bedeutet unter [Geschwindigkeit](https://lernapps.net/apps/map/physik/c/geschwindigkeit/).
+  - type: section
+    id: merksatz
+    title: Zum Merken
+    blocks:
+      - type: formula
+        formula: 'v = \frac{s}{t}'
+      - type: text
+        text: |
+          Die Geschwindigkeit $v$ ist die Strecke $s$ geteilt durch die Zeit $t$. In Meter pro Sekunde (m/s) rechnest du
+          mit Metern und Sekunden, in Kilometer pro Stunde (km/h) mit Kilometern und Stunden.
+      - type: example
+        title: Ein Fahrrad
+        blocks:
+          - type: text
+            text: |
+              Das Fahrrad fährt in 10 s eine Strecke von 30 m. Dann ist $v = \frac{30\,\text{m}}{10\,\text{s}} = 3\,\text{m/s}$.
+              Das Fahrrad legt also in jeder Sekunde 3 m zurück.
+      - type: note
+        title: Von m/s zu km/h
+        blocks:
+          - type: text
+            text: |
+              1 m/s sind 3,6 km/h. Ein Fahrrad mit 5 m/s fährt also mit $5 \cdot 3{,}6 = 18$ km/h.

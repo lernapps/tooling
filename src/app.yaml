@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/mechanik
+title: Beschleunigte Bewegung
+intro: |
+  Wie ändert sich eine Bewegung, und wie zeigen Diagramme das? Du lernst, Beschleunigen, Abbremsen und Richtungsänderung
+  zu beschreiben, und du zeichnest und liest Weg-Zeit- und Geschwindigkeit-Zeit-Diagramme. Für die Klasse 9.
+languages: [de]
+chapters: [beschleunigte-bewegung]
+sources:
+  - title: Lernlandkarte Physik, Strang Mechanik (lernapps.net)
+    url: https://lernapps.net/apps/map/physik/
+  - title: Beschleunigung (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Beschleunigung
+  - title: Geschwindigkeit (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Geschwindigkeit
+  - title: Weg-Zeit-Diagramm (Mechanik) (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Zeit-Weg-Diagramm
