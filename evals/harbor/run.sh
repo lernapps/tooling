@@ -55,7 +55,9 @@ else
     git -C "$repo" worktree add -q --detach "$source/repo" "$guidance"
     (cd "$source/repo" && npm ci --no-audit --no-fund > "$source/npm-ci.log" 2>&1 && npm pack --pack-destination "$source" > /dev/null)
     mv "$source"/lernapps-tooling-*.tgz "$source/lernapps-tooling.tgz"
-    cp "$source/repo/site/llms.txt" "$source/llms.txt"
+    # llms.txt with AGENTS.md appended, as the site serves it; an older commit has no scripts/llms.ts
+    if [ -f "$source/repo/scripts/llms.ts" ]; then (cd "$source/repo" && node scripts/llms.ts "$source/llms.txt")
+    else cp "$source/repo/site/llms.txt" "$source/llms.txt"; fi
     git -C "$repo" worktree remove --force "$source/repo"
   fi
   copy="$home/tasks/${task}__g${guidance:0:7}"

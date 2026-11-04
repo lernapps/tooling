@@ -141,7 +141,8 @@ describe("the plan's sections", () => {
 
 describe("AGENTS.md", () => {
   test("stays short: it is loaded in every turn", () => {
-    expect(read(AGENTS).split(/\s+/).length).toBeLessThanOrEqual(350);
+    // every process rule is in it (the table of scripts/agents-md.ts), about 1,500 tokens, cached after the first turn
+    expect(read(AGENTS).split(/\s+/).length).toBeLessThanOrEqual(1200);
   });
 
   test("leaves the branch to push to the current plan: each template names its own", () => {
@@ -279,4 +280,34 @@ describe("the skills", () => {
     expect(skill).toContain("https://lernapps.net/apps/enter/llms.txt");
     for (const field of ["grades", "thirdParty", "keywords", "topics"]) expect(skill).not.toContain(field);
   });
+});
+
+test("AGENTS.md holds every process rule of workflow-rules.md, as the table scripts/agents-md.ts writes", async () => {
+  const { processRules, withTable } = await import("../scripts/agents-md.ts");
+  const agents = read(AGENTS);
+  expect(withTable(agents)).toBe(agents);
+  const rules = processRules();
+  expect(rules.length).toBeGreaterThan(5);
+  for (const rule of rules) expect(agents).toContain(`| \`${rule.id}\` |`);
+});
+
+test("llms.txt checks the entry criteria, has a fallback without npx and ends with AGENTS.md", async () => {
+  const { llms } = await import("../scripts/llms.ts");
+  const text = llms();
+  expect(text).toContain("## Before you start: check the entry criteria");
+  expect(text).toContain("**`npx` may run:**");
+  expect(text).toContain("### Fallback: without `npx`, for Explore and Plan");
+  // AGENTS.md at the end, its headings one level down, with every process rule
+  const agents = text.slice(text.indexOf("## AGENTS.md"));
+  expect(agents).toContain("### Process rules");
+  expect(agents).toContain("| `early-preview` |");
+  // the files the fallback copies exist in this repository
+  for (const path of [
+    "guidance/plan-template.md",
+    "guidance/AGENTS.md",
+    "skills/process",
+    "skills/content",
+    "skills/tooling",
+  ])
+    expect(existsSync(join(repoRoot, path)), path).toBe(true);
 });

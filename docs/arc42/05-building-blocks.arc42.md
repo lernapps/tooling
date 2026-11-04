@@ -160,9 +160,17 @@ implements: concept-stable-contracts
 
 The workflow for the creator's assistant: four phases, Explore, Plan, Code and Commit, with the creator's
 checkpoints. It decides the order of the work, when the assistant stops for the creator, and which skill it loads in
-which phase. It is the only guidance that holds in every phase: the entry `llms.txt` of the tooling site, which
-starts the build with the plan template and nothing else, `AGENTS.md`, the two plan templates, the workflow rules
-with their ids, and the brief for sub-agents.
+which phase. It is the only guidance that holds in every phase: the entry `llms.txt` of the tooling site, the two
+plan templates, the workflow rules with their ids, `AGENTS.md`, and the briefs for sub-agents.
+
+The information goes down in this order. `llms.txt` checks the entry criteria (a shell, npm, whether `npx` may run),
+starts the build with `lernapps init`, has a fallback without `npx` for Explore and Plan (the same files from the
+repository), and ends with `AGENTS.md`: the assistant has every process rule from its first read. `init` writes
+`AGENTS.md` and a `CLAUDE.md` that imports it into the app's folder, so that every later session loads it; `create`
+writes them again. `AGENTS.md` holds every process rule as a table, written from `workflow-rules.md`
+(`scripts/agents-md.ts`), which stays the source with the full text for the rule page, the checks and the review. The
+plan template gives the order. Before, `AGENTS.md` came only with `create`, after the plan, and Claude Code did not
+load it: the evals of `feat/explainer-learning-juror` found it in no agent's context.
 
 The plan starts with the questions for the creator, including what the catalog needs to help adults find the app,
 and keeps the answers for the listing. It ends with a retrospective: phases reached, the creator's turns after the

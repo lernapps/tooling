@@ -172,7 +172,7 @@ Umsetzung:
   - DeepSeek/OpenCode: Nutzer (2026-11-04): „Lass Deepseek dann erst mal sein.“
   - Befund aus der Sitzung von It. 2 (Nutzerfrage dort): `guidance/AGENTS.md` kam bei keinem der vier Agenten an. Geprüft am Code: `create` schreibt `AGENTS.md` erst nach dem Plan (`generator/create.ts`), `init` nicht; die Apps haben keine `CLAUDE.md` mit `@AGENTS.md`, Claude Code lädt `AGENTS.md` nicht von selbst; die App lag in 3 von 4 Läufen in einem Unterordner. Eigenes Feature, nicht Teil dieses Zweigs.
 - [x] C8 Architektur und Doku (Strategie 7). Commit.
-- [ ] C10 Informationshierarchie: `scripts/agents-md.ts`, `guidance/AGENTS.md` mit Regeltabelle und Ordner-Regel, `init` schreibt `AGENTS.md` und `CLAUDE.md`, `llms.txt` mit Einstiegskriterien, Fallback und angehängter `AGENTS.md`, `run.sh` nutzt sie; Tests, arc42. Commit.
+- [x] C10 Informationshierarchie: `scripts/agents-md.ts`, `guidance/AGENTS.md` mit Regeltabelle und Ordner-Regel, `init` schreibt `AGENTS.md` und `CLAUDE.md`, `llms.txt` mit Einstiegskriterien, Fallback und angehängter `AGENTS.md`, `run.sh` nutzt sie; Tests, arc42. Commit.
 - [ ] C11 Iteration 4: Harbor, Sonnet, n = 2, beide Aufgaben, Juror; Vergleich mit It. 3. Commit.
 - [ ] C9 (offen, aus #257) Push des leeren `gh-pages`/`main` in `lernapps-github` scheitert am Pre-Push-Hook: Vorschlag `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages` aus dem App-Checkout statt `git switch --orphan`. In einer Probe-App ohne Hooks nicht nachstellbar; braucht eine mit `create` angelegte App. Nicht Teil der Messung.
 
