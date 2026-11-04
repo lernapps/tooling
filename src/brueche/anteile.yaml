@@ -1,0 +1,157 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Was ist ein Bruch?
+description: Ein Bruch zeigt, welcher Teil von einem Ganzen gemeint ist. Du färbst Anteile selbst und lernst Zähler und Nenner kennen.
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Teile vom Ganzen
+    blocks:
+      - type: text
+        text: |
+          Nach dieser Seite kannst du einen Bruch als Teil eines Ganzen deuten und darstellen. Du kennst das schon aus dem Alltag:
+          Eine Pizza wird in Stücke geschnitten, und jedes Kind bekommt einen Teil davon. Mit einem Bruch kannst du
+          genau sagen, wie viel das ist. Du brauchst dafür nur die [natürlichen Zahlen](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/), die du schon kennst.
+  - type: section
+    id: erklaerung
+    title: Zähler und Nenner
+    blocks:
+      - type: text
+        text: |
+          Ein Bruch braucht ein **Ganzes**. Hier ist das Ganze ein Streifen. Er wird in gleich große Stücke
+          geteilt. Wichtig: Die Stücke müssen alle gleich groß sein, sonst stimmt der Anteil nicht.
+      - type: figure
+        image: images/streifen-drei-von-acht.svg
+        alt: Ein Streifen, der in 8 gleich große Stücke geteilt ist. Die ersten drei Stücke sind blau gestreift, die übrigen fünf sind weiß.
+        caption: Der ganze Streifen ist das Ganze. Er hat 8 gleich große Stücke, 3 davon sind gefärbt (blau gestreift). Die anderen 5 sind weiß.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Für die gefärbten Stücke schreibst du einen Bruch mit zwei Zahlen, die durch einen Strich getrennt sind. Der
+          Strich heißt **Bruchstrich**:
+      - type: formula
+        formula: '\frac{3}{8}'
+      - type: text
+        text: |
+          Die Zahl **unter** dem Bruchstrich sagt, in wie viele gleich große Stücke das Ganze geteilt ist: hier 8. Die
+          Zahl **über** dem Bruchstrich sagt, wie viele dieser Stücke gemeint sind: hier 3 gefärbte.
+          Du liest den Bruch „drei Achtel“. Achtel heißt: Das Ganze ist in 8 Stücke geteilt.
+      - type: definition
+        term: Nenner
+        explanation: Der Nenner steht unter dem Bruchstrich. Er sagt, in wie viele gleich große Stücke das Ganze geteilt ist.
+      - type: definition
+        term: Zähler
+        explanation: Der Zähler steht über dem Bruchstrich. Er sagt, wie viele dieser Stücke gemeint sind.
+      - type: definition
+        term: Bruch
+        explanation: Ein Bruch ist ein Anteil von einem Ganzen. Er besteht aus Zähler und Nenner, getrennt durch den Bruchstrich.
+      - type: text
+        text: |
+          Ein Streifen mit mehr Stücken ist nicht größer. Das Ganze bleibt gleich groß, nur die Stücke werden kleiner.
+  - type: section
+    id: ausprobieren
+    title: Selbst ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Der Streifen unten ist das Ganze. Mit „Weniger Stücke“ und „Mehr Stücke“ änderst du den Nenner: in wie viele
+          gleich große Stücke das Ganze geteilt ist. Tippe auf ein Stück, um es zu färben oder wieder zu entfärben:
+          Die gefärbten Stücke sind der Zähler. Unter dem Streifen steht der Bruch, oben der Zähler, unten der Nenner.
+          Zum Ausprobieren: Färbe ein Stück und ändere dann die Zahl der Stücke. Du siehst: Bei 2 Stücken ist ein
+          gefärbtes Stück die Hälfte vom Ganzen. Bei 8 Stücken ist ein gefärbtes Stück viel kleiner. Je mehr Stücke es
+          gibt, desto kleiner ist jedes einzelne.
+      - type: vue-component
+        component: BruchStreifen
+        props:
+          start: 8
+          summary: "{z} von {n} gleich großen Stücken sind gefärbt. Der Bruch ist {z}/{n}."
+          fewer: Weniger Stücke
+          more: Mehr Stücke
+          cell: "Stück {n}"
+        nojs: |
+          Ein Streifen ist das Ganze. Er ist in 8 gleich große Stücke geteilt. Wenn du 3 davon färbst, sind 3 von 8
+          Stücken gefärbt, und der Bruch heißt 3/8. Teilst du den Streifen in 4 Stücke und färbst 1, heißt der Bruch 1/4.
+  - type: section
+    id: beispiel
+    title: Ein Beispiel
+    blocks:
+      - type: example
+        title: Die Pizza
+        blocks:
+          - type: text
+            text: |
+              Eine Pizza ist in 8 gleich große Stücke geschnitten. Du isst 3 Stücke.
+              Das Ganze ist die Pizza, sie hat 8 Stücke. Der Nenner ist also 8.
+              Du hast 3 Stücke gegessen. Der Zähler ist also 3.
+          - type: formula
+            formula: '\frac{3}{8}'
+          - type: text
+            text: |
+              Du hast drei Achtel der Pizza gegessen. Was übrig ist, ist der Rest: 8 − 3 = 5 Stücke. Der Rest ist also fünf Achtel.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: vue-component
+        id: bruch-faerben
+        component: BruchFaerben
+        props:
+          task: "Der Streifen ist das Ganze und in {b} gleich große Stücke geteilt. Färbe den Bruch {a}/{b}."
+          counter: "Gefärbte Stücke: {n}"
+          cell: "Stück {n}"
+          mistakes:
+            - "Du hast {n} Stücke gefärbt. Das sind die {b} − {a} Stücke, die nicht gemeint sind. Gefärbt werden so viele Stücke, wie der Zähler {a} sagt."
+            - "Du hast den ganzen Streifen gefärbt. Der Nenner {b} sagt nur, in wie viele Stücke das Ganze geteilt ist, nicht, wie viele du färbst."
+        examples:
+          accepted:
+            - { answer: 1, seed: 1 }
+          rejected:
+            - { answer: 7, seed: 1 }
+            - { answer: 8, seed: 1 }
+            - { answer: 0 }
+      - type: single-choice
+        id: bild-zu-bruch
+        text: Welcher Bruch gehört zu den gefärbten Stücken?
+        material:
+          - type: figure
+            image: images/streifen-fuenf-von-acht.svg
+            alt: Ein Streifen, der in 8 gleich große Stücke geteilt ist. Die ersten fünf Stücke sind gefärbt, die übrigen drei weiß.
+            caption: Der ganze Streifen ist das Ganze. Blau gestreift ist gefärbt, weiß ist nicht gefärbt.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: 5/8
+            correct: true
+            info: Das Ganze hat 8 gleich große Stücke (Nenner 8), 5 davon sind gefärbt (Zähler 5).
+          - text: 3/8
+            correct: false
+            info: Hier hast du die weißen Stücke gezählt. Der Zähler zählt aber die gefärbten Stücke.
+          - text: 5/3
+            correct: false
+            info: Der Nenner ist die Zahl aller Stücke, also 8, nicht die Zahl der weißen Stücke.
+          - text: 8/5
+            correct: false
+            info: Hier sind Zähler und Nenner vertauscht. Der Nenner steht unten und zählt alle Stücke.
+        explanation: Der Nenner zählt alle gleich großen Stücke, der Zähler die gefärbten. Hier sind es 8 Stücke und 5 davon gefärbt.
+        hint: Zähle erst alle Stücke, dann die gefärbten.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: pizza-stuecke
+        given:
+          b: { int: [3, 12] }
+          a: { int: [1, 11] }
+          s: { pick: 1, from: { data: situationen } }
+        where: ["a < b", "a != b - a"]
+        task:
+          text: "{{s.ding}} ist in {{b}} gleich große {{s.teile}} geteilt. Davon {{s.verb}}: {{a}}. Welchen Zähler hat der Bruch für den Rest?"
+        answer: { value: "b - a", compare: number }
+        mistakes:
+          - { value: "a", message: "Das ist der Zähler für das, was schon {{s.verb}} ist. Gefragt ist der Rest." }
+          - { value: "b", message: "Der Nenner {{b}} zählt alle {{s.teile}}. Der Zähler zählt nur die gemeinten." }
+        hint: Wie viele der {{b}} {{s.teile}} bleiben übrig?
+        steps:
+          - "Das Ganze hat {{b}} gleich große {{s.teile}}, davon sind {{a}} {{s.verb}}."
+          - "Es bleiben {{b}} − {{a}} = {{answer}} {{s.teile}} übrig. Der Zähler des Rests ist also {{answer}}."

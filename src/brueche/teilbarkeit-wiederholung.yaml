@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Teilbarkeit – kurz wiederholt
+description: Eine kurze Wiederholung der Teiler und der Teilbarkeitsregeln. Du brauchst sie zum Kürzen.
+recap: mathematik/teilbarkeit
+blocks:
+  - type: section
+    id: einstieg
+    title: Was du schon kennst
+    blocks:
+      - type: text
+        text: |
+          Zum Kürzen brauchst du Zahlen, durch die du Zähler und Nenner teilen kannst. Das kennst du aus der
+          Teilbarkeit. Hier steht das Wichtigste noch einmal kurz.
+  - type: section
+    id: erklaerung
+    title: Teiler und Teilbarkeitsregeln
+    blocks:
+      - type: definition
+        term: Teiler
+        explanation: "Eine Zahl ist ein Teiler von einer anderen, wenn die Division ohne Rest aufgeht. 4 ist ein Teiler von 12, weil 12 : 4 = 3 ist."
+      - type: text
+        text: |
+          Alle Teiler von 12 sind 1, 2, 3, 4, 6 und 12.
+          Mit diesen Regeln siehst du schnell, ob eine Zahl durch 2, 3, 5 oder 10 teilbar ist:
+      - type: table
+        caption: Teilbarkeitsregeln
+        header: [Teilbar durch, Woran du es erkennst, Beispiel]
+        rows:
+          - ["2", "Die letzte Ziffer ist gerade (0, 2, 4, 6, 8).", "18 ist durch 2 teilbar."]
+          - ["3", "Die Quersumme ist durch 3 teilbar.", "123 hat die Quersumme 6, also ist 123 durch 3 teilbar."]
+          - ["5", "Die letzte Ziffer ist 0 oder 5.", "35 ist durch 5 teilbar."]
+          - ["10", "Die letzte Ziffer ist 0.", "70 ist durch 10 teilbar."]

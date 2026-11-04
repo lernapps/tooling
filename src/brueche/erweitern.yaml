@@ -1,0 +1,117 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche erweitern
+description: Beim Erweitern teilst du das Ganze feiner ein. Der Anteil bleibt gleich, nur Zähler und Nenner ändern sich.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Dasselbe Stück, feiner geteilt
+    blocks:
+      - type: text
+        text: |
+          Nach dieser Seite kannst du Brüche erweitern und erkennst, dass verschiedene Brüche gleich viel sein können.
+          Auf der letzten Seite hast du gelernt, dass der Nenner sagt, in wie viele gleich große Stücke das Ganze geteilt
+          ist, und der Zähler, wie viele davon gemeint sind.
+
+          Stell dir eine Pizza vor, die in 4 gleich große Stücke geschnitten ist. Du isst 3 Stücke, das sind
+          $\frac{3}{4}$. Dein Freund schneidet nun jedes Stück noch einmal in 3 kleine Stücke. Jetzt hat die Pizza
+          12 Stücke, und du hast 9 davon gegessen. Hast du mehr gegessen? Nein, es ist genauso viel wie vorher.
+  - type: section
+    id: erklaerung
+    title: Erweitern heißt feiner einteilen
+    blocks:
+      - type: definition
+        term: erweitern
+        explanation: Beim Erweitern multiplizierst du Zähler und Nenner mit derselben Zahl. Das Ganze wird feiner eingeteilt, der Anteil bleibt gleich.
+      - type: formula
+        formula: '\frac{3}{4} = \frac{3 \cdot 3}{4 \cdot 3} = \frac{9}{12}'
+      - type: text
+        text: |
+          Die Pizza hatte vorher 4 Stücke und nachher 4 · 3 = 12 Stücke. Von den 3 gegessenen Stücken wurde jedes in 3
+          Teile geteilt, du hast also 3 · 3 = 9 kleine Stücke. Die gegessene Fläche bleibt gleich groß.
+          Brüche, die gleich viel vom Ganzen sind, heißen **gleichwertige Brüche**. $\frac{3}{4}$ und $\frac{9}{12}$ sind
+          gleichwertig.
+      - type: text
+        text: |
+          Achtung: Zähler und Nenner müssen mit **derselben** Zahl malgenommen werden. Wenn du zu beiden etwas
+          addierst, zum Beispiel $\frac{3}{4}$ zu $\frac{6}{7}$, entsteht ein anderer Anteil.
+  - type: section
+    id: ausprobieren
+    title: Selbst ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Oben siehst du den Streifen für $\frac{3}{4}$. Mit den Knöpfen teilst du jedes Stück in 2, 3, 4 oder 5 kleinere
+          Stücke. Unter dem ersten Streifen erscheint ein zweiter. Schau, was gleich bleibt (die gefärbte Länge) und was
+          sich ändert (Zähler und Nenner).
+      - type: vue-component
+        component: BruchUmteilen
+        props:
+          mode: erweitern
+          a: 3
+          b: 4
+          factors: [2, 3, 4, 5]
+          button: "Jedes Stück in {k} Teile teilen"
+          reset: Zurück zum Anfang
+          startText: "Der Streifen zeigt {a}/{b}: {b} gleich große Stücke, {a} sind gefärbt."
+          stepText: "Jedes Stück ist in {k} Teile geteilt. Jetzt sind {a2} von {b2} Stücken gefärbt: {a}/{b} = {a2}/{b2}. Zähler und Nenner sind beide mit {k} malgenommen."
+          stripLabel: "Streifen mit {a} von {b} gefärbten Stücken"
+        nojs: |
+          Ein Streifen zeigt 3/4. Teilst du jedes Stück in 3 Teile, hat der Streifen 12 Stücke, und 9 sind gefärbt. Die
+          gefärbte Länge bleibt gleich: 3/4 = 9/12. Bei 2 Teilen ist es 6/8, bei 4 Teilen 12/16, bei 5 Teilen 15/20.
+  - type: section
+    id: beispiel
+    title: Ein Beispiel
+    blocks:
+      - type: example
+        title: $\frac{2}{5}$ auf den Nenner 15 erweitern
+        blocks:
+          - type: text
+            text: |
+              Der Nenner soll von 5 auf 15 werden. Es gilt 5 · 3 = 15, also erweiterst du mit 3.
+              Den Zähler multiplizierst du auch mit 3: 2 · 3 = 6.
+          - type: formula
+            formula: '\frac{2}{5} = \frac{2 \cdot 3}{5 \cdot 3} = \frac{6}{15}'
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: true-false
+        id: wert-gleich
+        text: Beim Erweitern bleibt der Anteil vom Ganzen gleich.
+        answer: true
+        explanation: Beim Erweitern werden die Stücke kleiner, aber es gibt entsprechend mehr gefärbte. Die gefärbte Fläche ändert sich nicht.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: erweitern-ueben
+        given:
+          a: { int: [1, 9] }
+          b: { int: [2, 10] }
+          k: { int: [2, 5] }
+        where: ["a < b", "a + k != a * k"]
+        task:
+          text: "Du erweiterst {{a}}/{{b}} mit {{k}}. Wie heißt der neue Zähler?"
+        answer: { value: "a * k", compare: number }
+        mistakes:
+          - { value: "a + k", message: "Du hast {{k}} addiert. Beim Erweitern multiplizierst du." }
+          - { value: "a", message: "Der Zähler muss auch mit {{k}} malgenommen werden, nicht nur der Nenner." }
+          - { value: "b * k", message: "Das ist der neue Nenner. Gefragt ist der Zähler." }
+        hint: Mit welcher Zahl multiplizierst du den Nenner? Dieselbe Zahl gehört auch zum Zähler.
+        steps:
+          - "Du erweiterst mit {{k}}: Zähler und Nenner werden beide mit {{k}} malgenommen."
+          - "Zähler: {{a}} · {{k}} = {{answer}}."
+      - type: number
+        id: faktor-finden
+        text: "$\\frac{3}{5}$ wurde zu $\\frac{12}{20}$ erweitert. Mit welcher Zahl wurde erweitert?"
+        answer: 4
+        tolerance: 0
+        explanation: Der Nenner ist von 5 auf 20 gewachsen, und 5 · 4 = 20. Probe mit dem Zähler 3 · 4 = 12.
+        hint: Mit welcher Zahl musst du 5 malnehmen, um 20 zu bekommen?
+        mistakes:
+          - { answer: 9, message: "Du hast 12 − 3 gerechnet. Beim Erweitern wird malgenommen, nicht dazugezählt." }
+          - { answer: 15, message: "Du hast 20 − 5 gerechnet. Frage dich: 5 mal welche Zahl ist 20?" }
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

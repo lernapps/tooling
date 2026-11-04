@@ -1,0 +1,21 @@
+{
+  "name": "lern-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build --outDir _site",
+    "check": "lernapps check",
+    "prepare": "lernapps hooks"
+  },
+  "devDependencies": {
+    "@lernapps/app-templates": "^0.3.0",
+    "@lernapps/tooling": "file:../opt/lernapps/lernapps-tooling.tgz",
+    "typescript": "6.0.3",
+    "vite-plus": "1.4.0",
+    "vue-tsc": "3.3.11"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0"
+  }
+}

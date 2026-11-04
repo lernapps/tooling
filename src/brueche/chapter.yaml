@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche
+summary: Ein Bruch sagt, welcher Teil vom Ganzen gemeint ist. Du lernst, Brüche darzustellen, zu erweitern, zu kürzen und zu vergleichen.
+pages: [anteile, erweitern, teilbarkeit-wiederholung, kuerzen, vergleichen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /brueche/anteile/#bruch-faerben
+        - /brueche/anteile/#bild-zu-bruch
+        - /brueche/anteile/#pizza-stuecke
+    - exercises:
+        - /brueche/erweitern/#erweitern-ueben
+        - /brueche/erweitern/#faktor-finden
+        - /brueche/kuerzen/#kuerzen-ueben
+        - /brueche/kuerzen/#groesster-teiler
+    - exercises:
+        - /brueche/vergleichen/#vergleichen-ueben
+        - /brueche/vergleichen/#brueche-ordnen
+        - /brueche/vergleichen/#groesser-bruch

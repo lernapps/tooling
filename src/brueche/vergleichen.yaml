@@ -1,0 +1,123 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche vergleichen
+description: Brüche mit verschiedenen Nennern vergleichst du, indem du sie auf denselben Nenner bringst.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Welcher Bruch ist größer?
+    blocks:
+      - type: text
+        text: |
+          Nach dieser Seite kannst du zwei Brüche der Größe nach vergleichen.
+          Auf den letzten Seiten hast du Brüche erweitert und gekürzt. Das hilft dir jetzt.
+          Zwei Kinder teilen sich Pizzen von gleicher Größe. Ein Kind bekommt $\frac{2}{3}$ einer Pizza, das andere
+          $\frac{3}{4}$. Wer bekommt mehr? Das ist nicht leicht zu sehen, weil die Stücke unterschiedlich groß sind.
+  - type: section
+    id: erklaerung
+    title: Gleich einteilen, dann zählen
+    blocks:
+      - type: text
+        text: |
+          Wenn zwei Brüche denselben Nenner haben, sind die Stücke gleich groß. Dann entscheidet nur der Zähler:
+          Wer mehr Stücke hat, hat mehr.
+      - type: definition
+        term: gleichnamig
+        explanation: Brüche sind gleichnamig, wenn sie denselben Nenner haben.
+      - type: text
+        text: |
+          Brüche mit verschiedenen Nennern machst du durch Erweitern gleichnamig. Du suchst eine Zahl, in die sich beide
+          Nenner teilen lassen, hier 12, denn 3 · 4 = 12 und 4 · 3 = 12.
+      - type: formula
+        formula: '\frac{2}{3} = \frac{2 \cdot 4}{3 \cdot 4} = \frac{8}{12} \qquad \frac{3}{4} = \frac{3 \cdot 3}{4 \cdot 3} = \frac{9}{12}'
+      - type: text
+        text: |
+          Jetzt sind beide Brüche gleichnamig. 9 Stücke sind mehr als 8 Stücke, also ist $\frac{3}{4}$ größer als
+          $\frac{2}{3}$.
+
+          Achtung: Ein größerer Nenner bedeutet **nicht** einen größeren Bruch. Ein größerer Nenner heißt nur, dass die
+          Stücke kleiner sind. $\frac{1}{8}$ ist kleiner als $\frac{1}{4}$.
+  - type: section
+    id: ausprobieren
+    title: Selbst ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Du siehst zwei Streifen von gleicher Länge, oben für $\frac{2}{3}$, unten für $\frac{3}{4}$. Die Einteilung ist
+          verschieden. Mit dem Knopf teilst du beide Streifen gleich ein. Dann kannst du die gefärbten Stücke zählen und
+          vergleichen.
+      - type: vue-component
+        component: BruchUmteilen
+        props:
+          mode: vergleichen
+          a: 2
+          b: 3
+          c: 3
+          d: 4
+          button: Beide gleich einteilen
+          reset: Zurück zum Anfang
+          startText: "Oben {a}/{b}, unten {c}/{d}. Die Stücke sind verschieden groß, das Vergleichen ist schwer."
+          stepText: "Beide Streifen haben jetzt {n} Stücke. Oben sind {a2} Stücke gefärbt, unten {c2}. Also {a}/{b} = {a2}/{n} und {c}/{d} = {c2}/{n}."
+          stripLabel: "Streifen mit {a} von {b} gefärbten Stücken"
+        nojs: |
+          Zwei Streifen zeigen 2/3 und 3/4. Teilst du beide in 12 Stücke, sind es 8/12 und 9/12. Der untere Streifen hat
+          ein gefärbtes Stück mehr, also ist 3/4 größer als 2/3.
+  - type: section
+    id: beispiel
+    title: Ein Beispiel
+    blocks:
+      - type: example
+        title: $\frac{3}{4}$ und $\frac{5}{8}$ vergleichen
+        blocks:
+          - type: text
+            text: |
+              Es gilt 4 · 2 = 8, also reicht es, $\frac{3}{4}$ mit 2 zu erweitern. $\frac{5}{8}$ bleibt, wie es ist.
+          - type: formula
+            formula: '\frac{3}{4} = \frac{3 \cdot 2}{4 \cdot 2} = \frac{6}{8}'
+          - type: text
+            text: Jetzt vergleichst du $\frac{6}{8}$ und $\frac{5}{8}$. Es gilt 6 > 5, also ist $\frac{3}{4}$ größer als $\frac{5}{8}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: groesser-bruch
+        text: Welcher Bruch ist größer?
+        options:
+          - text: 2/5
+            correct: true
+            info: 2/5 ist gleich 4/10. Das sind mehr Stücke als bei 3/10, und die Stücke sind gleich groß.
+          - text: 3/10
+            correct: false
+            info: Der Nenner 10 ist größer, aber das heißt nur, dass die Stücke kleiner sind. Mit dem Nenner 10 sind es 3 Stücke gegen 4.
+          - text: Beide sind gleich groß.
+            correct: false
+            info: Bei gleichem Nenner 10 sind es 4 Stücke gegen 3 Stücke. Das ist nicht gleich viel.
+        explanation: Zum Vergleichen machst du die Brüche gleichnamig. 2/5 wird mit 2 zu 4/10, und 4/10 ist mehr als 3/10.
+        hint: Mach beide Brüche gleichnamig. Mit welcher Zahl erweiterst du 2/5?
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: vergleichen-ueben
+        given:
+          p: { pick: 1, from: { data: bruchpaare } }
+        task:
+          text: "Du vergleichst {{p.a}}/{{p.b}} und {{p.c}}/{{p.d}}. Du erweiterst beide auf den Nenner {{p.n}}. Wie heißt der größere der beiden neuen Zähler?"
+        answer: { value: "p.gross", compare: number }
+        mistakes:
+          - { value: "p.klein", message: "Das ist der Zähler des kleineren Bruchs. Gefragt ist der größere." }
+          - { value: "p.n", message: "{{p.n}} ist der gemeinsame Nenner, nicht ein Zähler." }
+        hint: Erweitere jeden der beiden Brüche so, dass der Nenner {{p.n}} wird, und vergleiche die Zähler.
+        steps:
+          - "{{p.a}}/{{p.b}} und {{p.c}}/{{p.d}} werden beide auf den Nenner {{p.n}} erweitert."
+          - "Der größere der beiden Zähler ist {{answer}}."
+      - type: ordering
+        id: brueche-ordnen
+        text: Ordne die Brüche der Größe nach, den kleinsten zuerst.
+        items: [1/2, 2/3, 3/4]
+        explanation: Mit dem Nenner 12 sind es 6/12, 8/12 und 9/12. Je mehr Zwölftel, desto größer der Bruch.
+        hint: Bringe alle drei Brüche auf den Nenner 12.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+# Zwei Brüche a/b und c/d, n ist ein gemeinsamer Nenner; gross und klein sind die beiden Zähler bei diesem Nenner.
+- { a: 2, b: 3, c: 3, d: 4, n: 12, gross: 9, klein: 8 }
+- { a: 1, b: 2, c: 3, d: 5, n: 10, gross: 6, klein: 5 }
+- { a: 3, b: 4, c: 5, d: 6, n: 12, gross: 10, klein: 9 }
+- { a: 2, b: 5, c: 3, d: 10, n: 10, gross: 4, klein: 3 }
+- { a: 5, b: 6, c: 7, d: 8, n: 24, gross: 21, klein: 20 }
+- { a: 1, b: 3, c: 2, d: 5, n: 15, gross: 6, klein: 5 }
+- { a: 3, b: 4, c: 4, d: 5, n: 20, gross: 16, klein: 15 }
+- { a: 1, b: 4, c: 2, d: 7, n: 28, gross: 8, klein: 7 }
+- { a: 5, b: 8, c: 2, d: 3, n: 24, gross: 16, klein: 15 }
+- { a: 3, b: 5, c: 2, d: 3, n: 15, gross: 10, klein: 9 }

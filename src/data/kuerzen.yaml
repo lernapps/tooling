@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+- { zaehler: 6, nenner: 8, faktor: 2 }
+- { zaehler: 9, nenner: 12, faktor: 3 }
+- { zaehler: 10, nenner: 15, faktor: 5 }
+- { zaehler: 12, nenner: 18, faktor: 6 }
+- { zaehler: 8, nenner: 12, faktor: 4 }
+- { zaehler: 15, nenner: 20, faktor: 5 }
+- { zaehler: 14, nenner: 16, faktor: 2 }
+- { zaehler: 12, nenner: 16, faktor: 4 }
+- { zaehler: 18, nenner: 24, faktor: 6 }
+- { zaehler: 20, nenner: 30, faktor: 10 }

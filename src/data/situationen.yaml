@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+- { ding: Die Pizza, teile: Stücke, verb: gegessen }
+- { ding: Die Tafel Schokolade, teile: Stücke, verb: gegessen }
+- { ding: Die Wasserflasche, teile: Portionen, verb: getrunken }

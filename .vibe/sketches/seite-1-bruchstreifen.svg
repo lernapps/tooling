@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="sans-serif" font-size="16">
+  <title>Skizze Seite 1: Bruchstreifen zum Ausprobieren</title>
+  <rect x="0" y="0" width="640" height="300" fill="#fff" stroke="#999"/>
+  <text x="20" y="30" font-size="20" font-weight="bold">Was ist ein Bruch?</text>
+  <text x="20" y="55">Ziel: Du kannst einen Bruch als Teil eines Ganzen deuten und darstellen.</text>
+  <text x="20" y="90">Das Ganze ist der ganze Streifen. Tippe auf ein Stück, um es zu färben.</text>
+  <g stroke="#333" fill="#fff">
+    <rect x="20" y="105" width="75" height="50"/><rect x="95" y="105" width="75" height="50"/>
+    <rect x="170" y="105" width="75" height="50"/><rect x="245" y="105" width="75" height="50"/>
+    <rect x="320" y="105" width="75" height="50"/><rect x="395" y="105" width="75" height="50"/>
+    <rect x="470" y="105" width="75" height="50"/><rect x="545" y="105" width="75" height="50"/>
+  </g>
+  <g fill="#4a7fc1" stroke="#333">
+    <rect x="20" y="105" width="75" height="50"/><rect x="95" y="105" width="75" height="50"/><rect x="170" y="105" width="75" height="50"/>
+  </g>
+  <text x="20" y="185">Gleich große Stücke: 8 &#8211; gefärbt: 3</text>
+  <text x="20" y="225">Stückzahl (Nenner):  [ &#8722; ]  8  [ + ]</text>
+  <text x="400" y="215" font-size="24">3 &#8260; 8</text>
+  <text x="400" y="240">Zähler 3 (gefärbt), Nenner 8 (alle)</text>
+  <text x="20" y="280" fill="#555">Ohne JavaScript: gleiche Aussage als Beschreibung und feste Bilder.</text>
+</svg>
