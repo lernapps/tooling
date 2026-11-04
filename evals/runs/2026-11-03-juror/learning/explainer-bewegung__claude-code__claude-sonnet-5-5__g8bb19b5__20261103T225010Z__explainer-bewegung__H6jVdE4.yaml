@@ -1,0 +1,444 @@
+url: http://127.0.0.1:4401/
+grade: "9-10"
+subject: physik
+competencies: [geschwindigkeitsaenderung, bewegungsdiagramme]
+pages:
+  - /beschleunigung/wiederholung/
+  - /beschleunigung/schneller-langsamer/
+  - /beschleunigung/v-t-diagramm/
+  - /beschleunigung/s-t-diagramm/
+  - /beschleunigung/richtung/
+  - /beschleunigung/diagramme-ueben/
+units:
+  # ---- learner start
+  - item: explainer-learner-start
+    page: /beschleunigung/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Gleich lernst du, wie sich Geschwindigkeiten ändern. Dafür brauchst du, was du in Klasse 7 gelernt hast.“ Knüpft an v = s/t an, Begriffe stehen mit Erklärung.
+  - item: explainer-learner-start
+    page: /beschleunigung/schneller-langsamer/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Im Alltag bleibt die Geschwindigkeit selten gleich. Ein Fahrrad fährt an, ein Auto hält an der Ampel…“ Alltag, dann Definitionen.
+  - item: explainer-learner-start
+    page: /beschleunigung/v-t-diagramm/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Stell dir vor, du schreibst beim Anfahren alle 2 Sekunden auf, was der Tacho zeigt. Aus diesen Werten wird ein Diagramm.“ Situation führt zum Diagramm, „v-t-Diagramm“ wird dort benannt.
+  - item: explainer-learner-start
+    page: /beschleunigung/s-t-diagramm/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Bei einer gleichförmigen Bewegung ist das Weg-Zeit-Diagramm eine Gerade. Wenn sich die Geschwindigkeit ändert, bleibt die Linie nicht gerade.“ Knüpft an das Bekannte (Wiederholungsseite) an.
+  - item: explainer-learner-start
+    page: /beschleunigung/richtung/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Ein Wagen rollt eine Rampe hinauf, bleibt kurz stehen und rollt wieder hinunter.“ Dann die Regel positiv/negativ, die Schüler aus Zahlen kennen.
+  - item: explainer-learner-start
+    page: /beschleunigung/diagramme-ueben/
+    unit: Seite
+    level: 1
+    evidence: >-
+      „Jetzt kennst du beide Diagramme. In Aufgaben und in der Praxis musst du schnell entscheiden …“ Kein Alltagsbeispiel, direkt Zusammenfassungstabelle. Die Zeile „Kurve | v-t: ungleichmäßige Änderung der Geschwindigkeit“ nennt etwas, das in keiner Abbildung der App vorkam.
+  # ---- representation explained
+  - item: explainer-representation-explained
+    page: /beschleunigung/wiederholung/
+    unit: Abbildung s-t-Diagramm (gleichförmig)
+    level: 1
+    evidence: >-
+      Achsen beschriftet, Beispiel 5 s/8 m im Text. Unterschrift: „Achte darauf, dass die Linie überall gleich steil ist.“ Warum gleiche Steilheit gleiche Geschwindigkeit heißt, steht nicht; Steilheit wird erst auf der s-t-Seite eingeführt.
+  - item: explainer-representation-explained
+    page: /beschleunigung/v-t-diagramm/
+    unit: Abbildung v-t-Diagramm Fahrrad (Beispiel)
+    level: 2
+    evidence: >-
+      Achsen, Tabelle mit denselben Werten, „Das rote Dreieck darunter ist der Weg“, Rechnung 1/2·8 s·8 m/s = 32 m direkt darunter.
+  - item: explainer-representation-explained
+    page: /beschleunigung/v-t-diagramm/
+    unit: Komponente DiagrammLabor (Ausprobieren)
+    level: 1
+    evidence: >-
+      Text: „Ziehe die roten Punkte … oder nimm die Regler … Zeitregler oder Abspielen.“ Offen: Was die gestrichelte senkrechte Linie im Diagramm ist, was der blaue Wagen mit der Zeit zu tun hat, und was „bisheriger Weg“ mit der Fläche zu tun hat (keine Fläche im Labor eingefärbt). Die Aufgabe ist nur „verändere“; nichts, was man feststellen soll.
+    did: >-
+      Alle fünf Regler auf 10 und auf 0, Zeitregler auf 3 und 8, Abspielen (nach 1,5 s „v = 1,5 m/s, s = 1,1 m“), Zurücksetzen.
+  - item: explainer-representation-explained
+    page: /beschleunigung/v-t-diagramm/
+    unit: Abbildung v-t Roller (Übungen 1 und 2)
+    level: 2
+    evidence: >-
+      Achsen mit Einheiten, Aufgabe nennt Ablesezeit; Unterschrift „Lies an der Zeitachse t = 4 s ab und gehe nach oben bis zur Linie“.
+  - item: explainer-representation-explained
+    page: /beschleunigung/v-t-diagramm/
+    unit: Komponente DiagrammZeichnen (Übung Zeichnen)
+    level: 2
+    evidence: >-
+      „Zeichne … Setze die Punkte bei 0, 2, 4, 6 und 8 s“ mit Fahrtbeschreibung; fünf beschriftete Regler „Geschwindigkeit nach 2 s: 0 m/s“. Start: alle Punkte bei 0.
+    did: >-
+      Regler bewegt, Startzustand angesehen (alle 0).
+  - item: explainer-representation-explained
+    page: /beschleunigung/s-t-diagramm/
+    unit: Abbildung s-t Fahrrad (Beispiel)
+    level: 2
+    evidence: >-
+      „Die Kurve beginnt flach und wird immer steiler. Das Fahrrad wird schneller, darum legt es in jeder Sekunde mehr Weg zurück.“ Tabelle und Vergleich „2 m / 14 m“ passen zur Kurve.
+  - item: explainer-representation-explained
+    page: /beschleunigung/s-t-diagramm/
+    unit: Komponente DiagrammLabor mit beiden Diagrammen (Ausprobieren)
+    level: 1
+    evidence: >-
+      „Verändere die Geschwindigkeit im linken Diagramm und beobachte die Kurve rechts. Wo wird die Kurve steil?“ Gestrichelte Zeitlinie und Wagen ungeklärt; die Frage „Wo wird sie steil?“ wird nicht mit der Geschwindigkeit verknüpft (das steht nur in der Regel darüber). Achsenmaßstab des s-t-Diagramms wechselt bei Änderung (40 → 80), nicht erwähnt.
+    did: >-
+      Alle Regler auf 10 (s = 80 m, Achse bis 80) und 0, Zeit 3 und 8, Abspielen, Zurücksetzen.
+  - item: explainer-representation-explained
+    page: /beschleunigung/s-t-diagramm/
+    unit: Abbildung s-t Fahrrad (Übung Weg nach 4 s)
+    level: 2
+    evidence: >-
+      Achsen 0–32 m, 0–8 s; Unterschrift: „Suche t = 4 s … lies den Weg links ab.“
+  - item: explainer-representation-explained
+    page: /beschleunigung/richtung/
+    unit: Abbildung v-t Umkehr (Beispiel und Übung)
+    level: 2
+    evidence: >-
+      „Die Linie fällt die ganze Zeit gleichmäßig. Bei 4 s schneidet sie die Zeitachse. Dort kehrt der Wagen um.“ Tabelle mit v und s, Vorzeichenregel in „Regel“ darüber.
+  - item: explainer-representation-explained
+    page: /beschleunigung/richtung/
+    unit: Komponente DiagrammLabor mit Umkehr (Ausprobieren)
+    level: 1
+    evidence: >-
+      „Ziehe die Punkte … unter die Zeitachse. Was macht der Wagen dann?“ Dass das s-t-Diagramm negative Entfernungen zeigt (nach links vom Start; bei allen v = −8 „s = -64 m“, Achse läuft von 0 bis −64) wird nicht gesagt, obwohl der Text vorher nur von „Entfernung … nach rechts gemessen“ spricht. Gestrichelte Linie und Wagen ungeklärt.
+    did: >-
+      Alle Regler auf −8 und +8, Zeit 3, Abspielen bis 8 s (v = −4, s = 0 m, „Der Wagen kehrt bei t = 4 s um“), Zurücksetzen.
+  - item: explainer-representation-explained
+    page: /beschleunigung/richtung/
+    unit: Komponente DiagrammZeichnen (Übung)
+    level: 2
+    evidence: >-
+      Aufgabe nennt Punkte bei 0–8 s, „Rechts ist positiv“; Achse −8 bis 8 mit Beschriftung; Regler tragen Wert und Zeit.
+    did: >-
+      Startzustand angesehen (alle 0), Regler bewegt.
+  - item: explainer-representation-explained
+    page: /beschleunigung/diagramme-ueben/
+    unit: Abbildung s-t gleichförmig (Übung Geschwindigkeit)
+    level: 2
+    evidence: >-
+      „Lies den Weg bei t = 5 s ab. Die Geschwindigkeit ist Weg durch Zeit.“ Achsen beschriftet.
+  - item: explainer-representation-explained
+    page: /beschleunigung/diagramme-ueben/
+    unit: Komponente DiagrammZeichnen (gemischte Übung)
+    level: 2
+    evidence: >-
+      Wie oben: Aufgabe mit Fahrtbeschreibung, beschriftete Regler; Hinweis „Bei einer Fahrt, die umkehrt, wird sie dabei auch negativ.“ Achse −8…10 verfügbar. Beispiel „Läuferin …“ gezeigt.
+    did: >-
+      Startzustand angesehen, Regler bewegt.
+  # ---- control purpose
+  - item: explainer-control-purpose
+    page: /beschleunigung/v-t-diagramm/
+    unit: Komponente DiagrammLabor (Regler, Zeitregler, Abspielen, Zurücksetzen)
+    level: 2
+    evidence: >-
+      Jeder Regler verschiebt den roten Punkt und ändert die Zeile „Bei t = 8 s: v = 10 m/s, bisheriger Weg s = 80 m“. Text sagt, wozu: „Achte darauf, was mit dem Wagen und mit dem Weg passiert.“ Startzustand ist die Fahrt aus dem Beispiel (0…8 m/s). Beschriftung und Position stimmen nach jedem Schritt (Abspielen endet bei 8 m/s, 32 m = Beispiel; Zurücksetzen stellt t = 0 und die Beispielfahrt her).
+    did: >-
+      Alle Regler auf 10, auf 0; Zeitregler 3; Abspielen; Zurücksetzen. Punkte ziehen nicht probiert, nur Regler.
+  - item: explainer-control-purpose
+    page: /beschleunigung/s-t-diagramm/
+    unit: Komponente DiagrammLabor mit beiden Diagrammen
+    level: 2
+    evidence: >-
+      Regler ändern v-t-Linie und s-t-Kurve zugleich; Achse des s-t-Diagramms passt sich an (bis 80 m bei v = 10). Start „Fahrrad fährt an“, Text nennt Zweck („beobachte die Kurve rechts“).
+    did: >-
+      Alle Regler 10 / 0, Zeit 3 / 8, Abspielen, Zurücksetzen.
+  - item: explainer-control-purpose
+    page: /beschleunigung/richtung/
+    unit: Komponente DiagrammLabor mit Umkehr
+    level: 2
+    evidence: >-
+      Regler −8…8; Anzeige „v = -4 m/s, Entfernung vom Start s = 0 m“ am Ende der Beispielfahrt, die Meldung „Der Wagen kehrt bei t = 4 s um.“ erscheint nur, wenn es eine Umkehr gibt (bei allen −8 oder +8 verschwindet sie). Der Text fordert „am Ende wieder am Start“ – Anzeige s zeigt, ob es klappt.
+    did: >-
+      Alle −8, alle +8, Zeit 3, Abspielen, Zurücksetzen.
+  - item: explainer-control-purpose
+    page: /beschleunigung/v-t-diagramm/
+    unit: Komponente DiagrammZeichnen (Regler)
+    level: 2
+    evidence: >-
+      Fünf Regler mit Beschriftung „Geschwindigkeit nach 4 s: 0 m/s“ bewegen jeweils einen Punkt; „Prüfen“ prüft.
+    did: >-
+      Regler verschoben, Startzustand alle 0.
+  - item: explainer-control-purpose
+    page: /beschleunigung/richtung/
+    unit: Komponente DiagrammZeichnen (Regler)
+    level: 2
+    evidence: >-
+      Gleiches Verhalten, Bereich −8…8, Beschriftung mit Wert.
+    did: >-
+      Regler verschoben.
+  - item: explainer-control-purpose
+    page: /beschleunigung/diagramme-ueben/
+    unit: Komponente DiagrammZeichnen (Regler)
+    level: 2
+    evidence: >-
+      Gleiches Verhalten, Bereich passt zu Fahrten mit und ohne Umkehr.
+    did: >-
+      Regler verschoben.
+  # ---- text figure agree
+  - item: explainer-text-figure-agree
+    page: /beschleunigung/wiederholung/
+    unit: Beispiel Wagen mit Abbildung und Tabelle
+    level: 2
+    evidence: >-
+      „Ein Wagen rollt in 5 s genau 8 m weit … 1,6 m/s“; Abbildung endet bei 5 s / 8 m; Tabelle 1,6 / 3,2 / 8.
+  - item: explainer-text-figure-agree
+    page: /beschleunigung/schneller-langsamer/
+    unit: Beispiel Fahrt zur Schule (Text und Tabelle)
+    level: 2
+    evidence: >-
+      „von 0 m/s auf 5 m/s … bleibt bei 5 m/s … bremst du ab, bis du bei 0 m/s stehst“ = Tabelle.
+  - item: explainer-text-figure-agree
+    page: /beschleunigung/v-t-diagramm/
+    unit: Beispiel Fahrrad (Tabelle, Abbildung, Rechnung) und Labor
+    level: 2
+    evidence: >-
+      Tabelle 0…8 m/s, Abbildung, Rechnung 32 m; Labor startet mit derselben Fahrt. Text nennt „Wagen“, Labor zeigt Wagen, Weg als Zahl – vorhanden.
+  - item: explainer-text-figure-agree
+    page: /beschleunigung/s-t-diagramm/
+    unit: Beispiel „Das Fahrrad von eben“
+    level: 2
+    evidence: >-
+      Ankündigung „Das Fahrrad aus dem letzten Beispiel“, gleiche Zahlen (0…8 m/s, 32 m).
+  - item: explainer-text-figure-agree
+    page: /beschleunigung/richtung/
+    unit: Beispiel Wagen auf der Rampe
+    level: 2
+    evidence: >-
+      Text „4 m/s … steht nach 4 s … −4 m/s nach 8 s“, Tabelle und Abbildung gleich.
+  - item: explainer-text-figure-agree
+    page: /beschleunigung/diagramme-ueben/
+    unit: Seite (Regel-Tabelle, Beispiel Roller)
+    level: 1
+    evidence: >-
+      Tabelle „Kurve | v-t: ungleichmäßige Änderung der Geschwindigkeit“: die Seite zeigt kein v-t-Diagramm mit Kurve (Beispiel Roller hat keine Abbildung, obwohl Text „Im v-t-Diagramm besteht die Fläche aus einem Dreieck und einem Rechteck“).
+  # ---- one step
+  - item: explainer-one-step
+    page: /beschleunigung/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: >-
+      Nur v = s/t als Wiederholung, ein Beispiel.
+  - item: explainer-one-step
+    page: /beschleunigung/schneller-langsamer/
+    unit: Seite
+    level: 1
+    evidence: >-
+      Drei Begriffe (Beschleunigen, Abbremsen, Richtungsänderung) und die Richtungsänderung kommt auf der Seite „Richtungsänderung im Diagramm“ erneut; Übung „wagen-umkehr“ nimmt sie vorweg.
+  - item: explainer-one-step
+    page: /beschleunigung/v-t-diagramm/
+    unit: Seite
+    level: 1
+    evidence: >-
+      Zwei Schritte: v-t-Diagramm lesen und „Der Weg steckt im Diagramm“ (Fläche, Dreiecksformel s = ½·t·v) mit einer Generatoraufgabe dazu.
+  - item: explainer-one-step
+    page: /beschleunigung/s-t-diagramm/
+    unit: Seite
+    level: 2
+    evidence: >-
+      Ein Schritt: Steilheit des s-t-Diagramms bei Änderung der Geschwindigkeit.
+  - item: explainer-one-step
+    page: /beschleunigung/richtung/
+    unit: Seite
+    level: 1
+    evidence: >-
+      Vorzeichen der Geschwindigkeit, Umkehrpunkt, Entfernung im s-t-Diagramm („Am Umkehrpunkt hat die Kurve einen höchsten Punkt“) und Zeichnen mit Umkehr auf einer Seite.
+  - item: explainer-one-step
+    page: /beschleunigung/diagramme-ueben/
+    unit: Seite
+    level: 1
+    evidence: >-
+      Neben der Zusammenfassung neue Methode: Fläche aus Dreieck plus Rechteck („Zusammen ist der Roller 24 m gefahren“), nicht vorher geübt.
+  # ---- steps explain
+  - item: explainer-steps-explain
+    page: /beschleunigung/wiederholung/
+    unit: Beispiel Wagen
+    level: 2
+    evidence: >-
+      „v = 8 m / 5 s = 1,6 m/s“ mit Zahlen, Formel steht in der Regel.
+  - item: explainer-steps-explain
+    page: /beschleunigung/schneller-langsamer/
+    unit: Beispiel Fahrt zur Schule
+    level: 2
+    evidence: >-
+      Jeder Abschnitt mit Zahlen und Begriff in der Tabelle („0 m/s bis 5 m/s | beschleunigen“).
+  - item: explainer-steps-explain
+    page: /beschleunigung/v-t-diagramm/
+    unit: Beispiel Dreieck
+    level: 2
+    evidence: >-
+      „Das Dreieck hat die Breite 8 s und die Höhe 8 m/s. Seine Fläche ist halb so groß wie ein Rechteck: s = ½ · 8 s · 8 m/s = 32 m.“
+  - item: explainer-steps-explain
+    page: /beschleunigung/v-t-diagramm/
+    unit: Generierte Aufgabe weg-aus-dreieck (Schritte, Seeds t, v aus {2…10})
+    level: 1
+    evidence: >-
+      Schritte: „s = ½ · t · v“, dann „s = ½ · {{t}} · {{v}} = {{answer}}“ – Zahlen eingesetzt, aber der Grund (Dreieck, Hälfte vom Rechteck) steht nur im Hinweis, nicht in den Schritten.
+  - item: explainer-steps-explain
+    page: /beschleunigung/s-t-diagramm/
+    unit: Beispiel Fahrrad (Weg-Tabelle)
+    level: 1
+    evidence: >-
+      Die Wege 2, 8, 18, 32 m stehen in der Tabelle ohne Rechnung; wie sie aus dem v-t-Diagramm (Flächen) folgen, wird nicht gezeigt.
+  - item: explainer-steps-explain
+    page: /beschleunigung/richtung/
+    unit: Beispiel Wagen auf der Rampe
+    level: 1
+    evidence: >-
+      Entfernung 0, 6, 8, 6, 0 m ist als Tabellenspalte vorgegeben, nicht berechnet.
+  - item: explainer-steps-explain
+    page: /beschleunigung/diagramme-ueben/
+    unit: Beispiel Roller Dreieck + Rechteck
+    level: 2
+    evidence: >-
+      „Dreieck: ½ · 4 s · 6 m/s = 12 m. Rechteck: 2 s · 6 m/s = 12 m. Zusammen … 24 m.“
+  - item: explainer-steps-explain
+    page: /beschleunigung/diagramme-ueben/
+    unit: Generierte Aufgabe weg-dreieck-rechteck (Schritte)
+    level: 1
+    evidence: >-
+      „s = ½ · t₁ · v + t₂ · v“, dann Zahlen eingesetzt = Ergebnis; kein Grund pro Schritt (Dreieck/Rechteck nur im Hinweis); Zwischenwerte nicht ausgerechnet.
+  # ---- honest headings
+  - item: explainer-honest-headings
+    page: /beschleunigung/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Warum diese Wiederholung?“, „Regel“, „Beispiel“ – passen.
+  - item: explainer-honest-headings
+    page: /beschleunigung/schneller-langsamer/
+    unit: Seite
+    level: 2
+    evidence: >-
+      Kein „Ausprobieren“; „Übung“ mit Aufgaben.
+  - item: explainer-honest-headings
+    page: /beschleunigung/v-t-diagramm/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Ausprobieren“ über dem bedienbaren DiagrammLabor.
+  - item: explainer-honest-headings
+    page: /beschleunigung/s-t-diagramm/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Ausprobieren“ über dem bedienbaren DiagrammLabor.
+  - item: explainer-honest-headings
+    page: /beschleunigung/richtung/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Ausprobieren“ über dem bedienbaren DiagrammLabor.
+  - item: explainer-honest-headings
+    page: /beschleunigung/diagramme-ueben/
+    unit: Seite
+    level: 2
+    evidence: >-
+      „Regel“ ist eine Zusammenfassungstabelle, „Beispiel“ ein Rechenbeispiel; kein „Ausprobieren“.
+  # ---- age
+  - item: explainer-age-appropriate
+    page: /beschleunigung/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: >-
+      Kurz, sachlich, Klasse 9/10 angemessen („Gleich lernst du …“).
+  - item: explainer-age-appropriate
+    page: /beschleunigung/schneller-langsamer/
+    unit: Seite
+    level: 1
+    evidence: >-
+      Für Klasse 9–10 sehr elementar: „Ein Körper beschleunigt, wenn seine Geschwindigkeit größer wird. Er wird schneller.“, „Dafür gibt es genaue Wörter.“ – klingt nach Klasse 5/6.
+  - item: explainer-age-appropriate
+    page: /beschleunigung/v-t-diagramm/
+    unit: Seite
+    level: 2
+    evidence: >-
+      Tacho-Situation, Flächenrechnung – passend.
+  - item: explainer-age-appropriate
+    page: /beschleunigung/s-t-diagramm/
+    unit: Seite
+    level: 2
+    evidence: >-
+      Sachlicher Ton, Skateboard, Bus – passend.
+  - item: explainer-age-appropriate
+    page: /beschleunigung/richtung/
+    unit: Seite
+    level: 2
+    evidence: >-
+      Vorzeichen, Umkehrpunkt, Rampe – passend.
+  - item: explainer-age-appropriate
+    page: /beschleunigung/diagramme-ueben/
+    unit: Seite
+    level: 2
+    evidence: >-
+      Zusammenfassende Tabelle, gemischte Aufgaben – passend.
+  # ---- figure hides answer
+  - item: explainer-figure-hides-answer
+    page: /beschleunigung/v-t-diagramm/
+    unit: Übung roller-v-bei-4s (Abbildung)
+    level: 2
+    evidence: >-
+      SVG hat nur Achsenzahlen, keine Markierung bei t = 4 s oder 6 m/s.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigung/v-t-diagramm/
+    unit: Übung roller-was-passiert (Abbildung)
+    level: 2
+    evidence: >-
+      Nur Achsenzahlen; Unterschrift lenkt zum Abschnitt, nennt aber nicht die Antwort.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigung/v-t-diagramm/
+    unit: Komponente DiagrammZeichnen
+    level: 2
+    evidence: >-
+      Alle Punkte starten bei 0; vor „Prüfen“ zeigt nichts den Verlauf der gesuchten Fahrt.
+    did: >-
+      Startzustand, Regler bewegt, ohne Prüfen.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigung/s-t-diagramm/
+    unit: Übung fahrrad-weg-bei-4s (Abbildung)
+    level: 2
+    evidence: >-
+      Nur Achsenzahlen, keine Markierung bei 8 m. (Die Zahl steht aber in der Tabelle des Beispiels darüber.)
+  - item: explainer-figure-hides-answer
+    page: /beschleunigung/richtung/
+    unit: Übung umkehrzeit (Abbildung)
+    level: 2
+    evidence: >-
+      Abbildung ohne Markierung; Achsenzahlen 0 4 2 −2 −4. Die Antwort steht allerdings wörtlich in der Unterschrift des Beispiels darüber („Bei 4 s schneidet sie die Zeitachse“) – das ist Text, nicht Figur.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigung/richtung/
+    unit: Komponente DiagrammZeichnen
+    level: 2
+    evidence: >-
+      Start alle Punkte bei 0, nichts verrät die Lösung.
+    did: >-
+      Startzustand, Regler bewegt, ohne Prüfen.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigung/diagramme-ueben/
+    unit: Übung geschwindigkeit-aus-s-t (Abbildung)
+    level: 2
+    evidence: >-
+      Abbildung ohne Zahl bei 5 s / 8 m markiert (nur Achsenzahlen 0…5, 0…8).
+  - item: explainer-figure-hides-answer
+    page: /beschleunigung/diagramme-ueben/
+    unit: Komponente DiagrammZeichnen
+    level: 2
+    evidence: >-
+      Start alle Punkte bei 0.
+    did: >-
+      Startzustand angesehen, Regler bewegt, ohne Prüfen.
+notes: >-
+  Lernkarte (Map) nicht abgerufen; Vorwissen angenommen wie es Klasse 9–10 üblich hat: v = s/t (laut App Klasse 7), negative Zahlen, Flächen von Dreieck und Rechteck. Bedient in Chromium bei 1280×800 und 360×740 (kein horizontaler Überlauf). Labore mit Reglern, Abspielen und Zurücksetzen bedient; das Ziehen der Punkte mit der Maus nicht geprüft. Generierte Aufgaben nach Quelltext gelesen (Schritte sind Vorlagen, für alle Seeds gleich); die Antwortfelder der Aufgaben mit „Prüfen“ wurden nicht durchgespielt (nur Startzustand und Figuren vor „Prüfen“ beurteilt). Figuren nur nach SVG-Text und Seitenbild beurteilt, Kommentar zu Seed-Stichproben fehlt deshalb.
+at: 2026-11-04

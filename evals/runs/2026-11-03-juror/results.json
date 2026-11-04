@@ -384,6 +384,60 @@
           "min": 1,
           "max": 1,
           "n": 2
+        },
+        "l_mean": {
+          "mean": 0.818,
+          "min": 0.805,
+          "max": 0.83,
+          "n": 2
+        },
+        "l_explainer-learner-start": {
+          "mean": 0.725,
+          "min": 0.7,
+          "max": 0.75,
+          "n": 2
+        },
+        "l_explainer-representation-explained": {
+          "mean": 0.732,
+          "min": 0.715,
+          "max": 0.75,
+          "n": 2
+        },
+        "l_explainer-control-purpose": {
+          "mean": 0.6,
+          "min": 0.5,
+          "max": 0.7,
+          "n": 2
+        },
+        "l_explainer-text-figure-agree": {
+          "mean": 0.895,
+          "min": 0.875,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-one-step": {
+          "mean": 0.768,
+          "min": 0.7,
+          "max": 0.835,
+          "n": 2
+        },
+        "l_explainer-figure-hides-answer": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-steps-explain": {
+          "mean": 0.675,
+          "min": 0.55,
+          "max": 0.8,
+          "n": 2
+        },
+        "l_explainer-age-appropriate": {
+          "mean": 0.95,
+          "min": 0.9,
+          "max": 1,
+          "n": 2
         }
       },
       "metrics": {
@@ -555,6 +609,60 @@
         "creator_without_mistakes": {
           "mean": 1,
           "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "l_mean": {
+          "mean": 0.858,
+          "min": 0.8,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-learner-start": {
+          "mean": 0.883,
+          "min": 0.835,
+          "max": 0.93,
+          "n": 2
+        },
+        "l_explainer-representation-explained": {
+          "mean": 0.898,
+          "min": 0.875,
+          "max": 0.92,
+          "n": 2
+        },
+        "l_explainer-control-purpose": {
+          "mean": 0.74,
+          "min": 0.625,
+          "max": 0.855,
+          "n": 2
+        },
+        "l_explainer-text-figure-agree": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-one-step": {
+          "mean": 0.78,
+          "min": 0.645,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-figure-hides-answer": {
+          "mean": 0.7,
+          "min": 0.4,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-steps-explain": {
+          "mean": 0.795,
+          "min": 0.725,
+          "max": 0.865,
+          "n": 2
+        },
+        "l_explainer-age-appropriate": {
+          "mean": 0.918,
+          "min": 0.835,
           "max": 1,
           "n": 2
         }
@@ -736,6 +844,60 @@
           "min": 0,
           "max": 1,
           "n": 2
+        },
+        "l_mean": {
+          "mean": 0.888,
+          "min": 0.885,
+          "max": 0.89,
+          "n": 2
+        },
+        "l_explainer-learner-start": {
+          "mean": 0.833,
+          "min": 0.75,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-representation-explained": {
+          "mean": 0.768,
+          "min": 0.69,
+          "max": 0.845,
+          "n": 2
+        },
+        "l_explainer-control-purpose": {
+          "mean": 0.95,
+          "min": 0.9,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-text-figure-agree": {
+          "mean": 0.875,
+          "min": 0.835,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-one-step": {
+          "mean": 0.79,
+          "min": 0.665,
+          "max": 0.915,
+          "n": 2
+        },
+        "l_explainer-figure-hides-answer": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-steps-explain": {
+          "mean": 0.75,
+          "min": 0.75,
+          "max": 0.75,
+          "n": 1
+        },
+        "l_explainer-age-appropriate": {
+          "mean": 0.958,
+          "min": 0.915,
+          "max": 1,
+          "n": 2
         }
       },
       "metrics": {
@@ -915,6 +1077,60 @@
           "min": 0,
           "max": 1,
           "n": 2
+        },
+        "l_mean": {
+          "mean": 0.935,
+          "min": 0.91,
+          "max": 0.96,
+          "n": 2
+        },
+        "l_explainer-learner-start": {
+          "mean": 0.923,
+          "min": 0.915,
+          "max": 0.93,
+          "n": 2
+        },
+        "l_explainer-representation-explained": {
+          "mean": 0.938,
+          "min": 0.875,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-control-purpose": {
+          "mean": 0.845,
+          "min": 0.69,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-text-figure-agree": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-one-step": {
+          "mean": 0.84,
+          "min": 0.75,
+          "max": 0.93,
+          "n": 2
+        },
+        "l_explainer-figure-hides-answer": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
+        },
+        "l_explainer-steps-explain": {
+          "mean": 0.878,
+          "min": 0.8,
+          "max": 0.955,
+          "n": 2
+        },
+        "l_explainer-age-appropriate": {
+          "mean": 1,
+          "min": 1,
+          "max": 1,
+          "n": 2
         }
       },
       "metrics": {
@@ -1021,6 +1237,17 @@
         "t_agent_input_tokens": 170111,
         "t_agent_cache_read_tokens": 8054895,
         "t_agent_output_tokens": 86808,
+        "l_mean": 1.66,
+        "l_zeros": 0,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-learner-start": 1.4,
+        "l_explainer-representation-explained": 1.5,
+        "l_explainer-control-purpose": 1.4,
+        "l_explainer-text-figure-agree": 1.83,
+        "l_explainer-one-step": 1.4,
+        "l_explainer-steps-explain": 1.6,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 1.8,
         "input_tokens": 650363,
         "cache_tokens": 633785,
         "output_tokens": 3646,
@@ -1078,6 +1305,17 @@
         "t_agent_input_tokens": 187211,
         "t_agent_cache_read_tokens": 7976035,
         "t_agent_output_tokens": 87768,
+        "l_mean": 1.61,
+        "l_zeros": 4,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-learner-start": 1.5,
+        "l_explainer-representation-explained": 1.43,
+        "l_explainer-control-purpose": 1,
+        "l_explainer-text-figure-agree": 1.75,
+        "l_explainer-one-step": 1.67,
+        "l_explainer-steps-explain": 1.1,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 2,
         "input_tokens": 607104,
         "cache_tokens": 584786,
         "output_tokens": 3856,
@@ -1135,6 +1373,17 @@
         "t_agent_input_tokens": 231939,
         "t_agent_cache_read_tokens": 11971761,
         "t_agent_output_tokens": 109513,
+        "l_mean": 1.78,
+        "l_zeros": 0,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-learner-start": 1.83,
+        "l_explainer-representation-explained": 1.69,
+        "l_explainer-control-purpose": 2,
+        "l_explainer-text-figure-agree": 1.83,
+        "l_explainer-one-step": 1.33,
+        "l_explainer-steps-explain": 1.5,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 1.83,
         "input_tokens": 616497,
         "cache_tokens": 595758,
         "output_tokens": 3480,
@@ -1192,6 +1441,16 @@
         "t_agent_input_tokens": 174987,
         "t_agent_cache_read_tokens": 8370425,
         "t_agent_output_tokens": 98711,
+        "l_mean": 1.77,
+        "l_zeros": 1,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-learner-start": 1.5,
+        "l_explainer-representation-explained": 1.38,
+        "l_explainer-control-purpose": 1.8,
+        "l_explainer-text-figure-agree": 1.67,
+        "l_explainer-one-step": 1.83,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 2,
         "input_tokens": 577727,
         "cache_tokens": 557543,
         "output_tokens": 3777,
@@ -1248,6 +1507,17 @@
         "t_agent_input_tokens": 287814,
         "t_agent_cache_read_tokens": 19681393,
         "t_agent_output_tokens": 139443,
+        "l_mean": 1.83,
+        "l_zeros": 2,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-learner-start": 1.86,
+        "l_explainer-representation-explained": 1.84,
+        "l_explainer-control-purpose": 1.71,
+        "l_explainer-text-figure-agree": 2,
+        "l_explainer-one-step": 1.29,
+        "l_explainer-steps-explain": 1.73,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 2,
         "input_tokens": 779365,
         "cache_tokens": 757266,
         "output_tokens": 4201,
@@ -1304,6 +1574,17 @@
         "t_agent_input_tokens": 243856,
         "t_agent_cache_read_tokens": 17277067,
         "t_agent_output_tokens": 120126,
+        "l_mean": 1.6,
+        "l_zeros": 5,
+        "l_explainer-figure-hides-answer": 0.8,
+        "l_explainer-learner-start": 1.67,
+        "l_explainer-representation-explained": 1.75,
+        "l_explainer-control-purpose": 1.25,
+        "l_explainer-text-figure-agree": 2,
+        "l_explainer-one-step": 1.83,
+        "l_explainer-steps-explain": 1.45,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 1.67,
         "input_tokens": 570702,
         "cache_tokens": 556274,
         "output_tokens": 3567,
@@ -1361,6 +1642,17 @@
         "t_agent_input_tokens": 315563,
         "t_agent_cache_read_tokens": 19687037,
         "t_agent_output_tokens": 174997,
+        "l_mean": 1.82,
+        "l_zeros": 0,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-learner-start": 1.83,
+        "l_explainer-representation-explained": 1.75,
+        "l_explainer-control-purpose": 1.38,
+        "l_explainer-text-figure-agree": 2,
+        "l_explainer-one-step": 1.5,
+        "l_explainer-steps-explain": 1.91,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 2,
         "input_tokens": 771305,
         "cache_tokens": 749500,
         "output_tokens": 4271,
@@ -1418,6 +1710,17 @@
         "t_agent_input_tokens": 372348,
         "t_agent_cache_read_tokens": 25057296,
         "t_agent_output_tokens": 213584,
+        "l_mean": 1.92,
+        "l_zeros": 0,
+        "l_explainer-figure-hides-answer": 2,
+        "l_explainer-learner-start": 1.86,
+        "l_explainer-representation-explained": 2,
+        "l_explainer-control-purpose": 2,
+        "l_explainer-text-figure-agree": 2,
+        "l_explainer-one-step": 1.86,
+        "l_explainer-steps-explain": 1.6,
+        "l_explainer-honest-headings": 2,
+        "l_explainer-age-appropriate": 2,
         "input_tokens": 784418,
         "cache_tokens": 769053,
         "output_tokens": 3832,

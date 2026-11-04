@@ -1,0 +1,443 @@
+url: http://127.0.0.1:4402/
+grade: 9-10
+subject: physik
+competencies:
+  - geschwindigkeitsaenderung
+  - bewegungsdiagramme
+pages:
+  - /geschwindigkeit-aendert-sich/geschwindigkeit-wiederholt/
+  - /geschwindigkeit-aendert-sich/schneller-langsamer/
+  - /geschwindigkeit-aendert-sich/richtung-aendert-sich/
+  - /bewegungsdiagramme/weg-zeit-diagramm/
+  - /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+  - /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+  - /bewegungsdiagramme/diagramme-zeichnen/
+units:
+  - item: explainer-learner-start
+    page: /geschwindigkeit-aendert-sich/geschwindigkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence:
+      Beginnt mit „Das kennst du schon“ und „Das hast du in Klasse 7 gelernt“; v = s/t, m/s und km/h mit Fahrradbeispiel
+      (60 m in 10 s = 6 m/s).
+  - item: explainer-learner-start
+    page: /geschwindigkeit-aendert-sich/schneller-langsamer/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Du trittst auf dem Fahrrad in die Pedale und wirst schneller … Vor der roten Ampel bremst du“, dann „Stell
+      dir vor, eine Kamera fotografiert einen Wagen jede Sekunde“. Beschleunigen/Abbremsen werden in Definitionen erklärt."
+  - item: explainer-learner-start
+    page: /geschwindigkeit-aendert-sich/richtung-aendert-sich/
+    unit: Seite
+    level: 1
+    evidence:
+      "Start: Karussell, „Der Tacho würde dauernd dieselbe Zahl zeigen … Ändert sich bei dir die Geschwindigkeit, obwohl
+      du nicht schneller oder langsamer wirst?“ – die Frage braucht schon die neue Idee (Geschwindigkeit hat Richtung); „Tempo“
+      und „Geschwindigkeit“ als zwei Begriffe kommen erst danach, ohne Rückbezug auf die bisherige Gleichsetzung."
+  - item: explainer-learner-start
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Ein Wagen rollt über den Tisch. Alle zwei Sekunden misst du …“, Verweis auf Klasse 7 (v = s : t). Achsen
+      und „Weg-Zeit-Diagramm“ werden direkt danach erklärt."
+  - item: explainer-learner-start
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Ein Fahrrad hat dafür einen Tacho … Wenn du den Tacho alle zwei Sekunden abliest …“ – knüpft an das vorige
+      Diagramm und den Alltag an."
+  - item: explainer-learner-start
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Seite
+    level: 2
+    evidence: "Start: „so wie der Kilometerstand und der Tacho in einem Auto“; beide Diagramme sind von den Vorseiten bekannt."
+  - item: explainer-learner-start
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Seite
+    level: 2
+    evidence:
+      "Start: „Bisher hast du Diagramme gelesen … Jetzt gehst du den umgekehrten Weg … wie eine Wegbeschreibung, die
+      du auf eine Karte überträgst“."
+  - item: explainer-one-step
+    page: /geschwindigkeit-aendert-sich/geschwindigkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence: Nur Wiederholung von v = s/t mit einem Beispiel; nichts Neues.
+  - item: explainer-one-step
+    page: /geschwindigkeit-aendert-sich/schneller-langsamer/
+    unit: Seite
+    level: 2
+    evidence:
+      "Ein Schritt: aus Abständen im Sekundentakt erkennen, ob gleich/schneller/langsamer. Rückwärtsfahren wird nur
+      abgegrenzt („kommt auf der nächsten Seite“)."
+  - item: explainer-one-step
+    page: /geschwindigkeit-aendert-sich/richtung-aendert-sich/
+    unit: Seite
+    level: 2
+    evidence:
+      "Ein Schritt: Tempo und Richtung; Pfeil als Geschwindigkeit, Tabelle mit fünf Situationen als eine Übersicht.
+      Keine Beschleunigungsformel."
+  - item: explainer-one-step
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Seite
+    level: 1
+    evidence:
+      "Die Seite bringt Weg ablesen, Steilheit/Geschwindigkeit berechnen (Δs : Δt), Rückfahrt (Linie fällt), „gleichförmige
+      Bewegung“ und Knick auf einmal; im Beispiel kommt die Rechnung dazu. Ein Lernender kommt durch, aber mit zwei Methoden
+      (ablesen und rechnen) auf einer Seite."
+  - item: explainer-one-step
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      "Ein Schritt: Höhe der Linie = Geschwindigkeit, vier Regeln, eine Vergleichstabelle. Weg-Zeit-Diagramm erscheint
+      nur als Anzeige im Ausprobieren."
+  - item: explainer-one-step
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Seite
+    level: 2
+    evidence: "Ein Schritt: von einem Diagramm auf das andere schließen, vier Zuordnungen."
+  - item: explainer-one-step
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Seite
+    level: 2
+    evidence:
+      "Ein Schritt: aus Beschreibung zeichnen (drei Schritte vorgehen, je ein Beispiel für s-t und v-t). Δs = v · Δt
+      wird dort erklärt, wo es gebraucht wird."
+  - item: explainer-honest-headings
+    page: /geschwindigkeit-aendert-sich/geschwindigkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence: "Titel: Das kennst du schon / Weg, Zeit und Geschwindigkeit. Alle passen; kein „Ausprobieren“ ohne Bedienbares."
+  - item: explainer-honest-headings
+    page: /geschwindigkeit-aendert-sich/schneller-langsamer/
+    unit: Seite
+    level: 2
+    evidence: "Titel: Einstieg / So erkennst du die Änderung / Übung. Alle passen; kein „Ausprobieren“ ohne Bedienbares."
+  - item: explainer-honest-headings
+    page: /geschwindigkeit-aendert-sich/richtung-aendert-sich/
+    unit: Seite
+    level: 2
+    evidence:
+      "Titel: Einstieg / Tempo und Richtung / Wann sich die Geschwindigkeit ändert / Übung. Alle passen; kein „Ausprobieren“
+      ohne Bedienbares."
+  - item: explainer-honest-headings
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Seite
+    level: 2
+    evidence: "Titel: Einstieg / So gehst du vor / Übung. Alle passen; kein „Ausprobieren“ ohne Bedienbares."
+  - item: explainer-honest-headings
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      Abschnitt „Ausprobieren“ enthält ein Diagramm mit ziehbaren Punkten, Zeit-Schieber und „Abspielen“ – es wird tatsächlich
+      etwas bedient. Übrige Titel (Einstieg, So liest du das Diagramm, Übung) passen.
+    did: Punkte gezogen, Schieber und Knöpfe benutzt.
+  - item: explainer-honest-headings
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      Abschnitt „Ausprobieren“ enthält ein Diagramm mit ziehbaren Punkten, Zeit-Schieber und „Abspielen“ – es wird tatsächlich
+      etwas bedient. Übrige Titel (Einstieg, So liest du das Diagramm, Übung) passen.
+    did: Punkte gezogen, Schieber und Knöpfe benutzt.
+  - item: explainer-honest-headings
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Seite
+    level: 2
+    evidence:
+      Abschnitt „Ausprobieren“ enthält ein Diagramm mit ziehbaren Punkten, Zeit-Schieber und „Abspielen“ – es wird tatsächlich
+      etwas bedient. Übrige Titel (Einstieg, So liest du das Diagramm, Übung) passen.
+    did: Punkte gezogen, Schieber und Knöpfe benutzt.
+  - item: explainer-age-appropriate
+    page: /geschwindigkeit-aendert-sich/geschwindigkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence:
+      „Die Geschwindigkeit sagt, wie viel Weg ein Körper in einer bestimmten Zeit zurücklegt.“ Knapp, für Klasse 9–10
+      passend.
+  - item: explainer-age-appropriate
+    page: /geschwindigkeit-aendert-sich/schneller-langsamer/
+    unit: Seite
+    level: 2
+    evidence: Fahrrad/Ampel, Wagen mit Kamera; sachlich, nicht kindisch, kurze Sätze.
+  - item: explainer-age-appropriate
+    page: /geschwindigkeit-aendert-sich/richtung-aendert-sich/
+    unit: Seite
+    level: 2
+    evidence: Karussell, Zug, Auto in der Kurve; Ton passend.
+  - item: explainer-age-appropriate
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence:
+      Dichter Text mit Δs, Δt und Regeln – für Klasse 9–10 angemessen; Wagen auf dem Tisch ist etwas kindlich, aber
+      sachlich.
+  - item: explainer-age-appropriate
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: Seite
+    level: 2
+    evidence: Tacho-Vergleich, klare Regeln; passend.
+  - item: explainer-age-appropriate
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Seite
+    level: 2
+    evidence: Kilometerstand/Tacho; passend.
+  - item: explainer-age-appropriate
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Seite
+    level: 2
+    evidence: „Wie eine Wegbeschreibung, die du auf eine Karte überträgst“; passend, Texte der Aufgaben klar.
+  - item: explainer-representation-explained
+    page: /geschwindigkeit-aendert-sich/schneller-langsamer/
+    unit: Figur Streifenbilder (drei Fahrten)
+    level: 2
+    evidence:
+      "Text erklärt: „Eine Kamera fotografiert einen Wagen jede Sekunde und legt alle Bilder übereinander. Der Abstand
+      … ist der Weg … in dieser einen Sekunde.“ Bildunterschrift: „Gleich große Abstände, wachsende Abstände, schrumpfende Abstände:
+      Jedes Bild zeigt einen der drei Fälle.“ Sekundenmarken 0 s–4 s unter den Wagen."
+    did: Figur bei 1280 und 360 px angesehen.
+  - item: explainer-text-figure-agree
+    page: /geschwindigkeit-aendert-sich/schneller-langsamer/
+    unit: Figur Streifenbilder mit Text
+    level: 2
+    evidence:
+      Text „drei Fälle“ und Figur-Titel „Abstände gleich groß / werden größer / werden kleiner“ stimmen überein; Übung
+      nutzt Bild A–C im gleichen Stil und kündigt sie an („Auf den Bildern fährt ein Wagen von links nach rechts“).
+  - item: explainer-representation-explained
+    page: /geschwindigkeit-aendert-sich/richtung-aendert-sich/
+    unit: Figur Geschwindigkeitspfeile
+    level: 2
+    evidence:
+      "Text: „Man zeichnet die Geschwindigkeit als Pfeil. Die Länge des Pfeils ist das Tempo, die Spitze zeigt die Richtung.“
+      Bildunterschrift/Text: „Sie sind gleich lang, aber ihre Spitzen zeigen jedes Mal woandershin.“ Folgerung steht im Absatz
+      danach."
+  - item: explainer-text-figure-agree
+    page: /geschwindigkeit-aendert-sich/richtung-aendert-sich/
+    unit: Figur Pfeile mit Text und Tabelle
+    level: 2
+    evidence:
+      Text nennt „vier Pfeile“, Figur zeigt vier gleich lange Pfeile in verschiedenen Richtungen; Karussell in Einstieg,
+      Tabelle und Übung durchgehend.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Figur und Komponente Weg-Zeit-Diagramm (Ausprobieren)
+    level: 2
+    evidence:
+      "Bezug: „Senkrecht steht der Weg s … die Entfernung des Wagens vom Start“; „Die Linie ist nicht die Strecke …
+      kein Berg“; Bedeutung der Punkte, der feste Startpunkt, was man ändert („Du klickst einen der anderen Punkte an und ziehst
+      ihn“), Tabelle „Weg dazu / Geschwindigkeit (negativ heißt zurück)“ und Aufgabe „Verschiebe den Punkt bei 4 s nach oben.
+      Welche zwei Abschnitte ändern sich …“."
+    did: "Punkt bei 4 s 12× mit Pfeiltaste hoch (stoppt bei 8 m, Tabelle: 4 m/s), Zeit-Schieber auf 8, Abspielen, Zurücksetzen."
+  - item: explainer-control-purpose
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: "Komponente Weg-Zeit-Diagramm: Punkte, Zeit-Schieber, Abspielen, Zurücksetzen"
+    level: 2
+    evidence:
+      "Jeder Punkt ändert Linie, Tabelle und Wagen auf der Bahn; Schieber „Zeit t“ → „Zeit 8 s: Der Wagen ist 2 m vom
+      Start entfernt.“; Text sagt, wozu („fährt der Wagen unter dem Diagramm genau das, was die Linie sagt“). Grenzen 0–8 m
+      stimmen mit Bahn überein."
+    did: Alle Bedienelemente benutzt, auch bei 360 px.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Figuren und Komponente mit Text
+    level: 2
+    evidence:
+      „Von 2 s bis 6 s steht der Wagen“ passt zur Figur (4 m, waagerecht); Beispiel „von 0 m bei 0 s auf 4 m bei 2 s
+      … 2 m/s“ passt; Komponente nennt dieselbe Bahn 0–8 m wie im Text.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: Figur und Komponente Geschwindigkeit-Zeit-Diagramm (Ausprobieren)
+    level: 2
+    evidence:
+      "„Senkrecht steht die Geschwindigkeit v … so, wie sie der Tacho gerade zeigt“; „Wie weit er vom Start entfernt
+      ist, steht hier nicht“; Komponente: „Du veränderst: die Geschwindigkeit (orange, gestrichelt)“, „Du siehst: den Weg …
+      (blau, durchgezogen)“, Tabelle „Der Wagen: wird schneller …“."
+    did: Punkte per Pfeiltasten verändert; Schieber/Abspielen/Zurücksetzen benutzt.
+  - item: explainer-control-purpose
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: "Komponente v-t-Diagramm: Punkte, Zeit-Schieber, Abspielen, Zurücksetzen"
+    level: 2
+    evidence:
+      "Punkte ändern oberes Diagramm, Weg-Diagramm, Tabelle und Wagen gleichzeitig; Beschriftungen („Zeit 8 s: Der Wagen
+      fährt mit 2 m/s und ist 10 m vom Start entfernt“) stimmen mit Positionen überein; Aufgabentext sagt, was auszuprobieren
+      ist."
+    did: Wie vor; Bahn 0–32 m passt zur Achse.
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: Figuren und Komponente mit Text
+    level: 2
+    evidence:
+      Text „Geschwindigkeit von 0 bis 4 m/s in ganzen Zahlen“ und „Bahn von 0 bis 32 Metern“ entsprechen den Achsen;
+      Aufgabenfiguren sind als solche angekündigt.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Figur zwei Diagramme übereinander und Komponente (Ausprobieren)
+    level: 2
+    evidence:
+      "„Oben steht die Geschwindigkeit, unten der Weg, beide mit derselben Zeitachse. Die grauen gestrichelten Linien
+      markieren dieselben Zeiten“; Bildunterschrift „Lies von oben nach unten“; Regeln als Liste; Komponente: Start „fährt der
+      Wagen die ganze Zeit mit 2 m/s“. Kleiner Makel: in der Figur überdeckt der Achsentitel „t in s“ die Zahl 8."
+    did: Punkte 0 und 2 s auf 0 gezogen, Zeit 8 s, Abspielen, Zurücksetzen.
+  - item: explainer-control-purpose
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Komponente Ein Wagen, zwei Diagramme
+    level: 2
+    evidence:
+      Start zeigt ausdrücklich die gleichbleibende Fahrt (2 m/s); jeder Punkt ändert beide Diagramme, Tabelle (z. B.
+      „von 0 auf 2 m/s – wird schneller“) und Wagen; nach der Änderung 10 m bei 8 s passt zur Rechnung (0+2+4+4).
+    did: Punkte gezogen, Zeit, Abspielen, Zurücksetzen (zurück auf 2 m/s, 0 m).
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Figur und Komponente mit Text
+    level: 2
+    evidence:
+      Text „Der Wagen fährt an, fährt dann gleichmäßig, bremst ab und steht zuletzt“ entspricht der Figur (0→2→2→0→0
+      m/s, 8 m); Aufgaben des Ausprobierens passen zu den Achsen (bis 32 m).
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Komponente Diagramme zeichnen
+    level: 2
+    evidence:
+      "Aufgabe nennt das Diagramm („Setze die Punkte im Weg-Zeit-Diagramm. Der Start bei 0 s und 0 m steht fest.“);
+      Seite erklärt: „Ein Punkt im Weg-Zeit-Diagramm sagt, wie weit der Wagen vom Start entfernt ist, nicht, wie viel Weg im
+      letzten Abschnitt dazukam“, mit zwei Beispielen. Die Rückmeldung „Abschnitt 1 (0 s bis 2 s) ist zu flach“ benennt, was
+      falsch ist."
+    did:
+      "Mit einem Pfeiltasten-Schritt einen Punkt gesetzt und geprüft: „Leider nicht richtig. Abschnitt 1 … ist zu flach.“
+      Prüfen ist zuerst deaktiviert, bis ein Punkt bewegt wird."
+  - item: explainer-control-purpose
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: "Komponente Diagramme zeichnen: Punkte, Alle Punkte zurücksetzen, Neue Aufgabe"
+    level: 2
+    evidence:
+      Punkte starten alle auf 0 („Wert 0“, zeigen keine Lösung), „Neue Aufgabe“ wechselt Text und Diagrammart, „Alle
+      Punkte zurücksetzen“ leert. Prüfen ist ohne Bewegung deaktiviert, was nicht erklärt wird (kleiner Makel).
+  - item: explainer-text-figure-agree
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Komponente und Text
+    level: 2
+    evidence:
+      Beispiele „steht 2 s … 3 m/s“ nutzen dieselben 2-s-Abschnitte und Achsen wie die Übung; Aufgabe nennt jeweils,
+      welches Diagramm gezeichnet wird.
+  - item: explainer-representation-explained
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Figur „Falsch gezeichnet“ (Übung fehler-finden)
+    level: 2
+    evidence:
+      Aufgabe nennt die Fahrt in Worten, Figur zeigt die gezeichnete Linie; Antwortoptionen erklären jeweils per Rückmeldung
+      („Im Weg-Zeit-Diagramm steht jeder Punkt für die Entfernung vom Start“).
+  - item: explainer-steps-explain
+    page: /geschwindigkeit-aendert-sich/geschwindigkeit-wiederholt/
+    unit: Beispiel Fahrrad (60 m in 10 s)
+    level: 2
+    evidence: "„v = 60 m : 10 s = 6 m/s. Das sind 6 · 3,6 km/h = 21,6 km/h.“ Zahlen der Aufgabe, jeder Schritt benannt."
+  - item: explainer-steps-explain
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Beispiel „Geschwindigkeit eines Abschnitts“
+    level: 2
+    evidence:
+      "„Es kommen Δs = 4 m − 0 m = 4 m dazu, und es vergehen Δt = 2 s − 0 s = 2 s. … v = 4 m : 2 s = 2 m/s.“ Mit den
+      Zahlen der Figur, Werte ausgerechnet."
+  - item: explainer-steps-explain
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: "Generierte Übung „Geschwindigkeit ablesen“ (Aufgabe Nr. 6: 5 s/10 m, 8 s/19 m)"
+    level: 1
+    evidence:
+      "Schritt 1: „Δs = 19 m − 10 m und Δt = 8 s − 5 s.“ – die Differenzen bleiben als Term stehen; Schritt 2: „v =
+      Δs : Δt = 3 m/s“ ohne Begründung. Daten aus ablesungen.yaml haben das gleiche Muster in allen Seeds. Gut: Fehlerrückmeldungen
+      („Du hast Endweg durch Endzeit gerechnet …“)."
+    did: Aufgabe mit „Neue Aufgabe“ gewechselt; Schritte aus der Quelle gelesen (drei Seeds gleiche Form).
+  - item: explainer-steps-explain
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Beispiele Weg-Zeit und Geschwindigkeit-Zeit zeichnen
+    level: 2
+    evidence:
+      "„Im zweiten Abschnitt kommen Δs = 3 m/s · 2 s = 6 m dazu: Der Punkt bei 4 s liegt bei 0 m + 6 m = 6 m.“ und „Der
+      Punkt bei 2 s bei 2 m/s, denn der Wagen wird schneller.“"
+  - item: explainer-steps-explain
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Übung Diagramm zeichnen (Aufgaben Nr. 6 und 9)
+    level: 1
+    evidence:
+      "Es gibt keine Lösung mit Schritten, nur Hinweise wie „Abschnitt 1 (0 s bis 2 s) ist zu flach. Rechne noch einmal:
+      Weg = Geschwindigkeit · Zeit.“ – ohne die Zahlen der Aufgabe. Wer nicht weiterkommt, rät."
+  - item: explainer-figure-hides-answer
+    page: /geschwindigkeit-aendert-sich/schneller-langsamer/
+    unit: Übung Bilder zuordnen (Figur A–C)
+    level: 2
+    evidence: Figur zeigt die Daten, aber keine Deutung oder Markierung der richtigen Antwort vor „Prüfen“.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Übung Linie beschreiben (Figur Weg-Zeit-Linie)
+    level: 2
+    evidence: Figur zeigt die Daten, aber keine Deutung oder Markierung der richtigen Antwort vor „Prüfen“.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Übung Wagen ordnen (Figur drei Linien)
+    level: 2
+    evidence: Figur zeigt die Daten, aber keine Deutung oder Markierung der richtigen Antwort vor „Prüfen“.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/weg-zeit-diagramm/
+    unit: Übung Schnittpunkt (Figur A, B)
+    level: 2
+    evidence:
+      Figur zeigt zwei Linien und ihren Schnittpunkt, aber nicht die Deutung; der Fragetext nennt „4 s und 4 m“, die
+      Figur selbst gibt keine Lösung vor.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: Übung Wagen zwischen 4 s und 6 s (Figur)
+    level: 2
+    evidence: Figur zeigt die Daten, aber keine Deutung oder Markierung der richtigen Antwort vor „Prüfen“.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/geschwindigkeit-zeit-diagramm/
+    unit: Übung „Wie schnell bei 5 s?“ (Figur)
+    level: 2
+    evidence: Punkte liegen bei 2, 4, 6, 8 s; bei 5 s ist kein Wert markiert, man muss ablesen/interpolieren.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Übung passendes v-t-Diagramm (Figur)
+    level: 2
+    evidence: Figur zeigt die Daten, aber keine Deutung oder Markierung der richtigen Antwort vor „Prüfen“.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Übung Schnittpunkt im v-t-Diagramm (Figur)
+    level: 2
+    evidence: Figur zeigt die Daten, aber keine Deutung oder Markierung der richtigen Antwort vor „Prüfen“.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/ein-wagen-zwei-diagramme/
+    unit: Übung Weg nach 4 s (Figur)
+    level: 2
+    evidence: Figur zeigt gestrichelte Linie bei 4 s, aber keine Markierung beim Weg (6 m); Wert muss abgelesen werden.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Komponente Diagramme zeichnen
+    level: 2
+    evidence:
+      Alle Punkte starten bei 0; vor „Prüfen“ zeigt nichts den Zielwert, auch „Prüfen“ ist deaktiviert, bis man etwas
+      setzt.
+    did: Ohne Prüfen angesehen.
+  - item: explainer-figure-hides-answer
+    page: /bewegungsdiagramme/diagramme-zeichnen/
+    unit: Übung Fehler finden (Figur)
+    level: 2
+    evidence: Figur zeigt die Daten, aber keine Deutung oder Markierung der richtigen Antwort vor „Prüfen“.
+    did: Ohne Prüfen angesehen.
+notes:
+  "Karte gelesen: geschwindigkeitsaenderung requires geschwindigkeit; bewegungsdiagramme requires geschwindigkeit-berechnen
+  (gradeBand 9-10). Startseite, Glossar, Tutor und Selbsteinschätzung nicht bewertet. Bei 360 px kein horizontaler Überlauf.
+  Gebrauch der Prüfen-Knöpfe nur an der Zeichenübung getestet, übrige Übungen durch Ansehen beurteilt."
+at: "2026-11-04"

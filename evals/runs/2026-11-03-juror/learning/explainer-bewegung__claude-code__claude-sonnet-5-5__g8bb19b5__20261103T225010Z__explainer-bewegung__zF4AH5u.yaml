@@ -1,0 +1,318 @@
+url: http://127.0.0.1:4402/
+grade: 9-10
+subject: physik
+competencies:
+  - geschwindigkeitsaenderung
+  - bewegungsdiagramme
+pages:
+  - /
+  - /bewegung/
+  - /diagramme/
+  - /bewegung/geschwindigkeit-wiederholt/
+  - /bewegung/beschleunigen/
+  - /bewegung/abbremsen/
+  - /bewegung/richtungsaenderung/
+  - /diagramme/lesen/
+  - /diagramme/zeichnen/
+units:
+  - item: explainer-learner-start
+    page: /bewegung/geschwindigkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence:
+      Beginnt mit „Die Geschwindigkeit sagt, wie viel Weg ein Körper in einer bestimmten Zeit zurücklegt.“ plus Beispiel
+      Fahrrad 10 m in 2 s = 5 m/s; erklärt „gleichförmig“ sofort.
+  - item: explainer-learner-start
+    page: /bewegung/beschleunigen/
+    unit: Seite
+    level: 1
+    evidence:
+      Start mit dem Bus an der Ampel passt („Ein Bus steht an der Ampel…“). Aber die Regel nutzt gleich „Geschwindigkeit-Zeit-Diagramm
+      (v-t-Diagramm)“ und „s-t-Diagramm“, bevor Achsen erklärt sind (das kommt erst auf „Diagramme lesen“, Kapitel danach).
+  - item: explainer-learner-start
+    page: /bewegung/abbremsen/
+    unit: Seite
+    level: 1
+    evidence: Fahrrad vor der roten Ampel gut. „Nulllinie“, v-t- und s-t-Diagramm werden vorausgesetzt; Achsen erst später erklärt.
+  - item: explainer-learner-start
+    page: /bewegung/richtungsaenderung/
+    unit: Seite
+    level: 1
+    evidence:
+      Ball auf Rampe gut. „Nulllinie“ und „positiv/negativ“ als Vorzeichen der Geschwindigkeit werden knapp gesetzt
+      („Wir legen eine Richtung als vorwärts fest“), das Diagramm-Lesen wird aber vorausgesetzt.
+  - item: explainer-learner-start
+    page: /diagramme/lesen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Eine Radfahrerin fährt an, fährt eine Weile gleichmäßig und bremst an einer Ampel. Du hast sie nicht gesehen,
+      aber … zwei Diagramme“; Achsen werden in der Regel vor der Nutzung erklärt.
+  - item: explainer-learner-start
+    page: /diagramme/zeichnen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Du hast Diagramme gelesen. Jetzt drehst du es um“; drei Schritte benannt, Tabelle fasst Vorwissen der Seiten
+      davor zusammen.
+  - item: explainer-representation-explained
+    page: /bewegung/beschleunigen/
+    unit: Statisches v-t-Diagramm (Regel)
+    level: 2
+    evidence:
+      "Achsen „v in m/s“, „t in s“ mit Zahlen und Gitter; Bildunterschrift „Achte auf die Linie: Sie steigt. Das Fahrzeug
+      wird mit der Zeit schneller.“; alt beschreibt Start 0 und Ende 12 m/s nach 6 s."
+  - item: explainer-representation-explained
+    page: /bewegung/beschleunigen/
+    unit: BewegungsLabor im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      Die Diagramme im Labor haben nur „v in m/s“/“s in m“/„t in s“, keine Zahlen an den Achsen; die Skalen passen sich
+      der Stärke an, das steht nirgends. Punkt und gestrichelte Linie werden nicht erklärt (folgen dem Zeitregler). Auftrag
+      „Beobachte, was in beiden Diagrammen passiert“ ist offen genug.
+    did: Stärke 1, 3, 5 und Zeit 0/4/8 s gestellt.
+  - item: explainer-representation-explained
+    page: /bewegung/abbremsen/
+    unit: Statisches v-t-Diagramm (Regel)
+    level: 2
+    evidence:
+      "Bildunterschrift „Achte auf die Linie: Sie fällt. Das Fahrzeug wird mit der Zeit langsamer, bis es steht.“; alt
+      „beginnt bei 12 Meter pro Sekunde und fällt gleichmäßig auf null nach 6 Sekunden“."
+  - item: explainer-representation-explained
+    page: /bewegung/abbremsen/
+    unit: BewegungsLabor im Abschnitt „Ausprobieren“
+    level: 0
+    evidence:
+      "Aufgabe: „Das Auto fährt mit 16 m/s los und bremst … Wann steht das Auto? Wie weit kommt es noch?“ Die Achsen
+      im Labor tragen keine Zahlen, weder 16 m/s noch Sekunden oder Meter sind ablesbar; die Skala ändert sich mit der Bremsstärke
+      ohne Hinweis; Markierungen (Punkt, gestrichelte Linie) ungeklärt. Bei Stärke 1 steht das Auto in 8 s nie. Drei der fünf
+      Fragen bleiben offen."
+    did: "Stärke 1/3/5, Zeit 0/4/8 s: nur bei Stärke 5 und t=8 „Das Auto steht.“"
+  - item: explainer-representation-explained
+    page: /bewegung/richtungsaenderung/
+    unit: BewegungsLabor im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      Nulllinie ist im v-t- und s-t-Diagramm gezeichnet, aber nicht mit „0“ beschriftet; keine Zahlen an den Achsen;
+      Skalen wechseln mit der Stärke. Der Satz unter dem Auto („fährt rückwärts und wird schneller“) und der Pfeil am Auto helfen
+      beim Deuten; die Frage „Bei welcher Einstellung kehrt das Auto um?“ ist trotzdem beantwortbar.
+    did: "Stärke 3, t=8 s: Auto fährt rückwärts, v-t-Linie unter Nulllinie, s-t-Linie fällt."
+  - item: explainer-representation-explained
+    page: /diagramme/lesen/
+    unit: Statische Diagramme v-t und s-t (Regel)
+    level: 2
+    evidence:
+      "Beide Achsen mit Zahlen, Gitter; „Lies die Höhe der Linie ab: Sie sagt, wie schnell das Fahrrad gerade ist.“;
+      „Die Linie zeigt keine Straße.“ und Bildunterschriften unterscheiden, was die Höhe bedeutet."
+  - item: explainer-representation-explained
+    page: /diagramme/lesen/
+    unit: BewegungsLabor (Modus „frei“) im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      "Fünf Regler mit Wert („Geschwindigkeit bei t = 2 s: 6 m/s“), Satz „Das Auto wird schneller.“. Die Diagramme im
+      Labor haben keine Zahlen an den Achsen, obwohl die Frage Werte nahelegt; die s-t-Achse ändert sich unangesagt."
+    did: Alle Regler auf 5; Regler t=2 s auf -8; Zeit 8 s.
+  - item: explainer-representation-explained
+    page: /diagramme/zeichnen/
+    unit: Komponente GraphZeichnen im Abschnitt „Ausprobieren“
+    level: 2
+    evidence:
+      Achsen mit Zahlen (−8…12, 0…8 s), Gitter, Punkte pro Regler; „Stelle die Geschwindigkeit bei 0, 2, 4, 6 und 8
+      Sekunden so ein … Drücke dann auf ‚Prüfen‘.“ „Nur die Form zählt.“
+    did: "Konstant 4, Negativ, plausibel 0/6/12/12/10 eingegeben: Hinweise und „Richtig!“."
+  - item: explainer-control-purpose
+    page: /bewegung/beschleunigen/
+    unit: "BewegungsLabor: Stärke- und Zeitregler"
+    level: 2
+    evidence:
+      "„Stelle ein, wie stark das Auto beschleunigt, und schiebe dann den Zeitregler“; Regler „schwach/stark“; Auto,
+      Satz und beide Diagramme folgen; Beschriftung „Zeit: 8 s“ stimmt mit Punkt überein."
+    did: Stärke 1–5 und Zeit 0–8 s.
+  - item: explainer-control-purpose
+    page: /bewegung/abbremsen/
+    unit: "BewegungsLabor: Brems- und Zeitregler"
+    level: 1
+    evidence:
+      Wirkung sichtbar, doch „Wann steht das Auto?“ lässt sich bei Stärke 1–4 innerhalb der 8 s nicht beantworten und
+      ohne Skala nicht ablesen; erst bei Stärke 5 „Das Auto steht.“
+    did: Stärke 1, 3, 5; Zeit 0, 4, 8 s.
+  - item: explainer-control-purpose
+    page: /bewegung/richtungsaenderung/
+    unit: "BewegungsLabor: Regler „Wie stark wirkt die Bremse nach hinten?“ und Zeit"
+    level: 2
+    evidence:
+      Bei Stärke 1 bleibt die Linie positiv, ab Stärke 3 rückwärts bei t=8 s; Aufgabe fragt genau das; Satz am Auto
+      passt zur Linie.
+    did: Stärke 1/3/5, t 4/8.
+  - item: explainer-control-purpose
+    page: /diagramme/lesen/
+    unit: "BewegungsLabor: fünf Geschwindigkeitsregler und Zeitregler"
+    level: 2
+    evidence:
+      "Jeder Regler zeigt seinen Wert im Label, das Diagramm folgt; Text nennt Zweck („sieh, was im Weg-Zeit-Diagramm
+      passiert“). Alle auf 5: „Das Auto fährt gleich schnell.“, s-t-Linie gerade; −8: Linie unter null, s-t sinkt."
+    did: Regler an Enden und Mitte, Zeit 0 und 8 s.
+  - item: explainer-control-purpose
+    page: /diagramme/zeichnen/
+    unit: "GraphZeichnen: fünf Regler, „Zurücksetzen“, „Neue Aufgabe“, „Prüfen“"
+    level: 2
+    evidence:
+      Linie folgt den Reglern; Start flach auf 0, zeigt keine Lösung; „Prüfen“ ist bis zur ersten Änderung ausgegraut;
+      „Neue Aufgabe“ wechselt die Geschichte (Nr. 4).
+    did: Alle Regler bedient, Prüfen, Zurücksetzen.
+  - item: explainer-text-figure-agree
+    page: /bewegung/beschleunigen/
+    unit: Regel-Abbildung mit Text
+    level: 2
+    evidence: Text „ansteigende Linie“, Bild steigend 0 bis 12 m/s, Beschriftung stimmt.
+  - item: explainer-text-figure-agree
+    page: /bewegung/beschleunigen/
+    unit: BewegungsLabor mit umgebendem Text
+    level: 2
+    evidence: Text nennt „Zeitregler“, „beide Diagramme“; alles vorhanden.
+  - item: explainer-text-figure-agree
+    page: /bewegung/abbremsen/
+    unit: Regel-Abbildung und Labor mit Text
+    level: 1
+    evidence:
+      "Abbildung: Start 12 m/s, Fall auf null nach 6 s. Im Labor-Text „Das Auto fährt mit 16 m/s los“, ohne Hinweis
+      auf den Wechsel; im Labor sind die Zahlen nicht ablesbar."
+  - item: explainer-text-figure-agree
+    page: /bewegung/richtungsaenderung/
+    unit: BewegungsLabor mit Text
+    level: 1
+    evidence:
+      "Text: „Das Auto fährt mit 8 m/s vorwärts“; Diagramme ohne Zahlen, nicht nachprüfbar. Der Text sagt, die Linie
+      „steigt zuerst, erreicht einen höchsten Punkt und sinkt“, das Labor zeigt es."
+  - item: explainer-text-figure-agree
+    page: /diagramme/lesen/
+    unit: Regel-Abbildungen und Labor
+    level: 2
+    evidence:
+      "Text „Höhe der Linie ist die Geschwindigkeit“ passt zu den Bildern; Wechsel zum Auto angekündigt: „Hier legst
+      du selbst fest, wie schnell das Auto … ist“."
+  - item: explainer-text-figure-agree
+    page: /diagramme/zeichnen/
+    unit: Komponente und Text
+    level: 2
+    evidence: Aufgabentext „bei 0, 2, 4, 6 und 8 Sekunden“ = fünf Regler und Achse 0 bis 8.
+  - item: explainer-one-step
+    page: /bewegung/geschwindigkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence: Nur Wiederholung der Geschwindigkeit.
+  - item: explainer-one-step
+    page: /bewegung/beschleunigen/
+    unit: Seite
+    level: 2
+    evidence: Nur Beschleunigen; Weg-Zeit-Form kurz als Folge.
+  - item: explainer-one-step
+    page: /bewegung/abbremsen/
+    unit: Seite
+    level: 2
+    evidence: Nur Abbremsen; Stillstand als Ende.
+  - item: explainer-one-step
+    page: /bewegung/richtungsaenderung/
+    unit: Seite
+    level: 2
+    evidence: Nur Richtungsänderung mit negativer Geschwindigkeit; Kurve ausdrücklich ausgeklammert.
+  - item: explainer-one-step
+    page: /diagramme/lesen/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Diagrammarten mit je eigener Leseregel in einer Seite: „Im v-t-Diagramm gilt…“, „Im s-t-Diagramm gilt…“,
+      dazu zusammen als Paar."
+  - item: explainer-one-step
+    page: /diagramme/zeichnen/
+    unit: Seite
+    level: 2
+    evidence: Zeichnen als eine Tätigkeit, Tabelle fasst Bekanntes.
+  - item: explainer-honest-headings
+    page: /bewegung/geschwindigkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence: Titel „Das weißt du schon“ passt; kein „Ausprobieren“.
+  - item: explainer-honest-headings
+    page: /bewegung/beschleunigen/
+    unit: Seite
+    level: 2
+    evidence: Titel passen; „Ausprobieren“ nur über dem bedienbaren Labor.
+  - item: explainer-honest-headings
+    page: /bewegung/abbremsen/
+    unit: Seite
+    level: 2
+    evidence: Titel passen; „Ausprobieren“ nur über dem bedienbaren Labor.
+  - item: explainer-honest-headings
+    page: /bewegung/richtungsaenderung/
+    unit: Seite
+    level: 2
+    evidence: Titel passen; „Ausprobieren“ nur über dem bedienbaren Labor.
+  - item: explainer-honest-headings
+    page: /diagramme/lesen/
+    unit: Seite
+    level: 2
+    evidence: Titel passen; „Ausprobieren“ nur über dem bedienbaren Labor.
+  - item: explainer-honest-headings
+    page: /diagramme/zeichnen/
+    unit: Seite
+    level: 2
+    evidence: Titel passen; „Ausprobieren“ nur über dem bedienbaren Labor.
+  - item: explainer-age-appropriate
+    page: /bewegung/geschwindigkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zur Klassenstufe 9–10.
+  - item: explainer-age-appropriate
+    page: /bewegung/beschleunigen/
+    unit: Seite
+    level: 2
+    evidence:
+      Kurze, klare Sätze mit Bus/Fahrrad/Ball, für Klasse 9–10 angemessen und nicht kindisch, z. B. „Entscheidend ist,
+      dass sich die Geschwindigkeit ändert.“
+  - item: explainer-age-appropriate
+    page: /bewegung/abbremsen/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zur Klassenstufe 9–10.
+  - item: explainer-age-appropriate
+    page: /bewegung/richtungsaenderung/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zur Klassenstufe 9–10.
+  - item: explainer-age-appropriate
+    page: /diagramme/lesen/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zur Klassenstufe 9–10.
+  - item: explainer-age-appropriate
+    page: /diagramme/zeichnen/
+    unit: Seite
+    level: 2
+    evidence: Ton und Beispiele passen zur Klassenstufe 9–10.
+  - item: explainer-figure-hides-answer
+    page: /diagramme/lesen/
+    unit: Übung „Frage v bei 6 s“ mit Abbildung
+    level: 2
+    evidence: Statisches Diagramm mit Gitter, keine Markierung am gesuchten Punkt; Wert muss abgelesen werden.
+  - item: explainer-figure-hides-answer
+    page: /diagramme/lesen/
+    unit: Übung „Frage Zeitraum Bremsen“ mit Abbildung
+    level: 2
+    evidence: Statisches Diagramm mit Gitter, keine Markierung am gesuchten Punkt; Wert muss abgelesen werden.
+  - item: explainer-figure-hides-answer
+    page: /diagramme/lesen/
+    unit: Übung „Frage Weg nach 8 s“ mit Abbildung
+    level: 2
+    evidence: Statisches Diagramm mit Gitter, keine Markierung am gesuchten Punkt; Wert muss abgelesen werden.
+  - item: explainer-figure-hides-answer
+    page: /diagramme/zeichnen/
+    unit: GraphZeichnen
+    level: 2
+    evidence: Start-Linie flach auf 0, zeigt keine Lösung; Hinweise erst nach „Prüfen“.
+    did: Regler bewegt, nicht geprüft.
+notes:
+  "Map gelesen: geschwindigkeitsaenderung requires geschwindigkeit; bewegungsdiagramme requires geschwindigkeit-berechnen.
+  Kapitelseiten ohne Einheiten. Keine Übung mit Lösungsschritten (explainer-steps-explain entfällt). Mobil 360 px: kein horizontaler
+  Überlauf. Statische Abbildung von Abbremsen nur über Beschriftung/alt gelesen."
+at: "2026-11-04"
