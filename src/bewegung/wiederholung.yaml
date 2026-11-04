@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Wiederholung Geschwindigkeit
+description: Du erinnerst dich an v = s/t aus Klasse 7. Du brauchst es für die nächsten Seiten.
+recap: physik/geschwindigkeit-berechnen
+blocks:
+  - type: section
+    id: wiederholung
+    title: Das weißt du schon
+    blocks:
+      - type: text
+        text: |
+          In Klasse 7 hast du die **Geschwindigkeit** kennengelernt. Sie sagt, wie weit ein Körper in einer bestimmten Zeit kommt.
+          Weg und Zeit misst du mit Maßband und Uhr. Die Geschwindigkeit rechnest du daraus aus.
+      - type: formula
+        formula: 'v = \frac{s}{t}'
+      - type: text
+        text: |
+          Dabei ist $v$ die Geschwindigkeit, $s$ der Weg und $t$ die Zeit. Die Einheit ist m/s (Meter pro Sekunde) oder km/h (Kilometer pro Stunde).
+          Nachlesen kannst du das auf der Lernlandkarte bei [Strecke und Zeit messen](https://lernapps.net/apps/map/physik/c/strecke-und-zeit-messen/) und bei [Geschwindigkeit als Strecke pro Zeit](https://lernapps.net/apps/map/physik/c/geschwindigkeit/).
+      - type: example
+        title: Ein Beispiel
+        blocks:
+          - type: text
+            text: Ein Wagen kommt in 4 s genau 12 m weit. Dann ist $v = 12\ \text{m} / 4\ \text{s} = 3\ \text{m/s}$. Er legt in jeder Sekunde 3 m zurück.
+      - type: text
+        text: Auf den nächsten Seiten fährt der Wagen nicht immer gleich schnell. Dann ändert sich seine Geschwindigkeit.

@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/mechanik
+title: Beschleunigte Bewegung
+intro: Du lernst, wie sich eine Bewegung beim Beschleunigen, Abbremsen und bei einer Richtungsänderung verändert. Du liest Weg-Zeit- und Geschwindigkeit-Zeit-Diagramme, zeichnest sie selbst und siehst sofort, was du verändert hast.
+languages: [de]
+chapters: [bewegung]

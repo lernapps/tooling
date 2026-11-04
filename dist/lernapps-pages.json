@@ -1,0 +1,46 @@
+{
+  "format": 1,
+  "strand": "physik/mechanik",
+  "pages": [
+    {
+      "path": "bewegung/wiederholung/",
+      "title": "Wiederholung Geschwindigkeit",
+      "recap": "physik/geschwindigkeit-berechnen"
+    },
+    {
+      "path": "bewegung/aenderung/",
+      "title": "Schneller, langsamer, andere Richtung",
+      "competencies": [
+        "geschwindigkeitsaenderung"
+      ]
+    },
+    {
+      "path": "bewegung/weg-zeit/",
+      "title": "Das Weg-Zeit-Diagramm lesen",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "bewegung/geschwindigkeit-zeit/",
+      "title": "Das Geschwindigkeit-Zeit-Diagramm",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "bewegung/richtung/",
+      "title": "Hin und zurück: Richtungsänderung im Diagramm",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "bewegung/zusammen/",
+      "title": "Beide Diagramme zeichnen und verbinden",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    }
+  ]
+}

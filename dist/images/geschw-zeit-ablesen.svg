@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" font-family="sans-serif" font-size="12">
+  <rect width="360" height="220" fill="#ffffff"/>
+  <g stroke="#cccccc" stroke-width="1">
+    <line x1="50" y1="147.5" x2="330" y2="147.5"/><line x1="50" y1="105" x2="330" y2="105"/><line x1="50" y1="62.5" x2="330" y2="62.5"/><line x1="50" y1="20" x2="330" y2="20"/>
+    <line x1="96.7" y1="20" x2="96.7" y2="190"/><line x1="143.3" y1="20" x2="143.3" y2="190"/><line x1="190" y1="20" x2="190" y2="190"/>
+    <line x1="236.7" y1="20" x2="236.7" y2="190"/><line x1="283.3" y1="20" x2="283.3" y2="190"/><line x1="330" y1="20" x2="330" y2="190"/>
+  </g>
+  <g stroke="#111111" stroke-width="2"><line x1="50" y1="20" x2="50" y2="190"/><line x1="50" y1="190" x2="330" y2="190"/></g>
+  <g fill="#111111" text-anchor="middle">
+    <text x="50" y="206">0</text><text x="96.7" y="206">1</text><text x="143.3" y="206">2</text><text x="190" y="206">3</text><text x="236.7" y="206">4</text><text x="283.3" y="206">5</text><text x="330" y="206">6</text>
+  </g>
+  <g fill="#111111" text-anchor="end">
+    <text x="42" y="194">0</text><text x="42" y="151">1</text><text x="42" y="109">2</text><text x="42" y="66">3</text><text x="42" y="24">4</text>
+  </g>
+  <text x="56" y="14" fill="#111111" font-weight="bold">v in m/s</text>
+  <text x="330" y="218" fill="#111111" font-weight="bold" text-anchor="end">t in s</text>
+  <polyline points="50,147.5 96.7,105 143.3,62.5 190,62.5 236.7,62.5 283.3,105 330,147.5" fill="none" stroke="#a14a00" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#a14a00" stroke="#ffffff" stroke-width="1.5">
+    <circle cx="50" cy="147.5" r="4"/><circle cx="96.7" cy="105" r="4"/><circle cx="143.3" cy="62.5" r="4"/><circle cx="190" cy="62.5" r="4"/><circle cx="236.7" cy="62.5" r="4"/><circle cx="283.3" cy="105" r="4"/><circle cx="330" cy="147.5" r="4"/>
+  </g>
+</svg>

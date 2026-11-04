@@ -1,0 +1,166 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beide Diagramme zeichnen und verbinden
+description: Du verbindest Geschwindigkeit-Zeit- und Weg-Zeit-Diagramm einer Fahrt und stellst eine ganze Fahrt ein.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Eine Fahrt, zwei Diagramme
+    blocks:
+      - type: text
+        text: |
+          Zu jeder Fahrt gehören zwei Diagramme. Das Geschwindigkeit-Zeit-Diagramm zeigt, **wie schnell** der Wagen ist. Das Weg-Zeit-Diagramm zeigt, **wie weit** er vom Start weg ist.
+          Hier bringst du beide zusammen.
+  - type: section
+    id: erklaerung
+    title: Was zusammengehört
+    blocks:
+      - type: table
+        caption: So hängen die beiden Diagramme zusammen
+        header: [Was der Wagen tut, Linie im Geschwindigkeit-Zeit-Diagramm, Linie im Weg-Zeit-Diagramm]
+        rows:
+          - [Er steht., Liegt auf der Null., Ist waagerecht.]
+          - [Er fährt gleichmäßig., Ist waagerecht., Steigt gerade an.]
+          - [Er beschleunigt., Steigt., Wird immer steiler.]
+          - [Er bremst ab., Fällt., Wird immer flacher.]
+      - type: text
+        text: |
+          Der Grund: Ist das Tempo groß, kommt in jeder Sekunde viel Weg dazu. Die Linie im Weg-Zeit-Diagramm ist dann steil.
+          Wird das Tempo größer, wird auch die Linie im Weg-Zeit-Diagramm immer steiler.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Der Bus fährt wieder. Oben siehst du die Bahn, darunter beide Diagramme. Die Achsen bleiben gleich.
+
+          Mit **+** und **−** stellst du das Tempo für jede Sekunde ein, von 0 bis 4 m/s. Am Anfang ist die Fahrt des Busses eingestellt. Mit **Zurücksetzen** kommst du dahin zurück.
+          Mach das Tempo bei 3 s und 4 s zu 0. Was macht die Linie im Weg-Zeit-Diagramm, wenn der Bus steht? Ändere dann die Zeit des Anfahrens und schau, wie sich beide Linien ändern.
+      - type: vue-component
+        id: zusammen-ausprobieren
+        component: BewegungsDiagramm
+        props:
+          fahrten: { data: fahrten }
+          start: bus
+          ansicht: beide
+          bahnTitel: Der Bus auf der Bahn
+          geschwindigkeitTitel: Geschwindigkeit-Zeit-Diagramm
+          wegTitel: Weg-Zeit-Diagramm
+          tempoTitel: Tempo einstellen
+          tempoLabel: Tempo bei {t} s
+          tempoKonstantLabel: "Tempo: {v} m/s"
+          mehr: Tempo bei {t} s erhöhen
+          weniger: Tempo bei {t} s verringern
+          zuruecksetzen: Zurücksetzen
+          achseZeit: t in s
+          achseGeschwindigkeit: v in m/s
+          achseWeg: s in m
+          bildBahn: "Ein Bus auf der Bahn. Sein Abstand vom Start nach 0 bis 6 Sekunden in Metern: {s}."
+          bildGeschwindigkeit: "Geschwindigkeit-Zeit-Diagramm. Das Tempo in m/s bei 0 bis 6 Sekunden: {v}."
+          bildWeg: "Weg-Zeit-Diagramm. Der Weg in Metern nach 0 bis 6 Sekunden: {s}."
+          tabelleTitel: Werte als Tabelle
+          spalteZeit: Zeit t in s
+          spalteGeschwindigkeit: Tempo v in m/s
+          spalteWeg: Weg s in m
+        nojs: |
+          Ein Bus fährt 6 Sekunden lang. Du kannst sein Tempo bei jeder Sekunde zwischen 0 und 4 m/s einstellen und siehst dazu die Bahn, das Geschwindigkeit-Zeit-Diagramm und das Weg-Zeit-Diagramm.
+
+          Am Anfang gilt die Fahrt aus der Tabelle: 0, 2, 4, 4, 4, 2 und 0 m/s bei 0 bis 6 s. Der Weg wächst dabei auf 16 m. Die Linie im Weg-Zeit-Diagramm ist zuerst flach, dann steil und zuletzt wieder flach.
+
+          Steht der Bus, ist die Linie im Weg-Zeit-Diagramm waagerecht.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: fahrt-linie-zuordnen
+        text: Welche Linie im Weg-Zeit-Diagramm gehört zu welcher Fahrt?
+        pairs:
+          - { left: Der Bus steht an der Haltestelle., right: Eine waagerechte Linie }
+          - { left: Der Bus fährt gleichmäßig., right: "Eine gerade Linie, die ansteigt" }
+          - { left: Der Bus fährt an und wird schneller., right: "Eine Linie, die immer steiler wird" }
+          - { left: Der Bus bremst ab., right: "Eine Linie, die immer flacher wird" }
+        explanation: Steht der Bus, wächst der Weg nicht. Bei gleichem Tempo kommt in jeder Sekunde gleich viel Weg dazu. Wird der Bus schneller, kommt immer mehr Weg dazu, die Linie wird steiler. Beim Bremsen kommt immer weniger Weg dazu.
+        hint: Frag dich bei jeder Fahrt, wie viel Weg in jeder Sekunde dazukommt.
+        links:
+          - title: Bewegungsdiagramme auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: single-choice
+        id: v-t-waagerecht
+        text: Das Geschwindigkeit-Zeit-Diagramm eines Wagens ist eine waagerechte Linie bei 2 m/s. Wie sieht sein Weg-Zeit-Diagramm aus?
+        options:
+          - text: Eine waagerechte Linie
+            correct: false
+            info: "Eine waagerechte Linie im Weg-Zeit-Diagramm heißt, dass der Wagen steht. Er fährt aber mit 2 m/s."
+          - text: Eine gerade Linie, die ansteigt
+            correct: true
+            info: "In jeder Sekunde kommen 2 m dazu. Der Weg wächst gleichmäßig, die Linie ist gerade und steigt an."
+          - text: Eine Linie, die immer steiler wird
+            correct: false
+            info: "Das wäre der Fall, wenn der Wagen schneller würde. Sein Tempo bleibt aber bei 2 m/s."
+        explanation: Bei gleichem Tempo ist der Weg-Zeit-Verlauf eine gerade, ansteigende Linie.
+        hint: Wie viel Weg kommt bei 2 m/s in jeder Sekunde dazu? Ist das immer gleich viel?
+        links:
+          - title: Bewegungsdiagramme auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: vue-component
+        id: ganze-fahrt
+        component: DiagrammZeichnen
+        props:
+          aufgaben:
+            - text: Ein Bus steht. Er fährt zwei Sekunden lang an, fährt zwei Sekunden gleichmäßig und bremst dann zwei Sekunden lang bis zum Halt ab.
+              verlauf: "++00--"
+              start: 0
+              ende: 0
+            - text: Ein Fahrrad fährt mit 2 m/s. Es bremst zwei Sekunden lang bis zum Halt ab, steht zwei Sekunden und fährt dann zwei Sekunden lang wieder an.
+              verlauf: "--00++"
+              start: 2
+          mistakes:
+            - "Deine Linie ist waagerecht. Dann bleibt das Tempo immer gleich. In der Aufgabe ändert es sich."
+            - "Schau noch einmal: Beschleunigen und Abbremsen sind vertauscht. Beim Beschleunigen steigt die Linie, beim Abbremsen fällt sie."
+          abschnitt: "Schau dir den Abschnitt zwischen {a} s und {b} s an. Passt die Linie dort zur Aufgabe?"
+          endeFalsch: "Der Anfang oder das Ende der Linie passt nicht zur Aufgabe. Lies die Aufgabe noch einmal."
+          anweisung: Stelle das Geschwindigkeit-Zeit-Diagramm ein.
+          startText: Das Tempo bei 0 s ist {v} m/s.
+          tempoTitel: Tempo einstellen
+          tempoLabel: Tempo bei {t} s
+          mehr: Tempo bei {t} s erhöhen
+          weniger: Tempo bei {t} s verringern
+          zuruecksetzen: Zurücksetzen
+          diagrammTitel: Dein Geschwindigkeit-Zeit-Diagramm
+          achseZeit: t in s
+          achseGeschwindigkeit: v in m/s
+          bild: "Dein Geschwindigkeit-Zeit-Diagramm. Das Tempo in m/s bei 0 bis 6 Sekunden: {v}."
+        examples:
+          accepted:
+            - { answer: [0, 1, 2, 2, 2, 1, 0], seed: 1 }
+            - { answer: [0, 2, 3, 3, 3, 1, 0], seed: 1 }
+            - { answer: [2, 1, 0, 0, 0, 1, 2], seed: 2 }
+          rejected:
+            - { answer: [0, 0, 0, 0, 0, 0, 0], seed: 1 }
+            - { answer: [0, 1, 2, 2, 2, 2, 2], seed: 1 }
+            - { answer: [2, 1, 0, 0, 1, 2, 3], seed: 2 }
+      - type: text
+        text: "**Knobeln:** Für alle, die mehr wollen."
+      - type: single-choice
+        id: knick-weg-zeit
+        text: Im Weg-Zeit-Diagramm eines Wagens wird die Linie immer steiler. Was macht der Wagen?
+        options:
+          - text: Er fährt gleichmäßig.
+            correct: false
+            info: "Bei gleichmäßiger Fahrt ist die Linie gerade. Sie hat überall dieselbe Steigung."
+          - text: Er wird schneller.
+            correct: true
+            info: "Eine steilere Linie heißt, dass in derselben Zeit mehr Weg dazukommt. Das Tempo wird größer."
+          - text: Er wird langsamer.
+            correct: false
+            info: "Beim Langsamerwerden wird die Linie flacher, nicht steiler."
+          - text: Er steht.
+            correct: false
+            info: "Steht der Wagen, ist die Linie waagerecht."
+        explanation: Wird die Linie im Weg-Zeit-Diagramm immer steiler, wird der Wagen immer schneller.
+        hint: Was heißt eine steile Linie für das Tempo? Und eine, die steiler wird?
+        links:
+          - title: Bewegungsdiagramme auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/

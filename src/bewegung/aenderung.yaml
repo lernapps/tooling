@@ -1,0 +1,113 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Schneller, langsamer, andere Richtung
+description: Du erkennst, wann sich eine Bewegung beschleunigt, verlangsamt oder die Richtung ändert.
+competencies: [geschwindigkeitsaenderung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Wenn das Tempo nicht gleich bleibt
+    blocks:
+      - type: text
+        text: |
+          Du kennst die [Geschwindigkeit](https://lernapps.net/apps/map/physik/c/geschwindigkeit/) als Weg pro Zeit. Du kennst auch Bewegungen mit gleichem Tempo, zum Beispiel einen Wagen, der immer mit 2 m/s fährt.
+          Im Alltag ist das selten. Ein Bus fährt an, wird schneller, bremst vor der Haltestelle und biegt um die Ecke.
+
+          Hier lernst du, die Veränderungen zu unterscheiden. Es gibt drei Fälle.
+  - type: section
+    id: erklaerung
+    title: Drei Fälle
+    blocks:
+      - type: definition
+        term: Beschleunigen
+        explanation: Beschleunigen heißt, dass ein Körper schneller wird. Sein Tempo wird größer.
+      - type: definition
+        term: Abbremsen
+        explanation: Abbremsen heißt, dass ein Körper langsamer wird. Sein Tempo wird kleiner.
+      - type: table
+        caption: Drei Arten, wie sich eine Bewegung ändern kann
+        header: [Was passiert, Beispiel]
+        rows:
+          - [Der Körper wird schneller (beschleunigen), Ein Fahrrad fährt an der Ampel an.]
+          - [Der Körper wird langsamer (abbremsen), Ein Zug fährt in den Bahnhof ein.]
+          - [Die Richtung ändert sich, Ein Auto biegt an einer Kreuzung ab.]
+      - type: text
+        text: |
+          Die Geschwindigkeit sagt dir zwei Dinge: **wie schnell** ein Körper ist und **in welche Richtung** er sich bewegt.
+          Ändert sich eines von beiden, hat sich die Geschwindigkeit geändert.
+      - type: example
+        title: Kreisverkehr
+        blocks:
+          - type: text
+            text: |
+              Ein Auto fährt im Kreisverkehr immer mit 30 km/h. Sein Tempo bleibt gleich, aber es biegt dauernd ab.
+              Seine Richtung ändert sich ständig. Darum ändert sich auch seine Geschwindigkeit.
+      - type: note
+        title: Ein Wort der Physik
+        blocks:
+          - type: text
+            text: "Wenn sich die Geschwindigkeit in irgendeiner Weise ändert, sagen Physiker: Die Bewegung ist beschleunigt. Beim Abbremsen und in der Kurve ist das auch so."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: situation-zuordnen
+        text: Was ändert sich bei diesen Bewegungen?
+        pairs:
+          - { left: Ein Zug fährt aus dem Bahnhof und wird schneller., right: Er wird schneller. }
+          - { left: Ein Radfahrer rollt auf die rote Ampel zu und hält an., right: Er wird langsamer. }
+          - { left: Ein Auto fährt mit gleichem Tempo um eine Kurve., right: Die Richtung ändert sich. }
+        explanation: Wird das Tempo größer, beschleunigt der Körper. Wird es kleiner, bremst er ab. In einer Kurve ändert sich die Richtung, auch wenn das Tempo gleich bleibt.
+        hint: "Frag dich: Was ändert sich, das Tempo, die Richtung oder beides?"
+        links:
+          - title: Geschwindigkeitsänderung auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
+      - type: single-choice
+        id: kurve-gleiches-tempo
+        text: Ein Auto fährt mit 50 km/h um eine Kurve. Sein Tempo bleibt die ganze Zeit 50 km/h. Ändert sich seine Geschwindigkeit?
+        options:
+          - text: Nein, denn das Tempo bleibt gleich.
+            correct: false
+            info: "Das Tempo bleibt gleich, aber das Auto biegt ab. Zur Geschwindigkeit gehört auch die Richtung."
+          - text: Ja, denn die Richtung ändert sich.
+            correct: true
+            info: "Die Geschwindigkeit hat einen Betrag, das Tempo, und eine Richtung. In der Kurve ändert sich die Richtung."
+          - text: Ja, denn das Auto wird schneller.
+            correct: false
+            info: "Im Text steht, dass das Tempo gleich bleibt. Das Auto wird also weder schneller noch langsamer."
+        explanation: Die Geschwindigkeit ändert sich, sobald sich das Tempo oder die Richtung ändert. In der Kurve ändert sich die Richtung.
+        hint: Zur Geschwindigkeit gehören zwei Dinge. Welche?
+        links:
+          - title: Geschwindigkeitsänderung auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
+      - type: true-false
+        id: abbremsen-ist-keine-aenderung
+        text: Beim Abbremsen ändert sich die Geschwindigkeit nicht, weil der Körper nicht schneller wird.
+        answer: false
+        explanation: Beim Abbremsen wird das Tempo kleiner. Damit ändert sich die Geschwindigkeit.
+        links:
+          - title: Geschwindigkeitsänderung auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
+      - type: text
+        text: "**Knobeln:** Für alle, die mehr wollen."
+      - type: multiple-choice
+        id: wo-aendert-sich
+        text: Bei welchen Bewegungen ändert sich die Geschwindigkeit? Wähle alle richtigen Antworten.
+        options:
+          - text: Ein Auto fährt auf der Autobahn lange mit 100 km/h geradeaus.
+            correct: false
+            info: "Tempo und Richtung bleiben gleich, die Geschwindigkeit ändert sich nicht."
+          - text: Ein Fahrrad rollt einen Berg hinunter und wird schneller.
+            correct: true
+            info: "Das Tempo wird größer, das Fahrrad beschleunigt."
+          - text: Ein Karussell dreht sich immer mit gleichem Tempo.
+            correct: true
+            info: "Das Tempo bleibt gleich, aber die Richtung ändert sich ständig."
+          - text: Ein Zug rollt in den Bahnhof und hält an.
+            correct: true
+            info: "Das Tempo wird kleiner, der Zug bremst ab."
+        explanation: Die Geschwindigkeit ändert sich, wenn das Tempo oder die Richtung nicht gleich bleibt. Nur die gerade Fahrt mit gleichem Tempo ist unverändert.
+        hint: Prüfe bei jeder Antwort zwei Dinge. Bleibt das Tempo gleich? Bleibt die Richtung gleich?
+        links:
+          - title: Geschwindigkeitsänderung auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/

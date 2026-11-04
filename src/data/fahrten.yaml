@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+# Fahrten von 6 Sekunden: das Tempo in m/s bei t = 0, 1, 2, 3, 4, 5 und 6 s. Jede Fahrt steht hier einmal.
+- id: gleichmaessig
+  titel: Wagen mit gleichem Tempo
+  beschreibung: Der Wagen fährt los und behält sein Tempo.
+  tempo: [2, 2, 2, 2, 2, 2, 2]
+- id: bus
+  titel: Bus an der Haltestelle
+  beschreibung: Der Bus fährt langsam an, fährt dann gleichmäßig und bremst zuletzt bis zum Halt ab.
+  tempo: [0, 2, 4, 4, 4, 2, 0]
+- id: fahrrad
+  titel: Fahrrad vor der Ampel
+  beschreibung: Das Fahrrad fährt schnell und bremst bis zum Halt ab.
+  tempo: [4, 4, 3, 2, 1, 0, 0]
+- id: hin-zurueck
+  titel: Wagen hin und zurück
+  beschreibung: Der Wagen fährt vorwärts, bleibt kurz stehen und fährt dann rückwärts zum Start zurück.
+  tempo: [0, 2, 2, 0, -2, -2, 0]

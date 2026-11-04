@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 220" font-family="sans-serif" font-size="12">
+  <rect width="360" height="220" fill="#ffffff"/>
+  <g stroke="#cccccc" stroke-width="1">
+    <line x1="50" y1="161.7" x2="330" y2="161.7"/><line x1="50" y1="133.3" x2="330" y2="133.3"/><line x1="50" y1="105" x2="330" y2="105"/>
+    <line x1="50" y1="76.7" x2="330" y2="76.7"/><line x1="50" y1="48.3" x2="330" y2="48.3"/><line x1="50" y1="20" x2="330" y2="20"/>
+    <line x1="96.7" y1="20" x2="96.7" y2="190"/><line x1="143.3" y1="20" x2="143.3" y2="190"/><line x1="190" y1="20" x2="190" y2="190"/>
+    <line x1="236.7" y1="20" x2="236.7" y2="190"/><line x1="283.3" y1="20" x2="283.3" y2="190"/><line x1="330" y1="20" x2="330" y2="190"/>
+  </g>
+  <g stroke="#111111" stroke-width="2"><line x1="50" y1="20" x2="50" y2="190"/><line x1="50" y1="190" x2="330" y2="190"/></g>
+  <g fill="#111111" text-anchor="middle">
+    <text x="50" y="206">0</text><text x="96.7" y="206">1</text><text x="143.3" y="206">2</text><text x="190" y="206">3</text><text x="236.7" y="206">4</text><text x="283.3" y="206">5</text><text x="330" y="206">6</text>
+  </g>
+  <g fill="#111111" text-anchor="end">
+    <text x="42" y="194">0</text><text x="42" y="137">4</text><text x="42" y="80">8</text><text x="42" y="24">12</text>
+  </g>
+  <text x="56" y="14" fill="#111111" font-weight="bold">s in m</text>
+  <text x="330" y="218" fill="#111111" font-weight="bold" text-anchor="end">t in s</text>
+  <!-- A: 1 m/s, B: 2 m/s, C: 0,5 m/s; different dashes besides the letters -->
+  <line x1="50" y1="190" x2="330" y2="105" stroke="#a14a00" stroke-width="3"/>
+  <line x1="50" y1="190" x2="330" y2="20" stroke="#1d4f9c" stroke-width="3" stroke-dasharray="10 5"/>
+  <line x1="50" y1="190" x2="330" y2="147.5" stroke="#2e7d32" stroke-width="3" stroke-dasharray="2 5" stroke-linecap="round"/>
+  <g font-weight="bold">
+    <text x="312" y="100" fill="#a14a00">A</text>
+    <text x="312" y="36" fill="#1d4f9c">B</text>
+    <text x="312" y="142" fill="#2e7d32">C</text>
+  </g>
+</svg>

@@ -1,0 +1,198 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Weg-Zeit-Diagramm lesen
+description: Du liest an einem Weg-Zeit-Diagramm ab, wo ein Wagen zu welcher Zeit ist und wie schnell er fährt.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Vom Wagen zum Punkt
+    blocks:
+      - type: text
+        text: |
+          Du kennst die Geschwindigkeit als Weg pro Zeit: $v = s/t$. Ein Wagen, der in 1 s genau 2 m weit kommt, fährt mit 2 m/s.
+          Die Geschwindigkeit nennen wir im Alltag auch das Tempo. Ein Diagramm zeigt dir das Tempo und den Weg als Bild. Du siehst auf einen Blick, wo der Wagen zu welcher Zeit ist.
+      - type: definition
+        term: Weg-Zeit-Diagramm
+        explanation: Ein Weg-Zeit-Diagramm zeigt, wie weit ein Körper vom Start entfernt ist. Die Zeit steht waagerecht, der Weg senkrecht.
+      - type: figure
+        image: images/weg-zeit-punkt.svg
+        alt: Ein Weg-Zeit-Diagramm mit der Zeit t von 0 bis 6 Sekunden waagerecht und dem Weg s von 0 bis 12 Metern senkrecht. Ein blauer Punkt liegt bei 2 Sekunden und 4 Metern. Gestrichelte Linien führen von ihm zu beiden Achsen.
+        caption: Schau auf den Punkt und auf die gestrichelten Linien. Sie führen zu den Zahlen auf den Achsen.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Waagerecht, nach rechts, steht die **Zeit** $t$ in Sekunden. Senkrecht, nach oben, steht der **Weg** $s$ in Metern.
+          Das ist der Abstand des Wagens vom Start.
+
+          Ein Punkt gehört zu einem Zeitpunkt. Der blaue Punkt sagt: Nach 2 s ist der Wagen 4 m vom Start entfernt.
+          So liest du einen Punkt: Geh von der Zeit nach oben bis zum Punkt. Dann geh nach links und lies den Weg ab.
+
+          Das Diagramm ist kein Foto der Bahn. Die Linie ist nicht die Bahn. Sie zeigt: Wie weit ist der Wagen vom Start weg?
+  - type: section
+    id: erklaerung
+    title: Was die Linie dir sagt
+    blocks:
+      - type: text
+        text: |
+          Fährt der Wagen immer gleich schnell, liegen alle Punkte auf einer **geraden Linie**. Bei 2 m/s kommen in jeder Sekunde 2 m dazu.
+      - type: table
+        caption: Ein Wagen mit 2 m/s. In jeder Sekunde kommen 2 m dazu.
+        header: [Zeit t in s, Weg s in m]
+        rows:
+          - ["0", "0"]
+          - ["1", "2"]
+          - ["2", "4"]
+          - ["3", "6"]
+          - ["4", "8"]
+      - type: text
+        text: |
+          Eine Linie ist **steil**, wenn sie schnell nach oben geht. Sie ist **flach**, wenn sie nur langsam nach oben geht. Daran erkennst du das Tempo:
+
+          - **Steile Linie:** In kurzer Zeit kommt viel Weg dazu. Der Wagen ist schnell.
+          - **Flache Linie:** In derselben Zeit kommt wenig Weg dazu. Der Wagen ist langsam.
+          - **Waagerechte Linie:** Der Weg ändert sich nicht. Der Wagen steht.
+      - type: example
+        title: Ein Beispiel
+        blocks:
+          - type: text
+            text: |
+              Wagen X kommt in 3 s genau 6 m weit, Wagen Y in 3 s genau 3 m. In 3 s kommt X also doppelt so weit.
+              Seine Linie steigt doppelt so steil: X fährt mit 2 m/s, Y mit 1 m/s.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Oben siehst du einen Wagen auf der Bahn. Die Punkte zeigen, wo er nach 0, 1, 2 bis 6 Sekunden ist. Das Quadrat ist der Start.
+          Darunter ist das Weg-Zeit-Diagramm dazu. Seine Achsen bleiben immer gleich, damit du Linien vergleichen kannst. Der Weg geht bis 24 m, so lang ist die Bahn.
+
+          Mit **+** und **−** stellst du das Tempo des Wagens ein, von 0 bis 4 m/s. Am Anfang sind es 2 m/s. Der Wagen fährt dann die ganzen 6 s mit diesem Tempo. Mit **Zurücksetzen** kommst du wieder zu 2 m/s.
+          Probiere 0, 1, 2 und 4 m/s. Schau auf die Linie: Wie steil ist sie? Wo ist sie nach 6 s? Bei 0 m/s liegen alle Punkte auf der Bahn übereinander, denn der Wagen bleibt stehen. Die Tabelle unter dem Diagramm zeigt dir die genauen Werte.
+      - type: vue-component
+        id: weg-zeit-ausprobieren
+        component: BewegungsDiagramm
+        props:
+          fahrten: { data: fahrten }
+          start: gleichmaessig
+          ansicht: weg
+          konstant: true
+          bahnTitel: Der Wagen auf der Bahn
+          geschwindigkeitTitel: Geschwindigkeit-Zeit-Diagramm
+          wegTitel: Weg-Zeit-Diagramm
+          tempoTitel: Tempo einstellen
+          tempoLabel: Tempo bei {t} s
+          tempoKonstantLabel: "Tempo: {v} m/s"
+          mehr: Tempo erhöhen
+          weniger: Tempo verringern
+          zuruecksetzen: Zurücksetzen
+          achseZeit: t in s
+          achseGeschwindigkeit: v in m/s
+          achseWeg: s in m
+          bildBahn: "Ein Wagen auf der Bahn. Sein Abstand vom Start nach 0 bis 6 Sekunden in Metern: {s}."
+          bildGeschwindigkeit: "Geschwindigkeit-Zeit-Diagramm. Das Tempo in m/s bei 0 bis 6 Sekunden: {v}."
+          bildWeg: "Weg-Zeit-Diagramm. Der Weg in Metern nach 0 bis 6 Sekunden: {s}."
+          tabelleTitel: Werte als Tabelle
+          spalteZeit: Zeit t in s
+          spalteGeschwindigkeit: Tempo v in m/s
+          spalteWeg: Weg s in m
+        nojs: |
+          Ein Wagen fährt 6 Sekunden lang mit gleichem Tempo. Du kannst das Tempo zwischen 0 und 4 m/s einstellen und siehst dazu die Bahn mit dem Wagen und das Weg-Zeit-Diagramm.
+
+          Beispiel mit 2 m/s:
+
+          - nach 0 s: Weg 0 m
+          - nach 1 s: Weg 2 m
+          - nach 2 s: Weg 4 m
+          - nach 3 s: Weg 6 m
+          - nach 4 s: Weg 8 m
+          - nach 5 s: Weg 10 m
+          - nach 6 s: Weg 12 m
+
+          Die Punkte liegen auf einer geraden Linie. Bei 4 m/s ist die Linie doppelt so steil, bei 0 m/s ist sie waagerecht.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: schnellster-wagen
+        text: Drei Wagen A, B und C starten gleichzeitig am selben Ort. Welcher Wagen ist am schnellsten?
+        material:
+          - type: figure
+            image: images/weg-zeit-drei-wagen.svg
+            alt: Ein Weg-Zeit-Diagramm mit drei geraden Linien A, B und C. Alle beginnen bei 0 und steigen verschieden steil. Die Zeit läuft von 0 bis 6 Sekunden, der Weg von 0 bis 12 Metern.
+            caption: Die drei Linien unterscheiden sich in Farbe und Strichart. Schau, wie steil jede Linie ist.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Wagen A
+            correct: false
+            info: "Wagen A kommt in 6 s genau 6 m weit. Das sind 1 m/s. Ein anderer Wagen kommt in derselben Zeit weiter."
+          - text: Wagen B
+            correct: true
+            info: "Wagen B kommt in 6 s genau 12 m weit, das sind 2 m/s. Seine Linie ist am steilsten."
+          - text: Wagen C
+            correct: false
+            info: "Wagen C kommt in 6 s nur 3 m weit. Seine Linie ist am flachsten, er ist der langsamste."
+        explanation: Je steiler die Linie im Weg-Zeit-Diagramm, desto mehr Weg kommt in derselben Zeit dazu. Das heißt, der Wagen ist schneller.
+        hint: Such 6 s auf der Zeitachse. Geh senkrecht nach oben zu jeder Linie und lies links an der Wegachse ab, wie weit der Wagen ist.
+        links:
+          - title: Bewegungsdiagramme auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: true-false
+        id: waagerechte-linie
+        text: Eine waagerechte Linie im Weg-Zeit-Diagramm bedeutet, dass der Wagen sehr schnell fährt.
+        answer: false
+        explanation: Bei einer waagerechten Linie ändert sich der Weg nicht, obwohl die Zeit vergeht. Der Wagen steht.
+        links:
+          - title: Bewegungsdiagramme auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: number
+        id: weg-ablesen
+        text: Lies im Diagramm ab, wie weit der Wagen nach 2 s vom Start entfernt ist. Antworte in Metern.
+        material:
+          - type: figure
+            image: images/weg-zeit-ablesen.svg
+            alt: Ein Weg-Zeit-Diagramm mit einer blauen Linie. Sie steigt zuerst gerade an und knickt dann ab. Die Zeit läuft von 0 bis 6 Sekunden, der Weg von 0 bis 12 Metern.
+            caption: Das Gitter hilft beim Ablesen. Eine Gitterlinie ist 1 s breit und 2 m hoch.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 6
+        tolerance: 0
+        unit: m
+        mistakes:
+          - answer: 2
+            message: "2 ist die Zeit. Der Weg steht an der senkrechten Achse."
+          - answer: 12
+            message: "12 m ist der Weg am Ende der Fahrt. Gefragt ist der Weg nach 2 s."
+        explanation: Bei 2 s liegt die Linie auf der Höhe von 6 m. Der Wagen ist dann 6 m vom Start entfernt.
+        hint: Such 2 s auf der Zeitachse. Geh senkrecht nach oben bis zur Linie. Dann geh nach links und lies an der Wegachse ab.
+        links:
+          - title: Bewegungsdiagramme auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: text
+        text: "**Knobeln:** Für alle, die mehr wollen."
+      - type: number
+        id: tempo-aus-diagramm
+        text: Der Wagen im Diagramm fährt bis zum Knick der Linie gleichmäßig. Das sind 4 s. Wie schnell fährt er in dieser Zeit? Antworte in m/s.
+        material:
+          - type: figure
+            image: images/weg-zeit-ablesen.svg
+            alt: Ein Weg-Zeit-Diagramm mit einer blauen Linie. Sie steigt zuerst gerade an und knickt dann ab. Die Zeit läuft von 0 bis 6 Sekunden, der Weg von 0 bis 12 Metern.
+            caption: Die Linie hat einen Knick. Betrachte nur den Teil bis zum Knick.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 3
+        tolerance: 0
+        unit: m/s
+        mistakes:
+          - answer: 12
+            message: "12 ist der Weg in Metern, nicht das Tempo. Das Tempo ist Weg durch Zeit."
+          - answer: 2
+            message: "Du hast durch 6 s geteilt. Der Wagen fährt aber nur 4 s lang, danach steht er."
+        explanation: Der Wagen kommt in 4 s genau 12 m weit. Mit $v = s/t$ ergibt das $12\ \text{m} / 4\ \text{s} = 3\ \text{m/s}$.
+        hint: Wo knickt die Linie ab? Lies dort Weg und Zeit ab. Dann rechne mit v = s/t.
+        links:
+          - title: Bewegungsdiagramme auf der Lernlandkarte
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/

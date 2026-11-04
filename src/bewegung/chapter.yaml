@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beschleunigte Bewegung
+summary: Du lernst, wie sich eine Bewegung beim Beschleunigen, Abbremsen und bei einer Richtungsänderung verändert, und liest und zeichnest dazu Diagramme.
+pages: [wiederholung, aenderung, weg-zeit, geschwindigkeit-zeit, richtung, zusammen]
+# Die Selbsteinschätzung: drei Aufgaben je Seite des Kapitels. Die Wiederholungsseite hat keine Übung und fehlt hier.
+# Die Einstell-Aufgaben (geschw-zeit-einstellen, richtung-einstellen, ganze-fahrt) ziehen je Durchgang eine eigene Aufgabe.
+selfAssessment:
+  pages:
+    - exercises:
+        - /bewegung/aenderung/#situation-zuordnen
+        - /bewegung/aenderung/#kurve-gleiches-tempo
+        - /bewegung/aenderung/#wo-aendert-sich
+    - exercises:
+        - /bewegung/weg-zeit/#schnellster-wagen
+        - /bewegung/weg-zeit/#weg-ablesen
+        - /bewegung/weg-zeit/#tempo-aus-diagramm
+    - exercises:
+        - /bewegung/geschwindigkeit-zeit/#wann-gleichmaessig
+        - /bewegung/geschwindigkeit-zeit/#tempo-ablesen
+        - /bewegung/geschwindigkeit-zeit/#geschw-zeit-einstellen
+    - exercises:
+        - /bewegung/richtung/#wann-rueckwaerts
+        - /bewegung/richtung/#minus-langsamer
+        - /bewegung/richtung/#richtung-einstellen
+    - exercises:
+        - /bewegung/zusammen/#fahrt-linie-zuordnen
+        - /bewegung/zusammen/#v-t-waagerecht
+        - /bewegung/zusammen/#ganze-fahrt
