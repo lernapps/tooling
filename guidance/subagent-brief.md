@@ -27,7 +27,8 @@ shared files need, what you could not verify.
 ## Learner check
 
 For the pattern page (`early-preview`), and again after a change to a shared component. Fill the brackets; send it to
-a sub-agent that has a shell and a browser (Playwright).
+a sub-agent that has a shell and a browser (Playwright), in the foreground: wait for its report before you go on, in
+the same turn. Without a sub-agent tool, follow the brief yourself.
 
 ```text
 Use one page of a learning app as a learner would, and tell me where a learner gets stuck. Change nothing.

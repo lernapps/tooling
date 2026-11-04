@@ -63,14 +63,20 @@ severity: hint
   model, how learners use it, example, exercise.
 - Before you show it, check it: against the rules of skill `lernapps-<archetype>-design` (an explainer: the five
   questions of `explainer-representation-explained` for each figure and model), and let a sub-agent use it in the
-  browser as a learner of the app's grade (`@lernapps/tooling/guidance/subagent-brief.md`, "Learner check"). Fix what
-  they find.
-- Then send the creator a short "Zwischenstand": screenshots, desktop and 360 px (`npx --no -- lernapps screenshots
-  --desktop`), on the creator's machine also the address of `npm run dev`, started in the background; what learners
-  do on the page in one or two sentences; one question: may the other pages follow this pattern?
-- A checkpoint: wait for the answer. A change → change the pattern first, then build the other pages after it.
-- Example: "Zwischenstand: So sieht die erste Seite aus. Die Kinder teilen einen Kuchen mit dem Regler in gleich
-  große Stücke und markieren dann selbst. Soll ich die anderen Seiten nach diesem Muster bauen?"
+  browser as a learner of the app's grade (`@lernapps/tooling/guidance/subagent-brief.md`, "Learner check"). Run the
+  sub-agent in the foreground and wait for its report in the same turn; no turn ends while it runs. No sub-agent
+  tool: do the learner check yourself, in the browser, with the same brief. Fix what they find.
+- Look at the screenshots yourself, each image (`npx --no -- lernapps screenshots --desktop`, desktop and 360 px):
+  what you have not seen you cannot show.
+- Then send the creator one message that begins "**Code · Checkpoint** Zwischenstand": the screenshots (their paths,
+  or the images where the chat shows them), on the creator's machine also the address of `npm run dev`, started in
+  the background; what learners do on the page in one or two sentences; one question: may the other pages follow
+  this pattern?
+- A checkpoint: wait for the answer. Every message after it is the creator's answer. A change → change the pattern
+  first, then build the other pages after it.
+- Example: "**Code · Checkpoint** Zwischenstand: So sieht die erste Seite aus (Bilder: …). Die Kinder teilen einen
+  Kuchen mit dem Regler in gleich große Stücke und markieren dann selbst. Soll ich die anderen Seiten nach diesem
+  Muster bauen?"
 
 ### `feedback-applied-everywhere`: A remark on one page is checked on all
 
