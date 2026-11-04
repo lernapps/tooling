@@ -46,6 +46,28 @@ audit: start within one level 20/20, action within one level 20/20, never clear 
 6/6. It is a little milder than Opus on `explainer-representation-explained` (0.86 against 0.56) and finds the same
 blockers. Sonnet is calibrated as well as Opus for these targets.
 
+## Rubric v2: after the review of the rules
+
+The review of the rules (`6c9f9fb`, `210d383`) merged `explainer-figure-explains` into
+`explainer-representation-explained`, gave each item its unit, "Not here" and sharper levels, and added
+`explainer-page-goal` and `explainer-exercise-progression`. Sonnet 5.5 judged the three stands again
+(`bruchrechnung-<stand>-v2.learning.yaml`):
+
+| Stand | Mean | Units at 0 |
+|---|---|---|
+| early | 1.18 | 39 |
+| audit | 1.33 | 28 |
+| final | 1.57 | 14 |
+
+Against the audit: start within one level 20/20, action within one level 17/20, clear where the audit says unclear
+on one page (`/anwendungen/dezimaldarstellung/`), blockers 6/6. The order of the stands holds.
+
+A first run of v2 counted every check of understanding as a given-away answer (22 of 53 exercises at level 0), because
+the page above it explains the answer; `210d383` limits `explainer-figure-hides-answer` to what belongs to the task.
+Its findings at the final stand are real ones the creator accepted: a live counter "Von dir markiert: 2" that gives
+the numerator, a task text that names the denominator it asks for, a preview of the typed fraction that lets learners
+try until the picture matches. `explainer-page-goal` is low on every stand: no page of the app says where it leads.
+
 ## Verdict
 
 Calibrated for the evals of this feature: the juror orders the stands right, agrees with the audit within one level

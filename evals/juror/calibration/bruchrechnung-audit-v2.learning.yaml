@@ -1,0 +1,2046 @@
+url: http://127.0.0.1:4302/
+grade: "6"
+subject: mathematik
+pages:
+  - /anteile/darstellen/
+  - /anteile/gemischte-zahlen/
+  - /anteile/zahlenstrahl/
+  - /teilbarkeit/regeln/
+  - /teilbarkeit/teiler-vielfache/
+  - /umformen/erweitern/
+  - /umformen/kuerzen/
+  - /umformen/vergleichen/
+  - /grundaufgaben/anteil/
+  - /grundaufgaben/bruchteil/
+  - /grundaufgaben/ganzes/
+  - /rechnen/dividieren/
+  - /rechnen/gleichungen/
+  - /rechnen/multiplizieren/
+  - /rechnen/plus-minus/
+  - /rechnen/terme/
+  - /anwendungen/dezimaldarstellung/
+  - /anwendungen/dezimalrechnen/
+  - /anwendungen/runden/
+  - /anwendungen/sachaufgaben/
+units:
+  - item: explainer-page-goal
+    page: /anteile/darstellen/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Was ist überhaupt ein Bruch? … Stell dir vor, ihr teilt eine Pizza in vier gleich große Stücke.“ Links to
+      everyday life; exercises (Nenner, Markieren) check that. Page never states the aim. Level 1: the opening situation
+      links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /anteile/gemischte-zahlen/
+    unit: Seite
+    level: 1
+    evidence: "„Eine Pizza reicht nicht immer. Was, wenn du eine ganze Pizza und noch ein halbes Stück einer zweiten
+      meinst?“ Links to the pizza of the page before; no goal sentence; exercises (7/3, 2 + 1/6) check it. Level 1: the
+      opening situation links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /anteile/zahlenstrahl/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Eine Zahl kann auch einen Platz auf einer Strecke haben. Wir betrachten zunächst nur die Strecke von 0 bis
+      1.“ Builds on the number line, says no goal; exercises (Platziere 7/10, 8/8) check it. Level 1: the opening
+      situation links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /teilbarkeit/regeln/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Stell dir zwölf Bauklötze vor. Du kannst daraus drei Reihen mit je vier Klötzen legen“. Everyday link, no
+      goal sentence. Exercises check primes and prime factors, but the divisibility-rule table is never checked and the
+      18 : 3 task checks division. Level 1: the opening situation links to something known and the exercises check the
+      topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Zwölf und achtzehn Plättchen sollen in gleich große Päckchen. Welche Päckchengröße funktioniert für beide
+      Mengen?“ A question, not a goal; exercises (kgV, ggT) check the content. Level 1: the opening situation links to
+      something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /umformen/erweitern/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Ein Kuchen ist in drei gleich große Stücke geteilt. Zwei davon sind für dich: zwei Drittel. Nun teilst du
+      jedes … noch einmal“. Builds on the fraction picture; no goal sentence; exercises check Erweitern. Level 1: the
+      opening situation links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /umformen/kuerzen/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Mehrere kleine Stücke können zusammen ein größeres Stück bilden. So kannst du denselben Anteil mit weniger
+      Teilen beschreiben.“ Links to the page before (Erweitern in reverse) only implicitly; no goal sentence; exercises
+      check Kürzen. Level 1: the opening situation links to something known and the exercises check the topic, but the
+      aim is not stated."
+  - item: explainer-page-goal
+    page: /umformen/vergleichen/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Zwei Kinder bekommen unterschiedlich große Bruchteile einer gleich großen Tafel. Wie kannst du herausfinden,
+      wer mehr bekommt?“ A situation and a question, no goal; exercises check comparing. Level 1: the opening situation
+      links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /grundaufgaben/anteil/
+    unit: Seite
+    level: 1
+    evidence: "„Sechs von acht Plättchen sind markiert. Die Frage ist nun, welcher Bruch diese Auswahl beschreibt.“ A
+      situation, no sentence on what learners can do afterwards; exercises check it. Level 1: the opening situation
+      links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /grundaufgaben/bruchteil/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Du hast 12 Plättchen vor dir und möchtest drei Viertel davon nehmen … Gesucht ist, wie viele Plättchen du so
+      erhältst.“ States the task of the page, not the learning aim; exercises check it. Level 1: the opening situation
+      links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /grundaufgaben/ganzes/
+    unit: Seite
+    level: 1
+    evidence: "„Du siehst nur einen Teil einer Menge und weißt, welcher Anteil das ist. Daraus kannst du die ganze Menge
+      rekonstruieren.“ Closest to a goal sentence, but written as a situation; exercises check it. Level 1: the opening
+      situation links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /rechnen/dividieren/
+    unit: Seite
+    level: 1
+    evidence: "„Du füllst Saft aus einem Gefäß in kleinere gleich große Gläser. Wie oft passt der Inhalt eines kleinen
+      Glases in die vorhandene Menge?“ Everyday question, no goal; exercises check it. Level 1: the opening situation
+      links to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /rechnen/gleichungen/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Eine Rechenwaage soll auf beiden Seiten denselben Wert zeigen. Welche Zahl fehlt noch?“ Image and question,
+      no goal; exercises check the missing number. Level 1: the opening situation links to something known and the
+      exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /rechnen/multiplizieren/
+    unit: Seite
+    level: 1
+    evidence: "„Von einem Teil wird noch einmal ein Teil ausgewählt: etwa die Hälfte eines Viertels.“ Builds on the
+      Bruchteil pages; no goal sentence; exercises check it. Level 1: the opening situation links to something known and
+      the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /rechnen/plus-minus/
+    unit: Seite
+    level: 1
+    evidence: "„Du legst Bruchstücke zusammen oder nimmst welche weg. Damit du sie zählen kannst, müssen sie gleich groß
+      sein.“ Builds on the pieces picture; no goal sentence; exercises check it. Level 1: the opening situation links to
+      something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /rechnen/terme/
+    unit: Seite
+    level: 1
+    evidence: "„In einer längeren Rechnung stehen mehrere Rechenschritte. Klammern und Rechenzeichen legen fest, welcher
+      Schritt zuerst kommt.“ Names the topic, no goal and no link to the page before; exercises check the order of
+      steps. Level 1: the opening situation links to something known and the exercises check the topic, but the aim is
+      not stated."
+  - item: explainer-page-goal
+    page: /anwendungen/dezimaldarstellung/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Auf einem Messbecher steht vielleicht 0,5 Liter statt ein halber Liter.“ Everyday link; no goal sentence;
+      exercises check fraction to decimal. Level 1: the opening situation links to something known and the exercises
+      check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /anwendungen/dezimalrechnen/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Beim Rechnen mit Geld legst du Euro zu Euro und Cent zu Cent.“ Everyday link; no goal sentence; exercises
+      check one decimal calculation. Level 1: the opening situation links to something known and the exercises check the
+      topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /anwendungen/runden/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Eine Messung ist oft genauer angegeben, als du sie brauchst. Beim Runden wählst du einen nahe gelegenen Wert
+      mit weniger Stellen.“ Situation and topic, no goal; exercises check rounding. Level 1: the opening situation links
+      to something known and the exercises check the topic, but the aim is not stated."
+  - item: explainer-page-goal
+    page: /anwendungen/sachaufgaben/
+    unit: Seite
+    level: 1
+    evidence:
+      "„Eine Geschichte beschreibt Mengen und Anteile. Bevor du rechnest, klärst du, was du schon weißt und was du
+      herausfinden möchtest.“ Describes a method, not what learners can do afterwards; exercises check word problems.
+      Level 1: the opening situation links to something known and the exercises check the topic, but the aim is not
+      stated."
+  - item: explainer-learner-start
+    page: /anteile/darstellen/
+    unit: Seite
+    level: 1
+    evidence: Pizza in vier Stücke is a good start, then „Bruch“ is defined. But „Mit einem Bruchteil schon eher!“ uses
+      „Bruchteil“ before it is explained, and the note adds „Der Bruchstrich bedeutet auch geteilt durch“ without a
+      link.
+  - item: explainer-learner-start
+    page: /anteile/gemischte-zahlen/
+    unit: Seite
+    level: 1
+    evidence: "Pizza start is fine. „Eine gemischte Zahl besteht aus einer ganzen Zahl und einem echten Bruch“: „echter
+      Bruch“ is never explained; „unechter Bruch“ is first used in the note after the figure."
+  - item: explainer-learner-start
+    page: /anteile/zahlenstrahl/
+    unit: Seite
+    level: 1
+    evidence:
+      Starts from „Platz auf einer Strecke“ but does not link fractions to the known number line (natural numbers);
+      „Teilstrich“ is used in the task without being explained.
+  - item: explainer-learner-start
+    page: /teilbarkeit/regeln/
+    unit: Seite
+    level: 2
+    evidence: "Bauklötze (3 Reihen à 4 or 2 à 6) link to Malaufgaben; Faktor, Produkt, Primzahl, Primfaktorzerlegung and
+      Quersumme are each explained where first needed. Slight: „zusammengesetzte Faktoren“ comes without definition but
+      is clear from the next clause."
+  - item: explainer-learner-start
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Seite
+    level: 1
+    evidence: Plättchen in Päckchen is a good start, Teiler/Vielfaches are defined. ggT and kgV appear only in the note
+      after the table and „Hauptnenner“ comes unexplained in the same sentence.
+  - item: explainer-learner-start
+    page: /umformen/erweitern/
+    unit: Seite
+    level: 2
+    evidence: Starts from 2/3 of a cake and halving each piece, then „Erweitern“ is defined right after with the same picture.
+  - item: explainer-learner-start
+    page: /umformen/kuerzen/
+    unit: Seite
+    level: 1
+    evidence:
+      First sentence „Mehrere kleine Stücke können zusammen ein größeres Stück bilden“ has no concrete situation;
+      „gemeinsamen Teiler“ in the definition is not linked to the divisor pages.
+  - item: explainer-learner-start
+    page: /umformen/vergleichen/
+    unit: Seite
+    level: 1
+    evidence: Two children and a bar of chocolate is a good situation; the definition then uses „Bezugs-Ganze“ without
+      explanation.
+  - item: explainer-learner-start
+    page: /grundaufgaben/anteil/
+    unit: Seite
+    level: 1
+    evidence:
+      Concrete start (6 of 8 Plättchen), but the definition „Verhältnis von Bruchteil zu Ganzem“ uses two terms the
+      learner has not seen and „Anteil“ vs. „Bruchteil“ is not distinguished by example.
+  - item: explainer-learner-start
+    page: /grundaufgaben/bruchteil/
+    unit: Seite
+    level: 2
+    evidence:
+      "12 Plättchen, drei Viertel: first „teile … in vier gleich große Gruppen und nimm dann drei“, then „Bruchteil“
+      is defined with „neun von zwölf Plättchen“."
+  - item: explainer-learner-start
+    page: /grundaufgaben/ganzes/
+    unit: Seite
+    level: 1
+    evidence:
+      Start „Du siehst nur einen Teil einer Menge“ is concrete, but the definition „Das Ganze ist die Bezugsgröße“
+      introduces „Bezugsgröße“ unexplained.
+  - item: explainer-learner-start
+    page: /rechnen/dividieren/
+    unit: Seite
+    level: 2
+    evidence:
+      "Saft in Gläser: „Wie oft passt der Inhalt eines kleinen Glases in die vorhandene Menge?“ then Kehrbruch is
+      defined where first needed."
+  - item: explainer-learner-start
+    page: /rechnen/gleichungen/
+    unit: Seite
+    level: 1
+    evidence: Rechenwaage is a good image; „Umkehroperation“ appears in the note without explanation.
+  - item: explainer-learner-start
+    page: /rechnen/multiplizieren/
+    unit: Seite
+    level: 2
+    evidence: „die Hälfte eines Viertels“ builds on known fractions; „Anteil eines Anteils“ is defined right after.
+  - item: explainer-learner-start
+    page: /rechnen/plus-minus/
+    unit: Seite
+    level: 1
+    evidence: Pieces start is fine; „Gleichnamige Brüche“ is defined, but the exploration needs „gemeinsamen Nenner“ /
+      „Unterteilung“ for unlike denominators, which is first used in the note.
+  - item: explainer-learner-start
+    page: /rechnen/terme/
+    unit: Seite
+    level: 1
+    evidence:
+      Starts from the topic („Klammern und Rechenzeichen legen fest …“) without a situation; Vorrangregel is defined
+      by listing the rule the learner already knows from grade 5, but no link is made to it.
+  - item: explainer-learner-start
+    page: /anwendungen/dezimaldarstellung/
+    unit: Seite
+    level: 1
+    evidence: Messbecher 0,5 Liter is a good start; „periodisch“ and „Primfaktoren 2 und 5“ appear in the note without
+      explanation.
+  - item: explainer-learner-start
+    page: /anwendungen/dezimalrechnen/
+    unit: Seite
+    level: 1
+    evidence: Euro/Cent analogy for Stellenwert is good; the note uses „Divisor ganzzahlig“ and „Nachkommastellen“ unexplained.
+  - item: explainer-learner-start
+    page: /anwendungen/runden/
+    unit: Seite
+    level: 1
+    evidence:
+      Measurement start is good; „Rundungsstelle“ and „Näherungszeichen“ are used in the note without being shown
+      (no ≈ appears).
+  - item: explainer-learner-start
+    page: /anwendungen/sachaufgaben/
+    unit: Seite
+    level: 1
+    evidence:
+      Generic start („Eine Geschichte beschreibt Mengen und Anteile“) without a concrete story; „Bezugsgröße“ and
+      „Ganzes, Bruchteil oder Anteil“ are used as known.
+  - item: explainer-one-step
+    page: /anteile/darstellen/
+    unit: Seite
+    level: 1
+    evidence:
+      Main idea (Zähler/Nenner) is checked by all exercises. The note adds „Der Bruchstrich bedeutet auch geteilt
+      durch“ (not checked, another idea) and the nojs text mentions the Zahlenstrahl of the next page.
+  - item: explainer-one-step
+    page: /anteile/gemischte-zahlen/
+    unit: Seite
+    level: 1
+    evidence:
+      "Two directions (7/3 → 2 + 1/3 and 2·3 + 1 → 7/3) in one example box: „7/3 sind zwei Ganze und ein Drittel: 2
+      + 1/3. Umgekehrt ergeben 2 · 3 + 1 insgesamt sieben Drittel.“"
+  - item: explainer-one-step
+    page: /anteile/zahlenstrahl/
+    unit: Seite
+    level: 2
+    evidence:
+      One idea (position of a fraction between 0 and 1); „zunächst nur die Strecke von 0 bis 1“ keeps later content
+      out; all exercises check it; one example.
+  - item: explainer-one-step
+    page: /teilbarkeit/regeln/
+    unit: Seite
+    level: 0
+    evidence:
+      "Two competencies on one page: Faktoren/Primfaktorzerlegung and the eight divisibility rules (2, 5, 10, 4, 25,
+      100, 3, 9). The rules table is never checked by an exercise."
+  - item: explainer-one-step
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Seite
+    level: 0
+    evidence:
+      "Teiler/ggT and Vielfache/kgV are two ideas in one example box; the note jumps to later pages: „Bei Brüchen
+      hilft der ggT beim Kürzen und das kgV beim Hauptnenner.“"
+  - item: explainer-one-step
+    page: /umformen/erweitern/
+    unit: Seite
+    level: 2
+    evidence: One idea (Erweitern, same value); one example; exercises (sc, Erweitere … mit …) check it.
+  - item: explainer-one-step
+    page: /umformen/kuerzen/
+    unit: Seite
+    level: 2
+    evidence:
+      One idea (Kürzen); one example. The warning „Aus Summen darfst du keine einzelnen Summanden kürzen“ is a side
+      remark.
+  - item: explainer-one-step
+    page: /umformen/vergleichen/
+    unit: Seite
+    level: 1
+    evidence: "Note gives three ways: „Bei gleichem Nenner entscheidet der Zähler. Bei gleichem positiven Zähler … Sonst
+      kannst du auf einen gemeinsamen Nenner erweitern.“ Only the last is derived in the example."
+  - item: explainer-one-step
+    page: /grundaufgaben/anteil/
+    unit: Seite
+    level: 1
+    evidence: Example box holds two examples (6 von 8 and „50 cm von 2 m“ with unit conversion); the note adds „relative
+      Häufigkeit“.
+  - item: explainer-one-step
+    page: /grundaufgaben/bruchteil/
+    unit: Seite
+    level: 2
+    evidence: One idea (teilen, dann malnehmen), one worked example, all exercises check it.
+  - item: explainer-one-step
+    page: /grundaufgaben/ganzes/
+    unit: Seite
+    level: 1
+    evidence:
+      "Note gives „Ganzes = Bruchteil : Anteil“ (a division by a fraction, which is the next chapter) and a second
+      way „zuerst durch den Zähler teilen und dann mit dem Nenner multiplizieren“ without derivation."
+  - item: explainer-one-step
+    page: /rechnen/dividieren/
+    unit: Seite
+    level: 1
+    evidence: "Two ways in one box: „Wie oft passt …“ (3/4 sind 6/8) and the Kehrbruch rule: „3/4 : 1/8 = 3/4 · 8/1 = 6“."
+  - item: explainer-one-step
+    page: /rechnen/gleichungen/
+    unit: Seite
+    level: 1
+    evidence: "Note covers two kinds: „Ein fehlender Summand entsteht durch Subtraktion, ein fehlender Faktor durch
+      Division.“ Exercises check only the missing summand."
+  - item: explainer-one-step
+    page: /rechnen/multiplizieren/
+    unit: Seite
+    level: 1
+    evidence: Note adds „gemeinsame Faktoren … vorher kürzen“ and „wird eine positive Zahl kleiner“ without derivation;
+      exercises check only Zähler·Zähler / Nenner·Nenner.
+  - item: explainer-one-step
+    page: /rechnen/plus-minus/
+    unit: Seite
+    level: 1
+    evidence:
+      "Same denominator (exercise) and unlike denominators (exploration, sc) plus subtraction: two ideas; example
+      box has two examples (1/2 + 1/3 and 3/4 − 1/2)."
+  - item: explainer-one-step
+    page: /rechnen/terme/
+    unit: Seite
+    level: 1
+    evidence:
+      "Vorrang of operations (checked) plus „Distributivgesetz“ and Kommutativ-/Assoziativgesetz in the note, which
+      no exercise checks. The sentence „Diese Regeln gelten nicht entsprechend für Subtraktion und Division“ is
+      misleading: a · (b − c) = a·b − a·c does hold."
+  - item: explainer-one-step
+    page: /anwendungen/dezimaldarstellung/
+    unit: Seite
+    level: 0
+    evidence:
+      "Content of later pages/competencies: „25 % = 25/100 = 1/4“ (Prozent), periodic decimals „0,333…“, and „Bei
+      vollständig gekürzten Brüchen endet sie genau dann, wenn der Nenner nur Primfaktoren 2 und 5 enthält.“"
+  - item: explainer-one-step
+    page: /anwendungen/dezimalrechnen/
+    unit: Seite
+    level: 0
+    evidence:
+      "Three operations of two competencies in one page: addition, multiplication and division of decimals („Beim
+      Dividieren verschiebst du das Komma in beiden Zahlen …“); example box has three calculations; only one is
+      practised."
+  - item: explainer-one-step
+    page: /anwendungen/runden/
+    unit: Seite
+    level: 1
+    evidence: One idea, but the example box holds two examples (0,746 and 0,744) and the note adds „Näherungszeichen“.
+  - item: explainer-one-step
+    page: /anwendungen/sachaufgaben/
+    unit: Seite
+    level: 1
+    evidence:
+      "Example box has two unrelated examples (3/4 : 2 = 3/8 Liter and „5-mal eine Sechs … relative Häufigkeit … 25
+      %“); the sc needs 3/4 : 2, the generated task 3/4 von 12 km."
+  - item: explainer-exercise-progression
+    page: /anteile/darstellen/
+    unit: Übungen der Seite
+    level: 1
+    evidence: sc „Was beschreibt der Nenner bei 3/4?“ (recognise, same as the example), Markiere z/n and Nenner for 1/…
+      (apply with new values). No new context or word problem.
+  - item: explainer-exercise-progression
+    page: /anteile/gemischte-zahlen/
+    unit: Übungen der Seite
+    level: 2
+    evidence: sc „Wie viele Ganze stecken in 7/3?“ (recognise), Markiere 16/10 (apply), „Schreibe 2 + 1/6 als unechten
+      Bruch“ (reverse question).
+  - item: explainer-exercise-progression
+    page: /anteile/zahlenstrahl/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      sc „Wo liegt 3/4?“ (recognise), Platziere 7/10 (apply); „8 Abstände … für 8/8“ is the same step again. No new
+      context.
+  - item: explainer-exercise-progression
+    page: /teilbarkeit/regeln/
+    unit: Übungen der Seite
+    level: 1
+    evidence: "sc „Welche Zahl ist eine Primzahl?“ and „Welcher Primfaktor fehlt?“ (apply), but 18 : 3 and the
+      divisibility-rule table are not part of the same ladder."
+  - item: explainer-exercise-progression
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Übungen der Seite
+    level: 1
+    evidence: sc kgV von 4 und 6 (same as the example), ggT von 4 und 8 (apply). No new context.
+  - item: explainer-exercise-progression
+    page: /umformen/erweitern/
+    unit: Übungen der Seite
+    level: 1
+    evidence: sc „Was bleibt beim Erweitern gleich?“, Erweitere 3/5 mit 2 and „Erweitere 1/8 mit 3. Welcher Nenner
+      entsteht?“ — recognise and apply, no new context.
+  - item: explainer-exercise-progression
+    page: /umformen/kuerzen/
+    unit: Übungen der Seite
+    level: 1
+    evidence: "sc „Welcher Bruch ist vollständig gekürzt?“, Kürze 8/10, Kürze 6/30 mit 6: recognise and apply only."
+  - item: explainer-exercise-progression
+    page: /umformen/vergleichen/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "sc „Welcher Vergleich stimmt?“, Vergleiche 4/5 und 2/3, „Gib den Zähler des größeren Bruchs an“: recognise
+      and apply only."
+  - item: explainer-exercise-progression
+    page: /grundaufgaben/anteil/
+    unit: Übungen der Seite
+    level: 1
+    evidence: "sc „Welcher Anteil sind 6 von 8?“ (same as the example), „Welcher Anteil sind 4 von 16 Gegenständen?“ and
+      „Von 40 Plättchen sind 30 markiert. Ergänze … 3/…“: apply with other values only."
+  - item: explainer-exercise-progression
+    page: /grundaufgaben/bruchteil/
+    unit: Übungen der Seite
+    level: 2
+    evidence: sc „Welche Rechnung ergibt 3/4 von 12?“ (recognise), „Wie viele Gegenstände sind 1/4 von 12?“ (apply), „In
+      einer Schachtel liegen 40 Plättchen. Du nimmst drei Viertel davon.“ (word problem).
+  - item: explainer-exercise-progression
+    page: /grundaufgaben/ganzes/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "sc „9 sind 3/4. Welche Rechnung liefert das Ganze?“ and „15 Plättchen sind 3/4 des Ganzen“, „12 Gegenstände
+      sind 4/6“: recognise and apply, no new context."
+  - item: explainer-exercise-progression
+    page: /rechnen/dividieren/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "sc „Wie rechnest du 3/4 : 1/8?“, „Wie oft passt 1/6 in 2/3?“, „Wie oft passt 1/10 in 2 Ganze?“: recognise and
+      apply; no word problem despite the Saft opener."
+  - item: explainer-exercise-progression
+    page: /rechnen/gleichungen/
+    unit: Übungen der Seite
+    level: 1
+    evidence: "sc „Welche Zahl löst x + 1/4 = 3/4?“ and „x/4 + 1/4 = 1“: same form; no new context."
+  - item: explainer-exercise-progression
+    page: /rechnen/multiplizieren/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "sc „Wie viel ist 2/3 von 3/4?“, Berechne 2/3 von 2/5 im Rechteck, „Welcher Nenner entsteht vor dem Kürzen?“:
+      recognise and apply; no context."
+  - item: explainer-exercise-progression
+    page: /rechnen/plus-minus/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "sc „Wie viel ist 1/2 + 1/3?“, 4/5 + 1/3 and 2/5 − 1/5 with slider, „Berechne 1/5 + 2/5“: recognise and apply,
+      no context."
+  - item: explainer-exercise-progression
+    page: /rechnen/terme/
+    unit: Übungen der Seite
+    level: 1
+    evidence: sc „Was wird … zuerst gerechnet?“ (recognise) and „Berechne 1 + (1/8 · 8)“ (apply, always the same form).
+  - item: explainer-exercise-progression
+    page: /anwendungen/dezimaldarstellung/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "sc „Welche Gleichheit stimmt genau?“ and „Schreibe 5/10 als Dezimalzahl“: recognise and apply; only tenths in
+      the generated task."
+  - item: explainer-exercise-progression
+    page: /anwendungen/dezimalrechnen/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      "sc „Wie viel ist 0,2 · 0,3?“ and „Berechne 10/10 + 0,25“: two different operations, no context although the
+      opener is about money."
+  - item: explainer-exercise-progression
+    page: /anwendungen/runden/
+    unit: Übungen der Seite
+    level: 1
+    evidence: "sc „Wie lautet 0,746 auf Hundertstel gerundet?“ and „Runde 0,646 auf Hundertstel“: same step; always a 6 behind."
+  - item: explainer-exercise-progression
+    page: /anwendungen/sachaufgaben/
+    unit: Übungen der Seite
+    level: 1
+    evidence:
+      sc „3/4 Liter werden auf zwei gleiche Gefäße verteilt“ and „Eine Strecke ist 12 km lang. Du gehst 3/4 davon.“
+      are both word problems; no recognising level and no further new situation.
+  - item: explainer-honest-headings
+    page: /anteile/darstellen/
+    unit: Seite
+    level: 2
+    evidence: „Begriffe klären“, „Ausprobieren“ (two sliders), „Am Beispiel nachvollziehen“, „Üben“ all fit.
+  - item: explainer-honest-headings
+    page: /anteile/gemischte-zahlen/
+    unit: Seite
+    level: 2
+    evidence: Headings fit; „Ausprobieren“ has two sliders.
+  - item: explainer-honest-headings
+    page: /anteile/zahlenstrahl/
+    unit: Seite
+    level: 2
+    evidence: Headings fit; „Ausprobieren“ has two sliders.
+  - item: explainer-honest-headings
+    page: /teilbarkeit/regeln/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren“ (number slider and factor buttons), „Wo das Zerlegen endet“, „Abkürzungen beim Suchen“ (the
+      table) fit.
+  - item: explainer-honest-headings
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Seite
+    level: 0
+    evidence: „Ausprobieren“ holds only a static table „Gruppengrößen untersuchen / Zahl / Mögliche Gruppengrößen ohne
+      Rest“; nothing can be operated.
+  - item: explainer-honest-headings
+    page: /umformen/erweitern/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren“ has the slider; other headings fit.
+  - item: explainer-honest-headings
+    page: /umformen/kuerzen/
+    unit: Seite
+    level: 0
+    evidence:
+      „Ausprobieren“ asks „Welche kleinen Teilstücke kannst du zu größeren Gruppen zusammenfassen?“ but the section
+      holds only a graded task („Kürze 8/10 vollständig“ with Prüfen); no grouping can be done.
+  - item: explainer-honest-headings
+    page: /umformen/vergleichen/
+    unit: Seite
+    level: 1
+    evidence:
+      „Ausprobieren“ holds one graded task with fixed strips and three sign buttons; learners can only pick a sign,
+      not vary anything.
+  - item: explainer-honest-headings
+    page: /grundaufgaben/anteil/
+    unit: Seite
+    level: 2
+    evidence: "„Ausprobieren“: cells can be marked and an answer typed."
+  - item: explainer-honest-headings
+    page: /grundaufgaben/bruchteil/
+    unit: Seite
+    level: 2
+    evidence: "„Ausprobieren“: the two steps can be pressed; other headings fit."
+  - item: explainer-honest-headings
+    page: /grundaufgaben/ganzes/
+    unit: Seite
+    level: 1
+    evidence: „Ausprobieren“ holds one task whose figure is fixed; learners can only type (the promised „Regler“ is missing).
+  - item: explainer-honest-headings
+    page: /rechnen/dividieren/
+    unit: Seite
+    level: 2
+    evidence: "„Ausprobieren“: the −/+ pieces and the answer field can be operated."
+  - item: explainer-honest-headings
+    page: /rechnen/gleichungen/
+    unit: Seite
+    level: 0
+    evidence:
+      „Ausprobieren“ („Welche Zahl ergänzt einen Bruch zu einem Ganzen? Nutze den Streifen als Kontrolle.“) holds
+      only the table „Die Angaben im Beispiel / x + 1/4 / 3/4“.
+  - item: explainer-honest-headings
+    page: /rechnen/multiplizieren/
+    unit: Seite
+    level: 2
+    evidence: "„Ausprobieren“: matrix cells can be marked."
+  - item: explainer-honest-headings
+    page: /rechnen/plus-minus/
+    unit: Seite
+    level: 2
+    evidence: "„Ausprobieren“: slider „Teile pro Ganzem“."
+  - item: explainer-honest-headings
+    page: /rechnen/terme/
+    unit: Seite
+    level: 0
+    evidence:
+      „Ausprobieren“ („Vergleiche unterschiedliche Gruppierungen“) holds only the table „1/2 + 1/3 · 3 | (1/2 + 1/3)
+      · 3“.
+  - item: explainer-honest-headings
+    page: /anwendungen/dezimaldarstellung/
+    unit: Seite
+    level: 0
+    evidence: „Ausprobieren“ holds only the table „Ausgangswerte untersuchen / 3/4 / Zehntel und Hundertstel“.
+  - item: explainer-honest-headings
+    page: /anwendungen/dezimalrechnen/
+    unit: Seite
+    level: 0
+    evidence: „Ausprobieren“ holds only the table „0,75 und 0,5 / Gleiche Stellenwerte“.
+  - item: explainer-honest-headings
+    page: /anwendungen/runden/
+    unit: Seite
+    level: 0
+    evidence: „Ausprobieren“ holds only the table „0,746 / Hundertstelstelle und rechte Nachbarziffer“.
+  - item: explainer-honest-headings
+    page: /anwendungen/sachaufgaben/
+    unit: Seite
+    level: 0
+    evidence:
+      „Ausprobieren“ („Zeichne zuerst die Situation“) holds only the table „3/4 Liter und 2 Gefäße / Gesuchte Menge
+      pro Gefäß“.
+  - item: explainer-age-appropriate
+    page: /anteile/darstellen/
+    unit: Seite
+    level: 2
+    evidence: „Mit einem Beinbruch hat er hier nichts zu tun“ and Pizza fit grade 6 well.
+  - item: explainer-age-appropriate
+    page: /anteile/gemischte-zahlen/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Pizza); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /anteile/zahlenstrahl/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Strecke 0 bis 1); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /teilbarkeit/regeln/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Bauklötze); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Plättchen in Päckchen); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /umformen/erweitern/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Kuchen); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /umformen/kuerzen/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Stücke bündeln); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /umformen/vergleichen/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Tafel Schokolade); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /grundaufgaben/anteil/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Plättchen); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /grundaufgaben/bruchteil/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Plättchen); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /grundaufgaben/ganzes/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Plättchen); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /rechnen/dividieren/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Saft in Gläser); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /rechnen/gleichungen/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Rechenwaage); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /rechnen/multiplizieren/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Rechteck); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /rechnen/plus-minus/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Bruchstücke); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /rechnen/terme/
+    unit: Seite
+    level: 1
+    evidence: "Pizza/Saft style of the other pages is missing; „Vorrangregeln bestimmen die Rechenreihenfolge“ and „Das
+      Distributivgesetz verteilt eine Multiplikation auf eine Summe: a · (b + c) = a · b + a · c“ read like a textbook
+      for older learners; no situation of grade 6."
+  - item: explainer-age-appropriate
+    page: /anwendungen/dezimaldarstellung/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Messbecher); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /anwendungen/dezimalrechnen/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Euro und Cent); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /anwendungen/runden/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Messung); friendly „du“ address, no childish phrases.
+  - item: explainer-age-appropriate
+    page: /anwendungen/sachaufgaben/
+    unit: Seite
+    level: 2
+    evidence: Examples and tone fit grade 6 (Liter Saft, 12 km); friendly „du“ address, no childish phrases.
+  - item: explainer-representation-explained
+    page: /anteile/darstellen/
+    unit: BruchEntdecken im Abschnitt „Ausprobieren“ (Kreis, Bruchstreifen, Menge)
+    level: 1
+    evidence:
+      "Whole is named per view but differently: Kreis „Ganzes: 1“, Menge „Ganzes: 8“ (at 12/12 „Ganzes: 24“) for the
+      same fraction, never explained why the Menge has two objects per part. ✓ and · in the strip and filled/hollow
+      ovals in the Menge are not explained. Part meaning is clear („Ausgewählt: 3/4“), how it leads to the statement is
+      in the note below."
+    did: Zähler 0 und 4, Nenner 1 und 12 gestellt; bei Nenner 12 und Zähler 12 zeigt die Menge 24 Gegenstände.
+  - item: explainer-control-purpose
+    page: /anteile/darstellen/
+    unit: "BruchEntdecken: Regler Zähler und Nenner"
+    level: 1
+    evidence: "Page says „Verschiebe die Regler: In wie viele gleich große Stücke teilst du das Ganze? Wie viele davon
+      wählst du aus?“ — which slider answers which question is not said; what to watch stays general („Was verändert
+      sich“). Zähler slider max follows the Nenner (4 at Nenner 4, 12 at Nenner 12) and Nenner 1 forces Zähler 1:
+      positions and labels agree. Start state 3/4 already shows a change, not a neutral state."
+    did: Beide Regler an die Enden geschoben.
+  - item: explainer-text-figure-agree
+    page: /anteile/darstellen/
+    unit: Abschnitt „Ausprobieren“
+    level: 0
+    evidence: The nojs text says „Auf dem Zahlenstrahl liegt 3/4 zwischen 0 und 1“ but the component shows only Kreis,
+      Bruchstreifen and Menge; the labels object holds a „line“ view that is never shown.
+    did: Alle Ansichten bei mehreren Werten angesehen.
+  - item: explainer-representation-explained
+    page: /anteile/darstellen/
+    unit: BruchModelle „Markiere z/n“ im Abschnitt „Üben“ (Kreis, Streifen oder Menge je Aufgabe)
+    level: 1
+    evidence:
+      "Task „Markiere 11/12. Alle Teile sind gleich groß; ihre Anordnung darfst du frei wählen.“ The view changes
+      between tasks (Kreis, Bruchstreifen, Menge) without notice; in the Menge the whole (12 objects) is not named;
+      „Anordnung“ is hard for grade 6; marks ○/✓ unexplained. The check shows „Deine Darstellung: 9/10“ only
+      afterwards."
+    did: Mit 1 Teil (unvollständig), z+1 Teilen (falsch) und z Teilen (richtig) geprüft, mehrere Seeds.
+  - item: explainer-control-purpose
+    page: /anteile/darstellen/
+    unit: "BruchModelle „Markiere z/n“: Teile anklicken"
+    level: 1
+    evidence:
+      Page names the action („Markiere“) but not what to watch; cells toggle ○ to ✓ / filled wedge; no live count
+      (good), the counter only appears after Prüfen. After a wrong check the old „Leider nicht richtig“ stays while the
+      marks change.
+    did: Teile ein- und ausgeschaltet, Prüfen.
+  - item: explainer-text-figure-agree
+    page: /anteile/darstellen/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence:
+      "Task „Markiere 9/10 …“, figure with 10 cells, counter „Deine Darstellung: 9/10“ agree; the second task about
+      „Nenner bei 3/4“ matches the example; the generated task is announced („Übe selbst, mit immer neuen Aufgaben“)."
+  - item: explainer-representation-explained
+    page: /anteile/gemischte-zahlen/
+    unit: BruchEntdecken im Abschnitt „Ausprobieren“ (Bruchstreifen)
+    level: 1
+    evidence:
+      "Strip of one row per whole is drawn (12/4 = three rows of four) but the rows are not labelled as Ganze and
+      the mixed number („3“ or „2 + 1/4“) is never shown, although the page is about it; label only „Ausgewählt: 12/4“.
+      Marks ✓/· unexplained."
+    did: Zähler 0 und 12, Nenner 1 und 12; bei Nenner 12 reicht der Zähler bis 36.
+  - item: explainer-control-purpose
+    page: /anteile/gemischte-zahlen/
+    unit: "BruchEntdecken: Regler Zähler und Nenner"
+    level: 1
+    evidence: Text „Verändere Zähler und Nenner. Beobachte, was gleich bleibt und was sich ändert.“ is generic; the lead
+      question „Kann der Zähler größer als der Nenner sein?“ is answered by the slider range (max 3 × Nenner), but
+      nothing says to look at the rows. Start state 3/4 is below one whole, fine.
+    did: Regler an die Enden.
+  - item: explainer-text-figure-agree
+    page: /anteile/gemischte-zahlen/
+    unit: Abschnitt „Ausprobieren“
+    level: 0
+    evidence:
+      "Visible text: „Die Mengenansicht erscheint nur, wenn ganze Gegenstände ausgewählt werden können.“ — the page
+      never shows a Menge. The nojs text names Kreis, Menge and Zahlenstrahl, but only the Bruchstreifen is shown, and
+      it does not mention mixed numbers."
+    did: Alle Zähler/Nenner-Werte probiert; Menge erscheint nie.
+  - item: explainer-representation-explained
+    page: /anteile/gemischte-zahlen/
+    unit: BruchModelle „Markiere 16/10“ im Abschnitt „Üben“ (Bruchstreifen)
+    level: 1
+    evidence:
+      "„Markiere 16/10. Alle Teile sind gleich groß“: 20 cells in two rows of ten; that two rows are two Ganze is
+      not said; which row counts as one whole is left to guess."
+    did: Prüfen mit zu wenigen, zu vielen und richtiger Zahl.
+  - item: explainer-control-purpose
+    page: /anteile/gemischte-zahlen/
+    unit: "BruchModelle: Teile anklicken"
+    level: 1
+    evidence: "Same as on the first page: „Markiere“ names the action, nothing to watch until Prüfen."
+  - item: explainer-text-figure-agree
+    page: /anteile/gemischte-zahlen/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc „Wie viele Ganze stecken in 7/3?“ matches the example 7/3; „2 + 1/6 als unechten Bruch“ announced as new tasks.
+  - item: explainer-representation-explained
+    page: /anteile/zahlenstrahl/
+    unit: BruchEntdecken im Abschnitt „Ausprobieren“ (Zahlenstrahl)
+    level: 1
+    evidence: "Whole is given („Zwischen 0 und 1 liegt eine ganze Einheit“), 0 and 1 labelled, dot at 3/4, „Ausgewählt:
+      3/4“. The ticks are not labelled and not explained as part borders; a common misreading (counting ticks instead of
+      gaps) is not named in the text."
+    did: Zähler 0 bis 4, Nenner 1 bis 12.
+  - item: explainer-control-purpose
+    page: /anteile/zahlenstrahl/
+    unit: "BruchEntdecken: Regler Zähler und Nenner"
+    level: 1
+    evidence:
+      "„Verändere Zähler und Nenner. Beobachte, was gleich bleibt und was sich ändert.“ generic. Zähler max equals
+      Nenner (stays on 0–1), Nenner 1 forces Zähler 1: consistent. A third slider appears in the page (the exercise) and
+      is not mentioned."
+    did: Beide Regler an die Enden.
+  - item: explainer-text-figure-agree
+    page: /anteile/zahlenstrahl/
+    unit: Abschnitt „Ausprobieren“
+    level: 0
+    evidence:
+      Visible text „Die Mengenansicht erscheint nur, wenn ganze Gegenstände ausgewählt werden können.“ — no Menge
+      view on this page; nojs text names Kreis, Streifen, Menge although only the Zahlenstrahl is shown.
+  - item: explainer-representation-explained
+    page: /anteile/zahlenstrahl/
+    unit: BruchModelle „Platziere z/n auf dem Zahlenstrahl“ im Abschnitt „Üben“
+    level: 1
+    evidence:
+      Line 0 to 1 with unlabelled ticks, dot at 0, slider „Wähle die Position“ with no value read-out; the learner
+      counts ticks. Whole and goal are clear („Platziere 9/12 … Wähle den passenden Teilstrich“); the wrong-answer text
+      talks about „ausgewählte Teile“ although the line has none.
+    did: Position 0 (leer), z+1 (falsch), z (richtig).
+  - item: explainer-control-purpose
+    page: /anteile/zahlenstrahl/
+    unit: "BruchModelle: Schieberegler „Wähle die Position“"
+    level: 2
+    evidence: "Page says „Wähle den passenden Teilstrich“, slider moves the dot tick by tick, start at 0; after Prüfen
+      „Deine Darstellung: 2/4“ agrees with the position."
+  - item: explainer-text-figure-agree
+    page: /anteile/zahlenstrahl/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: Task „Platziere 7/10 …“, figure with 10 gaps, and sc „Wo liegt 3/4?“ agree.
+  - item: explainer-representation-explained
+    page: /teilbarkeit/regeln/
+    unit: FaktorEntdecken im Abschnitt „Ausprobieren“
+    level: 1
+    evidence: Tree „12 = 3★ · 4“; the ★ is explained only once all factors are prime („die Sterne markieren diese
+      Endpunkte“), not before. Whole (Zahl 2–48) and parts are clear; the duplicates „3 · 4“ and „4 · 3“ in the choice
+      are not explained.
+    did: Zahl 2, 7, 12, 48; 12 = 3 · 4 gewählt, dann 4 zerlegt.
+  - item: explainer-control-purpose
+    page: /teilbarkeit/regeln/
+    unit: "FaktorEntdecken: Zahlregler, Faktor-Knöpfe, „Noch einmal zerlegen“"
+    level: 0
+    evidence: "Page names slider and factor buttons („Wähle eine Zahl. Tippe dann auf einen Faktor …“). The button „Noch
+      einmal zerlegen“ is not mentioned and its label disagrees with what it does: it resets the tree to „12 =“ instead
+      of splitting once more."
+    did: "Auf „Noch einmal zerlegen“ gedrückt nach 3 · 4: Baum springt auf den Anfang zurück."
+  - item: explainer-text-figure-agree
+    page: /teilbarkeit/regeln/
+    unit: Abschnitt „Ausprobieren“
+    level: 2
+    evidence:
+      Text („Tippe dann auf einen Faktor, den du weiter zerlegen möchtest, und wähle eine passende Malaufgabe“) and
+      component (factor buttons, Malaufgaben) match; example 12 = 3 · 2 · 2 as shown.
+  - item: explainer-text-figure-agree
+    page: /teilbarkeit/regeln/
+    unit: Abschnitt „Üben“
+    level: 1
+    evidence:
+      The hint under „12 Gegenstände werden gleichmäßig auf 3 Gruppen verteilt“ is „Eine Zahl ist durch 2 teilbar,
+      wenn ihre letzte Ziffer gerade ist …“ — it belongs to the table, not to the division task; the task is not about
+      the rules.
+  - item: explainer-text-figure-agree
+    page: /teilbarkeit/regeln/
+    unit: Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence:
+      Equations „24 = 4 ⋅ 6“, „24 = (2 ⋅ 2) ⋅ (2 ⋅ 3)“ agree with the text („Die Faktoren 4 und 6 lassen sich beide
+      weiter zerlegen“).
+  - item: explainer-representation-explained
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Tabelle „Gruppengrößen untersuchen“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      Table lists divisors of 12 and 18; which are common is not marked, the question „Welche Unterteilung passt zu
+      zwei Brüchen?“ is not addressed by any row; nothing to enter.
+  - item: explainer-text-figure-agree
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      Text asks two questions („… zu zwei Mengen? … zu zwei Brüchen?“); the table has numbers only, so the second
+      question has no figure; the example later uses 4 and 6, a switch without notice.
+  - item: explainer-text-figure-agree
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc „Was ist das kgV von 4 und 6?“ is the example; the generated ggT tasks are announced.
+  - item: explainer-representation-explained
+    page: /umformen/erweitern/
+    unit: KuchenTeilen im Abschnitt „Ausprobieren“
+    level: 2
+    evidence:
+      "Whole = the cake (circle), thick lines = the original 3 pieces (stated), green = your share, captions „Vor
+      dem Unterteilen: 2/3“, „Nach dem Unterteilen: 12/18“ and the sentence „Insgesamt hat der Kuchen jetzt 18 gleich
+      große Teile. Davon gehören 12 zu deinem Anteil. Die markierte Kuchenfläche bleibt gleich.“ counter the misreading
+      that more pieces mean more cake. Level 2 although the misreading is not named as such."
+    did: Regler auf 1, 2, 6 und Endanschlag.
+  - item: explainer-control-purpose
+    page: /umformen/erweitern/
+    unit: "KuchenTeilen: Regler „Jedes ursprüngliche Stück in so viele Stücke teilen“"
+    level: 2
+    evidence:
+      "Text: „Unterteile jedes ursprüngliche Kuchenstück gleich oft … Beobachte die markierte Fläche und die Anzahl
+      der kleinen Stücke.“ Start 1 shows 2/3 and 2/3 (what stays the same). Slider 1–6; label, captions and sentence
+      follow every position."
+    did: Regler 1, 2, 6.
+  - item: explainer-text-figure-agree
+    page: /umformen/erweitern/
+    unit: Abschnitt „Ausprobieren“
+    level: 2
+    evidence: Text, figure (3 thick-bordered pieces), captions and sentence use 2/3 throughout.
+  - item: explainer-representation-explained
+    page: /umformen/erweitern/
+    unit: BruchUmformen „Erweitere … mit …“ im Abschnitt „Üben“
+    level: 1
+    evidence:
+      "„Gegeben: Kreis, Ganzes: 1“ and the instruction „Zähler und Nenner werden durch / getrennt“ are clear. While
+      typing a second circle (labelled only „Kreis, Ganzes: 1“) and „So schreibst du das: 4/16“ appear; the page never
+      says that it shows your own entry."
+    did: „1“, „1/8“, „3/12“, „2/8“, „4/16“ bei Aufgabe 1/4 mit 2 eingegeben, geprüft.
+  - item: explainer-control-purpose
+    page: /umformen/erweitern/
+    unit: "BruchUmformen: Antwortfeld"
+    level: 1
+    evidence: Field is named („Gib deinen umgeformten Bruch ein“); nothing says what to watch; the preview appears
+      unannounced. „3/12“ for „Erweitere 1/4 mit 2“ gets the helpful „Der Wert stimmt. Verwende aber den …
+      Erweiterungsfaktor“.
+  - item: explainer-text-figure-agree
+    page: /umformen/erweitern/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: Task, given circle and entered fraction use the same numbers; sc matches the page.
+  - item: explainer-text-figure-agree
+    page: /umformen/erweitern/
+    unit: Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence: Text „Halbierst du jedes Stück … vier kleine Stücke … sechs“ and equation 2/3 = (2·2)/(3·2) = 4/6 agree.
+  - item: explainer-representation-explained
+    page: /umformen/kuerzen/
+    unit: BruchUmformen „Kürze … vollständig“ im Abschnitt „Ausprobieren“ (Bruchstreifen)
+    level: 1
+    evidence: "Given strip „Ausgewählt: 8/10“ without any way to group pieces; the text asks for grouping („zu größeren
+      Gruppen zusammenfassen“) so how the figure leads to the result is left to guess; ✓/· unexplained; the second strip
+      (preview) is not announced."
+  - item: explainer-control-purpose
+    page: /umformen/kuerzen/
+    unit: "BruchUmformen: Antwortfeld"
+    level: 1
+    evidence: Only the field exists; the promised grouping control does not. Typing 4/5 for 4/10 shows a strip of 4 of 5
+      under the given strip (preview), unannounced.
+    did: „4/5“ für 4/10 eingegeben.
+  - item: explainer-text-figure-agree
+    page: /umformen/kuerzen/
+    unit: Abschnitt „Ausprobieren“
+    level: 0
+    evidence:
+      Text „Welche kleinen Teilstücke kannst du zu größeren Gruppen zusammenfassen?“ names an action the page does
+      not offer; the section is a Prüfen task.
+  - item: explainer-text-figure-agree
+    page: /umformen/kuerzen/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc „Welcher Bruch ist vollständig gekürzt?“ and the generated „Kürze 6/30 mit 6“ match the page.
+  - item: explainer-representation-explained
+    page: /umformen/vergleichen/
+    unit: BruchUmformen „Vergleiche … Wähle das passende Zeichen“ im Abschnitt „Ausprobieren“
+    level: 2
+    evidence:
+      "Two Bruchstreifen of equal width, „Ausgewählt: 4/5“ and „Ausgewählt: 2/3“, buttons <, =, >; the whole is the
+      same width (text: „Vergleiche gleich große Ganze“), what to enter is stated. „Bezugs-Ganze“ is not explained, but
+      the picture is clear."
+    did: <, = und > gewählt und geprüft.
+  - item: explainer-control-purpose
+    page: /umformen/vergleichen/
+    unit: "BruchUmformen: Zeichen-Knöpfe <, =, >"
+    level: 2
+    evidence: Task „Wähle das passende Zeichen“; the chosen button turns green; start state has none chosen.
+    did: Jeden Knopf gedrückt.
+  - item: explainer-text-figure-agree
+    page: /umformen/vergleichen/
+    unit: Abschnitt „Ausprobieren“
+    level: 0
+    evidence:
+      A wrong sign gets „Dein Bruch hat einen anderen Wert als der Ausgangsbruch. Beim Umformen müssen Zähler und
+      Nenner mit derselben Zahl multipliziert … werden.“ — it describes an entered fraction and an Ausgangsbruch that do
+      not exist in a comparison task. The note also names „Auf dem Zahlenstrahl liegt der größere Bruch weiter rechts“
+      (no Zahlenstrahl here).
+    did: „>“ und „=“ falsch geprüft.
+  - item: explainer-text-figure-agree
+    page: /umformen/vergleichen/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc „2/3 < 3/4“ matches the example 8/12 and 9/12; generated tasks are announced.
+  - item: explainer-representation-explained
+    page: /grundaufgaben/anteil/
+    unit: AnteilGanzes „Welcher Anteil sind … von … Gegenständen?“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence: „Gegeben“ shows 24 empty cells that stand for the Gegenstände; marking has no count. The tool text „Bilde
+      gleich große Gruppen. Der Regler hilft dir …“ names a slider that does not exist, so how to get from the figure to
+      the fraction is left to guess; „So schreibst du das“ shows the typed fraction.
+    did: 2 Zellen markiert, „3/4“ eingegeben und geprüft.
+  - item: explainer-control-purpose
+    page: /grundaufgaben/anteil/
+    unit: "AnteilGanzes: Zellen markieren und Antwortfeld"
+    level: 1
+    evidence:
+      "Task: „Du kannst den Teil als Rechenhilfe markieren.“ Cells toggle ○/●, nothing else changes (no count, no
+      grouping); the page says nothing to watch. The mentioned „Regler“ is missing."
+  - item: explainer-text-figure-agree
+    page: /grundaufgaben/anteil/
+    unit: Abschnitt „Ausprobieren“
+    level: 0
+    evidence:
+      Text „Der Regler hilft dir, unterschiedliche Gruppengrößen zu untersuchen“ names a control the page does not
+      have; opener says „Sechs von acht“, the task is „4 von 16“ (switch without notice).
+  - item: explainer-text-figure-agree
+    page: /grundaufgaben/anteil/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc „Welcher Anteil sind 6 von 8?“ matches the example; generated tasks announced.
+  - item: explainer-representation-explained
+    page: /grundaufgaben/bruchteil/
+    unit: BruchteilEntdecken im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      "Whole stated („Alle zusammen sind das Ganze“), groups named („Gruppe 1–4“), sentences after each step: „In
+      jeder Gruppe liegen 3 Plättchen. Eine Gruppe ist ein Viertel des Ganzen.“, „Du hast 3 von 4 Gruppen ausgewählt.
+      Darin liegen 9 Plättchen.“ All questions answered; no misreading (e.g. 3 Plättchen instead of 9) is named, so
+      level 1 by the strict rule."
+    did: Aufteilen gedrückt, 1 bis 3 Gruppen gewählt, „Von vorn ausprobieren“.
+  - item: explainer-control-purpose
+    page: /grundaufgaben/bruchteil/
+    unit: "BruchteilEntdecken: Knopf „1. In vier gleich große Gruppen aufteilen“ und Gruppen"
+    level: 2
+    evidence: "Page: „Probiere die beiden Schritte nacheinander aus. Zuerst teilst du die 12 Plättchen in vier gleiche
+      Gruppen. Danach wählst du drei Gruppen aus.“ The button is numbered, the groups say „Tippe drei Gruppen an“, the
+      counter sentence follows each tap, „Von vorn ausprobieren“ resets and says so."
+    did: Alle Schritte und den Reset durchgespielt.
+  - item: explainer-text-figure-agree
+    page: /grundaufgaben/bruchteil/
+    unit: Abschnitt „Ausprobieren“
+    level: 2
+    evidence: 12 Plättchen, vier Gruppen, drei Viertel in text, buttons, nojs and example agree.
+  - item: explainer-representation-explained
+    page: /grundaufgaben/bruchteil/
+    unit: AnteilGanzes „Wie viele Gegenstände sind 1/4 von 12?“ im Abschnitt „Üben“
+    level: 1
+    evidence:
+      12 or 25 empty cells; same tool text with the missing „Regler“; the whole (all cells) is not named, so how to
+      read the cells is left to guess.
+  - item: explainer-control-purpose
+    page: /grundaufgaben/bruchteil/
+    unit: "AnteilGanzes: Zellen markieren und Antwortfeld"
+    level: 1
+    evidence: "As on the Anteil page: marking is offered, nothing to watch; „Regler“ named but missing."
+  - item: explainer-text-figure-agree
+    page: /grundaufgaben/bruchteil/
+    unit: Abschnitt „Üben“
+    level: 0
+    evidence:
+      Tool text „Der Regler hilft dir, unterschiedliche Gruppengrößen zu untersuchen.“ names a slider the exercise
+      does not have.
+  - item: explainer-text-figure-agree
+    page: /grundaufgaben/bruchteil/
+    unit: Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence: "„12 : 4 = 3 … 3 · 3 = 9“ and the equation 3/4 von 12 = 12 : 4 · 3 = 9 agree."
+  - item: explainer-representation-explained
+    page: /grundaufgaben/ganzes/
+    unit: AnteilGanzes „… sind 2/4 des Ganzen“ im Abschnitt „Ausprobieren“ (Streifen mit ✓ und ?)
+    level: 0
+    evidence:
+      "Task „12 Gegenstände sind 4/6 des Ganzen“, figure: 6 cells, 4 ✓ and 2 „?“. The text speaks of 12 Gegenstände,
+      the figure shows 4 checked cells; that one cell is a group is never said; „?“ unexplained; the missing „Regler“ is
+      named. Three or more questions open."
+  - item: explainer-control-purpose
+    page: /grundaufgaben/ganzes/
+    unit: "AnteilGanzes: Antwortfeld"
+    level: 1
+    evidence: Only the field can be operated (the figure is fixed); the text names a „Regler“ that is not there.
+  - item: explainer-text-figure-agree
+    page: /grundaufgaben/ganzes/
+    unit: Abschnitt „Ausprobieren“
+    level: 0
+    evidence:
+      „Der Regler hilft dir, unterschiedliche Gruppengrößen zu untersuchen“ — no slider. Opener „Neun Plättchen sind
+      drei Viertel“ vs. task „12 Gegenstände sind 4/6“.
+  - item: explainer-text-figure-agree
+    page: /grundaufgaben/ganzes/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc „9 sind 3/4“ matches the example; generated tasks announced.
+  - item: explainer-representation-explained
+    page: /rechnen/dividieren/
+    unit: BruchRechnen „Wie oft passt … in …?“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence: "Two given strips (e.g. 2/3 and 1/6) and a separate tool strip with „Bruchstück: n“; the tool strip is not
+      laid against the 2/3 strip, so „Lege die Stücke hinein“ cannot be done as said; what the − and + count is left to
+      guess."
+    did: + zweimal, − einmal, „1“ und „3“ eingegeben.
+  - item: explainer-control-purpose
+    page: /rechnen/dividieren/
+    unit: "BruchRechnen: − / + Bruchstück"
+    level: 1
+    evidence:
+      "Text: „Nutze die Bruchstücke als Rechenhilfe. Markierungen und Ergebnis gibst du selbst ein.“ The buttons are
+      not named; each press visibly fills one cell (label „Bruchstück: 2“ agrees); nothing says what to watch."
+    did: − und + gedrückt.
+  - item: explainer-text-figure-agree
+    page: /rechnen/dividieren/
+    unit: Abschnitt „Ausprobieren“
+    level: 1
+    evidence: Lead question „Wie viele Achtelstücke passen in drei Viertel?“ but the task is „Wie oft passt 1/6 in 2/3?“
+      (switch without notice); the wrong-answer text „Rechne den Schritt aus dem Beispiel mit deinen Zahlen nach“ is
+      generic.
+  - item: explainer-text-figure-agree
+    page: /rechnen/dividieren/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: "sc matches the example 3/4 : 1/8; generated tasks announced."
+  - item: explainer-representation-explained
+    page: /rechnen/gleichungen/
+    unit: Tabelle „Die Angaben im Beispiel“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      Table „Erste Größe x + 1/4 / Zweite Größe 3/4“ is not a model of the balance or a strip; how it helps is left
+      to guess; nothing to enter.
+  - item: explainer-text-figure-agree
+    page: /rechnen/gleichungen/
+    unit: Abschnitt „Ausprobieren“
+    level: 0
+    evidence: „Nutze den Streifen als Kontrolle.“ — there is no Streifen on the page, only a table.
+  - item: explainer-text-figure-agree
+    page: /rechnen/gleichungen/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc „x + 1/4 = 3/4“ matches the example; generated tasks announced.
+  - item: explainer-representation-explained
+    page: /rechnen/multiplizieren/
+    unit: BruchRechnen „Berechne a von b“ mit Rechteck im Abschnitt „Ausprobieren“
+    level: 2
+    evidence:
+      "Text names every part: „Oben sind die ausgewählten Spalten markiert, links die ausgewählten Zeilen. Markiere
+      im Rechteck die Felder, die zu einer ausgewählten Spalte UND einer ausgewählten Zeile gehören. Welchen Anteil des
+      ganzen Rechtecks …“; captions „Spalten: 4 von 5“, „Zeilen: 2 von 3“; the capital UND names the misreading (either
+      … or)."
+    did: Felder markiert, „4/15“ eingegeben und geprüft.
+  - item: explainer-control-purpose
+    page: /rechnen/multiplizieren/
+    unit: "BruchRechnen: Matrix-Felder und Antwortfeld"
+    level: 2
+    evidence: Text says what to mark and what to answer; fields toggle visibly; no live count (good).
+  - item: explainer-text-figure-agree
+    page: /rechnen/multiplizieren/
+    unit: Abschnitt „Ausprobieren“
+    level: 1
+    evidence: Lead question „Was bedeutet zwei Drittel von drei Vierteln?“ but the task is e.g. „2/3 von 2/5“ (switch
+      without notice); the figure and captions agree with the task.
+  - item: explainer-text-figure-agree
+    page: /rechnen/multiplizieren/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc matches the example 2/3 von 3/4; generated tasks announced.
+  - item: explainer-representation-explained
+    page: /rechnen/plus-minus/
+    unit: BruchRechnen mit Regler „Teile pro Ganzem“, erste Aufgabe (z. B. 4/5 + 1/3) im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      "Text explains slider, copy of strips and dashed lines („Passen sie zu allen ursprünglichen Teilgrenzen?“).
+      Open: at 15 the dashed lines are dense and hard to read, nothing says that a common fit is the common denominator,
+      how to get from the lines to the result is left to guess."
+    did: Regler 2, 12, 15 gestellt, „7/15“ geprüft.
+  - item: explainer-control-purpose
+    page: /rechnen/plus-minus/
+    unit: "BruchRechnen: Regler „Teile pro Ganzem“ (erste Aufgabe)"
+    level: 1
+    evidence:
+      Slider named and its effect described (copy of the strips with dashed lines); starts at 5 (already a choice),
+      range 2–24; label value agrees. Nothing says to stop where all lines fit.
+  - item: explainer-representation-explained
+    page: /rechnen/plus-minus/
+    unit: BruchRechnen mit Regler, zweite Aufgabe (z. B. 2/5 − 1/5)
+    level: 1
+    evidence:
+      The task asks „Finde eine gemeinsame Unterteilung“ for fractions with the same denominator; the slider starts
+      at 5 where all lines already fit, so the tool shows nothing to find; subtraction is shown as two bars, the
+      remainder is not visible.
+  - item: explainer-control-purpose
+    page: /rechnen/plus-minus/
+    unit: "BruchRechnen: Regler „Teile pro Ganzem“ (zweite Aufgabe)"
+    level: 1
+    evidence: Same text as above; the start state already shows the fitting division, so the control has nothing to discover.
+  - item: explainer-text-figure-agree
+    page: /rechnen/plus-minus/
+    unit: Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      Lead question „Kannst du halbe und drittel Stücke sofort zusammenzählen?“ but tasks are 4/5 + 1/3 and 2/5 −
+      1/5 (switch without notice); the second task has equal denominators.
+  - item: explainer-text-figure-agree
+    page: /rechnen/plus-minus/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc matches example 1/2 + 1/3; generated 1/5 + 2/5 announced.
+  - item: explainer-representation-explained
+    page: /rechnen/terme/
+    unit: Tabelle „Die Angaben im Beispiel“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence: Table „1/2 + 1/3 · 3 | (1/2 + 1/3) · 3“ shows the two terms; what to compare is only given in the heading
+      („Vergleiche unterschiedliche Gruppierungen“); nothing to operate.
+  - item: explainer-text-figure-agree
+    page: /rechnen/terme/
+    unit: Abschnitt „Ausprobieren“
+    level: 2
+    evidence: Table terms are the same as in the example and the sc.
+  - item: explainer-text-figure-agree
+    page: /rechnen/terme/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc matches 1/2 + 1/3 · 3; generated „1 + (1/8 · 8)“ announced.
+  - item: explainer-representation-explained
+    page: /anwendungen/dezimaldarstellung/
+    unit: Tabelle „Ausgangswerte untersuchen“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      "Table „3/4 | Zehntel und Hundertstel“: no place-value chart or number line; what to do with the row is left
+      to guess."
+  - item: explainer-text-figure-agree
+    page: /anwendungen/dezimaldarstellung/
+    unit: Abschnitt „Ausprobieren“
+    level: 2
+    evidence: Lead „Wie passen Viertel zu Hundertsteln?“ and row 3/4 agree with the example 3/4 = 75/100.
+  - item: explainer-text-figure-agree
+    page: /anwendungen/dezimaldarstellung/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc „Welche Gleichheit stimmt genau?“ matches the example; generated tasks announced.
+  - item: explainer-representation-explained
+    page: /anwendungen/dezimalrechnen/
+    unit: Tabelle „Ausgangswerte untersuchen“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence: "Table „0,75 und 0,5 | Gleiche Stellenwerte“: no place-value table; how to use it is left to guess."
+  - item: explainer-text-figure-agree
+    page: /anwendungen/dezimalrechnen/
+    unit: Abschnitt „Ausprobieren“
+    level: 2
+    evidence: Table values 0,75 and 0,5 match the first example.
+  - item: explainer-text-figure-agree
+    page: /anwendungen/dezimalrechnen/
+    unit: Abschnitt „Üben“
+    level: 1
+    evidence:
+      sc „0,2 · 0,3“ matches the example, but the generated „Berechne 3/10 + 0,25“ mixes a fraction with a decimal,
+      a switch of form without notice.
+  - item: explainer-representation-explained
+    page: /anwendungen/runden/
+    unit: Tabelle „Ausgangswerte untersuchen“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      "Table „0,746 | Hundertstelstelle und rechte Nachbarziffer“: no number line to see „Welches davon ist näher?“;
+      what to do is left to guess."
+  - item: explainer-text-figure-agree
+    page: /anwendungen/runden/
+    unit: Abschnitt „Ausprobieren“
+    level: 2
+    evidence: 0,746 in the table, the example and the sc agree.
+  - item: explainer-text-figure-agree
+    page: /anwendungen/runden/
+    unit: Abschnitt „Üben“
+    level: 2
+    evidence: sc matches the example; generated tasks announced.
+  - item: explainer-representation-explained
+    page: /anwendungen/sachaufgaben/
+    unit: Tabelle „Ausgangswerte untersuchen“ im Abschnitt „Ausprobieren“
+    level: 1
+    evidence:
+      Table „3/4 Liter und 2 Gefäße | Gesuchte Menge pro Gefäß“; the invitation „Zeichne zuerst die Situation“ has
+      no drawing area or figure; how to start is left to guess.
+  - item: explainer-text-figure-agree
+    page: /anwendungen/sachaufgaben/
+    unit: Abschnitt „Ausprobieren“
+    level: 1
+    evidence: „Zeichne zuerst die Situation“ has no figure or tool on the page to draw on; table and example agree on 3/4 Liter.
+  - item: explainer-text-figure-agree
+    page: /anwendungen/sachaufgaben/
+    unit: Abschnitt „Üben“
+    level: 1
+    evidence:
+      "sc is „3/4 : 2“ (the example), the generated task is „3/4 von 12 km“, a different operation announced only by
+      „Übe selbst“."
+  - item: explainer-steps-explain
+    page: /anteile/darstellen/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      „Hier besteht das Ganze aus 6 gleich großen Teilen. Ein ausgewählter Teil heißt deshalb ein 6-tel; unten steht
+      6.“ Uses the numbers and a reason (three seeds).
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /anteile/gemischte-zahlen/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence: "„Ein Ganzes enthält 3 Teilstücke. Zwei Ganze enthalten zweimal 3 Teilstücke. Dazu kommt ein weiteres
+      Teilstück: 2 ⋅ 3 + 1 = 7. Der Nenner bleibt 3.“ (seeds 3, 6, 5)"
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /anteile/zahlenstrahl/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence: „Zwischen 0 und 1 liegen 6 gleich große Abstände. Ein Schritt ist also 1/6 lang. Für 6/6 gehst du alle 6
+      Schritte und erreichst genau 1. Der Startpunkt zählt nicht als Schritt.“
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /teilbarkeit/regeln/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      "gen 1: „Teile 22 durch den schon gefundenen Primfaktor 2. Das ergibt 11. 11 ist eine Primzahl.“; gen 2 „18 :
+      3 = 6. So viele Gegenstände liegen in jeder Gruppe.“ Numbers worked, reasons given."
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      „4 teilt sich selbst und auch 8 ohne Rest. Ein positiver Teiler kann nicht größer als die kleinere Zahl sein.
+      Daher ist 4 der größte gemeinsame Teiler.“ Reason given; tasks are always (n, 2n).
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /umformen/erweitern/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      "„Beim Erweitern wird jedes ursprüngliche Teil in drei gleich große kleinere Teile zerlegt. Darum verdreifacht
+      sich auch die Gesamtzahl der Teile: 5 ⋅ 3 = 15.“"
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /umformen/kuerzen/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence: "„Sechs kleine Teile werden zu jeweils einem größeren Teil zusammengefasst. Der Zähler wird 6 : 6 = 1. Der
+      Nenner wird 30 : 6 = 5.“"
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /umformen/vergleichen/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      „Beide Brüche haben den Nenner 3. Ihre Teilstücke sind deshalb gleich groß. Zwei solcher Teile sind mehr als
+      eines.“
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /grundaufgaben/anteil/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 1
+    evidence:
+      "„Der Anteil ist 9/12. Zähler und Nenner sind durch 3 teilbar. Kürzen ergibt 3/4.“ The reduction 9 : 3 and 12
+      : 3 is not worked out, the result is just stated (3 seeds, same pattern)."
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /grundaufgaben/bruchteil/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      „Teile 48 Plättchen in vier gleiche Gruppen. Jede Gruppe enthält 12 Plättchen. Drei Gruppen enthalten 12 · 3 =
+      36 Plättchen.“
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /grundaufgaben/ganzes/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence: "„Die 18 Plättchen bilden drei gleich große Gruppen. Ein Viertel enthält 18 : 3 = 6 Plättchen. Das Ganze
+      enthält vier solche Gruppen: 6 · 4 = 24 Plättchen.“"
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /rechnen/dividieren/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence: "„In ein Ganzes passen 4 Stücke der Größe 1/4. In zwei Ganze passen doppelt so viele: 2 ⋅ 4 = 8.“"
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /rechnen/gleichungen/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence: „Ein Ganzes besteht aus 10/10. Ein 10-tel ist schon vorhanden. Es fehlen 10 − 1 = 9 weitere 10-tel.“
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /rechnen/multiplizieren/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      „Für das Produkt brauchst du 10 Unterteilungen in einer Richtung und drei in der anderen. So entstehen 10 ⋅ 3
+      = 30 Felder pro Ganzem.“
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /rechnen/plus-minus/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      "„Beide Brüche bestehen aus 6-teln. Die Stückgröße ändert sich beim Zusammenlegen nicht. Ein Teil plus zwei
+      Teile sind drei Teile. Nur die Zähler werden addiert: 1 + 2 = 3.“"
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /rechnen/terme/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence: "„In der Klammer wird zuerst multipliziert. 5 Stücke der Größe 1/5 ergeben zusammen 1. Danach kommt die
+      führende 1 hinzu: 1 + 1 = 2.“"
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /anwendungen/dezimaldarstellung/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      „Beim Teilen durch 10 rückt jede Ziffer eine Stelle nach rechts in der Stellenwerttafel. 8 Zehntel sind als
+      Dezimalzahl 0,8.“ (no Stellenwerttafel on the page, but the reason is given)
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /anwendungen/dezimalrechnen/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 1
+    evidence:
+      „3/10 entspricht 3 · 10 Hundertsteln; 0,25 sind 25 Hundertstel. Addiere die Hundertstel und teile durch 100.“
+      „3 · 10“ is an unworked term and misleading (3/10 = 30/100), the sum 30 + 25 is not shown, only „Das ergibt 0,55“.
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /anwendungen/runden/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence:
+      „Die Hundertstelstelle ist die zweite Stelle nach dem Komma. Die nächste Ziffer von 0,646 ist eine 6. Deshalb
+      wird die Hundertstelziffer um 1 erhöht.“
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /anwendungen/sachaufgaben/
+    unit: Generierte Aufgabe (Lösung, drei Seeds)
+    level: 2
+    evidence: "„Ein Viertel der Strecke ist 12 : 4 = 3 km lang. Drei Viertel sind 3 · 3 = 9 km.“"
+    did: Lösung dreimal (Neue Aufgabe) geöffnet.
+  - item: explainer-steps-explain
+    page: /anteile/darstellen/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence:
+      "„Ein Streifen besteht aus vier gleich großen Feldern. Drei sind markiert: 3/4. Die 4 unter dem Bruchstrich
+      sagt: Vier gleich große Teile bilden das Ganze. Die 3 darüber sagt: Drei davon sind ausgewählt.“ Numbers and
+      reasons."
+  - item: explainer-steps-explain
+    page: /anteile/gemischte-zahlen/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence:
+      "„7/3 sind zwei Ganze und ein Drittel: 2 + 1/3. Umgekehrt ergeben 2 · 3 + 1 insgesamt sieben Drittel.“ Why 7/3
+      = 2 + 1/3 (7 : 3 = 2 Rest 1) is not worked, and both directions are in one line."
+  - item: explainer-steps-explain
+    page: /anteile/zahlenstrahl/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence:
+      „Teile die Strecke von 0 bis 1 in vier gleich große Abstände. Der erste Schritt führt zu 1/4, der zweite zu
+      2/4 und der dritte zu 3/4.“
+  - item: explainer-steps-explain
+    page: /teilbarkeit/regeln/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence:
+      "24 = 4 ⋅ 6, then (2 ⋅ 2) ⋅ (2 ⋅ 3), „Jetzt bleiben nur Primzahlen übrig: 2, 2, 2 und 3“: each step shown with
+      its reason."
+  - item: explainer-steps-explain
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence:
+      "„Teiler von 12: 1, 2, 3, 4, 6, 12. Teiler von 18: … Also ggT = 6. Positive Vielfache von 4: 4, 8, 12, …; von
+      6: 6, 12, … . Also kgV(4,6) = 12.“ Lists worked out."
+  - item: explainer-steps-explain
+    page: /umformen/erweitern/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence: 2/3 = (2 ⋅ 2)/(3 ⋅ 2) = 4/6 with „Halbierst du jedes Stück, werden aus deinen zwei Stücken vier kleine Stücke.“
+  - item: explainer-steps-explain
+    page: /umformen/kuerzen/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence: "„6/8 mit 2 kürzen: 6 : 2 = 3 und 8 : 2 = 4. Also 6/8 = 3/4. Je zwei Achtel werden zu einem Viertel gebündelt.“"
+  - item: explainer-steps-explain
+    page: /umformen/vergleichen/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence: „2/3 = 8/12 und 3/4 = 9/12.“ The expansions (factor 4 and 3) are given as results and not worked out.
+  - item: explainer-steps-explain
+    page: /grundaufgaben/anteil/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence:
+      „6 von 8 sind 6/8 = 3/4.“ The cancelling is not shown; the second example „50 cm von 2 m … 50/200 = 1/4“ skips
+      the reduction too.
+  - item: explainer-steps-explain
+    page: /grundaufgaben/bruchteil/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence: "„Der Nenner 4 sagt: Bilde vier gleiche Gruppen. 12 : 4 = 3 Plättchen liegen in jeder Gruppe. Der Zähler 3
+      sagt: Nimm drei dieser Gruppen. 3 · 3 = 9“."
+  - item: explainer-steps-explain
+    page: /grundaufgaben/ganzes/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence: "„9 Plättchen sind 3/4. Ein Viertel sind 9 : 3 = 3 Plättchen. Vier Viertel sind 3 · 4 = 12 Plättchen.“"
+  - item: explainer-steps-explain
+    page: /rechnen/dividieren/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence: "„3/4 sind 6/8 … 3/4 : 1/8 = 3/4 · 8/1 = 6.“ 3/4 = 6/8 is not derived and 3/4 · 8/1 = 6 is not worked (24/4)."
+  - item: explainer-steps-explain
+    page: /rechnen/gleichungen/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence: "„x = 3/4 − 1/4 = 2/4 = 1/2. Probe: 1/2 + 1/4 = 3/4.“ Steps and a check."
+  - item: explainer-steps-explain
+    page: /rechnen/multiplizieren/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence:
+      „2/3 · 3/4 = 6/12 = 1/2. Im Rechteck sind drei von vier Spalten ausgewählt. Zwei von drei Zeilen davon ergeben
+      sechs von zwölf Feldern.“
+  - item: explainer-steps-explain
+    page: /rechnen/plus-minus/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence: „1/2 + 1/3 = 3/6 + 2/6 = 5/6.“ Why 6 is chosen and how 3/6, 2/6 arise is not said; two examples in one line.
+  - item: explainer-steps-explain
+    page: /rechnen/terme/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence: „(1/2 + 1/3) · 3 = 5/6 · 3 = 5/2.“ The sum 5/6 and the product 5/6 · 3 = 5/2 are not worked out.
+  - item: explainer-steps-explain
+    page: /anwendungen/dezimaldarstellung/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence: "„1/8 = 0,125.“ stated without the division 1 : 8; „0,333…“ for 1/3 also without steps."
+  - item: explainer-steps-explain
+    page: /anwendungen/dezimalrechnen/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence:
+      „0,2 · 0,3 = 0,06.“ is given although the note describes the way (ohne Komma rechnen); only the addition is
+      shown in fractions.
+  - item: explainer-steps-explain
+    page: /anwendungen/runden/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 2
+    evidence:
+      "„0,746 auf Hundertstel: Die Hundertstelziffer ist 4, danach steht 6. Daher wird auf 0,75 gerundet. 0,744 wird
+      auf 0,74 gerundet.“ Reason with the digits."
+  - item: explainer-steps-explain
+    page: /anwendungen/sachaufgaben/
+    unit: Beispiel im Abschnitt „Am Beispiel nachvollziehen“
+    level: 1
+    evidence:
+      "„3/4 Liter Saft werden gleich auf zwei Gefäße verteilt: 3/4 : 2 = 3/8 Liter pro Gefäß.“ Why 3/4 : 2 = 3/8 is
+      not shown (division by a natural number comes later)."
+  - item: explainer-figure-hides-answer
+    page: /anteile/darstellen/
+    unit: Single-Choice „Was beschreibt der Nenner bei 3/4?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /anteile/gemischte-zahlen/
+    unit: Single-Choice „Wie viele Ganze stecken in 7/3?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /anteile/zahlenstrahl/
+    unit: Single-Choice „Wo liegt 3/4?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /teilbarkeit/regeln/
+    unit: Single-Choice „Welche Zahl ist eine Primzahl?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Single-Choice „Was ist das kgV von 4 und 6?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /umformen/erweitern/
+    unit: Single-Choice „Was bleibt beim Erweitern gleich?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /umformen/kuerzen/
+    unit: Single-Choice „Welcher Bruch ist vollständig gekürzt?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /umformen/vergleichen/
+    unit: Single-Choice „Welcher Vergleich stimmt?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/anteil/
+    unit: Single-Choice „Welcher Anteil sind 6 von 8?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/bruchteil/
+    unit: Single-Choice „Welche Rechnung ergibt 3/4 von 12?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/ganzes/
+    unit: Single-Choice „9 sind 3/4. Welche Rechnung liefert das Ganze?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/dividieren/
+    unit: "Single-Choice „Wie rechnest du 3/4 : 1/8?“"
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/gleichungen/
+    unit: Single-Choice „Welche Zahl löst x + 1/4 = 3/4?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/multiplizieren/
+    unit: Single-Choice „Wie viel ist 2/3 von 3/4?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/plus-minus/
+    unit: Single-Choice „Wie viel ist 1/2 + 1/3?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/terme/
+    unit: Single-Choice „Was wird bei 1/2 + 1/3 · 3 zuerst gerechnet?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /anwendungen/dezimaldarstellung/
+    unit: Single-Choice „Welche Gleichheit stimmt genau?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /anwendungen/dezimalrechnen/
+    unit: Single-Choice „Wie viel ist 0,2 · 0,3?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /anwendungen/runden/
+    unit: Single-Choice „Wie lautet 0,746 auf Hundertstel gerundet?“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /anwendungen/sachaufgaben/
+    unit: Single-Choice „3/4 Liter werden auf zwei gleiche Gefäße verteilt …“
+    level: 2
+    evidence:
+      Nothing in the question or options states the answer before Prüfen; no live feedback after selecting. Correct
+      option is listed first (same order after reload).
+    did: Jede Option gewählt und geprüft.
+  - item: explainer-figure-hides-answer
+    page: /anteile/darstellen/
+    unit: Generierte Aufgabe „Ein Ganzes ist in 5 gleiche Teile geteilt … Welcher Nenner gehört zum Bruch 1/…?“
+    level: 0
+    evidence:
+      "The task text states the answer: „Ein Ganzes ist in 6 gleiche Teile geteilt. Ein Teil ist markiert. Welcher
+      Nenner gehört zum Bruch 1/…?“ — the number to enter (6) is in the sentence; the learner can copy it."
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /anteile/gemischte-zahlen/
+    unit: Generierte Aufgabe „Schreibe 2 + 1/3 als unechten Bruch. Welcher Zähler gehört über den Nenner 3?“
+    level: 2
+    evidence: Text gives the Nenner and the parts, not the Zähler 7; no live element.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /anteile/zahlenstrahl/
+    unit: Generierte Aufgabe „Eine Einheit hat 6 gleiche Abstände. Wie viele davon brauchst du für 6/6?“
+    level: 0
+    evidence: "The task states the answer twice: „6 gleiche Abstände“ and „6/6“; the answer is 6 (also 3/3 → 3, 10/10 → 10)."
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /teilbarkeit/regeln/
+    unit: Generierte Aufgabe „Zerlege 22 vollständig in Primfaktoren. Eine 2 ist schon gefunden …“
+    level: 2
+    evidence: "Text gives „22 = 2 · …“; the missing 11 needs 22 : 2."
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /teilbarkeit/regeln/
+    unit: Generierte Aufgabe „12 Gegenstände werden gleichmäßig auf 3 Gruppen verteilt …“
+    level: 2
+    evidence: Text gives dividend and divisor, not the result.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /teilbarkeit/teiler-vielfache/
+    unit: Generierte Aufgabe „Bestimme den größten gemeinsamen Teiler von 4 und 8.“
+    level: 2
+    evidence: Nothing in the text names the answer.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /umformen/erweitern/
+    unit: Generierte Aufgabe „Erweitere 1/5 mit 3. Welcher Nenner entsteht?“
+    level: 2
+    evidence: Text gives 5 and 3, not 15.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /umformen/kuerzen/
+    unit: Generierte Aufgabe „Kürze 6/30 mit 6. Welcher Nenner entsteht?“
+    level: 2
+    evidence: Text gives 30 and 6, not 5.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /umformen/vergleichen/
+    unit: Generierte Aufgabe „Vergleiche 1/3 und 2/3. Gib den Zähler des größeren Bruchs an.“
+    level: 2
+    evidence: Text gives both fractions; the learner must decide which is larger.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/anteil/
+    unit: Generierte Aufgabe „Von 12 Plättchen sind 9 markiert. Ergänze den vollständig gekürzten Anteil 3/… .“
+    level: 2
+    evidence: Text gives the numerator 3 of the reduced fraction but not the denominator 4.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/bruchteil/
+    unit: Generierte Aufgabe „In einer Schachtel liegen 48 Plättchen. Du nimmst drei Viertel davon.“
+    level: 2
+    evidence: Text does not name the result 36.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/ganzes/
+    unit: Generierte Aufgabe „18 Plättchen sind 3/4 des Ganzen. Wie viele Plättchen hat das Ganze?“
+    level: 2
+    evidence: Text does not name 24.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/dividieren/
+    unit: Generierte Aufgabe „Wie oft passt 1/4 in 2 Ganze?“
+    level: 2
+    evidence: Text does not name 8.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/gleichungen/
+    unit: "Generierte Aufgabe „Ergänze: x/10 + 1/10 = 1. Welchen Wert hat der Zähler x?“"
+    level: 2
+    evidence: Text does not name 9.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/multiplizieren/
+    unit: Generierte Aufgabe „Berechne 2/10 · 1/3. Welcher Nenner entsteht vor dem Kürzen?“
+    level: 2
+    evidence: Text does not name 30.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/plus-minus/
+    unit: Generierte Aufgabe „Berechne 1/6 + 2/6. Welcher Zähler steht über dem unveränderten Nenner 6?“
+    level: 2
+    evidence: Text does not name 3.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/terme/
+    unit: Generierte Aufgabe „Berechne 1 + (1/5 · 5).“
+    level: 2
+    evidence: Text does not name 2.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /anwendungen/dezimaldarstellung/
+    unit: Generierte Aufgabe „Schreibe 8/10 als Dezimalzahl.“
+    level: 2
+    evidence: Text does not name 0,8.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /anwendungen/dezimalrechnen/
+    unit: Generierte Aufgabe „Berechne 3/10 + 0,25. Gib das Ergebnis als Dezimalzahl an.“
+    level: 2
+    evidence: Text does not name 0,55.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /anwendungen/runden/
+    unit: Generierte Aufgabe „Runde 0,646 auf Hundertstel.“
+    level: 2
+    evidence: Text does not name 0,65.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /anwendungen/sachaufgaben/
+    unit: Generierte Aufgabe „Eine Strecke ist 12 km lang. Du gehst 3/4 davon.“
+    level: 2
+    evidence: Text does not name 9.
+    did: Drei Seeds, falsche und leere Eingabe, Lösung.
+  - item: explainer-figure-hides-answer
+    page: /anteile/darstellen/
+    unit: BruchModelle „Markiere z/n“
+    level: 2
+    evidence:
+      "Figure, text and counter give nothing before Prüfen: the counter „Deine Darstellung: z/n“ only appears after
+      the check; cells show ○ until clicked."
+    did: Zellen markiert, vor Prüfen nur die Zellen verändert.
+  - item: explainer-figure-hides-answer
+    page: /anteile/gemischte-zahlen/
+    unit: BruchModelle „Markiere 16/10“
+    level: 2
+    evidence: Counter appears only after Prüfen; nothing marks the right cells.
+    did: Zellen markiert, Prüfen.
+  - item: explainer-figure-hides-answer
+    page: /anteile/zahlenstrahl/
+    unit: BruchModelle „Platziere z/n auf dem Zahlenstrahl“
+    level: 2
+    evidence: "Slider has no read-out before Prüfen; „Deine Darstellung: 2/4“ appears only after the check."
+    did: Slider auf mehrere Positionen gestellt.
+  - item: explainer-figure-hides-answer
+    page: /umformen/erweitern/
+    unit: BruchUmformen „Erweitere … mit …“
+    level: 0
+    evidence:
+      "While typing, a second Kreis and „So schreibst du das: 4/16“ show the entered fraction as a picture before
+      Prüfen; the learner can try values until the picture matches the given circle (same filled share) — the live
+      picture answers the question of the task."
+    did: "„4/16“ eingegeben: zweiter Kreis mit 4 von 16 erscheint sofort."
+  - item: explainer-figure-hides-answer
+    page: /umformen/kuerzen/
+    unit: BruchUmformen „Kürze … vollständig“
+    level: 0
+    evidence:
+      "The typed fraction is drawn at once as a second Bruchstrich under the given one („Ausgewählt: 4/5“ for 4/10);
+      equal filled length shows when the value is right, before Prüfen."
+    did: "„4/5“ eingegeben: Streifen mit 4 von 5 erscheint sofort."
+  - item: explainer-figure-hides-answer
+    page: /umformen/vergleichen/
+    unit: BruchUmformen „Vergleiche a und b“
+    level: 0
+    evidence:
+      "The two to-scale strips of equal width in „Gegeben“ show which fraction is larger (e.g. 1/4 against 2/3: a
+      quarter-filled against a two-thirds-filled bar); the sign can be read off the picture without comparing the
+      fractions, which is what the task practises."
+    did: Alle Zeichen gewählt, Bilder verglichen.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/anteil/
+    unit: AnteilGanzes „Welcher Anteil sind … von … Gegenständen?“
+    level: 2
+    evidence:
+      Given cells are all ○; marking shows ● without count; „So schreibst du das“ only typesets the typed fraction;
+      nothing states the result.
+    did: Zellen markiert, „3/4“ eingegeben.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/bruchteil/
+    unit: AnteilGanzes „Wie viele Gegenstände sind 1/4 von 12?“
+    level: 2
+    evidence: Cells show ○/● only; no count.
+    did: Zellen markiert.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/bruchteil/
+    unit: BruchteilEntdecken (Abschnitt „Ausprobieren“, kein Prüfen)
+    level: 2
+    evidence:
+      It is a demonstration, not a task; the sentences state the result by design of the example (12 Plättchen, drei
+      Viertel); nothing is asked.
+    did: Alle Schritte.
+  - item: explainer-figure-hides-answer
+    page: /grundaufgaben/ganzes/
+    unit: AnteilGanzes „… sind 2/4 des Ganzen“
+    level: 2
+    evidence: Figure shows ✓ and ? cells but no count of the whole; field only typesets the entry.
+    did: Antwort getippt.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/dividieren/
+    unit: BruchRechnen „Wie oft passt … in …?“
+    level: 2
+    evidence: "The tool counts „Bruchstück: n“ and fills n cells; it does not state the quotient and has no fit marker."
+    did: + mehrfach, − , Antwort getippt.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/multiplizieren/
+    unit: BruchRechnen „Berechne a von b“ (Rechteck)
+    level: 2
+    evidence: Cells toggle; no count of marked fields or the fraction before Prüfen.
+    did: Felder markiert.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/plus-minus/
+    unit: BruchRechnen „4/5 + 1/3“ (Regler, erste Aufgabe)
+    level: 2
+    evidence: The slider shows dashed lines for the chosen division; no sentence or counter states the sum or the common
+      denominator. (The learner still sees where lines fit, which is the tool.)
+    did: Regler 2–24.
+  - item: explainer-figure-hides-answer
+    page: /rechnen/plus-minus/
+    unit: BruchRechnen „2/5 − 1/5“ (Regler, zweite Aufgabe)
+    level: 2
+    evidence: No result is shown; the start already fits but the remainder is not stated.
+    did: Regler 2–24.
+notes: "No competencies were given in juror-input.yaml; I took what a grade-6 learner of a German Gymnasium usually
+  knows (natural numbers, the four operations, Teiler, everyday life) and read the map only for the subject
+  (mathematik). Chapter overview pages (/anteile/, /rechnen/ …) hold only summaries and links and were not given units;
+  glossary, tutor and self-assessment pages left out. Page order read as in app.yaml (anteile, teilbarkeit, umformen,
+  grundaufgaben, rechnen, anwendungen). The 360 px width was checked for every page: no horizontal scroll, components
+  stay usable. Fixed pattern seen on all 20 single-choice questions: the correct option is always listed first (same
+  order after reload); judged 2 for figure-hides-answer because no figure, caption or text names it, but it is a pattern
+  a learner can pick up. The wrong-answer text for generic tasks (e.g. „Rechne den Schritt aus dem Beispiel mit deinen
+  Zahlen nach“) was not judged here (other item). Strict reading for explainer-representation-explained level 2:
+  requires that a common misreading is named; only the Kuchen figure and the Rechteck figure come near."
+at: 2026-11-04
