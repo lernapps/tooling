@@ -1,0 +1,374 @@
+url: http://127.0.0.1:4401/
+grade: "9-10"
+subject: physik
+competencies: [geschwindigkeitsaenderung, bewegungsdiagramme]
+pages:
+  - /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+  - /beschleunigte-bewegung/beschleunigen-abbremsen/
+  - /beschleunigte-bewegung/richtung-aendern/
+  - /beschleunigte-bewegung/weg-zeit-diagramm/
+  - /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+  - /beschleunigte-bewegung/diagramme-zusammen/
+units:
+  # ---------- Seite 0: Wiederholung ----------
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: "Seite"
+    level: 2
+    evidence: >-
+      „Ein Fahrrad fährt in 10 s genau 40 m weit. In jeder Sekunde kommt es also 4 m weiter. Das ist seine
+      Geschwindigkeit.“ Alltagsbeispiel, Begriff und Formel v = s/t stehen zusammen, $s$ und $t$ werden erklärt.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: "Seite"
+    level: 2
+    evidence: "Nur v = s/t mit einem Beispiel (40 m, 10 s); sagt, dass es nur Wiederholung ist."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Das kennst du schon“ und „Das brauchst du hier“ passen zum Inhalt; nichts heißt „Ausprobieren“."
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/geschwindigkeit-wiederholen/
+    unit: "Seite"
+    level: 2
+    evidence: "Kurz, sachlich, Einheiten m/s und km/h; passt zu Klasse 9–10."
+  # ---------- Seite 1: Beschleunigen und Abbremsen ----------
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/beschleunigen-abbremsen/
+    unit: "Seite"
+    level: 2
+    evidence: >-
+      „Ein Fahrrad steht an der Ampel. Es wird grün, du trittst in die Pedale und fährst los.“ Der Tacho wird mit der
+      Geschwindigkeit aus Klasse 7 verknüpft; „beschleunigt“ und „bremst ab“ werden erst im Text unter der Tabelle
+      erklärt.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/beschleunigen-abbremsen/
+    unit: "Seite"
+    level: 2
+    evidence: "Nur größer / kleiner / gleich an einer Tachotabelle; eine Tabelle, ein Beispiel."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/beschleunigen-abbremsen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Was du schon weißt“, „So beschreibst du die Fahrt“, „Übung“; kein „Ausprobieren“ ohne Bedienelement."
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/beschleunigen-abbremsen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Beim Abbremsen ist die Geschwindigkeit nicht negativ, sie wird nur kleiner.“ Sachlich, kurz, Alltagssituationen (Ampel, Auto)."
+  # ---------- Seite 2: Richtung ändern ----------
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/richtung-aendern/
+    unit: "Seite"
+    level: 2
+    evidence: >-
+      Knüpft an die vorige Seite an („Du weißt jetzt: Wird das Fahrrad schneller …“) und stellt eine Frage aus dem
+      Alltag: „Nun fährst du auf einem runden Radweg und lässt den Tacho die ganze Zeit auf 15 km/h stehen. Ändert sich
+      deine Bewegung dann nicht?“ Sie ist mit dem Vorwissen beantwortbar.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/richtung-aendern/
+    unit: "Seite"
+    level: 2
+    evidence: "Ein neuer Schritt: Richtungsänderung zählt auch als Änderung der Bewegung; eine Abbildung, eine Tabelle."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/richtung-aendern/
+    unit: "Seite"
+    level: 2
+    evidence: "„Anschaulich erklärt“ über Bild, Text, Tabelle; nichts zu bedienen, nichts als „Ausprobieren“ betitelt."
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/richtung-aendern/
+    unit: "Seite"
+    level: 2
+    evidence: "Kreisverkehr, Skater, Bus, Zug; Sprache sachlich."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/richtung-aendern/
+    unit: "Abbildung „Runder Radweg“ (kurve.svg)"
+    level: 1
+    evidence: >-
+      Die Bildunterschrift sagt „Alle vier Fahrräder fahren mit 15 km/h. Achte auf die Richtung der Pfeile.“ Im Bild
+      sehe ich aber keine Fahrräder, nur blaue Pfeile auf einem grauen Ring mit vier Beschriftungen „15 km/h“; dass die
+      Pfeile die Fahrtrichtung der Räder sind, muss man sich denken. Die Beschriftung „15 km/h“ steht auch in der
+      Ringmitte, was wie ein fünfter Wert wirkt.
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/richtung-aendern/
+    unit: "Abbildung „Runder Radweg“ mit Text"
+    level: 2
+    evidence: >-
+      Text „Auf dem runden Weg bleibt der Tacho gleich, aber die Pfeile zeigen jedes Mal woandershin“ stimmt mit dem
+      Bild (vier Pfeile, vier Mal 15 km/h) und der Tabellenzeile „Kurve mit 15 km/h – die Richtung“ überein.
+  # ---------- Seite 3: Weg-Zeit-Diagramm ----------
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Seite"
+    level: 2
+    evidence: >-
+      „Aus Klasse 7 kennst du v = s/t … Ein Fahrrad fährt mit 4 m/s. Dann kommt es in jeder Sekunde 4 m weiter. Du kannst
+      seine Fahrt in eine Tabelle schreiben.“ Tabelle, dann Punkte, dann Linie; „Die Linie steigt … Das Fahrrad fährt nicht
+      bergauf“ räumt das typische Missverständnis aus.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Seite"
+    level: 2
+    evidence: "Ein Schritt (Weg-Zeit-Linie lesen, Steilheit = Geschwindigkeit); keine Beschleunigung, kein Geschwindigkeit-Zeit-Diagramm."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Seite"
+    level: 2
+    evidence: "„Ausprobieren“ steht über dem Abschnitt mit den drei Reglern; ich konnte dort etwas bedienen."
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Seite"
+    level: 2
+    evidence: "Sachlicher Ton, passende Länge, Radfahren als Alltagsbeispiel; kein Kinderton."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Komponente „Bewegungslabor“ (Weg-Zeit, Abschnitt „Ausprobieren“)"
+    level: 2
+    evidence: >-
+      Der Text vor der Komponente nennt das Ganze („Die Fahrt dauert 30 s und hat drei Abschnitte zu je 10 s“), die
+      Achsen („Zahlen waagerecht: Zeit in Sekunden, senkrecht: Weg in Metern“), die Kreise („sitzen bei 0 s, 10 s, 20 s
+      und 30 s“), was bleibt („Die Achsen bleiben immer gleich“), was man ändert (Regler je Abschnitt) und was zu
+      prüfen ist („Stelle den Regler von Abschnitt 2 auf 0 und sieh dir die Linie … an“). Darunter fasst „Du hast
+      gesehen: …“ zusammen.
+    did: "Alle drei Regler auf 0, 2, 8, 10 gestellt; die Zeile darunter („nach 10 s 40 m, nach 20 s 40 m …“) passte zur Linie."
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Komponente „Bewegungslabor“ (Weg-Zeit)"
+    level: 2
+    evidence: >-
+      Jeder Regler („Abschnitt 1: Geschwindigkeit“, Wert „4 m/s“) verändert sichtbar die Linie und den Satz darunter. Der
+      Startzustand (überall 4 m/s, gerade Linie) zeigt zuerst das Gleichbleibende. Bei Abschnitt 2 = 0 verläuft die Linie
+      waagerecht, bei 10 m/s für alle Abschnitte bleibt sie im Bild (max 300 m).
+    did: "Regler 2 auf 0 und 10, Regler 3 auf 0 und 10, Regler 1 auf 2; Linie und Zahlen waren stimmig."
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Komponente „Bewegungslabor“ (Weg-Zeit) mit Text"
+    level: 2
+    evidence: >-
+      Zahlen im Text (4 m/s, 0 → 8) und Abbildung stimmen („Der Regler geht bis 10 m/s, die Linie bleibt immer im
+      Bild“ stimmt). Nur die im Text genannten Regler und Ansichten kommen vor.
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Abbildung in der Übung (wz-fahrrad.svg)"
+    level: 2
+    evidence: >-
+      Achsen „Weg s in m“ und „Zeit t in s“ sind beschriftet, die Bildunterschrift sagt, was zu tun ist („Lies den Weg
+      bei 10 s ab“); die Kreise an 10 s und 20 s kennt man aus dem Labor derselben Seite.
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Abbildung in der Übung mit Text"
+    level: 2
+    evidence: >-
+      Die Aufgaben beziehen sich auf „Dasselbe Diagramm“; Abschnitte von 10 s wie im Labor; die Fahrt (30 m, Stillstand,
+      60 m) ist als „Die Fahrt eines Fahrrads“ eingeführt.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Übung wz-weg-ablesen"
+    level: 0
+    evidence: >-
+      Der alt-Text der Abbildung im DOM lautet „Die Linie steigt von 0 m bei 0 s bis 30 m bei 10 s …“ und nennt damit
+      die Antwort (30). Zusätzlich sitzt an der gefragten Stelle (10 s) ein Kreis auf der Linie.
+    did: "Seite ohne Prüfen angeschaut; Feld leer; alt-Text im DOM gelesen. Antworten 10 (Hinweis „Das ist die Zeit …“), leer („Antworte zuerst …“), 30 („Richtig!“)."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Übung wz-stillstand"
+    level: 0
+    evidence: "alt-Text: „… verläuft dann waagerecht bis 20 s und steigt danach bis 90 m“ nennt den Abschnitt, nach dem gefragt wird."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Übung wz-steil"
+    level: 0
+    evidence: "alt-Text „… in den ersten 10 s von 0 m auf 30 m … in den letzten 10 s von 30 m auf 90 m“ liefert die Vergleichswerte."
+  - item: explainer-steps-explain
+    page: /beschleunigte-bewegung/weg-zeit-diagramm/
+    unit: "Übung wz-geschwindigkeit (generiert)"
+    level: 1
+    evidence: >-
+      Seed 16: „Ein Fahrrad fährt gleichmäßig … in 5 s um 25 m …“. Schritte laut Quelle: „$v = \frac{s}{t}$“ und „$v =
+      \frac{25\,m}{5\,s} = 5\,m/s$“. Die Zahlen werden eingesetzt, aber der erste Schritt ist nur die Formel ohne Grund und
+      die Lösung ohne Begründung (z. B. „Meter pro Sekunde“); gleiche Form bei den anderen Seeds (Quelle).
+    did: "Aufgabe geöffnet; Antworten t/s (Hinweis „Du hast die Zeit durch den Weg geteilt“) und s/t probiert."
+  # ---------- Seite 4: Geschwindigkeit-Zeit-Diagramm ----------
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Seite"
+    level: 2
+    evidence: >-
+      „Auf deinem Tacho siehst du aber etwas anderes: wie schnell du gerade bist. Auch dafür gibt es ein Diagramm.“ Knüpft
+      an das Weg-Zeit-Diagramm und den Tacho an; der Begriff wird in der Definition erklärt.
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Seite"
+    level: 2
+    evidence: "Ein Schritt (Höhe der Linie = Geschwindigkeit); der „Achtung“-Kasten grenzt gegen das Weg-Zeit-Diagramm ab."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Seite"
+    level: 2
+    evidence: "„Ausprobieren“ über den drei Reglern; bedienbar."
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Seite"
+    level: 2
+    evidence: "Sachlich und knapp; passt zu Klasse 9–10."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Komponente „Bewegungslabor“ (Geschwindigkeit-Zeit)"
+    level: 2
+    evidence: >-
+      Der Text nennt die Fahrt (30 s, drei Abschnitte), die Achsen, die Quadrate („zeigen, wo jeder Abschnitt beginnt“),
+      die Regler, „Die Achsen bleiben immer gleich“ und eine Probieraufgabe („Stelle Abschnitt 2 auf 8. Wo liegt die Linie
+      jetzt …?“); die Zeile darunter nennt die Werte.
+    did: "Regler auf 0, 2, 8, 10 gestellt; Stufenlinie folgte genau (z. B. 2, 8, 0 → Stufen bei 2, 8, 0)."
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Komponente „Bewegungslabor“ (Geschwindigkeit-Zeit)"
+    level: 2
+    evidence: >-
+      Jeder Regler ändert eine Stufe und den Satz „Die Geschwindigkeit ist in den drei Abschnitten 4, 10 und 0 m/s.“ Start:
+      waagerechte Linie bei 4; Wert 0 liegt auf der Zeitachse; Beschriftung und Position stimmen.
+    did: "Alle Regler bis zu den Enden bewegt."
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Komponente „Bewegungslabor“ (Geschwindigkeit-Zeit) mit Text"
+    level: 2
+    evidence: "Text („Abschnitt 2 auf 8 … Abschnitt 3 auf 0“) und Diagramm stimmen; nur Regler und Ansicht, die der Text nennt."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Abbildung in der Übung (vz-fahrrad.svg)"
+    level: 2
+    evidence: "Achsen beschriftet, Bildunterschrift „Lies die Geschwindigkeit bei 15 s ab“, Stufen wie im Labor."
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Abbildung in der Übung mit Text"
+    level: 2
+    evidence: "„Dasselbe Diagramm“ in den Folgeaufgaben; Abschnitte zu je 10 s wie im Labor."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Übung vz-ablesen"
+    level: 0
+    evidence: "alt-Text im DOM: „… springt dann auf 6 m/s bis 20 s …“ nennt die Antwort 6 für „bei 15 s“."
+    did: "Antworten 15 („Das ist die Zeit …“), leer, 6 („Richtig!“)."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Übung vz-sprung"
+    level: 0
+    evidence: "alt-Text „… bis 10 s bei 2 m/s, dann bis 20 s bei 6 m/s und danach bis 30 s bei 4 m/s“ zeigt das Absinken bei 20 s."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Übung vz-waagerecht"
+    level: 0
+    evidence: "alt-Text „… Zwischen 10 s und 20 s liegt die Linie waagerecht bei 6 m/s“ gibt die Auflösung („Fahrrad fährt mit 6 m/s“) vor."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/
+    unit: "Übung vz-ordnen"
+    level: 0
+    evidence: "alt-Text „Abschnitt 1 … bei 2 m/s, Abschnitt 2 … bei 6 m/s, Abschnitt 3 … bei 4 m/s“ ergibt direkt die richtige Reihenfolge."
+  # ---------- Seite 5: Beide Diagramme zusammen ----------
+  - item: explainer-learner-start
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Seite"
+    level: 1
+    evidence: >-
+      „Du kennst jetzt zwei Diagramme …“ ist ein guter Start. Im nächsten Abschnitt kommt aber „Stufe“ („Eine hohe Stufe im
+      Geschwindigkeit-Zeit-Diagramm ist … eine steile Linie“) als Begriff, der vorher nirgends erklärt wurde (auf der
+      vorigen Seite hieß es „Linie springt“).
+  - item: explainer-one-step
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Seite"
+    level: 2
+    evidence: "Ein Schritt: von einem Diagramm auf das andere schließen."
+  - item: explainer-honest-headings
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Ausprobieren“ über den Reglern; „Wie beide zusammenhängen“ passt."
+  - item: explainer-age-appropriate
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Seite"
+    level: 2
+    evidence: "Sachlich, passend zu Klasse 9–10."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Komponente „Bewegungslabor“ (beide Diagramme)"
+    level: 1
+    evidence: >-
+      Der Text sagt „Links ist der Weg, rechts die Geschwindigkeit“ und „dieselbe Zeitachse“. Offen bleiben: Kreise links
+      und Quadrate rechts werden hier nicht erklärt; die senkrechten Achsen haben verschiedene Skalen (0–300 m, 0–10 m/s),
+      ohne Hinweis. Dass das die „Achsen bleiben gleich“ gilt, steht hier nicht.
+    did: "Regler auf 2, 8, 0 und andere Werte; beide Linien änderten sich zugleich."
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Komponente „Bewegungslabor“ (beide Diagramme)"
+    level: 2
+    evidence: >-
+      Jeder Regler ändert beide Linien und den Satz („Die Geschwindigkeit ist 2, 8 und 10 m/s. Der Weg ist nach 10 s 20 m,
+      nach 20 s 100 m und nach 30 s 200 m.“); Text sagt, wozu: „Vergleiche, welche Stufe zu welcher Linie … gehört.“
+    did: "Alle Regler zu den Enden bewegt."
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Komponente „Bewegungslabor“ mit Text und Tabelle"
+    level: 1
+    evidence: >-
+      Die Tabelle erklärt „1: 2 m/s, 2: 6 m/s, 3: 0 m/s“, die Probieraufgabe verlangt „2, 8 und 0“ und die Komponente
+      startet mit 4, 4, 4; Wechsel der Zahlen ohne Ankündigung. Die Übung zeigt dann eine dritte Fahrt (3, 0, 6 m/s).
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Komponente „Geschichte einstellen“ (Übung)"
+    level: 1
+    evidence: >-
+      Vor dem ersten Klick zeigt das Diagramm „nach deiner Wahl“ schon eine waagerechte Linie (z. B. bei 3 m/s für die
+      Skateboard-Geschichte). Was sie bedeutet (Startgeschwindigkeit vor Abschnitt 1) und dass „wird größer“ einen festen
+      Sprung zeichnet, steht nirgends; die Vergleichsbasis für Abschnitt 1 wird nicht genannt.
+    did: "Auswahlfelder auf mehr/gleich/weniger gestellt; Linie sprang um je eine feste Stufe, bei „weniger“ von 0 blieb sie auf 0."
+  - item: explainer-control-purpose
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Komponente „Geschichte einstellen“ (Auswahlfelder)"
+    level: 1
+    evidence: >-
+      Die Auswahlen („wähle …“, „wird größer“, „bleibt gleich“, „wird kleiner“) ändern das Diagramm sichtbar. Der Startzustand
+      zeigt aber schon eine durchgehend waagerechte Linie, die wie die Wahl „gleich“ aussieht. „Prüfen“ ist bis zur
+      dritten Wahl gesperrt.
+    did: "Alle Kombinationen gesetzt (mehr×3, weniger×3, gleich×3, richtige Kombination)."
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Komponente „Geschichte einstellen“ mit Aufgabentext"
+    level: 2
+    evidence: >-
+      Aufgabentext „Jeder Abschnitt dauert 10 s“, Diagramm mit drei Abschnitten à 10 s und Achse „Geschwindigkeit-Zeit-Diagramm
+      nach deiner Wahl“ stimmen; es ist das Diagramm der vorigen Seite.
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Übung geschichte-einstellen"
+    level: 2
+    evidence: >-
+      Das Diagramm zeichnet nur die eigene Wahl nach; es zeigt keine richtige Lösung. Vor der letzten Wahl ist „Prüfen“
+      gesperrt, die Anfangslinie liegt auf v0 und entspricht keiner Lösung.
+    did: "Alle Felder durchprobiert, ohne zu prüfen."
+  - item: explainer-representation-explained
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Abbildung in der Übung dz-uebersetzen (wz-fahrrad.svg)"
+    level: 2
+    evidence: "Achsen beschriftet, Unterschrift „Das Weg-Zeit-Diagramm einer Fahrt mit drei Abschnitten zu je 10 s“."
+  - item: explainer-text-figure-agree
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Abbildung in der Übung dz-uebersetzen"
+    level: 2
+    evidence: "Frage „Welche Geschwindigkeiten gehören zu dieser Fahrt in den drei Abschnitten?“ passt zum Diagramm mit drei Abschnitten."
+  - item: explainer-figure-hides-answer
+    page: /beschleunigte-bewegung/diagramme-zusammen/
+    unit: "Übung dz-uebersetzen"
+    level: 0
+    evidence: >-
+      alt-Text „Die Linie steigt bis 30 m bei 10 s, verläuft dann waagerecht bis 20 s und steigt danach bis 90 m“ liefert
+      alle Werte für 3, 0 und 6 m/s.
+notes: >-
+  Map gelesen: geschwindigkeitsaenderung (requires geschwindigkeit) und bewegungsdiagramme (requires
+  geschwindigkeit-berechnen), beide Stufe 9-10. Alle sechs Seiten bei 1280 und 360 px geöffnet, kein horizontaler Überlauf.
+  Glossar, Tutor, Selbsteinschätzung ausgelassen. Der Eintrag zu erklärenden Aufgabenschritten bezieht sich nur auf die
+  einzige generierte Aufgabe (wz-geschwindigkeit); ihre Schritte habe ich aus der Quelle gelesen und eine Aufgabe im Browser
+  gesehen, nicht drei Seeds. Level 0 bei „figure-hides-answer“ beruht auf den alt-Texten im DOM, die die Antworten nennen
+  (Sehende sehen sie nicht); das sichtbare Bild allein verrät die Antwort nicht. Die Seiten haben nur Wiederholungsseite
+  ohne Übung (Seite 0).
+at: 2026-11-04

@@ -1,0 +1,479 @@
+url: http://127.0.0.1:4402/
+grade: 9-10
+subject: physik
+competencies:
+  - geschwindigkeitsaenderung
+  - bewegungsdiagramme
+pages:
+  - /bewegung/wiederholung/
+  - /bewegung/aenderung/
+  - /bewegung/weg-zeit/
+  - /bewegung/geschwindigkeit-zeit/
+  - /bewegung/richtung/
+  - /bewegung/zusammen/
+units:
+  - item: explainer-learner-start
+    page: /bewegung/wiederholung/
+    unit: Seite
+    level: 2
+    evidence:
+      Beginnt mit „In Klasse 7 hast du die Geschwindigkeit kennengelernt“, nennt v, s, t und Einheiten, Beispiel 12
+      m in 4 s.
+  - item: explainer-learner-start
+    page: /bewegung/aenderung/
+    unit: Seite
+    level: 2
+    evidence:
+      Beginnt mit „Du kennst die Geschwindigkeit als Weg pro Zeit“ und dem Alltag („Ein Bus fährt an, wird schneller,
+      bremst … und biegt um die Ecke“); „Beschleunigen“ und „Abbremsen“ werden sofort definiert.
+  - item: explainer-learner-start
+    page: /bewegung/weg-zeit/
+    unit: Seite
+    level: 2
+    evidence:
+      "„Du kennst die Geschwindigkeit als Weg pro Zeit: v = s/t. Ein Wagen, der in 1 s genau 2 m weit kommt, fährt mit
+      2 m/s.“ Achsen, Punkt und „Tempo“ werden erklärt, bevor sie gebraucht werden."
+  - item: explainer-learner-start
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Seite
+    level: 2
+    evidence:
+      "„Im Weg-Zeit-Diagramm hast du gesehen, wie weit ein Wagen vom Start entfernt ist. Jetzt zeichnen wir etwas anderes
+      auf: wie schnell er zu jedem Zeitpunkt ist.“ Dann Definition, Tabelle des Busses, Figur."
+  - item: explainer-learner-start
+    page: /bewegung/richtung/
+    unit: Seite
+    level: 1
+    evidence:
+      „Ein Wagen kann vorwärts fahren und dann rückwärts … Wie zeigt das Diagramm den Wechsel?“ Der Einstieg ist kurz,
+      aber „Weg“ negativ (Achse −12 bis 24 m im Weg-Zeit-Diagramm) kommt später ohne Erklärung, was ein negativer Weg heißt.
+  - item: explainer-learner-start
+    page: /bewegung/zusammen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Zu jeder Fahrt gehören zwei Diagramme … Hier bringst du beide zusammen.“ Knüpft an die beiden Vorgängerseiten
+      an; Tabelle fasst zusammen.
+  - item: explainer-one-step
+    page: /bewegung/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: Nur die Wiederholung von v = s/t, ein Beispiel.
+  - item: explainer-one-step
+    page: /bewegung/aenderung/
+    unit: Seite
+    level: 2
+    evidence:
+      "Ein Schritt: Tempo oder Richtung ändern sich. Ein Beispiel (Kreisverkehr). Allerdings widerspricht die Notiz
+      „Die Bewegung ist beschleunigt“ auch bei Abbremsen und Kurve etwas der Definition „Beschleunigen heißt schneller werden“;
+      ein Detail."
+  - item: explainer-one-step
+    page: /bewegung/weg-zeit/
+    unit: Seite
+    level: 2
+    evidence: "Ein Schritt: Weg-Zeit-Diagramm lesen (Punkt, Steilheit). Nur gerade Linien. Ein Beispiel pro Kasten."
+  - item: explainer-one-step
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Seite
+    level: 2
+    evidence: "Ein Schritt: v-t-Diagramm lesen und einstellen. Die Notiz grenzt es vom Weg-Zeit-Diagramm ab."
+  - item: explainer-one-step
+    page: /bewegung/richtung/
+    unit: Seite
+    level: 1
+    evidence:
+      Neben dem Minus-Tempo erscheint im Ausprobieren ein Weg-Zeit-Diagramm mit krummer Linie und Weg-Achse bis −12
+      m. Die Seite erklärt nur gerade Linien bei gleichem Tempo; krumme Linien und negativen Weg erklärt erst die nächste Seite
+      bzw. nie.
+  - item: explainer-one-step
+    page: /bewegung/zusammen/
+    unit: Seite
+    level: 2
+    evidence: "Ein Schritt: beide Diagramme verbinden; krumme Weg-Zeit-Linien werden hier erstmals benannt („immer steiler“)."
+  - item: explainer-honest-headings
+    page: /bewegung/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: „Das weißt du schon“ passt.
+  - item: explainer-honest-headings
+    page: /bewegung/aenderung/
+    unit: Seite
+    level: 2
+    evidence: "„Wenn das Tempo nicht gleich bleibt“, „Drei Fälle“, „Übung“: alle passend; kein „Ausprobieren“ ohne Bedienung."
+  - item: explainer-honest-headings
+    page: /bewegung/weg-zeit/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren“ enthält Tempo-Schalter +/−; alle Titel passend.
+  - item: explainer-honest-headings
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren“ mit Schaltern pro Sekunde; passt.
+  - item: explainer-honest-headings
+    page: /bewegung/richtung/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren“ mit Schaltern; passt.
+  - item: explainer-honest-headings
+    page: /bewegung/zusammen/
+    unit: Seite
+    level: 2
+    evidence: „Ausprobieren“ mit Schaltern; passt.
+  - item: explainer-age-appropriate
+    page: /bewegung/wiederholung/
+    unit: Seite
+    level: 2
+    evidence: Kurz, „Du“-Ansprache, nüchtern; passt für Klasse 9/10 (etwas knapp).
+  - item: explainer-age-appropriate
+    page: /bewegung/aenderung/
+    unit: Seite
+    level: 2
+    evidence: Beispiele Bus, Zug, Kreisverkehr; Sätze kurz, für Klasse 9–10 leicht, aber nicht kindisch.
+  - item: explainer-age-appropriate
+    page: /bewegung/weg-zeit/
+    unit: Seite
+    level: 2
+    evidence: „Du siehst auf einen Blick…“; Wagen auf der Bahn; sachlich, leicht einfach, noch im Rahmen.
+  - item: explainer-age-appropriate
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Seite
+    level: 2
+    evidence: Bus und Fahrrad; Tabelle, Notiz „Vorsicht“; passend.
+  - item: explainer-age-appropriate
+    page: /bewegung/richtung/
+    unit: Seite
+    level: 2
+    evidence: Sachlich; „Hin und zurück“; passend.
+  - item: explainer-age-appropriate
+    page: /bewegung/zusammen/
+    unit: Seite
+    level: 2
+    evidence: Bus und Fahrrad; Tabelle; passend.
+  - item: explainer-steps-explain
+    page: /bewegung/wiederholung/
+    unit: Beispiel „Ein Beispiel“ (12 m in 4 s)
+    level: 2
+    evidence: „Dann ist v = 12 m / 4 s = 3 m/s. Er legt in jeder Sekunde 3 m zurück.“ Zahlen eingesetzt, Bedeutung genannt.
+  - item: explainer-steps-explain
+    page: /bewegung/weg-zeit/
+    unit: Beispiel Wagen X und Y
+    level: 2
+    evidence:
+      „X kommt in 3 s genau 6 m weit, Y in 3 s genau 3 m … X fährt mit 2 m/s, Y mit 1 m/s.“ Begründung über die Steilheit,
+      Werte ausgerechnet.
+  - item: explainer-steps-explain
+    page: /bewegung/weg-zeit/
+    unit: Aufgabe „tempo-aus-diagramm“ (Erklärung)
+    level: 2
+    evidence:
+      „Der Wagen kommt in 4 s genau 12 m weit. Mit v = s/t ergibt das 12 m / 4 s = 3 m/s.“ Falschantwort 2 wird begründet
+      („Du hast durch 6 s geteilt“).
+  - item: explainer-representation-explained
+    page: /bewegung/weg-zeit/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bahn + Weg-Zeit-Diagramm)
+    level: 2
+    evidence:
+      "Beantwortet: „Das Quadrat ist der Start“, „Die Punkte zeigen, wo er nach 0, 1, 2 bis 6 Sekunden ist“, Achsen
+      bleiben fest, „Der Weg geht bis 24 m, so lang ist die Bahn“, Frage „Wie steil ist sie? Wo ist sie nach 6 s?“."
+    did:
+      Auf 0 gestellt (waagerechte Linie, Punkte übereinander), auf 4 gestellt (Linie bis 24 m), Zurücksetzen; 360 px ohne
+      Überlauf.
+  - item: explainer-control-purpose
+    page: /bewegung/weg-zeit/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bahn + Weg-Zeit-Diagramm)
+    level: 2
+    evidence:
+      "Mit − und + Tempo 0–4 m/s; Linie, Punkte auf der Bahn ändern sich sichtbar; Anzeige „Tempo: 0 m/s“ bis „4 m/s“;
+      Startzustand 2 m/s als gerade Linie; Zurücksetzen."
+    did:
+      Auf 0 gestellt (waagerechte Linie, Punkte übereinander), auf 4 gestellt (Linie bis 24 m), Zurücksetzen; 360 px ohne
+      Überlauf.
+  - item: explainer-text-figure-agree
+    page: /bewegung/weg-zeit/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bahn + Weg-Zeit-Diagramm)
+    level: 2
+    evidence: Text sagt „Am Anfang sind es 2 m/s“, Anzeige zeigt 2 m/s; der Wechsel der Achse auf 24 m (vorher 12 m) wird angekündigt.
+    did:
+      Auf 0 gestellt (waagerechte Linie, Punkte übereinander), auf 4 gestellt (Linie bis 24 m), Zurücksetzen; 360 px ohne
+      Überlauf.
+  - item: explainer-representation-explained
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bus, Geschwindigkeit-Zeit)
+    level: 1
+    evidence:
+      "Achsen, Punkte auf der Bahn und Start werden genannt. Offen bleibt: Es gibt keine Regler für 0 s, obwohl „für
+      jede Sekunde“ steht, und wie die Abstände der Punkte zum Tempo gehören, soll das Kind selbst herausfinden („Wie ändern
+      sich die Abstände der Punkte?“)."
+    did: Bei 4 s auf 0 gestellt, Linie sinkt; Zurücksetzen.
+  - item: explainer-control-purpose
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bus, Geschwindigkeit-Zeit)
+    level: 2
+    evidence: Je ein −/+ pro Sekunde 1–6 s mit Label „Tempo bei 4 s verringern“; Linie und Bahnpunkte folgen; Grenzen 0–4.
+    did: Bei 4 s auf 0 gestellt, Linie sinkt; Zurücksetzen.
+  - item: explainer-text-figure-agree
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bus, Geschwindigkeit-Zeit)
+    level: 2
+    evidence: Startfahrt gleich der Tabelle oben (0,2,4,4,4,2,0); nojs nennt dieselben Werte.
+    did: Bei 4 s auf 0 gestellt, Linie sinkt; Zurücksetzen.
+  - item: explainer-representation-explained
+    page: /bewegung/richtung/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Hin und zurück, zwei Diagramme)
+    level: 1
+    evidence:
+      "Quadrat = Start und Achsen genannt. Nicht erklärt: wie das Weg-Zeit-Diagramm (krumme Linie, Weg-Achse −12 bis
+      24 m, Linie bleibt zwischen 0 und 4 m) aus den Tempi folgt, und was ein Weg unter 0 bedeutet; „Was macht die Linie im
+      Weg-Zeit-Diagramm?“ bleibt zu raten."
+    did: Bei 4 s und 1 s bis −2 gestellt (Weg-Zeit-Kurve wird flach/negativ), Zurücksetzen.
+  - item: explainer-control-purpose
+    page: /bewegung/richtung/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Hin und zurück, zwei Diagramme)
+    level: 2
+    evidence:
+      Regler pro Sekunde von −2 bis 4 m/s; v-t-Linie, Weg-Zeit-Kurve und Punkte auf der Bahn ändern sich; Anzeige „-2“
+      stimmt mit Linie unter Null überein.
+    did: Bei 4 s und 1 s bis −2 gestellt (Weg-Zeit-Kurve wird flach/negativ), Zurücksetzen.
+  - item: explainer-text-figure-agree
+    page: /bewegung/richtung/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Hin und zurück, zwei Diagramme)
+    level: 1
+    evidence:
+      Text spricht von „Das Weg-Zeit-Diagramm“ wie bekannt, die Seite zeigt aber nur gerade Weg-Zeit-Linien; die Figur
+      zeigt eine glatte Kurve ohne Hinweis darauf.
+    did: Bei 4 s und 1 s bis −2 gestellt (Weg-Zeit-Kurve wird flach/negativ), Zurücksetzen.
+  - item: explainer-representation-explained
+    page: /bewegung/zusammen/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bus, beide Diagramme)
+    level: 2
+    evidence:
+      Bahn, beide Diagramme, feste Achsen genannt; die Tabelle darüber sagt, welche Linie zu welcher Fahrt gehört; Aufgabe
+      „Mach das Tempo bei 3 s und 4 s zu 0“ ist klar. „Ändere dann die Zeit des Anfahrens“ ist etwas vage.
+    did: "Tempo bei 3 s und 4 s auf 0: Weg-Zeit waagerecht im Mittelteil."
+  - item: explainer-control-purpose
+    page: /bewegung/zusammen/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bus, beide Diagramme)
+    level: 2
+    evidence: Regler 1–6 s, 0–4 m/s; beide Linien und Punkte reagieren; Zurücksetzen.
+    did: "Tempo bei 3 s und 4 s auf 0: Weg-Zeit waagerecht im Mittelteil."
+  - item: explainer-text-figure-agree
+    page: /bewegung/zusammen/
+    unit: Komponente „Tempo einstellen“ im Abschnitt „Ausprobieren“ (Bus, beide Diagramme)
+    level: 2
+    evidence: Startfahrt der nojs-Text (0,2,4,4,4,2,0; Weg 16 m) stimmt mit der Anzeige; Weg-Zeit-Linie steigt auf 16 m.
+    did: "Tempo bei 3 s und 4 s auf 0: Weg-Zeit waagerecht im Mittelteil."
+  - item: explainer-representation-explained
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „geschw-zeit-einstellen“ (Auto/Fahrrad)
+    level: 2
+    evidence:
+      "Ohne Vorgabe der Steigung („vier Sekunden lang immer schneller“); Auto-Aufgabe: [2,4,4,4,4,4] wird mit „Abschnitt
+      zwischen 2 s und 3 s“ abgelehnt – mit Hinweis, aber die Schrittweite 1 m/s muss man selbst ableiten.| Die Aufgabe nennt
+      Startwert („Das Tempo bei 0 s ist 2 m/s“), Achsen und Regler pro Sekunde."
+    did: "Prüfen vor Änderung: Knopf deaktiviert"
+  - item: explainer-control-purpose
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „geschw-zeit-einstellen“ (Auto/Fahrrad)
+    level: 2
+    evidence:
+      Jeder −/+ ändert Linie sichtbar; Prüfen erst nach Änderung aktiv; Fehlermeldungen nennen den Abschnitt („Schau
+      dir den Abschnitt zwischen 1 s und 2 s an“). Startlinie flach auf dem Startwert, also nicht der Lösung.
+    did: Flache Linie, halbe Lösung, richtige Lösung, Gegenrichtung eingestellt.
+  - item: explainer-text-figure-agree
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „geschw-zeit-einstellen“ (Auto/Fahrrad)
+    level: 2
+    evidence: Aufgabentext und Diagramm nennen dieselben Werte; Achsen v in m/s, t in s.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „geschw-zeit-einstellen“ (Auto/Fahrrad)
+    level: 2
+    evidence:
+      "Vor „Prüfen“ zeigt das Diagramm nur die flache Startlinie bei Ohne Vorgabe der Steigung („vier Sekunden lang
+      immer schneller“); Auto-Aufgabe: [2,4,4,4,4,4] wird mit „Abschnitt zwischen 2 s und 3 s“ abgelehnt – mit Hinweis, aber
+      die Schrittweite 1 m/s muss man selbst ableiten.; Lösung nicht sichtbar."
+  - item: explainer-representation-explained
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „geschw-zeit-knobeln“ (Zug)
+    level: 2
+    evidence:
+      Zug 3 m/s, 2 s gleichmäßig, 2 s abbremsen.| Die Aufgabe nennt Startwert („Das Tempo bei 0 s ist 2 m/s“), Achsen
+      und Regler pro Sekunde.
+    did: "Prüfen vor Änderung: Knopf deaktiviert"
+  - item: explainer-control-purpose
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „geschw-zeit-knobeln“ (Zug)
+    level: 2
+    evidence:
+      Jeder −/+ ändert Linie sichtbar; Prüfen erst nach Änderung aktiv; Fehlermeldungen nennen den Abschnitt („Schau
+      dir den Abschnitt zwischen 1 s und 2 s an“). Startlinie flach auf dem Startwert, also nicht der Lösung.
+    did: Flache Linie, halbe Lösung, richtige Lösung, Gegenrichtung eingestellt.
+  - item: explainer-text-figure-agree
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „geschw-zeit-knobeln“ (Zug)
+    level: 2
+    evidence: Aufgabentext und Diagramm nennen dieselben Werte; Achsen v in m/s, t in s.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „geschw-zeit-knobeln“ (Zug)
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt das Diagramm nur die flache Startlinie bei Zug 3 m/s, 2 s gleichmäßig, 2 s abbremsen.; Lösung
+      nicht sichtbar.
+  - item: explainer-representation-explained
+    page: /bewegung/richtung/
+    unit: Aufgabe „richtung-einstellen“ (vorwärts nach rückwärts)
+    level: 2
+    evidence:
+      Diagramm mit Achse −2 bis 4; Wagen bremst ab und fährt rückwärts; falsche Halblösung [1,0,-1,-1,-1,-1] mit „Anfang
+      oder Ende passt nicht“ – Hinweis allgemein.| Die Aufgabe nennt Startwert („Das Tempo bei 0 s ist 2 m/s“), Achsen und Regler
+      pro Sekunde.
+    did: "Prüfen vor Änderung: Knopf deaktiviert"
+  - item: explainer-control-purpose
+    page: /bewegung/richtung/
+    unit: Aufgabe „richtung-einstellen“ (vorwärts nach rückwärts)
+    level: 2
+    evidence:
+      Jeder −/+ ändert Linie sichtbar; Prüfen erst nach Änderung aktiv; Fehlermeldungen nennen den Abschnitt („Schau
+      dir den Abschnitt zwischen 1 s und 2 s an“). Startlinie flach auf dem Startwert, also nicht der Lösung.
+    did: Flache Linie, halbe Lösung, richtige Lösung, Gegenrichtung eingestellt.
+  - item: explainer-text-figure-agree
+    page: /bewegung/richtung/
+    unit: Aufgabe „richtung-einstellen“ (vorwärts nach rückwärts)
+    level: 2
+    evidence: Aufgabentext und Diagramm nennen dieselben Werte; Achsen v in m/s, t in s.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/richtung/
+    unit: Aufgabe „richtung-einstellen“ (vorwärts nach rückwärts)
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt das Diagramm nur die flache Startlinie bei Diagramm mit Achse −2 bis 4; Wagen bremst ab und
+      fährt rückwärts; falsche Halblösung [1,0,-1,-1,-1,-1] mit „Anfang oder Ende passt nicht“ – Hinweis allgemein.; Lösung
+      nicht sichtbar.
+  - item: explainer-representation-explained
+    page: /bewegung/richtung/
+    unit: Aufgabe „richtung-knobeln“ (rückwärts nach vorwärts)
+    level: 2
+    evidence:
+      Wie oben, umgekehrt, Start −2.| Die Aufgabe nennt Startwert („Das Tempo bei 0 s ist 2 m/s“), Achsen und Regler
+      pro Sekunde.
+    did: "Prüfen vor Änderung: Knopf deaktiviert"
+  - item: explainer-control-purpose
+    page: /bewegung/richtung/
+    unit: Aufgabe „richtung-knobeln“ (rückwärts nach vorwärts)
+    level: 2
+    evidence:
+      Jeder −/+ ändert Linie sichtbar; Prüfen erst nach Änderung aktiv; Fehlermeldungen nennen den Abschnitt („Schau
+      dir den Abschnitt zwischen 1 s und 2 s an“). Startlinie flach auf dem Startwert, also nicht der Lösung.
+    did: Flache Linie, halbe Lösung, richtige Lösung, Gegenrichtung eingestellt.
+  - item: explainer-text-figure-agree
+    page: /bewegung/richtung/
+    unit: Aufgabe „richtung-knobeln“ (rückwärts nach vorwärts)
+    level: 2
+    evidence: Aufgabentext und Diagramm nennen dieselben Werte; Achsen v in m/s, t in s.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/richtung/
+    unit: Aufgabe „richtung-knobeln“ (rückwärts nach vorwärts)
+    level: 2
+    evidence: Vor „Prüfen“ zeigt das Diagramm nur die flache Startlinie bei Wie oben, umgekehrt, Start −2.; Lösung nicht sichtbar.
+  - item: explainer-representation-explained
+    page: /bewegung/zusammen/
+    unit: Aufgabe „ganze-fahrt“ (Bus/Fahrrad, 3 Phasen)
+    level: 2
+    evidence:
+      Drei Phasen im Text („Er fährt zwei Sekunden lang an, … bremst …“); Gegenrichtung im Abschnitt 1–2 s angezeigt.|
+      Die Aufgabe nennt Startwert („Das Tempo bei 0 s ist 2 m/s“), Achsen und Regler pro Sekunde.
+    did: "Prüfen vor Änderung: Knopf deaktiviert"
+  - item: explainer-control-purpose
+    page: /bewegung/zusammen/
+    unit: Aufgabe „ganze-fahrt“ (Bus/Fahrrad, 3 Phasen)
+    level: 2
+    evidence:
+      Jeder −/+ ändert Linie sichtbar; Prüfen erst nach Änderung aktiv; Fehlermeldungen nennen den Abschnitt („Schau
+      dir den Abschnitt zwischen 1 s und 2 s an“). Startlinie flach auf dem Startwert, also nicht der Lösung.
+    did: Flache Linie, halbe Lösung, richtige Lösung, Gegenrichtung eingestellt.
+  - item: explainer-text-figure-agree
+    page: /bewegung/zusammen/
+    unit: Aufgabe „ganze-fahrt“ (Bus/Fahrrad, 3 Phasen)
+    level: 2
+    evidence: Aufgabentext und Diagramm nennen dieselben Werte; Achsen v in m/s, t in s.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/zusammen/
+    unit: Aufgabe „ganze-fahrt“ (Bus/Fahrrad, 3 Phasen)
+    level: 2
+    evidence:
+      Vor „Prüfen“ zeigt das Diagramm nur die flache Startlinie bei Drei Phasen im Text („Er fährt zwei Sekunden lang
+      an, … bremst …“); Gegenrichtung im Abschnitt 1–2 s angezeigt.; Lösung nicht sichtbar.
+  - item: explainer-representation-explained
+    page: /bewegung/weg-zeit/
+    unit: Figur „Weg-Zeit-Punkt“ (Punkt bei 2 s und 4 m)
+    level: 2
+    evidence:
+      "Text: „Waagerecht … die Zeit t … Senkrecht … der Weg s“, „Der blaue Punkt sagt: Nach 2 s ist der Wagen 4 m vom
+      Start entfernt“, „Geh von der Zeit nach oben … nach links“. Bezugsgröße und Lesen beantwortet."
+    did: Figur und Text gelesen
+  - item: explainer-text-figure-agree
+    page: /bewegung/weg-zeit/
+    unit: Figur „Weg-Zeit-Punkt“
+    level: 2
+    evidence: "Text und Figur nennen beide 2 s / 4 m; Beschriftung „Punkt: nach 2 s bei 4 m“ in der Figur."
+  - item: explainer-representation-explained
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Figur „Bus“ (v-t-Diagramm)
+    level: 2
+    evidence:
+      Tabelle direkt davor, „Jeder Punkt gehört zu einer Zeile der Tabelle. Die Linie verbindet die Punkte.“; Lesen
+      steigt/waagerecht/fällt folgt.
+  - item: explainer-text-figure-agree
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Figur „Bus“ und Text
+    level: 2
+    evidence: Tabelle (0,2,4,4,4,2,0), Figur, Text „Ein Bus fährt an…“ gleiche Zahlen.
+  - item: explainer-representation-explained
+    page: /bewegung/richtung/
+    unit: Figur der Aufgabe „wann-rueckwaerts“
+    level: 2
+    evidence:
+      "Bildunterschrift: „Die dicke schwarze Linie ist die Null-Linie. Das Gitter ist 1 s breit und 1 m/s hoch.“; Text
+      davor: „unter der Null-Linie“."
+  - item: explainer-text-figure-agree
+    page: /bewegung/richtung/
+    unit: Figur der Aufgabe „wann-rueckwaerts“
+    level: 2
+    evidence: Aufgabentext, Hinweis („dicke schwarze Linie“) und Figur stimmen überein.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/weg-zeit/
+    unit: Aufgabe „schnellster-wagen“ (drei Wagen)
+    level: 2
+    evidence: Drei Linien A, B, C im Weg-Zeit-Diagramm; Linien nicht mit Zahlen beschriftet, Ablesen über Achsen nötig.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/weg-zeit/
+    unit: Aufgabe „weg-ablesen“
+    level: 2
+    evidence: Figur ohne markierten Punkt, nur Gitter; Antwort muss abgelesen werden.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/weg-zeit/
+    unit: Aufgabe „tempo-aus-diagramm“
+    level: 2
+    evidence: Figur ohne Beschriftung des Knicks; Wert muss abgelesen werden.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „wann-gleichmaessig“
+    level: 2
+    evidence: Figur ohne Hervorhebung der waagerechten Strecke.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/geschwindigkeit-zeit/
+    unit: Aufgabe „tempo-ablesen“
+    level: 2
+    evidence: Figur ohne markierten Punkt bei 5 s.
+  - item: explainer-figure-hides-answer
+    page: /bewegung/richtung/
+    unit: Aufgabe „wann-rueckwaerts“
+    level: 2
+    evidence: Die Figur zeigt nur die Linie, den Abschnitt markiert nichts.
+notes:
+  "Map gelesen: geschwindigkeitsaenderung requires geschwindigkeit; bewegungsdiagramme requires geschwindigkeit-berechnen
+  (Klasse 9-10). Lernende kennen v = s/t. Seite aenderung und die Komponenten ohne Figur (generierte Einzelaufgaben) nicht
+  als Figuren gezählt. Prüfen ist vor Änderung der Linie deaktiviert."
+at: "2026-11-04"

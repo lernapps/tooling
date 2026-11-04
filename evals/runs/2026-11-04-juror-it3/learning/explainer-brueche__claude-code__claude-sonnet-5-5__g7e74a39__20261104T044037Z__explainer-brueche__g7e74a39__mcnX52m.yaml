@@ -1,0 +1,338 @@
+url: http://127.0.0.1:4402/
+grade: "6"
+subject: mathematik
+competencies: [brueche-begriff, brueche-kuerzen-erweitern]
+pages:
+  [
+    "/bruch/was-ist-ein-bruch/",
+    "/bruch/bruch-darstellen/",
+    "/kuerzen-erweitern/erweitern/",
+    "/kuerzen-erweitern/teiler-wiederholen/",
+    "/kuerzen-erweitern/kuerzen/",
+    "/kuerzen-erweitern/vergleichen/",
+  ]
+units:
+  - item: explainer-learner-start
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Seite"
+    level: 2
+    evidence: "Beginnt mit „Eine Pizza wird in 4 gleich große Stücke geschnitten. Du isst 1 Stück.“ und erklärt Bruch, Anteil, Bruchstrich, Nenner/Zähler beim ersten Gebrauch."
+  - item: explainer-one-step
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Seite"
+    level: 2
+    evidence: "Ein Schritt: Bruch als Anteil von gleich großen Teilen; ein Beispiel (3 von 8). Nichts Späteres."
+  - item: explainer-honest-headings
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Seite"
+    level: 2
+    evidence: "„Ausprobieren“ steht über dem Streifen, den man bedient; „Regel“, „Beispiel“, „Übung“ passen."
+  - item: explainer-age-appropriate
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Seite"
+    level: 2
+    evidence: "Kurze Sätze, Pizza/Schokolade: „Ein Bruch sagt, welchen Anteil vom Ganzen du meinst.“"
+  - item: explainer-representation-explained
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Komponente „Ausprobieren“ (Streifen mit 2–12 Teilen)"
+    level: 1
+    evidence: "Ganzes („Das Ganze ist der ganze Streifen“), Teilezahl-Knöpfe, Tippen/Zurücktippen, Zähler unter dem Streifen und „Was bleibt gleich“ sind erklärt. Die blaue Schraffur der gefärbten Teile wird nirgends benannt; im Streifen wirkt sie wie eine Strichmarkierung. Wie man vom Zähltext zum Bruch/Zähler-Nenner-Zuordnung kommt, steht erst im „Regel“-Abschnitt danach."
+    did: "Teile 4→2 (Streifen), 2 Teile gefärbt: „2 von 4 Teilen gefärbt. 2/4“; 12 Teile: alles wieder weiß."
+  - item: explainer-control-purpose
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Komponente „Ausprobieren“"
+    level: 2
+    evidence: "Start „0 von 4 Teilen gefärbt“, nur Streifen gleich lang; Text sagt, dass beim Wechsel der Zahl alles weiß wird und warum man sie wählt. Zähltext und Bruch passen nach jeder Änderung (2 von 4 → 0 von 12 nach Wechsel)."
+    did: "Alle Knöpfe 2–12 gedrückt, Teile getippt und wieder abgewählt."
+  - item: explainer-text-figure-agree
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Komponente „Ausprobieren“ mit Text"
+    level: 2
+    evidence: "Text: „Unter dem Streifen siehst du, wie viele von allen Teilen gefärbt sind, und den Bruch dazu“ – genau das erscheint („2 von 4 Teilen gefärbt“ mit Bruch 2/4); Beispielzahlen 8/3 und 5/2 sind möglich."
+  - item: explainer-representation-explained
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Abbildung „Streifen ungleich“ (Regel)"
+    level: 2
+    evidence: "Caption: „Hier sind vier Teile, aber sie sind nicht gleich groß. Das gefärbte Teil ist kein Viertel.“ Alt-Text nennt schmaler gefärbter Teil; Text davor: „Die Teile müssen gleich groß sein.“"
+  - item: explainer-text-figure-agree
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Abbildung „Streifen ungleich“"
+    level: 2
+    evidence: "Text und Bild: vier Teile, linker schmal; Caption benennt, was man sehen soll."
+  - item: explainer-representation-explained
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Abbildung im Beispiel „3 von 8 Teilen“"
+    level: 2
+    evidence: "Caption „Das Ganze ist der Streifen. Zähle zuerst alle Teile, dann die gefärbten.“ und Text „Alle Teile: 8, das ist der Nenner. Gefärbte Teile: 3, das ist der Zähler.“"
+  - item: explainer-text-figure-agree
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Abbildung im Beispiel „3 von 8 Teilen“"
+    level: 2
+    evidence: "3 von 8 in Bild, Text und Formel gleich."
+  - item: explainer-steps-explain
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Aufgabe bruch-nenner-lesen"
+    level: 2
+    evidence: "Schritt: „Bei 3/7 steht unten die 7, also hat das Ganze 7 Teile.“ (Zahlen der Aufgabe, mit Grund; Beispielzahlen aus dem Datensatz gelesen, drei Seeds)"
+  - item: explainer-steps-explain
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Aufgabe bruch-weisse-teile"
+    level: 2
+    evidence: "Schritt: „Nicht gefärbt: 7 − 3 = 4.“ mit Vorschritt „Alle Teile: der Nenner 7. Gefärbte Teile: der Zähler 3.“"
+  - item: explainer-figure-hides-answer
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Aufgabe bruch-ablesen-1 (Abbildung)"
+    level: 2
+    evidence: "Abbildung zeigt nur den Streifen mit gefärbten Teilen, kein Bruch, keine Markierung der richtigen Option; Abzählen nötig."
+    did: "Aufgabe geöffnet, Option gewählt, nicht geprüft."
+  - item: explainer-figure-hides-answer
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Aufgabe bruch-ablesen-2 (Abbildung)"
+    level: 2
+    evidence: "Abbildung zeigt nur den Streifen mit gefärbten Teilen, kein Bruch, keine Markierung der richtigen Option; Abzählen nötig."
+    did: "Aufgabe geöffnet, Option gewählt, nicht geprüft."
+  - item: explainer-figure-hides-answer
+    page: /bruch/was-ist-ein-bruch/
+    unit: "Aufgabe bruch-gleich-gross (Abbildung)"
+    level: 2
+    evidence: "Abbildung zeigt nur den Streifen mit gefärbten Teilen, kein Bruch, keine Markierung der richtigen Option; Abzählen nötig."
+    did: "Aufgabe geöffnet, Option gewählt, nicht geprüft."
+  - item: explainer-learner-start
+    page: /bruch/bruch-darstellen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Auf der letzten Seite hast du aus einem Bild einen Bruch gemacht. Jetzt drehst du es um“ – knüpft an Vorseite an; Schrägstrich-Schreibweise wird erklärt („5/6 ... derselbe Bruch wie 5⁄6“)."
+  - item: explainer-one-step
+    page: /bruch/bruch-darstellen/
+    unit: "Seite"
+    level: 2
+    evidence: "Eine Richtung: Bruch → Anteil färben; ein Beispiel (5/6). Zwei Textaufgaben (gegessen/übrig) sind Anwendung desselben Schritts."
+  - item: explainer-honest-headings
+    page: /bruch/bruch-darstellen/
+    unit: "Seite"
+    level: 2
+    evidence: "Einstieg, „So gehst du vor“, Beispiel, Übung passen."
+  - item: explainer-age-appropriate
+    page: /bruch/bruch-darstellen/
+    unit: "Seite"
+    level: 2
+    evidence: "Kurze Sätze, Schokolade/Pizza."
+  - item: explainer-representation-explained
+    page: /bruch/bruch-darstellen/
+    unit: "Abbildung Beispiel 5/6"
+    level: 2
+    evidence: "Text direkt davor: „Der Nenner ist 6: Der Streifen hat 6 gleich große Teile. Der Zähler ist 5: Du färbst 5 davon.“ Caption „So sieht der Bruch fünf Sechstel am Streifen aus.“ Ganzes und Teile klar."
+  - item: explainer-text-figure-agree
+    page: /bruch/bruch-darstellen/
+    unit: "Abbildung Beispiel 5/6"
+    level: 2
+    evidence: "5/6 in Text, Bild und Alt-Text gleich."
+  - item: explainer-representation-explained
+    page: /bruch/bruch-darstellen/
+    unit: "Komponente Färben (Übung)"
+    level: 2
+    evidence: "Aufgabentext „Der Streifen hat 12 gleich große Teile. Färbe den Bruch 1/12.“ Tippen und „Prüfen“ stehen im Text davor („Tippe auf die Teile ... drücke dann „Prüfen““). Prüfen ist ohne Auswahl deaktiviert."
+    did: "Alle, 11, 2 und 1 Teil gefärbt, geprüft: Rückmeldungen „Du hast alle 12 Teile gefärbt. Die Zahl unter dem Bruchstrich ...“, „Das ist der Rest“, „Leider nicht richtig.“, „Richtig!“."
+  - item: explainer-control-purpose
+    page: /bruch/bruch-darstellen/
+    unit: "Komponente Färben (Übung)"
+    level: 2
+    evidence: "Jedes Teil schaltet an/aus; „Prüfen“ prüft; „Neue Aufgabe“ im Text erklärt."
+    did: "Teile getippt/abgewählt."
+  - item: explainer-text-figure-agree
+    page: /bruch/bruch-darstellen/
+    unit: "Komponente Färben mit Text"
+    level: 2
+    evidence: "Text: „Er ist schon in gleich große Teile geteilt“ – so ist es; Aufgabe nennt Bruch und Teilezahl."
+  - item: explainer-figure-hides-answer
+    page: /bruch/bruch-darstellen/
+    unit: "Komponente Färben (Aufgabe bruch-faerben)"
+    level: 2
+    evidence: "Vor „Prüfen“ zeigt die Komponente keinen Zähler/Count und keine Markierung; nur Teile in Weiß/Blau. Quelltext-Kommentar: „It shows no count“, im Browser bestätigt."
+    did: "Teile gefärbt, nicht geprüft."
+  - item: explainer-steps-explain
+    page: /bruch/bruch-darstellen/
+    unit: "Aufgabe bruch-schokolade"
+    level: 2
+    evidence: "Schritte: „Der Nenner 7 sagt: Die Tafel hat 7 gleich große Stücke.“ „Der Zähler 3 sagt: Du hast 3 davon gegessen.“ – Zahlen und Grund."
+  - item: explainer-steps-explain
+    page: /bruch/bruch-darstellen/
+    unit: "Aufgabe bruch-pizza-uebrig"
+    level: 2
+    evidence: "Schritte: „Die Pizza hat 7 Stücke, davon hast du 3 gegessen.“ „Übrig sind 7 − 3 = 4 Stücke.“ – Zahlen und Grund."
+  - item: explainer-learner-start
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Seite"
+    level: 2
+    evidence: "„Eine Pizza ist in 2 gleich große Stücke geschnitten. Du isst 1 Stück ... Deine Freundin schneidet jedes Stück noch einmal durch.“ – Alltagsbild führt zum Erweitern."
+  - item: explainer-one-step
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Seite"
+    level: 2
+    evidence: "Ein Schritt (Erweitern); ein Beispiel (3/4 mit 2) mit zwei Bildern vorher/nachher. Vergleichen steht erst auf der letzten Seite."
+  - item: explainer-honest-headings
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Seite"
+    level: 2
+    evidence: "„Ausprobieren“ über der bedienbaren Streifen-Komponente."
+  - item: explainer-age-appropriate
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Seite"
+    level: 1
+    evidence: "Meist kindgerecht, aber „Der untere Streifen wird dann in so viel mal mehr Teile geteilt“ ist holprig und schwer lesbar."
+  - item: explainer-representation-explained
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Komponente zwei Streifen (Erweitern 2/3)"
+    level: 2
+    evidence: "Ganzes: „Die zwei Streifen sind gleich lang, beide sind das Ganze.“ Knöpfe = Erweiterungszahl, erklärt. Zeilen „Vorher: 2 von 3 Teilen gefärbt“ / „Erweitert mit 6: 12 von 18“, Rechnung 2·6/3·6 = 12/18 und Satz „Das gefärbte Stück ist gleich groß geblieben“. Schraffur nicht erklärt, aber beide Streifen gleich gefärbt, Zählung im Label."
+    did: "Knöpfe 1 bis 6."
+  - item: explainer-control-purpose
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Komponente zwei Streifen (Knöpfe 1–6)"
+    level: 2
+    evidence: "Start 1: beide gleich (wie im Text gesagt). Jeder Knopf ändert unteren Streifen, Rechnung und Satz konsistent: bei 6 „12 von 18 Teilen“, Streifen mit 18 Teilen."
+    did: "Knöpfe 1 und 6 gedrückt."
+  - item: explainer-text-figure-agree
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Komponente mit Text"
+    level: 2
+    evidence: "Text: „Oben ist der Anteil 2/3“ – Komponente zeigt 2 von 3; „Unter den Streifen steht die Rechnung“ – ja. Beispiel danach mit anderem Bruch (3/4), als Beispiel betitelt."
+  - item: explainer-representation-explained
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Beispielabbildungen 3/4 → 6/8"
+    level: 2
+    evidence: "Captions „Vorher. Das Ganze hat 4 Teile.“ / „Erweitert mit 2. Das Ganze hat 8 Teile, das gefärbte Stück ist gleich groß.“"
+  - item: explainer-text-figure-agree
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Beispielabbildungen 3/4 → 6/8"
+    level: 2
+    evidence: "Text „3/4 = 6/8“ passt zu Bildern."
+  - item: explainer-steps-explain
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Aufgabe erweitern-zaehler"
+    level: 2
+    evidence: "„Neuer Zähler: 3 · 4 = 12.“ mit Vorschritt „Beim Erweitern wird der Zähler mit 4 malgenommen.“"
+  - item: explainer-steps-explain
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Aufgabe erweitern-nenner"
+    level: 2
+    evidence: "„Neuer Nenner: 5 · 4 = 20.“ mit Grund"
+  - item: explainer-steps-explain
+    page: /kuerzen-erweitern/erweitern/
+    unit: "Aufgabe erweitern-welche-zahl"
+    level: 2
+    evidence: "„Alter Nenner 3, neuer Nenner 9: 3 · 3 = 9.“ „Der Zähler passt dazu: 1 · 3 = 3.“ (aus Paar-Daten gelesen)"
+  - item: explainer-learner-start
+    page: /kuerzen-erweitern/teiler-wiederholen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Zum Kürzen brauchst du Teiler. Ein Teiler einer Zahl ist eine Zahl, durch die man sie ohne Rest teilen kann. 6 ist ein Teiler von 12.“ – Wiederholung."
+  - item: explainer-one-step
+    page: /kuerzen-erweitern/teiler-wiederholen/
+    unit: "Seite"
+    level: 2
+    evidence: "Nur Teiler und gemeinsamer Teiler; Tabelle für 12 und 18."
+  - item: explainer-honest-headings
+    page: /kuerzen-erweitern/teiler-wiederholen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Das weißt du schon“, „Beispiel“ passen; kein „Ausprobieren“."
+  - item: explainer-age-appropriate
+    page: /kuerzen-erweitern/teiler-wiederholen/
+    unit: "Seite"
+    level: 2
+    evidence: "Kurz, klar, Zahlenbeispiele."
+  - item: explainer-learner-start
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Seite"
+    level: 1
+    evidence: "Beginnt mit dem Erweitern, aber „Von 6/9 eines Streifens kannst du immer 3 Teile zu einem größeren Teil zusammenfassen“ ist ohne Bild abstrakt; kein Alltagsbild."
+  - item: explainer-one-step
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Seite"
+    level: 1
+    evidence: "Im Beispiel zwei Wege in einem Kasten: schrittweise (÷2, ÷3) und „Schneller: ... größter gemeinsamer Teiler ... durch 6“. Dazu kommt „vollständig gekürzt“."
+  - item: explainer-honest-headings
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Ausprobieren“ über der Streifenkomponente."
+  - item: explainer-age-appropriate
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Seite"
+    level: 2
+    evidence: "Kurze Sätze; passend für Klasse 6."
+  - item: explainer-representation-explained
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Komponente zwei Streifen (Kürzen 12/18)"
+    level: 2
+    evidence: "Gleiche Struktur: „beide sind das Ganze“, Knöpfe nur für gemeinsame Teiler (1, 2, 3, 6) erklärt, Zeilen „Gekürzt mit 6: 2 von 3 Teilen gefärbt“, Rechnung 12:6/18:6 = 2/3, Satz zum gleichen Stück."
+    did: "Knöpfe 1 und 6."
+  - item: explainer-control-purpose
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Komponente zwei Streifen (Knöpfe 1, 2, 3, 6)"
+    level: 2
+    evidence: "Start 1 beide gleich; Text erklärt, warum nur diese Knöpfe; Streifen, Rechnung und Satz stimmen nach 6 überein („2 von 3“, Streifen mit 3 Teilen)."
+    did: "Knöpfe 1 und 6 gedrückt."
+  - item: explainer-text-figure-agree
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Komponente mit Text"
+    level: 2
+    evidence: "Text „Oben ist der Anteil 12/18“ – gezeigt; Frage „Welcher Knopf macht den unteren Streifen am gröbsten?“ beantwortbar (6)."
+  - item: explainer-steps-explain
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Aufgabe kuerzen-zaehler"
+    level: 2
+    evidence: "„12 und 18 sind beide durch 6 teilbar.“ „Neuer Zähler: 12 : 6 = 2.“ (aus Paar-Daten gelesen)"
+  - item: explainer-steps-explain
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Aufgabe kuerzen-nenner"
+    level: 2
+    evidence: "„Neuer Nenner: 18 : 6 = 3.“ mit Vorschritt"
+  - item: explainer-steps-explain
+    page: /kuerzen-erweitern/kuerzen/
+    unit: "Aufgabe kuerzen-vollstaendig"
+    level: 1
+    evidence: "Schritt „12 und 16 haben den größten gemeinsamen Teiler 4.“ nennt den ggT als gegeben, ohne zu zeigen, wie er gefunden wird (Teiler-Liste)."
+  - item: explainer-learner-start
+    page: /kuerzen-erweitern/vergleichen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Zwei gleich große Tafeln Schokolade: Anna isst 3/4 ihrer Tafel, Ben isst 5/8 seiner Tafel. Wer hat mehr gegessen?“ – Alltagsfrage."
+  - item: explainer-one-step
+    page: /kuerzen-erweitern/vergleichen/
+    unit: "Seite"
+    level: 1
+    evidence: "Drei Fälle (gleicher Nenner, gleicher Zähler, verschiedene Nenner) plus Zeichen < > auf einer Seite; mehr als ein neuer Schritt."
+  - item: explainer-honest-headings
+    page: /kuerzen-erweitern/vergleichen/
+    unit: "Seite"
+    level: 2
+    evidence: "„Anschaulich erklärt“, „Regel“ passen; kein falsches „Ausprobieren“."
+  - item: explainer-age-appropriate
+    page: /kuerzen-erweitern/vergleichen/
+    unit: "Seite"
+    level: 2
+    evidence: "Kurze Sätze; Schokolade."
+  - item: explainer-representation-explained
+    page: /kuerzen-erweitern/vergleichen/
+    unit: "Abbildung Vergleich 3/4 und 5/8"
+    level: 2
+    evidence: "Caption: „Beide Streifen sind das Ganze. Achte darauf, wie weit die Färbung reicht.“ Beschriftet „drei Viertel“/„fünf Achtel“; Text danach: „Die Färbung oben reicht weiter als unten.“"
+  - item: explainer-text-figure-agree
+    page: /kuerzen-erweitern/vergleichen/
+    unit: "Abbildung Vergleich 3/4 und 5/8"
+    level: 2
+    evidence: "3/4 und 5/8 in Einstieg, Bild, Text und Beispiel gleich."
+  - item: explainer-steps-explain
+    page: /kuerzen-erweitern/vergleichen/
+    unit: "Aufgabe vergleichen-gemeinsamer-nenner"
+    level: 1
+    evidence: "Schritte: „8 ist ein Vielfaches von 4. Du erweiterst 3/4 so, dass der Nenner 8 wird.“ Warum 8 der kleinste ist, bleibt offen; Aufgabe verlangt „den kleinsten“."
+  - item: explainer-steps-explain
+    page: /kuerzen-erweitern/vergleichen/
+    unit: "Aufgabe vergleichen-neuer-zaehler"
+    level: 2
+    evidence: "„4 · 2 = 8, also wird mit 2 erweitert.“ „Neuer Zähler: 3 · 2 = 6.“ – Zahlen mit Grund."
+notes: "Map read: brueche-begriff requires natuerliche-zahlen; brueche-kuerzen-erweitern requires brueche-begriff, teilbarkeit. Desktop 1280x800 and mobile 360x740 screenshots viewed; no horizontal problems seen. Generated exercise steps were read from the YAML and its data files, not as three live seeds each."
+at: 2026-11-04

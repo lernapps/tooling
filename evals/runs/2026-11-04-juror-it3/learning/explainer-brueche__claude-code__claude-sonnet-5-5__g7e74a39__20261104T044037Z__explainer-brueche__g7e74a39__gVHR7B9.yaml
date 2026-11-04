@@ -1,0 +1,415 @@
+url: http://127.0.0.1:4401/
+grade: "6"
+subject: mathematik
+competencies:
+  - brueche-begriff
+  - brueche-kuerzen-erweitern
+pages:
+  - /brueche/anteile-erkennen/
+  - /brueche/anteile-darstellen/
+  - /brueche/teilbarkeit-wiederholt/
+  - /brueche/erweitern/
+  - /brueche/kuerzen/
+  - /brueche/vergleichen/
+units:
+  - item: explainer-learner-start
+    page: /brueche/anteile-erkennen/
+    unit: Seite
+    level: 1
+    evidence:
+      "Start gut: „Eine Pizza wird in 4 gleich große Stücke geschnitten, für 4 Kinder.“ Zähler/Nenner/Bruchstrich werden
+      erklärt. Aber die Aufgabe „Ein Kuchen ist in 12 gleich große Stücke geschnitten … wenn du den Bruch nicht kürzt?“ nutzt
+      „kürzt“, das die Seite nie erklärt (Kürzen kommt erst zwei Seiten später)."
+  - item: explainer-representation-explained
+    page: /brueche/anteile-erkennen/
+    unit: Abbildung im Abschnitt „Anschaulich erklärt“ (Streifen 3 von 8)
+    level: 2
+    evidence:
+      "Ganzes: „Das Ganze ist hier ein Streifen“, Bildunterschrift „Der ganze Streifen ist das Ganze. Zähle erst alle
+      Teile, dann die blauen.“ Teile und blau erklärt („8 gleich große Teile … 3 Teile davon sind blau“), danach „Den blauen
+      Anteil schreibst du als Bruch: 3/8“, Zähler/Nenner mit „hier 3“/„hier 8“. Figur zeigt 8 Teile, 3 blau."
+  - item: explainer-representation-explained
+    page: /brueche/anteile-erkennen/
+    unit: Abbildungen der Übungen (Streifen 7/10, Pizza 5/6, Rechteck)
+    level: 2
+    evidence:
+      "Jede Aufgabe nennt das Ganze in der Unterschrift („Der ganze Streifen/Die ganze runde Pizza/Das ganze Rechteck
+      ist das Ganze“) und was blau bedeutet („Die blauen Stücke der Pizza sind schon gegessen“). Streifen: 10 Teile, 7 blau;
+      Pizza: 6 Stücke, 5 blau; Rechteck: ungleiche Teile, durch Text „gleich große Teile“ vorbereitet."
+  - item: explainer-text-figure-agree
+    page: /brueche/anteile-erkennen/
+    unit: Abbildung „Streifen 3 von 8“ mit Text
+    level: 2
+    evidence: Text „8 gleich große Teile … 3 Teile blau“ stimmt mit dem Bild und mit „3/8“ überein.
+  - item: explainer-text-figure-agree
+    page: /brueche/anteile-erkennen/
+    unit: Abbildungen der Übungen
+    level: 2
+    evidence:
+      Bilder 7/10, 5/6 und Rechteck passen zu Aufgabe und Antworten; im Rechteck sind die Teile sichtbar verschieden
+      groß, wie die Erklärung „Das blaue Teil ist das größte“ sagt.
+  - item: explainer-one-step
+    page: /brueche/anteile-erkennen/
+    unit: Seite
+    level: 1
+    evidence:
+      Ein neuer Schritt (Bruch ablesen), ein Beispiel pro Kasten. Aber die generierte Aufgabe verlangt „wenn du den
+      Bruch nicht kürzt“ – Begriff einer späteren Kompetenz in einer Übung.
+  - item: explainer-steps-explain
+    page: /brueche/anteile-erkennen/
+    unit: "Generierte Übung „Welche Zahl steht im Zähler“ (3 Zahlenwerte gelesen: 4–12 Stücke)"
+    level: 2
+    evidence:
+      "Schritte: „Der Kuchen hat 12 gleich große Stücke, also ist der Nenner 12.“ „7 Stücke sind gegessen, also ist
+      der Zähler 7.“ Mit Zahlen und Grund."
+  - item: explainer-steps-explain
+    page: /brueche/anteile-erkennen/
+    unit: Beispiel „Eine Tafel Schokolade“
+    level: 2
+    evidence: "Tabelle: „12, also ist der Nenner 12“, „5, also ist der Zähler 5“, Bruch 5/12."
+  - item: explainer-honest-headings
+    page: /brueche/anteile-erkennen/
+    unit: Seite
+    level: 2
+    evidence: „Ein Stück von der Pizza“, „Anschaulich erklärt“, „Beispiel“, „Übung“ passen; kein „Ausprobieren“.
+  - item: explainer-age-appropriate
+    page: /brueche/anteile-erkennen/
+    unit: Seite
+    level: 2
+    evidence: "Kurze Sätze, Pizza, Schokolade, Kuchen: passend für Klasse 6."
+  - item: explainer-figure-hides-answer
+    page: /brueche/anteile-erkennen/
+    unit: Übung Streifen 7/10
+    level: 2
+    evidence: Figur zeigt nur Streifen; der Bruch steht nirgends, man muss zählen.
+    did: Antworten gewählt, nicht geprüft.
+  - item: explainer-figure-hides-answer
+    page: /brueche/anteile-erkennen/
+    unit: Übung Pizza 5/6
+    level: 2
+    evidence: Kein Bruch im Bild oder Titel sichtbar.
+    did: Antworten gewählt, nicht geprüft.
+  - item: explainer-figure-hides-answer
+    page: /brueche/anteile-erkennen/
+    unit: Übung Rechteck (wahr/falsch)
+    level: 2
+    evidence: Bild ohne Beschriftung der Teile; Antwort erkennbar nur durch Vergleich der Größen.
+    did: Antworten gewählt, nicht geprüft.
+  - item: explainer-learner-start
+    page: /brueche/anteile-darstellen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Du kannst schon sagen, welcher Bruch an einem Streifen gefärbt ist. Jetzt drehst du es um …“ knüpft an Seite
+      1 an; Zahlenstrahl über natürliche Zahlen; Nenner/Zähler am Zahlenstrahl werden vor der Übung erklärt.
+  - item: explainer-representation-explained
+    page: /brueche/anteile-darstellen/
+    unit: Komponente „Bruchfeld“ (Streifen einfärben)
+    level: 2
+    evidence:
+      "Ganzes: „Er ist das Ganze und in gleich große Teile geteilt“; Nenner = Teile; „Mit einem Klick färbst du ein
+      Teil blau, mit einem zweiten Klick ist es wieder weiß“; „Zurücksetzen“; „Färbe so viele Teile, wie der Zähler sagt, und
+      drücke Prüfen“. Aufgabe: „Der Streifen ist in 5 gleich große Teile geteilt. Färbe den Bruch 3/5.“ Keine Zählanzeige."
+    did: Teile angeklickt, zurückgesetzt, 3/5 richtig, alle 5, 2 von 5 geprüft.
+  - item: explainer-representation-explained
+    page: /brueche/anteile-darstellen/
+    unit: Abbildung Zahlenstrahl 3/4 im Erklärteil
+    level: 2
+    evidence:
+      "„Auf dem Zahlenstrahl ist das Ganze die Strecke von 0 bis 1 … Nenner sagt, wie viele Abschnitte … Zähler … bei
+      welcher Marke du stehst, wenn du von der 0 aus zählst.“ Unterschrift „Zähle von der 0 aus 3 Marken. Dort steht 3/4.“ Bild:
+      0, 4 Abschnitte, Pfeil bei 3/4."
+  - item: explainer-representation-explained
+    page: /brueche/anteile-darstellen/
+    unit: Abbildung Zahlenstrahl der Übung (Pfeil mit „?“)
+    level: 2
+    evidence:
+      Strecke 0 bis 1 ist das Ganze (Unterschrift); „?“ am Pfeil zeigt, was gesucht ist; 8 Abschnitte, Pfeil bei Marke
+      5.
+  - item: explainer-control-purpose
+    page: /brueche/anteile-darstellen/
+    unit: Komponente „Bruchfeld“
+    level: 2
+    evidence:
+      "Jedes Teil ändert sichtbar Farbe (blau mit Streifen), Zurücksetzen macht alle weiß, Text sagt wozu. Start: alle
+      weiß. „Prüfen“ ist ohne Färbung gesperrt. Nach „Prüfen“ wird die Färbung etwas heller; richtig 3 von 5 → „Richtig!“, alle
+      → Hinweis zum Nenner."
+    did: Jede Zelle, Zurücksetzen, leere Färbung, 2/3/5 Teile.
+  - item: explainer-text-figure-agree
+    page: /brueche/anteile-darstellen/
+    unit: Abbildung Zahlenstrahl und Beispiel 3/5 mit Text
+    level: 2
+    evidence: Text und Bild (3/4) stimmen; Wechsel zu 3/5 im Beispiel angekündigt durch Titel „3/5 am Zahlenstrahl“.
+  - item: explainer-text-figure-agree
+    page: /brueche/anteile-darstellen/
+    unit: Komponente Bruchfeld mit Text
+    level: 2
+    evidence:
+      Text „Gleich zeigt die Übung einen Streifen … Knopf Zurücksetzen“ – beides vorhanden, Zahlen der Aufgabe (n, z)
+      stehen in der Aufgabe.
+  - item: explainer-one-step
+    page: /brueche/anteile-darstellen/
+    unit: Seite
+    level: 1
+    evidence:
+      "Zwei Methoden auf einer Seite: Einfärben und Ablesen am Zahlenstrahl, dazu Hinweis „Mehr Teile heißen kleinere
+      Teile“ mit Übung „Welches Stück ist größer?“ – mehrere Ideen auf einer Seite, wenn auch alle zu brueche-begriff gehören."
+  - item: explainer-steps-explain
+    page: /brueche/anteile-darstellen/
+    unit: Generierte Übung „Nenner aus blauen und weißen Teilen“ (Zahlenwerte z,w ∈ 1–7)
+    level: 2
+    evidence:
+      "Schritte: „Das Ganze besteht aus den blauen und den weißen Teilen zusammen.“ „2 + 4 = 6, also ist der Nenner
+      6.“"
+  - item: explainer-steps-explain
+    page: /brueche/anteile-darstellen/
+    unit: Beispiel „3/5 am Zahlenstrahl“
+    level: 2
+    evidence:
+      'Tabelle: „Nenner 5 – Teile die Strecke von 0 bis 1 in 5 gleich lange Abschnitte“, „Zähler 3 – Zähle von der 0
+      aus 3 Marken“. Die Tabellenüberschrift zeigt aber rohen Code: „So findest du $\frac{3}{5}$“.'
+  - item: explainer-honest-headings
+    page: /brueche/anteile-darstellen/
+    unit: Seite
+    level: 2
+    evidence: „Vom Lesen zum Zeichnen“, „Einfärben und ablesen“, „Beispiel“, „Übung“; kein „Ausprobieren“-Titel.
+  - item: explainer-age-appropriate
+    page: /brueche/anteile-darstellen/
+    unit: Seite
+    level: 2
+    evidence: Kurze Sätze, Pizza-Beispiele.
+  - item: explainer-figure-hides-answer
+    page: /brueche/anteile-darstellen/
+    unit: Komponente Bruchfeld (Übung)
+    level: 2
+    evidence: Es wird keine Zahl der gefärbten Teile gezeigt; die Aufgabe nennt z und n, Fehlertext erscheint erst nach Prüfen.
+    did: Klicks gesetzt, nicht geprüft; keine Anzeige.
+  - item: explainer-figure-hides-answer
+    page: /brueche/anteile-darstellen/
+    unit: Übung Zahlenstrahl (Pfeil)
+    level: 2
+    evidence: Marken unbeschriftet, „?“ am Pfeil; Antwort muss abgezählt werden.
+    did: Antworten gewählt, nicht geprüft.
+  - item: explainer-learner-start
+    page: /brueche/teilbarkeit-wiederholt/
+    unit: Seite
+    level: 1
+    evidence:
+      Beginnt mit „Beim Kürzen teilst du Zähler und Nenner durch dieselbe Zahl“ – Kürzen ist noch nicht gelernt. Tabelle
+      nutzt „Quersumme“ ohne Erklärung. Seite ist als Wiederholung („Das kennst du aus dem Kapitel zur Teilbarkeit“) markiert.
+  - item: explainer-one-step
+    page: /brueche/teilbarkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence: Ein Thema (Teiler, Regeln), Wiederholung ohne Inhalt späterer Kompetenzen.
+  - item: explainer-honest-headings
+    page: /brueche/teilbarkeit-wiederholt/
+    unit: Seite
+    level: 2
+    evidence: „Warum du das jetzt brauchst“, „Teiler und Teilbarkeitsregeln“ passen.
+  - item: explainer-age-appropriate
+    page: /brueche/teilbarkeit-wiederholt/
+    unit: Seite
+    level: 1
+    evidence:
+      Sieben Regeln in einer Tabelle, „Quersumme“, „Die letzten beiden Ziffern bilden eine Zahl, die durch 4 teilbar
+      ist“ – für Klasse 6 dicht.
+  - item: explainer-learner-start
+    page: /brueche/erweitern/
+    unit: Seite
+    level: 2
+    evidence:
+      "„Du hast ein Viertel einer Pizza. Schneidest du jedes Viertel noch einmal in der Mitte durch, hast du Achtel.“
+      – Alltag, „Dasselbe Stück hat jetzt zwei Namen: 1/4 und 2/8.“"
+  - item: explainer-representation-explained
+    page: /brueche/erweitern/
+    unit: Komponente Faktorstreifen (Erweitern)
+    level: 2
+    evidence:
+      "Text: „zwei Streifen, beide gleich lang. Der obere zeigt 3/4: 4 Teile, 3 davon blau. Der untere ist derselbe
+      Streifen, nur feiner geteilt. Mit den Zahlen 1 bis 6 wählst du die Erweiterungszahl … Die blaue Länge bleibt gleich. Es
+      ändern sich nur die Zahlen im Bruch.“ Beschriftungen „Vorher: 3/4“, „Erweitert mit 3: 9/12“. Streifen gestreift blau."
+    did: "Zahlen 1, 3, 6 gewählt: 3/4, 9/12, 18/24, blaue Länge gleich."
+  - item: explainer-control-purpose
+    page: /brueche/erweitern/
+    unit: Komponente Faktorstreifen (Knöpfe 1–6)
+    level: 2
+    evidence:
+      "Jeder Knopf teilt den unteren Streifen feiner und ändert die Beschriftung (z. B. „Erweitert mit 6: 18/24“); Start
+      „Erweitert mit 1: 3/4“ zeigt zuerst, was gleich bleibt; Text sagt wozu; Beschriftung und Streifen stimmen nach jeder Wahl
+      überein."
+    did: Alle Knöpfe 1, 3, 6 gedrückt.
+  - item: explainer-text-figure-agree
+    page: /brueche/erweitern/
+    unit: Komponente Faktorstreifen mit Text
+    level: 2
+    evidence:
+      Text 3/4 stimmt mit Komponente (z=3, n=4); die Formel darunter „3/4 = 3·2/4·2 = 6/8“ entspricht dem Knopf 2; nur
+      der Text „In jedes Teil … Schnitte“ ist ungenau.
+  - item: explainer-one-step
+    page: /brueche/erweitern/
+    unit: Seite
+    level: 2
+    evidence:
+      Nur Erweitern; ein Beispiel (2/3 mit 4). Das Beispiel hat roh sichtbare Tabellenüberschrift „So erweiterst du
+      $\frac{2}{3}$ mit 4“.
+  - item: explainer-steps-explain
+    page: /brueche/erweitern/
+    unit: "Generierte Übung „neuer Nenner“ (3 Beispiele: 5/7·2, 1/2·4, …)"
+    level: 2
+    evidence: "Schritte: „Erweitern heißt, Zähler und Nenner mit 2 zu multiplizieren.“ „Nenner: 7 · 2 = 14.“"
+  - item: explainer-steps-explain
+    page: /brueche/erweitern/
+    unit: Generierte Übung „Mit welcher Zahl wurde erweitert?“ (1/7→3/21, 1/2→3/6)
+    level: 2
+    evidence:
+      "Schritte: „Der Nenner wurde von 7 zu 21. Es gilt 7 · 3 = 21.“ „Der Zähler passt dazu: 1 · 3 = 3. Also wurde mit
+      3 erweitert.“"
+  - item: explainer-steps-explain
+    page: /brueche/erweitern/
+    unit: Beispiel „2/3 mit 4 erweitern“
+    level: 2
+    evidence: „2 · 4 = 8“, „3 · 4 = 12“, „2/3 = 8/12“.
+  - item: explainer-honest-headings
+    page: /brueche/erweitern/
+    unit: Seite
+    level: 2
+    evidence: „Erweitern ausprobieren“ steht über der bedienbaren Komponente.
+  - item: explainer-age-appropriate
+    page: /brueche/erweitern/
+    unit: Seite
+    level: 2
+    evidence: Pizza, kurze Sätze.
+  - item: explainer-learner-start
+    page: /brueche/kuerzen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Beim Erweitern hast du jedes Teil in kleinere Teile geschnitten. Du kannst auch den Weg zurück gehen“ – knüpft
+      an die Vorseite an, „Kürzen“ wird dort eingeführt.
+  - item: explainer-representation-explained
+    page: /brueche/kuerzen/
+    unit: Komponente Faktorstreifen (Kürzen)
+    level: 2
+    evidence:
+      „Der obere Streifen zeigt 12/18 … derselbe Streifen mit größeren Teilen. … Kürzungszahl … nur Zahlen, durch die
+      sich Zähler und Nenner ohne Rest teilen lassen. Die blaue Länge bleibt gleich.“ Knöpfe 1, 2, 3, 6; Streifen stimmen.
+    did: "Knöpfe 1, 2, 3, 6: 12/18, 6/9, 4/6, 2/3."
+  - item: explainer-control-purpose
+    page: /brueche/kuerzen/
+    unit: Komponente Faktorstreifen (Knöpfe)
+    level: 2
+    evidence:
+      "Jeder Knopf ändert Streifen und Beschriftung („Gekürzt mit 6: 2/3“), Start „Gekürzt mit 1: 12/18“ zeigt das Gleichbleibende;
+      Text nennt, warum nur manche Zahlen wählbar sind."
+    did: Alle Knöpfe gedrückt.
+  - item: explainer-text-figure-agree
+    page: /brueche/kuerzen/
+    unit: Komponente Faktorstreifen mit Text
+    level: 2
+    evidence:
+      12/18, 18 Teile, 12 blau – stimmt. Text „Mit der 6 geht es nicht weiter“ passt zum Knopf 6, der Link zur Wiederholung
+      der Teilbarkeit besteht.
+  - item: explainer-one-step
+    page: /brueche/kuerzen/
+    unit: Seite
+    level: 1
+    evidence:
+      Neben dem Kürzen kommt „vollständig gekürzt“ als zweite Idee mit eigener Übung; in der Auswahlaufgabe wird „größten
+      gemeinsamen Teiler“ ohne Einführung genannt.
+  - item: explainer-steps-explain
+    page: /brueche/kuerzen/
+    unit: Generierte Übung „neuer Zähler“ (10/15 mit 5, 15/20 mit 5, …)
+    level: 2
+    evidence: "Schritte: „10 und 15 sind beide durch 5 teilbar.“ „Zähler: 10 : 5 = 2.“"
+  - item: explainer-steps-explain
+    page: /brueche/kuerzen/
+    unit: Generierte Übung „so weit wie möglich“ (4/16)
+    level: 1
+    evidence:
+      "Schritte: „4 und 16 sind beide durch 4 teilbar.“ „Nenner: 16 : 4 = 4. Mit 1 und 4 geht es nicht weiter.“ Warum
+      gerade 4 gewählt wird (größte Zahl), steht nicht."
+  - item: explainer-steps-explain
+    page: /brueche/kuerzen/
+    unit: Beispiel „18/24 kürzen“
+    level: 2
+    evidence:
+      '„18 und 24 sind beide durch 6 teilbar“, „18 : 6 = 3“, „24 : 6 = 4“. Tabellenüberschrift zeigt rohen Code „So
+      kürzt du $\frac{18}{24}$“.'
+  - item: explainer-honest-headings
+    page: /brueche/kuerzen/
+    unit: Seite
+    level: 2
+    evidence: „Kürzen ausprobieren“ über der Komponente.
+  - item: explainer-age-appropriate
+    page: /brueche/kuerzen/
+    unit: Seite
+    level: 2
+    evidence: Kurz, gleiche Pizza-Sprache.
+  - item: explainer-learner-start
+    page: /brueche/vergleichen/
+    unit: Seite
+    level: 2
+    evidence:
+      „Lena isst 2/3 einer Tafel Schokolade, Jonas 3/5 einer gleich großen Tafel. Wer hat mehr gegessen?“ verbindet
+      mit der Seite „Brüche darstellen“; „gemeinsamer Nenner“ und „gleichnamig“ werden erklärt.
+  - item: explainer-representation-explained
+    page: /brueche/vergleichen/
+    unit: Abbildung 2/3 und 3/5
+    level: 2
+    evidence:
+      "Unterschrift: „Beide Streifen sind das Ganze. Die Teile sind verschieden groß, darum kannst du die Zähler nicht
+      einfach vergleichen.“ Streifen mit 3 und 5 Teilen, beschriftet „2/3“, „3/5“."
+  - item: explainer-representation-explained
+    page: /brueche/vergleichen/
+    unit: Abbildung 10/15 und 9/15
+    level: 2
+    evidence: "„Jetzt sind beide Streifen in 15 gleich große Teile geteilt. Zähle die blauen Teile.“ Bild: 10 und 9 blaue Teile."
+  - item: explainer-text-figure-agree
+    page: /brueche/vergleichen/
+    unit: Abbildungen mit Text
+    level: 2
+    evidence: Text 2/3 und 3/5, 3·5=15, 10/15 und 9/15 stimmen mit den Bildern überein.
+  - item: explainer-one-step
+    page: /brueche/vergleichen/
+    unit: Seite
+    level: 1
+    evidence:
+      "Text: „Das geht immer, wenn du die beiden Nenner malnimmst: 3 · 5 = 15“; Beispiel und Übungen nutzen dagegen
+      den kleineren Nenner 12 bzw. 24 („4 und 6 gehen beide in 12 auf“): zweite Methode ohne Hinweis."
+  - item: explainer-steps-explain
+    page: /brueche/vergleichen/
+    unit: Generierte Übung „neuer Zähler“ (1/8 und 10/12 → 24; 1/3 und 3/6 → 6)
+    level: 1
+    evidence:
+      "Schritte: „Der Bruch wird mit 24 : 8 erweitert.“ „Zähler: 1 mal 24 : 8 ist 3.“ Die Erweiterungszahl 24 : 8 wird
+      nicht ausgerechnet."
+  - item: explainer-steps-explain
+    page: /brueche/vergleichen/
+    unit: Generierte Übung „Zeichen wählen“
+    level: 1
+    evidence:
+      "Schritte: „Gemeinsamer Nenner: 24.“ „1/8 = 3/24 und 10/12 = 20/24.“ „Vergleiche die Zähler 3 und 20: Das Zeichen
+      ist <.“ Der Weg zu 3/24 (Erweiterungszahl) fehlt."
+  - item: explainer-steps-explain
+    page: /brueche/vergleichen/
+    unit: Beispiel „3/4 und 5/6 vergleichen“
+    level: 2
+    evidence:
+      „12, denn 4 und 6 gehen beide in 12 auf“, „3/4 = 9/12, erweitert mit 3“, „9 < 10“. Tabellenüberschrift zeigt rohen
+      Code.
+  - item: explainer-honest-headings
+    page: /brueche/vergleichen/
+    unit: Seite
+    level: 2
+    evidence: „Wer hat mehr?“, „Anschaulich erklärt“ (mit Bildern), „Beispiel“, „Übung“.
+  - item: explainer-age-appropriate
+    page: /brueche/vergleichen/
+    unit: Seite
+    level: 1
+    evidence: „Als gemeinsamen Nenner nimmst du eine Zahl, in der beide Nenner aufgehen“ ist für Klasse 6 abstrakt.
+notes:
+  'Karte nicht gelesen (kein Netz-Zugriff geprüft); nehme an, was Klasse 6 kennt: natürliche Zahlen, Teilbarkeit grob.
+  Startseite, Glossar, Tutor, Selbsteinschätzung ausgelassen. 360px: keine horizontale Überlaufung gemessen. Auffällig: Tabellenüberschriften
+  der Beispiele zeigen rohen LaTeX-Code („So findest du $\frac{3}{5}$“) auf Darstellen, Erweitern, Kürzen und Vergleichen.'
+at: "2026-11-04"
