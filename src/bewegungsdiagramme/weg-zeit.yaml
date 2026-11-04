@@ -1,0 +1,211 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Weg-Zeit-Diagramm lesen
+description: Du lernst, wie ein Weg-Zeit-Diagramm eine Bewegung zeigt, und liest daraus Stillstand, Tempo und Rückweg ab.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg - Lisa fährt zur Haltestelle
+    blocks:
+      - type: text
+        text: >-
+          Lisa fährt mit dem Fahrrad von zu Hause los. Alle paar Sekunden messen wir, wie weit sie vom Startpunkt entfernt ist.
+          Eine lange Liste von Zahlen ist unübersichtlich. Ein **Weg-Zeit-Diagramm** schreibt dieselben Messungen
+          als eine Linie auf.
+      - type: text
+        text: >-
+          Du kennst schon $v = \frac{s}{t}$ aus Klasse 7: Das Tempo ist der Weg durch die Zeit. Neu ist, dass wir
+          den Weg nicht nur einmal angeben, sondern zu jedem Zeitpunkt. So sehen wir die ganze Bewegung auf einen Blick.
+  - type: section
+    id: erklaert
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: >-
+          Im Diagramm geht die **Zeit $t$ nach rechts**, die **Entfernung vom Startpunkt $s$ nach oben**.
+          Jeder Punkt der Linie sagt: Zu dieser Zeit ist Lisa so weit vom Start weg. Das Bild zeigt vier Abschnitte
+          von je 5 Sekunden. Die gestrichelten Linien trennen sie.
+      - type: labelled-figure
+        image: images/weg-zeit-lisa.svg
+        alt: >-
+          Weg-Zeit-Diagramm, Zeit von 0 bis 20 Sekunden nach rechts, Entfernung von 0 bis 40 Metern nach oben. Die Linie
+          steigt von 0 auf 20 Meter, bleibt 5 Sekunden lang waagerecht, fällt auf 5 Meter und steigt zuletzt immer
+          steiler auf etwa 18 Meter.
+        caption: Lisas Weg in vier Abschnitten. Achte auf die Neigung der Linie in jedem Abschnitt.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        labels:
+          - { x: 20, y: 61, text: "Die Linie steigt gerade nach oben: Lisa entfernt sich gleichmäßig vom Start." }
+          - { x: 44, y: 44, text: "Die Linie ist waagerecht: Die Entfernung ändert sich nicht, Lisa steht." }
+          - { x: 69, y: 56, text: "Die Linie fällt: Lisa kommt dem Startpunkt wieder näher, sie fährt zurück." }
+          - { x: 82, y: 62, text: "Die Linie wird immer steiler: Lisa wird schneller." }
+      - type: text
+        text: >-
+          So kommst du vom Weg-Zeit-Diagramm zum Tempo: Im ersten Abschnitt ist die Linie gerade, Lisas Tempo bleibt also gleich.
+          Sie legt in 5 Sekunden 20 Meter zurück. Mit $v = \frac{s}{t}$ ist das $\frac{20\ \text{m}}{5\ \text{s}} = 4\ \text{m/s}$. Eine **steilere Linie**
+          heißt: in der gleichen Zeit mehr Weg, also ein größeres Tempo. Eine **waagerechte Linie** heißt: kein
+          neuer Weg, also Stillstand.
+      - type: definition
+        term: Weg-Zeit-Diagramm
+        explanation: >-
+          Ein Weg-Zeit-Diagramm zeigt, wie weit ein Körper zu jeder Zeit vom Startpunkt entfernt ist. Die Zeit steht
+          auf der waagerechten Achse, der Weg auf der senkrechten.
+      - type: note
+        title: Achtung - das Diagramm ist kein Bild des Weges
+        blocks:
+          - type: text
+            text: >-
+              Wenn die Linie nach oben geht, heißt das **nicht**, dass Lisa bergauf fährt. Lisa kann auf einer
+              ganz ebenen Straße fahren. Die senkrechte Achse ist die **Entfernung vom Start**, nicht die Höhe. Die
+              Form der Linie sagt dir, wie sich die Entfernung mit der Zeit ändert. Wie die Straße aussieht, sagt sie dir nicht.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren im Bewegungslabor
+    blocks:
+      - type: text
+        text: >-
+          Im Labor fährst du 20 Sekunden lang, in vier Abschnitten zu je 5 Sekunden. Du startest bei 0 Metern mit
+          10 m/s. Mit jedem Regler stellst du ein, wie schnell du **am Ende** dieses Abschnitts bist. Das
+          Diagramm zeigt, wie weit du vom Startpunkt entfernt bist. Innerhalb eines Abschnitts ändert sich dein Tempo
+          gleichmäßig vom Wert am Anfang zum Wert am Ende. Der Anfangswert ist das Tempo am Ende des Abschnitts davor.
+          Die Skalen bleiben immer gleich, damit du Änderungen vergleichen kannst. Die Quadrate auf der Linie sind die Enden der Abschnitte.
+      - type: text
+        text: |-
+          Probiere der Reihe nach aus:
+
+          1. Stelle Abschnitt 2 und Abschnitt 3 auf 0 m/s. In Abschnitt 2 bremst du, die Linie wird dort flacher. Was macht die Linie in Abschnitt 3, wo du schon stehst?
+          2. Drücke auf "Zurücksetzen". Stelle dann alle Abschnitte auf 20 m/s. Abschnitt 1 ist gebogen, die anderen sind gerade. Warum? Vergleiche den Weg in der ersten und in der letzten Sekunde von Abschnitt 1.
+          3. Drücke wieder auf "Zurücksetzen". Setze bei Abschnitt 4 den Haken "rückwärts". Was passiert mit der Linie in Abschnitt 4?
+      - type: vue-component
+        id: labor-weg-zeit
+        component: Bewegungslabor
+        props:
+          show: s
+          sectionTitle: "Abschnitt {n} ({from} bis {to} s)"
+          endLabel: "Tempo am Ende: {v} m/s"
+          faster: "Du wirst schneller: von {v0} auf {v1} m/s."
+          steady: "Du bleibst bei {v1} m/s."
+          slower: "Du wirst langsamer: von {v0} auf {v1} m/s."
+          stopped: "Du stehst."
+          backLabel: rückwärts
+          resetLabel: Zurücksetzen
+          sTitle: Weg-Zeit-Diagramm deiner Fahrt
+          vTitle: Geschwindigkeit-Zeit-Diagramm deiner Fahrt
+          sAxis: "s in m"
+          vAxis: "v in m/s"
+          tAxis: "t in s"
+          sAlt: >-
+            Weg-Zeit-Diagramm deiner Fahrt. Entfernung vom Startpunkt in Metern nach 0, 5, 10, 15 und 20 Sekunden: {values}.
+          vAlt: >-
+            Geschwindigkeit-Zeit-Diagramm deiner Fahrt. Geschwindigkeit in Metern pro Sekunde nach 0, 5, 10, 15 und 20
+            Sekunden: {values}.
+        nojs: >-
+          Das Bewegungslabor zeigt eine Fahrt von 20 Sekunden in vier Abschnitten. Zu Beginn fährst du mit 10 m/s
+          gleichmäßig: Nach 5, 10, 15 und 20 Sekunden bist du 50, 100, 150 und 200 Meter vom Startpunkt entfernt. Das
+          Weg-Zeit-Diagramm ist dann eine gerade, ansteigende Linie. Mit JavaScript stellst du für jeden
+          Abschnitt das Tempo am Ende ein und siehst die Linie sich ändern.
+  - type: section
+    id: beispiel
+    title: Beispiel - Werte ablesen
+    blocks:
+      - type: example
+        title: Wie schnell ist Lisa im ersten Abschnitt?
+        blocks:
+          - type: text
+            text: >-
+              Schau auf Lisas Diagramm weiter oben. Im ersten Abschnitt ist die Linie gerade, das Tempo bleibt gleich. Bei $t = 5\ \text{s}$ liegt die Linie bei $s = 20\ \text{m}$.
+              Bei $t = 0\ \text{s}$ war sie bei $0\ \text{m}$. In 5 Sekunden hat sie also 20 Meter geschafft.
+              Mit $v = \frac{s}{t} = \frac{20\ \text{m}}{5\ \text{s}} = 4\ \text{m/s}$ geht sie mit 4 m/s.
+              Im zweiten Abschnitt bleibt die Linie bei 20 Metern: Dort ist $s$ gleich geblieben, also ist $v = 0\ \text{m/s}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: stillstand-linie
+        text: >-
+          Drei Personen sind 20 Sekunden lang unterwegs. Das Bild zeigt für jede Person die Entfernung vom Startpunkt.
+          Welche Person steht die ganze Zeit still?
+        material:
+          - type: figure
+            image: images/weg-zeit-drei-linien.svg
+            alt: >-
+              Weg-Zeit-Diagramm mit drei Linien. Linie A und Linie C sind gerade und schräg, Linie B hat eine eigene Form. Die
+              Linien A, B und C sind direkt an den Linien beschriftet.
+            caption: Drei Linien, A, B und C, über 20 Sekunden. Vergleiche, ob und wie sich die Entfernung ändert.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Person A
+            correct: false
+            info: "A entfernt sich in jeder Sekunde weiter vom Start. Die Linie steigt, also ist A in Bewegung."
+          - text: Person B
+            correct: true
+            info: "Die Linie von B ist waagerecht: Die Entfernung bleibt 25 Meter, B steht."
+          - text: Person C
+            correct: false
+            info: "C kommt dem Startpunkt immer näher. Die Linie fällt, also geht C zurück."
+        explanation: >-
+          Wer steht, hat zu jeder Zeit dieselbe Entfernung vom Start. Das ergibt im Weg-Zeit-Diagramm eine
+          waagerechte Linie.
+        hint: Wer still steht, ändert seine Entfernung vom Startpunkt nicht.
+        links:
+          - { title: Weg-Zeit-Diagramm (Wikipedia), url: "https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm_(Mechanik)" }
+      - type: number
+        id: anna-nach-12-s
+        text: Anna fährt Rad. Wie viele Meter ist sie nach 12 Sekunden vom Startpunkt entfernt?
+        material:
+          - type: figure
+            image: images/weg-zeit-anna.svg
+            alt: >-
+              Weg-Zeit-Diagramm von Anna, Zeit von 0 bis 20 Sekunden, Entfernung von 0 bis 50 Metern. Die Linie steigt
+              auf 20 Meter, bleibt eine Weile waagerecht, steigt dann weiter und bleibt am Ende wieder waagerecht.
+            caption: Die Gitterlinien helfen beim Ablesen. Achte auf die Zahlen an beiden Achsen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 40
+        tolerance: 2
+        unit: m
+        mistakes:
+          - answer: 12
+            message: "Das ist die Zeit, die du schon kennst. Gesucht ist der Weg, den du an der senkrechten Achse abliest."
+          - answer: 20
+            message: "Das ist die Entfernung zu einer früheren Zeit. Such 12 auf der Zeitachse und geh von dort senkrecht nach oben bis zur Linie."
+        explanation: >-
+          Bei 12 Sekunden liegt die Linie bei 40 Metern. Du suchst 12 auf der Zeitachse, gehst nach oben bis zur
+          Linie und liest links die Entfernung ab.
+        hint: Such erst 12 unten auf der Zeitachse, dann geh senkrecht nach oben.
+        links:
+          - { title: Weg-Zeit-Diagramm (Wikipedia), url: "https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm_(Mechanik)" }
+      - type: true-false
+        id: berg-im-diagramm
+        text: >-
+          Ben fährt mit dem Fahrrad auf einer völlig ebenen Straße. In seinem Weg-Zeit-Diagramm steigt die Linie
+          schräg nach oben. Das kann nicht stimmen, denn auf einer ebenen Straße müsste die Linie waagerecht sein.
+          Stimmt das?
+        answer: false
+        explanation: >-
+          Das stimmt nicht. Das Diagramm zeigt die Entfernung vom Startpunkt und nicht die Höhe der Straße. Die Linie
+          steigt, weil Ben sich vom Start entfernt. Er kann dabei auf ebener Straße fahren.
+        links:
+          - { title: Weg-Zeit-Diagramm (Wikipedia), url: "https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm_(Mechanik)" }
+      - type: ordering
+        id: tempo-ordnen
+        text: >-
+          Mia, Ben und Chris fahren 20 Sekunden lang vom Startpunkt los. Ordne sie nach ihrem Tempo, die
+          langsamste Person zuerst.
+        material:
+          - type: figure
+            image: images/weg-zeit-drei-personen.svg
+            alt: >-
+              Weg-Zeit-Diagramm mit drei geraden Linien, die alle bei 0 beginnen und unterschiedlich steil sind. Die
+              Linien sind mit Namen beschriftet.
+            caption: Drei Linien, alle von 0 aus. Vergleiche die Neigung.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        items: [Mia, Ben, Chris]
+        explanation: >-
+          Je steiler die Linie, desto mehr Weg in der gleichen Zeit, also desto größer das Tempo. Mia legt in 20
+          Sekunden 30 Meter zurück, Ben 60 Meter und Chris 120 Meter.
+        links:
+          - { title: Weg-Zeit-Diagramm (Wikipedia), url: "https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm_(Mechanik)" }

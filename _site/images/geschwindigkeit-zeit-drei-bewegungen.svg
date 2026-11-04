@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 645" font-family="sans-serif" font-size="12">
+<rect width="320" height="645" fill="#ffffff"/>
+<g transform="translate(0,0)">
+<text x="46" y="16" fill="#1a1a1a" font-weight="bold" font-size="15">A</text>
+<line x1="46" y1="30" x2="46" y2="150" stroke="#d0d0d0"/>
+<line x1="173" y1="30" x2="173" y2="150" stroke="#d0d0d0"/>
+<line x1="300" y1="30" x2="300" y2="150" stroke="#d0d0d0"/>
+<line x1="46" y1="150" x2="300" y2="150" stroke="#d0d0d0"/>
+<line x1="46" y1="110" x2="300" y2="110" stroke="#d0d0d0"/>
+<line x1="46" y1="70" x2="300" y2="70" stroke="#d0d0d0"/>
+<line x1="46" y1="30" x2="300" y2="30" stroke="#d0d0d0"/>
+<line x1="46" y1="26" x2="46" y2="150" stroke="#1a1a1a" stroke-width="2"/><line x1="46" y1="150" x2="304" y2="150" stroke="#1a1a1a" stroke-width="2"/>
+<text x="46" y="165" text-anchor="middle" fill="#1a1a1a">0</text>
+<text x="173" y="165" text-anchor="middle" fill="#1a1a1a">10</text>
+<text x="300" y="165" text-anchor="middle" fill="#1a1a1a">20</text>
+<text x="40" y="154" text-anchor="end" fill="#1a1a1a">0</text>
+<text x="40" y="114" text-anchor="end" fill="#1a1a1a">5</text>
+<text x="40" y="74" text-anchor="end" fill="#1a1a1a">10</text>
+<text x="40" y="34" text-anchor="end" fill="#1a1a1a">15</text>
+<text x="300" y="182" text-anchor="end" fill="#1a1a1a" font-weight="bold">t in s</text><text x="6" y="22" fill="#1a1a1a" font-weight="bold">v in m/s</text>
+<polyline points="46.0,102.0 300.0,102.0" fill="none" stroke="#1f5fbf" stroke-width="3.5" stroke-linejoin="round" stroke-dasharray="10 4"/>
+</g>
+<g transform="translate(0,215)">
+<text x="46" y="16" fill="#1a1a1a" font-weight="bold" font-size="15">B</text>
+<line x1="46" y1="30" x2="46" y2="150" stroke="#d0d0d0"/>
+<line x1="173" y1="30" x2="173" y2="150" stroke="#d0d0d0"/>
+<line x1="300" y1="30" x2="300" y2="150" stroke="#d0d0d0"/>
+<line x1="46" y1="150" x2="300" y2="150" stroke="#d0d0d0"/>
+<line x1="46" y1="110" x2="300" y2="110" stroke="#d0d0d0"/>
+<line x1="46" y1="70" x2="300" y2="70" stroke="#d0d0d0"/>
+<line x1="46" y1="30" x2="300" y2="30" stroke="#d0d0d0"/>
+<line x1="46" y1="26" x2="46" y2="150" stroke="#1a1a1a" stroke-width="2"/><line x1="46" y1="150" x2="304" y2="150" stroke="#1a1a1a" stroke-width="2"/>
+<text x="46" y="165" text-anchor="middle" fill="#1a1a1a">0</text>
+<text x="173" y="165" text-anchor="middle" fill="#1a1a1a">10</text>
+<text x="300" y="165" text-anchor="middle" fill="#1a1a1a">20</text>
+<text x="40" y="154" text-anchor="end" fill="#1a1a1a">0</text>
+<text x="40" y="114" text-anchor="end" fill="#1a1a1a">5</text>
+<text x="40" y="74" text-anchor="end" fill="#1a1a1a">10</text>
+<text x="40" y="34" text-anchor="end" fill="#1a1a1a">15</text>
+<text x="300" y="182" text-anchor="end" fill="#1a1a1a" font-weight="bold">t in s</text><text x="6" y="22" fill="#1a1a1a" font-weight="bold">v in m/s</text>
+<polyline points="46.0,54.0 300.0,134.0" fill="none" stroke="#1f5fbf" stroke-width="3.5" stroke-linejoin="round" stroke-dasharray="10 4"/>
+</g>
+<g transform="translate(0,430)">
+<text x="46" y="16" fill="#1a1a1a" font-weight="bold" font-size="15">C</text>
+<line x1="46" y1="30" x2="46" y2="150" stroke="#d0d0d0"/>
+<line x1="173" y1="30" x2="173" y2="150" stroke="#d0d0d0"/>
+<line x1="300" y1="30" x2="300" y2="150" stroke="#d0d0d0"/>
+<line x1="46" y1="150" x2="300" y2="150" stroke="#d0d0d0"/>
+<line x1="46" y1="110" x2="300" y2="110" stroke="#d0d0d0"/>
+<line x1="46" y1="70" x2="300" y2="70" stroke="#d0d0d0"/>
+<line x1="46" y1="30" x2="300" y2="30" stroke="#d0d0d0"/>
+<line x1="46" y1="26" x2="46" y2="150" stroke="#1a1a1a" stroke-width="2"/><line x1="46" y1="150" x2="304" y2="150" stroke="#1a1a1a" stroke-width="2"/>
+<text x="46" y="165" text-anchor="middle" fill="#1a1a1a">0</text>
+<text x="173" y="165" text-anchor="middle" fill="#1a1a1a">10</text>
+<text x="300" y="165" text-anchor="middle" fill="#1a1a1a">20</text>
+<text x="40" y="154" text-anchor="end" fill="#1a1a1a">0</text>
+<text x="40" y="114" text-anchor="end" fill="#1a1a1a">5</text>
+<text x="40" y="74" text-anchor="end" fill="#1a1a1a">10</text>
+<text x="40" y="34" text-anchor="end" fill="#1a1a1a">15</text>
+<text x="300" y="182" text-anchor="end" fill="#1a1a1a" font-weight="bold">t in s</text><text x="6" y="22" fill="#1a1a1a" font-weight="bold">v in m/s</text>
+<polyline points="46.0,134.0 300.0,54.0" fill="none" stroke="#1f5fbf" stroke-width="3.5" stroke-linejoin="round" stroke-dasharray="10 4"/>
+</g>
+</svg>

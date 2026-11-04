@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" font-family="sans-serif" font-size="13">
+<rect width="480" height="270" fill="#ffffff"/>
+<text x="12" y="55" font-weight="bold" font-size="16" fill="#1a1a1a">A</text>
+<line x1="50" y1="50" x2="450" y2="50" stroke="#bbbbbb" stroke-width="2"/>
+<circle cx="50" cy="50" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="50" y="36" text-anchor="middle" fill="#1a1a1a" font-size="12">0 s</text>
+<circle cx="69.04761904761905" cy="50" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="69.04761904761905" y="36" text-anchor="middle" fill="#1a1a1a" font-size="12">1 s</text>
+<circle cx="107.14285714285714" cy="50" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="107.14285714285714" y="36" text-anchor="middle" fill="#1a1a1a" font-size="12">2 s</text>
+<circle cx="164.28571428571428" cy="50" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="164.28571428571428" y="36" text-anchor="middle" fill="#1a1a1a" font-size="12">3 s</text>
+<circle cx="240.47619047619045" cy="50" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="240.47619047619045" y="36" text-anchor="middle" fill="#1a1a1a" font-size="12">4 s</text>
+<circle cx="335.7142857142857" cy="50" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="335.7142857142857" y="36" text-anchor="middle" fill="#1a1a1a" font-size="12">5 s</text>
+<circle cx="450" cy="50" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="450" y="36" text-anchor="middle" fill="#1a1a1a" font-size="12">6 s</text>
+<text x="12" y="125" font-weight="bold" font-size="16" fill="#1a1a1a">B</text>
+<line x1="50" y1="120" x2="450" y2="120" stroke="#bbbbbb" stroke-width="2"/>
+<circle cx="50" cy="120" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="50" y="106" text-anchor="middle" fill="#1a1a1a" font-size="12">0 s</text>
+<circle cx="107.14285714285714" cy="120" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="107.14285714285714" y="106" text-anchor="middle" fill="#1a1a1a" font-size="12">1 s</text>
+<circle cx="164.28571428571428" cy="120" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="164.28571428571428" y="106" text-anchor="middle" fill="#1a1a1a" font-size="12">2 s</text>
+<circle cx="221.42857142857142" cy="120" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="221.42857142857142" y="106" text-anchor="middle" fill="#1a1a1a" font-size="12">3 s</text>
+<circle cx="278.57142857142856" cy="120" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="278.57142857142856" y="106" text-anchor="middle" fill="#1a1a1a" font-size="12">4 s</text>
+<circle cx="335.7142857142857" cy="120" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="335.7142857142857" y="106" text-anchor="middle" fill="#1a1a1a" font-size="12">5 s</text>
+<circle cx="392.85714285714283" cy="120" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="392.85714285714283" y="106" text-anchor="middle" fill="#1a1a1a" font-size="12">6 s</text>
+<text x="12" y="195" font-weight="bold" font-size="16" fill="#1a1a1a">C</text>
+<line x1="50" y1="190" x2="450" y2="190" stroke="#bbbbbb" stroke-width="2"/>
+<circle cx="50" cy="190" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="50" y="176" text-anchor="middle" fill="#1a1a1a" font-size="12">0 s</text>
+<circle cx="164.28571428571428" cy="190" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="164.28571428571428" y="176" text-anchor="middle" fill="#1a1a1a" font-size="12">1 s</text>
+<circle cx="259.5238095238095" cy="190" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="259.5238095238095" y="176" text-anchor="middle" fill="#1a1a1a" font-size="12">2 s</text>
+<circle cx="335.7142857142857" cy="190" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="335.7142857142857" y="176" text-anchor="middle" fill="#1a1a1a" font-size="12">3 s</text>
+<circle cx="392.85714285714283" cy="190" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="392.85714285714283" y="176" text-anchor="middle" fill="#1a1a1a" font-size="12">4 s</text>
+<circle cx="430.9523809523809" cy="190" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="430.9523809523809" y="176" text-anchor="middle" fill="#1a1a1a" font-size="12">5 s</text>
+<circle cx="450" cy="190" r="7" fill="#1b6e3a" stroke="#1a1a1a" stroke-width="1.5"/>
+<text x="450" y="176" text-anchor="middle" fill="#1a1a1a" font-size="12">6 s</text>
+<text x="450" y="258" text-anchor="end" fill="#1a1a1a">Weg in Fahrtrichtung, 0 bis 42 m</text>
+</svg>

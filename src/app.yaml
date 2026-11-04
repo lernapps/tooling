@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/mechanik
+title: Beschleunigte Bewegung
+intro: >-
+  Hier lernst du, wie sich Bewegungen beschreiben und in Diagrammen zeigen lassen. Du siehst, wann etwas schneller,
+  langsamer wird oder die Richtung ändert, und du liest Weg-Zeit- und Geschwindigkeit-Zeit-Diagramme.
+languages: [de]
+chapters: [bewegung-beschreiben, bewegungsdiagramme]

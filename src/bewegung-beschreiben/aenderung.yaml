@@ -1,0 +1,156 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Schneller, langsamer, andere Richtung
+description: Du erkennst, wann eine Bewegung schneller oder langsamer wird oder die Richtung wechselt, und beschreibst es.
+competencies: [geschwindigkeitsaenderung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg - Rad an der Ampel
+    blocks:
+      - type: text
+        text: >-
+          Ein Rad steht an der roten Ampel. Es wird grün, und du trittst an. Dann rollst du aus und bremst vor der
+          nächsten Ampel. An der Kreuzung biegst du ab. In dieser Fahrt ändert sich dein Tempo oft, und auch die
+          Richtung.
+      - type: text
+        text: >-
+          Du weißt aus Klasse 7, wie man die [Geschwindigkeit](https://lernapps.net/apps/map/physik/c/geschwindigkeit/)
+          berechnet: $v = \frac{s}{t}$. Hier lernst du, wie man **beschreibt, wie sie sich ändert**.
+  - type: section
+    id: erklaert
+    title: Anschaulich erklärt - der Bewegungsstreifen
+    blocks:
+      - type: text
+        text: >-
+          Eine Kamera hat drei Räder auf gerader Strecke jede Sekunde fotografiert. Auf dem Bild siehst du, wo jedes
+          Rad nach 0, 1, 2 ... 6 Sekunden war. Die Punkte sind die Orte, und die Zahl über dem Punkt ist die Zeit.
+          Der Abstand zwischen zwei Punkten ist der Weg in einer Sekunde. Mit $v = \frac{s}{t}$ und $t = 1\ \text{s}$
+          ist dieser Abstand zugleich das Tempo in dieser Sekunde.
+      - type: figure
+        image: images/bewegungsstreifen.svg
+        alt: >-
+          Drei Reihen mit Punkten. Bei A werden die Abstände zwischen den Punkten nach rechts immer größer, bei B sind
+          sie alle gleich groß, bei C werden sie immer kleiner.
+        caption: Drei Räder, alle Sekunden fotografiert. Vergleiche die Abstände in jeder Reihe.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: table
+        caption: Abstände zwischen den Punkten, in Metern pro Sekunde
+        header: [Rad, 1. Sekunde, 2. Sekunde, 3. Sekunde, 4. Sekunde, 5. Sekunde, 6. Sekunde]
+        rowHeaders: true
+        rows:
+          - [A, "2", "4", "6", "8", "10", "12"]
+          - [B, "6", "6", "6", "6", "6", "6"]
+          - [C, "12", "10", "8", "6", "4", "2"]
+      - type: text
+        text: >-
+          Bei Rad A wachsen die Abstände von Sekunde zu Sekunde: Das Tempo steigt. Rad A **beschleunigt**. Bei Rad B
+          sind alle Abstände gleich: Das Tempo bleibt gleich. Bei Rad C werden die Abstände kleiner: Das Tempo sinkt.
+          Rad C **bremst ab**.
+      - type: definition
+        term: beschleunigen
+        explanation: Ein Körper beschleunigt, wenn seine Geschwindigkeit größer wird.
+      - type: definition
+        term: abbremsen
+        explanation: Ein Körper bremst ab, wenn seine Geschwindigkeit kleiner wird.
+      - type: note
+        title: Bremsen ist nicht "negativ"
+        blocks:
+          - type: text
+            text: >-
+              Wer bremst, hat ein **kleineres** Tempo, aber nicht ein negatives. Ein Auto, das bremst und anhält,
+              fährt langsamer und langsamer bis 0 m/s. Die Zahl wird kleiner, nicht kleiner als null.
+      - type: text
+        text: >-
+          Es gibt eine dritte Art, die Geschwindigkeit zu ändern: die **Richtung**. Die Geschwindigkeit sagt, wie
+          schnell du bist und in welche Richtung du fährst. Wenn du eine Kurve fährst, ändert sich die Richtung
+          ständig. Deine Geschwindigkeit ändert sich also, auch wenn der Tacho immer dieselbe Zahl zeigt.
+  - type: section
+    id: beispiel
+    title: Beispiel - Welche Änderung ist das?
+    blocks:
+      - type: example
+        title: Ein Roller fährt los
+        blocks:
+          - type: text
+            text: >-
+              Ein Roller hat nach 1, 2 und 3 Sekunden diese Orte: 1 m, 4 m, 9 m. Die Abstände sind 1 m, 3 m und 5 m.
+              Sie werden größer, also wird der Roller schneller: Er beschleunigt. Dass die Abstände jede Sekunde
+              um 2 m wachsen, zeigt, dass sein Tempo gleichmäßig steigt.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: situation-aenderung
+        text: Ordne jeder Situation zu, wie sich die Geschwindigkeit ändert.
+        pairs:
+          - { left: Ein Auto fährt an der grünen Ampel los., right: Sie wird größer. }
+          - { left: Ein Rad rollt auf die rote Ampel zu und hält an., right: Sie wird kleiner. }
+          - { left: Ein Auto fährt mit gleichem Tempo durch eine Kurve., right: Die Richtung ändert sich. }
+          - { left: Ein Zug fährt geradeaus mit gleichbleibenden 100 km/h., right: Sie bleibt gleich. }
+        explanation: >-
+          Beim Anfahren steigt das Tempo, beim Anhalten sinkt es. In der Kurve ändert sich die Richtung, auch wenn der
+          Tacho gleich bleibt. Nur wer geradeaus mit gleichem Tempo fährt, ändert seine Geschwindigkeit nicht.
+        links:
+          - { title: Geschwindigkeit (Wikipedia), url: "https://de.wikipedia.org/wiki/Geschwindigkeit" }
+      - type: single-choice
+        id: roller-tabelle
+        text: Ein Roller wird alle Sekunden fotografiert. Wie ändert sich sein Tempo?
+        material:
+          - type: table
+            caption: Ort des Rollers auf gerader Strecke
+            header: [Zeit in s, "0", "1", "2", "3", "4"]
+            rowHeaders: true
+            rows:
+              - [Ort in m, "0", "8", "14", "18", "20"]
+        options:
+          - text: Es wird größer.
+            correct: false
+            info: "Dann müssten die Abstände zwischen den Orten wachsen. Hier sind es 8 m, 6 m, 4 m und 2 m: Sie schrumpfen."
+          - text: Es wird kleiner.
+            correct: true
+            info: "Die Abstände pro Sekunde sind 8 m, 6 m, 4 m und 2 m. Das Tempo sinkt, der Roller bremst."
+          - text: Es bleibt gleich.
+            correct: false
+            info: "Bei gleichem Tempo wären alle Abstände gleich groß. Hier ändern sie sich von Sekunde zu Sekunde."
+          - text: Der Roller fährt zurück.
+            correct: false
+            info: "Der Ort wird immer größer. Der Roller entfernt sich weiter vom Start, er fährt nicht zurück."
+        explanation: >-
+          Der Abstand pro Sekunde ist das Tempo in dieser Sekunde. Er schrumpft von 8 m auf 2 m, also wird der Roller
+          langsamer.
+        hint: Rechne aus, wie weit der Roller in jeder einzelnen Sekunde kommt.
+        links:
+          - { title: Geschwindigkeit (Wikipedia), url: "https://de.wikipedia.org/wiki/Geschwindigkeit" }
+      - type: true-false
+        id: bremsen-negativ
+        text: Ein Auto bremst. Deshalb ist seine Geschwindigkeit negativ. Stimmt das?
+        answer: false
+        explanation: >-
+          Das stimmt nicht. Beim Bremsen wird die Geschwindigkeit **kleiner**, bis sie 0 m/s erreicht, wenn das Auto
+          hält. Sie wird dabei nicht negativ. Ein negatives Vorzeichen würde nur anzeigen, dass das Auto in die
+          Gegenrichtung fährt.
+        links:
+          - { title: Geschwindigkeit (Wikipedia), url: "https://de.wikipedia.org/wiki/Geschwindigkeit" }
+      - type: single-choice
+        id: kreisverkehr
+        text: >-
+          Ein Auto fährt im Kreisverkehr eine Runde. Der Tacho zeigt die ganze Zeit 30 km/h. Ändert sich seine
+          Geschwindigkeit?
+        options:
+          - text: Ja, denn seine Richtung ändert sich ständig.
+            correct: true
+            info: "Die Geschwindigkeit hat einen Betrag (30 km/h) und eine Richtung. Im Kreis dreht sich die Richtung dauernd."
+          - text: Nein, denn der Tacho zeigt immer dieselbe Zahl.
+            correct: false
+            info: "Der Tacho zeigt nur den Betrag des Tempos. Die Richtung, in die das Auto fährt, zeigt er nicht."
+          - text: Ja, denn das Auto wird immer schneller.
+            correct: false
+            info: "Der Tacho zeigt 30 km/h, das Tempo ändert sich also nicht. Es ändert sich die Richtung."
+        explanation: >-
+          Eine Geschwindigkeit besteht aus dem Tempo und der Richtung. Im Kreisverkehr bleibt das Tempo gleich, die
+          Richtung wechselt ständig. Darum ändert sich die Geschwindigkeit.
+        hint: Überlege, ob der Tacho beide Teile der Geschwindigkeit zeigt.
+        links:
+          - { title: Geschwindigkeit (Wikipedia), url: "https://de.wikipedia.org/wiki/Geschwindigkeit" }

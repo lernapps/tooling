@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Geschwindigkeit - kurz wiederholt
+description: Du wiederholst, wie man Geschwindigkeit, Weg und Zeit berechnet, bevor es mit Diagrammen weitergeht.
+recap: physik/geschwindigkeit-berechnen
+blocks:
+  - type: section
+    id: einstieg
+    title: Das kennst du schon
+    blocks:
+      - type: text
+        text: >-
+          Aus Klasse 7 weißt du: Die **Geschwindigkeit** $v$ sagt, wie weit etwas in einer Zeit kommt. Du teilst den
+          Weg $s$ durch die Zeit $t$.
+      - type: formula
+        formula: 'v = \frac{s}{t}'
+      - type: text
+        text: >-
+          Aus der Formel folgt auch $s = v \cdot t$ und $t = \frac{s}{v}$. Die Einheit ist Meter pro Sekunde (m/s) oder
+          Kilometer pro Stunde (km/h).
+  - type: section
+    id: erklaert
+    title: Ein Beispiel zum Erinnern
+    blocks:
+      - type: example
+        title: Ein Rad fährt 60 Meter in 10 Sekunden
+        blocks:
+          - type: text
+            text: >-
+              $v = \frac{60\ \text{m}}{10\ \text{s}} = 6\ \text{m/s}$. Das Rad kommt in jeder Sekunde 6 Meter weit.
+              Das gilt, wenn das Tempo die ganze Zeit gleich bleibt.
+      - type: note
+        title: Was auf den nächsten Seiten neu ist
+        blocks:
+          - type: text
+            text: >-
+              Bisher war das Tempo meist gleich. Jetzt schaust du, wie es sich ändert, und lernst Diagramme, die eine
+              ganze Fahrt zeigen. Mehr zur Berechnung findest du auf der
+              [Seite der Lernlandkarte](https://lernapps.net/apps/map/physik/c/geschwindigkeit-berechnen/).

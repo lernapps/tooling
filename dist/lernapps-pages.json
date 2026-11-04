@@ -1,0 +1,39 @@
+{
+  "format": 1,
+  "strand": "physik/mechanik",
+  "pages": [
+    {
+      "path": "bewegung-beschreiben/wiederholung/",
+      "title": "Geschwindigkeit - kurz wiederholt",
+      "recap": "physik/geschwindigkeit-berechnen"
+    },
+    {
+      "path": "bewegung-beschreiben/aenderung/",
+      "title": "Schneller, langsamer, andere Richtung",
+      "competencies": [
+        "geschwindigkeitsaenderung"
+      ]
+    },
+    {
+      "path": "bewegungsdiagramme/weg-zeit/",
+      "title": "Das Weg-Zeit-Diagramm lesen",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "bewegungsdiagramme/geschwindigkeit-zeit/",
+      "title": "Das Geschwindigkeit-Zeit-Diagramm lesen",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    },
+    {
+      "path": "bewegungsdiagramme/verbinden/",
+      "title": "Beide Diagramme zusammen",
+      "competencies": [
+        "bewegungsdiagramme"
+      ]
+    }
+  ]
+}

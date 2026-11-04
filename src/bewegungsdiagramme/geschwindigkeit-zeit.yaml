@@ -1,0 +1,206 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Geschwindigkeit-Zeit-Diagramm lesen
+description: Du lernst, wie ein Geschwindigkeit-Zeit-Diagramm das Tempo einer Fahrt zeigt, und liest daraus schneller, langsamer und Stillstand ab.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg - Der Tacho schreibt mit
+    blocks:
+      - type: text
+        text: >-
+          Stell dir vor, du schaust bei einer Radfahrt alle paar Sekunden auf den Tacho und schreibst das Tempo auf.
+          Das Weg-Zeit-Diagramm von der letzten Seite zeigt, **wo** du bist. Das **Geschwindigkeit-Zeit-Diagramm**
+          zeigt, **wie schnell** du gerade bist.
+  - type: section
+    id: erklaert
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: >-
+          Im Diagramm geht die **Zeit $t$ nach rechts**, die **Geschwindigkeit $v$ nach oben**. Jeder Punkt der Linie
+          sagt: Zu dieser Zeit fährst du so schnell. Hier steht nur das Tempo, nicht die Richtung. Das Bild zeigt eine
+          Radfahrt in vier Abschnitten von je 5 Sekunden, die gestrichelten senkrechten Linien trennen sie.
+      - type: labelled-figure
+        image: images/geschwindigkeit-zeit-rad.svg
+        alt: >-
+          Geschwindigkeit-Zeit-Diagramm, Zeit von 0 bis 20 Sekunden nach rechts, Geschwindigkeit von 0 bis 15 Metern
+          pro Sekunde nach oben. Die Linie steigt von 0 auf 10, bleibt 5 Sekunden lang waagerecht, fällt auf 0 und
+          liegt danach 5 Sekunden lang auf der Null.
+        caption: Die Fahrt eines Rades in vier Abschnitten. Achte darauf, wo die Linie steigt, fällt oder waagerecht ist.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        labels:
+          - { x: 20, y: 55, text: "Die Linie steigt: Das Tempo wird größer, das Rad beschleunigt." }
+          - { x: 44, y: 27, text: "Die Linie ist waagerecht: Das Tempo bleibt gleich." }
+          - { x: 68, y: 50, text: "Die Linie fällt: Das Tempo wird kleiner, das Rad bremst ab." }
+          - { x: 85, y: 76, text: "Die Linie liegt auf der Null: Das Rad steht." }
+      - type: definition
+        term: Geschwindigkeit-Zeit-Diagramm
+        explanation: >-
+          Ein Geschwindigkeit-Zeit-Diagramm zeigt, wie groß die Geschwindigkeit eines Körpers zu jeder Zeit ist. Die
+          Zeit steht auf der waagerechten Achse, die Geschwindigkeit auf der senkrechten.
+      - type: note
+        title: Achtung - die Höhe der Linie ist das Tempo, nicht der Weg
+        blocks:
+          - type: text
+            text: >-
+              Wenn die Linie **fällt**, fährt das Rad **langsamer**. Es fährt nicht zurück. Es kommt immer noch
+              weiter, nur mit kleinerem Tempo. Und wenn die Linie **waagerecht** ist, steht das Rad nicht: Es fährt
+              mit gleichem Tempo. Stillstand liegt nur **auf der Nulllinie**.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren im Bewegungslabor
+    blocks:
+      - type: text
+        text: >-
+          Das Labor kennst du schon: 20 Sekunden in vier Abschnitten zu je 5 Sekunden, am Anfang mit 10 m/s. Jetzt
+          siehst du das Geschwindigkeit-Zeit-Diagramm deiner Fahrt. Mit den Reglern stellst du das Tempo am Ende
+          jedes Abschnitts ein. Die Linie geht gerade von dem Wert am Anfang zu dem am Ende. Die Kreise
+          auf der Linie sind die Enden der Abschnitte.
+      - type: text
+        text: |-
+          Probiere der Reihe nach aus:
+
+          1. Stelle Abschnitt 2 auf 20 m/s. Was macht die Linie in Abschnitt 2?
+          2. Drücke auf "Zurücksetzen". Stelle Abschnitt 1 bis 4 auf 0 m/s. Wo liegt die Linie, wenn du stehst?
+          3. Drücke wieder auf "Zurücksetzen". Setze bei Abschnitt 4 den Haken "rückwärts". Was ändert sich im Geschwindigkeit-Zeit-Diagramm?
+      - type: vue-component
+        id: labor-geschwindigkeit-zeit
+        component: Bewegungslabor
+        props:
+          show: v
+          sectionTitle: "Abschnitt {n} ({from} bis {to} s)"
+          endLabel: "Tempo am Ende: {v} m/s"
+          faster: "Du wirst schneller: von {v0} auf {v1} m/s."
+          steady: "Du bleibst bei {v1} m/s."
+          slower: "Du wirst langsamer: von {v0} auf {v1} m/s."
+          stopped: "Du stehst."
+          backLabel: rückwärts
+          resetLabel: Zurücksetzen
+          sTitle: Weg-Zeit-Diagramm deiner Fahrt
+          vTitle: Geschwindigkeit-Zeit-Diagramm deiner Fahrt
+          sAxis: "s in m"
+          vAxis: "v in m/s"
+          tAxis: "t in s"
+          sAlt: >-
+            Weg-Zeit-Diagramm deiner Fahrt. Entfernung vom Startpunkt in Metern nach 0, 5, 10, 15 und 20 Sekunden: {values}.
+          vAlt: >-
+            Geschwindigkeit-Zeit-Diagramm deiner Fahrt. Geschwindigkeit in Metern pro Sekunde nach 0, 5, 10, 15 und 20
+            Sekunden: {values}.
+        nojs: >-
+          Das Bewegungslabor zeigt eine Fahrt von 20 Sekunden in vier Abschnitten. Zu Beginn fährst du mit 10 m/s
+          gleichmäßig: Das Geschwindigkeit-Zeit-Diagramm ist dann eine waagerechte Linie bei 10 m/s. Mit JavaScript
+          stellst du für jeden Abschnitt das Tempo am Ende ein und siehst, wie die Linie steigt, fällt oder
+          waagerecht bleibt.
+  - type: section
+    id: beispiel
+    title: Beispiel - Werte und Abschnitte ablesen
+    blocks:
+      - type: example
+        title: Was zeigt die Radfahrt von oben?
+        blocks:
+          - type: text
+            text: >-
+              Schau auf das Diagramm des Rades. Von 0 bis 5 s steigt die Linie von 0 auf 10 m/s: Das Rad fährt an
+              und wird schneller. Von 5 bis 10 s ist sie waagerecht bei 10 m/s: Das Rad fährt mit gleichem Tempo. Von
+              10 bis 15 s fällt sie von 10 auf 0 m/s: Das Rad bremst bis zum Halt. Von 15 bis 20 s liegt sie auf der
+              Null: Das Rad steht.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: welche-wird-langsamer
+        text: >-
+          Drei Radfahrer sind 20 Sekunden lang unterwegs. Das Bild zeigt für jeden das Tempo. Welcher Radfahrer wird
+          langsamer?
+        material:
+          - type: figure
+            image: images/geschwindigkeit-zeit-drei-linien.svg
+            alt: >-
+              Geschwindigkeit-Zeit-Diagramm mit drei geraden Linien, A, B und C. Die Linien sind direkt beschriftet. Zwei
+              Linien sind schräg, eine ist waagerecht.
+            caption: Drei Linien, A, B und C, über 20 Sekunden. Achte auf die Höhe der Linie.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Radfahrer A
+            correct: false
+            info: "Die Linie von A steigt. Das Tempo von A wird größer, A beschleunigt."
+          - text: Radfahrer B
+            correct: false
+            info: "Die Linie von B ist waagerecht. Das Tempo bleibt gleich, B fährt gleichmäßig."
+          - text: Radfahrer C
+            correct: true
+            info: "Die Linie von C fällt von 13 auf 3 m/s. Das Tempo sinkt, C bremst ab."
+        explanation: >-
+          Wer langsamer wird, hat eine fallende Linie im Geschwindigkeit-Zeit-Diagramm. Das Tempo ist die Höhe der
+          Linie, und die wird bei C kleiner.
+        hint: Das Tempo ist die Höhe der Linie. Wo wird die Linie niedriger?
+        links:
+          - {
+              title: Gleichmäßig beschleunigte Bewegung (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Gleichmäßig_beschleunigte_Bewegung",
+            }
+      - type: number
+        id: ben-nach-8-s
+        text: Wie schnell ist Ben nach 8 Sekunden?
+        material:
+          - type: figure
+            image: images/geschwindigkeit-zeit-ben.svg
+            alt: >-
+              Geschwindigkeit-Zeit-Diagramm von Ben, Zeit von 0 bis 20 Sekunden, Geschwindigkeit von 0 bis 15 Metern pro
+              Sekunde. Die Linie steigt zuerst, verläuft dann eine Weile waagerecht und fällt am Ende bis auf null.
+            caption: Die Gitterlinien helfen beim Ablesen. Achte auf die Zahlen an beiden Achsen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 12
+        tolerance: 1
+        unit: m/s
+        mistakes:
+          - answer: 8
+            message: "Das ist die Zeit, die du schon kennst. Gesucht ist die Geschwindigkeit, die du an der senkrechten Achse abliest."
+        explanation: >-
+          Bei 8 Sekunden liegt die Linie bei 12 m/s. Du suchst 8 auf der Zeitachse, gehst nach oben bis zur Linie und
+          liest links das Tempo ab.
+        hint: Such erst 8 unten auf der Zeitachse, dann geh senkrecht nach oben.
+        links:
+          - {
+              title: Gleichmäßig beschleunigte Bewegung (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Gleichmäßig_beschleunigte_Bewegung",
+            }
+      - type: true-false
+        id: fallende-linie-zurueck
+        text: >-
+          Im Geschwindigkeit-Zeit-Diagramm eines Rades fällt die Linie. Deshalb fährt das Rad rückwärts. Stimmt das?
+        answer: false
+        explanation: >-
+          Das stimmt nicht. Eine fallende Linie heißt, dass das Tempo kleiner wird. Das Rad bremst, fährt aber weiter
+          in dieselbe Richtung. Die Richtung steht in diesem Diagramm gar nicht.
+        links:
+          - {
+              title: Gleichmäßig beschleunigte Bewegung (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Gleichmäßig_beschleunigte_Bewegung",
+            }
+      - type: single-choice
+        id: waagerechte-linie
+        text: Die Linie im Geschwindigkeit-Zeit-Diagramm eines Rades ist 10 Sekunden lang waagerecht bei 10 m/s. Was macht das Rad?
+        options:
+          - text: Es steht still.
+            correct: false
+            info: "Stillstand wäre eine waagerechte Linie auf der Nulllinie, bei 0 m/s. Hier sind es 10 m/s."
+          - text: Es fährt mit gleichbleibendem Tempo von 10 m/s.
+            correct: true
+            info: "Die Höhe der Linie ist das Tempo. Bleibt sie gleich, bleibt das Tempo gleich."
+          - text: Es wird immer schneller.
+            correct: false
+            info: "Dann müsste die Linie steigen. Eine waagerechte Linie bleibt auf gleicher Höhe."
+        explanation: >-
+          Waagerecht heißt: gleiche Höhe, also gleiches Tempo. Welches Tempo, liest du an der senkrechten Achse ab, hier
+          10 m/s.
+        links:
+          - {
+              title: Gleichmäßig beschleunigte Bewegung (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Gleichmäßig_beschleunigte_Bewegung",
+            }

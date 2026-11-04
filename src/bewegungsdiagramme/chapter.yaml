@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Bewegungsdiagramme
+summary: Du liest Weg-Zeit- und Geschwindigkeit-Zeit-Diagramme und stellst Bewegungen selbst ein.
+pages: [weg-zeit, geschwindigkeit-zeit, verbinden]

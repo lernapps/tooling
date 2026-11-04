@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Bewegung beschreiben
+summary: Du erkennst und beschreibst, wann eine Bewegung schneller, langsamer wird oder die Richtung ändert.
+pages: [wiederholung, aenderung]

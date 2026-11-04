@@ -1,0 +1,240 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beide Diagramme zusammen
+description: Du verbindest Weg-Zeit- und Geschwindigkeit-Zeit-Diagramm derselben Fahrt und stellst Fahrten selbst so ein, dass sie zu einer Geschichte passen.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg - Eine Fahrt, zwei Bilder
+    blocks:
+      - type: text
+        text: >-
+          Auf den letzten Seiten hast du zwei Diagramme gelesen. Das Weg-Zeit-Diagramm zeigt, **wo** ein Rad zu welcher
+          Zeit ist. Das Geschwindigkeit-Zeit-Diagramm zeigt, **wie schnell** es ist. Beide zeigen dieselbe Fahrt, nur
+          anders. Jetzt lernst du, sie zusammenzulesen.
+  - type: section
+    id: erklaert
+    title: Anschaulich erklärt - dieselbe Fahrt in zwei Diagrammen
+    blocks:
+      - type: text
+        text: >-
+          Das Bild zeigt eine Radfahrt in vier Abschnitten zu je 5 Sekunden. Oben steht das Weg-Zeit-Diagramm, unten
+          das Geschwindigkeit-Zeit-Diagramm, mit derselben Zeitachse. Die gestrichelten senkrechten Linien gehen durch
+          beide Diagramme und trennen die Abschnitte. So kannst du jeden Abschnitt oben und unten vergleichen.
+      - type: labelled-figure
+        image: images/beide-diagramme.svg
+        alt: >-
+          Zwei Diagramme untereinander mit gleicher Zeitachse von 0 bis 20 Sekunden. Oben das Weg-Zeit-Diagramm, die
+          Linie steigt zuerst immer steiler, dann gerade, dann immer flacher und liegt zuletzt waagerecht bei 100 Metern.
+          Unten das Geschwindigkeit-Zeit-Diagramm, die Linie steigt von 0 auf 10 Meter pro Sekunde, ist dann
+          waagerecht, fällt auf 0 und liegt zuletzt auf der Null.
+        caption: Eine Radfahrt. Die Zahlen 1 bis 4 stehen unter dem Abschnitt, um den es geht.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        labels:
+          - {
+              x: 23.5,
+              y: 48.5,
+              text: "Abschnitt 1 (0 bis 5 s): Unten steigt die Tempo-Linie, das Rad wird schneller. Oben wird die Weg-Linie immer steiler.",
+            }
+          - {
+              x: 44,
+              y: 48.5,
+              text: "Abschnitt 2 (5 bis 10 s): Unten ist die Linie waagerecht über der Null, das Tempo bleibt gleich. Oben ist die Weg-Linie gerade und schräg.",
+            }
+          - {
+              x: 64.5,
+              y: 48.5,
+              text: "Abschnitt 3 (10 bis 15 s): Unten fällt die Tempo-Linie, das Rad bremst. Oben wird die Weg-Linie immer flacher.",
+            }
+          - {
+              x: 85,
+              y: 48.5,
+              text: "Abschnitt 4 (15 bis 20 s): Unten liegt die Linie auf der Null, das Rad steht. Oben ist die Weg-Linie waagerecht.",
+            }
+      - type: text
+        text: >-
+          Die **Neigung** der Weg-Linie oben und die **Höhe** der Tempo-Linie unten gehören zusammen. Wo oben die Linie
+          steil ist, ist unten die Linie hoch. Wo oben die Linie waagerecht liegt, liegt unten die Linie auf der Null.
+          Und wo unten die Linie steigt, wird oben die Weg-Linie steiler.
+      - type: note
+        title: Die Linien sehen verschieden aus, obwohl es dieselbe Fahrt ist
+        blocks:
+          - type: text
+            text: >-
+              Eine waagerechte Linie oben heißt Stillstand. Eine waagerechte Linie unten heißt nur: gleichbleibendes
+              Tempo. Stillstand ist unten nur die Linie **auf der Null**. Schau darum immer auf die Achse, zu der
+              die Linie gehört.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren im Bewegungslabor
+    blocks:
+      - type: text
+        text: >-
+          Das Labor zeigt jetzt beide Diagramme untereinander. Du startest mit 10 m/s und stellst das Tempo am Ende
+          jedes Abschnitts ein. Beide Diagramme ändern sich gleichzeitig, die Skalen bleiben fest.
+      - type: text
+        text: |-
+          Probiere der Reihe nach aus:
+
+          1. Stelle Abschnitt 1 auf 20 m/s. Wie sehen die Linien in Abschnitt 1 oben und unten aus?
+          2. Drücke auf "Zurücksetzen". Stelle Abschnitt 2 auf 0 m/s und Abschnitt 3 auf 0 m/s. Was zeigen beide Diagramme in Abschnitt 3?
+          3. Drücke auf "Zurücksetzen". Setze bei Abschnitt 3 den Haken "rückwärts". Welches Diagramm ändert sich, welches nicht? Warum?
+      - type: vue-component
+        id: labor-beide
+        component: Bewegungslabor
+        props:
+          show: both
+          sectionTitle: "Abschnitt {n} ({from} bis {to} s)"
+          endLabel: "Tempo am Ende: {v} m/s"
+          faster: "Du wirst schneller: von {v0} auf {v1} m/s."
+          steady: "Du bleibst bei {v1} m/s."
+          slower: "Du wirst langsamer: von {v0} auf {v1} m/s."
+          stopped: "Du stehst."
+          backLabel: rückwärts
+          resetLabel: Zurücksetzen
+          sTitle: Weg-Zeit-Diagramm deiner Fahrt
+          vTitle: Geschwindigkeit-Zeit-Diagramm deiner Fahrt
+          sAxis: "s in m"
+          vAxis: "v in m/s"
+          tAxis: "t in s"
+          sAlt: >-
+            Weg-Zeit-Diagramm deiner Fahrt. Entfernung vom Startpunkt in Metern nach 0, 5, 10, 15 und 20 Sekunden: {values}.
+          vAlt: >-
+            Geschwindigkeit-Zeit-Diagramm deiner Fahrt. Geschwindigkeit in Metern pro Sekunde nach 0, 5, 10, 15 und 20
+            Sekunden: {values}.
+        nojs: >-
+          Das Bewegungslabor zeigt eine Fahrt von 20 Sekunden in vier Abschnitten. Zu Beginn fährst du mit 10 m/s
+          gleichmäßig: Das Weg-Zeit-Diagramm ist eine gerade, schräge Linie bis 200 Meter, das Geschwindigkeit-Zeit-Diagramm
+          eine waagerechte Linie bei 10 m/s. Mit JavaScript stellst du für jeden Abschnitt das Tempo am Ende ein und
+          siehst beide Linien sich ändern.
+  - type: section
+    id: beispiel
+    title: Beispiel - Tempo aus dem Weg-Zeit-Diagramm prüfen
+    blocks:
+      - type: example
+        title: Abschnitt 2 der Radfahrt
+        blocks:
+          - type: text
+            text: >-
+              Unten ist die Tempo-Linie in Abschnitt 2 waagerecht bei 10 m/s. Oben steigt die Weg-Linie in diesem Abschnitt
+              von 25 m auf 75 m, das sind 50 m in 5 s. Mit $v = \frac{50\ \text{m}}{5\ \text{s}} = 10\ \text{m/s}$
+              stimmt das mit der Tempo-Linie überein. Die Neigung oben und die Höhe unten erzählen dasselbe.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: wz-schneller
+        text: Ein Roller wird die ganze Zeit schneller. Welches Weg-Zeit-Diagramm gehört dazu?
+        material:
+          - type: figure
+            image: images/weg-zeit-drei-bewegungen.svg
+            alt: >-
+              Drei Weg-Zeit-Diagramme untereinander, mit A, B und C beschriftet. Die Linien sind unterschiedlich
+              geformt: eine verläuft gerade, zwei sind gekrümmt.
+            caption: Drei Weg-Zeit-Diagramme, A, B und C. Achte auf die Form der Linie.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Diagramm A
+            correct: true
+            info: "Die Linie wird immer steiler. In derselben Zeit kommt der Roller immer weiter, sein Tempo wächst."
+          - text: Diagramm B
+            correct: false
+            info: "Die Linie ist gerade. Sie hat überall dieselbe Neigung, das Tempo bleibt also gleich."
+          - text: Diagramm C
+            correct: false
+            info: "Die Linie wird immer flacher. In derselben Zeit kommt der Roller immer weniger weit, er wird langsamer."
+        explanation: >-
+          Schneller werden heißt: in jeder Sekunde mehr Weg. Die Weg-Linie wird dann immer steiler.
+        hint: Das Tempo ist die Steilheit der Weg-Linie. Wo wird die Linie steiler?
+        links:
+          - { title: Weg-Zeit-Diagramm (Wikipedia), url: "https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm_(Mechanik)" }
+      - type: single-choice
+        id: gz-langsamer
+        text: Ein Rad wird die ganze Zeit langsamer. Welches Geschwindigkeit-Zeit-Diagramm gehört dazu?
+        material:
+          - type: figure
+            image: images/geschwindigkeit-zeit-drei-bewegungen.svg
+            alt: >-
+              Drei Geschwindigkeit-Zeit-Diagramme untereinander, mit A, B und C beschriftet. In einem ist die Linie
+              waagerecht, in den anderen beiden verläuft sie schräg.
+            caption: Drei Geschwindigkeit-Zeit-Diagramme, A, B und C. Achte auf die Höhe der Linie.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Diagramm A
+            correct: false
+            info: "Die Linie ist waagerecht. Das Tempo bleibt gleich."
+          - text: Diagramm B
+            correct: true
+            info: "Die Linie fällt von einem hohen zu einem niedrigen Wert. Das Tempo sinkt, das Rad wird langsamer."
+          - text: Diagramm C
+            correct: false
+            info: "Die Linie steigt. Das Tempo wird größer, das Rad beschleunigt."
+        explanation: >-
+          Das Tempo ist die Höhe der Linie. Wer langsamer wird, hat eine fallende Linie.
+        hint: Das Tempo ist die Höhe der Linie. Wo wird die Linie niedriger?
+        links:
+          - {
+              title: Gleichmäßig beschleunigte Bewegung (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Gleichmäßig_beschleunigte_Bewegung",
+            }
+      - type: matching
+        id: linien-paare
+        text: Ordne jede Aussage über das Weg-Zeit-Diagramm der Aussage über das Geschwindigkeit-Zeit-Diagramm derselben Fahrt zu.
+        pairs:
+          - { left: Die Weg-Linie liegt waagerecht., right: Die Tempo-Linie liegt auf der Null. }
+          - { left: Die Weg-Linie wird immer steiler., right: Die Tempo-Linie steigt. }
+          - { left: Die Weg-Linie ist gerade und schräg., right: Die Tempo-Linie ist waagerecht über der Null. }
+          - { left: Die Weg-Linie wird immer flacher., right: Die Tempo-Linie fällt. }
+        explanation: >-
+          Die Steilheit der Weg-Linie ist das Tempo. Liegt sie waagerecht, ist das Tempo null. Wird sie steiler, steigt
+          das Tempo. Bleibt sie gleich steil, bleibt das Tempo gleich. Wird sie flacher, sinkt das Tempo.
+        links:
+          - { title: Weg-Zeit-Diagramm (Wikipedia), url: "https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm_(Mechanik)" }
+      - type: vue-component
+        id: fahrt-einstellen
+        component: DiagrammEinstellen
+        props:
+          task: "Stelle die Fahrt so ein, dass sie zur Geschichte passt. {story}"
+          stories:
+            - "Abschnitt 1: Du wirst schneller. Abschnitt 2: Du bleibst gleich schnell. Abschnitt 3 und 4: Du wirst langsamer."
+            - "Abschnitt 1: Du bleibst gleich schnell. Abschnitt 2: Du wirst langsamer bis zum Halt. Abschnitt 3: Du stehst. Abschnitt 4: Du fährst wieder an."
+            - "Abschnitt 1: Du wirst langsamer. Abschnitt 2: Du bleibst gleich schnell. Abschnitt 3: Du wirst schneller. Abschnitt 4: Du bleibst gleich schnell."
+            - "Abschnitt 1 und 2: Du wirst schneller. Abschnitt 3: Du bleibst gleich schnell. Abschnitt 4: Du wirst langsamer."
+            - "Abschnitt 1 und 2: Du wirst langsamer bis zum Halt. Abschnitt 3 und 4: Du stehst."
+            - "Abschnitt 1: Du bleibst gleich schnell. Abschnitt 2: Du wirst schneller. Abschnitt 3: Du wirst langsamer. Abschnitt 4: Du bleibst gleich schnell."
+          kindWords: [schneller, gleichbleibend, langsamer, Stillstand]
+          sectionName: "Abschnitt {n}"
+          sectionWrong: "Abschnitt {n} passt noch nicht zur Geschichte. Schau, ob das Tempo dort steigt, gleich bleibt oder sinkt."
+          mistakes:
+            - "Du hast alle Regler auf 10 m/s gelassen. Dann ändert sich das Tempo nie. Die Geschichte verlangt Änderungen."
+            - "Du hast schneller und langsamer vertauscht: Das Tempo geht bei dir dort hoch, wo es sinken soll, und umgekehrt."
+          labor:
+            sectionTitle: "Abschnitt {n} ({from} bis {to} s)"
+            endLabel: "Tempo am Ende: {v} m/s"
+            faster: "Du wirst schneller: von {v0} auf {v1} m/s."
+            steady: "Du bleibst bei {v1} m/s."
+            slower: "Du wirst langsamer: von {v0} auf {v1} m/s."
+            stopped: "Du stehst."
+            backLabel: rückwärts
+            resetLabel: Zurücksetzen
+            sTitle: Weg-Zeit-Diagramm deiner Fahrt
+            vTitle: Geschwindigkeit-Zeit-Diagramm deiner Fahrt
+            sAxis: "s in m"
+            vAxis: "v in m/s"
+            tAxis: "t in s"
+            sAlt: >-
+              Weg-Zeit-Diagramm deiner Fahrt. Entfernung vom Startpunkt in Metern nach 0, 5, 10, 15 und 20 Sekunden: {values}.
+            vAlt: >-
+              Geschwindigkeit-Zeit-Diagramm deiner Fahrt. Geschwindigkeit in Metern pro Sekunde nach 0, 5, 10, 15 und 20
+              Sekunden: {values}.
+        examples:
+          accepted:
+            - { answer: [20, 20, 10, 0], seed: 1 }
+            - { answer: [15, 15, 10, 5], seed: 1 }
+          rejected:
+            - { answer: [10, 10, 10, 10], seed: 1 }
+            - { answer: [0, 0, 10, 20], seed: 1 }
