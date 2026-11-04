@@ -32,6 +32,10 @@ severity: error
 ```
 
 - A task's figure shows the given values, never the answer.
+- In an exercise component, no counter or sentence states what is checked: "6 von 10 Teilen gefärbt" under "Färbe
+  6/10" is the answer. Count only what the task does not ask, or show it after "Prüfen".
+- A caption or figure of a task does not repeat an option ("Die Teile sind nicht gleich groß" under that question),
+  and a comparison the figure shows at a glance (the longer strip) is an explanation, not a task.
 
 ## `explainer-figure-explains`: The figure shows what the text says
 
@@ -106,6 +110,9 @@ severity: hint
   5. What do they enter or check afterwards?
 - Marks look like nothing else: a tick or a dot in a field reads as a sign. Legend, colours, patterns and text name
   the same things.
+- Two figures side by side or one above the other: a visible label says which is which ("vorher", "erweitert mit 3"),
+  not only `alt` or `aria-label`. Every mark has its name in the text: a dashed line, a filled and a hollow point.
+- A diagram whose task asks for values has numbers on its axes, on a scale that stays put while learners change it.
 - The `nojs` text and `alt` answer the same questions.
 
 ## `explainer-control-purpose`: Every control has a visible purpose
@@ -118,8 +125,10 @@ severity: hint
 
 - Each slider, button or field of a component changes something learners can see, and the text says why they use it.
   A control without a purpose goes.
-- The start state shows first what stays the same; only the next action changes it. After a change, labels, limits
-  and positions agree.
+- The start state shows first what stays the same (factor 1, nothing coloured yet, the given fraction); only the next
+  action changes it. After a change, labels, limits and positions agree.
+- Each page says what its controls do, also when an earlier page has the same component. A control that replaces what
+  learners compare keeps the earlier state in view (side by side), or they compare from memory.
 
 ## `explainer-text-figure-agree`: Text, figure and task tell the same
 
@@ -144,6 +153,7 @@ severity: hint
 - A page adds one step to what learners know. Content of a later competency (by `requires` in the map, or a later
   page) stays out of its text, figures and exercises.
 - Different methods get their own derivation and example; one example per box.
+- Options and distractors stay inside the step too: no 7/4 among the options before fractions greater than one.
 
 ## `explainer-steps-explain`: A solution step explains
 
@@ -157,6 +167,10 @@ severity: hint
   6 teilbar, also …"). A step that only says to apply the rule ("Setze die Angaben in die Regel ein") explains
   nothing.
 - Given values are shown worked out (6/48, not 6/(8 · 6)), unless computing them is the exercise.
+- In `generated`, a step can name only drawn values, not one computed from them. Draw a record that holds every
+  number the steps need, from a data file (`pick: 1` from `{ data: … }`): to reduce, `{ a: 6, b: 48, k: 6, z: 1, n: 8 }`;
+  the step says "{{e.a}} und {{e.b}} sind beide durch {{e.k}} teilbar: {{e.a}} : {{e.k}} = {{e.z}}". To compare, a
+  record with both fractions, the common denominator and the expanded numerators.
 
 ## `explainer-honest-headings`: Headings say what the section does
 

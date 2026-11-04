@@ -49,7 +49,8 @@ for job in "$@"; do
       rm -rf "$build"
       continue
     fi
-    bundle="$(dirname "$(find "$build" -path "$build/node_modules" -prune -o -name index.html -path '*/_site/*' -print -o -name index.html -path '*/dist/*' -print | sort | head -1)")"
+    # The root of the built site: the shortest path to an index.html (a page has its own index.html below it)
+    bundle="$(dirname "$(find "$build" -path "$build/node_modules" -prune -o -name index.html -path '*/_site/*' -print -o -name index.html -path '*/dist/*' -print | awk '{ print length, $0 }' | sort -n | head -1 | cut -d' ' -f2-)")"
     mkdir -p "$work/app" && cp -R "$build/src" "$build/package.json" "$work/app/"
     port=$((port + 1))
     (cd "$bundle" && exec python3 -m http.server "$port" --bind 127.0.0.1 > /dev/null 2>&1) &
