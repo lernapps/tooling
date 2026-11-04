@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Sicherheit im Umgang mit Strom
+summary: Warum Strom aus der Steckdose gefährlich ist, Batteriestrom aber nicht, und wie du dich richtig verhältst.
+pages: [gefahren-des-stroms, sicher-mit-strom-umgehen]

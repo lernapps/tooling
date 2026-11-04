@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Spannung messen
+description: Mit dem Spannungsmesser (Voltmeter) die Spannung messen.
+competencies: [spannung-messen]
+blocks:
+  - type: section
+    id: geraet
+    title: Das Messgerät
+    blocks:
+      - type: text
+        text: "Die Spannung misst du mit dem **Spannungsmesser**, auch **Voltmeter** genannt. Sein Schaltzeichen ist ein Kreis mit einem **V**."
+      - type: text
+        text: "Der Spannungsmesser misst den Unterschied zwischen zwei Punkten. Darum schließt du ihn **neben** dem Bauteil an, dessen Spannung du wissen willst, mit je einer Leitung zu seinen beiden Anschlüssen. Man sagt: **parallel**."
+      - type: figure
+        image: images/spannungsmesser-parallel.svg
+        alt: Ein Stromkreis aus Batterie und Lampe. Ein Spannungsmesser mit einem V ist mit zwei Leitungen an die beiden Anschlüsse der Lampe gelegt.
+        caption: Der Spannungsmesser liegt neben der Lampe und misst deren Spannung.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: richtig
+    title: So misst du richtig
+    blocks:
+      - type: text
+        text: "Beginne auch hier mit dem größten Messbereich. Achte auf den Anschluss: Der Pluspol des Geräts kommt auf die Seite, die zum Pluspol der Batterie führt."
+      - type: note
+        title: Strommesser und Spannungsmesser
+        blocks:
+          - type: text
+            text: "Strommesser: **in Reihe**, misst die Stromstärke in Ampere. Spannungsmesser: **parallel**, misst die Spannung in Volt."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: geraet-groesse
+        text: "Ordne dem Messgerät die Größe und die Art des Anschlusses zu."
+        pairs:
+          - { left: Strommesser, right: "misst die Stromstärke in Reihe" }
+          - { left: Spannungsmesser, right: "misst die Spannung parallel zum Bauteil" }
+        explanation: Der Strommesser sitzt in der Leitung. Der Spannungsmesser liegt neben dem Bauteil.
+        links:
+          - { title: Spannungsmessgerät (Wikipedia), url: "https://de.wikipedia.org/wiki/Spannungsmessgerät" }
+      - type: single-choice
+        id: voltmeter-anschluss
+        text: "Du willst die Spannung an einer Lampe messen. Wo schließt du den Spannungsmesser an?"
+        options:
+          - text: Parallel zur Lampe, an beide Anschlüsse.
+            correct: true
+            info: So misst er den Unterschied zwischen den beiden Seiten der Lampe.
+          - text: In Reihe vor der Lampe, in die Leitung.
+            correct: false
+            info: So schließt man einen Strommesser an. Ein Spannungsmesser in der Leitung würde den Strom fast sperren.
+          - text: Zwischen den Polen der Batterie, ohne die Lampe.
+            correct: false
+            info: Dort misst du die Spannung der Batterie, nicht die der Lampe.
+        explanation: Spannung misst du parallel zu dem Bauteil, das dich interessiert.
+        links:
+          - { title: Spannungsmessgerät (Wikipedia), url: "https://de.wikipedia.org/wiki/Spannungsmessgerät" }
+      - type: true-false
+        id: messgeraete-verwechseln
+        text: "Spannung und Stromstärke misst man mit demselben Gerät und demselben Anschluss."
+        answer: false
+        explanation: Es gibt zwei Geräte. Der Strommesser liegt in Reihe, der Spannungsmesser parallel.
+        links:
+          - { title: Spannungsmessgerät (Wikipedia), url: "https://de.wikipedia.org/wiki/Spannungsmessgerät" }
+      - type: single-choice
+        id: spannungsmesser-luecke
+        text: "Ergänze: Ein Spannungsmesser zeigt den Wert in ___ an."
+        options:
+          - { text: Volt, correct: true, info: "Spannung wird in Volt (V) gemessen." }
+          - { text: Ampere, correct: false, info: "Ampere ist die Einheit der Stromstärke." }
+          - { text: Gramm, correct: false, info: "Gramm ist eine Einheit für die Masse." }
+        explanation: Die Einheit der Spannung ist Volt.
+        links:
+          - { title: Spannungsmessgerät (Wikipedia), url: "https://de.wikipedia.org/wiki/Spannungsmessgerät" }

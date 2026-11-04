@@ -1,0 +1,85 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Stromstärke messen
+description: Mit dem Strommesser (Amperemeter) die Stromstärke messen.
+competencies: [stromstaerke-messen]
+blocks:
+  - type: section
+    id: geraet
+    title: Das Messgerät
+    blocks:
+      - type: text
+        text: "Die Stromstärke misst du mit dem **Strommesser**, auch **Amperemeter** genannt. Sein Schaltzeichen ist ein Kreis mit einem **A**."
+      - type: text
+        text: "Der Strommesser muss vom ganzen Strom durchflossen werden, den du messen willst. Darum baust du ihn **in Reihe** in die Leitung ein, so als wäre er ein Stück Leitung."
+      - type: figure
+        image: images/strommesser-in-reihe.svg
+        alt: Ein Stromkreis aus Batterie und Lampe. In der oberen Leitung vor der Lampe ist ein Strommesser mit einem A eingebaut.
+        caption: Der Strommesser liegt in der Leitung. Der ganze Strom fließt durch ihn.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: ablesen
+    title: So misst du richtig
+    blocks:
+      - type: text
+        text: "Beginne mit dem größten Messbereich. So geht das Gerät nicht kaputt, wenn die Stromstärke größer ist als gedacht. Schalte dann auf einen kleineren Bereich, bis du den Wert genau ablesen kannst. Lies die Einheit mit ab."
+      - type: note
+        title: Vor und hinter der Lampe
+        blocks:
+          - type: text
+            text: "Misst du die Stromstärke vor und hinter einer Lampe, bekommst du denselben Wert. Die Lampe verbraucht keinen Strom."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: strommesser-anschluss
+        text: "Wie schließt du einen Strommesser an?"
+        options:
+          - text: In Reihe, so dass der ganze Strom durch ihn fließt.
+            correct: true
+            info: Nur dann misst er die Stromstärke des ganzen Stroms.
+          - text: Neben die Lampe, mit zwei Leitungen zu ihren Anschlüssen.
+            correct: false
+            info: So schließt man einen Spannungsmesser an. Ein Strommesser hätte dort einen Kurzschluss zur Folge.
+          - text: Er muss gar nicht in den Stromkreis.
+            correct: false
+            info: Das Gerät kann nur den Strom messen, der durch es hindurchfließt.
+        explanation: Der Strommesser wird in den Stromkreis eingebaut, so dass der Strom durch ihn fließt.
+        links:
+          - { title: Strommessgerät (Wikipedia), url: "https://de.wikipedia.org/wiki/Strommessgerät" }
+      - type: single-choice
+        id: messbereich
+        text: "Mit welchem Messbereich beginnst du, wenn du die Stromstärke nicht kennst?"
+        options:
+          - { text: Mit dem größten, correct: true, info: "So wird das Gerät nicht überlastet." }
+          - {
+              text: Mit dem kleinsten,
+              correct: false,
+              info: "Ist der Strom größer als der Bereich, kann das Gerät beschädigt werden.",
+            }
+          - {
+              text: Das ist egal,
+              correct: false,
+              info: "Es ist nicht egal: Ein zu kleiner Bereich kann das Gerät beschädigen.",
+            }
+        explanation: Beginne immer mit dem größten Messbereich und gehe dann herunter.
+        links:
+          - { title: Strommessgerät (Wikipedia), url: "https://de.wikipedia.org/wiki/Strommessgerät" }
+      - type: true-false
+        id: vor-hinter-lampe
+        text: "Ein Strommesser vor der Lampe zeigt einen größeren Wert als einer hinter der Lampe."
+        answer: false
+        explanation: Beide zeigen denselben Wert. Die Lampe verbraucht keinen Strom, sondern wandelt Energie um.
+        links:
+          - { title: Elektrischer Strom (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Strom" }
+      - type: single-choice
+        id: strommesser-luecke
+        text: "Ergänze: Das Schaltzeichen des Strommessers ist ein Kreis mit dem Buchstaben ___."
+        options:
+          - { text: A, correct: true, info: "A steht für Ampere." }
+          - { text: V, correct: false, info: "Der Kreis mit V ist das Schaltzeichen des Spannungsmessers." }
+          - { text: U, correct: false, info: "U ist das Formelzeichen der Spannung, kein Gerät." }
+        explanation: Der Strommesser trägt ein A für Ampere.
+        links:
+          - { title: Strommessgerät (Wikipedia), url: "https://de.wikipedia.org/wiki/Strommessgerät" }

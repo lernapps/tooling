@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200" role="img" aria-labelledby="t d">
+  <title id="t">Spannungsmesser parallel zur Lampe</title>
+  <desc id="d">Ein Stromkreis aus Batterie und Lampe. Der Spannungsmesser hängt mit zwei Leitungen direkt vor und hinter der Lampe und liegt so neben der Lampe.</desc>
+  <g fill="none" stroke="#222" stroke-width="3" stroke-linecap="round">
+    <path d="M60 40 H180 M220 40 H340 V160 H60 V110 M60 90 V40"/>
+    <circle cx="200" cy="40" r="20"/><path d="M186 26 L214 54 M214 26 L186 54"/>
+    <path d="M180 40 V130 M220 40 V130"/>
+    <circle cx="200" cy="130" r="20"/>
+    <path d="M45 110 H75"/><path d="M52 90 H68" stroke-width="7"/>
+  </g>
+  <g font-family="sans-serif" font-size="16" fill="#222">
+    <text x="194" y="136" font-weight="bold">V</text>
+    <text x="70" y="112">+</text><text x="70" y="98">−</text>
+    <text x="110" y="190">Spannungsmesser (V) liegt neben der Lampe</text>
+  </g>
+</svg>

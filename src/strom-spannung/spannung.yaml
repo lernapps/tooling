@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Spannung
+description: Spannung als Antrieb des Stroms, mit der Einheit Volt.
+competencies: [spannung]
+blocks:
+  - type: section
+    id: antrieb
+    title: Was den Strom antreibt
+    blocks:
+      - type: text
+        text: "Damit in einem Stromkreis Strom fließt, braucht er einen Antrieb. Den liefert die Spannungsquelle. Wie stark dieser Antrieb ist, gibt die **Spannung** an."
+      - type: definition
+        term: Spannung
+        explanation: Die Spannung $U$ gibt an, wie stark eine Spannungsquelle den Strom antreibt. Ihre Einheit ist das Volt (V).
+      - type: table
+        caption: Typische Spannungen
+        header: [Spannungsquelle, Spannung]
+        rows:
+          - [Flachbatterie, "4,5 V"]
+          - [Autobatterie, 12 V]
+          - [Steckdose im Haus, 230 V]
+  - type: section
+    id: bild
+    title: Ein Bild dazu
+    blocks:
+      - type: text
+        text: "Denke an einen Wasserkreislauf: Die Pumpe treibt das Wasser an, und durch das Rohr fließt Wasser. Die Pumpe entspricht der Spannungsquelle, das fließende Wasser dem Strom. Eine stärkere Pumpe entspricht einer größeren Spannung. Wie viel Wasser fließt, entspricht der Stromstärke."
+      - type: note
+        title: Spannung ist nicht Stromstärke
+        blocks:
+          - type: text
+            text: "Die Spannung ist der Antrieb, die Stromstärke das, was daraus folgt. Eine Batterie hat auch dann Spannung, wenn der Stromkreis offen ist. Dann fließt aber kein Strom."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: spannung-bedeutung
+        text: "Was gibt die Spannung an?"
+        options:
+          - text: Wie stark die Spannungsquelle den Strom antreibt.
+            correct: true
+            info: Die Spannung ist der Antrieb des Stroms.
+          - text: Wie viel Strom pro Sekunde durch eine Leitung fließt.
+            correct: false
+            info: Das beschreibt die Stromstärke, nicht die Spannung.
+          - text: Wie lang die Leitung ist.
+            correct: false
+            info: Die Länge einer Leitung hat mit der Spannung nichts zu tun.
+        explanation: Die Spannung treibt den Strom an. Die Stromstärke zeigt, wie stark er fließt.
+        links:
+          - { title: Elektrische Spannung (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Spannung" }
+      - type: true-false
+        id: spannung-offen
+        text: "Eine Batterie hat nur dann Spannung, wenn Strom fließt."
+        answer: false
+        explanation: Die Spannung liegt an der Batterie immer an. Strom fließt aber nur, wenn der Stromkreis geschlossen ist.
+        links:
+          - { title: Elektrische Spannung (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Spannung" }
+      - type: ordering
+        id: spannungen-ordnen
+        text: "Ordne die Spannungsquellen nach der Spannung, die kleinste zuerst."
+        items: ["Flachbatterie (4,5 V)", "Autobatterie (12 V)", "Steckdose (230 V)"]
+        explanation: "4,5 V sind weniger als 12 V, und 12 V sind weniger als 230 V."
+        links:
+          - { title: Elektrische Spannung (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Spannung" }
+      - type: matching
+        id: groesse-zeichen
+        text: "Ordne zu: Welches Formelzeichen gehört zur Größe?"
+        pairs:
+          - { left: Spannung, right: U }
+          - { left: Stromstärke, right: I }
+        explanation: "Die Spannung heißt $U$, die Stromstärke $I$."
+        links:
+          - { title: Elektrische Spannung (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Spannung" }

@@ -1,0 +1,91 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Reihenschaltung
+description: Eine Reihenschaltung aufbauen und erklären, was beim Ausfall eines Bauteils passiert.
+competencies: [reihenschaltung]
+blocks:
+  - type: section
+    id: aufbau
+    title: Hintereinander geschaltet
+    blocks:
+      - type: text
+        text: "Bei einer **Reihenschaltung** liegen die Verbraucher hintereinander in einem einzigen Kreis. Der Strom hat nur einen Weg und fließt nacheinander durch alle Bauteile."
+      - type: definition
+        term: Reihenschaltung
+        explanation: In einer Reihenschaltung sind die Bauteile hintereinander in einem Kreis geschaltet. Es gibt nur einen Weg für den Strom.
+      - type: figure
+        image: images/reihenschaltung.svg
+        alt: Eine Batterie und zwei Lampen sind hintereinander in einem Kreis geschaltet.
+        caption: Reihenschaltung von zwei Lampen. Der Strom hat nur einen Weg.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: ausfall
+    title: Wenn ein Bauteil ausfällt
+    blocks:
+      - type: text
+        text: "Geht eine Lampe kaputt, ist der einzige Weg unterbrochen. Der Stromkreis ist offen, und **alle** Lampen gehen aus. Das kennst du von alten Lichterketten: Eine kaputte Lampe legt die ganze Kette lahm."
+      - type: note
+        title: Die Stromstärke bleibt gleich
+        blocks:
+          - type: text
+            text: "Weil es nur einen Weg gibt, fließt überall im Kreis dieselbe Stromstärke. Vor der ersten Lampe ist sie nicht größer als hinter der zweiten. Strom wird nicht verbraucht."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: reihe-ausfall
+        text: "Zwei Lampen sind in Reihe geschaltet. Eine geht kaputt. Was passiert mit der anderen?"
+        options:
+          - text: Sie geht auch aus, weil der Stromkreis offen ist.
+            correct: true
+            info: Es gibt nur einen Weg. Ist er unterbrochen, fließt nirgends Strom.
+          - text: Sie leuchtet heller, weil sie jetzt allen Strom bekommt.
+            correct: false
+            info: Es fließt gar kein Strom mehr, denn der Kreis ist offen.
+          - text: Sie leuchtet weiter wie vorher.
+            correct: false
+            info: Das gilt für die Parallelschaltung, nicht für die Reihenschaltung.
+        explanation: In der Reihenschaltung unterbricht ein Ausfall den ganzen Kreis.
+        links:
+          - { title: Reihenschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Reihenschaltung" }
+      - type: number
+        id: a2-wert
+        text: "In der Reihenschaltung zeigt der Strommesser A1 den Wert 0,3 A. Was zeigt der Strommesser A2 hinter der Lampe?"
+        material:
+          - type: figure
+            image: images/reihenschaltung-messen.svg
+            alt: Eine Batterie, ein Strommesser A1, eine Lampe und ein Strommesser A2 liegen hintereinander in einem Kreis.
+            caption: Zwei Strommesser vor und hinter der Lampe.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 0.3
+        tolerance: 0
+        unit: A
+        mistakes:
+          - {
+              answer: 0,
+              message: "Der Stromkreis ist geschlossen, es fließt also Strom. Prüfe, ob die Lampe Strom verbraucht.",
+            }
+          - { answer: 0.15, message: "Der Strom teilt sich hier nicht auf, denn es gibt nur einen Weg." }
+        hint: "Es gibt nur einen Weg. Was passiert dann mit der Stromstärke?"
+        explanation: "A2 zeigt ebenfalls 0,3 A. Die Lampe verbraucht keinen Strom, in einer Reihenschaltung ist die Stromstärke überall gleich."
+        links:
+          - { title: Reihenschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Reihenschaltung" }
+      - type: true-false
+        id: reihe-wege
+        text: "In einer Reihenschaltung hat der Strom mehrere Wege zur Auswahl."
+        answer: false
+        explanation: In der Reihenschaltung gibt es nur einen Weg. Mehrere Wege gibt es in der Parallelschaltung.
+        links:
+          - { title: Reihenschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Reihenschaltung" }
+      - type: single-choice
+        id: reihe-luecke
+        text: "Ergänze: Bei einer ___ liegen die Bauteile hintereinander in einem Kreis."
+        options:
+          - { text: Reihenschaltung, correct: true, info: "Der Name sagt es: Die Bauteile stehen in einer Reihe." }
+          - { text: Parallelschaltung, correct: false, info: "Dort gibt es mehrere Zweige nebeneinander." }
+          - { text: Messschaltung, correct: false, info: "Diesen Begriff gibt es hier nicht." }
+        explanation: Hintereinander heißt Reihenschaltung.
+        links:
+          - { title: Reihenschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Reihenschaltung" }

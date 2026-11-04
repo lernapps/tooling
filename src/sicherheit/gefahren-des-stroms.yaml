@@ -1,0 +1,82 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Gefahren des Stroms
+description: Erklären, warum Netzstrom gefährlich ist und Strom aus einer Batterie nicht.
+competencies: [gefahren-des-stroms]
+blocks:
+  - type: section
+    id: netz-batterie
+    title: Steckdose und Batterie
+    blocks:
+      - type: text
+        text: "Mit einer Taschenlampenbatterie kannst du gefahrlos experimentieren. An der Steckdose ist das **lebensgefährlich**. Der Unterschied liegt in der Spannung."
+      - type: table
+        caption: Spannungen im Vergleich
+        header: [Quelle, Spannung, Gefahr für den Menschen]
+        rows:
+          - [Flachbatterie, "4,5 V", ungefährlich]
+          - [Steckdose, 230 V, lebensgefährlich]
+      - type: text
+        text: "Die Spannung der Steckdose treibt einen so starken Strom durch deinen Körper, dass er gefährlich wird. Bei der Batterie ist der Antrieb viel kleiner, der Strom durch den Körper deshalb sehr klein."
+  - type: section
+    id: wirkung
+    title: Was Strom im Körper anrichtet
+    blocks:
+      - type: text
+        text: "Dein Körper leitet den Strom, besonders wenn deine Haut nass ist. Fließt Strom durch den Körper, können die Muskeln verkrampfen, sodass du ein Kabel nicht mehr loslassen kannst. Schon wenige zehn Milliampere durch das Herz können es aus dem Takt bringen. Außerdem kann der Strom Verbrennungen verursachen."
+      - type: note
+        title: Als Faustregel
+        blocks:
+          - type: text
+            text: "Wechselspannung über etwa 50 V gilt als gefährlich. Batterien und Spielzeug-Netzteile mit wenigen Volt sind ungefährlich. Die Steckdose mit 230 V nie."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: netz-gefahr
+        text: "Warum ist Strom aus der Steckdose gefährlicher als Strom aus einer Flachbatterie?"
+        options:
+          - text: Die Spannung ist viel größer, der Strom durch den Körper wird gefährlich.
+            correct: true
+            info: 230 V treiben einen viel stärkeren Strom durch den Körper als 4,5 V.
+          - text: Aus der Steckdose kommt mehr Strom, weil Strom dort nie verbraucht wird.
+            correct: false
+            info: Strom wird auch in der Batterie nicht verbraucht. Der Unterschied ist die Spannung.
+          - text: Die Batterie ist aus Kunststoff und isoliert.
+            correct: false
+            info: Die Batterie hat leitende Teile. Sie ist ungefährlich, weil ihre Spannung klein ist.
+        explanation: Die große Spannung der Steckdose treibt einen gefährlichen Strom durch den Körper.
+        links:
+          - { title: Stromunfall (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromunfall" }
+      - type: multiple-choice
+        id: gefahrenquellen
+        text: "Welche Spannungsquellen sind für Menschen gefährlich? Wähle alle richtigen."
+        options:
+          - { text: Steckdose (230 V), correct: true, info: "Diese Spannung kann lebensgefährlich sein." }
+          - { text: Hochspannungsleitung, correct: true, info: "Schon in der Nähe kann der Strom überspringen." }
+          - {
+              text: "Flachbatterie (4,5 V)",
+              correct: false,
+              info: "Diese Spannung ist zu klein, um gefährlich zu sein.",
+            }
+          - { text: Knopfzelle (3 V), correct: false, info: "Auch diese Spannung ist ungefährlich." }
+        explanation: Gefährlich sind große Spannungen wie bei der Steckdose und bei Hochspannungsleitungen.
+        links:
+          - { title: Stromunfall (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromunfall" }
+      - type: true-false
+        id: nasse-haut
+        text: "Mit nasser Haut ist ein Stromschlag gefährlicher als mit trockener Haut."
+        answer: true
+        explanation: Nasse Haut leitet den Strom besser. Dann fließt bei gleicher Spannung ein stärkerer Strom durch den Körper.
+        links:
+          - { title: Stromunfall (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromunfall" }
+      - type: single-choice
+        id: gefahren-luecke
+        text: "Ergänze: Für den Menschen gefährlich ist vor allem eine ___ Spannung."
+        options:
+          - { text: große, correct: true, info: "Große Spannung treibt einen starken Strom durch den Körper." }
+          - { text: kleine, correct: false, info: "Kleine Spannungen wie bei Batterien sind ungefährlich." }
+          - { text: keine, correct: false, info: "Ohne Spannung fließt kein Strom." }
+        explanation: Die große Spannung macht den Strom gefährlich.
+        links:
+          - { title: Stromunfall (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromunfall" }

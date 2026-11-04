@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Leiter und Nichtleiter
+description: Leiter und Nichtleiter unterscheiden und ihre Verwendung im Alltag nennen.
+competencies: [leiter-nichtleiter]
+blocks:
+  - type: section
+    id: unterschied
+    title: Leiter und Nichtleiter
+    blocks:
+      - type: text
+        text: "Nicht jeder Stoff lässt Strom durch. Baust du einen Gegenstand in einen Stromkreis ein, leuchtet die Lampe nur, wenn der Stoff den Strom leitet."
+      - type: definition
+        term: Leiter
+        explanation: Ein Leiter ist ein Stoff, der den elektrischen Strom gut leitet. Alle Metalle sind Leiter.
+      - type: definition
+        term: Nichtleiter
+        explanation: Ein Nichtleiter, auch Isolator genannt, ist ein Stoff, der den elektrischen Strom nicht oder kaum leitet.
+      - type: table
+        caption: Beispiele für Leiter und Nichtleiter
+        header: [Leiter, Nichtleiter]
+        rows:
+          - [Kupfer, Kunststoff]
+          - [Eisen, Gummi]
+          - [Aluminium, Glas]
+          - [Graphit (Bleistiftmine), Porzellan]
+          - [Salzwasser, trockenes Holz]
+  - type: section
+    id: verwendung
+    title: Beides ist nützlich
+    blocks:
+      - type: text
+        text: "Ein Kabel besteht aus einem Draht aus **Kupfer** und einer Hülle aus **Kunststoff**. Der Draht leitet den Strom zum Gerät. Die Hülle schützt dich, denn durch sie fließt kein Strom."
+      - type: note
+        title: Vorsicht bei Wasser
+        blocks:
+          - type: text
+            text: "Reines Wasser leitet kaum. Leitungswasser und Salzwasser enthalten gelöste Stoffe und leiten. Darum sind nasse Hände im Umgang mit Strom gefährlich."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: multiple-choice
+        id: welche-leiten
+        text: "Welche Stoffe sind elektrische Leiter? Wähle alle richtigen."
+        options:
+          - {
+              text: Kupfer,
+              correct: true,
+              info: "Kupfer ist ein Metall und leitet sehr gut. Deshalb steckt es in Kabeln.",
+            }
+          - { text: Eisen, correct: true, info: "Alle Metalle leiten den Strom, also auch Eisen." }
+          - { text: Glas, correct: false, info: "Glas ist ein Nichtleiter." }
+          - {
+              text: Gummi,
+              correct: false,
+              info: "Gummi ist ein Nichtleiter und umhüllt deshalb oft Griffe von Werkzeug.",
+            }
+        explanation: Metalle sind Leiter. Glas und Gummi sind Nichtleiter.
+        links:
+          - { title: Elektrischer Leiter (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Leiter" }
+      - type: single-choice
+        id: kabel-huelle
+        text: "Warum haben Kabel eine Hülle aus Kunststoff?"
+        options:
+          - text: Kunststoff ist ein Nichtleiter und schützt vor Berührung mit dem Draht.
+            correct: true
+            info: Durch die Hülle fließt kein Strom, deshalb kannst du das Kabel anfassen.
+          - text: Kunststoff leitet den Strom besser als Kupfer.
+            correct: false
+            info: Kunststoff leitet nicht. Das Kupfer im Inneren leitet den Strom.
+          - text: Die Hülle macht die Spannung kleiner.
+            correct: false
+            info: Die Hülle ändert die Spannung nicht. Sie verhindert nur, dass der Strom nach außen gelangt.
+        explanation: Der Draht leitet, die Hülle isoliert.
+        links:
+          - {
+              title: Isolator (Elektrotechnik) (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Isolator_(Elektrotechnik)",
+            }
+      - type: true-false
+        id: wasser-leitet
+        text: "Leitungswasser leitet den Strom, weil Stoffe darin gelöst sind."
+        answer: true
+        explanation: Gelöste Stoffe wie Salze machen Wasser zum Leiter. Darum gehören Wasser und Strom nicht zusammen.
+        links:
+          - { title: Elektrischer Leiter (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Leiter" }
+      - type: single-choice
+        id: leiter-luecke
+        text: "Ergänze: Ein Stoff, der den Strom nicht leitet, heißt ___."
+        options:
+          - { text: Isolator, correct: true, info: "Isolator und Nichtleiter bedeuten dasselbe." }
+          - { text: Leiter, correct: false, info: "Ein Leiter leitet den Strom." }
+          - {
+              text: Verbraucher,
+              correct: false,
+              info: "Ein Verbraucher ist ein Bauteil, etwa eine Lampe, und kein Stoff.",
+            }
+        explanation: Nichtleiter heißen auch Isolatoren.
+        links:
+          - {
+              title: Isolator (Elektrotechnik) (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Isolator_(Elektrotechnik)",
+            }

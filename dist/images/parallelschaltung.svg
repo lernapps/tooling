@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200" role="img" aria-labelledby="t d">
+  <title id="t">Parallelschaltung</title>
+  <desc id="d">Eine Batterie und zwei Lampen. Die Leitung teilt sich in zwei Zweige, in jedem Zweig liegt eine Lampe, danach laufen die Zweige wieder zusammen. Der Strom hat zwei Wege.</desc>
+  <g fill="none" stroke="#222" stroke-width="3" stroke-linecap="round">
+    <path d="M60 40 H180 M220 40 H340 V160 H60 V110 M60 90 V40"/>
+    <circle cx="200" cy="40" r="20"/><path d="M186 26 L214 54 M214 26 L186 54"/>
+    <path d="M100 40 V100 H180 M220 100 H300 V40"/>
+    <circle cx="200" cy="100" r="20"/><path d="M186 86 L214 114 M214 86 L186 114"/>
+    <path d="M45 110 H75"/><path d="M52 90 H68" stroke-width="7"/>
+  </g>
+  <g fill="#222"><circle cx="100" cy="40" r="4"/><circle cx="300" cy="40" r="4"/></g>
+  <g font-family="sans-serif" font-size="16" fill="#222">
+    <text x="130" y="30">Lampe 1</text><text x="130" y="145">Lampe 2</text>
+  </g>
+</svg>

@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Reihen- und Parallelschaltung
+summary: Wie man mehrere Verbraucher schalten kann und was passiert, wenn einer ausfällt.
+pages: [reihenschaltung, parallelschaltung]

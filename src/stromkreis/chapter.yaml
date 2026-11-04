@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Stromkreis
+summary: Aus welchen Teilen ein Stromkreis besteht, warum er geschlossen sein muss und wie du ihn als Schaltplan zeichnest.
+pages: [einfacher-stromkreis, schalter, schaltzeichen]

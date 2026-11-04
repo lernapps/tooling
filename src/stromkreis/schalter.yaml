@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Schalter
+description: Wie ein Schalter den Stromkreis öffnet und schließt.
+competencies: [schalter]
+blocks:
+  - type: section
+    id: funktion
+    title: Was ein Schalter tut
+    blocks:
+      - type: text
+        text: "Ein **Schalter** öffnet oder schließt den Stromkreis an einer Stelle. Ist der Schalter **geschlossen**, leitet er den Strom weiter und der Stromkreis ist geschlossen. Ist er **offen**, ist der Weg unterbrochen und es fließt kein Strom."
+      - type: definition
+        term: Schalter
+        explanation: Ein Schalter ist ein Bauteil, das den Stromkreis an einer Stelle öffnen oder schließen kann.
+      - type: figure
+        image: images/stromkreis-offen.svg
+        alt: Ein Stromkreis mit Batterie, Lampe und geöffnetem Schalter. Der Hebel des Schalters ist angehoben.
+        caption: Der Schalter ist offen. In der Leitung ist eine Lücke, die Lampe ist aus.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: note
+        title: Im Alltag
+        blocks:
+          - type: text
+            text: "Wenn du das Licht im Zimmer anmachst, schließt du mit dem Schalter den Stromkreis der Lampe. Beim Ausschalten öffnest du ihn wieder."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: schalter-offen
+        text: "Der Schalter in einem Stromkreis ist offen. Was ist richtig?"
+        options:
+          - text: Der Stromkreis ist offen, es fließt kein Strom.
+            correct: true
+            info: Der offene Schalter unterbricht den Weg des Stroms.
+          - text: Der Strom fließt, aber nur sehr schwach.
+            correct: false
+            info: Im offenen Stromkreis fließt gar kein Strom, auch kein schwacher.
+          - text: Der Strom fließt bis zum Schalter und bleibt dort stehen.
+            correct: false
+            info: Strom fließt nur im geschlossenen Kreis. Vor dem Schalter fließt auch nichts.
+        explanation: Ein offener Schalter öffnet den Stromkreis. Dann fließt im ganzen Kreis kein Strom.
+        links:
+          - {
+              title: Schalter (Elektrotechnik) (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Schalter_(Elektrotechnik)",
+            }
+      - type: true-false
+        id: schalter-lampe-an
+        text: "Eine Lampe leuchtet nur dann, wenn der Schalter im Stromkreis geschlossen ist."
+        answer: true
+        explanation: Nur bei geschlossenem Schalter ist der Stromkreis geschlossen, und nur dann fließt Strom durch die Lampe.
+        links:
+          - {
+              title: Schalter (Elektrotechnik) (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Schalter_(Elektrotechnik)",
+            }
+      - type: matching
+        id: schalter-zustand
+        text: "Ordne dem Zustand des Schalters zu, was im Stromkreis passiert."
+        pairs:
+          - { left: Schalter geschlossen, right: "Stromkreis geschlossen, Lampe leuchtet" }
+          - { left: Schalter offen, right: "Stromkreis offen, Lampe leuchtet nicht" }
+        explanation: Der Schalter bestimmt, ob der Stromkreis geschlossen oder offen ist.
+        links:
+          - {
+              title: Schalter (Elektrotechnik) (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Schalter_(Elektrotechnik)",
+            }
+      - type: single-choice
+        id: schalter-luecke
+        text: "Ergänze: Wer das Licht ausschaltet, ___ den Stromkreis."
+        options:
+          - { text: öffnet, correct: true, info: "Ausschalten bedeutet: Der Schalter öffnet den Stromkreis." }
+          - { text: schließt, correct: false, info: "Schließen würde die Lampe einschalten." }
+          - {
+              text: verbraucht,
+              correct: false,
+              info: "Ein Stromkreis wird nicht verbraucht, nur geöffnet oder geschlossen.",
+            }
+        explanation: Beim Ausschalten wird der Stromkreis geöffnet.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }

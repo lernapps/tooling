@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Stromstärke
+description: Stromstärke als Maß dafür, wie stark der Strom fließt, mit der Einheit Ampere.
+competencies: [stromstaerke]
+blocks:
+  - type: section
+    id: groesse
+    title: Wie stark fließt der Strom?
+    blocks:
+      - type: text
+        text: "In einer Lampe mit hellem Licht fließt mehr Strom als in einer, die nur schwach glimmt. Wie stark der Strom fließt, gibt die **Stromstärke** an."
+      - type: definition
+        term: Stromstärke
+        explanation: Die Stromstärke $I$ sagt, wie stark der elektrische Strom an einer Stelle des Stromkreises fließt. Ihre Einheit ist das Ampere (A).
+      - type: text
+        text: "Kleine Stromstärken gibt man oft in **Milliampere** an. Es gilt $1\\,\\text{A} = 1000\\,\\text{mA}$."
+      - type: table
+        caption: Typische Stromstärken
+        header: [Gerät, Stromstärke (etwa)]
+        rows:
+          - [Leuchtdiode, 20 mA]
+          - [Lampe einer Taschenlampe, 300 mA]
+          - [Wasserkocher, 10 A]
+  - type: section
+    id: merke
+    title: Merke
+    blocks:
+      - type: note
+        title: Stromstärke und Spannung sind verschieden
+        blocks:
+          - type: text
+            text: "Das Formelzeichen der Stromstärke ist $I$, ihre Einheit **Ampere**. Spannung hat das Zeichen $U$ und die Einheit **Volt**. Verwechsle die beiden nicht: Die Stromstärke sagt, wie stark der Strom fließt."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: number
+        id: ma-in-a
+        text: "Ein Gerät hat die Stromstärke 0,25 A. Wie viel sind das in Milliampere?"
+        answer: 250
+        tolerance: 0
+        unit: mA
+        mistakes:
+          - { answer: 0.00025, message: "Du hast durch 1000 geteilt. Von A nach mA wird mit 1000 multipliziert." }
+          - { answer: 25, message: "Prüfe die Umrechnung: 1 A sind 1000 mA." }
+        hint: "1 A sind 1000 mA."
+        explanation: "$0{,}25\\,\\text{A} \\cdot 1000 = 250\\,\\text{mA}$. Von Ampere nach Milliampere multiplizierst du mit 1000."
+        links:
+          - { title: Elektrische Stromstärke (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Stromstärke" }
+      - type: matching
+        id: groesse-einheit
+        text: "Ordne zu: Welche Einheit gehört zur Größe?"
+        pairs:
+          - { left: Stromstärke, right: Ampere (A) }
+          - { left: Spannung, right: Volt (V) }
+        explanation: Stromstärke wird in Ampere gemessen, Spannung in Volt.
+        links:
+          - { title: Elektrische Stromstärke (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Stromstärke" }
+      - type: true-false
+        id: strom-schwach
+        text: "Eine Lampe, die heller leuchtet, hat meistens die größere Stromstärke."
+        answer: true
+        explanation: "Bei gleicher Lampe gilt: Je stärker der Strom fließt, desto heller leuchtet sie."
+        links:
+          - { title: Elektrischer Strom (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Strom" }
+      - type: single-choice
+        id: stromstaerke-luecke
+        text: "Ergänze: Die Stromstärke wird in ___ angegeben."
+        options:
+          - {
+              text: Ampere,
+              correct: true,
+              info: "Das Formelzeichen der Stromstärke ist I, die Einheit ist Ampere (A).",
+            }
+          - { text: Volt, correct: false, info: "Volt ist die Einheit der Spannung." }
+          - { text: Meter, correct: false, info: "Meter ist eine Längeneinheit." }
+        explanation: Die Einheit der Stromstärke ist Ampere.
+        links:
+          - { title: Elektrische Stromstärke (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Stromstärke" }

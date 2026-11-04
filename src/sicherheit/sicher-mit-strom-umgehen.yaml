@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Sicher mit Strom umgehen
+description: Regeln für den sicheren Umgang mit Strom nennen und anwenden.
+competencies: [sicher-mit-strom-umgehen]
+blocks:
+  - type: section
+    id: regeln
+    title: Die wichtigsten Regeln
+    blocks:
+      - type: text
+        text: "Diese Regeln schützen dich im Alltag:"
+      - type: text
+        text: "- Fasse Geräte und Kabel nie mit nassen Händen an und benutze elektrische Geräte nicht in der Nähe von Wasser.\n- Benutze kein Kabel und keinen Stecker mit beschädigter Hülle.\n- Stecke nichts in eine Steckdose, außer einen passenden Stecker.\n- Zieh einen Stecker immer am Stecker heraus, nie am Kabel.\n- Bleib von Freileitungen und Strommasten fern. Drachen steigen lässt du nie in ihrer Nähe.\n- Öffne kein Gerät, das am Netz hängt. Reparaturen macht eine Fachkraft."
+      - type: example
+        title: Im Bad
+        blocks:
+          - type: text
+            text: "Ein Föhn gehört nicht in die Nähe von gefülltem Wasser. Fällt er in die Wanne, kann der Strom durch das Wasser und durch dich fließen."
+  - type: section
+    id: notfall
+    title: Wenn doch etwas passiert
+    blocks:
+      - type: text
+        text: "Berühre eine Person, die einen Stromschlag bekommt, **nicht**, solange der Strom noch fließt. Sonst fließt der Strom auch durch dich. Zieh zuerst den Stecker oder schalte die Sicherung aus, rufe dann den Notruf **112** und hole Hilfe."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: multiple-choice
+        id: regeln-anwenden
+        text: "Welche Verhaltensweisen sind sicher? Wähle alle richtigen."
+        options:
+          - {
+              text: Den Stecker am Stecker aus der Dose ziehen,
+              correct: true,
+              info: "Am Kabel zu ziehen kann die Leitung im Stecker beschädigen.",
+            }
+          - {
+              text: Ein Kabel mit kaputter Hülle nicht mehr benutzen,
+              correct: true,
+              info: "Durch die offene Stelle kann man Strom berühren.",
+            }
+          - {
+              text: Mit nassen Händen einen Föhn einstecken,
+              correct: false,
+              info: "Nasse Haut leitet den Strom besser. Das ist gefährlich.",
+            }
+          - {
+              text: Mit einer Haarnadel in der Steckdose stochern,
+              correct: false,
+              info: "Die Haarnadel leitet. Dahinter liegt die Netzspannung.",
+            }
+        explanation: Sicher sind Verhaltensweisen, bei denen du nicht mit Netzspannung in Berührung kommst.
+        links:
+          - { title: Stromunfall (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromunfall" }
+      - type: single-choice
+        id: notfall-erste-schritte
+        text: "Dein Freund hat an einem defekten Gerät einen Stromschlag bekommen und hängt daran fest. Was tust du zuerst?"
+        options:
+          - text: Den Stecker ziehen oder die Sicherung ausschalten.
+            correct: true
+            info: Erst wenn kein Strom mehr fließt, ist es sicher, zu helfen.
+          - text: Ihn sofort mit beiden Händen wegziehen.
+            correct: false
+            info: Dann fließt der Strom auch durch dich.
+          - text: Wasser über das Gerät gießen.
+            correct: false
+            info: Wasser leitet den Strom und macht die Lage gefährlicher.
+        explanation: Zuerst den Strom abschalten, dann den Notruf 112 wählen.
+        links:
+          - { title: Stromunfall (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromunfall" }
+      - type: true-false
+        id: foehn-wanne
+        text: "Ein Föhn darf in der Nähe einer gefüllten Badewanne benutzt werden, wenn er ausgeschaltet ist."
+        answer: false
+        explanation: Auch ein ausgeschalteter Föhn bleibt am Netz, wenn der Stecker steckt, und kann ins Wasser fallen. Besser gar nicht in der Nähe von Wasser verwenden.
+        links:
+          - { title: Stromunfall (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromunfall" }
+      - type: matching
+        id: situation-regel
+        text: "Ordne der Situation die passende Regel zu."
+        pairs:
+          - { left: Das Kabel hat einen Riss, right: nicht mehr benutzen }
+          - { left: Du willst den Stecker lösen, right: am Stecker ziehen }
+          - { left: Die Hände sind nass, right: kein elektrisches Gerät anfassen }
+        explanation: Jede Regel schützt dich vor einem Kontakt mit der Netzspannung.
+        links:
+          - { title: Stromunfall (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromunfall" }

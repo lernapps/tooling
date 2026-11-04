@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200" role="img" aria-labelledby="t d">
+  <title id="t">Geschlossener Stromkreis</title>
+  <desc id="d">Eine Batterie, eine Lampe und ein geschlossener Schalter sind durch Leitungen zu einem Kreis verbunden. Der Schalter überbrückt die Lücke, der Kreis ist ohne Unterbrechung.</desc>
+  <g fill="none" stroke="#222" stroke-width="3" stroke-linecap="round">
+    <path d="M60 40 H180 M220 40 H340 V160 H240 M180 160 H60 V110 M60 90 V40"/>
+    <circle cx="200" cy="40" r="20"/>
+    <path d="M186 26 L214 54 M214 26 L186 54"/>
+    <path d="M45 110 H75"/>
+    <path d="M52 90 H68" stroke-width="7"/>
+    <path d="M180 160 H240"/>
+  </g>
+  <g font-family="sans-serif" font-size="14" fill="#222">
+    <text x="82" y="112">+</text><text x="82" y="96">−</text>
+  </g>
+</svg>

@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Schaltzeichen und Schaltplan
+description: Bauteile mit Schaltzeichen zeichnen und einen Schaltplan lesen.
+competencies: [schaltzeichen]
+blocks:
+  - type: section
+    id: zeichen
+    title: Die Schaltzeichen
+    blocks:
+      - type: text
+        text: "Damit man nicht jedes Bauteil malen muss, benutzt man **Schaltzeichen**. Das sind kleine, einfache Zeichen, die überall gleich aussehen. Ein Bild aus Schaltzeichen und Linien für die Leitungen heißt **Schaltplan**."
+      - type: figure
+        image: images/schaltzeichen.svg
+        alt: Die Schaltzeichen für Leitung, Batterie, Lampe, geschlossenen und offenen Schalter, jeweils mit Namen daneben.
+        caption: Die wichtigsten Schaltzeichen.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: definition
+        term: Schaltplan
+        explanation: Ein Schaltplan zeigt mit Schaltzeichen und Linien, wie die Bauteile eines Stromkreises verbunden sind.
+  - type: section
+    id: zeichnen
+    title: So zeichnest du einen Schaltplan
+    blocks:
+      - type: text
+        text: "Zeichne Leitungen als gerade Linien mit rechten Winkeln. Die Bauteile sitzen mit ihren Schaltzeichen mitten in der Linie. Der Plan ist ein Rechteck ohne Lücke, wenn der Stromkreis geschlossen ist."
+      - type: note
+        title: Zum Üben
+        blocks:
+          - type: text
+            text: "Zeichne auf Papier den Schaltplan einer Taschenlampe: Batterie, Schalter, Lampe, dazu Leitungen. Vergleiche mit dem Plan in der Übung."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: zeichen-bauteile
+        text: "Ordne jedem Buchstaben im Schaltplan das Bauteil zu."
+        material:
+          - type: labelled-figure
+            image: images/stromkreis-geschlossen.svg
+            alt: "Ein Schaltplan mit vier markierten Stellen. A: Batterie, B: Lampe, C: Schalter, D: Leitung."
+            caption: Ein Schaltplan. Die Buchstaben A bis D markieren vier Stellen.
+            legend: false
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+            labels:
+              - { x: 15, y: 50, marker: A, text: Batterie }
+              - { x: 50, y: 20, marker: B, text: Lampe }
+              - { x: 52, y: 80, marker: C, text: Schalter }
+              - { x: 85, y: 50, marker: D, text: Leitung }
+        pairsFrom: material
+        explanation: "A ist die Batterie mit den zwei verschieden langen Strichen, B die Lampe mit dem Kreuz im Kreis, C der geschlossene Schalter, D eine Leitung."
+        links:
+          - { title: Schaltplan (Wikipedia), url: "https://de.wikipedia.org/wiki/Schaltplan" }
+      - type: single-choice
+        id: schaltplan-kreis
+        text: "Du zeichnest einen Schaltplan mit Batterie, Lampe und Schalter. Woran erkennst du, dass der Stromkreis geschlossen ist?"
+        options:
+          - text: Der Schaltplan ist ein Rechteck ohne Lücke, der Schalter ist geschlossen.
+            correct: true
+            info: Dann kann der Strom von einem Pol zum anderen fließen.
+          - text: Die Lampe ist am größten gezeichnet.
+            correct: false
+            info: Die Größe eines Schaltzeichens sagt nichts über den Zustand des Kreises.
+          - text: Die Batterie steht links.
+            correct: false
+            info: Die Lage der Batterie spielt keine Rolle. Wichtig ist der durchgehende Weg.
+        explanation: Ein Schaltplan zeigt einen geschlossenen Stromkreis, wenn der Weg ohne Lücke ist.
+        links:
+          - { title: Schaltplan (Wikipedia), url: "https://de.wikipedia.org/wiki/Schaltplan" }
+      - type: true-false
+        id: schaltzeichen-gleich
+        text: "Ein Schaltzeichen sieht überall auf der Welt etwa gleich aus, damit jeder den Plan lesen kann."
+        answer: true
+        explanation: Schaltzeichen sind genormt. Darum kann man Schaltpläne aus verschiedenen Büchern und Ländern lesen.
+        links:
+          - { title: Schaltplan (Wikipedia), url: "https://de.wikipedia.org/wiki/Schaltplan" }
+      - type: single-choice
+        id: schaltzeichen-luecke
+        text: "Ergänze: Ein Schaltzeichen mit einem Kreuz im Kreis steht für eine ___."
+        options:
+          - { text: Lampe, correct: true, info: "Das Kreuz im Kreis ist das Schaltzeichen der Lampe." }
+          - {
+              text: Batterie,
+              correct: false,
+              info: "Die Batterie hat zwei parallele Striche, einen langen und einen kurzen.",
+            }
+          - { text: Leitung, correct: false, info: "Eine Leitung ist nur eine Linie." }
+        explanation: Die Lampe wird als Kreis mit einem Kreuz gezeichnet.
+        links:
+          - { title: Schaltplan (Wikipedia), url: "https://de.wikipedia.org/wiki/Schaltplan" }

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200" role="img" aria-labelledby="t d">
+  <title id="t">Reihenschaltung</title>
+  <desc id="d">Eine Batterie und zwei Lampen liegen hintereinander in einem Kreis. Der Strom hat nur einen Weg.</desc>
+  <g fill="none" stroke="#222" stroke-width="3" stroke-linecap="round">
+    <path d="M60 40 H110 M150 40 H230 M270 40 H340 V160 H60 V110 M60 90 V40"/>
+    <circle cx="130" cy="40" r="20"/><path d="M116 26 L144 54 M144 26 L116 54"/>
+    <circle cx="250" cy="40" r="20"/><path d="M236 26 L264 54 M264 26 L236 54"/>
+    <path d="M45 110 H75"/><path d="M52 90 H68" stroke-width="7"/>
+  </g>
+  <g font-family="sans-serif" font-size="16" fill="#222">
+    <text x="120" y="85">Lampe 1</text><text x="240" y="85">Lampe 2</text>
+  </g>
+</svg>

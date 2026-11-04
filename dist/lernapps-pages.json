@@ -1,0 +1,90 @@
+{
+  "format": 1,
+  "strand": "physik/elektrizitaetslehre",
+  "pages": [
+    {
+      "path": "stromkreis/einfacher-stromkreis/",
+      "title": "Der einfache Stromkreis",
+      "competencies": [
+        "einfacher-stromkreis"
+      ]
+    },
+    {
+      "path": "stromkreis/schalter/",
+      "title": "Der Schalter",
+      "competencies": [
+        "schalter"
+      ]
+    },
+    {
+      "path": "stromkreis/schaltzeichen/",
+      "title": "Schaltzeichen und Schaltplan",
+      "competencies": [
+        "schaltzeichen"
+      ]
+    },
+    {
+      "path": "leiter/leiter-nichtleiter/",
+      "title": "Leiter und Nichtleiter",
+      "competencies": [
+        "leiter-nichtleiter"
+      ]
+    },
+    {
+      "path": "strom-spannung/stromstaerke/",
+      "title": "Die Stromstärke",
+      "competencies": [
+        "stromstaerke"
+      ]
+    },
+    {
+      "path": "strom-spannung/spannung/",
+      "title": "Die Spannung",
+      "competencies": [
+        "spannung"
+      ]
+    },
+    {
+      "path": "strom-spannung/stromstaerke-messen/",
+      "title": "Die Stromstärke messen",
+      "competencies": [
+        "stromstaerke-messen"
+      ]
+    },
+    {
+      "path": "strom-spannung/spannung-messen/",
+      "title": "Die Spannung messen",
+      "competencies": [
+        "spannung-messen"
+      ]
+    },
+    {
+      "path": "schaltungen/reihenschaltung/",
+      "title": "Die Reihenschaltung",
+      "competencies": [
+        "reihenschaltung"
+      ]
+    },
+    {
+      "path": "schaltungen/parallelschaltung/",
+      "title": "Die Parallelschaltung",
+      "competencies": [
+        "parallelschaltung"
+      ]
+    },
+    {
+      "path": "sicherheit/gefahren-des-stroms/",
+      "title": "Gefahren des Stroms",
+      "competencies": [
+        "gefahren-des-stroms"
+      ]
+    },
+    {
+      "path": "sicherheit/sicher-mit-strom-umgehen/",
+      "title": "Sicher mit Strom umgehen",
+      "competencies": [
+        "sicher-mit-strom-umgehen"
+      ]
+    }
+  ]
+}

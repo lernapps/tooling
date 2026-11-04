@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der einfache Stromkreis
+description: Was zu einem Stromkreis gehört und warum er geschlossen sein muss.
+competencies: [einfacher-stromkreis]
+blocks:
+  - type: section
+    id: aufbau
+    title: Was ein Stromkreis braucht
+    blocks:
+      - type: text
+        text: "Eine Lampe leuchtet nur, wenn Strom durch sie fließt. Dafür brauchst du drei Dinge: eine **Spannungsquelle**, zum Beispiel eine Batterie, einen **Verbraucher**, zum Beispiel eine Lampe, und **Leitungen**, die beides verbinden."
+      - type: definition
+        term: Stromkreis
+        explanation: Ein Stromkreis ist ein Weg aus Leitungen von einem Pol der Spannungsquelle durch den Verbraucher zum anderen Pol.
+      - type: figure
+        image: images/stromkreis-geschlossen.svg
+        alt: Eine Batterie links, eine Lampe oben und ein Schalter unten sind durch Leitungen zu einem Rechteck verbunden. Der Schalter ist geschlossen.
+        caption: Ein geschlossener Stromkreis. Die Lampe leuchtet.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: geschlossen
+    title: Der Kreis muss geschlossen sein
+    blocks:
+      - type: text
+        text: "Der Strom fließt nur, wenn der Weg ohne Lücke von einem Pol durch den Verbraucher zum anderen Pol führt. Das nennt man einen **geschlossenen Stromkreis**. Fehlt irgendwo ein Stück Leitung, ist der Stromkreis **offen**, und es fließt kein Strom."
+      - type: figure
+        image: images/stromkreis-offen.svg
+        alt: Derselbe Stromkreis, aber der Schalter ist geöffnet. Im unteren Teil der Leitung ist eine Lücke.
+        caption: Ein offener Stromkreis. Die Lücke am Schalter unterbricht den Weg, die Lampe bleibt dunkel.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: note
+        title: Strom wird nicht verbraucht
+        blocks:
+          - type: text
+            text: "Die Lampe wandelt elektrische Energie in Licht und Wärme um. Der Strom selbst fließt weiter durch den ganzen Kreis zurück zur Quelle. Hinter der Lampe fließt genauso viel Strom wie davor."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: lampe-dunkel
+        text: "Die Batterie ist neu, aber die Lampe leuchtet nicht. Ein Kabel hat einen Bruch. Warum bleibt die Lampe dunkel?"
+        options:
+          - text: Der Stromkreis ist an der Bruchstelle offen.
+            correct: true
+            info: Ohne durchgehenden Weg kann kein Strom fließen.
+          - text: Die Batterie hat durch den Bruch keine Spannung mehr.
+            correct: false
+            info: Die Batterie hat weiter Spannung. Es fließt aber kein Strom, weil der Weg unterbrochen ist.
+          - text: Der Strom wird schon im Kabel verbraucht.
+            correct: false
+            info: Strom wird nirgends verbraucht. Er fließt im Kreis, wenn dieser geschlossen ist.
+        explanation: Strom fließt nur in einem geschlossenen Stromkreis. Ein Bruch öffnet den Kreis.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: true-false
+        id: strom-verbraucht
+        text: "Hinter der Lampe fließt weniger Strom als davor, weil die Lampe Strom verbraucht."
+        answer: false
+        explanation: Die Lampe verbraucht keinen Strom. Sie wandelt Energie um. Vor und hinter der Lampe fließt gleich viel Strom.
+        links:
+          - { title: Elektrischer Strom (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Strom" }
+      - type: matching
+        id: bauteile-aufgaben
+        text: "Ordne jedem Bauteil seine Aufgabe zu."
+        pairs:
+          - { left: Batterie, right: liefert die Spannung }
+          - { left: Lampe, right: wandelt elektrische Energie in Licht um }
+          - { left: Leitung, right: verbindet die Bauteile }
+        explanation: "Die Batterie ist die Spannungsquelle, die Lampe der Verbraucher, die Leitungen schließen den Kreis."
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: single-choice
+        id: luecke-geschlossen
+        text: "Ergänze: Ein Stromkreis ist ___, wenn der Weg von Pol zu Pol nirgends unterbrochen ist."
+        options:
+          - { text: geschlossen, correct: true, info: "Ein geschlossener Stromkreis hat keine Lücke." }
+          - { text: offen, correct: false, info: "Offen heißt: Es gibt eine Lücke, es fließt kein Strom." }
+          - {
+              text: verbraucht,
+              correct: false,
+              info: "Ein Stromkreis wird nicht verbraucht. Das Wort beschreibt keinen Zustand des Kreises.",
+            }
+        explanation: Nur ein geschlossener Stromkreis lässt Strom fließen.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }

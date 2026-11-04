@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Leiter und Isolatoren
+summary: Welche Stoffe den Strom leiten, welche nicht und wofür man beides braucht.
+pages: [leiter-nichtleiter]

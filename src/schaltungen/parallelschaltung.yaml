@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Parallelschaltung
+description: Eine Parallelschaltung aufbauen und erklären, was beim Ausfall eines Zweigs passiert.
+competencies: [parallelschaltung]
+blocks:
+  - type: section
+    id: aufbau
+    title: Nebeneinander geschaltet
+    blocks:
+      - type: text
+        text: "Bei einer **Parallelschaltung** liegen die Verbraucher nebeneinander in getrennten **Zweigen**. Die Leitung teilt sich an einem Verzweigungspunkt, und der Strom kann auf mehreren Wegen fließen."
+      - type: definition
+        term: Parallelschaltung
+        explanation: In einer Parallelschaltung liegen die Bauteile in getrennten Zweigen nebeneinander. Der Strom hat mehrere Wege.
+      - type: figure
+        image: images/parallelschaltung.svg
+        alt: Eine Batterie und zwei Lampen. Die Leitung teilt sich in zwei Zweige, in jedem liegt eine Lampe.
+        caption: Parallelschaltung von zwei Lampen. Die Punkte zeigen die Verzweigungen.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: ausfall
+    title: Wenn ein Zweig ausfällt
+    blocks:
+      - type: text
+        text: "Geht eine Lampe kaputt, ist nur ihr Zweig unterbrochen. Der andere Zweig bleibt geschlossen, und seine Lampe leuchtet weiter. Deshalb sind die Geräte im Haus parallel geschaltet: Fällt eine Lampe aus, geht nicht der ganze Strom im Haus aus."
+      - type: note
+        title: Reihe oder parallel?
+        blocks:
+          - type: text
+            text: "Reihenschaltung: ein Weg, ein Ausfall stoppt alles. Parallelschaltung: mehrere Wege, ein Ausfall stoppt nur seinen Zweig."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: parallel-ausfall
+        text: "Zwei Lampen sind parallel geschaltet. Eine geht kaputt. Was passiert mit der anderen?"
+        options:
+          - text: Sie leuchtet weiter, ihr Zweig ist noch geschlossen.
+            correct: true
+            info: Jeder Zweig bildet mit der Batterie einen eigenen geschlossenen Kreis.
+          - text: Sie geht auch aus.
+            correct: false
+            info: Das gilt für die Reihenschaltung. Hier gibt es einen zweiten Weg für den Strom.
+          - text: Sie brennt sofort durch.
+            correct: false
+            info: Für die andere Lampe ändert sich nichts, sie bleibt ganz normal an.
+        explanation: Bei der Parallelschaltung bleibt der unbeschädigte Zweig geschlossen.
+        links:
+          - { title: Parallelschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Parallelschaltung" }
+      - type: matching
+        id: schaltung-merkmal
+        text: "Ordne der Schaltung ihr Merkmal zu."
+        pairs:
+          - { left: Reihenschaltung, right: "ein Weg für den Strom" }
+          - { left: Parallelschaltung, right: "mehrere Wege für den Strom" }
+        explanation: Reihe heißt ein Weg, parallel heißt mehrere Zweige.
+        links:
+          - { title: Parallelschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Parallelschaltung" }
+      - type: single-choice
+        id: haus-schaltung
+        text: "Warum sind Lampen und Geräte im Haus parallel geschaltet?"
+        options:
+          - text: Weil jedes Gerät auch ohne die anderen funktioniert.
+            correct: true
+            info: Jedes Gerät hat einen eigenen Zweig und lässt sich einzeln ein- und ausschalten.
+          - text: Weil der Strom sonst verbraucht würde.
+            correct: false
+            info: Strom wird in keiner Schaltung verbraucht.
+          - text: Weil Parallelschaltungen weniger Kabel brauchen.
+            correct: false
+            info: Das stimmt nicht. Es geht darum, dass die Geräte unabhängig voneinander laufen.
+        explanation: Bei einer Parallelschaltung arbeiten die Geräte unabhängig voneinander.
+        links:
+          - { title: Parallelschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Parallelschaltung" }
+      - type: single-choice
+        id: parallel-luecke
+        text: "Ergänze: In einer Parallelschaltung liegt jede Lampe in einem eigenen ___."
+        options:
+          - { text: Zweig, correct: true, info: "Die Leitung teilt sich in Zweige." }
+          - { text: Schalter, correct: false, info: "Ein Schalter ist ein Bauteil und kein Teil der Verzweigung." }
+          - { text: Pol, correct: false, info: "Pole hat nur die Spannungsquelle." }
+        explanation: Jeder Verbraucher hat seinen eigenen Zweig.
+        links:
+          - { title: Parallelschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Parallelschaltung" }

@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Stromstärke und Spannung
+summary: Was Stromstärke und Spannung bedeuten, in welchen Einheiten man sie angibt und wie man sie misst.
+pages: [stromstaerke, spannung, stromstaerke-messen, spannung-messen]

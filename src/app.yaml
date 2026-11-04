@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/elektrizitaetslehre
+title: Stromkreis und elektrischer Strom
+intro: Du lernst, wie ein Stromkreis aufgebaut ist, was Stromstärke und Spannung bedeuten und wie du sicher mit Strom umgehst. Auf jeder Seite erklären wir ein Thema und du übst es gleich.
+languages: [de]
+chapters: [stromkreis, leiter, strom-spannung, schaltungen, sicherheit]
