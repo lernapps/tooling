@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche vergleichen
+description: Brüche mit gleichem Nenner vergleichst du an den Zählern. Bei verschiedenen Nennern erweiterst du zuerst auf einen gemeinsamen Nenner.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Zwei Streifen sind gleich lang. Auf dem einen ist $\frac{3}{8}$ gefärbt, auf dem anderen $\frac{5}{8}$. Welcher
+          Anteil ist größer? Das siehst du sofort. Schwerer wird es, wenn die Nenner verschieden sind. Dafür nutzt du
+          das Erweitern.
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Beide Streifen sind das gleiche Ganze und beide sind in 8 gleich große Teile geteilt.
+      - type: figure
+        image: images/vergleichen-gleichnamig.svg
+        alt: Zwei gleich lange Streifen untereinander, beide in acht gleich große Teile geteilt. Auf dem oberen sind drei Teile blau gestreift, auf dem unteren fünf Teile.
+        caption: Beide Streifen haben gleich große Teile. Zähle die gestreiften Teile.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Sind die Teile gleich groß, entscheidet die Anzahl der gestreiften Teile, also der Zähler. Es gilt
+          $\frac{3}{8} < \frac{5}{8}$. Das Zeichen $<$ liest du „kleiner als“.
+      - type: text
+        text: |
+          Haben zwei Brüche **verschiedene Nenner**, sind die Teile verschieden groß. Dann erweiterst du beide Brüche
+          auf einen gemeinsamen Nenner. Das ist eine Zahl, in die beide Nenner hineinpassen. Mehr dazu findest du bei der
+          [Teilbarkeit](https://lernapps.net/apps/map/mathematik/c/teilbarkeit/). Danach vergleichst du die
+          Zähler. Sind die Zähler gleich, sind die Brüche gleichwertig, also gleich groß.
+      - type: figure
+        image: images/vergleichen-zwei-drittel-drei-viertel.svg
+        alt: Zwei gleich lange Streifen untereinander, beide in zwölf gleich große Teile geteilt. Auf dem oberen sind acht Teile blau gestreift, auf dem unteren neun Teile.
+        caption: $\frac{2}{3}$ und $\frac{3}{4}$ sind beide auf Zwölftel erweitert. Zähle die gestreiften Teile.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: formula
+        formula: '\frac{2}{3} = \frac{8}{12} \quad \frac{3}{4} = \frac{9}{12} \quad \Rightarrow \quad \frac{2}{3} < \frac{3}{4}'
+      - type: note
+        title: Der Nenner allein sagt nichts
+        blocks:
+          - type: text
+            text: |
+              Ein größerer Nenner heißt nicht, dass der Bruch größer ist. Mit größerem Nenner sind die Teile **kleiner**.
+              Hier ist $\frac{1}{3}$ größer als $\frac{1}{8}$.
+          - type: figure
+            image: images/vergleichen-nenner.svg
+            alt: Zwei gleich lange Streifen untereinander. Der obere ist in drei Teile geteilt, ein Teil ist blau gestreift. Der untere ist in acht Teile geteilt, ein Teil ist blau gestreift.
+            caption: Ein Drittel ist länger als ein Achtel.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Welcher Bruch ist größer, 5/6 oder 7/12?
+        blocks:
+          - type: text
+            text: |
+              6 passt in 12. Erweitere $\frac{5}{6}$ mit 2: $\frac{5}{6} = \frac{10}{12}$. Jetzt haben beide Brüche den
+              Nenner 12. Vergleiche die Zähler: $10 > 7$. Also ist $\frac{5}{6}$ größer als $\frac{7}{12}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: ordering
+        id: reihenfolge
+        text: Bringe die Brüche in die richtige Reihenfolge, den kleinsten zuerst.
+        items: ["1/8", "3/8", "5/8", "7/8"]
+        explanation: Alle Brüche haben den Nenner 8. Dann ist der Bruch mit dem kleinsten Zähler der kleinste.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: vergleichen-ueben
+        given:
+          e: { pick: 1, from: { data: vergleichen } }
+        task:
+          text: 'Welcher Bruch ist größer: $\frac{{{e.a}}}{{{e.b}}}$ oder $\frac{{{e.c}}}{{{e.d}}}$?'
+        answer:
+          value: "e.r"
+          compare: { choice: ["der erste Bruch", "der zweite Bruch", "beide Brüche sind gleich groß"] }
+        mistakes:
+          - value: "e.m"
+            message: "Du hast den Nenner verglichen. Ein größerer Nenner heißt kleinere Teile, nicht einen größeren Bruch. Erweitere beide Brüche auf denselben Nenner und vergleiche die Zähler."
+        hint: "Suche eine Zahl, in die beide Nenner hineinpassen, erweitere beide Brüche darauf und vergleiche dann die Zähler."
+        steps:
+          - "Die Nenner {{e.b}} und {{e.d}} gehen beide in {{e.n}} auf. Erweitere beide Brüche auf den Nenner {{e.n}}."
+          - '$\frac{{{e.a}}}{{{e.b}}} = \frac{{{e.x}}}{{{e.n}}}$ und $\frac{{{e.c}}}{{{e.d}}} = \frac{{{e.y}}}{{{e.n}}}$.'
+          - "Bei gleichem Nenner entscheidet der Zähler: {{e.x}} und {{e.y}}. Antwort: {{answer}}."

@@ -1,0 +1,18 @@
+# Zwei Brüche a/b und c/d zum Vergleichen. n ist der gemeinsame Nenner (kleinstes gemeinsames Vielfaches von b und d),
+# x und y sind die Zähler nach dem Erweitern. r ist die richtige Antwort, m die Antwort, wenn der Bruch mit dem
+# größeren Nenner für den größeren gehalten wird. Nenner bis 24, nur echte Brüche, r und m verschieden.
+- { a: 2, b: 3, c: 3, d: 8, n: 24, x: 16, y: 9, r: der erste Bruch, m: der zweite Bruch }
+- { a: 3, b: 4, c: 5, d: 8, n: 8, x: 6, y: 5, r: der erste Bruch, m: der zweite Bruch }
+- { a: 1, b: 2, c: 3, d: 8, n: 8, x: 4, y: 3, r: der erste Bruch, m: der zweite Bruch }
+- { a: 2, b: 3, c: 5, d: 12, n: 12, x: 8, y: 5, r: der erste Bruch, m: der zweite Bruch }
+- { a: 3, b: 5, c: 4, d: 10, n: 10, x: 6, y: 4, r: der erste Bruch, m: der zweite Bruch }
+- { a: 5, b: 6, c: 7, d: 12, n: 12, x: 10, y: 7, r: der erste Bruch, m: der zweite Bruch }
+- { a: 4, b: 5, c: 7, d: 10, n: 10, x: 8, y: 7, r: der erste Bruch, m: der zweite Bruch }
+- { a: 5, b: 12, c: 1, d: 2, n: 12, x: 5, y: 6, r: der zweite Bruch, m: der erste Bruch }
+- { a: 3, b: 8, c: 1, d: 2, n: 8, x: 3, y: 4, r: der zweite Bruch, m: der erste Bruch }
+- { a: 7, b: 12, c: 2, d: 3, n: 12, x: 7, y: 8, r: der zweite Bruch, m: der erste Bruch }
+- { a: 5, b: 8, c: 3, d: 4, n: 8, x: 5, y: 6, r: der zweite Bruch, m: der erste Bruch }
+- { a: 4, b: 10, c: 3, d: 5, n: 10, x: 4, y: 6, r: der zweite Bruch, m: der erste Bruch }
+- { a: 7, b: 10, c: 4, d: 5, n: 10, x: 7, y: 8, r: der zweite Bruch, m: der erste Bruch }
+- { a: 2, b: 3, c: 8, d: 12, n: 12, x: 8, y: 8, r: beide Brüche sind gleich groß, m: der zweite Bruch }
+- { a: 3, b: 4, c: 9, d: 12, n: 12, x: 9, y: 9, r: beide Brüche sind gleich groß, m: der zweite Bruch }

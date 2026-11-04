@@ -1,0 +1,132 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: "Anteile: Was ist ein Bruch?"
+description: Ein Bruch beschreibt einen Teil von einem Ganzen, das in gleich große Teile geteilt ist.
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          4 Kinder teilen eine Tafel Schokolade. Jedes Kind bekommt gleich viel. Jedes Kind bekommt ein Viertel.
+          Mit [natürlichen Zahlen](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/) wie 1, 2, 3
+          zählst du ganze Dinge. Für einen Teil von einem Ganzen brauchst du etwas Neues: den Bruch.
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Im Bild ist der ganze Streifen das **Ganze**, zum Beispiel die Tafel Schokolade. Er ist in 4 Teile
+          geteilt. Alle 4 Teile sind gleich groß. Ein Teil ist blau gestreift.
+      - type: figure
+        image: images/viertel.svg
+        alt: Ein Streifen, der in vier gleich große Teile geteilt ist. Das erste Teil ist blau gestreift.
+        caption: Schau, wie viele Teile der Streifen hat und welches Teil gestreift ist.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Das gestreifte Stück ist **ein Viertel** vom Ganzen. Man schreibt es so: $\frac{1}{4}$.
+      - type: definition
+        term: Bruch
+        explanation: |
+          Ein Bruch beschreibt einen Teil von einem Ganzen. Das Ganze ist in gleich große Teile geteilt.
+      - type: note
+        title: Die Teile müssen gleich groß sein
+        blocks:
+          - type: text
+            text: Nur wenn alle Teile gleich groß sind, kannst du sie zählen und einen Bruch dafür sagen.
+          - type: figure
+            image: images/teile-ungleich.svg
+            alt: Ein Streifen, der in vier verschieden große Teile geteilt ist. Das kleinste Teil ist blau gestreift gefärbt.
+            caption: Auch hier sind es 4 Teile. Das gestreifte Teil ist kein Viertel. Die Teile sind verschieden groß.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Pizza teilen
+        blocks:
+          - type: text
+            text: |
+              Eine Pizza wird in 3 gleich große Stücke geschnitten. Du isst 1 Stück. Du hast **ein Drittel** der
+              Pizza gegessen, geschrieben $\frac{1}{3}$.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: teile-gleich
+        text: Wann ist ein Stück Kuchen ein Viertel vom ganzen Kuchen?
+        explanation: "Ein Viertel heißt: Das Ganze ist in 4 gleich große Teile geteilt, und du nimmst 1 Teil davon."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+        options:
+          - text: Der Kuchen ist in 3 gleich große Stücke geteilt, du nimmst 1.
+            correct: false
+            info: Hier ist das Ganze in 3 gleich große Teile geteilt. Ein Stück ist dann ein Drittel.
+          - text: Der Kuchen ist in 4 Stücke geteilt, du nimmst 1, die Stücke sind verschieden groß.
+            correct: false
+            info: Es sind zwar 4 Stücke, aber ein Viertel gibt es nur bei gleich großen Teilen.
+          - text: Der Kuchen ist in 4 gleich große Stücke geteilt, du nimmst 1.
+            correct: true
+            info: Das Ganze hat 4 gleich große Teile, du nimmst 1 davon. Das ist ein Viertel.
+          - text: Der Kuchen ist in 8 gleich große Stücke geteilt, du nimmst 1.
+            correct: false
+            info: Hier ist das Ganze in 8 gleich große Teile geteilt. Ein Stück ist dann ein Achtel.
+      - type: single-choice
+        id: drittel-erkennen
+        text: Auf welchem Bild ist ein Drittel des Streifens gestreift?
+        material:
+          - type: figure
+            image: images/drittel-a.svg
+            alt: Bild A, ein Streifen mit drei verschieden großen Teilen, das kleinste Teil ist blau gestreift.
+            caption: Bild A
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/drittel-b.svg
+            alt: Bild B, ein Streifen mit drei gleich großen Teilen, das erste Teil ist blau gestreift.
+            caption: Bild B
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/drittel-c.svg
+            alt: Bild C, ein Streifen mit vier gleich großen Teilen, das erste Teil ist blau gestreift.
+            caption: Bild C
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        explanation: Ein Drittel braucht 3 gleich große Teile, von denen 1 gestreift ist.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+        options:
+          - text: Bild A
+            correct: false
+            info: Der Streifen hat zwar 3 Teile, aber sie sind verschieden groß. Das gestreifte Teil ist kein Drittel.
+          - text: Bild B
+            correct: true
+            info: Der Streifen hat 3 gleich große Teile und 1 Teil ist gestreift. Das ist ein Drittel.
+          - text: Bild C
+            correct: false
+            info: Der Streifen hat 4 gleich große Teile. Ein gestreiftes Teil davon ist ein Viertel, kein Drittel.
+      - type: true-false
+        id: gleiche-teile
+        text: Auf dem Bild ist ein Viertel des Streifens gestreift.
+        material:
+          - type: figure
+            image: images/ungleich-aufgabe.svg
+            alt: Ein Streifen mit vier Teilen, das erste Teil ist blau gestreift.
+            caption: Ein Streifen mit 4 Teilen. Ein Teil ist gestreift.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: false
+        explanation: Die 4 Teile sind verschieden groß. Ein Viertel gibt es nur, wenn alle 4 Teile gleich groß sind.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

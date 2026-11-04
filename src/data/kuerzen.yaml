@@ -1,0 +1,14 @@
+# Brüche zum Kürzen: a/b hat den größten gemeinsamen Teiler t und wird mit einem kleineren gemeinsamen Teiler s
+# zu zs/ns, vollständig gekürzt zu z/n. Zähler und Nenner bis 24, nur echte Brüche, s kleiner als t.
+- { a: 8, b: 12, s: 2, t: 4, zs: 4, ns: 6, z: 2, n: 3 }
+- { a: 12, b: 16, s: 2, t: 4, zs: 6, ns: 8, z: 3, n: 4 }
+- { a: 12, b: 20, s: 2, t: 4, zs: 6, ns: 10, z: 3, n: 5 }
+- { a: 16, b: 20, s: 2, t: 4, zs: 8, ns: 10, z: 4, n: 5 }
+- { a: 6, b: 18, s: 3, t: 6, zs: 2, ns: 6, z: 1, n: 3 }
+- { a: 12, b: 18, s: 2, t: 6, zs: 6, ns: 9, z: 2, n: 3 }
+- { a: 18, b: 24, s: 3, t: 6, zs: 6, ns: 8, z: 3, n: 4 }
+- { a: 8, b: 24, s: 2, t: 8, zs: 4, ns: 12, z: 1, n: 3 }
+- { a: 16, b: 24, s: 4, t: 8, zs: 4, ns: 6, z: 2, n: 3 }
+- { a: 9, b: 18, s: 3, t: 9, zs: 3, ns: 6, z: 1, n: 2 }
+- { a: 12, b: 24, s: 3, t: 12, zs: 4, ns: 8, z: 1, n: 2 }
+- { a: 20, b: 24, s: 2, t: 4, zs: 10, ns: 12, z: 5, n: 6 }

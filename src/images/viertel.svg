@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 98" role="img">
+<title>Streifen</title>
+<defs><pattern id="h" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#9ecae1"/><line x1="0" y1="0" x2="0" y2="8" stroke="#2b6a99" stroke-width="3"/></pattern></defs>
+<rect width="360" height="98" fill="#fff"/>
+<text x="20" y="30" font-size="14" fill="#222">Das Ganze: ein Streifen</text><rect x="20.00" y="40" width="80.00" height="44" fill="url(#h)" stroke="#222" stroke-width="2"/><rect x="100.00" y="40" width="80.00" height="44" fill="#fff" stroke="#222" stroke-width="2"/><rect x="180.00" y="40" width="80.00" height="44" fill="#fff" stroke="#222" stroke-width="2"/><rect x="260.00" y="40" width="80.00" height="44" fill="#fff" stroke="#222" stroke-width="2"/>
+</svg>

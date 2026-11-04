@@ -1,0 +1,41 @@
+{
+  "format": 1,
+  "strand": "mathematik/arithmetik",
+  "pages": [
+    {
+      "path": "brueche/anteile/",
+      "title": "Anteile: Was ist ein Bruch?",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "brueche/zaehler-nenner/",
+      "title": "Zähler, Nenner und Brüche darstellen",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "brueche/erweitern/",
+      "title": "Erweitern und gleichwertige Brüche",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "brueche/kuerzen/",
+      "title": "Kürzen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "brueche/vergleichen/",
+      "title": "Brüche vergleichen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Zähler, Nenner und Brüche darstellen
+description: Zähler und Nenner sagen, in wie viele Teile das Ganze geteilt ist und wie viele Teile du nimmst. Du liest Brüche ab und färbst sie ein.
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Du weißt schon: Ein Bruch beschreibt einen Teil von einem Ganzen, das in gleich große Teile geteilt ist. Mit
+          [natürlichen Zahlen](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/) zählst du die Teile.
+          Bisher hast du immer nur 1 Teil genommen. Jetzt nimmst du auch mehr Teile, zum Beispiel 3 Stücke von einer
+          Pizza, die in 8 gleich große Stücke geschnitten ist. Wie schreibst du das auf?
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Der ganze Streifen ist das Ganze. Er ist in 8 gleich große Teile geteilt. 3 Teile sind blau gestreift.
+      - type: figure
+        image: images/drei-achtel.svg
+        alt: Ein Streifen, der in acht gleich große Teile geteilt ist. Die ersten drei Teile sind blau gestreift.
+        caption: Zähle zuerst alle Teile des Streifens, dann die gestreiften Teile.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Dafür schreibst du zwei Zahlen übereinander, getrennt durch den **Bruchstrich**. Das ist der Strich zwischen den Zahlen: $\frac{3}{8}$. Du liest
+          „drei Achtel“.
+      - type: definition
+        term: Nenner
+        explanation: |
+          Der Nenner steht unter dem Bruchstrich. Er sagt, in wie viele gleich große Teile das Ganze geteilt ist, und
+          gibt den Teilen den Namen: Bei 8 Teilen heißen sie Achtel.
+      - type: definition
+        term: Zähler
+        explanation: |
+          Der Zähler steht über dem Bruchstrich. Er zählt, wie viele von diesen Teilen genommen werden.
+      - type: note
+        title: Merkhilfe
+        blocks:
+          - type: text
+            text: Der **Nenner** nennt die Teile, der **Zähler** zählt sie.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Einen Bruch ablesen
+        blocks:
+          - type: figure
+            image: images/zwei-fuenftel.svg
+            alt: Ein Streifen, der in fünf gleich große Teile geteilt ist. Die ersten zwei Teile sind blau gestreift.
+            caption: Der Streifen ist das Ganze.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: |
+              Der Streifen hat 5 gleich große Teile, das ist der Nenner. 2 Teile sind gestreift, das ist der Zähler.
+              Der Bruch heißt $\frac{2}{5}$, gesprochen „zwei Fünftel“.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: bruch-ablesen
+        text: Welcher Bruch gehört zum gestreiften Teil des Streifens?
+        material:
+          - type: figure
+            image: images/fuenf-sechstel.svg
+            alt: Ein Streifen aus gleich großen Teilen, ein Teil davon ist nicht gestreift. Zähle die Teile und die gestreiften Teile.
+            caption: Der Streifen ist das Ganze.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        explanation: Der Streifen hat 6 gleich große Teile, das ist der Nenner. 5 Teile sind gestreift, das ist der Zähler.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+        options:
+          - text: $\frac{6}{5}$
+            correct: false
+            info: "Hier sind Zähler und Nenner vertauscht. Prüfe, was der Nenner sagt: In wie viele Teile ist das Ganze geteilt?"
+          - text: $\frac{5}{6}$
+            correct: true
+            info: 5 von 6 gleich großen Teilen sind gestreift. Der Zähler ist 5, der Nenner 6.
+          - text: $\frac{1}{6}$
+            correct: false
+            info: Das ist das eine Teil, das nicht gestreift ist. Gefragt ist aber der gestreifte Teil des Streifens.
+          - text: $\frac{5}{1}$
+            correct: false
+            info: Der Nenner 1 würde bedeuten, dass das Ganze gar nicht geteilt ist. Zähle alle Teile des Streifens.
+      - type: true-false
+        id: zaehler-nenner-wahl
+        text: Im Bruch $\frac{3}{7}$ sagt die 7, wie viele Teile du nimmst.
+        answer: false
+        explanation: Die 7 steht unter dem Bruchstrich, sie ist der Nenner. Sie sagt, in wie viele gleich große Teile das Ganze geteilt ist. Wie viele Teile du nimmst, sagt der Zähler 3.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: vue-component
+        id: bruch-ausmalen
+        component: BruchFeld
+        props:
+          task: "Der Streifen ist das Ganze und hat {n} gleich große Teile. Färbe den Bruch {z}/{n}: Tippe die Teile an, die du färben willst."
+          cell: "Teil {k} von {n}"
+          mistakes:
+            - "Du hast {k} Teile gefärbt. Das sind die Teile, die übrig bleiben. Lies noch einmal, was der Zähler im Bruch sagt."
+        examples:
+          accepted:
+            - { answer: 1, seed: 1 }
+          rejected:
+            - { answer: 7, seed: 1 }
+            - { answer: 0 }

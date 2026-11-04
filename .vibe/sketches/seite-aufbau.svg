@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 560" width="360" height="560" font-family="sans-serif" font-size="13">
+  <title>Skizze: Aufbau einer Seite, Seite 1 „Anteile“ (360 px breit)</title>
+  <rect width="360" height="560" fill="#fff" stroke="#999"/>
+  <text x="16" y="28" font-size="11" fill="#666">Brüche › Anteile</text>
+  <text x="16" y="56" font-size="20" font-weight="bold">Anteile: Was ist ein Bruch?</text>
+  <text x="16" y="86" font-weight="bold">Einstieg</text>
+  <text x="16" y="106" fill="#333">Eine Pizza wird gerecht in 4 gleiche Stücke</text>
+  <text x="16" y="124" fill="#333">geteilt. Du bekommst 1 Stück. Das ist ein Teil</text>
+  <text x="16" y="142" fill="#333">vom Ganzen.</text>
+  <text x="16" y="172" font-weight="bold">Anschaulich erklärt</text>
+  <rect x="16" y="182" width="328" height="44" fill="#fff" stroke="#333"/>
+  <rect x="16" y="182" width="82" height="44" fill="#9ecae1" stroke="#333"/>
+  <line x1="98" y1="182" x2="98" y2="226" stroke="#333"/><line x1="180" y1="182" x2="180" y2="226" stroke="#333"/><line x1="262" y1="182" x2="262" y2="226" stroke="#333"/>
+  <text x="16" y="244" font-size="11" fill="#666">Bild: Streifen = Ganzes, 4 gleiche Teile, 1 Teil gefärbt</text>
+  <text x="16" y="274" font-weight="bold">Beispiel</text>
+  <rect x="16" y="282" width="328" height="56" fill="#f2f2f2" stroke="#bbb"/>
+  <text x="26" y="304" fill="#333">1 von 4 gleichen Teilen = „ein Viertel“,</text>
+  <text x="26" y="324" fill="#333">geschrieben 1/4</text>
+  <text x="16" y="368" font-weight="bold">Übung</text>
+  <rect x="16" y="378" width="328" height="60" fill="#fff" stroke="#333"/>
+  <text x="26" y="400" fill="#333">Aufgabe 1: Welches Bild zeigt ein Drittel?</text>
+  <text x="26" y="424" fill="#333">( ) A   ( ) B   ( ) C</text>
+  <rect x="16" y="448" width="90" height="36" rx="4" fill="#2a6fdb"/>
+  <text x="38" y="471" fill="#fff">Prüfen</text>
+  <text x="16" y="520" font-size="11" fill="#666">← zurück          weiter →</text>
+</svg>

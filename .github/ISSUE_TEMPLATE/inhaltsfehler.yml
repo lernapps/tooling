@@ -1,0 +1,25 @@
+name: Fehler im Inhalt melden
+description: Eine Frage, eine Antwort oder eine Erklärung stimmt nicht.
+title: "Fehler im Inhalt: "
+body:
+  - type: markdown
+    attributes:
+      value: Danke, dass du hilfst, die App besser zu machen. Schreib bitte keine Namen oder andere persönliche Daten hinein.
+  - type: input
+    id: wo
+    attributes:
+      label: Wo ist der Fehler?
+      description: Die Frage oder die Seite, am besten mit ihrem Link.
+    validations:
+      required: true
+  - type: textarea
+    id: fehler
+    attributes:
+      label: Was stimmt nicht?
+    validations:
+      required: true
+  - type: textarea
+    id: richtig
+    attributes:
+      label: Was wäre richtig?
+      description: Wenn du es weißt, mit einer Quelle, zum Beispiel einem Schulbuch.

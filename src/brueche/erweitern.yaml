@@ -1,0 +1,144 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Erweitern und gleichwertige Brüche
+description: Beim Erweitern teilst du jedes Teil feiner. Der Anteil bleibt gleich, Zähler und Nenner werden mit derselben Zahl multipliziert.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Du hast $\frac{2}{3}$ von einem Streifen gefärbt. Jetzt zerschneidest du jedes Drittel noch einmal in 3 kleine
+          Teile. Du hast mehr Teile, und es sind mehr gefärbte Teile. Ist jetzt mehr gefärbt? Schau dir das genau an.
+          Beim Erweitern multiplizierst du, wie du es von den natürlichen Zahlen kennst. Auch die
+          [Teilbarkeit](https://lernapps.net/apps/map/mathematik/c/teilbarkeit/) brauchst du bald.
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: figure
+        image: images/erweitern-zwei-drittel.svg
+        alt: Zwei gleich lange Streifen untereinander. Der obere hat drei Teile, zwei davon sind blau gestreift. Der untere hat neun Teile, sechs davon sind blau gestreift. Das Gestreifte ist in beiden gleich lang.
+        caption: Der obere Streifen ist das Ganze mit 3 Teilen, der untere dasselbe Ganze mit 9 Teilen. Vergleiche, wie lang das Gestreifte jeweils ist.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Jedes Drittel ist in 3 Teile zerschnitten. Aus 3 Teilen werden $3 \cdot 3 = 9$ Teile, aus 2 gestreiften
+          Teilen werden $2 \cdot 3 = 6$ gestreifte Teile. Das Gestreifte ist gleich lang geblieben. Also gilt:
+      - type: formula
+        formula: '\frac{2}{3} = \frac{2 \cdot 3}{3 \cdot 3} = \frac{6}{9}'
+      - type: definition
+        term: erweitern
+        explanation: |
+          Einen Bruch erweitern heißt: Zähler und Nenner mit derselben Zahl multiplizieren. Der Bruch sieht anders aus,
+          hat aber den gleichen Wert.
+      - type: definition
+        term: gleichwertige Brüche
+        explanation: |
+          Brüche, die denselben Anteil vom Ganzen beschreiben, heißen gleichwertig. $\frac{2}{3}$ und $\frac{6}{9}$ sind
+          gleichwertig.
+      - type: note
+        title: Malnehmen, nicht addieren
+        blocks:
+          - type: text
+            text: |
+              Wenn du nur zum Nenner oder zu beiden Zahlen etwas dazuzählst, ändert sich der Anteil. Zähler und Nenner
+              müssen **beide** mit derselben Zahl **multipliziert** werden.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Der obere Streifen zeigt $\frac{3}{4}$ und bleibt immer gleich. Der untere Streifen ist genauso lang. Mit
+          „+“ erhöhst du den Faktor, mit „−“ verkleinerst du ihn. Dann wird jedes Teil des Streifens in so viele
+          kleine Teile geteilt, wie der Faktor sagt. Achte darauf, was gleich bleibt und was sich ändert, und was
+          bei Zähler und Nenner passiert.
+      - type: vue-component
+        component: BruchErweitern
+        props:
+          a: 3
+          b: 4
+          mode: erweitern
+          max: 6
+          before: "oben: {a} von {b} Teilen"
+          after: "unten: mit {k} erweitert, {z} von {n} Teilen"
+          control: Faktor
+          numerator: "Zähler: {a} · {k} = {z}"
+          denominator: "Nenner: {b} · {k} = {n}"
+          result: "{a}/{b} = {z}/{n}"
+          larger: Faktor erhöhen
+          smaller: Faktor verkleinern
+        nojs: |
+          Zwei gleich lange Streifen untereinander. Oben steht $\frac{3}{4}$. Unten ist dasselbe Stück feiner geteilt:
+          mit dem Faktor 2 wird daraus $\frac{6}{8}$, mit 3 wird es $\frac{9}{12}$, mit 4 wird es $\frac{12}{16}$,
+          mit 5 wird es $\frac{15}{20}$, mit 6 wird es $\frac{18}{24}$. Das Gestreifte bleibt gleich lang.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: $\frac{3}{5}$ mit 4 erweitern
+        blocks:
+          - type: text
+            text: |
+              Zähler: $3 \cdot 4 = 12$. Nenner: $5 \cdot 4 = 20$. Also ist $\frac{3}{5} = \frac{12}{20}$. Beide
+              Brüche beschreiben denselben Anteil.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: gleichwertig-waehlen
+        text: Welcher Bruch ist gleichwertig zu $\frac{2}{3}$?
+        explanation: Man erweitert $\frac{2}{3}$ mit 2 und bekommt $\frac{4}{6}$. Zähler und Nenner werden beide mit 2 multipliziert.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+        options:
+          - text: $\frac{4}{5}$
+            correct: false
+            info: Hier wurde zu Zähler und Nenner 2 addiert. Erweitern heißt aber multiplizieren, und der Anteil ändert sich beim Addieren.
+          - text: $\frac{2}{6}$
+            correct: false
+            info: Hier wurde nur der Nenner mit 2 multipliziert. Der Zähler muss auch mit 2 multipliziert werden.
+          - text: $\frac{4}{6}$
+            correct: true
+            info: Zähler und Nenner wurden beide mit 2 multipliziert. Der Anteil bleibt gleich.
+          - text: $\frac{3}{4}$
+            correct: false
+            info: Hier wurden zu Zähler und Nenner 1 addiert. Dabei ändert sich der Anteil.
+      - type: generated
+        id: erweitern-zaehler
+        given:
+          e: { pick: 1, from: { data: erweitern } }
+        task:
+          text: 'Erweitere: $\frac{{{e.a}}}{{{e.b}}} = \frac{?}{{{e.n}}}$. Welche Zahl gehört an die Stelle des Fragezeichens?'
+        answer: { value: "e.z", compare: { number: { format: integer } } }
+        mistakes:
+          - value: "e.a"
+            message: "Du hast den Zähler nicht verändert. Beim Erweitern müssen Zähler und Nenner mit derselben Zahl multipliziert werden."
+          - value: "e.a + e.n - e.b"
+            message: "Du hast zum Zähler etwas addiert. Erweitern heißt multiplizieren: Der Zähler wird mit derselben Zahl multipliziert wie der Nenner."
+        hint: "Finde zuerst heraus, mit welcher Zahl der Nenner {{e.b}} multipliziert wurde, um {{e.n}} zu bekommen."
+        steps:
+          - "Von {{e.b}} nach {{e.n}} kommst du mit dem Faktor {{e.k}}, denn {{e.b}} · {{e.k}} = {{e.n}}."
+          - "Der Zähler wird mit demselben Faktor multipliziert: {{e.a}} · {{e.k}} = {{answer}}."
+      - type: generated
+        id: erweitern-nenner
+        given:
+          e: { pick: 1, from: { data: erweitern } }
+        task:
+          text: 'Der Bruch $\frac{{{e.a}}}{{{e.b}}}$ wird mit {{e.k}} erweitert. Wie lautet der neue Nenner?'
+        answer: { value: "e.n", compare: { number: { format: integer } } }
+        mistakes:
+          - value: "e.b"
+            message: "Du hast den Nenner nicht verändert. Beim Erweitern werden Zähler und Nenner mit der Zahl multipliziert."
+          - value: "e.b + e.k"
+            message: "Du hast zum Nenner etwas addiert. Erweitern heißt multiplizieren, nicht addieren."
+        hint: "Multipliziere den Nenner {{e.b}} mit dem Erweiterungsfaktor {{e.k}}."
+        steps:
+          - "Der Nenner wird mit dem Faktor multipliziert: {{e.b}} · {{e.k}} = {{answer}}."
+          - "Der Zähler wird auch mit {{e.k}} multipliziert: {{e.a}} · {{e.k}} = {{e.z}}. Der neue Bruch ist also {{e.z}}/{{answer}}."

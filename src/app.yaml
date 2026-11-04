@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: mathematik/arithmetik
+title: Brüche
+intro: |
+  Hier lernst du, was ein Bruch ist: ein Teil von einem Ganzen. Du färbst Anteile selbst ein und probierst aus,
+  wie man Brüche erweitert und kürzt. Danach kannst du Brüche vergleichen. Nach jeder Erklärung übst du gleich selbst.
+languages: [de]
+chapters: [brueche]
