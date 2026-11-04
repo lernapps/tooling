@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" font-family="sans-serif" font-size="13">
+  <title>Skizze: Baustein erweitern-kuerzen, Schritte</title>
+  <rect width="360" height="300" fill="#fff" stroke="#999"/>
+  <text x="16" y="24" font-weight="bold">Start: 2/3, Faktor 1 (gleich fein geteilt)</text>
+  <rect x="16" y="34" width="240" height="30" fill="#fff" stroke="#333"/>
+  <rect x="16" y="34" width="160" height="30" fill="#f4a" opacity=".6"/>
+  <line x1="96" y1="34" x2="96" y2="64" stroke="#333"/><line x1="176" y1="34" x2="176" y2="64" stroke="#333"/>
+  <text x="270" y="54">2/3</text>
+  <text x="16" y="96" font-weight="bold">Nach „feiner teilen ×2“: jedes Stück halbiert</text>
+  <rect x="16" y="106" width="240" height="30" fill="#fff" stroke="#333"/>
+  <rect x="16" y="106" width="160" height="30" fill="#f4a" opacity=".6"/>
+  <g stroke="#333"><line x1="56" y1="106" x2="56" y2="136"/><line x1="96" y1="106" x2="96" y2="136"/><line x1="136" y1="106" x2="136" y2="136"/><line x1="176" y1="106" x2="176" y2="136"/><line x1="216" y1="106" x2="216" y2="136"/></g>
+  <text x="270" y="126">4/6</text>
+  <text x="16" y="164">Beide Streifen sind gleich groß, gleich viel ausgemalt.</text>
+  <text x="16" y="184">Zähler ×2 und Nenner ×2: 2·2 / 3·2 = 4/6</text>
+  <text x="16" y="214" font-weight="bold">Bedienung</text>
+  <text x="16" y="232">[feiner teilen ×2…×6]  [gröber zusammenfassen ÷]</text>
+  <text x="16" y="250">„÷“ nur, wenn der Faktor Zähler und Nenner teilt;</text>
+  <text x="16" y="268">sonst gesperrt mit Hinweis („3 teilt die 4 nicht“).</text>
+  <text x="16" y="288" fill="#555">Ohne JavaScript: beide Bilder und die Rechnung.</text>
+</svg>

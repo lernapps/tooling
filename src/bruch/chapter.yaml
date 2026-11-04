@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Was ist ein Bruch?
+summary: Ein Bruch sagt, welchen Teil von einem Ganzen du meinst. Du lernst, wie man ihn liest, einstellt und aufschreibt.
+pages: [ganzes-und-teile, zaehler-und-nenner]
+selfAssessment:
+  pages:
+    - exercises:
+        - /bruch/ganzes-und-teile/#drittel-oder-nicht
+        - /bruch/ganzes-und-teile/#teile-aus-namen
+        - /bruch/ganzes-und-teile/#kuchen-gerecht
+    - exercises:
+        - /bruch/zaehler-und-nenner/#nenner-ablesen
+        - /bruch/zaehler-und-nenner/#bruch-einstellen
+        - /bruch/zaehler-und-nenner/#zaehler-ablesen

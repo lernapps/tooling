@@ -1,0 +1,160 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Erweitern
+description: Du erweiterst einen Bruch und siehst, warum sein Wert dabei gleich bleibt.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Jedes Stück noch einmal teilen
+    blocks:
+      - type: text
+        text: |
+          Nach dieser Seite kannst du einen Bruch erweitern und sagen, warum er danach gleich viel wert ist. Du kennst
+          schon Zähler und Nenner von der Seite [Zähler und Nenner](/bruch/zaehler-und-nenner/). Du brauchst zusätzlich
+          das Einmaleins.
+      - type: text
+        text: |
+          Eine Pizza ist in 3 gleich große Stücke geschnitten, 2 Stücke sind für dich. Jetzt schneidest du jedes Stück
+          noch einmal in der Mitte durch. Du hast mehr Stücke, aber jedes ist kleiner. Isst du jetzt alle Stücke, die
+          vorher deine zwei Stücke waren, hast du genauso viel Pizza wie vorher.
+  - type: section
+    id: erklaerung
+    title: Was beim Erweitern gleich bleibt
+    blocks:
+      - type: definition
+        term: erweitern
+        explanation: Einen Bruch erweitern heißt, Zähler und Nenner mit derselben Zahl malzunehmen. Der Bruch bekommt mehr, kleinere Teile, aber sein Wert bleibt gleich.
+      - type: formula
+        formula: '\frac{2}{3} = \frac{2 \cdot 2}{3 \cdot 2} = \frac{4}{6}'
+      - type: text
+        text: |
+          Der Nenner wird mit 2 malgenommen, denn jedes Stück wird in 2 Teile geteilt. Der Zähler muss auch mit 2
+          malgenommen werden, denn aus jedem gestreiften Stück werden 2 gestreifte Teile. So bleibt die gestreifte
+          Fläche gleich. Nimmst du nur den Nenner mal 2, würde das Bild anders aussehen: Es wäre weniger gestreift.
+          Addieren geht auch nicht, es wird immer **mal** gerechnet.
+  - type: section
+    id: ausprobieren
+    title: Erweitern im Bild
+    blocks:
+      - type: text
+        text: |
+          Im Baustein stehen zwei gleich lange Streifen untereinander. Oben ist $\frac{2}{3}$, unten derselbe Bruch
+          erweitert. Am Anfang ist der Faktor 1, beide Streifen sind gleich. Drücke „+“ bei „Erweitern mit“ und sieh
+          dir an, wie sich die Teile verändern und was gleich bleibt: die Länge des Streifens und die gestreifte
+          Fläche.
+      - type: vue-component
+        id: erweitern-baustein
+        component: ErweiternKuerzen
+        props:
+          id: erweitern
+          modus: erweitern
+          zaehler: 2
+          nenner: 3
+          faktorLabel: Erweitern mit
+          mehr: nächster Faktor
+          weniger: vorheriger Faktor
+          oben: "Oben: {z}/{n}, nicht erweitert"
+          unten: "Unten: {z2}/{n2}, erweitert mit {f}"
+          satz: "{z}/{n} erweitert mit {f} ist {z2}/{n2}: Zähler und Nenner mal {f}. Die gestreifte Fläche ist gleich groß."
+          hinweis: ""
+        nojs: |
+          Der Baustein zeigt zwei gleich lange Streifen untereinander. Oben ist $\frac{2}{3}$, unten derselbe Bruch,
+          erweitert mit einem Faktor von 1 bis 6. Beispiele: Mit 2 wird daraus $\frac{4}{6}$, mit 3 wird es
+          $\frac{6}{9}$, mit 6 wird es $\frac{12}{18}$. Die gestreifte Fläche ist in allen Streifen gleich lang,
+          nur die Zahl der Teile ändert sich.
+  - type: section
+    id: beispiel
+    title: Beispiel mit Schokolade
+    blocks:
+      - type: example
+        title: Drei Viertel erweitern mit 5
+        blocks:
+          - type: text
+            text: |
+              Du willst $\frac{3}{4}$ mit 5 erweitern. Rechne Zähler und Nenner mal 5.
+          - type: formula
+            formula: '\frac{3}{4} = \frac{3 \cdot 5}{4 \cdot 5} = \frac{15}{20}'
+          - type: text
+            text: Der Bruch hat jetzt 20 Teile, 15 davon sind gemeint. Er ist gleich viel wert wie vorher.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: gleicher-wert
+        text: Welcher Bruch ist $\frac{2}{3}$, mit 2 erweitert?
+        options:
+          - text: $\frac{4}{6}$
+            correct: true
+            info: "Richtig: 2 · 2 = 4 und 3 · 2 = 6. Beide Zahlen werden mit 2 malgenommen."
+          - text: $\frac{2}{6}$
+            correct: false
+            info: "Hier wurde nur der Nenner mal 2 genommen. Der Zähler muss auch mit 2 malgenommen werden, sonst ist es weniger Pizza."
+          - text: $\frac{3}{4}$
+            correct: false
+            info: "Hier wurde zu Zähler und Nenner 1 addiert. Beim Erweitern wird malgenommen, nicht addiert."
+        hint: Zähler und Nenner werden beide mit 2 malgenommen.
+        explanation: Beim Erweitern nimmst du Zähler und Nenner mit derselben Zahl mal. Aus $\frac{2}{3}$ wird so $\frac{4}{6}$.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: erweitern-zaehler
+        given:
+          z: { int: [1, 7] }
+          n: { int: [2, 9] }
+          k: { int: [2, 6] }
+        where: ["z < n", "z * k != z + k"]
+        task:
+          text: "Erweitere $\\frac{{{z}}}{{{n}}}$ mit {{k}}. Wie heißt der neue Zähler?"
+        answer: { value: "z * k", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "z",
+              message: "Du hast nur den Nenner erweitert. Beim Erweitern werden Zähler und Nenner mit {{k}} malgenommen.",
+            }
+          - { value: "z + k", message: "Du hast {{k}} addiert. Beim Erweitern wird mit {{k}} malgenommen." }
+        hint: "Nimm den Zähler {{z}} mal {{k}}."
+        steps:
+          - "Beim Erweitern werden Zähler und Nenner mit derselben Zahl malgenommen, hier mit {{k}}."
+          - 'Der neue Zähler ist $\frac{{{z}}}{{{n}}} = \frac{{{z}} \cdot {{k}}}{{{n}} \cdot {{k}}}$, also {{z}} · {{k}} = {{answer}}.'
+      - type: generated
+        id: erweitern-nenner
+        given:
+          z: { int: [1, 7] }
+          n: { int: [2, 9] }
+          k: { int: [2, 6] }
+        where: ["z < n", "n * k != n + k"]
+        task:
+          text: "Erweitere $\\frac{{{z}}}{{{n}}}$ mit {{k}}. Wie heißt der neue Nenner?"
+        answer: { value: "n * k", compare: { number: { format: integer } } }
+        mistakes:
+          - { value: "n", message: "Der Nenner bleibt nicht gleich. Beim Erweitern wird er mit {{k}} malgenommen." }
+          - { value: "n + k", message: "Du hast {{k}} addiert. Beim Erweitern wird mit {{k}} malgenommen." }
+        hint: "Nimm den Nenner {{n}} mal {{k}}."
+        steps:
+          - "Beim Erweitern werden Zähler und Nenner mit derselben Zahl malgenommen, hier mit {{k}}."
+          - "Der neue Nenner ist {{n}} · {{k}} = {{answer}}."
+      - type: generated
+        id: erweitern-ziel
+        given:
+          z: { int: [1, 5] }
+          n: { oneOf: [3, 4, 5, 6] }
+          N: { oneOf: [12, 15, 20, 24, 30, 36] }
+        where: ["z < n", "decimals(N / n) == 0", "N / n >= 2", "N / n <= 8"]
+        task:
+          text: "Erweitere $\\frac{{{z}}}{{{n}}}$ so, dass der Nenner {{N}} wird. Wie heißt der neue Zähler?"
+        answer: { value: "z * N / n", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "z + N - n",
+              message: "Du hast den Unterschied der Nenner addiert. Der Nenner ist mit einer Zahl malgenommen worden, der Zähler braucht dieselbe.",
+            }
+          - {
+              value: "z",
+              message: "Der Zähler bleibt nicht gleich. Er wird mit derselben Zahl wie der Nenner malgenommen.",
+            }
+        hint: "Mit welcher Zahl musst du {{n}} malnehmen, um {{N}} zu erhalten?"
+        steps:
+          - "Frage: {{n}} mal welche Zahl ist {{N}}? Das ist der Faktor {{N}} : {{n}}."
+          - "Den Zähler {{z}} nimmst du mit demselben Faktor mal: {{z}} · {{N}} : {{n}} = {{answer}}."

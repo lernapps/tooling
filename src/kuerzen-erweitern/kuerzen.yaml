@@ -1,0 +1,157 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Kürzen
+description: Du kürzt einen Bruch, bis er sich nicht mehr kürzen lässt, und siehst, warum sein Wert gleich bleibt.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Stücke wieder zusammenlegen
+    blocks:
+      - type: text
+        text: |
+          Nach dieser Seite kannst du einen Bruch kürzen, also mit weniger, größeren Teilen aufschreiben. Kürzen ist
+          das Gegenteil von Erweitern ([Erweitern](/kuerzen-erweitern/erweitern/)). Du brauchst Teiler und
+          Teilbarkeitsregeln ([Teilbarkeit, kurz wiederholt](/kuerzen-erweitern/teilbarkeit-wiederholt/)).
+      - type: text
+        text: |
+          Eine Tafel Schokolade hat 12 Stücke, 8 davon sind noch da. Du legst immer 4 Stücke zu einem großen Stück
+          zusammen. Dann hat die Tafel nur noch 3 große Stücke, und 2 davon sind noch da. Es ist dieselbe Menge
+          Schokolade.
+  - type: section
+    id: erklaerung
+    title: Durch dieselbe Zahl teilen
+    blocks:
+      - type: definition
+        term: kürzen
+        explanation: Einen Bruch kürzen heißt, Zähler und Nenner durch dieselbe Zahl zu teilen. Der Bruch bekommt weniger, größere Teile, aber sein Wert bleibt gleich.
+      - type: formula
+        formula: '\frac{8}{12} = \frac{8 : 4}{12 : 4} = \frac{2}{3}'
+      - type: text
+        text: |
+          Du darfst nur durch eine Zahl teilen, die in Zähler **und** Nenner aufgeht. Bei $\frac{8}{12}$ sind das 2 und
+          4, denn beide Zahlen lassen sich durch 2 und durch 4 teilen. Durch 3 geht es nicht, denn 8 lässt sich nicht
+          durch 3 teilen. Teilst du nur den Zähler oder nur den Nenner, ändert sich der Wert des Bruchs.
+          Wenn du durch 2 kürzt, bekommst du $\frac{4}{6}$. Das lässt sich noch durch 2 kürzen. Mit der größten Zahl, die
+          in beiden aufgeht, bist du in einem Schritt fertig. Fertig gekürzt ist ein Bruch, wenn keine Zahl außer 1 mehr
+          in Zähler und Nenner aufgeht.
+  - type: section
+    id: ausprobieren
+    title: Kürzen im Bild
+    blocks:
+      - type: text
+        text: |
+          Im Baustein stehen zwei gleich lange Streifen untereinander. Oben ist $\frac{8}{12}$, unten derselbe Bruch
+          gekürzt. Am Anfang ist die Zahl 1, beide Streifen sind gleich. Drücke „+“ bei „Kürzen mit“ und sieh dir an,
+          wie die Teile größer werden und was gleich bleibt: die Länge des Streifens und die gestreifte Fläche. Der
+          Baustein bietet nur Zahlen an, die Zähler und Nenner teilen.
+      - type: vue-component
+        id: kuerzen-baustein
+        component: ErweiternKuerzen
+        props:
+          id: kuerzen
+          modus: kuerzen
+          zaehler: 8
+          nenner: 12
+          faktorLabel: Kürzen mit
+          mehr: nächste Zahl
+          weniger: vorherige Zahl
+          oben: "Oben: {z}/{n}, nicht gekürzt"
+          unten: "Unten: {z2}/{n2}, gekürzt mit {f}"
+          satz: "{z}/{n} gekürzt mit {f} ist {z2}/{n2}: Zähler und Nenner durch {f}. Die gestreifte Fläche ist gleich groß."
+          hinweis: "Du kannst nur mit 1 oder mit einer dieser Zahlen kürzen: {liste}. Nur sie gehen in Zähler und Nenner auf."
+        nojs: |
+          Der Baustein zeigt zwei gleich lange Streifen untereinander. Oben ist $\frac{8}{12}$, unten derselbe Bruch,
+          gekürzt mit einer Zahl, die in 8 und 12 aufgeht (1, 2 oder 4). Mit 2 wird daraus $\frac{4}{6}$, mit 4 wird es
+          $\frac{2}{3}$. Die gestreifte Fläche ist in allen Streifen gleich lang, nur die Zahl der Teile ändert sich.
+  - type: section
+    id: beispiel
+    title: Beispiel mit einer Pizza
+    blocks:
+      - type: example
+        title: Neun Zwölftel kürzen
+        blocks:
+          - type: text
+            text: |
+              Von einer Pizza mit 12 Stücken sind 9 Stücke belegt. Welche Zahl geht in 9 und in 12 auf? Die 3. Teile
+              Zähler und Nenner durch 3.
+          - type: formula
+            formula: '\frac{9}{12} = \frac{9 : 3}{12 : 3} = \frac{3}{4}'
+          - type: text
+            text: Bei $\frac{3}{4}$ geht nur noch die 1 in Zähler und Nenner auf. Der Bruch ist fertig gekürzt.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: weitester-teiler
+        text: Du willst $\frac{8}{12}$ in einem Schritt so weit wie möglich kürzen. Durch welche Zahl teilst du Zähler und Nenner?
+        options:
+          - text: durch 4
+            correct: true
+            info: "Richtig: 4 geht in 8 und in 12 auf. Es wird $\\frac{2}{3}$, das ist fertig gekürzt."
+          - text: durch 2
+            correct: false
+            info: "Auch 2 geht in beiden auf. Es wird $\\frac{4}{6}$, und das lässt sich noch weiter kürzen."
+          - text: durch 3
+            correct: false
+            info: "3 geht in 12 auf, aber nicht in 8. Du darfst nur durch eine Zahl kürzen, die in beiden aufgeht."
+        hint: Welche der Zahlen geht in 8 und in 12 auf, und welche ist die größte?
+        explanation: 4 ist die größte Zahl, die in 8 und in 12 aufgeht. Mit ihr kürzt du in einem Schritt zu $\frac{2}{3}$.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: kuerzen-zaehler
+        given:
+          e: { pick: 1, from: { data: brueche } }
+        task:
+          text: "Kürze $\\frac{{{e.z}}}{{{e.n}}}$ mit {{e.d}}. Wie heißt der neue Zähler?"
+        answer: { value: "e.zk", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.z",
+              message: "Du hast nur den Nenner gekürzt. Beim Kürzen werden Zähler und Nenner durch {{e.d}} geteilt.",
+            }
+          - { value: "e.nk", message: "Das ist der neue Nenner. Du solltest den Zähler {{e.z}} durch {{e.d}} teilen." }
+        hint: "Teile den Zähler {{e.z}} durch {{e.d}}."
+        steps:
+          - "Beim Kürzen werden Zähler und Nenner durch dieselbe Zahl geteilt, hier durch {{e.d}}."
+          - "Der neue Zähler ist {{e.z}} : {{e.d}} = {{answer}}."
+      - type: generated
+        id: kuerzen-nenner
+        given:
+          e: { pick: 1, from: { data: brueche } }
+        task:
+          text: "Kürze $\\frac{{{e.z}}}{{{e.n}}}$ mit {{e.d}}. Wie heißt der neue Nenner?"
+        answer: { value: "e.nk", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.n",
+              message: "Du hast nur den Zähler gekürzt. Beim Kürzen werden Zähler und Nenner durch {{e.d}} geteilt.",
+            }
+          - { value: "e.zk", message: "Das ist der neue Zähler. Du solltest den Nenner {{e.n}} durch {{e.d}} teilen." }
+        hint: "Teile den Nenner {{e.n}} durch {{e.d}}."
+        steps:
+          - "Beim Kürzen werden Zähler und Nenner durch dieselbe Zahl geteilt, hier durch {{e.d}}."
+          - "Der neue Nenner ist {{e.n}} : {{e.d}} = {{answer}}."
+      - type: generated
+        id: kuerzen-vollstaendig
+        given:
+          e: { pick: 1, from: { data: brueche } }
+        where: ["e.d != 2", "e.d != 3", "e.d != 5", "e.d != 7"]
+        task:
+          text: "Kürze $\\frac{{{e.z}}}{{{e.n}}}$ so weit wie möglich. Wie heißt der Nenner des fertig gekürzten Bruchs?"
+        answer: { value: "e.nk", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.nh",
+              message: "Dein Bruch lässt sich noch weiter kürzen. Suche eine Zahl, die in Zähler und Nenner aufgeht.",
+            }
+          - {
+              value: "e.n",
+              message: "Du hast den Bruch nicht gekürzt. Suche eine Zahl außer 1, die in Zähler {{e.z}} und Nenner {{e.n}} aufgeht.",
+            }
+        hint: "Welche Zahl geht in {{e.z}} und in {{e.n}} auf?"
+        steps:
+          - "Suche die größte Zahl, die in {{e.z}} und in {{e.n}} aufgeht: {{e.d}}."
+          - "Teile beide durch {{e.d}}: {{e.z}} : {{e.d}} = {{e.zk}} und {{e.n}} : {{e.d}} = {{answer}}. Der Nenner ist {{answer}}."

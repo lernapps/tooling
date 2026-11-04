@@ -1,0 +1,22 @@
+# Brüche zum Kürzen: z/n wird mit d zu zk/nk gekürzt (zk/nk lässt sich nicht weiter kürzen).
+# zh/nh: halb gekürzt (durch 2), nur bei zusammengesetztem d verschieden von zk/nk; sonst gleich z/n und nicht verwendet.
+- { z: 2, n: 4, zk: 1, nk: 2, d: 2, zh: 2, nh: 4 }
+- { z: 3, n: 6, zk: 1, nk: 2, d: 3, zh: 3, nh: 6 }
+- { z: 4, n: 6, zk: 2, nk: 3, d: 2, zh: 4, nh: 6 }
+- { z: 6, n: 9, zk: 2, nk: 3, d: 3, zh: 6, nh: 9 }
+- { z: 4, n: 8, zk: 1, nk: 2, d: 4, zh: 2, nh: 4 }
+- { z: 6, n: 8, zk: 3, nk: 4, d: 2, zh: 6, nh: 8 }
+- { z: 8, n: 12, zk: 2, nk: 3, d: 4, zh: 4, nh: 6 }
+- { z: 9, n: 12, zk: 3, nk: 4, d: 3, zh: 9, nh: 12 }
+- { z: 10, n: 15, zk: 2, nk: 3, d: 5, zh: 10, nh: 15 }
+- { z: 6, n: 10, zk: 3, nk: 5, d: 2, zh: 6, nh: 10 }
+- { z: 12, n: 16, zk: 3, nk: 4, d: 4, zh: 6, nh: 8 }
+- { z: 15, n: 20, zk: 3, nk: 4, d: 5, zh: 15, nh: 20 }
+- { z: 8, n: 10, zk: 4, nk: 5, d: 2, zh: 8, nh: 10 }
+- { z: 10, n: 12, zk: 5, nk: 6, d: 2, zh: 10, nh: 12 }
+- { z: 14, n: 21, zk: 2, nk: 3, d: 7, zh: 14, nh: 21 }
+- { z: 12, n: 18, zk: 2, nk: 3, d: 6, zh: 6, nh: 9 }
+- { z: 18, n: 24, zk: 3, nk: 4, d: 6, zh: 9, nh: 12 }
+- { z: 16, n: 20, zk: 4, nk: 5, d: 4, zh: 8, nh: 10 }
+- { z: 10, n: 25, zk: 2, nk: 5, d: 5, zh: 10, nh: 25 }
+- { z: 20, n: 30, zk: 2, nk: 3, d: 10, zh: 10, nh: 15 }

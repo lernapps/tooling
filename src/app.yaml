@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: mathematik/arithmetik
+title: Brüche verstehen, kürzen und erweitern
+intro: |
+  Du siehst an Rechtecken, Kreisen und Pizzen, was ein Bruch ist, und probierst selbst aus, wie man Brüche erweitert,
+  kürzt und vergleicht. Nach jedem Teil übst du mit Aufgaben, die dir bei typischen Fehlern helfen. Für Klasse 6.
+languages: [de]
+chapters: [bruch, kuerzen-erweitern]

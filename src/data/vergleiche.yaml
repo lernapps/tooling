@@ -1,0 +1,12 @@
+# Zwei Brüche a/b und c/d, gleichnamig mit dem Nenner h (dem kleinsten gemeinsamen Vielfachen von b und d):
+# ah/h und ch/h. Immer a/b ≠ c/d.
+- { a: 1, b: 2, c: 2, d: 3, h: 6, ah: 3, ch: 4 }
+- { a: 3, b: 4, c: 2, d: 3, h: 12, ah: 9, ch: 8 }
+- { a: 2, b: 5, c: 1, d: 2, h: 10, ah: 4, ch: 5 }
+- { a: 3, b: 5, c: 2, d: 3, h: 15, ah: 9, ch: 10 }
+- { a: 5, b: 6, c: 3, d: 4, h: 12, ah: 10, ch: 9 }
+- { a: 1, b: 3, c: 2, d: 5, h: 15, ah: 5, ch: 6 }
+- { a: 4, b: 5, c: 5, d: 6, h: 30, ah: 24, ch: 25 }
+- { a: 2, b: 3, c: 3, d: 5, h: 15, ah: 10, ch: 9 }
+- { a: 3, b: 4, c: 4, d: 5, h: 20, ah: 15, ch: 16 }
+- { a: 1, b: 4, c: 1, d: 6, h: 12, ah: 3, ch: 2 }

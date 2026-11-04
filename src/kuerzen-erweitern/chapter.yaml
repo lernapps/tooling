@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Erweitern, kürzen, vergleichen
+summary: Du lernst, wie du einen Bruch feiner oder gröber einteilst, ohne seinen Wert zu ändern, und wie du Brüche der Größe nach vergleichst.
+pages: [erweitern, teilbarkeit-wiederholt, kuerzen, vergleichen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /kuerzen-erweitern/erweitern/#gleicher-wert
+        - /kuerzen-erweitern/erweitern/#erweitern-zaehler
+        - /kuerzen-erweitern/erweitern/#erweitern-ziel
+    - exercises:
+        - /kuerzen-erweitern/kuerzen/#weitester-teiler
+        - /kuerzen-erweitern/kuerzen/#kuerzen-zaehler
+        - /kuerzen-erweitern/kuerzen/#kuerzen-vollstaendig
+    - exercises:
+        - /kuerzen-erweitern/vergleichen/#groesser-stammbruch
+        - /kuerzen-erweitern/vergleichen/#gleichnamig-zaehler
+        - /kuerzen-erweitern/vergleichen/#welcher-ist-groesser

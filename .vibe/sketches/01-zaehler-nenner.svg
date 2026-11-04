@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 560" font-family="sans-serif" font-size="13">
+  <title>Skizze: Seite „Zähler und Nenner“ (360 px breit)</title>
+  <rect width="360" height="560" fill="#fff" stroke="#999"/>
+  <text x="16" y="28" font-size="18" font-weight="bold">Zähler und Nenner</text>
+  <text x="16" y="50">Danach kannst du jeden Bruch lesen und aufschreiben.</text>
+  <text x="16" y="68" fill="#555">Davor: Ganzes und Teile (gleich große Teile).</text>
+  <text x="16" y="96" font-weight="bold">Einstieg: eine Pizza in 8 Stücke</text>
+  <circle cx="70" cy="150" r="40" fill="#fff" stroke="#333"/>
+  <path d="M70 150 L70 110 A40 40 0 0 1 98 121.7 Z" fill="#f4a" opacity=".6" stroke="#333"/>
+  <text x="130" y="140">3 von 8 Stücken sind belegt:</text>
+  <text x="130" y="162" font-size="20">3/8 (Zähler / Nenner)</text>
+  <text x="16" y="222" font-weight="bold">Erklärung: Was sagen die Zahlen?</text>
+  <text x="16" y="242">Nenner = in wie viele gleiche Teile geteilt wird</text>
+  <text x="16" y="260">Zähler = wie viele Teile genommen werden</text>
+  <text x="16" y="290" font-weight="bold">Ausprobieren: Baustein „Bruch einstellen“</text>
+  <rect x="16" y="300" width="328" height="120" fill="#eef" stroke="#66a"/>
+  <text x="26" y="322">Nenner [−] 4 [+]   Zähler [−] 3 [+]   [Rechteck|Kreis]</text>
+  <rect x="26" y="336" width="200" height="40" fill="#fff" stroke="#333"/>
+  <rect x="26" y="336" width="150" height="40" fill="#f4a" opacity=".6"/>
+  <text x="26" y="400">Dein Bruch: 3/4 (ausmalen: 3 von 4 Teilen)</text>
+  <text x="16" y="448" font-weight="bold">Beispiel</text>
+  <text x="16" y="466" fill="#555">Schokolade, 12 Stücke, 5 gegessen: 5/12</text>
+  <text x="16" y="494" font-weight="bold">Übung</text>
+  <text x="16" y="512">1 Bild ablesen: Welcher Nenner? (Eingabe)   [Prüfen]</text>
+  <text x="16" y="530">2 Bruch 2/5 im Baustein einstellen   [Prüfen]</text>
+  <text x="16" y="548">3 Stimmt das? 4/3 = 3 von 4 Teilen (wahr/falsch)</text>
+</svg>

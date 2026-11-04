@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Zähler und Nenner
+description: Du liest einen Bruch am Bild ab, stellst ihn selbst ein und schreibst ihn mit Zähler und Nenner auf.
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Eine Pizza, drei belegte Stücke
+    blocks:
+      - type: text
+        text: |
+          Nach dieser Seite kannst du einen Bruch am Bild ablesen, selbst einstellen und mit Zähler und Nenner
+          aufschreiben. Du brauchst nur Zahlen bis 12 und weißt von der Seite [Ganzes und Teile](/bruch/ganzes-und-teile/), wie man ein Ganzes in gleich große Teile teilt
+          ([natürliche Zahlen auf der Lernkarte](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/)).
+      - type: text
+        text: |
+          Eine Pizza ist in 8 gleich große Stücke geschnitten. Auf 3 Stücken liegt Salami; im Bild sind diese Stücke
+          blau gestreift. Wie sagst du kurz, welcher Teil der Pizza belegt ist? Das erfährst du gleich.
+      - type: figure
+        image: images/pizza-belegt.svg
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        alt: Eine runde Pizza in acht gleich große Stücke geteilt, drei Stücke sind blau gestreift ausgemalt.
+        caption: "Das Ganze ist die ganze Pizza. Die gestreiften Stücke sind die belegten."
+  - type: section
+    id: erklaerung
+    title: Was die beiden Zahlen sagen
+    blocks:
+      - type: text
+        text: |
+          Du sagst: drei von acht Stücken sind belegt, also **drei Achtel**. Ein Achtel ist ein Stück von acht gleich großen
+          Stücken. Als Bruch schreibst du das mit einem Strich dazwischen, dem Bruchstrich:
+      - type: formula
+        formula: '\frac{3}{8}'
+      - type: definition
+        term: Bruch
+        explanation: Ein Bruch sagt, welcher Teil von einem Ganzen gemeint ist. Das Ganze ist in gleich große Teile geteilt, und du nimmst einige davon.
+      - type: definition
+        term: Nenner
+        explanation: Der Nenner steht unter dem Bruchstrich. Er sagt, in wie viele gleich große Teile das Ganze geteilt ist.
+      - type: definition
+        term: Zähler
+        explanation: Der Zähler steht über dem Bruchstrich. Er zählt, wie viele von diesen Teilen gemeint sind, bei der Pizza die belegten.
+      - type: text
+        text: |
+          Bei $\frac{3}{8}$ ist der Nenner 8, denn die Pizza hat 8 Stücke. Der Zähler ist 3, denn 3 Stücke sind
+          belegt. Im Text schreiben wir den Bruch auch mit einem Schrägstrich: 3/8. Gemeint ist dasselbe. Achte darauf: Die
+          Teile müssen gleich groß sein. Sind die Stücke einer Pizza verschieden groß, sagt der Nenner nicht, wie groß
+          ein Stück ist.
+  - type: section
+    id: ausprobieren
+    title: Bruch einstellen
+    blocks:
+      - type: text
+        text: |
+          Im Baustein ist das Ganze ein Rechteck oder ein Kreis. Mit den Tasten beim Nenner änderst du, in wie viele
+          gleich große Teile das Ganze geteilt ist. Mit den Tasten beim Zähler änderst du, wie viele Teile gestreift
+          sind. Das Ganze bleibt immer gleich groß. Am Anfang zeigt er $\frac{1}{4}$. Drücke „+“ beim Zähler und sieh dir an, was mit dem Bild passiert.
+          Drücke dann „+“ beim Nenner und sieh dir an, wie groß jedes Teil ist. Der Zähler kann nicht größer werden als
+          der Nenner: Mehr Teile, als das Ganze hat, kannst du nicht ausmalen. Beim Zähler 0 ist nichts ausgemalt. Beide
+          Formen, Rechteck und Kreis, zeigen denselben Bruch.
+      - type: vue-component
+        id: bruch-baustein
+        component: BruchBaustein
+        props:
+          id: baustein
+          nennerLabel: Nenner (Anzahl aller Teile)
+          zaehlerLabel: Zähler (ausgemalte Teile)
+          rechteck: Rechteck
+          kreis: Kreis
+          mehr: eins mehr
+          weniger: eins weniger
+          satz: "{z} von {n} gleich großen Teilen sind ausgemalt. Der Bruch ist {z}/{n}."
+        nojs: |
+          Der Baustein zeigt ein Ganzes als Rechteck oder Kreis. Du stellst ein, in wie viele gleich große Teile es
+          geteilt ist (der Nenner, 2 bis 12) und wie viele davon ausgemalt sind (der Zähler, 0 bis zum Nenner). Zum
+          Beispiel: Nenner 4 und Zähler 1 sind $\frac{1}{4}$, ein Teil von vier gleich großen Teilen. Nenner 4 und
+          Zähler 3 sind $\frac{3}{4}$, drei Teile von vier. Nenner 5 und Zähler 3 sind $\frac{3}{5}$: Das Ganze ist
+          gleich groß, aber jedes der fünf Teile ist kleiner als eines der vier Teile.
+  - type: section
+    id: beispiel
+    title: Beispiel mit Schokolade
+    blocks:
+      - type: example
+        title: Eine Tafel Schokolade
+        blocks:
+          - type: text
+            text: |
+              Eine Tafel hat 12 gleich große Stücke. Du isst 5 Stücke. Das Ganze ist die Tafel, der Nenner ist 12, der
+              Zähler ist 5. Du hast $\frac{5}{12}$ der Tafel gegessen, in der Schreibweise mit Schrägstrich 5/12. Stelle im
+              Baustein oben Nenner 12 und Zähler 5 ein und sieh dir das Bild an.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: number
+        id: nenner-ablesen
+        text: Wie groß ist der Nenner des ausgemalten Bruchs?
+        material:
+          - type: figure
+            image: images/streifen-ablesen.svg
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+            alt: Ein Rechteck, in gleich große Teile geteilt. Einige Teile sind blau gestreift ausgemalt.
+            caption: "Schau auf alle Teile des Ganzen, nicht nur auf die ausgemalten."
+        answer: 6
+        tolerance: 0
+        mistakes:
+          - answer: 5
+            message: "Du hast die ausgemalten Teile gezählt. Das ist der Zähler. Der Nenner zählt alle gleich großen Teile."
+        hint: Zähle alle Teile des Rechtecks, auch die nicht ausgemalten.
+        explanation: Das Rechteck hat 6 gleich große Teile, also ist der Nenner 6. Die 5 ausgemalten Teile ergeben den Zähler.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: number
+        id: zaehler-ablesen
+        text: Wie groß ist der Zähler des ausgemalten Bruchs?
+        material:
+          - type: figure
+            image: images/kreis-ablesen.svg
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+            alt: Ein Kreis, in gleich große Teile geteilt. Einige Teile sind blau gestreift ausgemalt.
+            caption: "Schau auf die gestreiften Teile."
+        answer: 4
+        tolerance: 0
+        mistakes:
+          - answer: 7
+            message: "Du hast alle Teile gezählt. Das ist der Nenner. Der Zähler zählt nur die ausgemalten Teile."
+          - answer: 3
+            message: "Du hast die Teile gezählt, die nicht ausgemalt sind. Der Zähler zählt die ausgemalten."
+        hint: Zähle nur die gestreiften Teile.
+        explanation: Es sind 4 Teile ausgemalt, also ist der Zähler 4. Der Kreis hat 7 Teile, der Bruch ist also vier Siebtel.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: vue-component
+        id: bruch-einstellen
+        component: BruchEinstellen
+        props:
+          task: "Das Ganze hat {n} gleich große Teile. {z} davon sind ausgemalt. Stelle mit Nenner und Zähler diesen Bruch ein."
+          nennerLabel: Nenner (Anzahl aller Teile)
+          zaehlerLabel: Zähler (ausgemalte Teile)
+          mehr: eins mehr
+          weniger: eins weniger
+          mistakes:
+            - "Du hast {r} Teile ausgemalt. Das sind die Teile, die frei bleiben sollen. Der Zähler zählt die ausgemalten Teile, und das sind {z}."
+            - "Du hast das Ganze in {z} Teile geteilt. Der Nenner sagt aber, in wie viele Teile das ganze Ganze geteilt ist, und das sind {n}. Der Zähler zählt nur die ausgemalten Teile."
+        examples:
+          accepted:
+            - { answer: { nenner: 9, zaehler: 2 }, seed: 1 }
+          rejected:
+            - { answer: { nenner: 2, zaehler: 0 } }
+            - { answer: { nenner: 12, zaehler: 1 } }
+      - type: true-false
+        id: bruch-urteilen
+        text: "Eine Tafel Schokolade hat 10 gleich große Stücke. 3 Stücke sind gegessen. Stimmt es: Der Bruch der gegessenen Stücke ist 10/3?"
+        answer: false
+        hint: Wo steht die Zahl der gegessenen Stücke, über oder unter dem Bruchstrich?
+        explanation: Falsch. Die 3 gegessenen Stücke sind der Zähler, die 10 Stücke der ganzen Tafel der Nenner. Der Bruch ist $\frac{3}{10}$.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
