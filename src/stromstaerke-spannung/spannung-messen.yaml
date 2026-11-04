@@ -1,0 +1,136 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Spannung messen
+description: Wie man ein Voltmeter richtig anschließt und seine Anzeige abliest.
+competencies: [spannung-messen]
+blocks:
+  - type: section
+    id: einstieg
+    title: Der Gegenpart zum Amperemeter
+    blocks:
+      - type: text
+        text: |
+          Das Amperemeter misst die Stromstärke, indem es in den Weg des Stroms eingebaut wird. Für die Spannung gibt
+          es ein eigenes Gerät, das **Voltmeter**. Es wird anders angeschlossen.
+
+          Danach kannst du **die Spannung mit einem Voltmeter richtig messen**.
+  - type: section
+    id: erklaerung
+    title: Das Voltmeter liegt neben dem Bauteil
+    blocks:
+      - type: text
+        text: |
+          Die Spannung gibt an, wie stark der Strom zwischen zwei Punkten angetrieben wird. Darum hält man die beiden
+          Anschlüsse des Voltmeters an die **beiden Enden** des Bauteils, dessen Spannung man wissen will. Man sagt:
+          Das Voltmeter wird **parallel** zum Bauteil geschaltet. Der Stromkreis bleibt dabei ganz, du musst ihn nicht
+          auftrennen. Im Schaltplan ist das Voltmeter ein Kreis mit einem V.
+      - type: figure
+        image: images/spannung-1.svg
+        alt: Schaltplan mit Batterie und Lampe. Neben der Lampe zweigt ein Weg mit einem Voltmeter ab, das als Kreis mit V gezeichnet ist. Es hängt an denselben beiden Punkten wie die Lampe.
+        caption: Die Lampe und das Voltmeter hängen an denselben zwei Punkten.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: definition
+        term: Voltmeter
+        explanation: Ein Voltmeter ist ein Messgerät für die Spannung. Man schaltet es parallel zu dem Bauteil, dessen Spannung man messen will.
+      - type: note
+        title: Nicht in den Weg des Stroms einbauen
+        blocks:
+          - type: text
+            text: |
+              Baust du das Voltmeter wie ein Amperemeter in den Weg des Stroms ein, liegt es als Hindernis im Kreis.
+              Dann fließt kaum noch Strom, und die Lampe bleibt dunkel. Das Voltmeter gehört neben das Bauteil.
+      - type: text
+        text: |
+          **Ablesen:** Du liest die Skala wie beim Amperemeter. Zähle die kurzen Striche zwischen zwei Zahlen und
+          überlege, wofür ein kurzer Strich steht. In der Zeichnung gehen die Zahlen von 0 bis 10 V in Schritten von
+          2 V, dazwischen liegt je ein kurzer Strich für 1 V.
+      - type: figure
+        image: images/spannung-4.svg
+        alt: Eine Bogenskala von 0 bis 10 V mit langen Strichen bei 0, 2, 4, 6, 8 und 10 und je einem kurzen Strich dazwischen. Der Zeiger steht auf dem langen Strich bei 4.
+        caption: Das Voltmeter zeigt hier 4 V (Beispiel zum Ablesen).
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: beispiel
+    title: "Beispiel: Die Spannung an der Lampe messen"
+    blocks:
+      - type: example
+        title: So gehst du vor
+        blocks:
+          - type: text
+            text: |
+              1. Der Stromkreis aus Batterie und Lampe ist geschlossen und die Lampe leuchtet.
+              2. Du schaltest das Voltmeter parallel zur Lampe: ein Anschluss an das eine Ende der Lampe, der andere an
+                 das andere Ende. Den Kreis lässt du dabei ganz.
+              3. Du liest den Wert ab, zum Beispiel 4 V.
+              4. Die Lampe liegt also an einer Spannung von 4 V.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: spannung-messen-1
+        text: Bei welchem Anschluss misst das Voltmeter die Spannung an der Lampe richtig?
+        material:
+          - type: figure
+            image: images/spannung-2a.svg
+            alt: Anschluss A, Batterie und Lampe. Das Voltmeter sitzt im unteren Kabel und ersetzt ein Stück davon.
+            caption: Anschluss A
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/spannung-2b.svg
+            alt: Anschluss B, Batterie und Lampe. Das Voltmeter liegt in einem eigenen Zweig neben der Lampe, an denselben zwei Punkten wie die Lampe.
+            caption: Anschluss B
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Anschluss A
+            correct: false
+            info: Hier liegt das Voltmeter im Weg des Stroms. Es misst dort nicht die Spannung an der Lampe, und die Lampe bleibt dunkel.
+          - text: Anschluss B
+            correct: true
+            info: Das Voltmeter liegt parallel zur Lampe, an denselben zwei Punkten. So misst es die Spannung an der Lampe.
+        explanation: Ein Voltmeter wird parallel zu dem Bauteil geschaltet, dessen Spannung man messen will.
+        links:
+          - { title: Voltmeter (Wikipedia), url: "https://de.wikipedia.org/wiki/Voltmeter" }
+      - type: number
+        id: spannung-messen-2
+        text: Lies die Spannung von der Skala ab.
+        material:
+          - type: figure
+            image: images/spannung-3.svg
+            alt: Eine Bogenskala von 0 bis 10 V mit langen Strichen bei 0, 2, 4, 6, 8 und 10 und je einem kurzen Strich dazwischen. Ein Zeiger zeigt auf einen Strich.
+            caption: Ein Voltmeter mit Messbereich bis 10 V
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 7
+        tolerance: 0.3
+        unit: V
+        mistakes:
+          - {
+              answer: 6,
+              message: "Der Zeiger steht nicht auf dem langen Strich bei 6, sondern einen kurzen Strich dahinter. Ein kurzer Strich steht für 1 V.",
+            }
+          - {
+              answer: 8,
+              message: "Der Zeiger steht noch vor dem langen Strich bei 8. Schau auf den kurzen Strich davor.",
+            }
+        explanation: Der Zeiger steht auf dem kurzen Strich zwischen 6 und 8. Der kurze Strich steht für 1 V mehr als 6 V, also 7 V.
+        hint: Zähle, für welchen Wert ein kurzer Strich steht.
+        links:
+          - { title: Voltmeter (Wikipedia), url: "https://de.wikipedia.org/wiki/Voltmeter" }
+      - type: true-false
+        id: spannung-messen-3
+        text: Zum Messen der Spannung muss man den Stromkreis auftrennen und das Voltmeter in die Lücke setzen.
+        answer: false
+        explanation: Das Voltmeter wird parallel zum Bauteil angeschlossen. Der Kreis bleibt ganz.
+        links:
+          - { title: Voltmeter (Wikipedia), url: "https://de.wikipedia.org/wiki/Voltmeter" }
+      - type: true-false
+        id: spannung-messen-4
+        text: Mit einem Voltmeter kann man die Spannung einer Batterie messen, auch wenn sie an keinen Stromkreis angeschlossen ist.
+        answer: true
+        explanation: Die Batterie hat auch ohne Stromkreis Spannung. Das Voltmeter muss nur an ihre beiden Anschlüsse.
+        links:
+          - { title: Voltmeter (Wikipedia), url: "https://de.wikipedia.org/wiki/Voltmeter" }

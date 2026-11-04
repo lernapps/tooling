@@ -1,0 +1,129 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der einfache Stromkreis
+description: Warum eine Lampe nur leuchtet, wenn der Weg des Stroms ohne Lücke zur Batterie zurückführt.
+competencies: [einfacher-stromkreis]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was du schon kennst
+    blocks:
+      - type: text
+        text: |
+          Du hast schon einmal eine Lampe mit einer Batterie zum Leuchten gebracht. Vielleicht hat eine Taschenlampe
+          einmal nicht geleuchtet, obwohl die Batterie neu war. Oft liegt es dann an einer Lücke im Weg des Stroms.
+
+          Danach kannst du **einen einfachen Stromkreis aufbauen und erklären, warum er geschlossen sein muss**.
+  - type: section
+    id: erklaerung
+    title: Warum der Kreis geschlossen sein muss
+    blocks:
+      - type: text
+        text: |
+          Die Zeichnung zeigt eine Batterie, eine Lampe und zwei Kabel. Die Zahlen in den kleinen Kreisen auf der
+          Zeichnung gehören zu der Liste darunter und sagen dir, was was ist. Eine Batterie hat zwei Anschlüsse, die
+          Pole. In der Zeichnung ist der lange dünne Strich der Pluspol (+), der kurze dicke Strich der Minuspol (−).
+          Die Pfeile zeigen den Weg des Stroms: Er geht vom Pluspol durch das obere Kabel zur Lampe, durch die Lampe
+          und durch das untere Kabel zurück zum Minuspol. Die Batterie schickt den Strom also los und nimmt ihn am
+          Ende wieder auf. So hat man die Richtung in der Physik vereinbart.
+      - type: labelled-figure
+        image: images/stromkreis-1.svg
+        alt: Eine Batterie links, eine Lampe rechts und zwei Kabel, die oben und unten beide verbinden. Pfeile zeigen oben nach rechts und unten nach links.
+        caption: Folge den Pfeilen mit dem Finger von der Batterie über die Lampe zurück zur Batterie.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        labels:
+          - { x: 19, y: 45, text: Batterie }
+          - { x: 81, y: 49, text: Lampe }
+          - { x: 50, y: 20, text: Kabel }
+      - type: text
+        text: |
+          Der Weg beginnt und endet an der Batterie. Man nennt ihn einen **Stromkreis**. Die Lampe leuchtet nur, wenn
+          dieser Weg an keiner Stelle unterbrochen ist.
+      - type: definition
+        term: Stromkreis
+        explanation: Ein Stromkreis ist ein geschlossener Weg für den Strom, der an der Batterie beginnt und dort wieder endet.
+      - type: note
+        title: Ein Irrtum, den viele haben
+        blocks:
+          - type: text
+            text: |
+              „Der Strom läuft zur Lampe und ist dort aufgebraucht.“ Das stimmt nicht. Der Strom fließt durch die
+              Lampe hindurch und auf dem zweiten Weg zurück zur Batterie. Darum braucht die Lampe **zwei** Kabel.
+  - type: section
+    id: beispiel
+    title: "Beispiel: Die Lampe bleibt dunkel"
+    blocks:
+      - type: example
+        title: Eine Lampe hängt nur an einem Kabel
+        blocks:
+          - type: text
+            text: |
+              Du verbindest den Pluspol der Batterie mit der Lampe. Vom Minuspol führt kein Kabel zur Lampe. Brennt sie?
+
+              1. Folge dem Weg des Stroms mit dem Finger: Pluspol, Kabel, Lampe.
+              2. Von der Lampe aus gibt es keinen Weg zurück zum Minuspol. Hier ist die Lücke.
+              3. Ohne zurückführenden Weg ist der Kreis offen, und es fließt kein Strom. Die Lampe bleibt dunkel.
+              4. Du schließt den Kreis, indem du ein zweites Kabel von der Lampe zum Minuspol legst.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: stromkreis-1
+        text: Ordne jedem Teil des Stromkreises seine Aufgabe zu.
+        pairs:
+          - { left: Batterie, right: Sie schickt den Strom los und nimmt ihn wieder auf }
+          - { left: Lampe, right: "Sie leuchtet, wenn Strom hindurchfließt" }
+          - { left: Kabel, right: Sie verbinden die Teile zu einem Weg }
+        explanation: Die Batterie, die Lampe und die Kabel gehören zusammen zu einem Weg, der an der Batterie beginnt und endet.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: true-false
+        id: stromkreis-2
+        text: Ist der Stromkreis an einer Stelle unterbrochen, kann die Lampe trotzdem leuchten.
+        answer: false
+        explanation: Bei einem offenen Stromkreis fließt kein Strom, also leuchtet die Lampe nicht. Der Strom braucht einen Weg ohne Lücke, der zur Batterie zurückführt.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: single-choice
+        id: stromkreis-3
+        text: In welcher Schaltung leuchtet die Lampe? Folge in jeder Zeichnung dem Weg von der Batterie durch die Lampe und zurück und suche eine Lücke.
+        material:
+          - type: figure
+            image: images/stromkreis-2a.svg
+            alt: Schaltung A, Batterie links und Lampe rechts. Das obere Kabel ist durchgehend, das untere Kabel besteht aus zwei getrennten Stücken.
+            caption: Schaltung A
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/stromkreis-2b.svg
+            alt: Schaltung B, Batterie links und Lampe rechts. Das obere und das untere Kabel sind durchgehend.
+            caption: Schaltung B
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/stromkreis-2c.svg
+            alt: Schaltung C, Batterie links und Lampe rechts. Das untere Kabel ist durchgehend, das obere Kabel besteht aus zwei getrennten Stücken.
+            caption: Schaltung C
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Schaltung A
+            correct: false
+            info: In Schaltung A fehlt ein Stück im unteren Kabel. Der Weg ist unterbrochen, also fließt kein Strom.
+          - text: Schaltung B
+            correct: true
+            info: In Schaltung B führt der Weg ohne Lücke von der Batterie durch die Lampe und zurück. Der Kreis ist geschlossen.
+          - text: Schaltung C
+            correct: false
+            info: In Schaltung C fehlt ein Stück im oberen Kabel. Der Weg ist unterbrochen, also fließt kein Strom.
+        explanation: Eine Lampe leuchtet nur, wenn der Weg des Stroms von der Batterie durch die Lampe und zurück geschlossen ist.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: true-false
+        id: stromkreis-4
+        text: Bei einer Taschenlampe siehst du nur ein Kabel zur Lampe. Sie leuchtet trotzdem, weil im Gehäuse ein Metallstreifen den Weg zurück zur Batterie bildet. Kann das stimmen?
+        answer: true
+        explanation: "Ja. Auch hier ist der Weg geschlossen: Der Strom fließt durch die Lampe und über den Metallstreifen zurück zur Batterie. Das zweite Kabel ist nur versteckt."
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }

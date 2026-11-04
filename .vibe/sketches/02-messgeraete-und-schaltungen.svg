@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 560" role="img" aria-label="Skizze: Amperemeter in Reihe, Voltmeter parallel, Reihenschaltung und Parallelschaltung von zwei Lampen">
+  <style>text{font-family:sans-serif;font-size:13px;fill:#222}.t{font-weight:bold;font-size:14px}.w{fill:none;stroke:#222;stroke-width:2}.c{fill:#fff;stroke:#222;stroke-width:2}</style>
+  <rect x="5" y="5" width="690" height="550" fill="#fff" stroke="#444"/>
+  <text x="20" y="28" class="t">A · Amperemeter misst in Reihe: Der Strom fließt durch das Gerät.</text>
+  <path class="w" d="M40 120 V60 H120 M200 60 H300 V120 M300 120 V150 H40 V120"/>
+  <circle class="c" cx="160" cy="60" r="22"/><text x="153" y="65">A</text>
+  <circle class="c" cx="300" cy="120" r="18"/><text x="295" y="125">L</text>
+  <rect class="c" x="30" y="110" width="20" height="30"/><text x="12" y="165">Batterie</text>
+  <text x="20" y="190">Merke: Gerät sitzt IM Strompfad, an einer Stelle aufgetrennt.</text>
+
+  <text x="380" y="28" class="t">V · Voltmeter misst parallel zum Bauteil.</text>
+  <path class="w" d="M400 120 V70 H560 V120 M560 120 V150 H400 V120"/>
+  <circle class="c" cx="560" cy="120" r="18"/><text x="555" y="125">L</text>
+  <rect class="c" x="390" y="110" width="20" height="30"/>
+  <path class="w" d="M520 70 V45 H600 V70 M600 70 V150" stroke-dasharray="0"/>
+  <circle class="c" cx="560" cy="45" r="0"/>
+  <circle class="c" cx="610" cy="95" r="18"/><text x="605" y="100">V</text>
+  <text x="380" y="190">Merke: Gerät liegt NEBEN dem Bauteil, der Kreis bleibt ganz.</text>
+
+  <text x="20" y="235" class="t">B · Reihenschaltung: ein Weg, Ausfall einer Lampe unterbricht alles.</text>
+  <path class="w" d="M40 330 V280 H120 M190 280 H260 M330 280 H400 V330 M400 330 V360 H40 V330"/>
+  <circle class="c" cx="155" cy="280" r="18"/><text x="150" y="285">L1</text>
+  <circle class="c" cx="295" cy="280" r="18"/><text x="290" y="285">L2</text>
+  <rect class="c" x="30" y="320" width="20" height="30"/>
+  <text x="20" y="395">Aufgabe: L1 fällt aus. Brennt L2? (Vorhersage, dann Rückmeldung)</text>
+
+  <text x="380" y="235" class="t">C · Parallelschaltung: zwei Wege, jede Lampe für sich.</text>
+  <path class="w" d="M420 330 V280 H480 V300 M480 300 V340 M480 280 H640 V300 M640 300 V340 M480 300 H640 M480 340 H640 M420 330 V360 H640 V340"/>
+  <circle class="c" cx="560" cy="300" r="14"/><text x="552" y="304">L1</text>
+  <circle class="c" cx="560" cy="340" r="14"/><text x="552" y="344">L2</text>
+  <rect class="c" x="410" y="320" width="20" height="30"/>
+  <text x="380" y="395">Aufgabe: L1 fällt aus. Brennt L2? Warum?</text>
+
+  <text x="20" y="440" class="t">Konventionen in allen Zeichnungen</text>
+  <text x="20" y="462">Batterie links, Schaltzeichen nach DIN, Pfeil = technische Stromrichtung (+ nach −), Bauteile beschriftet.</text>
+  <text x="20" y="482">Zeichnung zeigt das Gegebene; Messwerte und Lösung stehen nie in Bild oder Bildunterschrift.</text>
+  <text x="20" y="502">Jede Zeichnung: sichtbare Beschriftung, Alt-Text, Bildunterschrift „Worauf du achten sollst“. Gilt auch bei 360 px (hochkant).</text>
+</svg>

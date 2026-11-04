@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Schalter
+description: Wie ein Schalter den Stromkreis öffnet und schließt und warum er an jeder Stelle des Kreises wirkt.
+competencies: [schalter]
+blocks:
+  - type: section
+    id: einstieg
+    title: Licht an, Licht aus
+    blocks:
+      - type: text
+        text: |
+          Du drückst den Lichtschalter, und das Licht geht an. Du weißt schon: Eine Lampe leuchtet nur in einem
+          geschlossenen Stromkreis. Ein Schalter ist eine Stelle, an der man den Kreis absichtlich öffnen und wieder
+          schließen kann.
+
+          Danach kannst du **erklären, wie ein Schalter einen Stromkreis öffnet und schließt**.
+  - type: section
+    id: erklaerung
+    title: Der Schalter öffnet und schließt den Weg
+    blocks:
+      - type: text
+        text: |
+          Die beiden Zeichnungen zeigen denselben Stromkreis mit einem Schalter im oberen Kabel. Der Schalter besteht
+          aus zwei Kontakten aus Metall und einem beweglichen Metallstück. Die dicken Punkte sind die Kontakte. Das
+          bewegliche Metallstück ist die Klinge. Schau, wo die Klinge liegt.
+      - type: figure
+        image: images/schalter-1.svg
+        alt: Stromkreis mit Batterie, Lampe und einem Schalter im oberen Kabel. Die Klinge des Schalters ist schräg nach oben geklappt und berührt den rechten Kontakt nicht.
+        caption: Schalter offen. Zwischen Klinge und rechtem Kontakt ist eine Lücke.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: figure
+        image: images/schalter-2.svg
+        alt: Derselbe Stromkreis. Die Klinge liegt waagerecht und verbindet beide Kontakte.
+        caption: Schalter geschlossen. Die Klinge verbindet beide Kontakte.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Bei **offenem Schalter** ist der Weg unterbrochen: Es fließt kein Strom, die Lampe ist aus. Bei
+          **geschlossenem Schalter** leitet die Klinge den Strom von Kontakt zu Kontakt, der Kreis ist geschlossen
+          und die Lampe leuchtet. Die Klinge ist aus Metall, also aus einem Leiter.
+      - type: note
+        title: Der Schalter wirkt im ganzen Kreis
+        blocks:
+          - type: text
+            text: |
+              Manche denken: „Der Schalter schaltet nur die Lampe direkt hinter ihm.“ Das stimmt nicht. Der Stromkreis
+              ist ein einziger Weg. Ist er an einer Stelle unterbrochen, fließt nirgends Strom. Es ist egal, ob der
+              Schalter vor oder hinter der Lampe liegt.
+  - type: section
+    id: beispiel
+    title: "Beispiel: Die Taschenlampe"
+    blocks:
+      - type: example
+        title: Was beim Einschalten einer Taschenlampe geschieht
+        blocks:
+          - type: text
+            text: |
+              1. Im Ausgangszustand ist der Schalter offen: Zwischen zwei Metallteilen ist eine Lücke. Der Kreis ist
+                 unterbrochen, die Lampe bleibt dunkel.
+              2. Du schiebst den Schalter an. Dabei wird ein Metallstück bewegt, bis es beide Kontakte berührt.
+              3. Nun ist der Weg von der Batterie durch die Lampe und zurück geschlossen. Die Lampe leuchtet.
+              4. Schiebst du den Schalter zurück, entsteht die Lücke wieder, und die Lampe geht aus.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: schalter-1
+        text: In welchem Schaltplan leuchtet die Lampe?
+        material:
+          - type: figure
+            image: images/schalter-3a.svg
+            alt: Schaltplan A, ein Schalter im unteren Kabel, die Klinge liegt waagerecht und verbindet beide Kontakte.
+            caption: Schaltplan A
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/schalter-3b.svg
+            alt: Schaltplan B, ein Schalter im unteren Kabel, die Klinge ist schräg nach oben geklappt.
+            caption: Schaltplan B
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/schalter-3c.svg
+            alt: Schaltplan C, zwei Schalter, einer im oberen Kabel mit waagerechter Klinge und einer im unteren Kabel mit schräg geklappter Klinge.
+            caption: Schaltplan C
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Schaltplan A
+            correct: true
+            info: Der Schalter ist geschlossen, die Klinge verbindet beide Kontakte. Der Weg ist ohne Lücke.
+          - text: Schaltplan B
+            correct: false
+            info: Hier ist der Schalter offen. Zwischen Klinge und Kontakt ist eine Lücke, also fließt kein Strom.
+          - text: Schaltplan C
+            correct: false
+            info: Einer der beiden Schalter ist offen. Eine einzige Lücke genügt, damit im ganzen Kreis kein Strom fließt.
+        explanation: Die Lampe leuchtet nur, wenn jeder Schalter im Kreis geschlossen ist.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: true-false
+        id: schalter-2
+        text: Ein Schalter wirkt nur auf die Lampe, die direkt hinter ihm kommt.
+        answer: false
+        explanation: Der Stromkreis ist ein einziger Weg. Öffnet der Schalter ihn an irgendeiner Stelle, fließt im ganzen Kreis kein Strom.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: single-choice
+        id: schalter-3
+        text: Warum bleibt die Lampe bei offenem Schalter dunkel?
+        options:
+          - text: Der Weg des Stroms ist an der Lücke im Schalter unterbrochen.
+            correct: true
+            info: Ohne geschlossenen Weg fließt kein Strom, darum kann die Lampe nicht leuchten.
+          - text: Die Batterie gibt bei offenem Schalter keinen Strom ab, obwohl der Weg frei ist.
+            correct: false
+            info: Es liegt am Weg, nicht an der Batterie. Schließt du den Schalter, leuchtet die Lampe mit derselben Batterie.
+          - text: Der Strom wartet in der Lampe, bis der Schalter geschlossen wird.
+            correct: false
+            info: Strom kann nicht in der Lampe warten. Er fließt nur, wenn der ganze Weg geschlossen ist.
+        explanation: Der offene Schalter unterbricht den Weg. Ohne geschlossenen Kreis fließt kein Strom.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: true-false
+        id: schalter-4
+        text: Ein Schalter im unteren Kabel schaltet die Lampe genauso aus wie ein Schalter im oberen Kabel.
+        answer: true
+        explanation: Ob oben oder unten, der Schalter öffnet denselben Kreis. In beiden Fällen ist der Weg unterbrochen.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }

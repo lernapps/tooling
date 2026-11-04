@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Stromstärke und Spannung
+summary: Du lernst, was Stromstärke und Spannung bedeuten, in welchen Einheiten man sie angibt und wie man sie mit Amperemeter und Voltmeter misst.
+pages: [stromstaerke, stromstaerke-messen, spannung, spannung-messen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /stromstaerke-spannung/stromstaerke/#staerke-2
+        - /stromstaerke-spannung/stromstaerke/#staerke-3
+        - /stromstaerke-spannung/stromstaerke-messen/#messen-1
+    - exercises:
+        - /stromstaerke-spannung/stromstaerke-messen/#messen-2
+        - /stromstaerke-spannung/spannung/#spannung-2
+        - /stromstaerke-spannung/spannung/#spannung-4
+    - exercises:
+        - /stromstaerke-spannung/spannung-messen/#spannung-messen-1
+        - /stromstaerke-spannung/spannung-messen/#spannung-messen-2

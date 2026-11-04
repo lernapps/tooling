@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Der Stromkreis
+summary: Du erkennst, wann eine Lampe leuchtet, welche Stoffe den Strom leiten und wie man einen Stromkreis als Schaltplan zeichnet.
+pages: [einfacher-stromkreis, leiter-nichtleiter, schalter, schaltzeichen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /stromkreis/einfacher-stromkreis/#stromkreis-2
+        - /stromkreis/einfacher-stromkreis/#stromkreis-3
+        - /stromkreis/leiter-nichtleiter/#leiter-1
+    - exercises:
+        - /stromkreis/leiter-nichtleiter/#leiter-4
+        - /stromkreis/schalter/#schalter-1
+        - /stromkreis/schalter/#schalter-4
+    - exercises:
+        - /stromkreis/schaltzeichen/#schaltzeichen-1
+        - /stromkreis/schaltzeichen/#schaltzeichen-3

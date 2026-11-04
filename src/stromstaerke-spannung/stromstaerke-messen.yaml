@@ -1,0 +1,156 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Stromstärke messen
+description: Wie man ein Amperemeter richtig in den Stromkreis einbaut und seine Anzeige abliest.
+competencies: [stromstaerke-messen]
+blocks:
+  - type: section
+    id: einstieg
+    title: Vom Wert zum Messgerät
+    blocks:
+      - type: text
+        text: |
+          Du weißt jetzt, was die Stromstärke bedeutet und wie man sie in Ampere angibt. Nun fehlt noch das Gerät,
+          mit dem man sie misst: das **Amperemeter**. Du lernst, wo es im Stromkreis sitzt und wie du seine Anzeige
+          abliest.
+
+          Danach kannst du **die Stromstärke mit einem Amperemeter richtig messen**.
+  - type: section
+    id: erklaerung
+    title: Das Amperemeter sitzt im Weg des Stroms
+    blocks:
+      - type: text
+        text: |
+          Die Stromstärke sagt, wie viel Strom **durch** eine Stelle des Kreises fließt. Darum muss der Strom durch
+          das Messgerät hindurch fließen. Du öffnest den Stromkreis an einer Stelle und setzt das Amperemeter genau
+          dort ein, in **Reihe** mit den anderen Teilen. Im Schaltplan ist das Amperemeter ein Kreis mit einem A.
+      - type: figure
+        image: images/strom-1.svg
+        alt: Schaltplan mit Batterie, Lampe und einem Amperemeter, das als Kreis mit A im oberen Kabel liegt. Das Kabel ist dort unterbrochen und das Amperemeter schließt den Weg wieder.
+        caption: Das Amperemeter ersetzt ein Stück Kabel. Der Strom fließt durch das Gerät.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: definition
+        term: Amperemeter
+        explanation: Ein Amperemeter ist ein Messgerät für die Stromstärke. Man schaltet es in den Stromkreis ein, sodass der Strom durch das Gerät fließt.
+      - type: note
+        title: Nicht neben die Lampe!
+        blocks:
+          - type: text
+            text: |
+              Ein Amperemeter darf man nicht neben ein Bauteil setzen, sodass ein zweiter Weg an der Lampe vorbei
+              entsteht. Dann nimmt der Strom fast ganz den Weg durch das Gerät, die Lampe bleibt dunkel, und das Gerät
+              kann beschädigt werden.
+      - type: text
+        text: |
+          **Ablesen:** Auf der Skala siehst du lange Striche mit Zahlen und kurze Striche dazwischen. Zähle, wie viele
+          kurze Striche zwischen zwei Zahlen liegen, und rechne daraus aus, wofür ein kurzer Strich steht. In der
+          Zeichnung gehen die Zahlen von 0 bis 1 A in Schritten von 0,2 A. Dazwischen liegt je ein kurzer Strich:
+          Er steht für 0,1 A.
+      - type: figure
+        image: images/strom-4.svg
+        alt: Eine Bogenskala von 0 bis 1 A mit langen Strichen bei 0, 0,2, 0,4, 0,6, 0,8 und 1 und einem kurzen Strich dazwischen. Der Zeiger steht auf dem langen Strich bei 0,8.
+        caption: Das Amperemeter zeigt hier 0,8 A (Beispiel zum Ablesen).
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: beispiel
+    title: "Beispiel: Strom vor und hinter der Lampe"
+    blocks:
+      - type: example
+        title: Wird Strom in der Lampe verbraucht?
+        blocks:
+          - type: text
+            text: |
+              Viele glauben, hinter der Lampe sei weniger Strom als davor. Du kannst das mit zwei Amperemetern prüfen.
+              A1 sitzt vor der Lampe, A2 dahinter:
+          - type: figure
+            image: images/strom-5.svg
+            alt: Schaltplan mit Batterie, Lampe und zwei Amperemetern A1 und A2. A1 liegt im oberen Kabel vor der Lampe, A2 im unteren Kabel hinter der Lampe.
+            caption: A1 misst vor der Lampe, A2 hinter der Lampe.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: table
+            caption: Beispielwerte der Messung
+            header: [Messstelle, Stromstärke]
+            rows:
+              - ["A1 (vor der Lampe)", "0,25 A"]
+              - ["A2 (hinter der Lampe)", "0,25 A"]
+          - type: text
+            text: |
+              1. Lies beide Werte ab: Beide Geräte zeigen 0,25 A.
+              2. Vergleiche: Vor und hinter der Lampe ist die Stromstärke gleich.
+              3. Daraus folgt: Die Lampe verbraucht den Strom nicht. Der ganze Strom fließt durch sie hindurch und
+                 weiter im Kreis.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: messen-1
+        text: Bei welchem Anschluss misst das Amperemeter die Stromstärke durch die Lampe richtig?
+        material:
+          - type: figure
+            image: images/strom-2a.svg
+            alt: Anschluss A, Batterie, Lampe und ein Amperemeter im unteren Kabel. Das Amperemeter ersetzt ein Stück des Kabels.
+            caption: Anschluss A
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/strom-2b.svg
+            alt: Anschluss B, Batterie und Lampe. Das Amperemeter liegt in einem eigenen Zweig neben der Lampe, mit beiden Anschlüssen an den beiden Kabeln.
+            caption: Anschluss B
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Anschluss A
+            correct: true
+            info: Das Amperemeter sitzt im Weg des Stroms. Der ganze Strom fließt durch das Gerät und durch die Lampe.
+          - text: Anschluss B
+            correct: false
+            info: Das Amperemeter liegt neben der Lampe. Der Strom nimmt fast ganz den Weg durch das Gerät, die Lampe bleibt dunkel, und das Gerät kann Schaden nehmen.
+        explanation: Ein Amperemeter muss im Weg des Stroms liegen, damit der Strom durch das Gerät fließt.
+        links:
+          - { title: Amperemeter (Wikipedia), url: "https://de.wikipedia.org/wiki/Amperemeter" }
+      - type: number
+        id: messen-2
+        text: Lies die Stromstärke von der Skala ab.
+        material:
+          - type: figure
+            image: images/strom-3.svg
+            alt: Eine Bogenskala von 0 bis 1 A mit langen Strichen bei 0, 0,2, 0,4, 0,6, 0,8 und 1 und je einem kurzen Strich dazwischen. Ein Zeiger zeigt auf einen Strich.
+            caption: Ein Amperemeter mit Messbereich bis 1 A
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 0.3
+        tolerance: 0.02
+        unit: A
+        mistakes:
+          - {
+              answer: 0.2,
+              message: "Der Zeiger steht nicht auf dem langen Strich bei 0,2, sondern auf dem kurzen Strich dahinter. Ein kurzer Strich steht für 0,1 A.",
+            }
+          - {
+              answer: 0.4,
+              message: "Der Zeiger steht noch vor dem langen Strich bei 0,4. Schau auf den kurzen Strich davor.",
+            }
+        explanation: Der Zeiger steht auf dem kurzen Strich zwischen 0,2 und 0,4. Der kurze Strich steht für 0,1 A mehr als 0,2 A, also 0,3 A.
+        hint: Zähle, für welchen Wert ein kurzer Strich steht.
+        links:
+          - { title: Amperemeter (Wikipedia), url: "https://de.wikipedia.org/wiki/Amperemeter" }
+      - type: true-false
+        id: messen-3
+        text: Um ein Amperemeter einzubauen, muss man den Stromkreis an einer Stelle öffnen und das Gerät dort einsetzen.
+        answer: true
+        explanation: Das Amperemeter muss im Weg des Stroms liegen. Dafür trennt man den Kreis an einer Stelle auf und setzt das Gerät ein.
+        links:
+          - { title: Amperemeter (Wikipedia), url: "https://de.wikipedia.org/wiki/Amperemeter" }
+      - type: true-false
+        id: messen-4
+        text: Misst man vor und hinter der Lampe, zeigt das Amperemeter hinter der Lampe eine kleinere Stromstärke, weil die Lampe Strom verbraucht.
+        answer: false
+        explanation: Die Stromstärke ist vor und hinter der Lampe gleich. Der Strom wird nicht verbraucht, er fließt im Kreis weiter.
+        links:
+          - {
+              title: Elektrische Stromstärke (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke",
+            }

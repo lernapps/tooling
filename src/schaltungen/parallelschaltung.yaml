@@ -1,0 +1,136 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Parallelschaltung
+description: Wie Lampen nebeneinander geschaltet sind, was bei einem Ausfall geschieht und wie sich Stromstärke und Spannung verhalten.
+competencies: [parallelschaltung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Der zweite Weg
+    blocks:
+      - type: text
+        text: |
+          In der Reihenschaltung gehen alle Lampen aus, wenn eine ausfällt. Zu Hause ist das anders: Fällt eine Lampe
+          aus, leuchten die anderen weiter. Das liegt an einer zweiten Art, Lampen zu schalten, der
+          **Parallelschaltung**.
+
+          Danach kannst du **eine Parallelschaltung aufbauen und erklären, was passiert, wenn ein Zweig ausfällt**.
+  - type: section
+    id: erklaerung
+    title: Mehrere Wege für den Strom
+    blocks:
+      - type: text
+        text: |
+          In der Parallelschaltung liegen die Lampen **nebeneinander**. Von der Batterie aus gibt es mehrere Wege,
+          einen für jede Lampe. Diese Wege heißen **Zweige**. An den Punkten, wo der Weg sich teilt und wieder
+          zusammenkommt, sind in der Zeichnung dicke Punkte.
+      - type: figure
+        image: images/parallel-1.svg
+        alt: Schaltplan mit einer Batterie links und zwei Lampen L1 und L2, die in zwei senkrechten Zweigen nebeneinander liegen. Beide Zweige hängen an den beiden Kabeln oben und unten, an den Verzweigungen sind dicke Punkte.
+        caption: Die Lampen L1 und L2 haben je einen eigenen Weg. Zähle die möglichen Wege des Stroms.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: definition
+        term: Parallelschaltung
+        explanation: In einer Parallelschaltung liegen die Bauteile nebeneinander in getrennten Zweigen, sodass der Strom mehrere Wege hat.
+      - type: text
+        text: |
+          **Ausfall:** Fällt eine Lampe aus, ist nur ihr eigener Zweig unterbrochen. Der andere Zweig bleibt geschlossen,
+          und seine Lampe leuchtet weiter.
+
+          **Messwerte:** Die Tabelle zeigt Beispielwerte bei zwei gleichen Lampen und einer 6-V-Batterie.
+      - type: table
+        caption: Messwerte einer Parallelschaltung mit zwei gleichen Lampen (Beispielwerte)
+        header: [Messstelle, Messwert]
+        rows:
+          - [Spannung an der Batterie, 6 V]
+          - [Spannung an L1, 6 V]
+          - [Spannung an L2, 6 V]
+          - [Stromstärke an der Batterie, "0,4 A"]
+          - [Stromstärke in Zweig L1, "0,2 A"]
+          - [Stromstärke in Zweig L2, "0,2 A"]
+      - type: text
+        text: |
+          Aus der Tabelle liest du zwei Regeln ab:
+          - Die **Spannung** ist an jedem Zweig gleich der Spannung der Batterie.
+          - Die **Stromstärke** der Batterie teilt sich auf die Zweige auf: 0,2 A und 0,2 A ergeben zusammen die 0,4 A.
+  - type: section
+    id: beispiel
+    title: "Beispiel: Die Lampen im Zimmer"
+    blocks:
+      - type: example
+        title: Warum leuchtet die zweite Lampe weiter?
+        blocks:
+          - type: text
+            text: |
+              In einem Zimmer hängen zwei Lampen parallel. Eine ist durchgebrannt.
+
+              1. Jede Lampe hat ihren eigenen Zweig mit einem eigenen Weg zur Batterie.
+              2. Die durchgebrannte Lampe unterbricht nur ihren Zweig.
+              3. Der andere Zweig ist weiter geschlossen, und der Strom fließt dort.
+              4. Darum leuchtet die zweite Lampe weiter.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: parallel-1
+        text: Die Lampe L2 brennt durch. Was geschieht mit L1 und L3?
+        material:
+          - type: figure
+            image: images/parallel-2.svg
+            alt: Schaltplan mit einer Batterie und drei Lampen L1, L2 und L3, die in drei senkrechten Zweigen nebeneinander liegen.
+            caption: Drei Lampen parallel
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Beide leuchten weiter.
+            correct: true
+            info: Der Zweig von L2 ist unterbrochen, die Zweige von L1 und L3 sind es nicht. Dort fließt weiter Strom.
+          - text: Beide gehen aus.
+            correct: false
+            info: So wäre es bei einer Reihenschaltung. Hier hat jede Lampe einen eigenen Zweig.
+          - text: Nur L1 leuchtet weiter, weil sie vor L2 liegt.
+            correct: false
+            info: Die Lage spielt keine Rolle. Jeder Zweig ist ein eigener Weg und unabhängig von den anderen.
+        explanation: In der Parallelschaltung ist jeder Zweig ein eigener Weg. Fällt einer aus, arbeiten die anderen weiter.
+        links:
+          - { title: Parallelschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Parallelschaltung" }
+      - type: true-false
+        id: parallel-2
+        text: In einer Parallelschaltung bekommt jede Lampe die volle Spannung der Batterie.
+        answer: true
+        explanation: Jeder Zweig hängt an denselben beiden Punkten wie die Batterie. Darum ist die Spannung an jeder Lampe so groß wie die der Batterie.
+        links:
+          - { title: Parallelschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Parallelschaltung" }
+      - type: single-choice
+        id: parallel-3
+        text: Wie hängt die Stromstärke der Batterie mit den Stromstärken in den Zweigen zusammen?
+        options:
+          - text: Sie ist so groß wie alle Zweigströme zusammen.
+            correct: true
+            info: Der Strom der Batterie teilt sich auf die Zweige auf, wie 0,2 A und 0,2 A zusammen die 0,4 A ergeben.
+          - text: Sie ist so groß wie der Strom in einem einzigen Zweig.
+            correct: false
+            info: Die Batterie versorgt alle Zweige, darum ist ihr Strom größer als der in einem Zweig.
+          - text: Sie ist kleiner als der Strom in jedem Zweig.
+            correct: false
+            info: Dann würde Strom aus dem Nichts entstehen. Der Strom der Batterie teilt sich nur auf.
+        explanation: In der Parallelschaltung teilt sich die Stromstärke der Batterie auf die Zweige auf.
+        links:
+          - { title: Parallelschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Parallelschaltung" }
+      - type: single-choice
+        id: parallel-4
+        text: Zwei Lampen sollen unabhängig voneinander an- und ausgehen können. Welche Schaltung passt?
+        options:
+          - text: Parallelschaltung mit je einem Schalter im Zweig
+            correct: true
+            info: Jeder Zweig kann einzeln geöffnet werden, ohne die andere Lampe zu stören.
+          - text: Reihenschaltung mit einem Schalter
+            correct: false
+            info: Ein Schalter in Reihe schaltet beide Lampen zusammen aus.
+          - text: Reihenschaltung mit zwei Schaltern
+            correct: false
+            info: Auch hier unterbricht jeder der beiden Schalter den einzigen Weg und schaltet beide Lampen aus.
+        explanation: Wer Lampen einzeln schalten will, braucht eigene Zweige, also eine Parallelschaltung.
+        links:
+          - { title: Parallelschaltung (Wikipedia), url: "https://de.wikipedia.org/wiki/Parallelschaltung" }

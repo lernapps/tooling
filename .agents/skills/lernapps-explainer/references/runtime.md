@@ -1,0 +1,79 @@
+# Explainer runtime
+
+## Build
+
+- Reads, validates, renders every page to static HTML.
+- Problem → one line `file:line: place (language): what to do`, e.g.
+  `src/prozent/prozentwert.yaml:12: blocks[0].blocks[1].text: a Markdown heading ("Regel"); use a section block with the title "Regel"`.
+  Fix where it points.
+
+## Pages
+
+- No JS: complete; text, formulas as MathML, figures, tables, navigation, sources. Exercise: task + `<details>`
+  "Lösung"; `generated`: three worked tasks; component: its `nojs` text; `open-task`: task, points with "Nachlesen",
+  model answer under "Lösung".
+- JS: controls, "Prüfen", feedback with focus. Solution only after an answer; wrong → why, retry or "Lösung". An
+  exercise component gets "Prüfen" from the explainer too, under it.
+  `generated`: live task, "Neue Aufgabe", deep link `/<chapter>/<page>/?<exercise>=<n>#<exercise>`. Components
+  hydrate. `open-task`: "Deine Lösung" (type, or paper and photo), "Vergleichen" shows the points as tick boxes and
+  opens the model answer, "Antwort ändern".
+- Video: no JS and before a click, title as a link to youtube.com, channel and a note that playing sends data to
+  YouTube/Google; nothing loads from another server. "Video abspielen" loads the player from youtube-nocookie.com.
+- Stores on the device, per app, only the assistant the learner switched on for the tutor, once ticked, "Videos
+  immer direkt laden" (every player loads without the click until unticked), and the last result of each
+  self-assessment the learner did. While the tab is open (sessionStorage), the answer of each open task: way, text and
+  ticks, so that a reload loses nothing; never the photo.
+- Self-assessment (`selfAssessment` per chapter, JS only): a chapter's on its page, the app's (every chapter's) on
+  the start page; its exercises without "Prüfen", checked together at "Auswerten"; the result per content page. With
+  `via=tutor` it keeps nothing and ends in "Zurück zum Tutor". Skill `lernapps-explainer-self-assessment`.
+
+## Addresses
+
+- Page `/<chapter>/<page>/`; section `#<section>`, subsection `#<section>/<sub>`; exercise `#<exercise>`.
+- Glossary `/glossar/`. Other languages: same tree under `/<language>/`.
+- Tutor page of a page: `/<chapter>/<page>/tutor/`, its Markdown beside it (`index.md`).
+- Scope (from `scope` in the content): `/<chapter>/<page>/scope/` (the page's), `/<chapter>/scope/` (the chapter's),
+  `/scope/` (the whole); for the tutor only, linked from the tutor page. `scope` is no chapter id.
+- Self-assessment: `/einschaetzung/` (the app's), `/<chapter>/einschaetzung/` (a chapter's), each with its tutor page
+  `tutor/`. `einschaetzung` is no chapter or page id.
+- Unknown address → 404 page to the start page. Moving or removing a page: change the entry topics in the same
+  increment.
+
+## Tests
+
+- From the runtime (`e2e/explainer.e2e.ts`, `explainerTests()`), every page, every language, run by
+  `lernapps check`.
+- No JS: headings vs nesting, sections, formulas, figures, anchors, navigation chain, languages, every solution,
+  every `nojs` text.
+- JS (German, 360 px): one exercise per type and page accepts its answer, rejects a wrong one; components hydrate
+  without error; a video sends no request to another server before its click, and loads its player after it; each
+  self-assessment: a run with every answer right, one without an answer (kept, to the tutor, deleted), and one a tutor
+  opened.
+- `lernapps check` also opens every page without JS (`explainer-readable-without-js`), bundle and deployed app.
+
+## A runtime test fails
+
+- Content validates (build passes) but a test fails = template bug: act as skill `lernapps-cli` says; go on with
+  content.
+- Never change the runtime in `node_modules` (`explainer-only-content`). The fix arrives with `lernapps update`.
+
+## Tutor
+
+- Optional: the learner's own KI assistant helps with a page and with each exercise. The build writes a tutor page
+  per page from the content; the app sends nothing.
+- The tutor reads the page's blocks as text (figures by `alt` and `caption`, a video as a link with title and channel)
+  and every exercise: task, answer format, solution, `hint` and typical mistakes with their messages. `generated`: template, `steps`, `mistakes` and each task
+  number's values; question: options with `info`, `explanation`; component: `about`, and with `template`, `params`, `mistakes`, `show`
+  the same table as `generated` (else `describe` per task number, as far as 64 kB allow).
+  `open-task`: task, points as P1, P2 … with their sources, model answer. It neither calculates nor invents: these
+  must be complete and right.
+- The scope: the whole learning path in your own words, from the material, as continuous prose with the exact
+  content (facts, terms, reasons, examples), beside what it describes. `scope` in each page's YAML: what the page
+  teaches; optionally `scope` in `chapter.yaml`; and in `src/app.yaml`
+  `scope: { text, out: [...] }`: what the app is about and where its weight lies, and what does not belong to it (what
+  belongs to it is what the pages say). With
+  the app's scope the build requires a scope on every page. The tutor judges open answers by it, never from general
+  knowledge.
+- `src/app.yaml`: `tutor.rules`, the app's rules for the tutor; never send it to another address.
+- Task numbers 1 to N (max 67) are what learner, tutor and address (`?<id>=<n>`) share; changing a generator changes
+  what a number points to. `seed`, `via`, `uebung`, `abschnitt` are no exercise ids.

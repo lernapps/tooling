@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 760" role="img" aria-label="Skizze der Musterseite: Titel, Ziel, vier Abschnitte Einstieg, Erklärung, Beispiel, Übung">
+  <style>text{font-family:sans-serif;font-size:14px;fill:#222}.h{font-size:20px;font-weight:bold}.s{font-size:16px;font-weight:bold}.n{font-size:12px;fill:#555}rect.b{fill:#f4f4f4;stroke:#888}rect.e{fill:#eef6ff;stroke:#5a8ac6}rect.x{fill:#fff8e6;stroke:#c9a227}</style>
+  <rect x="10" y="10" width="620" height="740" fill="#fff" stroke="#444"/>
+  <text x="30" y="42" class="n">Kapitel 1 · Der Stromkreis › Seite 1 von 4 (Brotkrumen)</text>
+  <text x="30" y="75" class="h">Der einfache Stromkreis</text>
+  <rect x="30" y="90" width="580" height="56" class="e"/>
+  <text x="42" y="112">Danach kannst du erklären, warum eine Lampe nur in einem geschlossenen</text>
+  <text x="42" y="132">Kreis leuchtet. Du kennst Batterie und Lampe schon aus der Grundschule.</text>
+  <text x="30" y="176" class="s">Einstieg: Was du schon kennst</text>
+  <text x="30" y="198">Kurzer Text: Taschenlampe, die nicht leuchtet. Wo könnte es haken?</text>
+  <text x="30" y="232" class="s">Erklärung: Warum der Kreis geschlossen sein muss</text>
+  <rect x="30" y="244" width="580" height="170" class="b"/>
+  <text x="42" y="268">Abbildung (Zeichnung): Batterie, Lampe, zwei Kabel als geschlossener Kreis,</text>
+  <text x="42" y="288">Nummern ① Batterie ② Lampe ③ Kabel (labelled-figure). Pfeil = Weg des Stroms.</text>
+  <rect x="140" y="304" width="360" height="90" fill="none" stroke="#333" stroke-width="2"/>
+  <text x="290" y="355" class="n">Zeichnung</text>
+  <text x="30" y="440">Text: Der Strom fließt nur, wenn der Weg ohne Lücke zurück zur Batterie führt.</text>
+  <text x="30" y="460" class="n">Text nennt die Fehlvorstellung: „Der Strom wird in der Lampe aufgebraucht.“</text>
+  <text x="30" y="494" class="s">Beispiel</text>
+  <rect x="30" y="504" width="580" height="60" class="x"/>
+  <text x="42" y="528">Beispiel-Kasten: Eine Lampe mit nur einem Kabel zum Pluspol. Brennt sie?</text>
+  <text x="42" y="548">Schritt für Schritt: Weg verfolgen, Lücke finden.</text>
+  <text x="30" y="598" class="s">Übung (3–5 Aufgaben, von leicht nach schwer)</text>
+  <rect x="30" y="610" width="580" height="30" class="b"/><text x="42" y="630">1 Wahr/Falsch: Strom fließt auch bei offenem Kreis.</text>
+  <rect x="30" y="646" width="580" height="30" class="b"/><text x="42" y="666">2 Einfachauswahl: Welche Schaltung leuchtet? (3 Bilder, Begründung je Option)</text>
+  <rect x="30" y="682" width="580" height="30" class="b"/><text x="42" y="702">3 Zuordnen: Bauteil ↔ Aufgabe im Kreis</text>
+  <text x="30" y="738" class="n">Jede Antwort bekommt eine Rückmeldung mit Grund. Weiter ›</text>
+</svg>

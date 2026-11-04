@@ -1,0 +1,146 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Stromstärke
+description: Was die Stromstärke angibt, in welcher Einheit man sie nennt und wie man zwischen Ampere und Milliampere umrechnet.
+competencies: [stromstaerke]
+blocks:
+  - type: section
+    id: einstieg
+    title: Viel Strom, wenig Strom
+    blocks:
+      - type: text
+        text: |
+          Du kennst den Stromkreis mit Batterie und Lampe. Aber fließt durch jede Lampe gleich viel Strom? Ein
+          Ladegerät für dein Handy und eine kleine Lampe sind sehr verschieden. Man braucht eine Größe, die sagt,
+          **wie viel** Strom fließt.
+
+          Danach kannst du **die Stromstärke als Maß dafür erklären, wie viel Strom fließt, und sie in Ampere angeben**.
+  - type: section
+    id: erklaerung
+    title: Die Stromstärke und ihre Einheit
+    blocks:
+      - type: text
+        text: |
+          Stell dir eine Wasserleitung vor. Du kannst fragen, wie viel Wasser in einer Sekunde durch das Rohr
+          fließt. Beim elektrischen Strom ist es ähnlich: Die **Stromstärke** sagt, wie viel Strom durch einen
+          Draht fließt. Je größer die Stromstärke, desto mehr Strom fließt. Der Vergleich mit dem Wasser hat eine
+          Grenze: In der Leitung ist Wasser, das sich verbrauchen lässt. Im Stromkreis fließt der Strom im Kreis und
+          geht nicht verloren.
+      - type: definition
+        term: Stromstärke
+        explanation: Die Stromstärke gibt an, wie viel Strom durch einen Leiter fließt. Ihr Formelzeichen ist I, ihre Einheit ist das Ampere (A).
+      - type: text
+        text: |
+          Die Einheit ist das **Ampere**, kurz **A**. Für kleine Stromstärken nimmt man das **Milliampere**, kurz
+          **mA**. Ein Milliampere ist ein Tausendstel Ampere:
+      - type: formula
+        formula: '1\,\text{A} = 1000\,\text{mA}'
+      - type: table
+        caption: Beispiele für Umrechnungen
+        header: [Milliampere, Ampere]
+        rows:
+          - ["1000 mA", "1 A"]
+          - ["500 mA", "0,5 A"]
+          - ["250 mA", "0,25 A"]
+          - ["20 mA", "0,02 A"]
+      - type: text
+        text: |
+          Wenn du von Milliampere in Ampere umrechnest, teilst du durch 1000. In die andere Richtung malnimmst du mit
+          1000. Ein Beispiel aus dem Alltag: Der Strom, der ein Handy-Akku lädt, hat die Größenordnung 2 A.
+  - type: section
+    id: beispiel
+    title: "Beispiel: Zwei Lampen vergleichen"
+    blocks:
+      - type: example
+        title: Welche Lampe hat die größere Stromstärke?
+        blocks:
+          - type: text
+            text: |
+              Lampe 1 nimmt 300 mA auf, Lampe 2 nimmt 0,2 A auf.
+
+              1. Die Zahlen sind in verschiedenen Einheiten, darum kann man sie nicht einfach vergleichen.
+              2. Rechne 0,2 A in Milliampere um: $0{,}2 \cdot 1000 = 200$, also 200 mA.
+              3. Vergleiche 300 mA mit 200 mA: 300 ist größer.
+              4. Durch Lampe 1 fließt mehr Strom.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: staerke-1
+        text: In welcher Einheit gibt man die Stromstärke an?
+        options:
+          - text: Ampere
+            correct: true
+            info: Das Ampere (A) ist die Einheit der Stromstärke. Für kleine Werte nimmt man Milliampere (mA).
+          - text: Meter
+            correct: false
+            info: Meter ist die Einheit einer Länge, nicht der Stromstärke.
+          - text: Kilogramm
+            correct: false
+            info: Kilogramm ist die Einheit einer Masse.
+        explanation: Die Stromstärke wird in Ampere angegeben.
+        links:
+          - {
+              title: Elektrische Stromstärke (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke",
+            }
+      - type: generated
+        id: staerke-2
+        given:
+          mA: { oneOf: [20, 50, 100, 250, 400, 500, 800] }
+        task:
+          text: "Eine Lampe nimmt {{mA}} mA auf. Wie viel Ampere sind das?"
+        answer:
+          value: "mA / 1000"
+          compare: { number: { format: decimal, decimals: 3, tolerance: 0, unit: A } }
+        mistakes:
+          - {
+              value: "mA / 100",
+              message: "Du hast durch 100 geteilt. Ein Ampere sind 1000 Milliampere, du musst durch 1000 teilen.",
+            }
+          - {
+              value: "mA * 1000",
+              message: "Du hast in die falsche Richtung umgerechnet. Von Milliampere zu Ampere teilst du durch 1000.",
+            }
+        hint: "Ein Ampere sind 1000 Milliampere."
+        steps:
+          - "1 A sind 1000 mA, also teilst du die Milliampere durch 1000."
+          - "{{mA}} mA : 1000 = {{answer}} A."
+      - type: generated
+        id: staerke-3
+        given:
+          A: { oneOf: [0.5, 1, 1.5, 2, 3] }
+        task:
+          text: "Ein Ladegerät liefert {{A}} A. Wie viel Milliampere sind das?"
+        answer:
+          value: "A * 1000"
+          compare: { number: { format: decimal, decimals: 0, tolerance: 0, unit: mA } }
+        mistakes:
+          - { value: "A * 100", message: "Du hast mit 100 malgenommen. Ein Ampere sind 1000 Milliampere." }
+          - {
+              value: "A / 1000",
+              message: "Du hast in die falsche Richtung umgerechnet. Von Ampere zu Milliampere nimmst du mal 1000.",
+            }
+        hint: "Ein Ampere sind 1000 Milliampere."
+        steps:
+          - "1 A sind 1000 mA, also nimmst du die Ampere mal 1000."
+          - "{{A}} A · 1000 = {{answer}} mA."
+      - type: single-choice
+        id: staerke-4
+        text: Durch Lampe A fließen 200 mA, durch Lampe B fließen 0,3 A. Durch welche Lampe fließt mehr Strom?
+        options:
+          - text: Durch Lampe B
+            correct: true
+            info: "0,3 A sind 300 mA. Das ist mehr als 200 mA."
+          - text: Durch Lampe A
+            correct: false
+            info: Die Zahl 200 ist zwar größer als 0,3, aber die Einheiten sind verschieden. 200 mA sind nur 0,2 A.
+          - text: Durch beide gleich viel
+            correct: false
+            info: Die Werte sind nicht gleich. 0,3 A sind 300 mA, und das ist mehr als 200 mA.
+        explanation: Vergleiche Stromstärken erst in derselben Einheit. 0,3 A sind 300 mA, also fließt durch Lampe B mehr Strom.
+        links:
+          - {
+              title: Elektrische Stromstärke (Wikipedia),
+              url: "https://de.wikipedia.org/wiki/Elektrische_Stromst%C3%A4rke",
+            }

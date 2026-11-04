@@ -1,0 +1,143 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Leiter und Nichtleiter
+description: Welche Stoffe den Strom leiten, welche nicht, und wie man das mit einer Prüfstelle im Stromkreis herausfindet.
+competencies: [leiter-nichtleiter]
+blocks:
+  - type: section
+    id: einstieg
+    title: Warum Kabel zwei Teile haben
+    blocks:
+      - type: text
+        text: |
+          Du weißt jetzt, dass der Strom einen geschlossenen Weg braucht. Ein Kabel ist so ein Weg. Wenn du ein Kabel
+          aufschneidest, siehst du innen einen glänzenden Draht aus Metall und außen eine Hülle aus Kunststoff.
+          Warum ist das so?
+
+          Danach kannst du **Leiter und Nichtleiter unterscheiden und Beispiele nennen**.
+  - type: section
+    id: erklaerung
+    title: Wie du prüfst, ob ein Stoff den Strom leitet
+    blocks:
+      - type: text
+        text: |
+          Du baust einen Stromkreis mit einer Lücke, der **Prüfstelle**. In der Zeichnung sind die beiden Enden der
+          Lücke als kleine Kreise gezeichnet. Du legst einen Gegenstand so hin, dass er beide Enden berührt.
+          Leuchtet die Lampe, ist der Weg wieder geschlossen: Der Gegenstand lässt den Strom durch. Bleibt sie dunkel,
+          ist der Weg weiter unterbrochen.
+      - type: figure
+        image: images/leiter-1.svg
+        alt: Eine Batterie links, eine Lampe rechts, oben ein durchgehendes Kabel. Im unteren Kabel ist eine Lücke, deren zwei Enden als kleine Kreise gezeichnet sind und mit "Prüfstelle" beschriftet sind.
+        caption: Die Prüfstelle im unteren Kabel ist die Lücke, in die du den Gegenstand legst.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: Mit dieser Prüfung findet man Ergebnisse wie in der Tabelle. Lies sie als Ergebnisliste von Versuchen.
+      - type: table
+        caption: Ergebnisse der Prüfung mit der Prüfstelle
+        header: [Gegenstand, Lampe leuchtet, Der Stoff ist ein]
+        rows:
+          - [Kupferdraht, ja, Leiter]
+          - [Eisennagel, ja, Leiter]
+          - [Bleistiftmine (Graphit), ja, Leiter]
+          - [Salzwasser, ja, Leiter]
+          - [Gummiband, nein, Nichtleiter]
+          - [Glasstab, nein, Nichtleiter]
+          - [Kunststofflineal, nein, Nichtleiter]
+          - [Trockenes Holzstück, nein, Nichtleiter]
+      - type: definition
+        term: Leiter
+        explanation: Ein Leiter ist ein Stoff, durch den der elektrische Strom fließen kann.
+      - type: definition
+        term: Nichtleiter (Isolator)
+        explanation: Ein Nichtleiter oder Isolator ist ein Stoff, der den elektrischen Strom nicht durchlässt.
+      - type: note
+        title: Nicht nur Metalle leiten
+        blocks:
+          - type: text
+            text: |
+              Viele denken: „Metall leitet, alles andere nicht.“ Die Tabelle zeigt es anders: Auch die Bleistiftmine
+              und das Salzwasser leiten den Strom. Merke dir die Stoffe aus der Tabelle, nicht nur eine Regel.
+  - type: section
+    id: beispiel
+    title: "Beispiel: Das Stromkabel"
+    blocks:
+      - type: example
+        title: Warum der Draht aus Kupfer ist und die Hülle aus Kunststoff
+        blocks:
+          - type: text
+            text: |
+              1. Der Strom soll durch das Kabel zur Lampe fließen. Dafür braucht er einen Stoff, der leitet. Kupfer
+                 ist ein Leiter, darum ist der Draht aus Kupfer.
+              2. Der Draht soll nirgends ungewollt einen anderen Weg finden, zum Beispiel über deine Hand. Dafür
+                 braucht er eine Hülle aus einem Nichtleiter. Kunststoff ist ein Nichtleiter.
+              3. Das Kabel hat also beides: innen den Leiter für den Weg des Stroms, außen den Nichtleiter, der den
+                 Strom im Draht hält.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: multiple-choice
+        id: leiter-1
+        text: Welche Gegenstände leiten den elektrischen Strom?
+        options:
+          - text: ein Kupferdraht
+            correct: true
+            info: Kupfer ist ein Leiter. Darum sind die Drähte in Kabeln aus Kupfer.
+          - text: ein Radiergummi
+            correct: false
+            info: Gummi ist ein Nichtleiter. Die Lampe würde dunkel bleiben.
+          - text: eine Bleistiftmine
+            correct: true
+            info: Die Mine besteht aus Graphit. Graphit ist kein Metall, leitet aber den Strom.
+          - text: ein Glasstab
+            correct: false
+            info: Glas ist ein Nichtleiter. Es lässt den Strom nicht durch.
+        explanation: Kupferdraht und Bleistiftmine leiten, Radiergummi und Glasstab nicht.
+        links:
+          - { title: Elektrischer Leiter (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Leiter" }
+      - type: true-false
+        id: leiter-2
+        text: Alle Metalle sind Leiter, alle anderen Stoffe sind Nichtleiter.
+        answer: false
+        explanation: Die Bleistiftmine (Graphit) und das Salzwasser sind keine Metalle und leiten den Strom trotzdem.
+        links:
+          - { title: Elektrischer Leiter (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Leiter" }
+      - type: single-choice
+        id: leiter-3
+        text: Ein Gegenstand liegt fest an beiden Enden der Prüfstelle. Die Lampe bleibt dunkel. Was folgt daraus?
+        material:
+          - type: figure
+            image: images/leiter-1.svg
+            alt: Stromkreis mit Batterie, Lampe und einer Prüfstelle im unteren Kabel
+            caption: Der Stromkreis mit der Prüfstelle
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Der Gegenstand ist ein Nichtleiter.
+            correct: true
+            info: Der Gegenstand lässt den Strom nicht durch, der Weg bleibt unterbrochen. So erkennt man Nichtleiter.
+          - text: Der Gegenstand ist ein Leiter, aber die Batterie ist leer.
+            correct: false
+            info: Ein Leiter würde die Lücke schließen. Wäre die Batterie leer, könntest du das mit einem Kupferdraht an der Prüfstelle prüfen.
+          - text: Der Gegenstand ist ein Leiter, er braucht nur länger.
+            correct: false
+            info: Der Strom wartet nicht. Ein Leiter schließt den Weg sofort.
+        explanation: Bleibt die Lampe bei fest anliegendem Gegenstand dunkel, ist der Weg nicht geschlossen. Der Gegenstand ist ein Nichtleiter.
+        links:
+          - { title: Elektrischer Leiter (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Leiter" }
+      - type: single-choice
+        id: leiter-4
+        text: Warum sind Stromkabel außen mit Kunststoff umhüllt?
+        options:
+          - text: Kunststoff ist ein Nichtleiter und hält den Strom im Draht.
+            correct: true
+            info: Die Hülle lässt den Strom nicht durch. Er bleibt im Draht und nimmt keinen ungewollten Weg.
+          - text: Kunststoff ist ein Leiter und hilft dem Draht beim Leiten.
+            correct: false
+            info: Kunststoff leitet den Strom nicht. Das zeigt die Tabelle mit dem Lineal.
+          - text: Kunststoff macht das Kabel nur bunter.
+            correct: false
+            info: "Die Farbe hilft beim Unterscheiden der Kabel, aber der Kunststoff hat eine wichtigere Aufgabe: Er isoliert."
+        explanation: Der Draht im Kabel leitet, die Hülle isoliert. So bleibt der Strom auf seinem Weg.
+        links:
+          - { title: Elektrischer Leiter (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Leiter" }

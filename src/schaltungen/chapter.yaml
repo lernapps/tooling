@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Reihen- und Parallelschaltung
+summary: Du lernst zwei Arten kennen, mehrere Lampen an eine Batterie zu schalten, und was bei einem Ausfall geschieht.
+pages: [reihenschaltung, parallelschaltung]
+selfAssessment:
+  pages:
+    - exercises:
+        - /schaltungen/reihenschaltung/#reihe-1
+        - /schaltungen/reihenschaltung/#reihe-3
+    - exercises:
+        - /schaltungen/parallelschaltung/#parallel-1
+        - /schaltungen/parallelschaltung/#parallel-3

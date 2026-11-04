@@ -1,0 +1,115 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Spannung
+description: Was die Spannung als Antrieb des Stroms bedeutet und in welcher Einheit man sie angibt.
+competencies: [spannung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was treibt den Strom an?
+    blocks:
+      - type: text
+        text: |
+          Du weißt, dass in einem geschlossenen Stromkreis Strom fließt und dass die Stromstärke sagt, wie viel. Aber
+          warum fließt der Strom überhaupt? Auf einer Batterie steht zum Beispiel „1,5 V“. Diese Angabe gehört zu
+          einer zweiten Größe.
+
+          Danach kannst du **die Spannung als Antrieb des Stroms erklären und sie in Volt angeben**.
+  - type: section
+    id: erklaerung
+    title: Die Spannung treibt den Strom an
+    blocks:
+      - type: text
+        text: |
+          Denke wieder an die Wasserleitung. Damit Wasser durch ein Rohr fließt, muss es angetrieben werden, zum
+          Beispiel von einer Pumpe. Im Stromkreis übernimmt die Batterie diese Aufgabe. Die **Spannung** gibt an, wie
+          stark die Batterie den Strom antreibt. Eine Quelle mit größerer Spannung treibt den Strom stärker an.
+      - type: definition
+        term: Spannung
+        explanation: Die Spannung gibt an, wie stark eine Spannungsquelle den Strom antreibt. Ihr Formelzeichen ist U, ihre Einheit ist das Volt (V).
+      - type: text
+        text: |
+          Die Einheit der Spannung ist das **Volt**, kurz **V**. Die Tabelle zeigt Spannungen einiger Quellen. Die
+          Werte stehen auf den Geräten oder gelten allgemein.
+      - type: table
+        caption: Spannungen einiger Spannungsquellen
+        header: [Spannungsquelle, Spannung]
+        rows:
+          - [Mignon-Batterie (Größe AA), "1,5 V"]
+          - [9-Volt-Block, 9 V]
+          - [Autobatterie, 12 V]
+          - [Steckdose im Haus, 230 V]
+      - type: note
+        title: Zwei Missverständnisse
+        blocks:
+          - type: text
+            text: |
+              **Die Spannung fließt nicht.** Strom fließt durch den Draht. Die Spannung ist der Antrieb dafür, sie
+              fließt nicht mit.
+
+              **Spannung gibt es auch ohne Strom.** Eine Batterie im Regal hat Spannung, obwohl kein Strom fließt.
+              Strom fließt erst, wenn du einen geschlossenen Kreis baust.
+  - type: section
+    id: beispiel
+    title: "Beispiel: Zwei Batterien vergleichen"
+    blocks:
+      - type: example
+        title: Welche Quelle treibt den Strom stärker an?
+        blocks:
+          - type: text
+            text: |
+              Du hast eine Mignon-Batterie mit 1,5 V und einen 9-Volt-Block.
+
+              1. Lies die Spannungen ab: 1,5 V und 9 V.
+              2. Vergleiche die Zahlen: 9 ist größer als 1,5.
+              3. Die Quelle mit der größeren Spannung treibt den Strom stärker an. Das ist der 9-Volt-Block.
+              4. Die Spannung sagt dir aber nur den Antrieb. Wie viel Strom wirklich fließt, ist die Stromstärke.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: spannung-1
+        text: In welcher Einheit gibt man die Spannung an?
+        options:
+          - text: Volt
+            correct: true
+            info: Das Volt (V) ist die Einheit der Spannung.
+          - text: Ampere
+            correct: false
+            info: Das Ampere ist die Einheit der Stromstärke, nicht der Spannung.
+          - text: Meter
+            correct: false
+            info: Meter ist die Einheit einer Länge.
+        explanation: Die Spannung wird in Volt angegeben, die Stromstärke in Ampere.
+        links:
+          - { title: Elektrische Spannung (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Spannung" }
+      - type: true-false
+        id: spannung-2
+        text: Eine Batterie, die im Regal liegt und an nichts angeschlossen ist, hat keine Spannung, weil kein Strom fließt.
+        answer: false
+        explanation: Die Batterie hat auch im Regal Spannung. Die Spannung ist der Antrieb, der Strom fließt erst im geschlossenen Kreis.
+        links:
+          - { title: Elektrische Spannung (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Spannung" }
+      - type: true-false
+        id: spannung-3
+        text: Die Spannung fließt durch das Kabel von der Batterie zur Lampe.
+        answer: false
+        explanation: Durch das Kabel fließt der Strom. Die Spannung ist der Antrieb, der ihn in Bewegung hält.
+        links:
+          - { title: Elektrische Spannung (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Spannung" }
+      - type: single-choice
+        id: spannung-4
+        text: Welche dieser Spannungsquellen treibt den Strom am stärksten an?
+        options:
+          - text: Die Mignon-Batterie mit 1,5 V
+            correct: false
+            info: Die Mignon-Batterie hat von diesen Quellen die kleinste Spannung.
+          - text: Der 9-Volt-Block
+            correct: false
+            info: 9 V sind mehr als 1,5 V, aber weniger als 230 V.
+          - text: Die Steckdose mit 230 V
+            correct: true
+            info: 230 V ist die größte Spannung der drei und treibt den Strom am stärksten an. Darum ist die Steckdose gefährlich.
+        explanation: Je größer die Spannung, desto stärker der Antrieb. Die Steckdose hat mit 230 V die größte.
+        links:
+          - { title: Elektrische Spannung (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrische_Spannung" }

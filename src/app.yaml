@@ -1,0 +1,7 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/elektrizitaetslehre
+title: Stromkreis und elektrischer Strom
+intro: Hier lernst du, wie ein Stromkreis funktioniert, was Stromstärke und Spannung bedeuten, wie man sie misst, wie sich Reihen- und Parallelschaltung unterscheiden und wie du sicher mit Strom umgehst. Nach jedem Teil kannst du üben.
+languages: [de]
+chapters: [stromkreis, stromstaerke-spannung, schaltungen, sicherheit]

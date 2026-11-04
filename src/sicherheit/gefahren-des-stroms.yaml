@@ -1,0 +1,119 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Warum Strom gefährlich sein kann
+description: Warum Strom aus der Steckdose gefährlich ist, Strom aus einer Batterie aber nicht, und wovon die Gefahr abhängt.
+competencies: [gefahren-des-stroms]
+blocks:
+  - type: section
+    id: einstieg
+    title: Batterie ja, Steckdose nein
+    blocks:
+      - type: text
+        text: |
+          Mit einer Batterie darfst du gefahrlos eine Lampe zum Leuchten bringen. In die Steckdose darfst du nie
+          etwas hineinstecken. Beides ist elektrischer Strom. Warum ist der Unterschied so groß?
+
+          Danach kannst du **erklären, warum Strom aus der Steckdose gefährlich ist und Strom aus einer Batterie nicht**.
+  - type: section
+    id: erklaerung
+    title: Der Körper als Teil eines Stromkreises
+    blocks:
+      - type: text
+        text: |
+          Dein Körper leitet den elektrischen Strom, denn er enthält Wasser mit gelösten Stoffen, ähnlich wie das
+          Salzwasser in der Tabelle von früher. Berührst du etwas, das unter Spannung steht, kann der Strom durch
+          deinen Körper fließen. Du bist dann Teil eines Stromkreises, und das kann Verletzungen verursachen.
+
+          Wie schwer die Verletzungen sind, hängt von zwei Dingen ab: von der **Stromstärke** des Stroms durch den
+          Körper und von der **Zeit**, wie lange er fließt.
+      - type: text
+        text: |
+          Wie groß die Stromstärke durch den Körper wird, entscheidet die **Spannung**. Du weißt: Die Spannung treibt den
+          Strom an. Je größer die Spannung ist, desto mehr Strom fließt durch den Körper. Schon bei 50 V kann ein
+          lebensgefährlicher Strom fließen. Die Steckdose liefert 230 V, also weit mehr. Eine 12-Volt-Batterie lässt
+          sich dagegen auch bei Berührung beider Pole in der Regel nicht spüren. Eine Mignon-Batterie mit 1,5 V
+          treibt noch weniger Strom an.
+      - type: table
+        caption: Spannungsquellen und ihre Gefahr für den Menschen
+        header: ["Spannungsquelle und Spannung", "Gefahr beim Berühren"]
+        rows:
+          - ["Mignon-Batterie, 1,5 V", "ungefährlich"]
+          - ["9-Volt-Block, 9 V", "ungefährlich"]
+          - ["Autobatterie, 12 V", "in der Regel nicht zu spüren"]
+          - ["Steckdose im Haus, 230 V", "lebensgefährlich"]
+      - type: note
+        title: Auch kleine Spannungen verlangen Vorsicht
+        blocks:
+          - type: text
+            text: |
+              Eine Batterie ist für dich ungefährlich, solange du sie nur wie in der Schule benutzt. Verbindest du ihre
+              Pole aber direkt mit einem Draht, kann der Draht heiß werden. Spiele deshalb nicht mit Batterien und
+              Drähten, ohne dass eine Lampe im Kreis ist.
+  - type: section
+    id: beispiel
+    title: "Beispiel: Zwei Quellen im Vergleich"
+    blocks:
+      - type: example
+        title: Warum die Batterie harmlos ist und die Steckdose nicht
+        blocks:
+          - type: text
+            text: |
+              1. Die Gefahr hängt von der Stromstärke durch den Körper und von der Zeit ab.
+              2. Die Stromstärke durch den Körper wird von der Spannung bestimmt: Je größer sie ist, desto mehr Strom
+                 fließt.
+              3. Die Mignon-Batterie hat 1,5 V. Der Antrieb ist so klein, dass nur ein winziger Strom durch den Körper
+                 fließen könnte.
+              4. Die Steckdose hat 230 V. Der Antrieb ist so groß, dass ein gefährlich starker Strom durch den Körper
+                 fließen kann.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: gefahren-1
+        text: Warum ist die Steckdose gefährlich, eine Mignon-Batterie aber nicht?
+        options:
+          - text: Die Steckdose hat eine viel größere Spannung und kann daher einen gefährlich starken Strom durch den Körper treiben.
+            correct: true
+            info: 230 V treiben den Strom viel stärker an als 1,5 V. Schon ab etwa 50 V kann ein lebensgefährlicher Strom fließen.
+          - text: In der Steckdose fließt Strom, in der Batterie nicht.
+            correct: false
+            info: Auch in einer Batterie fließt Strom, wenn sie in einem geschlossenen Kreis liegt. Der Unterschied liegt in der Spannung.
+          - text: Strom aus der Steckdose ist eine andere Sorte Strom als Strom aus einer Batterie, die Spannung ist egal.
+            correct: false
+            info: Die Spannung ist entscheidend. Sie bestimmt, wie stark der Strom durch den Körper wird.
+        explanation: Bei 230 V kann ein gefährlich starker Strom durch den Körper fließen, bei 1,5 V nicht.
+        links:
+          - { title: Elektrischer Schlag (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Schlag" }
+      - type: true-false
+        id: gefahren-2
+        text: Wie gefährlich ein Stromunfall ist, hängt nur von der Spannung ab. Die Zeit, die der Strom fließt, ist egal.
+        answer: false
+        explanation: Die Schwere hängt von der Stromstärke durch den Körper und von der Dauer ab. Die Spannung entscheidet dabei mit, wie groß die Stromstärke wird.
+        links:
+          - { title: Elektrischer Schlag (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Schlag" }
+      - type: multiple-choice
+        id: gefahren-3
+        text: Welche Situationen können zu einem Stromunfall führen?
+        options:
+          - text: Ein Kabel ohne Isolierung berühren
+            correct: true
+            info: Ohne die Hülle aus Nichtleiter liegt der Draht frei. Wer ihn berührt, kann Teil des Stromkreises werden.
+          - text: Einen beschädigten Stecker benutzen
+            correct: true
+            info: Ein beschädigter Stecker kann stromführende Teile freilegen.
+          - text: Mit Mignon-Batterien eine Taschenlampe benutzen
+            correct: false
+            info: Die Spannung von 1,5 V ist so klein, dass dabei kein gefährlicher Strom durch den Körper fließt.
+          - text: Ein elektrisches Gerät mit Wasser in Berührung bringen
+            correct: true
+            info: Wasser leitet den Strom. Es kann einen Weg zum Körper schaffen.
+        explanation: Häufige Ursachen für Stromunfälle sind der Kontakt von stromführenden Teilen mit Wasser, beschädigte Stecker und Kabel ohne Isolierung.
+        links:
+          - { title: Elektrischer Schlag (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Schlag" }
+      - type: true-false
+        id: gefahren-4
+        text: Die Spannung einer 12-Volt-Batterie spürt man in der Regel nicht, wenn man beide Pole mit den Fingern berührt.
+        answer: true
+        explanation: Bei 12 V treibt die Spannung durch die Haut nur einen sehr kleinen Strom. Der Körper bemerkt ihn in der Regel nicht.
+        links:
+          - { title: Elektrischer Schlag (Wikipedia), url: "https://de.wikipedia.org/wiki/Elektrischer_Schlag" }

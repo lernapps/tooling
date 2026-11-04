@@ -1,0 +1,145 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Schaltzeichen und Schaltplan
+description: Wie man einen Stromkreis mit Schaltzeichen als Schaltplan darstellt und einen Schaltplan liest.
+competencies: [schaltzeichen]
+blocks:
+  - type: section
+    id: einstieg
+    title: Eine gemeinsame Zeichensprache
+    blocks:
+      - type: text
+        text: |
+          Die Zeichnungen auf den letzten Seiten waren schon Schaltpläne. Ein Stromkreis ist schwer genau zu malen,
+          wenn man jede Batterie und jeden Schalter abzeichnet. Darum nutzt man in der Physik für jedes Bauteil ein
+          einfaches Zeichen, damit alle den Plan gleich lesen.
+
+          Danach kannst du **einen Stromkreis als Schaltplan zeichnen und einen Schaltplan lesen**.
+  - type: section
+    id: erklaerung
+    title: Vier Schaltzeichen
+    blocks:
+      - type: text
+        text: |
+          Die Zeichnung zeigt vier Schaltzeichen. Jedes ist mit einer Zahl markiert; die Liste darunter nennt das
+          Bauteil. Zu jedem Zeichen gehören zwei Anschlüsse, hier links und rechts.
+      - type: labelled-figure
+        image: images/schaltzeichen-1.svg
+        alt: Vier Schaltzeichen nebeneinander. Das erste hat einen langen und einen kurzen dicken Strich, das zweite einen Kreis mit Kreuz, das dritte zwei Punkte mit einer schräg geklappten Klinge, das vierte eine einfache Linie.
+        caption: Schau dir an, woran du jedes Zeichen erkennst.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+        labels:
+          - { x: 12.5, y: 25, text: Batterie }
+          - { x: 37.5, y: 25, text: Lampe }
+          - { x: 62.5, y: 25, text: Schalter }
+          - { x: 87.5, y: 25, text: Leitung (Kabel) }
+      - type: text
+        text: |
+          Beim Zeichnen eines Schaltplans gelten diese Regeln:
+          - Kabel sind gerade Linien mit rechten Winkeln.
+          - Jedes Bauteil bekommt sein Schaltzeichen.
+          - Der Plan zeigt nur, **wie die Bauteile verbunden sind**. Wo die Teile wirklich liegen und wie lang die Kabel
+            sind, steht nicht im Plan.
+      - type: definition
+        term: Schaltplan
+        explanation: Ein Schaltplan ist eine Zeichnung eines Stromkreises, in der jedes Bauteil durch sein Schaltzeichen dargestellt ist.
+  - type: section
+    id: beispiel
+    title: "Beispiel: Einen Schaltplan lesen"
+    blocks:
+      - type: example
+        title: Batterie, Schalter und Lampe
+        blocks:
+          - type: text
+            text: |
+              Der Plan zeigt eine Batterie, einen Schalter und eine Lampe in einem Kreis. Du liest ihn, indem du dem
+              Weg folgst:
+          - type: figure
+            image: images/schaltzeichen-3.svg
+            alt: Schaltplan mit einer Batterie links, einem Schalter im oberen Kabel mit waagerechter Klinge und einer Lampe rechts.
+            caption: Folge dem Weg vom Pluspol der Batterie durch den Schalter und die Lampe zurück zum Minuspol.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: text
+            text: |
+              1. Vom Pluspol der Batterie geht das Kabel zum Schalter.
+              2. Die Klinge liegt waagerecht, der Schalter ist geschlossen.
+              3. Weiter geht es zur Lampe und über das untere Kabel zurück zum Minuspol.
+              4. Der Weg ist ohne Lücke, die Lampe leuchtet.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: matching
+        id: schaltzeichen-1
+        text: Ordne jedem Schaltzeichen das richtige Bauteil zu.
+        pairs:
+          - { left: Kreis mit Kreuz, right: Lampe }
+          - { left: Ein langer dünner und ein kurzer dicker Strich, right: Batterie }
+          - { left: Zwei Punkte mit schräg geklappter Klinge, right: Schalter }
+          - { left: Eine einfache gerade Linie, right: Leitung (Kabel) }
+        explanation: Die Batterie erkennst du an den zwei unterschiedlichen Strichen, die Lampe am Kreis mit Kreuz, den offenen Schalter an der geklappten Klinge und die Leitung an der einfachen Linie.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: true-false
+        id: schaltzeichen-2
+        text: Im Schaltplan zeigt die Länge einer Linie, wie lang das Kabel in Wirklichkeit ist.
+        answer: false
+        explanation: Ein Schaltplan zeigt nur, wie die Bauteile verbunden sind. Länge und Lage der Kabel sind für den Plan egal.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: single-choice
+        id: schaltzeichen-3
+        text: Lies den Schaltplan. Leuchtet die Lampe?
+        material:
+          - type: figure
+            image: images/schalter-3c.svg
+            alt: Schaltplan mit Batterie, Lampe und zwei Schaltern. Der Schalter im oberen Kabel hat eine waagerechte Klinge, der im unteren Kabel eine schräg geklappte.
+            caption: Ein Schaltplan mit zwei Schaltern
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Ja, denn ein Schalter ist geschlossen.
+            correct: false
+            info: Ein geschlossener Schalter reicht nicht. Der zweite Schalter ist offen und unterbricht den Weg.
+          - text: Nein, denn ein Schalter ist offen.
+            correct: true
+            info: Der untere Schalter ist offen. Damit ist der ganze Kreis unterbrochen.
+        explanation: Die Lampe leuchtet nur, wenn jeder Schalter im Kreis geschlossen ist.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
+      - type: single-choice
+        id: schaltzeichen-4
+        text: Du baust einen Kreis aus Batterie, offenem Schalter und Lampe. Welcher Schaltplan gehört dazu?
+        material:
+          - type: figure
+            image: images/schalter-3a.svg
+            alt: Schaltplan A, Batterie, Lampe und ein Schalter mit waagerechter Klinge im unteren Kabel.
+            caption: Schaltplan A
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/schalter-3b.svg
+            alt: Schaltplan B, Batterie, Lampe und ein Schalter mit schräg geklappter Klinge im unteren Kabel.
+            caption: Schaltplan B
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+          - type: figure
+            image: images/schalter-3c.svg
+            alt: Schaltplan C, Batterie, Lampe und zwei Schalter.
+            caption: Schaltplan C
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Schaltplan A
+            correct: false
+            info: Dort ist der Schalter geschlossen, nicht offen.
+          - text: Schaltplan B
+            correct: true
+            info: Ein Schalter, die Klinge ist geklappt, also offen. Das passt zum Aufbau.
+          - text: Schaltplan C
+            correct: false
+            info: Hier sind zwei Schalter gezeichnet, der Aufbau hat aber nur einen.
+        explanation: Zum Aufbau gehören genau die drei Bauteile, und der Schalter ist offen gezeichnet.
+        links:
+          - { title: Stromkreis (Wikipedia), url: "https://de.wikipedia.org/wiki/Stromkreis" }
