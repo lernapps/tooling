@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche
+summary: Was ein Bruch ist, wie du Anteile darstellst und wie du Brüche erweiterst, kürzt und vergleichst.
+pages: [anteile-erkennen, anteile-darstellen, teilbarkeit-wiederholt, erweitern, kuerzen, vergleichen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /brueche/anteile-erkennen/#anteil-ablesen-streifen
+        - /brueche/anteile-erkennen/#kuchen-zaehler
+        - /brueche/anteile-darstellen/#bruchfeld
+    - exercises:
+        - /brueche/anteile-darstellen/#zahlenstrahl-ablesen
+        - /brueche/erweitern/#erweitern-nenner
+        - /brueche/erweitern/#erweitern-zahl-finden
+    - exercises:
+        - /brueche/kuerzen/#kuerzen-zaehler
+        - /brueche/kuerzen/#kuerzen-vollstaendig
+    - exercises:
+        - /brueche/vergleichen/#gemeinsamer-zaehler
+        - /brueche/vergleichen/#zeichen-waehlen

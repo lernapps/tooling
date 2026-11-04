@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Teilbarkeit kurz wiederholt
+description: Teiler und Teilbarkeitsregeln, die du zum Erweitern und Kürzen brauchst.
+recap: mathematik/teilbarkeit
+blocks:
+  - type: section
+    id: einstieg
+    title: Warum du das jetzt brauchst
+    blocks:
+      - type: text
+        text: |
+          Beim Kürzen teilst du Zähler und Nenner durch dieselbe Zahl. Dafür musst du schnell erkennen, durch welche
+          Zahlen sich zwei Zahlen teilen lassen. Das kennst du aus dem Kapitel zur Teilbarkeit. Hier steht das Wichtigste
+          noch einmal.
+  - type: section
+    id: erklaerung
+    title: Teiler und Teilbarkeitsregeln
+    blocks:
+      - type: definition
+        term: Teiler
+        explanation: "Eine Zahl ist ein Teiler einer anderen, wenn die Division ohne Rest aufgeht. 3 ist ein Teiler von 12, denn $12 : 3 = 4$."
+      - type: table
+        caption: Teilbarkeitsregeln
+        header: [Teilbar durch, Daran erkennst du es, Beispiel]
+        rows:
+          - ["2", "Die letzte Ziffer ist 0, 2, 4, 6 oder 8.", "48 ist teilbar durch 2."]
+          - ["3", "Die Quersumme ist durch 3 teilbar.", "$1 + 8 = 9$, also ist 18 teilbar durch 3."]
+          - [
+              "4",
+              "Die letzten beiden Ziffern bilden eine Zahl, die durch 4 teilbar ist.",
+              "In 124 ist 24 durch 4 teilbar, also auch 124.",
+            ]
+          - ["5", "Die letzte Ziffer ist 0 oder 5.", "35 ist teilbar durch 5."]
+          - [
+              "6",
+              "Die Zahl ist durch 2 und durch 3 teilbar.",
+              "18 ist gerade und hat die Quersumme 9, also teilbar durch 6.",
+            ]
+          - ["9", "Die Quersumme ist durch 9 teilbar.", "$2 + 7 = 9$, also ist 27 teilbar durch 9."]
+          - ["10", "Die letzte Ziffer ist 0.", "70 ist teilbar durch 10."]
+      - type: note
+        title: Gemeinsamer Teiler
+        blocks:
+          - type: text
+            text: |
+              Ein gemeinsamer Teiler zweier Zahlen teilt beide ohne Rest. 6 ist ein gemeinsamer Teiler von 12 und 18. Beim
+              Kürzen ist das die Zahl, durch die du Zähler und Nenner teilst.

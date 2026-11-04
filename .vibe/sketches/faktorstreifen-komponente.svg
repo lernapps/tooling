@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" role="img" aria-label="Skizze: Komponente Faktorstreifen, 3/4 erweitert mit 2 zu 6/8">
+  <title>Skizze Komponente Faktorstreifen (Seiten erweitern und kuerzen)</title>
+  <rect width="360" height="260" fill="#ffffff"/>
+  <text x="20" y="22" font-family="sans-serif" font-size="13" fill="#222">vorher: 3/4</text>
+  <g stroke="#222" stroke-width="2">
+    <rect x="20" y="30" width="80" height="44" fill="#2b6cb0"/>
+    <rect x="100" y="30" width="80" height="44" fill="#2b6cb0"/>
+    <rect x="180" y="30" width="80" height="44" fill="#2b6cb0"/>
+    <rect x="260" y="30" width="80" height="44" fill="#ffffff"/>
+  </g>
+  <text x="20" y="108" font-family="sans-serif" font-size="13" fill="#222">erweitert mit 2: 6/8</text>
+  <g stroke="#222" stroke-width="2">
+    <rect x="20" y="116" width="40" height="44" fill="#2b6cb0"/>
+    <rect x="60" y="116" width="40" height="44" fill="#2b6cb0"/>
+    <rect x="100" y="116" width="40" height="44" fill="#2b6cb0"/>
+    <rect x="140" y="116" width="40" height="44" fill="#2b6cb0"/>
+    <rect x="180" y="116" width="40" height="44" fill="#2b6cb0"/>
+    <rect x="220" y="116" width="40" height="44" fill="#2b6cb0"/>
+    <rect x="260" y="116" width="40" height="44" fill="#ffffff"/>
+    <rect x="300" y="116" width="40" height="44" fill="#ffffff"/>
+  </g>
+  <text x="20" y="196" font-family="sans-serif" font-size="13" fill="#222">Erweiterungszahl: 2 (Regler 1 bis 6)</text>
+  <line x1="20" y1="214" x2="340" y2="214" stroke="#222" stroke-width="3"/>
+  <circle cx="84" cy="214" r="8" fill="#ffffff" stroke="#222" stroke-width="2"/>
+  <text x="20" y="244" font-family="sans-serif" font-size="12" fill="#444">Beide Streifen sind gleich lang gefärbt: der Wert bleibt gleich.</text>
+</svg>

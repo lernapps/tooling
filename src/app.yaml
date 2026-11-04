@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+# The strand of the learning map the app stays in, <subject>/<strand> (e.g. mathematik/stochastik); then each page
+# names its competencies. none: the app is on no strand, and no page names competencies.
+strand: mathematik/arithmetik
+title: Brüche verstehen, kürzen und erweitern
+intro: |
+  Hier lernst du, was ein Bruch ist, wie du Anteile am Streifen siehst und selbst einfärbst und wie du Brüche
+  erweiterst, kürzt und vergleichst. Auf jeder Seite wird erst erklärt, dann übst du.
+languages: [de]
+chapters: [brueche]

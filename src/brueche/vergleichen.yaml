@@ -1,0 +1,127 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche vergleichen
+description: Brüche mit verschiedenen Nennern auf einen gemeinsamen Nenner erweitern und dann der Größe nach vergleichen.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Wer hat mehr?
+    blocks:
+      - type: text
+        text: |
+          Lena isst $\frac{2}{3}$ einer Tafel Schokolade, Jonas $\frac{3}{5}$ einer gleich großen Tafel. Wer hat mehr
+          gegessen? Das ist schwer zu sehen, denn die Tafeln sind verschieden oft geteilt. Du weißt schon: Wer in mehr Teile
+          teilt, bekommt kleinere Teile. Ein größerer Nenner heißt also nicht, dass der Bruch größer ist.
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: figure
+        image: images/vergleich-verschieden.svg
+        alt: Zwei gleich lange Streifen untereinander. Oben 2/3 mit 3 Teilen, unten 3/5 mit 5 Teilen. Die blauen Längen sind fast gleich.
+        caption: Beide Streifen sind das Ganze. Die Teile sind verschieden groß, darum kannst du die Zähler nicht einfach vergleichen.
+        source: eigene Zeichnung
+        licence: CC0-1.0
+      - type: text
+        text: |
+          Du kannst nur Zähler vergleichen, wenn die Teile gleich groß sind. Dafür **erweiterst** du beide Brüche so, dass
+          sie denselben Nenner haben. Als gemeinsamen Nenner nimmst du eine Zahl, in der beide Nenner aufgehen. Das geht
+          immer, wenn du die beiden Nenner malnimmst: $3 \cdot 5 = 15$. Dann gilt:
+      - type: formula
+        formula: '\frac{2}{3} = \frac{2 \cdot 5}{3 \cdot 5} = \frac{10}{15} \qquad \frac{3}{5} = \frac{3 \cdot 3}{5 \cdot 3} = \frac{9}{15}'
+      - type: figure
+        image: images/vergleich-gleicher-nenner.svg
+        alt: Zwei gleich lange Streifen untereinander, beide mit 15 gleich großen Teilen. Oben sind 10 Teile blau, unten 9.
+        caption: Jetzt sind beide Streifen in 15 gleich große Teile geteilt. Zähle die blauen Teile.
+        source: eigene Zeichnung
+        licence: CC0-1.0
+      - type: definition
+        term: gleichnamig
+        explanation: Brüche mit demselben Nenner heißen gleichnamig. Bei gleichnamigen Brüchen ist der Bruch mit dem größeren Zähler größer.
+      - type: formula
+        formula: '\frac{2}{3} = \frac{10}{15} > \frac{9}{15} = \frac{3}{5}'
+      - type: text
+        text: Lena hat also mehr gegessen als Jonas.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: 3/4 und 5/6 vergleichen
+        blocks:
+          - type: table
+            caption: So vergleichst du $\frac{3}{4}$ und $\frac{5}{6}$
+            rowHeaders: true
+            rows:
+              - [Gemeinsamer Nenner, "12, denn 4 und 6 gehen beide in 12 auf"]
+              - [Erster Bruch, "$\\frac{3}{4} = \\frac{9}{12}$, erweitert mit 3"]
+              - [Zweiter Bruch, "$\\frac{5}{6} = \\frac{10}{12}$, erweitert mit 2"]
+              - [Vergleich, "$9 < 10$, also $\\frac{3}{4} < \\frac{5}{6}$"]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: gemeinsamer-zaehler
+        given:
+          e: { pick: 1, from: { data: vergleiche } }
+        where: ["e.n != e.b"]
+        task:
+          text: "Bringe {{e.a}}/{{e.b}} und {{e.c}}/{{e.d}} auf den gemeinsamen Nenner {{e.n}}. Wie lautet der neue Zähler des ersten Bruchs?"
+        answer: { value: "e.a2", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.a",
+              message: "Der Zähler ist gleich geblieben. Beim Erweitern wird auch der Zähler mit der Erweiterungszahl multipliziert.",
+            }
+        hint: "Mit welcher Zahl musst du {{e.b}} malnehmen, um {{e.n}} zu bekommen? Mit derselben Zahl erweiterst du den Zähler."
+        steps:
+          - "Der Nenner wird von {{e.b}} zu {{e.n}}. Der Bruch wird mit {{e.n}} : {{e.b}} erweitert."
+          - "Zähler: {{e.a}} mal {{e.n}} : {{e.b}} ist {{e.a2}}."
+      - type: generated
+        id: zeichen-waehlen
+        given:
+          e: { pick: 1, from: { data: vergleiche } }
+        where: ["e.rel != e.relN and e.rel != e.relZ"]
+        task:
+          text: "Vergleiche {{e.a}}/{{e.b}} und {{e.c}}/{{e.d}}. Welches Zeichen gehört zwischen die Brüche?"
+        answer: { value: "e.rel", compare: { choice: ["<", ">", "="] } }
+        mistakes:
+          - {
+              value: "e.relN",
+              message: "Du hast die Nenner verglichen. Ein größerer Nenner heißt kleinere Teile, nicht einen größeren Bruch.",
+            }
+          - {
+              value: "e.relZ",
+              message: "Du hast nur die Zähler verglichen. Das geht nur, wenn beide Brüche denselben Nenner haben.",
+            }
+        hint: "Bringe beide Brüche auf den gemeinsamen Nenner {{e.n}} und vergleiche dann die Zähler."
+        steps:
+          - "Gemeinsamer Nenner: {{e.n}}."
+          - "{{e.a}}/{{e.b}} = {{e.a2}}/{{e.n}} und {{e.c}}/{{e.d}} = {{e.c2}}/{{e.n}}."
+          - "Vergleiche die Zähler {{e.a2}} und {{e.c2}}: Das Zeichen ist {{answer}}."
+      - type: single-choice
+        id: groesser-auswahl
+        text: Welcher Bruch ist größer, 3/4 oder 5/8?
+        options:
+          - text: 3/4
+            correct: true
+            info: Erweitert mit 2 ist 3/4 gleich 6/8, und 6/8 ist größer als 5/8.
+          - text: 5/8
+            correct: false
+            info: Der Nenner 8 ist größer, aber dann sind die Teile kleiner. Mit gleichem Nenner ist 3/4 gleich 6/8, und 6 ist mehr als 5.
+          - text: Beide sind gleich groß
+            correct: false
+            info: Erweitere 3/4 mit 2. Dann siehst du 6/8, und das ist nicht gleich 5/8.
+        explanation: Beide Brüche stehen mit dem Nenner 8 nebeneinander, 6/8 und 5/8. Der Bruch mit dem größeren Zähler ist größer.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: gleichnamig-zaehler
+        text: Haben zwei Brüche denselben Nenner, ist der Bruch mit dem größeren Zähler der größere.
+        answer: true
+        explanation: Bei gleichem Nenner sind die Teile gleich groß. Der Bruch mit dem größeren Zähler hat mehr dieser Teile.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

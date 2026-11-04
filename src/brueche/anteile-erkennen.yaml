@@ -1,0 +1,160 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Was ist ein Bruch?
+description: Ein Bruch beschreibt einen Teil eines Ganzen. Zähler und Nenner am Streifen ablesen.
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Ein Stück von der Pizza
+    blocks:
+      - type: text
+        text: |
+          Eine Pizza wird in 4 gleich große Stücke geschnitten, für 4 Kinder. Jedes Kind bekommt ein Stück. Wie viel
+          von der Pizza ist das? Mit
+          [natürlichen Zahlen](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/) wie 1, 2 oder 3 kannst
+          du das nicht sagen. Dafür gibt es **Brüche**: Sie sagen, welcher **Teil eines Ganzen** gemeint ist. Jedes
+          Kind bekommt $\frac{1}{4}$ der Pizza, gesprochen „ein Viertel“.
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Das Ganze ist hier ein Streifen. Er ist in **8 gleich große Teile** geteilt. 3 Teile davon sind blau gefärbt.
+      - type: figure
+        image: images/streifen-3-von-8.svg
+        alt: Ein Streifen aus 8 gleich großen Teilen, 3 Teile sind blau gefärbt.
+        caption: Der ganze Streifen ist das Ganze. Zähle erst alle Teile, dann die blauen.
+        source: eigene Zeichnung
+        licence: CC0-1.0
+      - type: text
+        text: |
+          Den blauen Anteil schreibst du als Bruch: $\frac{3}{8}$. Du sprichst „drei Achtel“. Der Strich in der Mitte
+          heißt **Bruchstrich**.
+      - type: formula
+        formula: '\frac{3}{8} = \frac{\text{Zähler}}{\text{Nenner}}'
+      - type: definition
+        term: Bruch
+        explanation: Ein Bruch beschreibt einen Teil eines Ganzen, zum Beispiel $\frac{3}{8}$ eines Streifens.
+      - type: definition
+        term: Zähler
+        explanation: Der Zähler steht über dem Bruchstrich. Er zählt, wie viele dieser Teile gemeint sind, hier 3.
+      - type: definition
+        term: Nenner
+        explanation: Der Nenner steht unter dem Bruchstrich. Er sagt, in wie viele gleich große Teile das Ganze geteilt ist, hier 8.
+      - type: note
+        title: Die Teile müssen gleich groß sein
+        blocks:
+          - type: text
+            text: |
+              Ein Bruch passt nur, wenn alle Teile gleich groß sind. Das gilt beim Streifen, bei einer Pizza und bei
+              einer Tafel Schokolade.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: Eine Tafel Schokolade
+        blocks:
+          - type: text
+            text: Eine Tafel hat 12 gleich große Stücke. Du isst 5 davon. Welchen Bruch hast du gegessen?
+          - type: table
+            caption: Der gegessene Teil der Tafel
+            rowHeaders: true
+            rows:
+              - [Das Ganze, die ganze Tafel]
+              - [Gleich große Stücke, "12, also ist der Nenner 12"]
+              - [Gegessene Stücke, "5, also ist der Zähler 5"]
+              - [Bruch, '$\frac{5}{12}$ der Tafel']
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: anteil-ablesen-streifen
+        text: Welcher Bruch beschreibt den blauen Teil des Streifens?
+        material:
+          - type: figure
+            image: images/streifen-7-von-10.svg
+            alt: Ein Streifen aus Teilen, einige davon sind blau gefärbt.
+            caption: Der ganze Streifen ist das Ganze.
+            source: eigene Zeichnung
+            licence: CC0-1.0
+        options:
+          - text: 7/10
+            correct: true
+            info: Der Streifen hat 10 gleich große Teile (Nenner), 7 davon sind blau (Zähler).
+          - text: 3/10
+            correct: false
+            info: Das sind die weißen Teile. Gefragt ist der blaue Teil.
+          - text: 10/7
+            correct: false
+            info: Zähler und Nenner sind vertauscht. Der Nenner ist die Zahl aller Teile, hier 10.
+          - text: 7/3
+            correct: false
+            info: Der Nenner zählt alle Teile des Ganzen, nicht nur die weißen. Alle Teile sind 10.
+        explanation: Alle 10 Teile sind gleich groß und bilden das Ganze. 7 davon sind blau, also $\frac{7}{10}$.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: anteil-ablesen-kreis
+        text: Die blauen Stücke der Pizza sind schon gegessen. Welcher Bruch der Pizza ist schon gegessen?
+        material:
+          - type: figure
+            image: images/kreis-5-von-6.svg
+            alt: Eine runde Pizza aus Stücken, einige davon sind blau gefärbt.
+            caption: Die ganze runde Pizza ist das Ganze.
+            source: eigene Zeichnung
+            licence: CC0-1.0
+        options:
+          - text: 5/6
+            correct: true
+            info: Die Pizza hat 6 gleich große Stücke, 5 davon sind blau, also gegessen.
+          - text: 1/6
+            correct: false
+            info: Das ist das Stück, das noch übrig ist. Gefragt ist, was gegessen ist.
+          - text: 6/5
+            correct: false
+            info: Zähler und Nenner sind vertauscht. Unten steht die Zahl aller Stücke.
+          - text: 5/1
+            correct: false
+            info: Der Nenner zählt alle Stücke der Pizza, auch die gegessenen. Alle Stücke sind 6.
+        explanation: Das Ganze sind 6 Stücke, 5 sind gegessen, also $\frac{5}{6}$.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: gleich-gross
+        text: Das Rechteck ist in 4 Teile geteilt, ein Teil ist blau. Ist ein Viertel des Rechtecks blau?
+        material:
+          - type: figure
+            image: images/rechteck-ungleich.svg
+            alt: Ein Rechteck in vier Teile geteilt, ein Teil ist blau gefärbt.
+            caption: Das ganze Rechteck ist das Ganze.
+            source: eigene Zeichnung
+            licence: CC0-1.0
+        answer: false
+        explanation: Die Teile sind nicht gleich groß, das blaue Teil ist das größte. Ein Bruch wie $\frac{1}{4}$ gilt nur, wenn alle 4 Teile gleich groß sind.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: kuchen-zaehler
+        given:
+          n: { int: [4, 12] }
+          z: { int: [2, 11] }
+        where: ["z < n", "z * 2 != n"]
+        task:
+          text: "Ein Kuchen ist in {{n}} gleich große Stücke geschnitten. {{z}} Stücke sind gegessen. Welche Zahl steht im Zähler des Bruchs für den gegessenen Teil, wenn du den Bruch nicht kürzt?"
+        answer: { value: "z", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "n",
+              message: "Das ist die Zahl aller Stücke, also der Nenner. Der Zähler zählt die gegessenen Stücke.",
+            }
+          - { value: "n - z", message: "Das sind die Stücke, die noch übrig sind. Gefragt ist der gegessene Teil." }
+        hint: "Der Zähler steht oben und zählt die Stücke, von denen die Rede ist."
+        steps:
+          - "Der Kuchen hat {{n}} gleich große Stücke, also ist der Nenner {{n}}."
+          - "{{z}} Stücke sind gegessen, also ist der Zähler {{answer}}."

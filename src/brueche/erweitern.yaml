@@ -1,0 +1,136 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche erweitern
+description: Erweitern heißt, Zähler und Nenner mit derselben Zahl zu multiplizieren. Der Wert des Bruchs bleibt gleich.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Dasselbe Stück, feiner geschnitten
+    blocks:
+      - type: text
+        text: |
+          Du hast ein Viertel einer Pizza. Schneidest du jedes Viertel noch einmal in der Mitte durch, hast du Achtel.
+          Aus 1 Stück werden 2 Stücke, aus 4 Stücken werden 8. Du hast aber nicht mehr Pizza, nur kleinere Stücke. Dasselbe
+          Stück hat jetzt zwei Namen: $\frac{1}{4}$ und $\frac{2}{8}$.
+  - type: section
+    id: erklaerung
+    title: Erweitern ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Unten siehst du zwei Streifen, beide gleich lang. Der obere zeigt $\frac{3}{4}$: 4 Teile, 3 davon blau. Der
+          untere ist derselbe Streifen, nur feiner geteilt. Mit den Zahlen **1** bis **6** wählst du die
+          **Erweiterungszahl**: In jedes Teil des oberen Streifens kommen so viele Schnitte, dass daraus so viele kleinere
+          Teile werden, wie die Zahl sagt. Die blaue Länge bleibt gleich. Es ändern sich nur die Zahlen im Bruch.
+      - type: vue-component
+        id: faktorstreifen-erweitern
+        component: Faktorstreifen
+        props:
+          z: 3
+          n: 4
+          direction: erweitern
+          before: "Vorher: {z}/{n}"
+          after: "Erweitert mit {f}: {z}/{n}"
+          choose: "Erweiterungszahl wählen:"
+          button: "Mit {f} erweitern: {z}/{n}"
+        nojs: |
+          Zwei gleich lange Streifen untereinander. Oben $\frac{3}{4}$: 4 Teile, 3 blau. Unten derselbe Streifen feiner
+          geteilt, dieselbe Länge ist blau:
+
+          - Erweiterungszahl 1: $\frac{3}{4}$
+          - Erweiterungszahl 2: $\frac{6}{8}$
+          - Erweiterungszahl 3: $\frac{9}{12}$
+          - Erweiterungszahl 4: $\frac{12}{16}$
+          - Erweiterungszahl 5: $\frac{15}{20}$
+          - Erweiterungszahl 6: $\frac{18}{24}$
+      - type: formula
+        formula: '\frac{3}{4} = \frac{3 \cdot 2}{4 \cdot 2} = \frac{6}{8}'
+      - type: definition
+        term: Erweitern
+        explanation: Erweitern heißt, Zähler und Nenner mit derselben Zahl zu multiplizieren. Der Wert des Bruchs bleibt gleich, zum Beispiel $\frac{3}{4} = \frac{6}{8}$.
+      - type: note
+        title: Beide Zahlen mit derselben Zahl
+        blocks:
+          - type: text
+            text: |
+              Nur wenn du Zähler und Nenner mit derselben Zahl multiplizierst, bleibt die blaue Länge gleich. Wer nur den
+              Nenner mit 2 multipliziert, bekommt aus $\frac{3}{4}$ den Bruch $\frac{3}{8}$ und damit weniger Pizza.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: 2/3 mit 4 erweitern
+        blocks:
+          - type: table
+            caption: So erweiterst du $\frac{2}{3}$ mit 4
+            rowHeaders: true
+            rows:
+              - [Zähler, "$2 \\cdot 4 = 8$"]
+              - [Nenner, "$3 \\cdot 4 = 12$"]
+              - [Ergebnis, "$\\frac{2}{3} = \\frac{8}{12}$"]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: erweitern-nenner
+        given:
+          e: { pick: 1, from: { data: bruchpaare } }
+        task:
+          text: "Erweitere den Bruch {{e.a}}/{{e.b}} mit {{e.k}}. Wie lautet der neue Nenner?"
+        answer: { value: "e.d", compare: { number: { format: integer } } }
+        mistakes:
+          - { value: "e.b + e.k", message: "Du hast {{e.k}} addiert. Beim Erweitern wird multipliziert." }
+          - {
+              value: "e.b",
+              message: "Der Nenner ist gleich geblieben. Beim Erweitern wird auch der Nenner mit der Erweiterungszahl multipliziert.",
+            }
+        hint: "Multipliziere den Nenner mit der Erweiterungszahl."
+        steps:
+          - "Erweitern heißt, Zähler und Nenner mit {{e.k}} zu multiplizieren."
+          - "Nenner: {{e.b}} · {{e.k}} = {{e.d}}."
+      - type: generated
+        id: erweitern-zahl-finden
+        given:
+          e: { pick: 1, from: { data: bruchpaare } }
+        task:
+          text: "Der Bruch {{e.a}}/{{e.b}} wurde erweitert und ist jetzt {{e.c}}/{{e.d}}. Mit welcher Zahl wurde erweitert?"
+        answer: { value: "e.k", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.d - e.b",
+              message: "Du hast die Nenner voneinander abgezogen. Erweitert wird mit einer Zahl, die man mit dem Nenner malnimmt.",
+            }
+        hint: "Mit welcher Zahl musst du {{e.b}} malnehmen, um {{e.d}} zu bekommen?"
+        steps:
+          - "Der Nenner wurde von {{e.b}} zu {{e.d}}. Es gilt {{e.b}} · {{e.k}} = {{e.d}}."
+          - "Der Zähler passt dazu: {{e.a}} · {{e.k}} = {{e.c}}. Also wurde mit {{e.k}} erweitert."
+      - type: single-choice
+        id: erweitern-auswahl
+        text: Welcher Bruch entsteht, wenn du 2/5 mit 3 erweiterst?
+        options:
+          - text: 6/15
+            correct: true
+            info: Zähler und Nenner werden mit 3 multipliziert, 2 · 3 = 6 und 5 · 3 = 15.
+          - text: 5/8
+            correct: false
+            info: Hier wurde 3 addiert. Beim Erweitern wird multipliziert.
+          - text: 6/5
+            correct: false
+            info: Nur der Zähler wurde mit 3 multipliziert. Auch der Nenner muss mit 3 multipliziert werden.
+          - text: 2/15
+            correct: false
+            info: Nur der Nenner wurde mit 3 multipliziert. Auch der Zähler muss mit 3 multipliziert werden.
+        explanation: Erweitern heißt, Zähler und Nenner mit derselben Zahl zu multiplizieren, also $\frac{2 \cdot 3}{5 \cdot 3} = \frac{6}{15}$.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: erweitern-wert
+        text: Wenn du einen Bruch erweiterst, wird der Bruch größer.
+        answer: false
+        explanation: Beim Erweitern wird dasselbe Stück nur in mehr, kleinere Teile geteilt. Der Wert bleibt gleich, zum Beispiel $\frac{1}{4} = \frac{2}{8}$.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

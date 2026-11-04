@@ -1,0 +1,140 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche kürzen
+description: Kürzen heißt, Zähler und Nenner durch dieselbe Zahl zu teilen. Der Wert des Bruchs bleibt gleich.
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Der Weg zurück
+    blocks:
+      - type: text
+        text: |
+          Beim Erweitern hast du jedes Teil in kleinere Teile geschnitten. Du kannst auch den Weg zurück gehen: Immer
+          mehrere kleine Teile legst du zu einem größeren Teil zusammen. Aus $\frac{6}{8}$ wird dann $\frac{3}{4}$. Das
+          Stück Pizza bleibt gleich groß, es hat nur weniger und größere Teile. Das nennt man **Kürzen**.
+  - type: section
+    id: erklaerung
+    title: Kürzen ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Der obere Streifen zeigt $\frac{12}{18}$: 18 Teile, 12 davon blau. Der untere ist derselbe Streifen mit
+          größeren Teilen. Mit den Zahlen unter dem Streifen wählst du die **Kürzungszahl**. Es gibt nur Zahlen zur Auswahl,
+          durch die sich Zähler und Nenner ohne Rest teilen lassen. Die blaue Länge bleibt gleich. Es ändern sich nur die
+          Zahlen im Bruch.
+      - type: vue-component
+        id: faktorstreifen-kuerzen
+        component: Faktorstreifen
+        props:
+          z: 12
+          n: 18
+          direction: kuerzen
+          before: "Vorher: {z}/{n}"
+          after: "Gekürzt mit {f}: {z}/{n}"
+          choose: "Kürzungszahl wählen:"
+          button: "Mit {f} kürzen: {z}/{n}"
+        nojs: |
+          Zwei gleich lange Streifen untereinander. Oben $\frac{12}{18}$: 18 Teile, 12 blau. Unten derselbe Streifen mit
+          größeren Teilen, dieselbe Länge ist blau:
+
+          - Kürzungszahl 1: $\frac{12}{18}$
+          - Kürzungszahl 2: $\frac{6}{9}$
+          - Kürzungszahl 3: $\frac{4}{6}$
+          - Kürzungszahl 6: $\frac{2}{3}$
+      - type: formula
+        formula: '\frac{12}{18} = \frac{12 : 6}{18 : 6} = \frac{2}{3}'
+      - type: definition
+        term: Kürzen
+        explanation: Kürzen heißt, Zähler und Nenner durch dieselbe Zahl zu teilen. Der Wert des Bruchs bleibt gleich, zum Beispiel $\frac{6}{8} = \frac{3}{4}$.
+      - type: text
+        text: |
+          Mit der 6 geht es nicht weiter: 2 und 3 haben keinen gemeinsamen Teiler außer 1. Dann ist der Bruch
+          **vollständig gekürzt**. Hilfe beim Finden der Zahl gibt dir die
+          [Wiederholung der Teilbarkeit](/brueche/teilbarkeit-wiederholt/).
+      - type: note
+        title: Beide Zahlen mit derselben Zahl
+        blocks:
+          - type: text
+            text: |
+              Du darfst nur durch eine Zahl teilen, die in Zähler und Nenner aufgeht. Teilst du nur eine der beiden Zahlen
+              oder ziehst du dieselbe Zahl ab, entsteht ein anderer Bruch.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: 18/24 kürzen
+        blocks:
+          - type: table
+            caption: So kürzt du $\frac{18}{24}$
+            rowHeaders: true
+            rows:
+              - [Gemeinsamer Teiler, "18 und 24 sind beide durch 6 teilbar"]
+              - [Zähler, "$18 : 6 = 3$"]
+              - [Nenner, "$24 : 6 = 4$"]
+              - [Ergebnis, "$\\frac{18}{24} = \\frac{3}{4}$, mit 3 und 4 geht es nicht weiter"]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: kuerzen-zaehler
+        given:
+          e: { pick: 1, from: { data: bruchpaare } }
+        where: ["not (e.a == 2 and e.k == 2)"]
+        task:
+          text: "Kürze den Bruch {{e.c}}/{{e.d}} mit {{e.k}}. Wie lautet der neue Zähler?"
+        answer: { value: "e.a", compare: { number: { format: integer } } }
+        mistakes:
+          - { value: "e.c - e.k", message: "Du hast {{e.k}} abgezogen. Beim Kürzen wird geteilt." }
+          - {
+              value: "e.c",
+              message: "Der Zähler ist gleich geblieben. Beim Kürzen werden Zähler und Nenner durch die Kürzungszahl geteilt.",
+            }
+        hint: "Teile den Zähler durch die Kürzungszahl."
+        steps:
+          - "{{e.c}} und {{e.d}} sind beide durch {{e.k}} teilbar."
+          - "Zähler: {{e.c}} : {{e.k}} = {{e.a}}."
+      - type: generated
+        id: kuerzen-vollstaendig
+        given:
+          e: { pick: 1, from: { data: bruchpaare } }
+        where: ["e.k == 4 or e.k == 6"]
+        task:
+          text: "Kürze den Bruch {{e.c}}/{{e.d}} so weit wie möglich. Welche Zahl steht danach im Nenner?"
+        answer: { value: "e.b", compare: { number: { format: integer } } }
+        mistakes:
+          - { value: "e.d / 2", message: "Du hast nur durch 2 gekürzt. Der Bruch lässt sich noch weiter kürzen." }
+          - { value: "e.d - e.k", message: "Du hast abgezogen. Beim Kürzen wird geteilt." }
+        hint: "Suche eine größere Zahl, durch die beide Zahlen teilbar sind."
+        steps:
+          - "{{e.c}} und {{e.d}} sind beide durch {{e.k}} teilbar."
+          - "Nenner: {{e.d}} : {{e.k}} = {{e.b}}. Mit {{e.a}} und {{e.b}} geht es nicht weiter."
+      - type: single-choice
+        id: kuerzen-auswahl
+        text: Welcher Bruch ist 12/16, vollständig gekürzt?
+        options:
+          - text: 3/4
+            correct: true
+            info: "12 und 16 sind beide durch 4 teilbar, 12 : 4 = 3 und 16 : 4 = 4. Mit 3 und 4 geht es nicht weiter."
+          - text: 6/8
+            correct: false
+            info: Hier wurde nur durch 2 gekürzt. 6 und 8 sind noch durch 2 teilbar, es geht weiter.
+          - text: 9/13
+            correct: false
+            info: Hier wurde 3 abgezogen. Beim Kürzen wird geteilt.
+          - text: 12/4
+            correct: false
+            info: Hier wurde nur der Nenner durch 4 geteilt. Auch der Zähler muss durch 4 geteilt werden.
+        explanation: Teile Zähler und Nenner durch den größten gemeinsamen Teiler, hier 4, dann ist der Bruch vollständig gekürzt.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: kuerzen-nicht-moeglich
+        text: Der Bruch 7/12 lässt sich nicht kürzen.
+        answer: true
+        explanation: 7 und 12 haben keinen gemeinsamen Teiler außer 1. Darum ist der Bruch schon vollständig gekürzt.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

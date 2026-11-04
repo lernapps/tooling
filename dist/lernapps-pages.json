@@ -1,0 +1,46 @@
+{
+  "format": 1,
+  "strand": "mathematik/arithmetik",
+  "pages": [
+    {
+      "path": "brueche/anteile-erkennen/",
+      "title": "Was ist ein Bruch?",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "brueche/anteile-darstellen/",
+      "title": "Brüche darstellen",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "brueche/teilbarkeit-wiederholt/",
+      "title": "Teilbarkeit kurz wiederholt",
+      "recap": "mathematik/teilbarkeit"
+    },
+    {
+      "path": "brueche/erweitern/",
+      "title": "Brüche erweitern",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "brueche/kuerzen/",
+      "title": "Brüche kürzen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "brueche/vergleichen/",
+      "title": "Brüche vergleichen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    }
+  ]
+}

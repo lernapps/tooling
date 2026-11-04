@@ -1,0 +1,140 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche darstellen
+description: Einen Bruch am Streifen einfärben und am Zahlenstrahl zwischen 0 und 1 ablesen.
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Vom Lesen zum Zeichnen
+    blocks:
+      - type: text
+        text: |
+          Du kannst schon sagen, welcher Bruch an einem Streifen gefärbt ist. Jetzt drehst du es um: Du bekommst einen
+          Bruch und färbst ihn selbst ein. Danach liest du Brüche an einem Zahlenstrahl ab. Zähler und Nenner sind
+          [natürliche Zahlen](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/), wie du sie vom Zählen kennst.
+  - type: section
+    id: erklaerung
+    title: Einfärben und ablesen
+    blocks:
+      - type: text
+        text: |
+          **Einfärben:** Gleich zeigt die Übung einen Streifen. Er ist das Ganze und in gleich große Teile geteilt. Wie
+          viele Teile es sind, sagt der **Nenner**. Mit einem Klick färbst du ein Teil blau, mit einem zweiten Klick
+          ist es wieder weiß. Der Knopf „Zurücksetzen“ macht alle Teile weiß. Färbe so viele Teile, wie der
+          **Zähler** sagt, und drücke „Prüfen“.
+      - type: text
+        text: |
+          **Ablesen am Zahlenstrahl:** Auf dem Zahlenstrahl ist das Ganze die Strecke von 0 bis 1. Sie ist in gleich
+          lange Abschnitte geteilt. Der Nenner sagt, wie viele Abschnitte es sind. Der Zähler sagt, bei welcher Marke
+          du stehst, wenn du von der 0 aus zählst.
+      - type: figure
+        image: images/zahlenstrahl-3-von-4.svg
+        alt: Ein Zahlenstrahl von 0 bis 1, in vier gleich lange Abschnitte geteilt. Ein Pfeil über der dritten Marke ist mit 3/4 beschriftet.
+        caption: Die Strecke von 0 bis 1 hat 4 Abschnitte. Zähle von der 0 aus 3 Marken. Dort steht 3/4.
+        source: eigene Zeichnung
+        licence: CC0-1.0
+      - type: note
+        title: Mehr Teile heißen kleinere Teile
+        blocks:
+          - type: text
+            text: |
+              Wenn dasselbe Ganze in mehr Teile geteilt wird, ist jedes einzelne Teil kleiner. Ein Achtel ist also
+              kleiner als ein Viertel, obwohl 8 die größere Zahl ist.
+  - type: section
+    id: beispiel
+    title: Beispiel
+    blocks:
+      - type: example
+        title: 3/5 am Zahlenstrahl
+        blocks:
+          - type: text
+            text: Wo liegt der Bruch $\frac{3}{5}$ auf dem Zahlenstrahl von 0 bis 1?
+          - type: table
+            caption: So findest du $\frac{3}{5}$
+            rowHeaders: true
+            rows:
+              - [Nenner 5, "Teile die Strecke von 0 bis 1 in 5 gleich lange Abschnitte"]
+              - [Zähler 3, "Zähle von der 0 aus 3 Marken"]
+              - [Ergebnis, "Die dritte Marke nach der 0 ist $\\frac{3}{5}$"]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: vue-component
+        id: bruchfeld
+        component: Bruchfeld
+        props:
+          task: "Der Streifen ist in {n} gleich große Teile geteilt. Färbe den Bruch {z}/{n}."
+          cell: "Teil {i} von {n}"
+          reset: Zurücksetzen
+          mistakes:
+            - "Du hast {r} Teile gefärbt. Das sind die Teile, die übrig bleiben sollen. Gefärbt werden so viele Teile, wie der Zähler sagt."
+            - "Du hast alle Teile gefärbt. Der Nenner sagt nur, in wie viele Teile der Streifen geteilt ist. Wie viele Teile du färbst, sagt der Zähler."
+        examples:
+          accepted:
+            - { answer: 1, seed: 1 }
+          rejected:
+            - { answer: 7, seed: 1 }
+            - { answer: 8, seed: 1 }
+            - { answer: 2, seed: 1 }
+            - { answer: 0 }
+      - type: single-choice
+        id: zahlenstrahl-ablesen
+        text: Welcher Bruch gehört zur Marke mit dem Pfeil?
+        material:
+          - type: figure
+            image: images/zahlenstrahl-gesucht.svg
+            alt: Ein Zahlenstrahl von 0 bis 1 in gleich lange Abschnitte geteilt, ein Pfeil markiert eine Marke.
+            caption: Die Strecke von 0 bis 1 ist das Ganze.
+            source: eigene Zeichnung
+            licence: CC0-1.0
+        options:
+          - text: 5/8
+            correct: true
+            info: Die Strecke hat 8 gleich lange Abschnitte (Nenner). Der Pfeil steht bei der fünften Marke nach der 0 (Zähler).
+          - text: 6/8
+            correct: false
+            info: Du hast die 0 als erste Marke mitgezählt. Gezählt wird von der 0 aus, die 0 selbst ist keine Marke des Zählers.
+          - text: 4/8
+            correct: false
+            info: Eine Marke fehlt. Zähle von der 0 aus bis zum Pfeil, ohne eine Marke zu überspringen.
+          - text: 8/5
+            correct: false
+            info: Zähler und Nenner sind vertauscht. Unten steht die Zahl aller Abschnitte.
+        explanation: Zähle die Abschnitte von 0 bis 1 und dann die Marken von der 0 bis zum Pfeil.
+        links:
+          - title: Brüche deuten und darstellen (Lernkarte)
+            url: https://lernapps.net/apps/map/mathematik/c/brueche-begriff/
+      - type: single-choice
+        id: groesserer-nenner
+        text: Zwei gleich große Pizzen werden geteilt, die erste in 4 gleich große Stücke, die zweite in 8. Du nimmst von jeder Pizza ein Stück. Welches Stück ist größer?
+        options:
+          - text: Das Stück der ersten Pizza, ein Viertel
+            correct: true
+            info: Die erste Pizza ist in weniger Stücke geteilt, deshalb ist jedes ihrer Stücke größer.
+          - text: Das Stück der zweiten Pizza, ein Achtel
+            correct: false
+            info: 8 ist die größere Zahl, aber die zweite Pizza ist in mehr Stücke geteilt. Dadurch ist jedes Stück kleiner.
+          - text: Beide Stücke sind gleich groß
+            correct: false
+            info: Die Pizzen sind gleich groß, aber verschieden oft geteilt. Das Stück ist darum nicht gleich groß.
+        explanation: Je öfter dasselbe Ganze geteilt wird, desto kleiner wird jedes Stück. $\frac{1}{4}$ ist größer als $\frac{1}{8}$.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: nenner-aus-teilen
+        given:
+          z: { int: [1, 7] }
+          w: { int: [1, 7] }
+        where: ["z != w", "z + w <= 12"]
+        task:
+          text: "Ein Streifen hat {{z}} blaue und {{w}} weiße Teile. Alle Teile sind gleich groß. Welche Zahl steht im Nenner des Bruchs für den blauen Teil?"
+        answer: { value: "z + w", compare: { number: { format: integer } } }
+        mistakes:
+          - { value: "w", message: "Das sind nur die weißen Teile. Der Nenner zählt alle Teile des Ganzen." }
+          - { value: "z", message: "Das ist der Zähler: die blauen Teile. Der Nenner zählt alle Teile." }
+        hint: "Der Nenner sagt, in wie viele gleich große Teile das Ganze geteilt ist."
+        steps:
+          - "Das Ganze besteht aus den blauen und den weißen Teilen zusammen."
+          - "{{z}} + {{w}} = {{answer}}, also ist der Nenner {{answer}}."
