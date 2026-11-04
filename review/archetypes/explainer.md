@@ -134,8 +134,9 @@ id: explainer-figure-hides-answer
 ```
 
 Do every exercise with a figure or a component in the browser: mark, slide and type, but do not press "Prüfen". A
-finding: the task's figure or the component shows the answer before the check (a counter that shows the resulting
-fraction, a field it fills in, a mark on the right spot). Name the page, the exercise and what gave it away.
+finding: the task's figure, its caption or `alt`, its text or the component shows the answer before the check (a
+counter or live sentence that states what is checked, a field it fills in, a mark on the right spot, an option
+repeated). Name the page, the exercise and what gave it away.
 
 # Learning quality
 
@@ -198,8 +199,8 @@ id: explainer-one-step
 ```
 
 Unit: a page. 2: one new step; nothing of a later competency or page; one example per box. 1: a second method or
-several examples in one box. 0: content of a later competency in its text, figures or exercises (e.g. 5/4 before
-fractions greater than one), or two competencies of their own on one page. Name what belongs elsewhere.
+several examples in one box. 0: content of a later competency in its text, figures or exercises or its options (e.g. a
+case the next page introduces), or two competencies of their own on one page. Name what belongs elsewhere.
 
 ## A solution step explains
 
@@ -227,6 +228,6 @@ section.
 id: explainer-age-appropriate
 ```
 
-Unit: a page. 2: tone, examples and length fit the grade (class 6: short sentences, things from their day; class 10:
+Unit: a page. 2: tone, examples and length fit the grade (younger learners: short sentences, things from their day; older learners:
 not childish, situations of their world, a denser text is fine). 1: a passage too hard or too childish. 0: the page
 as a whole misses the grade. Quote the passage.
