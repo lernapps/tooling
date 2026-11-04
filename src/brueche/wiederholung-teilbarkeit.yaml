@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Teilbarkeit kurz wiederholt
+description: "Teiler, Vielfache und Teilbarkeitsregeln: Was du für das Kürzen brauchst."
+recap: mathematik/teilbarkeit
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Beim Kürzen suchst du eine Zahl, durch die Zähler und Nenner beide ohne Rest teilbar sind. Dafür brauchst du
+          das, was du über Teilbarkeit schon weißt. Hier ist es noch einmal kurz zusammengefasst.
+  - type: section
+    id: merke
+    title: Merke
+    blocks:
+      - type: definition
+        term: Teiler
+        explanation: "Eine Zahl ist ein Teiler einer anderen, wenn die andere sich ohne Rest durch sie teilen lässt. 3 ist ein Teiler von 12, denn 12 : 3 = 4."
+      - type: definition
+        term: gemeinsamer Teiler
+        explanation: "Ein gemeinsamer Teiler zweier Zahlen teilt beide ohne Rest. 4 ist ein gemeinsamer Teiler von 8 und 12."
+      - type: table
+        caption: Wann ist eine Zahl durch 2, 3, 5, 9 oder 10 teilbar?
+        header: [Teilbar durch, Woran du es siehst]
+        rows:
+          - ["2", "Die letzte Ziffer ist 0, 2, 4, 6 oder 8."]
+          - ["3", "Die Quersumme ist durch 3 teilbar (Beispiel: 123, denn 1 + 2 + 3 = 6)."]
+          - ["5", "Die letzte Ziffer ist 0 oder 5."]
+          - ["9", "Die Quersumme ist durch 9 teilbar (Beispiel: 234, denn 2 + 3 + 4 = 9)."]
+          - ["10", "Die letzte Ziffer ist 0."]
+      - type: text
+        text: |
+          Beim Kürzen hilft dir das so: Sind Zähler und Nenner beide gerade Zahlen, kannst du sicher durch 2 kürzen.
+          Enden beide auf 0 oder 5, geht es durch 5.

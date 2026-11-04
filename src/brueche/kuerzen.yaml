@@ -1,0 +1,188 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche kürzen
+description: "Kürzen ist das Gegenteil von Erweitern: Du fasst Teile zusammen und änderst den Anteil nicht."
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Von einer Pizza mit 8 Stücken sind 4 übrig. Du kannst sagen: Es sind $\frac{4}{8}$ der Pizza. Einfacher ist
+          es zu sagen: Es ist die Hälfte. Beides ist derselbe Anteil. Im zweiten Fall hast du die kleinen Stücke zu
+          größeren zusammengefasst.
+      - type: text
+        text: |
+          Beim Erweitern hast du die Teile feiner gemacht. Jetzt machst du es umgekehrt.
+  - type: section
+    id: anschaulich
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Oben siehst du den Streifen mit $\frac{4}{8}$. Unten sind immer 4 Teile zu einem Teil zusammengefasst. Das
+          Ganze ist beide Male der ganze Streifen. Das Blau reicht gleich weit. Nur die Zahl der Teile ist anders.
+      - type: figure
+        image: images/gekuerzt-4-8-mit-4.svg
+        alt: Zwei Streifen untereinander, beide gleich lang. Oben, beschriftet "vorher 4/8", sind vier von acht Teilen blau. Unten, beschriftet "gekürzt mit 4, 1/2", ist einer von zwei Teilen blau, und er reicht genauso weit wie oben.
+        caption: Vergleiche, wie weit das Blau jeweils reicht. Zähle dann die Teile.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Das Zusammenfassen heißt **Kürzen**. Es geht nur, wenn sich Zähler und Nenner beide ohne Rest durch dieselbe
+          Zahl teilen lassen. Dann teilst du beide durch diese Zahl. Die Brüche $\frac{4}{8}$ und $\frac{1}{2}$ sind
+          gleichwertig.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Oben steht der Bruch $\frac{8}{12}$. Unter „Kürzen mit“ wählst du eine Zahl. Zu Beginn steht dort die 1: Der
+          Streifen unten ist gleich dem oberen. Probiere die Zahlen 2, 3, 4 und 6. Bei welchen klappt es? Bei welchen
+          nicht, und warum?
+      - type: vue-component
+        id: bruchstreifen-kuerzen
+        component: Bruchstreifen
+        props:
+          modus: kuerzen
+          zaehler: 8
+          nenner: 12
+          faktoren: [1, 2, 3, 4, 6]
+          texte:
+            nennerLabel: Teile im Ganzen
+            weniger: Ein Teil weniger
+            mehr: Ein Teil mehr
+            teilGefaerbt: "Teil {i} von {n}, blau"
+            teilLeer: "Teil {i} von {n}, weiß"
+            anzeige: "{z} von {n} Teilen sind blau."
+            streifen: Der Streifen, das Ganze
+            vorher: "vorher: {z}/{n}"
+            nachher: "gekürzt mit {k}: {z}/{n}"
+            faktorLabel: Kürzen mit
+            nichtMoeglich: "Mit {k} geht es nicht: {z} und {n} lassen sich nicht beide ohne Rest durch {k} teilen."
+            streifenBeschreibung: "Streifen mit {n} gleich großen Teilen, {z} davon blau"
+        nojs: |
+          Oben steht ein Streifen für den Bruch 8/12. Du wählst eine Zahl und kürzt damit. Unten steht derselbe
+          Streifen, immer so viele Teile zu einem zusammengefasst. Die blaue Länge bleibt gleich. Mit 2 wird aus 8/12
+          der Bruch 4/6, mit 4 wird es 2/3. Mit 3 und mit 6 geht es nicht, denn 8 lässt sich nicht durch 3 und nicht
+          durch 6 ohne Rest teilen.
+  - type: section
+    id: merke
+    title: Merke
+    blocks:
+      - type: definition
+        term: Kürzen
+        explanation: |
+          Einen Bruch kürzen heißt: Zähler und Nenner durch dieselbe Zahl teilen. Das geht nur mit einem gemeinsamen
+          Teiler von Zähler und Nenner.
+      - type: formula
+        formula: '\frac{z}{n} = \frac{z : t}{n : t}'
+      - type: text
+        text: Dabei ist $z$ der Zähler, $n$ der Nenner und $t$ die Zahl, durch die du kürzt.
+      - type: note
+        title: Wichtig
+        blocks:
+          - type: text
+            text: |
+              Beim Kürzen wird **geteilt**, nicht subtrahiert, und **beide** Zahlen werden durch dieselbe Zahl geteilt.
+              Der Anteil ändert sich nicht. Ein Bruch ist **vollständig gekürzt**, wenn Zähler und Nenner keinen
+              gemeinsamen Teiler mehr haben, der größer als 1 ist.
+      - type: example
+        title: Zwölf Achtzehntel kürzen
+        blocks:
+          - type: text
+            text: Kürze $\frac{12}{18}$ so weit wie möglich.
+          - type: table
+            caption: So kürzt du
+            rowHeaders: true
+            rows:
+              - [Gemeinsamer Teiler, "12 und 18 sind beide durch 6 teilbar"]
+              - [Zähler, "12 : 6 = 2"]
+              - [Nenner, "18 : 6 = 3"]
+              - [Ergebnis, '$\frac{12}{18} = \frac{2}{3}$']
+              - [Kontrolle, "2 und 3 haben keinen gemeinsamen Teiler außer 1: vollständig gekürzt"]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: kuerzen-zaehler
+        given:
+          e: { pick: 1, from: { data: kuerzen } }
+        where: ["e.z - e.t != e.zNeu"]
+        task:
+          text: "Kürze den Bruch {{e.z}}/{{e.n}} mit {{e.t}}. Wie heißt der neue Zähler? Gib nur die Zahl ein."
+        answer: { value: "e.zNeu", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.z - e.t",
+              message: "Du hast {{e.t}} abgezogen. Beim Kürzen wird geteilt: Immer {{e.t}} Teile werden zu einem zusammengefasst.",
+            }
+          - {
+              value: "e.z",
+              message: "Du hast den Zähler nicht verändert. Beim Kürzen werden Zähler und Nenner durch dieselbe Zahl geteilt.",
+            }
+          - {
+              value: "e.nNeu",
+              message: "Das ist der neue Nenner. Gefragt ist der neue Zähler, also die Zahl der blauen Teile.",
+            }
+        hint: Teile den Zähler durch die Zahl, mit der du kürzt.
+        steps:
+          - "Kürzen heißt: Zähler und Nenner durch dieselbe Zahl teilen, hier durch {{e.t}}."
+          - "Der Zähler {{e.z}} geteilt durch {{e.t}} ist {{answer}}."
+      - type: generated
+        id: kuerzen-nenner
+        given:
+          e: { pick: 1, from: { data: kuerzen } }
+        where: ["e.n - e.t != e.nNeu"]
+        task:
+          text: "Kürze den Bruch {{e.z}}/{{e.n}} mit {{e.t}}. Wie heißt der neue Nenner? Gib nur die Zahl ein."
+        answer: { value: "e.nNeu", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.n - e.t",
+              message: "Du hast {{e.t}} abgezogen. Beim Kürzen wird geteilt: Immer {{e.t}} Teile werden zu einem zusammengefasst.",
+            }
+          - {
+              value: "e.n",
+              message: "Du hast den Nenner nicht verändert. Beim Kürzen werden Zähler und Nenner durch dieselbe Zahl geteilt.",
+            }
+          - {
+              value: "e.zNeu",
+              message: "Das ist der neue Zähler. Gefragt ist der neue Nenner, also die Zahl aller Teile im Ganzen.",
+            }
+        hint: Teile den Nenner durch die Zahl, mit der du kürzt.
+        steps:
+          - "Kürzen heißt: Zähler und Nenner durch dieselbe Zahl teilen, hier durch {{e.t}}."
+          - "Der Nenner {{e.n}} geteilt durch {{e.t}} ist {{answer}}."
+      - type: single-choice
+        id: vollstaendig-gekuerzt
+        text: Welcher Bruch ist vollständig gekürzt?
+        options:
+          - text: 3/4
+            correct: true
+            info: 3 und 4 haben keinen gemeinsamen Teiler außer 1. Der Bruch lässt sich nicht weiter kürzen.
+          - text: 4/6
+            correct: false
+            info: Beide Zahlen sind gerade, also durch 2 teilbar. Der Bruch lässt sich noch zu 2/3 kürzen.
+          - text: 6/9
+            correct: false
+            info: 6 und 9 sind beide durch 3 teilbar. Der Bruch lässt sich noch zu 2/3 kürzen.
+          - text: 5/10
+            correct: false
+            info: 5 und 10 sind beide durch 5 teilbar. Der Bruch lässt sich noch zu 1/2 kürzen.
+        explanation: Vollständig gekürzt ist ein Bruch, wenn Zähler und Nenner keinen gemeinsamen Teiler mehr haben, der größer als 1 ist.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: kuerzen-gemeinsamer-teiler
+        text: Man kann einen Bruch nur kürzen, wenn Zähler und Nenner einen gemeinsamen Teiler haben, der größer als 1 ist.
+        answer: true
+        explanation: Beim Kürzen teilst du beide Zahlen durch dieselbe Zahl, und das muss ohne Rest gehen. Haben sie nur den Teiler 1 gemeinsam, ändert sich der Bruch nicht mehr.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

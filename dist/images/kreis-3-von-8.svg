@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <pattern id="gefaerbt" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="10" height="10" fill="#2f5fb3"/>
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#ffffff" stroke-width="3"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="#ffffff"/>
+  <path d="M100 100 L100.00 12.00 A88 88 0 0 1 162.23 37.77 Z" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100 100 L162.23 37.77 A88 88 0 0 1 188.00 100.00 Z" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100 100 L188.00 100.00 A88 88 0 0 1 162.23 162.23 Z" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100 100 L162.23 162.23 A88 88 0 0 1 100.00 188.00 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100 100 L100.00 188.00 A88 88 0 0 1 37.77 162.23 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100 100 L37.77 162.23 A88 88 0 0 1 12.00 100.00 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100 100 L12.00 100.00 A88 88 0 0 1 37.77 37.77 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M100 100 L37.77 37.77 A88 88 0 0 1 100.00 12.00 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
+</svg>

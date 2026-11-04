@@ -1,0 +1,188 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Gleichwertige Brüche und Erweitern
+description: "Ein Anteil, viele Brüche: Du lernst, einen Bruch zu erweitern, ohne seinen Wert zu ändern."
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Du bekommst eine halbe Pizza. Dein Freund schneidet sie noch einmal in der Mitte durch, damit sie in den
+          Backofen passt. Jetzt hast du zwei Stücke, vorher war es eins. Hast du jetzt mehr Pizza? Nein: Du hast
+          genauso viel wie vorher. Es sind nur mehr und kleinere Stücke.
+      - type: text
+        text: |
+          So ist es auch bei Brüchen: Derselbe Anteil kann mit verschiedenen Brüchen beschrieben werden.
+  - type: section
+    id: anschaulich
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Oben siehst du den Streifen mit $\frac{1}{2}$. Unten ist jeder Teil in 2 kleinere Teile geteilt. Das Ganze
+          ist beide Male der ganze Streifen. Die blaue Länge bleibt gleich. Nur die Zahl der Teile ist anders: Jetzt
+          sind 4 Teile im Ganzen und 2 davon blau.
+      - type: figure
+        image: images/erweitert-1-2-mit-2.svg
+        alt: Zwei Streifen untereinander, beide gleich lang. Oben, beschriftet "vorher 1/2", ist die linke Hälfte blau. Unten, beschriftet "erweitert mit 2, 2/4", sind zwei von vier Teilen blau, und sie reichen genauso weit wie oben.
+        caption: Vergleiche, wie weit das Blau jeweils reicht. Zähle dann die Teile.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Jeder Teil wurde in 2 Teile geteilt. Darum gibt es doppelt so viele Teile im Ganzen: Der Nenner wird mit 2
+          multipliziert. Und es gibt doppelt so viele blaue Teile: Der Zähler wird auch mit 2 multipliziert.
+      - type: text
+        text: |
+          Dieses Teilen heißt **Erweitern**. Die Brüche $\frac{1}{2}$ und $\frac{2}{4}$ beschreiben denselben Anteil.
+          Man nennt sie **gleichwertig**.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Oben steht der Bruch $\frac{3}{4}$. Unter „Erweitern mit“ wählst du eine Zahl. Zu Beginn steht dort die 1:
+          Der Streifen unten ist gleich dem oberen. Wähle jetzt eine andere Zahl und vergleiche die beiden Streifen.
+          Wie weit reicht das Blau? Wie viele Teile gibt es? Was passiert mit Zähler und Nenner?
+      - type: vue-component
+        id: bruchstreifen-erweitern
+        component: Bruchstreifen
+        props:
+          modus: erweitern
+          zaehler: 3
+          nenner: 4
+          faktoren: [1, 2, 3, 4, 5]
+          texte:
+            nennerLabel: Teile im Ganzen
+            weniger: Ein Teil weniger
+            mehr: Ein Teil mehr
+            teilGefaerbt: "Teil {i} von {n}, blau"
+            teilLeer: "Teil {i} von {n}, weiß"
+            anzeige: "{z} von {n} Teilen sind blau."
+            streifen: Der Streifen, das Ganze
+            vorher: "vorher: {z}/{n}"
+            nachher: "erweitert mit {k}: {z}/{n}"
+            faktorLabel: Erweitern mit
+            streifenBeschreibung: "Streifen mit {n} gleich großen Teilen, {z} davon blau"
+        nojs: |
+          Oben steht ein Streifen für den Bruch 3/4. Du wählst eine Zahl von 1 bis 5 und erweiterst damit. Unten steht
+          derselbe Streifen, jeder Teil in so viele kleinere Teile geteilt. Die blaue Länge bleibt gleich. Beispiele:
+          mit 2 wird aus 3/4 der Bruch 6/8, mit 3 wird es 9/12, mit 5 wird es 15/20.
+  - type: section
+    id: merke
+    title: Merke
+    blocks:
+      - type: definition
+        term: Erweitern
+        explanation: |
+          Einen Bruch erweitern heißt: Zähler und Nenner mit derselben Zahl multiplizieren. Jeder Teil wird in gleich
+          viele kleinere Teile geteilt.
+      - type: definition
+        term: gleichwertig
+        explanation: Zwei Brüche sind gleichwertig, wenn sie denselben Anteil vom Ganzen beschreiben.
+      - type: formula
+        formula: '\frac{z}{n} = \frac{z \cdot k}{n \cdot k}'
+      - type: text
+        text: Dabei ist $z$ der Zähler, $n$ der Nenner und $k$ die Zahl, mit der du erweiterst.
+      - type: note
+        title: Wichtig
+        blocks:
+          - type: text
+            text: |
+              Beim Erweitern wird **multipliziert**, nicht addiert, und es werden **beide** Zahlen mit derselben Zahl
+              multipliziert. Der Anteil ändert sich nicht, nur die Einteilung.
+      - type: example
+        title: Zwei Drittel erweitern
+        blocks:
+          - type: text
+            text: Erweitere $\frac{2}{3}$ mit 4.
+          - type: table
+            caption: So erweiterst du
+            rowHeaders: true
+            rows:
+              - [Zähler, "2 · 4 = 8"]
+              - [Nenner, "3 · 4 = 12"]
+              - [Ergebnis, '$\frac{2}{3} = \frac{8}{12}$']
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: neuen-zaehler
+        given:
+          e: { pick: 1, from: { data: erweitern } }
+        task:
+          text: "Erweitere den Bruch {{e.z}}/{{e.n}} mit {{e.k}}. Wie heißt der neue Zähler? Gib nur die Zahl ein."
+        answer: { value: "e.zNeu", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.z + e.k",
+              message: "Du hast {{e.k}} addiert. Beim Erweitern wird multipliziert: Jeder Teil wird in {{e.k}} Teile geteilt, also gibt es {{e.k}}-mal so viele blaue Teile.",
+            }
+          - {
+              value: "e.z",
+              message: "Du hast den Zähler nicht verändert. Beim Erweitern werden Zähler und Nenner mit derselben Zahl multipliziert.",
+            }
+          - {
+              value: "e.nNeu",
+              message: "Das ist der neue Nenner. Gefragt ist der neue Zähler, also die Zahl der blauen Teile.",
+            }
+        hint: Jeder blaue Teil wird in so viele kleinere Teile geteilt, wie die Zahl sagt, mit der du erweiterst.
+        steps:
+          - "Erweitern heißt: Zähler und Nenner mit derselben Zahl multiplizieren, hier mit {{e.k}}."
+          - "Der Zähler {{e.z}} mal {{e.k}} ist {{answer}}."
+      - type: generated
+        id: neuen-nenner
+        given:
+          e: { pick: 1, from: { data: erweitern } }
+        task:
+          text: "Erweitere den Bruch {{e.z}}/{{e.n}} mit {{e.k}}. Wie heißt der neue Nenner? Gib nur die Zahl ein."
+        answer: { value: "e.nNeu", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "e.n + e.k",
+              message: "Du hast {{e.k}} addiert. Beim Erweitern wird multipliziert: Jeder Teil wird in {{e.k}} Teile geteilt, also gibt es {{e.k}}-mal so viele Teile im Ganzen.",
+            }
+          - {
+              value: "e.n",
+              message: "Du hast den Nenner nicht verändert. Beim Erweitern werden Zähler und Nenner mit derselben Zahl multipliziert.",
+            }
+          - {
+              value: "e.zNeu",
+              message: "Das ist der neue Zähler. Gefragt ist der neue Nenner, also die Zahl aller Teile im Ganzen.",
+            }
+        hint: Der Nenner sagt, in wie viele Teile das Ganze geteilt ist. Jeder Teil wird in so viele kleinere Teile geteilt, wie die Zahl sagt, mit der du erweiterst.
+        steps:
+          - "Erweitern heißt: Zähler und Nenner mit derselben Zahl multiplizieren, hier mit {{e.k}}."
+          - "Der Nenner {{e.n}} mal {{e.k}} ist {{answer}}."
+      - type: single-choice
+        id: gleichwertig-finden
+        text: Welcher Bruch ist gleichwertig zu 2/3?
+        options:
+          - text: 4/6
+            correct: true
+            info: Hier sind Zähler und Nenner mit 2 multipliziert worden, 2 · 2 = 4 und 3 · 2 = 6. Das ist Erweitern.
+          - text: 4/5
+            correct: false
+            info: Hier wurde bei beiden Zahlen 2 addiert. Beim Erweitern wird aber multipliziert, sonst ändert sich der Anteil.
+          - text: 2/6
+            correct: false
+            info: Nur der Nenner wurde verändert. Dann gibt es mehr Teile im Ganzen, aber gleich viele blaue Teile, und der Anteil wird kleiner.
+          - text: 3/4
+            correct: false
+            info: Hier wurde bei beiden Zahlen 1 addiert. Das sind andere Teile und ein anderer Anteil, kein erweiterter Bruch.
+        explanation: Gleichwertige Brüche entstehen, wenn du Zähler und Nenner mit derselben Zahl multiplizierst.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: erweitern-aendert-wert
+        text: Wenn man einen Bruch erweitert, wird der Anteil größer, weil Zähler und Nenner größer werden.
+        answer: false
+        explanation: Beim Erweitern wird jeder Teil in kleinere Teile geteilt. Es gibt mehr Teile, aber jeder ist kleiner. Der Anteil bleibt gleich.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

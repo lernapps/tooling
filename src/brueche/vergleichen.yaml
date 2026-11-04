@@ -1,0 +1,167 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche vergleichen
+description: "Welcher Bruch ist größer? Du vergleichst mit gleichen Nennern und mit gleichwertigen Brüchen."
+competencies: [brueche-kuerzen-erweitern]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Du bekommst $\frac{1}{4}$ einer Pizza, dein Freund bekommt $\frac{1}{8}$ einer gleich großen Pizza. Viele
+          denken: 8 ist größer als 4, also bekommt der Freund mehr. Stimmt das? Mit Bruchstreifen kannst du es
+          herausfinden.
+  - type: section
+    id: anschaulich
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          **Gleicher Nenner:** Dann sind die Teile gleich groß, und du zählst nur, wer mehr davon hat. Hier ist
+          $\frac{5}{8}$ größer als $\frac{3}{8}$, denn 5 gleich große Teile sind mehr als 3.
+      - type: figure
+        image: images/vergleich-3-8-5-8.svg
+        alt: Zwei gleich lange Streifen untereinander, beide in acht gleich große Teile geteilt. Oben, beschriftet 3/8, sind drei Teile blau. Unten, beschriftet 5/8, sind fünf Teile blau.
+        caption: Beide Streifen haben gleich große Teile. Schau, welcher mehr blaue Teile hat.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          **Verschiedene Nenner:** Dann sind die Teile verschieden groß, und du kannst die Teile nicht einfach zählen.
+          Du erweiterst einen oder beide Brüche, bis sie denselben Nenner haben. Das nennt man **gleichnamig machen**.
+          Danach vergleichst du wie oben.
+      - type: figure
+        image: images/vergleich-3-4-5-8.svg
+        alt: Zwei gleich lange Streifen untereinander. Oben, beschriftet 3/4, sind drei von vier Teilen blau. Unten, beschriftet 5/8, sind fünf von acht Teilen blau. Das Blau oben reicht weiter.
+        caption: Die Teile der beiden Streifen sind verschieden groß. Vergleiche, wie weit das Blau jeweils reicht.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Erweitere $\frac{3}{4}$ mit 2, dann hat es den Nenner 8: $\frac{3}{4} = \frac{6}{8}$. Jetzt vergleichst du
+          $\frac{6}{8}$ und $\frac{5}{8}$. 6 ist größer als 5, also ist $\frac{3}{4}$ größer als $\frac{5}{8}$.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Du siehst zwei Streifen untereinander: oben $\frac{1}{4}$, unten $\frac{1}{8}$. Das sind die Pizzastücke vom
+          Anfang. Beide Streifen bleiben die ganze Zeit zu sehen, so kannst du genau vergleichen. Welcher Bruch ist
+          größer? Schau auf die Streifen und lies dann unter ihnen nach. Mit − und + änderst du die Teilung eines
+          Streifens, dann werden seine Teile wieder weiß. Färbe die Teile am besten von links her nacheinander, dann
+          siehst du, wie weit das Blau reicht. Probiere zum Beispiel $\frac{2}{3}$ gegen $\frac{3}{5}$: oben 3 Teile
+          einstellen und 2 färben, unten 5 Teile einstellen und 3 färben.
+      - type: vue-component
+        id: bruchstreifen-vergleichen
+        component: Bruchstreifen
+        props:
+          modus: vergleichen
+          maxNenner: 10
+          zaehler: 1
+          nenner: 4
+          zaehler2: 1
+          nenner2: 8
+          texte:
+            nennerLabel: Teile im Ganzen
+            weniger: Ein Teil weniger
+            mehr: Ein Teil mehr
+            teilGefaerbt: "Teil {i} von {n}, blau"
+            teilLeer: "Teil {i} von {n}, weiß"
+            anzeige: "Blau: {z} von {n}. Das ist der Bruch {z}/{n}."
+            streifen: Der Streifen, das Ganze
+            oben: Oberer Streifen
+            unten: Unterer Streifen
+            groesser: Der obere Bruch ist größer.
+            gleich: Beide Brüche sind gleich groß.
+            kleiner: Der untere Bruch ist größer.
+        nojs: |
+          Zwei Streifen stehen untereinander, oben 1/4 und unten 1/8. Du kannst bei jedem die Zahl der Teile ändern
+          und Teile blau färben. Darunter steht, welcher Bruch größer ist. Bei 1/4 und 1/8 ist 1/4 größer, denn die
+          Teile eines Viertels sind größer als die eines Achtels. Bei 2/3 und 3/5 ist 2/3 größer.
+  - type: section
+    id: merke
+    title: Merke
+    blocks:
+      - type: definition
+        term: gleichnamig
+        explanation: Brüche sind gleichnamig, wenn sie denselben Nenner haben.
+      - type: note
+        title: So vergleichst du
+        blocks:
+          - type: text
+            text: |
+              1. Gleicher Nenner: Der Bruch mit dem größeren Zähler ist größer.
+              2. Verschiedene Nenner: Mache die Brüche gleichnamig, indem du erweiterst. Dann vergleichst du die Zähler.
+              Als gemeinsamen Nenner geht immer das Produkt der beiden Nenner. Manchmal passt auch ein kleinerer: Bei
+              $\frac{3}{4}$ und $\frac{5}{8}$ ist es die 8, weil 4 in 8 steckt.
+      - type: note
+        title: Vorsicht
+        blocks:
+          - type: text
+            text: |
+              Ein größerer Nenner heißt **nicht** ein größerer Bruch. Bei gleichem Zähler ist der Bruch mit dem
+              **größeren Nenner kleiner**, denn die Teile sind kleiner.
+      - type: example
+        title: Zwei Drittel und drei Fünftel
+        blocks:
+          - type: text
+            text: Welcher Bruch ist größer, $\frac{2}{3}$ oder $\frac{3}{5}$?
+          - type: table
+            caption: So gehst du vor
+            rowHeaders: true
+            rows:
+              - [Gemeinsamer Nenner, "3 mal 5 = 15, also erweiterst du beide auf Fünfzehntel"]
+              - [Erster Bruch, '$\frac{2}{3} = \frac{10}{15}$ (mit 5 erweitert)']
+              - [Zweiter Bruch, '$\frac{3}{5} = \frac{9}{15}$ (mit 3 erweitert)']
+              - [Vergleich, "10 ist größer als 9, also ist 2/3 größer als 3/5"]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: generated
+        id: groesseren-finden
+        given:
+          e: { pick: 1, from: { data: vergleichen } }
+        task:
+          text: "Welcher Bruch ist größer: {{e.z1}}/{{e.n1}} (der erste) oder {{e.z2}}/{{e.n2}} (der zweite)?"
+        answer: { value: "e.g", compare: { choice: [der erste Bruch, der zweite Bruch, beide gleich groß] } }
+        mistakes:
+          - {
+              value: "e.d",
+              message: "Du hast den Bruch mit dem größeren Nenner gewählt. Ein größerer Nenner bedeutet aber kleinere Teile. Mache die Brüche gleichnamig und vergleiche dann.",
+            }
+          - {
+              value: "e.zr",
+              message: "Du hast nur auf die Zähler geschaut. Die Nenner bestimmen aber, wie groß die Teile sind. Mache die Brüche gleichnamig und vergleiche dann.",
+            }
+        hint: Erweitere die Brüche auf einen gemeinsamen Nenner. Dann vergleichst du nur die Zähler.
+        steps:
+          - "Die Nenner {{e.n1}} und {{e.n2}} sind verschieden. Mache die Brüche gleichnamig, hier mit dem Nenner {{e.nGem}}."
+          - "Dann hat der erste Bruch den Zähler {{e.a1}} und der zweite den Zähler {{e.a2}}, beide über dem Nenner {{e.nGem}}."
+          - "Jetzt vergleichst du {{e.a1}} und {{e.a2}}: {{answer}} ist größer."
+      - type: ordering
+        id: stammbrueche-ordnen
+        text: Ordne die Brüche von klein nach groß. Platz 1 ist der kleinste Bruch.
+        items: [1/8, 1/4, 1/3, 1/2]
+        explanation: "Bei Zähler 1 ist der Bruch mit dem größeren Nenner kleiner: Wird ein Ganzes in 8 Teile geteilt, ist jedes Teil kleiner, als wenn es in 2 Teile geteilt wird. Ein Achtel ist kleiner als ein Halbes."
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: gleicher-nenner
+        text: Haben zwei Brüche denselben Nenner, dann ist der Bruch mit dem größeren Zähler größer.
+        answer: true
+        explanation: Bei gleichem Nenner sind die Teile gleich groß. Wer mehr davon hat, hat den größeren Anteil.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: groesserer-nenner
+        text: Von zwei Brüchen mit dem Zähler 1 ist der mit dem größeren Nenner auch der größere Bruch.
+        answer: false
+        explanation: Je größer der Nenner, desto mehr Teile hat das Ganze und desto kleiner ist jedes Teil. Ein Achtel ist kleiner als ein Viertel.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung

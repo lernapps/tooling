@@ -1,0 +1,46 @@
+{
+  "format": 1,
+  "strand": "mathematik/arithmetik",
+  "pages": [
+    {
+      "path": "brueche/anteile/",
+      "title": "Ein Bruch ist ein Teil eines Ganzen",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "brueche/darstellen/",
+      "title": "Brüche darstellen",
+      "competencies": [
+        "brueche-begriff"
+      ]
+    },
+    {
+      "path": "brueche/erweitern/",
+      "title": "Gleichwertige Brüche und Erweitern",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "brueche/wiederholung-teilbarkeit/",
+      "title": "Teilbarkeit kurz wiederholt",
+      "recap": "mathematik/teilbarkeit"
+    },
+    {
+      "path": "brueche/kuerzen/",
+      "title": "Brüche kürzen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    },
+    {
+      "path": "brueche/vergleichen/",
+      "title": "Brüche vergleichen",
+      "competencies": [
+        "brueche-kuerzen-erweitern"
+      ]
+    }
+  ]
+}

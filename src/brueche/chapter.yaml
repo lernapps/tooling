@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche
+summary: Du lernst, was ein Bruch ist, und wie du Brüche erweiterst, kürzt und vergleichst.
+pages: [anteile, darstellen, erweitern, wiederholung-teilbarkeit, kuerzen, vergleichen]
+selfAssessment:
+  pages:
+    - exercises:
+        - /brueche/anteile/#anteil-lesen
+        - /brueche/anteile/#nenner-bestimmen
+        - /brueche/anteile/#zaehler-bestimmen
+    - exercises:
+        - /brueche/darstellen/#zahlenstrahl-lesen
+        - /brueche/darstellen/#striche-zaehlen
+    - exercises:
+        - /brueche/erweitern/#neuen-zaehler
+        - /brueche/erweitern/#neuen-nenner
+        - /brueche/erweitern/#gleichwertig-finden
+    - exercises:
+        - /brueche/kuerzen/#kuerzen-zaehler
+        - /brueche/kuerzen/#kuerzen-nenner
+        - /brueche/kuerzen/#vollstaendig-gekuerzt
+    - exercises:
+        - /brueche/vergleichen/#groesseren-finden
+        - /brueche/vergleichen/#groesseren-finden
+        - /brueche/vergleichen/#stammbrueche-ordnen

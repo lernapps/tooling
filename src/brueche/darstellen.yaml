@@ -1,0 +1,189 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Brüche darstellen
+description: "Derselbe Bruch am Streifen, am Kreis und am Zahlenstrahl: Du lernst, ihn zu zeichnen und abzulesen."
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Eine Pizza ist rund, eine Tafel Schokolade ist ein Rechteck. Einen Teil davon kannst du aber immer mit
+          einem Bruch beschreiben. Du weißt schon: Der Nenner sagt, in wie viele gleich große Teile das Ganze geteilt
+          ist. Der Zähler sagt, wie viele dieser Teile gemeint sind.
+      - type: text
+        text: |
+          Du kennst auch den Zahlenstrahl von den [natürlichen Zahlen](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/). Auch Brüche haben dort einen Platz.
+  - type: section
+    id: anschaulich
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Hier siehst du dreimal denselben Bruch: drei Achtel, $\frac{3}{8}$. Beim Streifen und beim Kreis ist das
+          Ganze der ganze Streifen oder der ganze Kreis. Blau mit Streifenmuster sind die Teile, die gemeint sind.
+      - type: figure
+        image: images/streifen-3-von-8.svg
+        alt: Ein Streifen aus acht gleich breiten Teilen. Die drei linken Teile sind blau mit Streifenmuster, die fünf rechten sind weiß.
+        caption: Der Streifen hat 8 gleich große Teile, 3 davon sind blau.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: figure
+        image: images/kreis-3-von-8.svg
+        alt: Ein Kreis, wie eine Pizza in acht gleich große Stücke geteilt. Drei nebeneinanderliegende Stücke sind blau mit Streifenmuster, die fünf anderen sind weiß.
+        caption: Der Kreis hat 8 gleich große Stücke, 3 davon sind blau.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Auf dem Zahlenstrahl ist das Ganze die Strecke von 0 bis 1. Auch sie ist in 8 gleich lange **Abschnitte**
+          geteilt. Der Punkt liegt nach 3 Abschnitten, von der 0 aus gezählt.
+      - type: figure
+        image: images/zahlenstrahl-3-von-8.svg
+        alt: Ein Zahlenstrahl von 0 bis 1 mit neun Strichen, die ihn in acht gleich lange Abschnitte teilen. Ein blauer Punkt beim dritten Abschnittsende, beschriftet mit 3/8.
+        caption: Der Nenner zählt die Abschnitte zwischen den Strichen, nicht die Striche. Der Zähler sagt, wie viele Abschnitte du von der 0 aus gehst.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Zeige $\frac{2}{5}$ am Streifen: Stelle mit − und + fünf Teile ein und färbe zwei davon blau. Dann ist es
+          derselbe Bruch wie am Kreis oder am Zahlenstrahl, nur anders gezeichnet. Wenn du die Teilung änderst, werden
+          alle Teile wieder weiß. Hier wird nichts geprüft.
+      - type: vue-component
+        id: bruchstreifen-darstellen
+        component: Bruchstreifen
+        props:
+          modus: anteil
+          maxNenner: 10
+          texte:
+            nennerLabel: Teile im Ganzen
+            weniger: Ein Teil weniger
+            mehr: Ein Teil mehr
+            teilGefaerbt: "Teil {i} von {n}, blau"
+            teilLeer: "Teil {i} von {n}, weiß"
+            anzeige: "Blau: {z} von {n}. Das ist der Bruch {z}/{n}."
+            streifen: Der Streifen, das Ganze
+        nojs: |
+          Ein Streifen ist das Ganze. Du teilst ihn in 1 bis 10 gleich große Teile und färbst einige davon blau. Die
+          Zahl aller Teile ist der Nenner, die Zahl der blauen Teile der Zähler. Beispiel: Ein Streifen aus 5 gleich
+          großen Teilen, 2 davon blau, ist der Bruch 2/5 (zwei Fünftel).
+  - type: section
+    id: merke
+    title: Merke
+    blocks:
+      - type: note
+        title: Ein Bruch, drei Bilder
+        blocks:
+          - type: text
+            text: |
+              Am Streifen und am Kreis zählst du **Teile**. Am Zahlenstrahl zählst du **Abschnitte** zwischen den
+              Strichen. Immer sagt der Nenner, in wie viele gleich große Teile das Ganze geteilt ist, und der Zähler,
+              wie viele davon gemeint sind.
+      - type: example
+        title: Zwei Fünftel auf dem Zahlenstrahl
+        blocks:
+          - type: text
+            text: Wo liegt $\frac{2}{5}$ auf dem Zahlenstrahl von 0 bis 1?
+          - type: table
+            caption: So findest du den Punkt
+            rowHeaders: true
+            rows:
+              - [Das Ganze, die Strecke von 0 bis 1]
+              - [Nenner, "5, also teilst du die Strecke in 5 gleich lange Abschnitte (6 Striche)"]
+              - [Zähler, "2, also gehst du 2 Abschnitte von der 0 aus"]
+              - [Punkt, "beim zweiten Strich nach der 0"]
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: zahlenstrahl-lesen
+        text: Welcher Bruch gehört zum blauen Punkt auf dem Zahlenstrahl?
+        material:
+          - type: figure
+            image: images/zahlenstrahl-3-von-5.svg
+            alt: Ein Zahlenstrahl von 0 bis 1 mit sechs Strichen. Ein blauer Punkt liegt auf dem vierten Strich von links.
+            caption: Das Ganze ist die Strecke von 0 bis 1.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: 3/5
+            correct: true
+            info: Zwischen 0 und 1 liegen 5 gleich lange Abschnitte, das ist der Nenner. Der Punkt liegt nach 3 Abschnitten, das ist der Zähler.
+          - text: 4/6
+            correct: false
+            info: Hier wurden die Striche gezählt. Der Nenner zählt aber die Abschnitte zwischen den Strichen.
+          - text: 4/5
+            correct: false
+            info: Der Strich bei 0 wurde mitgezählt. Von der 0 aus gehst du Abschnitt für Abschnitt, die 0 selbst ist noch kein Abschnitt.
+          - text: 3/6
+            correct: false
+            info: Der Zähler passt, aber der Nenner zählt Striche statt Abschnitte.
+        explanation: Am Zahlenstrahl zählst du Abschnitte, nicht Striche. Der Nenner ist die Zahl aller Abschnitte zwischen 0 und 1, der Zähler die Zahl der Abschnitte bis zum Punkt.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: single-choice
+        id: kreis-lesen
+        text: Welcher Bruch gehört zu den blauen Stücken des Kreises?
+        material:
+          - type: figure
+            image: images/kreis-5-von-6.svg
+            alt: Ein Kreis, in gleich große Stücke geteilt. Mehrere Stücke sind blau mit Streifenmuster, eines ist weiß.
+            caption: Das Ganze ist der ganze Kreis.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: 5/6
+            correct: true
+            info: Der Kreis hat 6 gleich große Stücke, das ist der Nenner. Fünf davon sind blau, das ist der Zähler.
+          - text: 6/5
+            correct: false
+            info: Zähler und Nenner sind vertauscht. Unten steht die Zahl aller Stücke.
+          - text: 1/6
+            correct: false
+            info: Das ist das weiße Stück. Gefragt ist nach den blauen Stücken.
+          - text: 5/11
+            correct: false
+            info: Der Nenner zählt alle Stücke des Kreises, blaue und weiße zusammen, und nicht mehr.
+        explanation: Der Nenner zählt alle gleich großen Stücke des Kreises, der Zähler die blauen.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: matching
+        id: bruch-wort
+        text: Ordne jedem Bruch sein gesprochenes Wort zu.
+        pairs:
+          - { left: 1/2, right: ein Halbes }
+          - { left: 3/4, right: drei Viertel }
+          - { left: 2/3, right: zwei Drittel }
+          - { left: 5/8, right: fünf Achtel }
+        explanation: Der Nenner gibt dem Bruch seinen Namen (Halbe, Drittel, Viertel, Achtel). Der Zähler sagt, wie viele davon gemeint sind.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: striche-zaehlen
+        given:
+          s: { int: [4, 11] }
+        task:
+          text: "Ein Zahlenstrahl von 0 bis 1 hat {{s}} Striche, den Strich bei 0 und den Strich bei 1 mitgezählt. Die Striche teilen ihn in gleich lange Abschnitte. Welche Zahl ist der Nenner? Gib nur die Zahl ein."
+        answer: { value: "s - 1", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "s",
+              message: "Das ist die Zahl der Striche. Der Nenner zählt die Abschnitte zwischen den Strichen, und das sind immer einer weniger als Striche.",
+            }
+          - {
+              value: "s - 2",
+              message: "Du hast die Striche bei 0 und 1 nicht mitgezählt. Sie begrenzen aber den ersten und den letzten Abschnitt. Zähle die Abschnitte zwischen den Strichen.",
+            }
+        hint: Male dir 3 Striche auf. Wie viele Abschnitte liegen dazwischen?
+        steps:
+          - "Zwischen zwei Strichen liegt ein Abschnitt. Bei {{s}} Strichen gibt es deshalb einen Abschnitt weniger als Striche."
+          - "Es sind {{answer}} Abschnitte. Das ist der Nenner."

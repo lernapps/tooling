@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 170" width="600" height="170">
+  <defs>
+    <pattern id="gefaerbt" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="10" height="10" fill="#2f5fb3"/>
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#ffffff" stroke-width="3"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="170" fill="#ffffff"/>
+  <text x="10" y="24" font-family="sans-serif" font-size="20" fill="#1a1a1a">3/8</text>
+  <rect x="10.00" y="32" width="72.50" height="50" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="82.50" y="32" width="72.50" height="50" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="155.00" y="32" width="72.50" height="50" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="227.50" y="32" width="72.50" height="50" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="300.00" y="32" width="72.50" height="50" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="372.50" y="32" width="72.50" height="50" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="445.00" y="32" width="72.50" height="50" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="517.50" y="32" width="72.50" height="50" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="10" y="114" font-family="sans-serif" font-size="20" fill="#1a1a1a">5/8</text>
+  <rect x="10.00" y="122" width="72.50" height="50" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="82.50" y="122" width="72.50" height="50" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="155.00" y="122" width="72.50" height="50" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="227.50" y="122" width="72.50" height="50" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="300.00" y="122" width="72.50" height="50" fill="url(#gefaerbt)" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="372.50" y="122" width="72.50" height="50" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="445.00" y="122" width="72.50" height="50" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <rect x="517.50" y="122" width="72.50" height="50" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+</svg>

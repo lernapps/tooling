@@ -1,0 +1,194 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Ein Bruch ist ein Teil eines Ganzen
+description: "Gleiche Teile, Zähler und Nenner: Du lernst, was ein Bruch ist, und probierst es am Streifen aus."
+competencies: [brueche-begriff]
+blocks:
+  - type: section
+    id: einstieg
+    title: Einstieg
+    blocks:
+      - type: text
+        text: |
+          Du teilst eine Tafel Schokolade mit drei Freunden. Ihr seid zu viert, und alle bekommen gleich viel. Welcher
+          Teil der Tafel gehört dir? Du bekommst einen von vier gleich großen Teilen, also ein Viertel. Für so einen
+          Teil gibt es eine eigene Schreibweise: den **Bruch**.
+      - type: text
+        text: |
+          Mit [natürlichen Zahlen](https://lernapps.net/apps/map/mathematik/c/natuerliche-zahlen/) zählst du ganze
+          Dinge: 1 Tafel, 2 Tafeln. Ein Bruch sagt dir, wie viel von einem Ganzen gemeint ist, zum Beispiel ein
+          Teil einer Tafel.
+  - type: section
+    id: anschaulich
+    title: Anschaulich erklärt
+    blocks:
+      - type: text
+        text: |
+          Das Ganze ist hier ein Streifen, wie eine Tafel Schokolade. Er ist in gleich große **Teile** geteilt. Blau
+          mit Streifenmuster sind die Teile, die du dir gerade ansiehst. Weiß sind die anderen Teile.
+      - type: figure
+        image: images/streifen-4-gleich.svg
+        alt: Ein Streifen aus vier gleich breiten Teilen. Der linke Teil ist blau mit Streifenmuster, die anderen drei sind weiß.
+        caption: Das Ganze ist der ganze Streifen. Schau, wie viele gleich große Teile er hat und wie viele davon blau sind.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Der blaue Teil ist ein Viertel des Streifens. Man schreibt ihn als Bruch: $\frac{1}{4}$. Gesprochen: „ein
+          Viertel“. Der waagerechte Strich heißt **Bruchstrich**.
+      - type: text
+        text: |
+          Unter dem Bruchstrich steht der **Nenner**. Er sagt, in wie viele gleich große Teile das Ganze geteilt ist,
+          hier 4. Bei 3 gleichen Teilen heißt jeder Teil ein Drittel, bei 5 ein Fünftel, bei 8 ein Achtel.
+      - type: text
+        text: |
+          Über dem Bruchstrich steht der **Zähler**. Er sagt, wie viele dieser Teile gemeint sind, hier 1.
+      - type: figure
+        image: images/streifen-4-ungleich.svg
+        alt: Ein Streifen aus vier Teilen, die unterschiedlich breit sind. Der schmale linke Teil ist blau mit Streifenmuster.
+        caption: Auch dieser Streifen hat vier Teile. Vergleiche ihre Breite mit den Teilen des ersten Streifens.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Hier sind die Teile verschieden groß. Dann ist der blaue Teil kein Viertel, er ist kleiner. Nur **gleich große** Teile
+          ergeben einen Bruch.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Der Streifen ist das Ganze und bleibt immer derselbe. Mit den Knöpfen − und + stellst du ein, in wie viele
+          gleich große Teile er geteilt ist. Das ist der Nenner. Ein Tipp auf ein Teil färbt es blau, ein zweiter Tipp
+          macht es wieder weiß. Die Zahl der blauen Teile ist der Zähler. Wenn du die Teilung änderst, werden alle Teile
+          wieder weiß. Das ist nur zum Ausprobieren, hier wird nichts geprüft. Stelle zum Beispiel $\frac{5}{6}$ ein:
+          erst die Teile, dann die blauen Teile.
+      - type: vue-component
+        id: bruchstreifen-anteile
+        component: Bruchstreifen
+        props:
+          modus: anteil
+          maxNenner: 10
+          texte:
+            nennerLabel: Teile im Ganzen
+            weniger: Ein Teil weniger
+            mehr: Ein Teil mehr
+            teilGefaerbt: "Teil {i} von {n}, blau"
+            teilLeer: "Teil {i} von {n}, weiß"
+            anzeige: "Blau: {z} von {n}. Das ist der Bruch {z}/{n}."
+            streifen: Der Streifen, das Ganze
+        nojs: |
+          Ein Streifen ist das Ganze. Du teilst ihn in 1 bis 10 gleich große Teile und färbst einige davon blau. Die
+          Zahl aller Teile ist der Nenner, die Zahl der blauen Teile der Zähler. Beispiel: Ein Streifen aus 8 gleich
+          großen Teilen, 3 davon blau, ist der Bruch 3/8 (drei Achtel).
+  - type: section
+    id: merke
+    title: Merke
+    blocks:
+      - type: definition
+        term: Bruch
+        explanation: |
+          Ein Bruch beschreibt einen Teil eines Ganzen, das in gleich große Teile geteilt ist. Man schreibt ihn mit
+          einem Bruchstrich: $\frac{\text{Zähler}}{\text{Nenner}}$.
+      - type: definition
+        term: Nenner
+        explanation: Der Nenner steht unter dem Bruchstrich. Er sagt, in wie viele gleich große Teile das Ganze geteilt ist.
+      - type: definition
+        term: Zähler
+        explanation: Der Zähler steht über dem Bruchstrich. Er sagt, wie viele dieser Teile gemeint sind.
+      - type: example
+        title: Pizza
+        blocks:
+          - type: text
+            text: Eine Pizza ist in 8 gleich große Stücke geschnitten. Du isst 3 davon. Welchen Bruch hast du gegessen?
+          - type: table
+            caption: So kommst du zum Bruch
+            rowHeaders: true
+            rows:
+              - [Das Ganze, eine Pizza]
+              - [Nenner, "8, denn die Pizza hat 8 gleich große Stücke"]
+              - [Zähler, "3, denn du isst 3 Stücke"]
+              - [Bruch, '$\frac{3}{8}$, gesprochen „drei Achtel“']
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: anteil-lesen
+        text: Welcher Bruch gehört zu den blauen Teilen des Streifens?
+        material:
+          - type: figure
+            image: images/streifen-3-von-5.svg
+            alt: Ein Streifen aus fünf gleich breiten Teilen. Die drei linken Teile sind blau mit Streifenmuster, die zwei rechten sind weiß.
+            caption: Das Ganze ist der ganze Streifen.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: 3/5
+            correct: true
+            info: Der Streifen hat 5 gleich große Teile, das ist der Nenner. Drei davon sind blau, das ist der Zähler.
+          - text: 5/3
+            correct: false
+            info: Hier stehen Zähler und Nenner vertauscht. Der Nenner steht unten und zählt alle gleich großen Teile des Ganzen.
+          - text: 2/5
+            correct: false
+            info: Die Zahl im Zähler gehört zu den blauen Teilen. Die weißen Teile sind nicht gemeint.
+          - text: 3/8
+            correct: false
+            info: Der Nenner zählt alle Teile des Streifens. Zähle sie noch einmal, blaue und weiße zusammen.
+        explanation: Der Nenner sagt, in wie viele gleich große Teile das Ganze geteilt ist. Der Zähler sagt, wie viele davon blau sind.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: true-false
+        id: gleiche-teile
+        text: Ein Streifen ist in 3 Teile geteilt, aber ein Teil ist doppelt so breit wie jeder der anderen beiden. Dann ist jeder Teil ein Drittel.
+        answer: false
+        explanation: Ein Bruch braucht gleich große Teile. Sind die Teile verschieden breit, ist keiner davon ein Drittel.
+        links:
+          - title: Bruchrechnung (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Bruchrechnung
+      - type: generated
+        id: nenner-bestimmen
+        given:
+          n: { int: [4, 12] }
+          z: { int: [1, 11] }
+        where: ["z < n", "n - z != z"]
+        task:
+          text: "Eine Tafel Schokolade hat {{n}} gleich große Stücke. Du isst {{z}} davon und schreibst den Anteil als Bruch. Welche Zahl steht unter dem Bruchstrich? Gib nur die Zahl ein."
+        answer: { value: "n", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "z",
+              message: "Das ist die Zahl der Stücke, die du isst. Sie gehört über den Bruchstrich, in den Zähler. Unter dem Strich steht die Zahl aller gleich großen Stücke.",
+            }
+          - {
+              value: "n - z",
+              message: "Das sind die Stücke, die übrig bleiben. Der Nenner zählt alle Stücke der Tafel.",
+            }
+        hint: Unter dem Bruchstrich steht, in wie viele gleich große Teile das Ganze geteilt ist.
+        steps:
+          - "Das Ganze ist die Tafel. Sie hat {{n}} gleich große Stücke. Das ist der Nenner."
+          - "Der Nenner steht unter dem Bruchstrich: {{answer}}."
+      - type: generated
+        id: zaehler-bestimmen
+        given:
+          n: { int: [4, 12] }
+          z: { int: [1, 11] }
+        where: ["z < n", "n - z != z"]
+        task:
+          text: "Eine Pizza ist in {{n}} gleich große Stücke geschnitten. Du isst {{z}} davon und schreibst den Anteil als Bruch. Welche Zahl steht über dem Bruchstrich? Gib nur die Zahl ein."
+        answer: { value: "z", compare: { number: { format: integer } } }
+        mistakes:
+          - {
+              value: "n",
+              message: "Das ist die Zahl aller Stücke der Pizza. Sie gehört unter den Bruchstrich, in den Nenner. Über dem Strich steht die Zahl der Stücke, von denen die Rede ist.",
+            }
+          - {
+              value: "n - z",
+              message: "Das sind die Stücke, die übrig bleiben. Gefragt ist nach den Stücken, die du isst.",
+            }
+        hint: Über dem Bruchstrich steht, wie viele der gleich großen Teile gemeint sind.
+        steps:
+          - "Du isst {{z}} Stücke. Das ist der Zähler."
+          - "Der Zähler steht über dem Bruchstrich: {{answer}}."

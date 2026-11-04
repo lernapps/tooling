@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 700" font-family="sans-serif" font-size="14">
+  <title>Skizze: Seite "Anteile" (Mustervorlage für alle Seiten)</title>
+  <rect width="640" height="700" fill="#fff"/>
+  <rect x="20" y="16" width="600" height="668" fill="none" stroke="#333" stroke-width="2"/>
+  <text x="34" y="44" font-size="18" font-weight="bold">Ein Bruch ist ein Teil eines Ganzen</text>
+  <text x="34" y="64" fill="#555">Brüche › Seite 1 von 6</text>
+
+  <text x="34" y="96" font-weight="bold">Einstieg</text>
+  <text x="34" y="116">Du teilst eine Tafel Schokolade mit 3 Freunden. Alle bekommen gleich viel. Welcher Teil ist deiner?</text>
+
+  <text x="34" y="156" font-weight="bold">Anschaulich erklärt</text>
+  <rect x="34" y="166" width="280" height="30" fill="#fff" stroke="#333" stroke-width="2"/>
+  <path d="M104 166V196M174 166V196M244 166V196" stroke="#333" stroke-width="2"/>
+  <rect x="34" y="166" width="70" height="30" fill="#9ecae1" stroke="#333" stroke-width="2"/>
+  <text x="334" y="186">Bild 1: 4 gleiche Teile, 1 gefärbt</text>
+  <rect x="34" y="212" width="280" height="30" fill="#fff" stroke="#333" stroke-width="2"/>
+  <path d="M60 212V242M150 212V242M270 212V242" stroke="#333" stroke-width="2"/>
+  <text x="334" y="232">Bild 2: 4 Teile, aber ungleich groß</text>
+  <text x="34" y="268">Text: Ganzes, gleiche Teile; Zähler = gefärbte Teile (oben), Nenner = alle gleichen Teile (unten).</text>
+
+  <text x="34" y="308" font-weight="bold">Ausprobieren</text>
+  <rect x="34" y="318" width="572" height="110" fill="#f3f3f3" stroke="#333"/>
+  <text x="46" y="340">Komponente Bruchstreifen: Teile wählen [−] 5 [+], Teile antippen zum Färben.</text>
+  <rect x="46" y="352" width="500" height="36" fill="#fff" stroke="#333" stroke-width="2"/>
+  <rect x="46" y="352" width="200" height="36" fill="#9ecae1" stroke="#333" stroke-width="2"/>
+  <path d="M146 352V388M246 352V388M346 352V388M446 352V388" stroke="#333" stroke-width="2"/>
+  <text x="46" y="416">Auftrag im Text: Färbe so, dass der Anteil genau dem Bruch aus der Zeile oben entspricht.</text>
+
+  <text x="34" y="460" font-weight="bold">Merke</text>
+  <rect x="34" y="470" width="572" height="64" fill="#fff" stroke="#333" stroke-dasharray="4 3"/>
+  <text x="46" y="494">Definition "Bruch", "Zähler", "Nenner" (steht im Glossar). Formel: Zähler / Nenner.</text>
+  <text x="46" y="516">Beispiel-Kasten: 3 von 8 Stücken einer Pizza = 3/8, Schritt für Schritt.</text>
+
+  <text x="34" y="568" font-weight="bold">Übung</text>
+  <rect x="34" y="578" width="572" height="96" fill="#fff" stroke="#333"/>
+  <text x="46" y="600">1) Welcher Bruch gehört zu "3 von 5 Teilen gefärbt"? ( ) 3/5  ( ) 5/3  ( ) 2/5  [Prüfen]</text>
+  <text x="46" y="622">2) Wahr oder falsch: Die Teile eines Bruchs müssen gleich groß sein.</text>
+  <text x="46" y="644">3) Neue Aufgabe je Seed: Eine Tafel hat n Stücke, du isst z. Welchen Nenner hat der Bruch?</text>
+  <text x="46" y="664" fill="#555">Rückmeldung bei Fehler: sagt, was schiefging (z. B. "Das ist der Zähler, nicht der Nenner").</text>
+</svg>
