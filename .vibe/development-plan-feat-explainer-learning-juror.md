@@ -137,6 +137,17 @@ Severity: `hint` für alle neuen Regeln (Urteil, kein Programm; der Review macht
 
     Transkripte: In It. 1 bauen alle vier Läufe zuerst eine Musterseite, lassen sie von einem Subagenten prüfen und holen das Ja; in der Baseline keine Musterseite. `skills_in_phase` steigt (0,82 → 1; 0,73 → 0,94), Bewegung schlägt in It. 1 sofort `explainer` vor (Baseline: `interactive`). Probleme: Warten auf den Subagenten über mehrere Züge, echte Antwort für Wakeup gehalten, Bildschirmfotos nicht angesehen, „Zwischenstand“ fehlt (`early_preview` 0), Phasenansage seltener (Bewegung 0,54 → 0,27). Rückfragen nach dem Plan in allen Zellen über 3 (schon in der Baseline).
 - [ ] C7 Iteration 2: erste Änderungen `2b1872a` (Lernenden-Prüfung im Vordergrund, Bildschirmfotos ansehen, Checkpoint-Nachricht mit „**Code · Checkpoint** Zwischenstand“); Lernqualität nach den Juror-Befunden folgt.
+  - Juror (Sonnet) auf Baseline und It. 1 (`evals/runs/2026-11-03-juror/learning/`, Commit `1733e4b`), Mittel je Lauf:
+
+    | Zelle | Läufe (mean / Stufe 0) | Mittel | representation | control | steps | one-step |
+    |---|---|---|---|---|---|---|
+    | Brüche Baseline | 1,66/0; 1,61/4 | 1,64 | 1,50; 1,43 | 1,40; 1,00 | 1,60; 1,10 | 1,40; 1,67 |
+    | Brüche It. 1 | 1,83/2; 1,60/5 | 1,72 | 1,84; 1,75 | 1,71; 1,25 | 1,73; 1,45 | 1,29; 1,83 |
+    | Bewegung Baseline | 1,78/0; 1,77/1 | 1,78 | 1,69; 1,38 | 2,00; 1,80 | 1,50; – | 1,33; 1,83 |
+    | Bewegung It. 1 | 1,82/0; 1,92/0 | 1,87 | 1,75; 2,00 | 1,38; 2,00 | 1,91; 1,60 | 1,50; 1,86 |
+
+    Richtung wie erhofft (`representation-explained` steigt in allen vier Läufen von It. 1), aber n = 2 und kleine Abstände: ein Zeichen, kein Beleg. Stufe-0-Befunde: Zähler in Übungskomponenten verrät die Lösung („6 von 10 Teilen gefärbt“), Bildunterschrift wiederholt die richtige Option, Schritte von `generated` nennen nur die Regel (Baseline und It. 1), unechte Brüche als Distraktoren, Startzustand schon verändert, Streifen ohne sichtbare Beschriftung, Diagramme ohne Achsenzahlen.
+  - Iteration 2, Regeln geschärft (`7c4a73f`): Zähler/Bildunterschrift in Aufgaben, sichtbare Beschriftung und Achsenzahlen, unveränderter Start, Bedienelemente auf jeder Seite erklärt, Distraktoren im Lernschritt, Datensatz mit allen Zahlen der Schritte in `generated`. Harbor-Lauf It. 2 gestartet (dieselbe Eval-Sitzung).
 - [ ] C7b Iteration 3 (höchstens), nach Befunden, messen.
 - [x] C8 Architektur und Doku (Strategie 7). Commit.
 - [ ] C9 (offen, aus #257) Push des leeren `gh-pages`/`main` in `lernapps-github` scheitert am Pre-Push-Hook: Vorschlag `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages` aus dem App-Checkout statt `git switch --orphan`. In einer Probe-App ohne Hooks nicht nachstellbar; braucht eine mit `create` angelegte App. Nicht Teil der Messung.
