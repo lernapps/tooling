@@ -1,0 +1,124 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beschleunigen und Abbremsen
+description: Am Tacho erkennen, ob sich eine Bewegung beschleunigt, abbremst oder gleich bleibt.
+competencies: [geschwindigkeitsaenderung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was du schon weißt
+    blocks:
+      - type: text
+        text: |
+          Ein Fahrrad steht an der Ampel. Es wird grün, du trittst in die Pedale und fährst los. Später rollst du
+          gleichmäßig, und vor der nächsten Ampel bremst du. Auf deinem Tacho siehst du die ganze Zeit, wie schnell du
+          gerade bist. Das ist die [Geschwindigkeit](https://lernapps.net/apps/map/physik/c/geschwindigkeit/) aus Klasse 7.
+  - type: section
+    id: erklaerung
+    title: So beschreibst du die Fahrt
+    blocks:
+      - type: text
+        text: |
+          Du liest den Tacho zu verschiedenen Zeitpunkten ab und schreibst die Werte in eine Tabelle. Dann vergleichst du
+          immer zwei Werte nacheinander.
+      - type: table
+        caption: Der Tacho eines Fahrrads an der Ampel
+        header: ["Zeitpunkt $t$ in s", "Tacho in km/h"]
+        rows:
+          - ["0", "0"]
+          - ["2", "6"]
+          - ["4", "12"]
+          - ["6", "12"]
+          - ["8", "6"]
+          - ["10", "0"]
+      - type: text
+        text: |
+          Von 0 s bis 4 s werden die Werte größer: 0, 6, 12. Das Fahrrad **beschleunigt**, es wird schneller. Von 4 s bis
+          6 s bleibt der Wert gleich: Die Geschwindigkeit ändert sich nicht. Von 6 s bis 10 s werden die Werte kleiner:
+          12, 6, 0. Das Fahrrad **bremst ab**, es wird langsamer.
+      - type: note
+        title: Merke
+        blocks:
+          - type: text
+            text: |
+              Wird die Geschwindigkeit größer, beschleunigt die Bewegung. Wird sie kleiner, bremst sie ab. Bleibt sie
+              gleich, ändert sich die Geschwindigkeit nicht. Beim Abbremsen ist die Geschwindigkeit nicht negativ, sie wird
+              nur kleiner.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: ba-anfahren
+        text: Was macht das Fahrrad zwischen 0 s und 4 s?
+        material:
+          - type: table
+            caption: Der Tacho eines Fahrrads an der Ampel
+            header: ["Zeitpunkt $t$ in s", "Tacho in km/h"]
+            rows:
+              - ["0", "0"]
+              - ["2", "6"]
+              - ["4", "12"]
+              - ["6", "12"]
+              - ["8", "6"]
+              - ["10", "0"]
+        options:
+          - text: Es beschleunigt.
+            correct: true
+            info: Die Tachowerte 0, 6 und 12 werden größer. Das Fahrrad wird schneller.
+          - text: Es bremst ab.
+            correct: false
+            info: Beim Abbremsen würden die Werte kleiner. Hier werden sie größer.
+          - text: Seine Geschwindigkeit bleibt gleich.
+            correct: false
+            info: Die Werte sind nicht gleich, sie ändern sich von 0 über 6 auf 12.
+        explanation: Wenn die Tachowerte größer werden, wird das Fahrrad schneller. Es beschleunigt.
+        links:
+          - title: Geschwindigkeitsänderung (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
+      - type: single-choice
+        id: ba-bremsen
+        text: Was macht das Fahrrad zwischen 6 s und 10 s?
+        material:
+          - type: table
+            caption: Der Tacho desselben Fahrrads
+            header: ["Zeitpunkt $t$ in s", "Tacho in km/h"]
+            rows:
+              - ["0", "0"]
+              - ["2", "6"]
+              - ["4", "12"]
+              - ["6", "12"]
+              - ["8", "6"]
+              - ["10", "0"]
+        options:
+          - text: Es bremst ab.
+            correct: true
+            info: Die Tachowerte 12, 6 und 0 werden kleiner. Das Fahrrad wird langsamer.
+          - text: Es beschleunigt.
+            correct: false
+            info: Beim Beschleunigen würden die Werte größer. Hier werden sie kleiner.
+          - text: Es fährt rückwärts.
+            correct: false
+            info: Die Tachowerte zeigen nur, wie schnell das Fahrrad ist. Eine Richtung steht nicht in der Tabelle.
+        explanation: Wenn die Tachowerte kleiner werden, wird das Fahrrad langsamer. Es bremst ab.
+        links:
+          - title: Geschwindigkeitsänderung (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
+      - type: true-false
+        id: ba-negativ
+        text: Wenn ein Auto abbremst, hat es eine negative Geschwindigkeit.
+        answer: false
+        explanation: Die Geschwindigkeit sagt, wie schnell das Auto ist. Beim Abbremsen wird dieser Wert kleiner, zum Beispiel von 50 auf 30 km/h. Er wird dabei nicht negativ.
+        links:
+          - title: Geschwindigkeitsänderung (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
+      - type: matching
+        id: ba-zuordnen
+        text: Ordne jeder Tachoreihe zu, was das Fahrzeug macht.
+        pairs:
+          - { left: "10, 20, 30, 40 km/h", right: Es beschleunigt. }
+          - { left: "40, 30, 20, 10 km/h", right: Es bremst ab. }
+          - { left: "25, 25, 25, 25 km/h", right: Seine Geschwindigkeit bleibt gleich. }
+        explanation: Steigen die Werte, beschleunigt das Fahrzeug. Sinken sie, bremst es ab. Bleiben sie gleich, ändert sich die Geschwindigkeit nicht.
+        links:
+          - title: Geschwindigkeitsänderung (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/

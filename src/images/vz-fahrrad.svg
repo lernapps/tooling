@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 240" font-family="sans-serif" font-size="11">
+  <title>Geschwindigkeit-Zeit-Diagramm einer Radfahrt</title>
+  <rect width="330" height="240" fill="#ffffff"/>
+  <g stroke="#cccccc" stroke-width="0.75">
+    <line x1="50" y1="200" x2="300" y2="200"/><line x1="50" y1="177.5" x2="300" y2="177.5"/>
+    <line x1="50" y1="155" x2="300" y2="155"/><line x1="50" y1="132.5" x2="300" y2="132.5"/>
+    <line x1="50" y1="110" x2="300" y2="110"/><line x1="50" y1="87.5" x2="300" y2="87.5"/>
+    <line x1="50" y1="65" x2="300" y2="65"/><line x1="50" y1="42.5" x2="300" y2="42.5"/>
+    <line x1="50" y1="20" x2="300" y2="20"/>
+    <line x1="133.3" y1="20" x2="133.3" y2="200"/><line x1="216.7" y1="20" x2="216.7" y2="200"/>
+    <line x1="300" y1="20" x2="300" y2="200"/>
+  </g>
+  <g stroke="#000000" stroke-width="1.5">
+    <line x1="50" y1="200" x2="305" y2="200"/><line x1="50" y1="200" x2="50" y2="14"/>
+  </g>
+  <g fill="#000000" text-anchor="end">
+    <text x="45" y="204">0</text><text x="45" y="181.5">1</text><text x="45" y="159">2</text>
+    <text x="45" y="136.5">3</text><text x="45" y="114">4</text><text x="45" y="91.5">5</text>
+    <text x="45" y="69">6</text><text x="45" y="46.5">7</text><text x="45" y="24">8</text>
+  </g>
+  <g fill="#000000" text-anchor="middle">
+    <text x="50" y="214">0</text><text x="133.3" y="214">10</text><text x="216.7" y="214">20</text><text x="300" y="214">30</text>
+    <text x="175" y="232">Zeit t in s</text>
+  </g>
+  <text x="50" y="10" fill="#000000" font-size="11">Geschwindigkeit v in m/s</text>
+  <polyline points="50,155 133.3,155 133.3,65 216.7,65 216.7,110 300,110" fill="none" stroke="#a64b00" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#a64b00">
+    <rect x="46.5" y="151.5" width="7" height="7"/><rect x="129.8" y="61.5" width="7" height="7"/><rect x="213.2" y="106.5" width="7" height="7"/>
+  </g>
+</svg>

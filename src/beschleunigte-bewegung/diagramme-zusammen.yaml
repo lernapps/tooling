@@ -1,0 +1,147 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beide Diagramme zusammen
+description: "Dieselbe Bewegung im Weg-Zeit- und im Geschwindigkeit-Zeit-Diagramm. Von einem Diagramm auf das andere schließen."
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was du schon weißt
+    blocks:
+      - type: text
+        text: |
+          Du kennst jetzt zwei Diagramme. Das Weg-Zeit-Diagramm zeigt, wie weit das Fahrrad gekommen ist. Das
+          Geschwindigkeit-Zeit-Diagramm zeigt, wie schnell es ist. Beide zeigen dieselbe Fahrt, nur aus zwei Blickwinkeln.
+          Wenn du eine Fahrt in einem Diagramm kennst, kannst du das andere daraus ableiten.
+  - type: section
+    id: erklaerung
+    title: Wie beide zusammenhängen
+    blocks:
+      - type: text
+        text: |
+          Nimm eine Fahrt mit drei Abschnitten. In jedem Abschnitt bleibt die Geschwindigkeit gleich. Dann gilt: Eine
+          **hohe Stufe** im Geschwindigkeit-Zeit-Diagramm ist im Weg-Zeit-Diagramm eine **steile Linie**. Eine niedrige
+          Stufe ist eine flache Linie. Liegt die Stufe auf 0, ist die Linie im Weg-Zeit-Diagramm waagerecht.
+      - type: table
+        caption: Dieselbe Fahrt in beiden Diagrammen
+        header: ["Abschnitt", "Was du siehst"]
+        rows:
+          - ["1: 2 m/s", "niedrige Stufe, die Weg-Linie geht flach nach oben"]
+          - ["2: 6 m/s", "hohe Stufe, die Weg-Linie geht steil nach oben"]
+          - ["3: 0 m/s", "Stufe auf der Zeitachse, die Weg-Linie verläuft waagerecht"]
+      - type: note
+        title: Merke
+        blocks:
+          - type: text
+            text: Das Geschwindigkeit-Zeit-Diagramm sagt, wie schnell das Fahrrad ist. Das Weg-Zeit-Diagramm sagt, wie weit es gekommen ist. Die Geschwindigkeit bestimmt, wie steil die Linie im Weg-Zeit-Diagramm ist.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Hier siehst du beide Diagramme nebeneinander. Links ist der Weg, rechts die Geschwindigkeit. Beide haben dieselbe
+          Zeitachse, die Zahlen stehen unter den Achsen. Mit jedem Regler stellst du die Geschwindigkeit in einem
+          Abschnitt ein, und beide Linien ändern sich zugleich. Am Anfang fährt das Fahrrad überall mit
+          $4\,\frac{\text{m}}{\text{s}}$.
+      - type: text
+        text: |
+          Probiere aus: Stelle Abschnitt 1 auf 2, Abschnitt 2 auf 8 und Abschnitt 3 auf 0. Vergleiche, welche Stufe zu
+          welcher Linie im Weg-Zeit-Diagramm gehört.
+      - type: vue-component
+        id: bewegungslabor-beide
+        component: Bewegungslabor
+        props:
+          view: both
+          start: [4, 4, 4]
+          sliderLabel: "Abschnitt {n}: Geschwindigkeit"
+          stTitle: Weg-Zeit-Diagramm
+          vtTitle: Geschwindigkeit-Zeit-Diagramm
+          timeAxis: Zeit t in s
+          wayAxis: Weg s in m
+          speedAxis: Geschwindigkeit v in m/s
+          stAlt: "Weg-Zeit-Diagramm der Fahrt: nach 10 s sind es {s1} m, nach 20 s {s2} m und nach 30 s {s3} m."
+          vtAlt: "Geschwindigkeit-Zeit-Diagramm der Fahrt: {v1}, {v2} und {v3} m/s in den drei Abschnitten."
+          unit: m/s
+          readout: "Die Geschwindigkeit ist {v1}, {v2} und {v3} m/s. Der Weg ist nach 10 s {s1} m, nach 20 s {s2} m und nach 30 s {s3} m."
+        nojs: |
+          Zwei Diagramme nebeneinander für dieselbe Fahrt von 30 s in drei Abschnitten zu je 10 s: links das
+          Weg-Zeit-Diagramm, rechts das Geschwindigkeit-Zeit-Diagramm. Mit drei Reglern stellst du die Geschwindigkeit je
+          Abschnitt ein. Beim Start fährt das Fahrrad mit 4 m/s: Die Weg-Linie steigt gleichmäßig auf 40 m, 80 m und
+          120 m, die Geschwindigkeit-Linie liegt waagerecht bei 4. Mit 2, 8 und 0 m/s kommt das Fahrrad nach 10 s 20 m
+          weit, nach 20 s 100 m und bleibt dann bei 100 m stehen. Die Weg-Linie geht erst flach, dann steil nach oben und
+          verläuft dann waagerecht. Die Geschwindigkeit-Linie hat Stufen bei 2, 8 und 0.
+      - type: text
+        text: "Du hast gesehen: Hohe Stufe, steile Linie. Stufe bei 0, waagerechte Linie. Beide Diagramme gehören zusammen."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: dz-uebersetzen
+        text: Welche Geschwindigkeiten gehören zu dieser Fahrt in den drei Abschnitten?
+        material:
+          - type: figure
+            image: images/wz-fahrrad.svg
+            alt: Ein Weg-Zeit-Diagramm. Die Linie steigt bis 30 m bei 10 s, verläuft dann waagerecht bis 20 s und steigt danach bis 90 m bei 30 s.
+            caption: Das Weg-Zeit-Diagramm einer Fahrt mit drei Abschnitten zu je 10 s.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: 3 m/s, 0 m/s und 6 m/s
+            correct: true
+            info: Im ersten Abschnitt sind es 30 m in 10 s, also 3 m/s. Dann steht das Fahrrad (0 m/s). Im letzten Abschnitt sind es 60 m in 10 s, also 6 m/s.
+          - text: 3 m/s, 3 m/s und 6 m/s
+            correct: false
+            info: Im zweiten Abschnitt verläuft die Linie waagerecht. Das Fahrrad kommt nicht weiter, es fährt also nicht mit 3 m/s.
+          - text: 30 m/s, 0 m/s und 90 m/s
+            correct: false
+            info: Das sind die Wege bei 10 s und 30 s, nicht die Geschwindigkeiten. Die Geschwindigkeit ist Weg durch Zeit.
+          - text: 3 m/s, 0 m/s und 9 m/s
+            correct: false
+            info: Im letzten Abschnitt kommt das Fahrrad von 30 m auf 90 m, also 60 m weit in 10 s. Das sind 6 m/s, nicht 9 m/s.
+        explanation: Aus dem Weg in jedem Abschnitt und der Zeit von 10 s folgt die Geschwindigkeit. Eine waagerechte Linie im Weg-Zeit-Diagramm ist eine Stufe bei 0.
+        links:
+          - title: Bewegungsdiagramme (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: matching
+        id: dz-zuordnen
+        text: Ordne jedem Merkmal im Geschwindigkeit-Zeit-Diagramm das passende Merkmal im Weg-Zeit-Diagramm zu.
+        pairs:
+          - { left: "Die Linie liegt auf der Zeitachse (bei 0).", right: Die Linie verläuft waagerecht. }
+          - { left: Die Linie liegt hoch., right: Die Linie geht steil nach oben. }
+          - { left: "Die Linie liegt niedrig, aber über 0.", right: Die Linie geht flach nach oben. }
+          - { left: Die Linie springt nach oben., right: Die Linie wird steiler. }
+        explanation: Die Höhe der Linie im Geschwindigkeit-Zeit-Diagramm bestimmt, wie steil die Linie im Weg-Zeit-Diagramm ist. Bei 0 steht das Fahrrad.
+        links:
+          - title: Bewegungsdiagramme (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: vue-component
+        id: geschichte-einstellen
+        component: GeschichteEinstellen
+        props:
+          task: Lies die Geschichte. Jeder Abschnitt dauert 10 s. Wähle für jeden Abschnitt, ob die Geschwindigkeit größer wird, gleich bleibt oder kleiner wird, im Vergleich zum Abschnitt davor.
+          stories: { data: geschichten }
+          sectionLabel: "Abschnitt {n}"
+          choose: wähle …
+          more: wird größer
+          same: bleibt gleich
+          less: wird kleiner
+          diagramTitle: Geschwindigkeit-Zeit-Diagramm nach deiner Wahl
+          timeAxis: Zeit t in s
+          speedAxis: Geschwindigkeit v in m/s
+          alt: "Geschwindigkeit-Zeit-Diagramm nach deiner Wahl: {v1}, {v2} und {v3} m/s in den drei Abschnitten."
+          mistakes:
+            - "Abschnitt {n}: Du hast gewählt, dass die Geschwindigkeit gleich bleibt. Lies in der Geschichte nach, ob das hier stimmt."
+            - "Abschnitt {n}: Du hast gewählt, dass sich die Geschwindigkeit ändert. Lies in der Geschichte nach, ob das hier stimmt."
+            - "Abschnitt {n}: Schau noch einmal genau hin, ob die Bewegung hier schneller oder langsamer wird."
+        examples:
+          accepted:
+            - { answer: [mehr, gleich, weniger], seed: 1 }
+            - { answer: [weniger, gleich, mehr], seed: 2 }
+            - { answer: [gleich, mehr, mehr], seed: 3 }
+            - { answer: [weniger, weniger, gleich], seed: 4 }
+          rejected:
+            - { answer: [gleich, gleich, weniger], seed: 1 }
+            - { answer: [mehr, mehr, weniger], seed: 1 }
+            - { answer: [weniger, gleich, mehr], seed: 1 }
+            - { answer: [mehr, gleich, mehr], seed: 2 }

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="sans-serif" font-size="13">
+  <title>Skizze: Bewegungslabor, beide Diagramme nebeneinander</title>
+  <rect width="640" height="360" fill="#fff" stroke="#999"/>
+  <text x="20" y="24" font-weight="bold">Bewegungslabor: Eine Radfahrt in 3 Abschnitten (je 10 s)</text>
+  <!-- s-t -->
+  <text x="40" y="52">Weg-Zeit-Diagramm</text>
+  <line x1="40" y1="250" x2="290" y2="250" stroke="#000"/><line x1="40" y1="250" x2="40" y2="62" stroke="#000"/>
+  <text x="200" y="272">Zeit t in s</text><text x="6" y="60">Weg s in m</text>
+  <text x="40" y="266">0</text><text x="125" y="266">10</text><text x="205" y="266" opacity="0">20</text><text x="278" y="266">30</text>
+  <polyline points="40,250 110,200 180,150 250,110" fill="none" stroke="#06c" stroke-width="3"/>
+  <circle cx="110" cy="200" r="4" fill="#06c"/><circle cx="180" cy="150" r="4" fill="#06c"/>
+  <!-- v-t -->
+  <text x="340" y="52">Geschwindigkeit-Zeit-Diagramm</text>
+  <line x1="340" y1="250" x2="610" y2="250" stroke="#000"/><line x1="340" y1="250" x2="340" y2="62" stroke="#000"/>
+  <text x="500" y="272">Zeit t in s</text><text x="300" y="60">v in m/s</text>
+  <polyline points="340,200 430,200 430,160 520,160 520,110 610,110" fill="none" stroke="#c60" stroke-width="3"/>
+  <!-- controls -->
+  <text x="20" y="300">Abschnitt 1: Geschwindigkeit</text><rect x="210" y="290" width="150" height="8" fill="#ccc"/><circle cx="260" cy="294" r="9" fill="#555"/><text x="380" y="300">3 m/s</text>
+  <text x="20" y="324">Abschnitt 2: Geschwindigkeit</text><rect x="210" y="314" width="150" height="8" fill="#ccc"/><circle cx="290" cy="318" r="9" fill="#555"/><text x="380" y="324">5 m/s</text>
+  <text x="20" y="348">Abschnitt 3: Geschwindigkeit</text><rect x="210" y="338" width="150" height="8" fill="#ccc"/><circle cx="330" cy="342" r="9" fill="#555"/><text x="380" y="348">7 m/s</text>
+  <text x="440" y="324">Regler ändern beide Diagramme.</text>
+  <text x="440" y="342">Zeit-Achse bleibt fest (0 bis 30 s).</text>
+</svg>

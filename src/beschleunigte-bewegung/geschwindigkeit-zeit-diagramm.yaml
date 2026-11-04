@@ -1,0 +1,160 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Geschwindigkeit-Zeit-Diagramm
+description: "Zeigen, wie schnell eine Bewegung zu jedem Zeitpunkt ist. Je höher die Linie, desto schneller."
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was du schon weißt
+    blocks:
+      - type: text
+        text: |
+          Im Weg-Zeit-Diagramm hast du gesehen, wie weit das Fahrrad gekommen ist. Auf deinem Tacho siehst du aber etwas
+          anderes: wie schnell du gerade bist. Auch dafür gibt es ein Diagramm. Es zeigt nicht den Weg, sondern nur die
+          Geschwindigkeit.
+  - type: section
+    id: erklaerung
+    title: So liest du das Diagramm
+    blocks:
+      - type: definition
+        term: Geschwindigkeit-Zeit-Diagramm
+        explanation: Ein Geschwindigkeit-Zeit-Diagramm zeigt, wie schnell ein Körper zu jedem Zeitpunkt ist. Die Zeit $t$ steht auf der waagerechten Achse, die Geschwindigkeit $v$ auf der senkrechten.
+      - type: text
+        text: |
+          Du liest hier die **Höhe** der Linie ab. Liegt die Linie bei 4 auf der senkrechten Achse, fährt das Fahrrad in
+          diesem Moment mit $4\,\frac{\text{m}}{\text{s}}$. Je höher die Linie liegt, desto schneller ist die Bewegung.
+          Springt die Linie nach oben, wird das Fahrrad schneller. Springt sie nach unten, wird es langsamer. Das Diagramm
+          zeigt nur, wie schnell das Fahrrad ist, nicht in welche Richtung.
+      - type: note
+        title: Achtung
+        blocks:
+          - type: text
+            text: |
+              Eine waagerechte Linie sieht in beiden Diagrammen gleich aus, bedeutet aber etwas anderes. Im Weg-Zeit-Diagramm
+              heißt sie: Das Fahrrad steht. Im Geschwindigkeit-Zeit-Diagramm heißt sie: Die Geschwindigkeit bleibt gleich. Das
+              Fahrrad steht nur, wenn die Linie auf der Zeitachse bei 0 liegt.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Wieder dauert die Fahrt 30 s mit drei Abschnitten zu je 10 s. Die Zahlen auf der waagerechten Achse sind die Zeit
+          in Sekunden, die Zahlen auf der senkrechten Achse die Geschwindigkeit in m/s. Die Quadrate zeigen, wo jeder
+          Abschnitt beginnt. Mit jedem Regler stellst du die Geschwindigkeit in einem Abschnitt ein. Am Anfang fährt das
+          Fahrrad überall mit $4\,\frac{\text{m}}{\text{s}}$. Die Achsen bleiben immer gleich.
+      - type: text
+        text: |
+          Probiere aus: Stelle Abschnitt 2 auf 8. Wo liegt die Linie jetzt zwischen 10 s und 20 s? Stelle dann Abschnitt 3
+          auf 0. Was zeigt die Linie zwischen 20 s und 30 s?
+      - type: vue-component
+        id: bewegungslabor-vt
+        component: Bewegungslabor
+        props:
+          view: vt
+          start: [4, 4, 4]
+          sliderLabel: "Abschnitt {n}: Geschwindigkeit"
+          stTitle: Weg-Zeit-Diagramm
+          vtTitle: Geschwindigkeit-Zeit-Diagramm
+          timeAxis: Zeit t in s
+          wayAxis: Weg s in m
+          speedAxis: Geschwindigkeit v in m/s
+          stAlt: "Weg-Zeit-Diagramm der Fahrt: nach 10 s sind es {s1} m, nach 20 s {s2} m und nach 30 s {s3} m."
+          vtAlt: "Geschwindigkeit-Zeit-Diagramm der Fahrt: {v1}, {v2} und {v3} m/s in den drei Abschnitten."
+          unit: m/s
+          readout: "Die Geschwindigkeit ist in den drei Abschnitten {v1}, {v2} und {v3} m/s."
+        nojs: |
+          Ein Geschwindigkeit-Zeit-Diagramm einer Fahrt von 30 s in drei Abschnitten zu je 10 s. Die Zeit steht auf der
+          waagerechten Achse, die Geschwindigkeit auf der senkrechten. Mit drei Reglern stellst du die Geschwindigkeit je
+          Abschnitt ein. Beim Start fährt das Fahrrad in jedem Abschnitt mit 4 m/s, die Linie liegt waagerecht bei 4.
+          Stellst du Abschnitt 2 auf 8 m/s, springt die Linie zwischen 10 s und 20 s auf die Höhe 8. Stellst du
+          Abschnitt 3 auf 0 m/s, liegt die Linie zwischen 20 s und 30 s auf der Zeitachse: Das Fahrrad steht.
+      - type: text
+        text: "Du hast gesehen: Die Höhe der Linie ist die Geschwindigkeit. Bei 0 steht das Fahrrad, bei einer größeren Zahl fährt es schneller."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: number
+        id: vz-ablesen
+        text: Wie schnell fährt das Fahrrad bei 15 s?
+        material:
+          - type: figure
+            image: images/vz-fahrrad.svg
+            alt: Ein Geschwindigkeit-Zeit-Diagramm. Die Linie liegt von 0 bis 10 s bei 2 m/s, springt dann auf 6 m/s bis 20 s und springt danach auf 4 m/s bis 30 s.
+            caption: Die Fahrt eines Fahrrads. Lies die Geschwindigkeit bei 15 s ab.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 6
+        tolerance: 0
+        unit: m/s
+        hint: Gehe auf der waagerechten Achse bis 15 s und dann senkrecht nach oben zur Linie. Lies dort die Höhe an der senkrechten Achse ab.
+        mistakes:
+          - {
+              answer: 15,
+              message: "Das ist die Zeit, nicht die Geschwindigkeit. Die Geschwindigkeit steht auf der senkrechten Achse.",
+            }
+        explanation: Bei 15 s liegt die Linie auf der Höhe 6. Das Fahrrad fährt dann mit 6 m/s.
+        links:
+          - title: Bewegungsdiagramme (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: single-choice
+        id: vz-sprung
+        text: Was passiert bei 20 s?
+        material:
+          - type: figure
+            image: images/vz-fahrrad.svg
+            alt: Ein Geschwindigkeit-Zeit-Diagramm. Die Linie liegt bis 10 s bei 2 m/s, dann bis 20 s bei 6 m/s und danach bis 30 s bei 4 m/s.
+            caption: Dasselbe Diagramm. Achte auf die Linie bei 20 s.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Das Fahrrad wird langsamer.
+            correct: true
+            info: Die Linie springt von 6 auf 4 nach unten. Die Geschwindigkeit wird kleiner.
+          - text: Das Fahrrad bleibt stehen.
+            correct: false
+            info: Stehen würde heißen, dass die Linie auf der Zeitachse bei 0 liegt. Hier liegt sie bei 4.
+          - text: Das Fahrrad wird schneller.
+            correct: false
+            info: Schneller würde heißen, dass die Linie nach oben springt. Hier springt sie nach unten.
+          - text: Das Fahrrad fährt zurück.
+            correct: false
+            info: Das Diagramm zeigt nur, wie schnell das Fahrrad ist. Eine Richtung kann man in ihm nicht ablesen.
+        explanation: Bei 20 s springt die Linie von 6 auf 4 nach unten. Das Fahrrad bremst ab, fährt aber weiter.
+        links:
+          - title: Bewegungsdiagramme (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: true-false
+        id: vz-waagerecht
+        text: Zwischen 10 s und 20 s liegt die Linie waagerecht. Also steht das Fahrrad in dieser Zeit still.
+        material:
+          - type: figure
+            image: images/vz-fahrrad.svg
+            alt: Ein Geschwindigkeit-Zeit-Diagramm. Zwischen 10 s und 20 s liegt die Linie waagerecht bei 6 m/s.
+            caption: Dasselbe Diagramm. Achte auf die Linie zwischen 10 s und 20 s.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: false
+        explanation: Im Geschwindigkeit-Zeit-Diagramm heißt eine waagerechte Linie, dass die Geschwindigkeit gleich bleibt. Hier fährt das Fahrrad die ganze Zeit mit 6 m/s. Es stünde nur still, wenn die Linie bei 0 läge.
+        links:
+          - title: Bewegungsdiagramme (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: ordering
+        id: vz-ordnen
+        text: Ordne die Abschnitte der Fahrt nach ihrer Geschwindigkeit, den langsamsten zuerst.
+        material:
+          - type: figure
+            image: images/vz-fahrrad.svg
+            alt: Ein Geschwindigkeit-Zeit-Diagramm mit drei Abschnitten. Abschnitt 1 (0 bis 10 s) liegt bei 2 m/s, Abschnitt 2 (10 bis 20 s) bei 6 m/s, Abschnitt 3 (20 bis 30 s) bei 4 m/s.
+            caption: Dasselbe Diagramm mit drei Abschnitten zu je 10 s.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        items:
+          - Abschnitt 1 (0 bis 10 s)
+          - Abschnitt 3 (20 bis 30 s)
+          - Abschnitt 2 (10 bis 20 s)
+        explanation: Je höher die Linie liegt, desto schneller fährt das Fahrrad. Abschnitt 1 liegt bei 2 m/s, Abschnitt 3 bei 4 m/s und Abschnitt 2 bei 6 m/s.
+        links:
+          - title: Bewegungsdiagramme (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/

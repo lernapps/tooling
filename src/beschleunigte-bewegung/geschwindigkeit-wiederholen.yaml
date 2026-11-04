@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Geschwindigkeit – kurz wiederholt
+description: "Was Geschwindigkeit ist und wie du sie mit v = s : t ausrechnest. Das kennst du aus Klasse 7."
+recap: physik/geschwindigkeit-berechnen
+blocks:
+  - type: section
+    id: einstieg
+    title: Das kennst du schon
+    blocks:
+      - type: text
+        text: |
+          Ein Fahrrad fährt in 10 s genau 40 m weit. In jeder Sekunde kommt es also 4 m weiter. Das ist seine
+          Geschwindigkeit. Du rechnest sie aus, indem du den Weg durch die Zeit teilst.
+      - type: definition
+        term: Geschwindigkeit
+        explanation: Die Geschwindigkeit $v$ sagt, wie viele Meter ein Körper in einer Sekunde zurücklegt. Man misst sie zum Beispiel in $\frac{\text{m}}{\text{s}}$ oder in $\frac{\text{km}}{\text{h}}$.
+      - type: formula
+        formula: 'v = \frac{s}{t}'
+      - type: text
+        text: |
+          Dabei ist $s$ der Weg und $t$ die Zeit. Für das Fahrrad gilt: $v = \frac{40\,\text{m}}{10\,\text{s}} = 4\,\frac{\text{m}}{\text{s}}$.
+  - type: section
+    id: erklaerung
+    title: Das brauchst du hier
+    blocks:
+      - type: text
+        text: |
+          Auf den nächsten Seiten fährt ein Fahrrad manchmal schneller und manchmal langsamer, und du siehst, wie sich
+          das in Diagrammen zeigt. Dafür reicht es, dass du $v = \frac{s}{t}$ kennst. Wenn du Aufgaben dazu üben
+          möchtest, findest du sie bei der Kompetenz „Geschwindigkeit berechnen“ auf der Lernlandkarte:
+          [Geschwindigkeit berechnen](https://lernapps.net/apps/map/physik/c/geschwindigkeit-berechnen/).

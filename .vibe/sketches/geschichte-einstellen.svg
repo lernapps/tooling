@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="sans-serif" font-size="13">
+  <title>Skizze: Übungskomponente "Geschichte einstellen"</title>
+  <rect width="640" height="300" fill="#fff" stroke="#999"/>
+  <text x="20" y="24" font-weight="bold">Aufgabe: Stelle die drei Abschnitte so ein, dass das Diagramm zur Geschichte passt.</text>
+  <text x="20" y="48">Geschichte: „Anna fährt los, rollt dann gleichmäßig und bremst vor der Ampel bis zum Stehen."</text>
+  <text x="20" y="72">Schritt 1: Je Abschnitt wählen: schneller / gleich / langsamer (Auswahl) </text>
+  <rect x="20" y="82" width="170" height="30" fill="none" stroke="#555"/><text x="30" y="102">Abschnitt 1: schneller ▾</text>
+  <rect x="210" y="82" width="170" height="30" fill="none" stroke="#555"/><text x="220" y="102">Abschnitt 2: gleich ▾</text>
+  <rect x="400" y="82" width="170" height="30" fill="none" stroke="#555"/><text x="410" y="102">Abschnitt 3: langsamer ▾</text>
+  <text x="20" y="140">Schritt 2: Das v-t-Diagramm zeichnet sich nach deiner Wahl (Achsen mit Zahlen, feste Skala).</text>
+  <line x1="40" y1="260" x2="400" y2="260" stroke="#000"/><line x1="40" y1="260" x2="40" y2="150" stroke="#000"/>
+  <polyline points="40,255 150,190 260,190 380,255" fill="none" stroke="#c60" stroke-width="3"/>
+  <text x="300" y="282">Zeit t in s</text>
+  <rect x="440" y="230" width="120" height="32" fill="#eee" stroke="#555"/><text x="470" y="251">Prüfen</text>
+  <text x="420" y="180">Nach „Prüfen": Rückmeldung je Abschnitt,</text><text x="420" y="198">z. B. „Abschnitt 3: Du hast 'gleich' gewählt,</text><text x="420" y="216">aber Anna bremst."</text>
+</svg>

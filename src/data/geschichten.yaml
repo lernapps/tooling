@@ -1,0 +1,22 @@
+# Geschichten für die Übung "Geschichte einstellen". v0 ist die Geschwindigkeit vor dem ersten Abschnitt in m/s.
+# c1 bis c3: mehr (Geschwindigkeit wird größer), gleich, weniger (Geschwindigkeit wird kleiner), im Vergleich zum Abschnitt davor.
+- text: "Anna steht an der Ampel. Es wird grün, sie fährt los und wird immer schneller. Danach rollt sie gleichmäßig weiter. Vor der nächsten Ampel bremst sie ab."
+  v0: 0
+  c1: mehr
+  c2: gleich
+  c3: weniger
+- text: "Ben fährt zügig auf dem Radweg. Vor einer Kreuzung wird er langsamer. Dann rollt er gleichmäßig über die Kreuzung. Danach tritt er wieder kräftig in die Pedale und wird schneller."
+  v0: 6
+  c1: weniger
+  c2: gleich
+  c3: mehr
+- text: "Clara fährt gleichmäßig auf dem Skateboard. Zuerst bleibt ihr Tempo gleich. Dann nimmt sie Schwung und wird schneller. Sie schiebt weiter an und wird noch schneller."
+  v0: 3
+  c1: gleich
+  c2: mehr
+  c3: mehr
+- text: "Der Bus fährt mit hohem Tempo. Vor der Haltestelle bremst er und wird langsamer. Er bremst weiter und wird noch langsamer. Dann rollt er gleichmäßig an die Haltestelle heran."
+  v0: 9
+  c1: weniger
+  c2: weniger
+  c3: gleich

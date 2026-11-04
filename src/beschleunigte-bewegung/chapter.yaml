@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Beschleunigte Bewegung
+summary: Bewegungen beschreiben und in Weg-Zeit- und Geschwindigkeit-Zeit-Diagrammen darstellen.
+pages:
+  [
+    geschwindigkeit-wiederholen,
+    beschleunigen-abbremsen,
+    richtung-aendern,
+    weg-zeit-diagramm,
+    geschwindigkeit-zeit-diagramm,
+    diagramme-zusammen,
+  ]
+selfAssessment:
+  pages:
+    - exercises:
+        - /beschleunigte-bewegung/beschleunigen-abbremsen/#ba-anfahren
+        - /beschleunigte-bewegung/beschleunigen-abbremsen/#ba-bremsen
+        - /beschleunigte-bewegung/beschleunigen-abbremsen/#ba-zuordnen
+    - exercises:
+        - /beschleunigte-bewegung/richtung-aendern/#ra-kreisverkehr
+        - /beschleunigte-bewegung/richtung-aendern/#ra-aenderungen
+        - /beschleunigte-bewegung/richtung-aendern/#ra-zuordnen
+    - exercises:
+        - /beschleunigte-bewegung/weg-zeit-diagramm/#wz-weg-ablesen
+        - /beschleunigte-bewegung/weg-zeit-diagramm/#wz-geschwindigkeit
+    - exercises:
+        - /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/#vz-ablesen
+        - /beschleunigte-bewegung/geschwindigkeit-zeit-diagramm/#vz-ordnen
+    - exercises:
+        - /beschleunigte-bewegung/diagramme-zusammen/#dz-uebersetzen
+        - /beschleunigte-bewegung/diagramme-zusammen/#geschichte-einstellen

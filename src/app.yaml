@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+format: 2
+strand: physik/mechanik
+title: Beschleunigte Bewegung
+intro: |
+  Wie bewegt sich ein Fahrrad, wenn es losfährt, bremst oder um die Kurve fährt? Du lernst, Bewegungen zu beschreiben
+  und in Weg-Zeit- und Geschwindigkeit-Zeit-Diagrammen darzustellen. Du kannst die Diagramme selbst verändern und
+  siehst sofort, was passiert. Nach jedem Teil gibt es Aufgaben zum Üben. Für Klasse 9.
+languages: [de]
+chapters: [beschleunigte-bewegung]
+sources:
+  - title: Weg-Zeit-Diagramm (Mechanik) (Wikipedia)
+    url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm_(Mechanik)
+  - title: Bewegungsdiagramme (Lernlandkarte Physik)
+    url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/

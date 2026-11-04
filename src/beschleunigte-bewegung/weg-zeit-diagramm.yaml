@@ -1,0 +1,171 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Das Weg-Zeit-Diagramm
+description: Eine Bewegung als Linie zeichnen und ablesen. Je steiler die Linie, desto schneller die Bewegung.
+competencies: [bewegungsdiagramme]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was du schon weißt
+    blocks:
+      - type: text
+        text: |
+          Aus Klasse 7 kennst du $v = \frac{s}{t}$: Die Geschwindigkeit sagt, wie viele Meter ein Körper in einer Sekunde
+          zurücklegt. Ein Fahrrad fährt mit $4\,\frac{\text{m}}{\text{s}}$. Dann kommt es in jeder Sekunde 4 m weiter.
+          Du kannst seine Fahrt in eine Tabelle schreiben.
+      - type: table
+        caption: Eine Radfahrt mit gleichbleibender Geschwindigkeit
+        header: ["Zeit $t$ in s", "Weg $s$ in m"]
+        rows:
+          - ["0", "0"]
+          - ["10", "40"]
+          - ["20", "80"]
+          - ["30", "120"]
+      - type: text
+        text: Ein Diagramm zeigt dieselbe Fahrt als Linie. So siehst du die ganze Fahrt auf einen Blick.
+  - type: section
+    id: erklaerung
+    title: So liest du das Diagramm
+    blocks:
+      - type: definition
+        term: Weg-Zeit-Diagramm
+        explanation: Ein Weg-Zeit-Diagramm zeigt, wie weit ein Körper zu jedem Zeitpunkt gekommen ist. Die Zeit $t$ steht auf der waagerechten Achse, der Weg $s$ auf der senkrechten.
+      - type: text
+        text: |
+          Jede Zeile der Tabelle wird ein Punkt im Diagramm. Beispiel: Die Zeile „10 s, 40 m“ ist der Punkt, den du
+          findest, wenn du bei 10 s auf der Zeitachse nach rechts gehst und dann bis 40 m nach oben. Verbindest du alle
+          Punkte, entsteht die Linie. Sie zeigt die Fahrt, nicht die Straße. Die Linie steigt, weil
+          der Weg mit der Zeit größer wird. Das Fahrrad fährt nicht bergauf.
+      - type: text
+        text: |
+          Wichtig ist, wie **steil** die Linie nach oben geht. Das hängt mit $v = \frac{s}{t}$ zusammen: Fährt das Fahrrad
+          schneller, kommt es in derselben Zeit mehr Meter weiter. Die Linie geht dann steiler nach oben. Fährt es
+          langsamer, geht sie flacher nach oben. Steht es still, bleibt der Weg gleich: Die Linie
+          verläuft waagerecht.
+      - type: note
+        title: Merke
+        blocks:
+          - type: text
+            text: Steile Linie, hohe Geschwindigkeit. Flache Linie, niedrige Geschwindigkeit. Waagerechte Linie, Stillstand. Das gilt, wenn du die Linien in Diagrammen mit denselben Achsen vergleichst.
+  - type: section
+    id: ausprobieren
+    title: Ausprobieren
+    blocks:
+      - type: text
+        text: |
+          Die Fahrt dauert 30 s und hat drei Abschnitte zu je 10 s. Das Diagramm zeigt den Weg: Die Zahlen auf der
+          waagerechten Achse sind die Zeit in Sekunden, die Zahlen auf der senkrechten Achse der Weg in Metern. Die
+          Kreise sitzen bei 0 s, 10 s, 20 s und 30 s. Die Achsen bleiben immer gleich. Mit jedem Regler stellst du die
+          Geschwindigkeit in einem Abschnitt ein. Am Anfang fährt das Fahrrad überall mit $4\,\frac{\text{m}}{\text{s}}$.
+      - type: text
+        text: |
+          Probiere aus: Stelle den Regler von Abschnitt 2 auf 0 und sieh dir die Linie zwischen 10 s und 20 s an. Stelle
+          ihn dann auf 8. Wie sieht die Linie in den Abschnitten 2 und 3 jetzt aus? Der Regler geht bis 10 m/s, die
+          Linie bleibt immer im Bild.
+      - type: vue-component
+        id: bewegungslabor-st
+        component: Bewegungslabor
+        props:
+          view: st
+          start: [4, 4, 4]
+          sliderLabel: "Abschnitt {n}: Geschwindigkeit"
+          stTitle: Weg-Zeit-Diagramm
+          vtTitle: Geschwindigkeit-Zeit-Diagramm
+          timeAxis: Zeit t in s
+          wayAxis: Weg s in m
+          speedAxis: Geschwindigkeit v in m/s
+          stAlt: "Weg-Zeit-Diagramm der Fahrt: nach 10 s sind es {s1} m, nach 20 s {s2} m und nach 30 s {s3} m."
+          vtAlt: "Geschwindigkeit-Zeit-Diagramm der Fahrt: {v1}, {v2} und {v3} m/s in den drei Abschnitten."
+          unit: m/s
+          readout: "Das Fahrrad ist nach 10 s {s1} m weit gekommen, nach 20 s {s2} m und nach 30 s {s3} m."
+        nojs: |
+          Ein Weg-Zeit-Diagramm einer Fahrt von 30 s in drei Abschnitten zu je 10 s. Die Zeit steht auf der waagerechten
+          Achse, der Weg auf der senkrechten. Mit drei Reglern stellst du die Geschwindigkeit je Abschnitt ein. Beim
+          Start fährt das Fahrrad mit 4 m/s und kommt nach 10 s 40 m weit, nach 20 s 80 m und nach 30 s 120 m. Stellst du
+          die Geschwindigkeit von Abschnitt 2 auf 0 m/s, bleibt der Weg zwischen 10 s und 20 s bei 40 m: Die Linie
+          verläuft waagerecht. Bei 8 m/s steigt sie in diesem Abschnitt um 80 m und ist steiler als zuvor.
+      - type: text
+        text: "Du hast gesehen: Die Steigung der Linie zeigt die Geschwindigkeit. Mit 0 m/s liegt die Linie waagerecht, mit mehr m/s steigt sie steiler."
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: number
+        id: wz-weg-ablesen
+        text: Wie viele Meter ist das Fahrrad nach 10 s gekommen?
+        material:
+          - type: figure
+            image: images/wz-fahrrad.svg
+            alt: Ein Weg-Zeit-Diagramm. Die Zeit läuft von 0 bis 30 s, der Weg von 0 bis 100 m. Die Linie steigt von 0 m bei 0 s bis 30 m bei 10 s, verläuft dann waagerecht bis 20 s und steigt danach bis 90 m bei 30 s.
+            caption: Die Fahrt eines Fahrrads. Lies den Weg bei 10 s ab.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: 30
+        tolerance: 0
+        unit: m
+        hint: Gehe auf der waagerechten Achse bis 10 s und dann senkrecht nach oben zur Linie.
+        mistakes:
+          - { answer: 10, message: "Das ist die Zeit, nicht der Weg. Der Weg steht auf der senkrechten Achse." }
+        explanation: Bei 10 s liegt die Linie auf der Höhe von 30 m. Das Fahrrad ist dann 30 m gekommen.
+        links:
+          - title: Weg-Zeit-Diagramm (Wikipedia)
+            url: https://de.wikipedia.org/wiki/Weg-Zeit-Diagramm_(Mechanik)
+      - type: single-choice
+        id: wz-stillstand
+        text: Was macht das Fahrrad zwischen 10 s und 20 s?
+        material:
+          - type: figure
+            image: images/wz-fahrrad.svg
+            alt: Ein Weg-Zeit-Diagramm. Die Linie steigt bis 30 m bei 10 s, verläuft dann waagerecht bis 20 s und steigt danach bis 90 m bei 30 s.
+            caption: Dasselbe Diagramm. Achte auf den Abschnitt von 10 s bis 20 s.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        options:
+          - text: Es steht still.
+            correct: true
+            info: Der Weg bleibt bei 30 m. Das Fahrrad kommt in dieser Zeit nicht weiter.
+          - text: Es fährt sehr langsam.
+            correct: false
+            info: Ein sehr langsames Fahrrad kommt noch voran, nur langsam. Seine Linie würde flach steigen und nicht waagerecht verlaufen.
+          - text: Es fährt bergab.
+            correct: false
+            info: Das Diagramm zeigt keine Strecke mit Bergen, sondern den Weg über der Zeit. Ob die Straße eben ist, steht nicht darin.
+          - text: Es fährt zurück zum Start.
+            correct: false
+            info: Dann würde der Weg kleiner. Die Linie bleibt aber auf 30 m.
+        explanation: Eine waagerechte Linie heißt, dass der Weg gleich bleibt. Das Fahrrad steht.
+        links:
+          - title: Bewegungsdiagramme (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: true-false
+        id: wz-steil
+        text: In den ersten 10 s fährt das Fahrrad schneller als in den letzten 10 s.
+        material:
+          - type: figure
+            image: images/wz-fahrrad.svg
+            alt: Ein Weg-Zeit-Diagramm. Die Linie steigt in den ersten 10 s von 0 m auf 30 m, verläuft dann bis 20 s waagerecht und steigt in den letzten 10 s von 30 m auf 90 m.
+            caption: Dasselbe Diagramm. Vergleiche, wie steil die Linie am Anfang und am Ende nach oben geht.
+            source: eigene Zeichnung
+            licence: CC-BY-4.0
+        answer: false
+        explanation: Am Anfang kommt das Fahrrad in 10 s nur 30 m weit, am Ende in 10 s sogar 60 m weit. Die Linie geht am Ende steiler nach oben, also fährt das Fahrrad dort schneller, nämlich 6 m/s statt 3 m/s.
+        links:
+          - title: Bewegungsdiagramme (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/bewegungsdiagramme/
+      - type: generated
+        id: wz-geschwindigkeit
+        given:
+          s: { int: [20, 200], step: 5 }
+          t: { oneOf: [5, 10, 20, 25] }
+        where: ["decimals(s / t) == 0", "s / t >= 2", "s / t <= 8"]
+        task:
+          text: "Ein Fahrrad fährt gleichmäßig. Im Weg-Zeit-Diagramm steigt seine Linie in {{t}} s um {{s}} m an, das Fahrrad kommt also {{s}} m weit. Wie groß ist die Geschwindigkeit in m/s?"
+        answer: { value: "s / t", compare: { number: { format: integer, unit: "m/s" } } }
+        mistakes:
+          - {
+              value: "t / s",
+              message: "Du hast die Zeit durch den Weg geteilt. Die Geschwindigkeit ist Weg durch Zeit.",
+            }
+        hint: "Wie viele Meter sind es in einer Sekunde? Teile den Weg {{s}} m durch die Zeit {{t}} s."
+        steps:
+          - '$v = \frac{s}{t}$'
+          - '$v = \frac{{{s}}\,\text{m}}{{{t}}\,\text{s}} = {{answer}}\,\frac{\text{m}}{\text{s}}$'

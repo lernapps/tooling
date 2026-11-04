@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=../../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
+title: Die Richtung ändern
+description: "Auch bei gleichem Tacho ändert sich eine Bewegung, wenn sich die Richtung ändert."
+competencies: [geschwindigkeitsaenderung]
+blocks:
+  - type: section
+    id: einstieg
+    title: Was du schon weißt
+    blocks:
+      - type: text
+        text: |
+          Du weißt jetzt: Wird das Fahrrad schneller (die [Geschwindigkeit](https://lernapps.net/apps/map/physik/c/geschwindigkeit/) wird größer), beschleunigt es. Wird es langsamer, bremst es ab. Nun fährst du auf
+          einem runden Radweg und lässt den Tacho die ganze Zeit auf 15 km/h stehen. Ändert sich deine Bewegung dann
+          nicht?
+  - type: section
+    id: erklaerung
+    title: Anschaulich erklärt
+    blocks:
+      - type: figure
+        image: images/kurve.svg
+        alt: Ein runder Radweg von oben. Vier Fahrräder fahren darauf im Uhrzeigersinn, jedes mit 15 km/h. Die Pfeile zeigen rechts nach unten, unten nach links, links nach oben und oben nach rechts.
+        caption: Alle vier Fahrräder fahren mit 15 km/h. Achte auf die Richtung der Pfeile.
+        source: eigene Zeichnung
+        licence: CC-BY-4.0
+      - type: text
+        text: |
+          Eine Bewegung hat zwei Eigenschaften: **wie schnell** (das zeigt der Tacho) und **in welche Richtung**. Auf
+          dem runden Weg bleibt der Tacho gleich, aber die Pfeile zeigen jedes Mal woandershin. Die Richtung ändert sich,
+          also ändert sich die Bewegung.
+      - type: table
+        caption: Was sich ändert
+        header: ["Situation", "Was sich ändert"]
+        rows:
+          - ["Geradeaus mit 15 km/h", "nichts"]
+          - ["Kurve mit 15 km/h", "die Richtung"]
+          - ["Anfahren geradeaus", "die Geschwindigkeit wird größer"]
+          - ["Bremsen in der Kurve", "die Geschwindigkeit wird kleiner und die Richtung ändert sich"]
+      - type: note
+        title: Merke
+        blocks:
+          - type: text
+            text: Die Bewegung ändert sich, wenn die Geschwindigkeit größer oder kleiner wird oder wenn sich die Richtung ändert.
+  - type: section
+    id: uebung
+    title: Übung
+    blocks:
+      - type: single-choice
+        id: ra-kreisverkehr
+        text: Ein Auto fährt mit gleichbleibend 50 km/h durch einen Kreisverkehr. Ändert sich seine Bewegung?
+        options:
+          - text: Ja, die Richtung ändert sich.
+            correct: true
+            info: Der Tacho bleibt bei 50 km/h, aber das Auto fährt im Kreis. Seine Fahrtrichtung ändert sich dauernd.
+          - text: Nein, der Tacho zeigt immer 50 km/h.
+            correct: false
+            info: Der Tacho zeigt nur, wie schnell das Auto ist. Die Richtung zeigt er nicht.
+          - text: Nein, nur beim Bremsen ändert sich die Bewegung.
+            correct: false
+            info: Auch eine neue Richtung ist eine Änderung der Bewegung, selbst wenn der Tacho gleich bleibt.
+          - text: Ja, das Auto wird dauernd schneller.
+            correct: false
+            info: Der Tacho bleibt bei 50 km/h, das Auto wird also nicht schneller.
+        explanation: Eine Bewegung ändert sich auch dann, wenn nur die Richtung wechselt.
+        links:
+          - title: Geschwindigkeitsänderung (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
+      - type: multiple-choice
+        id: ra-aenderungen
+        text: Bei welchen Vorgängen ändert sich die Bewegung? Wähle alle richtigen aus.
+        options:
+          - text: Ein Zug fährt aus dem Bahnhof.
+            correct: true
+            info: Der Zug wird schneller, seine Geschwindigkeit wird größer.
+          - text: Ein Fahrrad rollt geradeaus mit gleichbleibend 20 km/h.
+            correct: false
+            info: Weder die Geschwindigkeit noch die Richtung ändert sich.
+          - text: Ein Skater fährt mit gleichem Tempo um eine Kurve.
+            correct: true
+            info: Das Tempo bleibt gleich, aber die Richtung ändert sich.
+          - text: Ein Bus bremst vor der Haltestelle.
+            correct: true
+            info: Der Bus wird langsamer, seine Geschwindigkeit wird kleiner.
+        explanation: Die Bewegung ändert sich, wenn die Geschwindigkeit größer oder kleiner wird oder wenn sich die Richtung ändert.
+        links:
+          - title: Geschwindigkeitsänderung (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
+      - type: matching
+        id: ra-zuordnen
+        text: Ordne jedem Vorgang zu, was sich ändert.
+        pairs:
+          - { left: Ein Zug fährt an., right: Die Geschwindigkeit wird größer. }
+          - { left: Ein Auto bremst vor der Ampel., right: Die Geschwindigkeit wird kleiner. }
+          - { left: Ein Fahrrad fährt mit 15 km/h um eine Kurve., right: Die Richtung ändert sich. }
+          - { left: Ein Fahrrad rollt mit 15 km/h geradeaus., right: Nichts ändert sich. }
+        explanation: Anfahren macht die Geschwindigkeit größer, Bremsen kleiner, eine Kurve ändert die Richtung. Beim gleichmäßigen Geradeausfahren ändert sich nichts.
+        links:
+          - title: Geschwindigkeitsänderung (Lernlandkarte Physik)
+            url: https://lernapps.net/apps/map/physik/c/geschwindigkeitsaenderung/
