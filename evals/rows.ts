@@ -4,19 +4,30 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { trialNumbers } from "./summary.ts";
 
-export const TASKS = ["quiz-fresh", "explainer-fresh", "interactive-fresh"] as const;
+export const TASKS = [
+  "quiz-fresh",
+  "explainer-fresh",
+  "interactive-fresh",
+  "explainer-brueche",
+  "explainer-bewegung",
+] as const;
 export const TASK_LABELS: Record<string, string> = {
   "quiz-fresh": "Quiz",
   "explainer-fresh": "Explainer",
   "interactive-fresh": "Interactive",
+  "explainer-brueche": "Explainer Brüche",
+  "explainer-bewegung": "Explainer Bewegung",
 };
 
 /** A row of the heatmap: a share between 0 and 1 per trial, higher is what the guidance asks for. */
 export interface Row {
   id: string;
   label: string;
-  group: "process" | "transcript";
-  /** The dimension of reward.json or transcript-score.json it is read from (evals/expectations.json). */
+  group: "process" | "transcript" | "learning";
+  /**
+   * The dimension of reward.json, transcript-score.json or learning-score.json it is read from
+   * (evals/expectations.json).
+   */
   source: string;
   /** How the value reads in a tooltip: a mean share, or runs that meet a condition. */
   kind: "share" | "runs";
@@ -185,6 +196,45 @@ ROWS.push(
     kind: "runs",
     value: threshold("t_creator_mistakes", 0),
   },
+);
+
+/** The juror's learning score (0–2 per item, evals/juror.ts) as a share: the level divided by 2. */
+const level = (key: string) => (trial: Trial) => {
+  const value = trial.numbers[key];
+  return value === undefined ? undefined : value / 2;
+};
+ROWS.push(
+  ...(
+    [
+      ["l_mean", "Learning quality, mean of the items", "learning"],
+      ["l_explainer-page-goal", "The page says where it leads", "explainer-page-goal"],
+      ["l_explainer-learner-start", "Starts where learners stand", "explainer-learner-start"],
+      [
+        "l_explainer-representation-explained",
+        "Figures and models say what they mean",
+        "explainer-representation-explained",
+      ],
+      ["l_explainer-control-purpose", "Every control has a purpose", "explainer-control-purpose"],
+      ["l_explainer-text-figure-agree", "Text, figure and task agree", "explainer-text-figure-agree"],
+      ["l_explainer-one-step", "One new step per page", "explainer-one-step"],
+      ["l_explainer-figure-hides-answer", "The task's figure hides the answer", "explainer-figure-hides-answer"],
+      [
+        "l_explainer-exercise-progression",
+        "Exercises go from recognising to applying",
+        "explainer-exercise-progression",
+      ],
+      ["l_explainer-steps-explain", "Solution steps explain", "explainer-steps-explain"],
+      ["l_explainer-honest-headings", "Headings say what the section does", "explainer-honest-headings"],
+      ["l_explainer-age-appropriate", "Address fits the age", "explainer-age-appropriate"],
+    ] as const
+  ).map(([key, label, source]): Row => ({
+    id: key,
+    label,
+    group: "learning",
+    source,
+    kind: "share",
+    value: level(key),
+  })),
 );
 
 /** The numbers with min, mean and max per cell beside the heatmap. */
