@@ -13,7 +13,19 @@ import { dirname, join, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
 import { PLANS } from "../src/plan.ts";
-import { CreateError, fromPackage, ownVersion, readJson, TOOLING, WORK_BRANCH, writeJson } from "./create.ts";
+import {
+  CreateError,
+  fromPackage,
+  ownVersion,
+  readJson,
+  TOOLING,
+  WORK_BRANCH,
+  writeJson,
+  writeProcessGuidance,
+} from "./create.ts";
+
+/** What may be in the folder before init: git, and what the fallback without npx of llms.txt copied there. */
+const FALLBACK_FILES = [".git", ".vibe", ".agents", "AGENTS.md", "CLAUDE.md"];
 
 /** The options of `lernapps init`, as node:util parseArgs takes them. */
 export const INIT_OPTIONS = {
@@ -200,7 +212,8 @@ export function init(args: string[]): number {
   }
   const name = positionals[0] ?? "plan";
   const dir = resolve(".");
-  const present = readdirSync(dir).filter((entry) => entry !== ".git");
+  // the files of the fallback without npx (site/llms.txt) may be there: the plan, AGENTS.md, CLAUDE.md, the skills
+  const present = readdirSync(dir).filter((entry) => !FALLBACK_FILES.includes(entry));
   if (present.length > 0) {
     throw new CreateError(
       `${dir} is not empty (${present.slice(0, 5).join(", ")}${present.length > 5 ? ", ..." : ""}): start in a new, empty folder`,
@@ -231,14 +244,17 @@ export function init(args: string[]): number {
   }
   const target = join(dir, PLANS, `01-${name}.md`);
   mkdirSync(dirname(target), { recursive: true });
-  writeFileSync(target, readFileSync(template));
+  // a plan begun in the fallback stays: it holds the creator's answers
+  const kept = existsSync(target);
+  if (!kept) writeFileSync(target, readFileSync(template));
   syncSkills(
     dir,
     archetypeSkills().map((skill) => skill.name),
   );
+  writeProcessGuidance(dir);
   if (repository.warning !== undefined) process.stderr.write(`lernapps init: warning: ${repository.warning}\n`);
   process.stdout.write(
-    `lernapps init: ${relative(dir, target)} from ${relativeTemplate(template, dir)}; the skills of the packages are installed${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read ${relative(dir, target)} completely and follow it\n`,
+    `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md and ${relative(dir, target)} completely and follow the plan, in this folder\n`,
   );
   return 0;
 }

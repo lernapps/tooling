@@ -140,7 +140,7 @@ questions. -->
       is no longer in view). Write "Content method".
 - [ ] Write the Code tasks under "Code": pages or screens, their content, what each shows. Each ends in a commit:
       one task, one commit. Steps too small for a commit of their own → one task.
-      After the first task that shows real content: the task "Show the creator a first look (`early-preview`)".
+      The first task: one complete page or screen as the pattern for the others (`early-preview`).
 - [ ] Each screen, component or interactive exercise: a sketch (static SVG or image, or the steps with what
       learners see after each). Words alone are not enough. Keep sketch files in `.vibe/sketches/`, which `create` leaves alone.
 - [ ] Show the creator, short: goal, competencies by chapter (chapters along the map's `requires`), entry draft, tasks, sketches; the content method in
@@ -152,7 +152,9 @@ questions. -->
 ### Content method
 
 <!-- One line each: exercise patterns and where; figures and how they are made; data files; each component, what it
-checks and cannot; how a later agent adds a chapter. An explainer on the map: per page its prerequisites (`requires`)
+checks and cannot; how a later agent adds a chapter. Each figure, model and component: its learning action in two to
+four sentences: the whole, what its parts and marks mean, what learners do and what stays the same, how that leads to
+the statement (an explainer: rule `explainer-representation-explained`). A control without a part in it goes. An explainer on the map: per page its prerequisites (`requires`)
 the app does not practise, and which get a recap page, which a link. Becomes the content guide in Code. -->
 
 ### Completed
@@ -186,12 +188,16 @@ the app does not practise, and which get a recap page, which a link. Becomes the
 - [ ] An explainer: decide on `scope` as `references/structure.md` of skill `lernapps-explainer` says. Needed with an
       `open-task` or the creator's material: then `scope` in `src/app.yaml` and on every page
       (`explainer-scope-matches`). Write the choice under "Key decisions".
-- [ ] <the tasks written in Plan; after each, commit on `work`; after the first with real content, show the
-      creator a first look (`early-preview`) and go on>
+- [ ] <the first task written in Plan, the pattern page; commit on `work`>
+- [ ] **Checkpoint:** the pattern page (`early-preview`): check it against the design rules, let a sub-agent check
+      it as a learner, show it to the creator, wait for the answer. A change → change the pattern first.
+- [ ] <the other tasks written in Plan, after the pattern; after each, commit on `work`>
 - [ ] The content guide matches what was built (`app-content-matches`).
 - [ ] `npx --no -- lernapps check` passes.
 - [ ] Look at a screenshot of every screen and state (start, each mode, pause, end), desktop and 360 px. Compare
       each with the confirmed sketches; each figure in its own image (`npx --no -- lernapps screenshots --desktop`).
+      Your tools cannot show an image: check each screen in the browser instead (text, element boxes at both widths),
+      write that under "Notes" and tick the box.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
       No checkpoint here: set it before you ask or report anything, then start Commit in the same message.

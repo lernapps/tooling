@@ -77,13 +77,16 @@ describe("the plan's sections", () => {
     expect(retrospective).toEqual(expect.arrayContaining(RETROSPECTIVE_SECTIONS));
   });
 
-  test.each(TEMPLATES)("%s marks the creator's checkpoints: research, confirm the plan, publish, list", (template) => {
-    const checkpoints = read(template)
-      .split("\n")
-      .filter((line) => line.includes("**Checkpoint:**"));
-    expect(checkpoints).toHaveLength(4);
-    expect(checkpoints.join("\n")).toMatch(/research[\s\S]*confirm[\s\S]*publish[\s\S]*list/i);
-  });
+  test.each(TEMPLATES)(
+    "%s marks the creator's checkpoints: research, confirm the plan, the pattern page, publish, list",
+    (template) => {
+      const checkpoints = read(template)
+        .split("\n")
+        .filter((line) => line.includes("**Checkpoint:**"));
+      expect(checkpoints).toHaveLength(5);
+      expect(checkpoints.join("\n")).toMatch(/research[\s\S]*confirm[\s\S]*pattern page[\s\S]*publish[\s\S]*list/i);
+    },
+  );
 
   test("the first publish starts the workflow the generator writes, also when GitHub starts no run for the push", () => {
     // pages.yml has no paths filter (its actions skip a push of only .vibe/), but a push that creates main from
@@ -138,7 +141,11 @@ describe("the plan's sections", () => {
 
 describe("AGENTS.md", () => {
   test("stays short: it is loaded in every turn", () => {
-    expect(read(AGENTS).split(/\s+/).length).toBeLessThanOrEqual(350);
+    // the part written by hand; the table of the process rules (scripts/agents-md.ts) is as long as the rules are
+    const agents = read(AGENTS);
+    const handWritten = agents.replace(/<!-- process rules:[\s\S]*<!-- end of the process rules -->/, "");
+    expect(handWritten).not.toBe(agents);
+    expect(handWritten.split(/\s+/).length).toBeLessThanOrEqual(350);
   });
 
   test("leaves the branch to push to the current plan: each template names its own", () => {
@@ -276,4 +283,34 @@ describe("the skills", () => {
     expect(skill).toContain("https://lernapps.net/apps/enter/llms.txt");
     for (const field of ["grades", "thirdParty", "keywords", "topics"]) expect(skill).not.toContain(field);
   });
+});
+
+test("AGENTS.md holds every process rule of workflow-rules.md, as the table scripts/agents-md.ts writes", async () => {
+  const { processRules, withTable } = await import("../scripts/agents-md.ts");
+  const agents = read(AGENTS);
+  expect(withTable(agents)).toBe(agents);
+  const rules = processRules();
+  expect(rules.length).toBeGreaterThan(5);
+  for (const rule of rules) expect(agents).toContain(`| \`${rule.id}\` |`);
+});
+
+test("llms.txt checks the entry criteria, has a fallback without npx and ends with AGENTS.md", async () => {
+  const { llms } = await import("../scripts/llms.ts");
+  const text = llms();
+  expect(text).toContain("## Before you start: check the entry criteria");
+  expect(text).toContain("**`npx` may run:**");
+  expect(text).toContain("### Fallback: without `npx`, for Explore and Plan");
+  // AGENTS.md at the end, its headings one level down, with every process rule
+  const agents = text.slice(text.indexOf("## AGENTS.md"));
+  expect(agents).toContain("### Process rules");
+  expect(agents).toContain("| `early-preview` |");
+  // the files the fallback copies exist in this repository
+  for (const path of [
+    "guidance/plan-template.md",
+    "guidance/AGENTS.md",
+    "skills/process",
+    "skills/content",
+    "skills/tooling",
+  ])
+    expect(existsSync(join(repoRoot, path)), path).toBe(true);
 });

@@ -45,7 +45,7 @@ export const CREATE_OPTIONS = {
 export const CREATE_USAGE = `Usage: lernapps create --archetype <name> [<dir>] [--plan <file>] [--templates <repo>] [--tooling <spec>]
 
 Writes a new app from the archetype's template into <dir> (default: the current folder), which must be empty
-except for .git, the first version's plan .vibe/plans/01-<short name>.md and the skills that
+except for .git, the first version's plan .vibe/plans/01-<short name>.md, AGENTS.md and CLAUDE.md, and the skills that
 lernapps init synced (.agents/skills/, .claude/skills/, skills-lock.json, and the package.json, package-lock.json and
 node_modules init wrote). From the installed package @lernapps/app-templates, the version @lernapps/tooling depends
 on, it writes the archetype's scaffold: the files of the template folder <name>/ that the package's lernapps.scaffold
@@ -203,6 +203,8 @@ function contents(dir: string): string[] {
     if (name === ".git" || (name === SKILLS_LOCK && skills.size > 0)) return [];
     // what `lernapps init` wrote: the installed packages, their lock, and a package.json it marked
     if (name === "node_modules" || name === "package-lock.json") return [];
+    // the process guidance init wrote; create writes it again
+    if (name === "AGENTS.md" || name === "CLAUDE.md") return [];
     if (name === "package.json" && readJson(join(dir, name)).lernapps?.init === true) return [];
     if (name === ".vibe") {
       // the planning folder: the plans are checked (a first version has one), what the planning leaves beside them stays
@@ -386,7 +388,17 @@ function writeAppFiles(dir: string, values: Record<string, string>): void {
     const text = readFileSync(file, "utf8").replace(/\{\{(\w+)\}\}/g, (match, key: string) => values[key] ?? match);
     writeFileSync(target, text);
   }
+  writeProcessGuidance(dir);
+}
+
+/**
+ * The process guidance of an app: AGENTS.md (every process rule, guidance/AGENTS.md) and, for Claude Code, which
+ * reads CLAUDE.md and not AGENTS.md, a CLAUDE.md that imports it. Written by lernapps init, so that it is there from
+ * the first session, and again by create; a CLAUDE.md the creator wrote stays.
+ */
+export function writeProcessGuidance(dir: string): void {
   writeFileSync(join(dir, "AGENTS.md"), readFileSync(fromPackage("guidance", "AGENTS.md")));
+  if (!existsSync(join(dir, "CLAUDE.md"))) writeFileSync(join(dir, "CLAUDE.md"), "@AGENTS.md\n");
 }
 
 /** The app's content guide, an app-local skill: written as a skeleton, filled in by the assistant. */
@@ -446,7 +458,7 @@ export function create(args: string[]): number {
   const found = contents(dir);
   if (found.length > 0) {
     throw new CreateError(
-      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, .vibe/ (the first version's plan .vibe/plans/01-<short name>.md, and its sketches) and what lernapps init wrote (its skills, package.json, package-lock.json and node_modules) may be there`,
+      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, .vibe/ (the first version's plan .vibe/plans/01-<short name>.md, and its sketches) and what lernapps init wrote (AGENTS.md, CLAUDE.md, its skills, package.json, package-lock.json and node_modules) may be there`,
     );
   }
   const plan = confirmedPlan(dir, archetype, values.plan);
