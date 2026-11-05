@@ -108,9 +108,13 @@ describe("the plan's sections", () => {
     // the first push sets the default branch; Pages from gh-pages from the start lets the first publish deploy
     const setup = read("skills/process/lernapps-github/SKILL.md");
     const at = (text: string) => setup.indexOf(text);
-    expect(at("git switch --orphan main")).toBeGreaterThan(0);
-    expect(at("git switch --orphan gh-pages")).toBeGreaterThan(at("git push -u origin main"));
-    expect(at("git rebase --root --onto main")).toBeGreaterThan(at("git push -u origin gh-pages"));
+    // no `git switch --orphan`: it empties the folder, and the app's pre-push hook then finds no package
+    expect(setup).not.toMatch(/git switch --orphan (main|gh-pages)/);
+    const empty = "git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904";
+    expect(at(`${empty} -m 'chore: start')":refs/heads/main`)).toBeGreaterThan(0);
+    expect(at(`${empty} -m 'chore: gh-pages')":refs/heads/gh-pages`)).toBeGreaterThan(at("refs/heads/main"));
+    expect(at("git rebase --root --onto origin/main")).toBeGreaterThan(at("refs/heads/gh-pages"));
+    expect(at("git fetch origin main")).toBeLessThan(at("git rebase --root --onto origin/main"));
     expect(at("git push -u origin <branch>")).toBeGreaterThan(at("-f build_type=legacy"));
     expect(setup).toContain("pages-from-gh-pages");
     expect(setup).toContain("https://lernapps.net/tooling/github/");

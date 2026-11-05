@@ -25,11 +25,13 @@ license: MIT
 2. No repo on GitHub: `gh api user/repos -f name=<repo>`. Refused → the creator creates an empty public repo and
    gives you its address.
 3. `git remote add origin <address>`.
-4. No `main` on the remote: `git switch --orphan main`, `git commit --allow-empty -m "chore: start"`,
-   `git push -u origin main`.
-5. No `gh-pages`: `git switch --orphan gh-pages`, `git commit --allow-empty -m "chore: gh-pages"`,
-   `git push -u origin gh-pages`.
-6. `git switch work`; it has its own root: `git rebase --root --onto main`.
+4. No `main` on the remote: push an empty start commit without leaving the app's folder (`git switch --orphan`
+   empties the folder, and the pre-push hook then finds no package):
+   `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: start')":refs/heads/main`.
+   (`4b825dc…` is git's empty tree.)
+5. No `gh-pages`: the same, with its own message:
+   `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages`.
+6. You are on `work`; it has its own root: `git fetch origin main`, then `git rebase --root --onto origin/main`.
 7. Pages from `gh-pages`, root (`pages-from-gh-pages`):
    `gh api -X POST repos/<owner>/<repo>/pages -f build_type=legacy -f "source[branch]=gh-pages" -f "source[path]=/"`.
    Verify: `gh api repos/<owner>/<repo>/pages --jq '.build_type, .source.branch, .source.path'` prints `legacy`,
@@ -86,7 +88,9 @@ license: MIT
 
 - The creator merged the pull request themselves → no second merge: check the `Pages` run of that commit and confirm
   the address.
-- Never `git commit-tree` or `--no-verify` to get past a hook; an empty start commit passes the hook as it is.
+- Never `--no-verify`, and never switch to an empty branch (`git switch --orphan`) to push: the hook checks the app, so
+  push from the app's folder. The empty start commits of section 1 are made with `git commit-tree` for exactly that
+  reason; the hook still runs.
 
 ## `pages-from-gh-pages`: Publish from `gh-pages`, served from its root
 
