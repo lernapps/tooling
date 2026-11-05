@@ -75,6 +75,12 @@
   `where: ["events[0].date != events[1].date"]`, `answer: { value: "map(sortBy(events, date), title)", compare: order }`,
   mistake `map(reverse(sortBy(events, date)), title)`.
 
+### Steps with every number
+
+- A step can name only drawn values, not one computed from them. For steps that show each number (rule
+  `explainer-steps-explain`), draw a record that holds them all from a data file (`pick: 1` from `{ data: … }`), e.g.
+  the given values, the factor and the result, and write `{{e.factor}}` in the step.
+
 ### Property test (200 fixed seeds; first problem with its seed)
 
 - `where` holds in at least 1 of 10 draws.

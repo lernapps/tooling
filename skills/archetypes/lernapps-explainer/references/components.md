@@ -50,6 +50,23 @@
   `ProzentFeld` of the template, in `node_modules/@lernapps/app-templates/explainer/src/components/`.
 - More: rule `vue-component-exercise-contract`.
 
+## Look and layout
+
+- The page's look comes from the explainer's variables; a component uses only them, never own colours for surfaces
+  and text and never a fallback like `#fff`: `--page-text`, `--page-muted`, `--page-background`, `--page-surface`,
+  `--page-border`, `--page-accent` and `--page-on-accent` (a control's colour and its text), `--page-right` and
+  `--page-right-background`, `--page-wrong` and `--page-wrong-background`. They switch with the dark mode by themselves.
+- Colours of the subject (two factors, a selected part) are the component's own: each with a text colour of enough
+  contrast in light and dark, and a second mark besides the colour (a pattern, a label).
+- The explainer's classes are not a layout kit: `.question-actions` and the classes of the explainer's forms mark
+  behaviour the explainer and its tests rely on. Give the component its own classes: spacing of `0.5rem` between
+  controls of a group, a wrapping row (`display: flex; flex-wrap: wrap; gap: 0.5rem`), a label above or beside its
+  field with space between them, a reset on a row of its own.
+- Each field is inside its `<label>` or named by one; each control works with the keyboard; a tap target is at least
+  44 px high.
+- The start state is part of the teaching: it shows first what stays the same (all pieces still there), the next
+  action changes it (rule `explainer-control-purpose`).
+
 ## Rendering
 
 - Server-rendered into the page, hidden until hydrated. First render identical on server and browser:
