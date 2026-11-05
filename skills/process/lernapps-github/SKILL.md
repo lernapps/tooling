@@ -26,16 +26,17 @@ license: MIT
    gives you its address.
 3. `git remote add origin <address>`.
 4. No `main` on the remote: push an empty start commit without leaving the app's folder (`git switch --orphan`
-   empties the folder, and the pre-push hook then finds no package). `4b825dc…` is git's empty tree.
+   empties the folder, and the pre-push hook then finds no package). `git hash-object -t tree /dev/null` prints
+   git's empty tree.
 
    ```sh
-   git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: start')":refs/heads/main
+   git push origin "$(git commit-tree "$(git hash-object -t tree /dev/null)" -m 'chore: start')":refs/heads/main
    ```
 
 5. No `gh-pages`: the same, with its own message.
 
    ```sh
-   git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages
+   git push origin "$(git commit-tree "$(git hash-object -t tree /dev/null)" -m 'chore: gh-pages')":refs/heads/gh-pages
    ```
 
 6. You are on `work`; it has its own root, so move it onto `main`.
