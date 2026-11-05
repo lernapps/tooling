@@ -3,7 +3,7 @@
 //   - the review and the evals read the retrospective; its sections are in every plan started from the template;
 //   - the generator copies AGENTS.md and the template; what AGENTS.md points to exists in the package.
 // How an assistant behaves with these files is checked by hand (the evals), not here.
-import { existsSync, mkdtempSync, readdirSync, readFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, relative } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
@@ -104,13 +104,50 @@ describe("the plan's sections", () => {
     expect(github).toContain("gh workflow run Pages --ref main");
   });
 
-  test("the GitHub skill creates main, gh-pages and the Pages source before work is pushed, in Commit", () => {
-    // the first push sets the default branch; Pages from gh-pages from the start lets the first publish deploy
+  test("the GitHub skill's start steps push main and gh-pages through the app's pre-push hook and leave work on main", () => {
+    // the goal: the first push of the app works, with the hook checking the app. Run the commands of steps 4 to 6
+    // in an app whose hook rejects a push from a folder without the app (what `git switch --orphan` leaves).
     const setup = read("skills/process/lernapps-github/SKILL.md");
+    const steps = setup.slice(setup.indexOf("\n4. "), setup.indexOf("\n7. "));
+    const script = [...steps.matchAll(/```sh\n([\s\S]*?)```/g)].map((m) => m[1]).join("");
+    expect(script).not.toBe("");
+
+    const dir = mkdtempSync(join(tmpdir(), "start-steps-"));
+    const app = join(dir, "app");
+    const origin = join(dir, "origin.git");
+    const env = {
+      GIT_AUTHOR_NAME: "t",
+      GIT_AUTHOR_EMAIL: "t@example.org",
+      GIT_COMMITTER_NAME: "t",
+      GIT_COMMITTER_EMAIL: "t@example.org",
+    };
+    const git = (cwd: string, ...args: string[]) => run("git", args, cwd, env);
+    mkdirSync(app);
+    expect(git(dir, "init", "--bare", "-q", origin).code).toBe(0);
+    expect(git(app, "init", "-q", "-b", "work").code).toBe(0);
+    writeFileSync(join(app, "package.json"), "{}\n");
+    writeFileSync(join(app, "index.html"), "<!doctype html>\n");
+    git(app, "add", "-A");
+    expect(git(app, "commit", "-q", "-m", "feat: first version").code).toBe(0);
+    git(app, "remote", "add", "origin", origin);
+    const hook = join(app, ".git", "hooks", "pre-push");
+    writeFileSync(hook, '#!/bin/sh\n[ -f package.json ] || { echo "no app package here" >&2; exit 1; }\n');
+    chmodSync(hook, 0o755);
+
+    const result = run("sh", ["-ec", script], app, env);
+    expect(result.stderr).not.toContain("no app package here");
+    expect(result.code, result.stderr).toBe(0);
+    // both branches are on the remote, and the app is still there
+    const heads = git(app, "ls-remote", "--heads", "origin").stdout;
+    expect(heads).toContain("refs/heads/main");
+    expect(heads).toContain("refs/heads/gh-pages");
+    expect(existsSync(join(app, "package.json"))).toBe(true);
+    // work sits on main: main is an ancestor, and the first version is its only commit on top
+    expect(git(app, "merge-base", "--is-ancestor", "origin/main", "work").code).toBe(0);
+    expect(git(app, "rev-list", "--count", "origin/main..work").stdout.trim()).toBe("1");
+    expect(git(app, "branch", "--show-current").stdout.trim()).toBe("work");
+
     const at = (text: string) => setup.indexOf(text);
-    expect(at("git switch --orphan main")).toBeGreaterThan(0);
-    expect(at("git switch --orphan gh-pages")).toBeGreaterThan(at("git push -u origin main"));
-    expect(at("git rebase --root --onto main")).toBeGreaterThan(at("git push -u origin gh-pages"));
     expect(at("git push -u origin <branch>")).toBeGreaterThan(at("-f build_type=legacy"));
     expect(setup).toContain("pages-from-gh-pages");
     expect(setup).toContain("https://lernapps.net/tooling/github/");
