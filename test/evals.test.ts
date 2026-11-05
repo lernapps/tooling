@@ -19,7 +19,7 @@ import {
 } from "../evals/score-transcript.ts";
 import { skillsByPhase } from "../evals/skills-by-phase.ts";
 import { elements } from "../scripts/workshop.ts";
-import { results } from "../evals/results.ts";
+import { exclusionOf, results } from "../evals/results.ts";
 import { modelLabel } from "../evals/rows.ts";
 import { problems, render, runs } from "../evals/site.ts";
 import { summarise } from "../evals/summary.ts";
@@ -1134,4 +1134,15 @@ test("what the guidance links counts as guidance: any branch, placeholders, a sh
   const readme = "https://raw.githubusercontent.com/lernapps/app-templates/main/quiz/README.md";
   expect(scoreTurns(read(readme)).dimensions["reads_outside_guidance"]).toBe(1);
   expect(scoreTurns(read(readme), undefined, links).dimensions["reads_outside_guidance"]).toBe(0);
+});
+
+test("a trial whose provider refused the model for want of a subscription is no result", () => {
+  const dir = join(mkdtempSync(join(tmpdir(), "results-")), "t");
+  mkdirSync(join(dir, "agent"), { recursive: true });
+  writeFileSync(join(dir, "result.json"), JSON.stringify({ agent_execution: { started_at: "2026-11-04T05:51:00Z" } }));
+  writeFileSync(
+    join(dir, "agent", "opencode.log"),
+    "Error: An active OpenCode Go subscription is required to use Go models.\n",
+  );
+  expect(exclusionOf(dir)).toBe("the provider refused the model: no active subscription");
 });

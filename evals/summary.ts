@@ -45,7 +45,10 @@ interface HarborResult {
   agent_execution?: { started_at?: string | null; finished_at?: string | null } | null;
 }
 
-/** The numbers of one trial: verifier dimensions, transcript dimensions (prefix `t_`), tokens and agent minutes. */
+/**
+ * The numbers of one trial: verifier dimensions, transcript dimensions (prefix `t_`), the juror's learning score (prefix
+ * `l_`), tokens and agent minutes.
+ */
 export function trialNumbers(trial: string): Record<string, number> {
   const numbers: Record<string, number> = {};
   for (const [key, value] of Object.entries(
@@ -55,6 +58,14 @@ export function trialNumbers(trial: string): Record<string, number> {
   }
   const transcript = readJson<{ dimensions?: Record<string, number> }>(join(trial, "transcript-score.json"));
   for (const [key, value] of Object.entries(transcript?.dimensions ?? {})) numbers[`t_${key}`] = value;
+  // The juror's score (evals/harbor/judge.sh, evals/juror.ts): prefix `l_`, the mean across items and per item.
+  const learning = readJson<{ mean?: number | null; zeros?: number; items?: Record<string, { mean: number | null }> }>(
+    join(trial, "learning-score.json"),
+  );
+  if (typeof learning?.mean === "number") numbers["l_mean"] = learning.mean;
+  if (typeof learning?.zeros === "number") numbers["l_zeros"] = learning.zeros;
+  for (const [item, value] of Object.entries(learning?.items ?? {}))
+    if (typeof value.mean === "number") numbers[`l_${item}`] = value.mean;
   const result = readJson<HarborResult>(join(trial, "result.json"));
   const agent = result?.agent_result;
   if (typeof agent?.n_input_tokens === "number") numbers["input_tokens"] = agent.n_input_tokens;

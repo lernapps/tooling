@@ -1,5 +1,5 @@
 {
-  "$comment": "The dimensions of the eval scores and the expectation each one measures (.vibe/development-plan-agentic-app-creation.md, 'Sketch: the evals'). reward.json: the verifier (evals/verifier/verify.ts). transcript-score.json: evals/score-transcript.ts, prefixed t_ in the summary.",
+  "$comment": "The dimensions of the eval scores and the expectation each one measures (.vibe/development-plan-agentic-app-creation.md, 'Sketch: the evals'). reward.json: the verifier (evals/verifier/verify.ts). transcript-score.json: evals/score-transcript.ts, prefixed t_ in the summary. learning-score.json: the juror (evals/juror.ts), prefixed l_.",
   "reward": {
     "plan_exists": ["A4"],
     "plan_front_matter_valid": ["A4"],
@@ -41,5 +41,19 @@
     "created_with_plan_command": ["A3"],
     "no_verify_bypass": ["A22"],
     "pre_push_counter_edits": ["A22"]
+  },
+  "learning": {
+    "learning": ["A36"],
+    "explainer-learner-start": ["A36"],
+    "explainer-representation-explained": ["A36"],
+    "explainer-control-purpose": ["A36"],
+    "explainer-text-figure-agree": ["A36"],
+    "explainer-one-step": ["A36"],
+    "explainer-figure-hides-answer": ["A36"],
+    "explainer-steps-explain": ["A36"],
+    "explainer-age-appropriate": ["A36"],
+    "explainer-honest-headings": ["A36"],
+    "explainer-page-goal": ["A36"],
+    "explainer-exercise-progression": ["A36"]
   }
 }

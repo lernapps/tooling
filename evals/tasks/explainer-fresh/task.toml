@@ -15,6 +15,18 @@ expectations = ["A1", "A2", "A3", "A4", "A6", "A7", "A9", "A11", "A12", "A13", "
 # missing). Content growth is for an increment. The commit and listing skills come after the publish
 # checkpoint, where the scenario ends.
 # The question skill is for questions with options.
+# The learner the juror plays (evals/harbor/judge.sh, evals/juror/prompt.md): grade, subject and the competencies of
+# the learning map the persona asks for. The guidance was never tuned on this task: a control for the juror's tasks.
+juror_grade = "8"
+juror_subject = "physik"
+juror_competencies = [
+  "stromstaerke",
+  "spannung",
+  "stromstaerke-messen",
+  "spannung-messen",
+  "reihenschaltung-groessen",
+  "parallelschaltung-groessen",
+]
 skills_conditional = ["lernapps-content-growth", "lernapps-content-questions", "lernapps-commit", "lernapps-listing"]
 
 [agent]

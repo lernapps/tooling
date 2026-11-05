@@ -1,0 +1,39 @@
+# Labels for the calibration of the juror (evals/juror/calibration.md): the simulated child audit of the app
+# lernapps/bruchrechnung at its stand 791940f (the closest commit in PR #1 is 9cc93f6), quoted from issue
+# lernapps/tooling#257, Anlage 2, table "Alle Lernseiten". Levels: klar = 2, teilweise = 1, unklar = 0.
+# start: the column "Einstieg" (compares with explainer-learner-start); action: "Bedienung / Handlung" (compares
+# with the mean of explainer-representation-explained, explainer-control-purpose and explainer-text-figure-agree).
+# blockers: what the audit lists under "Zuerst verbessern" as text that names a tool or view the page lacks
+# (compares with level 0 of explainer-text-figure-agree).
+source: https://github.com/lernapps/tooling/issues/257
+pages:
+  /anteile/darstellen/: { start: 2, action: 2 }
+  /anteile/zahlenstrahl/: { start: 2, action: 1, blockers: ["Hinweis auf eine Mengenansicht, die es nicht gibt"] }
+  /anteile/gemischte-zahlen/: { start: 1, action: 1, blockers: ["Hinweis auf eine Mengenansicht, die es nicht gibt"] }
+  /teilbarkeit/regeln/: { start: 2, action: 2 }
+  /teilbarkeit/teiler-vielfache/: { start: 1, action: 0 }
+  /umformen/erweitern/: { start: 2, action: 2 }
+  /umformen/kuerzen/: { start: 2, action: 1 }
+  /umformen/vergleichen/: { start: 2, action: 1 }
+  /grundaufgaben/bruchteil/: { start: 2, action: 2, blockers: ["Hinweis auf einen Regler, den es nicht gibt"] }
+  /grundaufgaben/ganzes/: { start: 2, action: 1, blockers: ["Hinweis auf einen Regler, den es nicht gibt"] }
+  /grundaufgaben/anteil/:
+    {
+      start: 2,
+      action: 1,
+      blockers:
+        [
+          "Hinweis auf einen Regler, den es nicht gibt",
+          "Text nennt markierte Plättchen, die Aufgabe zeigt unmarkierte",
+        ],
+    }
+  /rechnen/plus-minus/: { start: 2, action: 1 }
+  /rechnen/multiplizieren/: { start: 1, action: 1 }
+  /rechnen/dividieren/: { start: 2, action: 0 }
+  /rechnen/terme/: { start: 2, action: 1 }
+  /rechnen/gleichungen/:
+    { start: 2, action: 0, blockers: ["„Nutze den Streifen als Kontrolle“, aber es gibt nur eine Tabelle"] }
+  /anwendungen/dezimaldarstellung/: { start: 2, action: 0 }
+  /anwendungen/dezimalrechnen/: { start: 2, action: 1 }
+  /anwendungen/runden/: { start: 2, action: 1 }
+  /anwendungen/sachaufgaben/: { start: 2, action: 1 }

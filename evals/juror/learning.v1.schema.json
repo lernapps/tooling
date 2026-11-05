@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lernapps.net/tooling/schemas/learning.v1.schema.json",
+  "title": "Learning-quality judgment of an explainer, version 1",
+  "description": "What the eval juror (evals/juror/prompt.md of @lernapps/tooling) found on a built explainer: a level per unit of each learning-quality item of review/archetypes/explainer.md, with its evidence. Checked and scored with `node evals/juror.ts <file>`.",
+  "type": "object",
+  "properties": {
+    "url": { "type": "string", "minLength": 1, "description": "Where the judged app ran" },
+    "grade": {
+      "type": "string",
+      "pattern": "^[0-9]{1,2}(-[0-9]{1,2})?$",
+      "description": "The grade or grade band the juror took the learner's role for"
+    },
+    "subject": { "type": "string", "minLength": 1 },
+    "competencies": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "pages": {
+      "description": "Every page judged, as a path below url",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "description": "The rubric item's rule id"
+          },
+          "page": { "type": "string", "minLength": 1, "description": "One of pages" },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "description": "What on the page: the page itself, a figure, a component, an exercise"
+          },
+          "level": { "enum": [0, 1, 2], "description": "0 stuck or misled, 1 with a detour or guess, 2 clear" },
+          "evidence": { "type": "string", "minLength": 1, "description": "What was read, quoted, and seen" },
+          "did": { "type": "string", "description": "What the juror did in the browser" }
+        },
+        "required": ["item", "page", "unit", "level", "evidence"],
+        "additionalProperties": false
+      }
+    },
+    "notes": { "type": "string" },
+    "at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+  },
+  "required": ["url", "grade", "pages", "units"],
+  "additionalProperties": false
+}

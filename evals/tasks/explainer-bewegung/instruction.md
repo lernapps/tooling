@@ -1,0 +1,1 @@
+Bau mit mir eine Lern-App für lernapps.net. Lies zuerst https://lernapps.net/tooling/llms.txt und folge dem Schnellweg. Frag mich, was die App lehren soll, und schreib mit mir den Plan. Erst wenn ich den Plan bestätigt habe, leg die App so an: npx --yes github:lernapps/tooling#main create --archetype <archetype>

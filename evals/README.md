@@ -120,6 +120,28 @@ has, and code, quotes, tables and text in quotation marks (a sample question of 
 2026-10-22 they counted every sentence ending in "?" in the turn's text; `question_marks_per_turn_max` keeps that
 count, to compare with the runs scored before.
 
+## The juror: learning quality
+
+The verifier and the transcript score measure the process. Whether learners can follow the app is judged by the
+juror: `evals/harbor/judge.sh <job>…` builds the app of each trial, serves it and lets a fresh Claude Code
+(`JUROR_MODEL`, default Sonnet) use it as a learner of the task's grade (`juror_grade`, `juror_subject`,
+`juror_competencies` in `task.toml`), following `evals/juror/prompt.md`. It rates every unit of the learning-quality
+items of `review/archetypes/explainer.md` 0, 1 or 2, with evidence, in `<trial>/juror/learning.yaml`
+(`evals/juror/learning.v1.schema.json`); `evals/juror.ts` checks the file and writes `<trial>/learning-score.json`.
+The rows "Learning quality" of results.json show the level as a share. The juror sees no plan, retrospective or
+history. Read its evidence, not only the levels: it is a model's judgment, calibrated in
+`evals/juror/calibration.md`.
+
+## Testing a branch of the guidance
+
+`GUIDANCE_REF=<branch or commit> evals/harbor/run.sh …` tests guidance that is not published yet: `run.sh` packs that
+commit (`npm ci`, `npm pack`), copies the task to `$LERNAPPS_EVALS_HOME/tasks/<task>__g<commit>`, adds the package and
+its `llms.txt` to the image under `/opt/lernapps/` and replaces the build prompt with
+`evals/harbor/branch-instruction.md`, which sends the agent there and to the package instead of `@lernapps/tooling`.
+`configuration.json` names the ref (`guidanceRef`) and the commit. `npx github:lernapps/tooling#<commit>` is no way
+around it: npm cannot run a package from git that needs its `prepare` script ("GitFetcher requires an Arborist
+constructor").
+
 ## Running
 
 ```sh
@@ -128,6 +150,7 @@ EVALS_ANTHROPIC_API_KEY=… evals/harbor/run.sh quiz-fresh anthropic/<model> [tr
 EVALS_ANTHROPIC_API_KEY=… EVALS_OPENCODE_API_KEY=… HARNESS=opencode \
   evals/harbor/run.sh quiz-fresh opencode-go/deepseek-v4.1-flash [trials] [concurrency]
 node evals/summary.ts ~/.lernapps-evals/jobs
+evals/harbor/judge.sh ~/.lernapps-evals/jobs/<job>…   # explainer tasks with a juror_grade
 node evals/results.ts <run> ~/.lernapps-evals/jobs     # then write evals/runs/<run>/conclusions.yaml
 ```
 
