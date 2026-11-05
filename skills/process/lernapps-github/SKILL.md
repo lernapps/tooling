@@ -26,12 +26,25 @@ license: MIT
    gives you its address.
 3. `git remote add origin <address>`.
 4. No `main` on the remote: push an empty start commit without leaving the app's folder (`git switch --orphan`
-   empties the folder, and the pre-push hook then finds no package):
-   `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: start')":refs/heads/main`.
-   (`4b825dc…` is git's empty tree.)
-5. No `gh-pages`: the same, with its own message:
-   `git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages`.
-6. You are on `work`; it has its own root: `git fetch origin main`, then `git rebase --root --onto origin/main`.
+   empties the folder, and the pre-push hook then finds no package). `4b825dc…` is git's empty tree.
+
+   ```sh
+   git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: start')":refs/heads/main
+   ```
+
+5. No `gh-pages`: the same, with its own message.
+
+   ```sh
+   git push origin "$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m 'chore: gh-pages')":refs/heads/gh-pages
+   ```
+
+6. You are on `work`; it has its own root, so move it onto `main`.
+
+   ```sh
+   git fetch origin main
+   git rebase --root --onto origin/main
+   ```
+
 7. Pages from `gh-pages`, root (`pages-from-gh-pages`):
    `gh api -X POST repos/<owner>/<repo>/pages -f build_type=legacy -f "source[branch]=gh-pages" -f "source[path]=/"`.
    Verify: `gh api repos/<owner>/<repo>/pages --jq '.build_type, .source.branch, .source.path'` prints `legacy`,
