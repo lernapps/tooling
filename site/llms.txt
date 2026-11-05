@@ -2,23 +2,41 @@
 
 > Build, check and list learning apps for lernapps.net with an AI assistant. The package @lernapps/tooling is on npm.
 
-## Before you start: can you run commands?
+## Before you start: check the entry criteria
 
-Building needs a shell with Node 22.18 or newer, git and access to npmjs.com (`npm`, `npx`). If you cannot run commands, or
-`npx` cannot reach the npm registry (a chat in the browser, such as chatgpt.com, usually cannot): **stop here and do
-nothing else.** Tell the creator in two sentences that this does not work in this environment and that they should start
-again in one that does, such as the desktop application of their AI assistant, with the same request. Do not build the app by hand
-from this page and do not guess files: without the packages the result does not fit lernapps.net.
+1. **A shell:** you can run commands, with Node 22.18 or newer, git, and `npm` reaching npmjs.com. If not (a chat in
+   the browser, such as chatgpt.com, usually cannot): **stop here and do nothing else.** Tell the creator in two
+   sentences that this does not work in this environment and that they should start again in one that does, such as
+   the desktop application of their AI assistant, with the same request. Do not build the app by hand from this page.
+2. **`npx` may run:** your harness lets you run `npx --yes @lernapps/tooling …` (it runs a package from npm). If its
+   permissions block it (an auto mode that refuses code from the internet), tell the creator in two sentences how to
+   allow it, e.g. in Claude Code a permission rule `Bash(npx --yes @lernapps/tooling:*)`, and wait. Never work around
+   the block. Until it is allowed, start with the fallback below; building the app (Code) needs `npx`.
+3. **An empty folder:** the app is the folder you start in. Work in it, never in a subfolder.
 
 ## Build an app
 
-1. In a new, empty folder run `npx --yes @lernapps/tooling init <short name>`. It writes the plan template, complete
-   and unchanged, as `.vibe/plans/01-<short name>.md` and installs the skills of the phases.
-2. Read the plan in full. Follow it task by task: it names the skills of each phase and holds the creator's
-   checkpoints.
+1. In the empty folder run `npx --yes @lernapps/tooling init <short name>`. It writes the plan template, complete and
+   unchanged, as `.vibe/plans/01-<short name>.md`, `AGENTS.md` (every process rule, also below on this page),
+   `CLAUDE.md` and the skills of the phases.
+2. Read the plan in full. Follow it task by task: it gives the order, names the skills of each phase and holds the
+   creator's checkpoints. The process rules of `AGENTS.md` hold in every phase.
 
 Read guidance from the file, in full. Nothing is downloaded: a fetch tool that summarises loses tasks and rules, and
 `init` copies the files as they are.
+
+### Fallback: without `npx`, for Explore and Plan
+
+When `npx` may not run yet, the same files come from the repository https://github.com/lernapps/tooling:
+
+1. `git clone --depth 1 https://github.com/lernapps/tooling` into a temporary folder, not into the app's folder.
+2. Copy into the app's folder, unchanged: `guidance/plan-template.md` as `.vibe/plans/01-<short name>.md`,
+   `guidance/AGENTS.md` as `AGENTS.md`; write `CLAUDE.md` with the one line `@AGENTS.md`; copy the folders
+   `skills/process/*`, `skills/content/*` and `skills/tooling/*` into `.agents/skills/` (each skill a folder with its
+   `SKILL.md`).
+3. Follow the plan through Explore and Plan. Before Code, `npx` must run: in the same folder, `npx --yes
+   @lernapps/tooling init <short name>` (the same short name) installs the packages and writes the files again; it
+   keeps the plan you filled in. Without the packages there is no app.
 
 ## Change a published app
 
@@ -48,3 +66,5 @@ Look things up here when you need them. Not needed for building.
 - lernapps.net, where to find what: https://lernapps.net/llms.txt
 - Docs: https://lernapps.net/docs/llms.txt
 - Catalog: https://lernapps.net/apps/llms.txt; listing an app: https://lernapps.net/apps/enter/llms.txt
+
+The process rules follow below: `AGENTS.md`, the file `init` writes into every app, as it is in this version.

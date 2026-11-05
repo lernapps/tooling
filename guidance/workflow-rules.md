@@ -35,7 +35,8 @@ scope: tooling
 severity: error
 ```
 
-- Checkpoints: research, confirm the plan and the content method, publish. Stop at each and wait for the answer.
+- Checkpoints: research, confirm the plan and the content method, the pattern page (`early-preview`), publish. Stop at
+  each and wait for the answer.
 - Checkpoint list: open the listing pull request first (it publishes nothing), then show it and its result and wait.
 - A message sent before the checkpoint's question is no yes.
 - Example: "Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?"
@@ -51,7 +52,7 @@ severity: hint
 - After the confirmation, ask only what you cannot decide.
 - Else choose, mark "(guess)" under "Key decisions" and list it in the retrospective.
 
-### `early-preview`: Show a first look early
+### `early-preview`: A pattern page first, with the creator's look
 
 ```rule
 id: early-preview
@@ -59,11 +60,40 @@ scope: tooling
 severity: hint
 ```
 
-- In Code, as soon as the first screen or page shows real content: send the creator a short "Zwischenstand".
-- Show screenshots, desktop and 360 px (`npx --no -- lernapps screenshots --desktop`). On the creator's machine also the
-  address of `npm run dev`, started in the background.
-- No checkpoint, no question: go on in the same message. The creator may stop you or ask for a change.
-- Example: "Zwischenstand: So sieht die erste Seite aus. Ich baue weiter; sag Bescheid, wenn etwas nicht passt."
+- In Code, build one complete page or screen first: the pattern for the others. An explainer: entry, figure or
+  model, how learners use it, example, exercise.
+- Before you show it, check it: against the rules of skill `lernapps-<archetype>-design` (an explainer: the five
+  questions of `explainer-representation-explained` for each figure and model), and let a sub-agent use it in the
+  browser as a learner of the app's grade (`@lernapps/tooling/guidance/subagent-brief.md`, "Learner check"). The app
+  must run for it: start `npm run dev` as a background task of your harness (a process started with `nohup … &` in a
+  shell that ends dies with it), and check that its address answers before the sub-agent starts. Run the
+  sub-agent in the foreground and wait for its report in the same turn; no turn ends while it runs. No sub-agent
+  tool: do the learner check yourself, in the browser, with the same brief. Fix what they find.
+- Look at the screenshots yourself, each image (`npx --no -- lernapps screenshots --desktop`, desktop and 360 px):
+  what you have not seen you cannot show. Your tools cannot show an image (a read gives only bytes): check the page in
+  the browser instead (its text, the boxes of its elements at both widths) and say so to the creator.
+- Then send the creator one message that begins "**Code · Checkpoint** Zwischenstand": the screenshots (their paths,
+  or the images where the chat shows them), on the creator's machine also the address of `npm run dev`, started in
+  the background; what learners do on the page in one or two sentences; one question: may the other pages follow
+  this pattern?
+- A checkpoint: wait for the answer. Every message after it is the creator's answer. A change → change the pattern
+  first, then build the other pages after it.
+- Example: "**Code · Checkpoint** Zwischenstand: So sieht die erste Seite aus (Bilder: …). Die Kinder teilen einen
+  Kuchen mit dem Regler in gleich große Stücke und markieren dann selbst. Soll ich die anderen Seiten nach diesem
+  Muster bauen?"
+
+### `feedback-applied-everywhere`: A remark on one page is checked on all
+
+```rule
+id: feedback-applied-everywhere
+scope: tooling
+severity: hint
+```
+
+- The creator remarks on one page, figure or component: say whether it is about that place or a pattern ("Gilt das
+  für alle Seiten?" only when you cannot tell). A pattern → find every place that follows it (the same component,
+  block type or wording) and change them all in the same task.
+- A fix in a shared component: look at every page that uses it again.
 
 ### `retrospective-filled`: Fill the retrospective
 

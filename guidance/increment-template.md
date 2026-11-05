@@ -141,12 +141,15 @@ page, which a link. Something new goes into the guide in the slice that adds it.
 - [ ] Load skill `lernapps-<archetype>` and the content guide. Questions with options and feedback: also skill
       `lernapps-content-questions`.
 - [ ] <the slices written in Plan; each: competency, content, exercise, the entry's topic, check, commit>
-- [ ] After the first slice: show the creator a first look (`early-preview`) and go on.
+- [ ] **Checkpoint:** the pattern page, after the first slice (`early-preview`): check it against the design rules,
+      let a sub-agent check it as a learner, show it to the creator, wait for the answer. A slice in a pattern the
+      app already has: show it and go on.
       Parallel slices: send each sub-agent `@lernapps/tooling/guidance/subagent-brief.md`, filled in.
 - [ ] The content guide describes the app as it is now (`app-content-matches`). `grep -c "FILL IN"
       .agents/skills/app-content/SKILL.md` prints 0.
 - [ ] `npx --no -- lernapps check` passes.
-- [ ] Look at `npx --no -- lernapps screenshots --desktop`, each figure in its own image.
+- [ ] Look at `npx --no -- lernapps screenshots --desktop`, each figure in its own image. Your tools cannot show an
+      image: check each screen in the browser instead, write that under "Notes" and tick the box.
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
       No checkpoint here: set it before you ask or report anything, then start Commit in the same message.

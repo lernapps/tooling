@@ -87,6 +87,22 @@ describe("lernapps create refuses", () => {
     expect(JSON.parse(readFileSync(join(dir, "package.json"), "utf8")).name).toBe("dualzahlen");
   }, 20_000);
 
+  test("the process guidance init wrote does not stop it, and a CLAUDE.md of the creator stays", () => {
+    const dir = tempDir("create-process-guidance");
+    confirmedPlan(dir, "quiz");
+    writeFileSync(join(dir, "AGENTS.md"), "old\n");
+    writeFileSync(join(dir, "CLAUDE.md"), "@AGENTS.md\nMy own note.\n");
+    const result = lernapps(
+      ["create", "--archetype", "quiz", dir, "--templates", appTemplates(), "--tooling", "^0.1.0"],
+      repoRoot,
+    );
+    expect(result.code, output(result)).toBe(0);
+    expect(readFileSync(join(dir, "AGENTS.md"), "utf8")).toBe(
+      readFileSync(join(repoRoot, "guidance/AGENTS.md"), "utf8"),
+    );
+    expect(readFileSync(join(dir, "CLAUDE.md"), "utf8")).toContain("My own note.");
+  }, 20_000);
+
   test("sketches in .vibe/ do not stop it: the planning folder holds more than the plan", () => {
     const dir = tempDir("create-sketches");
     confirmedPlan(dir, "quiz");
@@ -172,6 +188,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
       "playwright.config.ts",
       "e2e/quiz.e2e.ts",
       "AGENTS.md",
+      "CLAUDE.md",
       "LICENSE",
       "renovate.json",
       ".github/workflows/pages.yml",
@@ -192,6 +209,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(readFileSync(join(app, "AGENTS.md"), "utf8")).toBe(
       readFileSync(join(repoRoot, "guidance/AGENTS.md"), "utf8"),
     );
+    expect(readFileSync(join(app, "CLAUDE.md"), "utf8")).toBe("@AGENTS.md\n");
     const config = readFileSync(join(app, "vite.config.ts"), "utf8");
     expect(config).toContain('from "@lernapps/tooling/preset"');
     expect(config).toContain('from "@lernapps/app-templates/quiz/plugin"');
