@@ -110,13 +110,13 @@
     "@lernapps/app-templates": "0.3.1",
     "axe-core": "4.14.0",
     "playwright": "1.64.1",
-    "skills": "1.7.4",
+    "skills": "1.7.6",
     "yaml": "2.9.1"
   },
   "devDependencies": {
     "@doctc/arc42": "0.38.0",
     "@lernapps/site": "github:lernapps/lernapps.github.io#72a8d2143731811acbace7c3270fe8083e4b1abf",
-    "@types/node": "26.6.5",
+    "@types/node": "26.6.6",
     "ajv": "8.20.0",
     "vite-plus": "1.4.0"
   },
