@@ -10,17 +10,23 @@ import { describe, expect, test } from "vite-plus/test";
 import { packedTooling, run, tempDir } from "./support.ts";
 
 const SLOW = 10 * 60 * 1000;
+// a check inside a test copy does not start the end-to-end tests again (support.ts, LERNAPPS_E2E_INNER)
+const inner = process.env["LERNAPPS_E2E_INNER"] === "1";
+// npx keeps what it installs in the npm cache, keyed by the package spec: a cache of its own per run, so that two runs
+// at the same time (a test copy, a second worktree) never share a half-written _npx folder
+const npmCache = () => tempDir("npm-cache");
 
-describe.each([
+describe.skipIf(inner).each([
   ["without CI", { CI: "" }],
   ["with CI=true", { CI: "true" }],
-])("lernapps init in an empty folder, %s", (_label, env) => {
+])("lernapps init in an empty folder, %s", (_label, caseEnv) => {
   test(
     "installs the tooling, writes the plan and syncs the skills; lernapps skills then adds an archetype's",
     { timeout: SLOW },
     () => {
       const tarball = packedTooling();
       const dir = tempDir("init");
+      const env = { ...caseEnv, npm_config_cache: npmCache() };
       const init = run(
         "npx",
         ["--yes", `--package=${tarball}`, "lernapps", "init", "first-version", "--tooling", `file:${tarball}`],
