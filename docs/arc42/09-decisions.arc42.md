@@ -670,3 +670,27 @@ date: 2026-10-08
 addresses: qg-checked-not-declared
 :::
 ```
+
+## A release starts an app first
+
+**Context:** version 0.6.3 broke `lernapps init` in CI: Renovate raised the package `skills` by a patch (1.7.6), which
+freezes `skills-lock.json` by default when `CI` is set, and no test of the tooling started an app with `CI` set. Every
+pull request of lernapps/apps turned red, whose tests start an app in GitHub Actions. A release is public and cannot be
+taken back. **Decision:** the package as it would be published must start an app as an assistant does
+(`npx … lernapps init`, then `lernapps skills --archetype`), with `CI` unset and with `CI=true`
+(`test/init.e2e.test.ts`). The test is a required check of every pull request (CI runs every test; the pre-push hook
+runs it when the code or the dependencies change), and `release.yml` runs it again on what it releases, before
+semantic-release publishes (`test/release-gate.test.ts` holds that order). A command that writes a lock file of a tool
+says so explicitly (`--no-frozen-lockfile`) instead of relying on the tool's default. **Consequences:** a dependency
+that changes its behaviour in CI fails a pull request or, at the latest, the release, and never reaches npm; the release
+takes a minute longer.
+
+```arc42
+:::decision
+id: dec-release-starts-an-app
+title: A release starts an app first
+status: accepted
+date: 2026-11-07
+addresses: risk-invisible-failures, risk-release-chain
+:::
+```

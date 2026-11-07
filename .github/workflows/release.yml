@@ -9,7 +9,8 @@ name: Release
 # - main allows only pull requests, and tags v* only admins: the tag is pushed with the token of the GitHub App
 #   push-to-protected-mrsimpson (organisation variable VERSION_BUMPER_APPID, secret VERSION_BUMPER_SECRET), which is on
 #   the bypass list of the rulesets.
-# - The checks ran on the pull request (they are required); the release builds and publishes only.
+# - The checks ran on the pull request (they are required); the release builds, runs the release gate (an app is
+#   started from the packed package, test/init.e2e.test.ts) and publishes only when it passes.
 on:
   push:
     branches: [main]
@@ -47,6 +48,10 @@ jobs:
       # npm ci installed the repository's git hooks (the prepare script), which are for contributors: the pre-push hook
       # would check the tag semantic-release pushes. The release pushes with no hook.
       - run: git config --local core.hooksPath /dev/null
+      # The release gate: the package as it would be published starts an app as an assistant does (npx … init, then
+      # lernapps skills), with and without CI. The checks of the pull request ran it too; this runs it again on what is
+      # released, so a dependency that changed its behaviour (e.g. `skills` in CI) never reaches npm.
+      - run: npx vp test run test/init.e2e.test.ts
       - run: npx --yes semantic-release@25.0.9
         env:
           GITHUB_TOKEN: ${{ steps.app.outputs.token }}

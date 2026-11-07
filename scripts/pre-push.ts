@@ -26,6 +26,7 @@ export const HEAVY_TESTS = [
   "test/check-repo.e2e.test.ts",
   "test/screenshots.e2e.test.ts",
   "test/changes.e2e.test.ts",
+  "test/init.e2e.test.ts",
 ];
 
 /**

@@ -146,7 +146,8 @@ function run(command: string, args: string[], fail: (message: string) => Error, 
 
 /**
  * `skills experimental_sync` in `dir`, without the skills of the archetypes in `exclude`. The skills are copied, not
- * linked into node_modules: the app commits them, and a fresh clone has them before its first npm install.
+ * linked into node_modules: the app commits them, and a fresh clone has them before its first npm install. It writes
+ * skills-lock.json, also in CI (test/init.e2e.test.ts runs it with and without CI).
  */
 function syncSkills(dir: string, exclude: string[]): void {
   const filters = exclude.flatMap((name) => [`${TOOLING}#${name}`]);
@@ -158,6 +159,9 @@ function syncSkills(dir: string, exclude: string[]): void {
       "-y",
       "--no-remote",
       "--copy",
+      // init and skills exist to write skills-lock.json; `skills` freezes it by default when CI is set (since 1.7.6),
+      // and an app is also started in CI (lernapps/apps tests the entry point in GitHub Actions)
+      "--no-frozen-lockfile",
       ...(filters.length > 0 ? ["--exclude", ...filters] : []),
     ],
     (message) => new CreateError(message),
