@@ -118,10 +118,10 @@
     "@lernapps/site": "github:lernapps/lernapps.github.io#231191ffdf8583f5c89d27c14d32a53d02bec544",
     "@types/node": "26.6.6",
     "ajv": "8.20.0",
-    "vite-plus": "1.4.0"
+    "vite-plus": "1.5.0"
   },
   "peerDependencies": {
-    "vite-plus": "1.0.0 || 1.4.0"
+    "vite-plus": "1.0.0 || 1.4.0 || 1.5"
   },
   "peerDependenciesMeta": {
     "vite-plus": {
@@ -129,7 +129,7 @@
     }
   },
   "overrides": {
-    "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0"
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.5.0"
   },
   "engines": {
     "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
