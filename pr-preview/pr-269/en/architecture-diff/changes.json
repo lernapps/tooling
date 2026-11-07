@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "base": {
+    "label": "f822e3fd7b78b43cc74b03f7c46b18de60abaa88",
+    "commit": "f822e3fd7b78b43cc74b03f7c46b18de60abaa88"
+  },
+  "head": {
+    "label": "1d0c89ff9ed01fc7df4dd3d0e9595980e112b5f6"
+  },
+  "acceptanceBase": "f822e3fd7b78b43cc74b03f7c46b18de60abaa88",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "dec-release-starts-an-app",
+        "kind": "decision",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "line": 689
+        },
+        "section": {
+          "file": "docs/arc42/09-decisions.arc42.md",
+          "headingPath": [
+            "Architecture Decisions",
+            "A release starts an app first"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-release-starts-an-app",
+          "to": "risk-invisible-failures",
+          "relation": "addresses"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "dec-release-starts-an-app",
+          "to": "risk-release-chain",
+          "relation": "addresses"
+        }
+      }
+    ],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/09-decisions.arc42.md",
+        "added": 1,
+        "modified": 0,
+        "removed": 0
+      }
+    ]
+  }
+}
