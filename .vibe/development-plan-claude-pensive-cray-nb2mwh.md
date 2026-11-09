@@ -41,7 +41,9 @@ Grundwortschatz: lernapps/apps, gleicher Branch.
 
 ### Tasks
 
-- [ ] Nach Veröffentlichung von app-templates und apps: Links und Versionen prüfen
+- [x] app-templates 0.4.0 (mit `language-task` und dem Beispiel) veröffentlicht; Abhängigkeit in diesem PR auf 0.4.0
+      gehoben (Owner, 2026-11-09); 46 Testdateien, 560 Tests grün
+- [ ] Nach Veröffentlichung von apps#224: Link auf den Grundwortschatz prüfen
 
 ### Completed
 
