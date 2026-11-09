@@ -23,16 +23,25 @@ license: MIT
 - A competency (one teachable thing, one or two lessons) → a page. A large competency may take several pages.
 - A chapter → competencies that build on each other. Order chapters and pages along the map's `requires`: what
   learners need first comes first.
-- Prerequisites: for each page's competency, read its `requires` in the map.
-  - The app practises it (a page of its own) → it orders the pages; the text may link the page that teaches it.
-  - The app does not practise it → of another strand (one app, one strand), or of the app's strand outside the
-    app's scope. The page names it. The app may repeat it on a recap page (`recap: <subject>/<competency>`):
-    descriptive blocks only, no exercise; the runtime writes the link to its page on the map. Place the recap page
-    before the page that needs it ([structure](../lernapps-explainer/references/structure.md)). Never both: a
-    competency the app practises gets no recap page.
-- The app has one strand of the subject's learning map (recommended, skill `lernapps-content-research`), or `none`.
-  Every page names the competency of the map it practises (`competencies`, ids of the app's strand). A competency
-  the map lacks is proposed to the catalog, not invented here. With `strand: none` pages name none.
+- Prerequisites: for each page's competency, read its `requires` in the map. Each comes before the page that needs
+  it (`prerequisites-in-order`).
+  - The app practises it (a page of its own) → that page comes first; the text may link it.
+  - The app does not practise it → of another strand, or outside the app's scope. The page names it. The app may
+    repeat it on a recap page (`recap: <subject>/<competency>`): descriptive blocks only, no exercise; the runtime
+    writes the link to its page on the map. Place the recap page before the page that needs it
+    ([structure](../lernapps-explainer/references/structure.md)). Never both: a competency the app practises gets no
+    recap page.
+  - Where the app starts, its first competencies need what learners bring: a recap page there. Inside the app no
+    step is missing: a prerequisite between two competencies of the app is practised too (else a gap).
+- Strand app or unit app: the subject's map decides (`explainerFocus` in
+  `https://lernapps.net/apps/map/<subject>.json`).
+  - `strand` (most subjects): the app has one strand of the map (recommended, skill `lernapps-content-research`),
+    `<subject>/<strand>`, or `none`. Every page practises competencies of that strand.
+  - `competency` (foreign languages, German): the strands only illustrate. The app may be a unit app
+    (`subject: <subject>` instead of `strand`) and practise competencies of every strand, e.g. words, grammar and
+    communication of one situation. One strand per page: each page practises competencies of one strand.
+  - Every page names the competency of the map it practises (`competencies`). A competency the map lacks is proposed
+    to the catalog, not invented here. With `strand: none` pages name none.
 - Show the creator this structure in Explore: which competency on which page, which pages in which chapter.
 - Depth: chapter, page, section, subsection. Need more levels → two apps.
 - The content structure → the same sections on every page, with fixed ids (e.g. `einstieg`, `beispiel`, `uebung`).
@@ -64,8 +73,9 @@ license: MIT
 
 ## Decide
 
-- Strand: `<subject>/<strand>` from the map where one fits, or `none`. The plan records it, the competency ids of
-  each page, each page's prerequisites the app does not practise and which of them get a recap page (format 2,
+- Strand: `<subject>/<strand>` from the map where one fits, or `none`; in a subject with `explainerFocus:
+  competency` also `subject: <subject>` for a unit app. The plan records it, the competency ids of each page in the
+  app's order, each page's prerequisites the app does not practise and which of them get a recap page (format 2,
   [structure](../lernapps-explainer/references/structure.md)).
 - Languages: German; English as a second language is supported. Each declared language complete. Never English
   only: without `languages` the page and the runtime's texts are German. English wanted → `[de, en]`.
@@ -84,20 +94,25 @@ severity: hint
 - Several competencies on one page: allowed by the schema, not recommended. Split the page, one per competency.
 - `lernapps check` gives a hint for every page of a format-2 explainer with more than one competency.
 
-## `prerequisites-linked`: Prerequisites the app does not practise are recapped or linked
+## `prerequisites-in-order`: Prerequisites come before the page that needs them
 
 ```rule
-id: prerequisites-linked
+id: prerequisites-in-order
 scope: tooling
-severity: hint
+severity: warning
 ```
 
-- A competency of a page requires one the app does not practise (`requires` in the map), of another strand or of
-  the app's own: learners find it from the app.
-- Either a recap page of the app repeats it (`recap: <subject>/<competency>`), or the page's text names it with a link
-  to its page on the map: `https://lernapps.net/apps/map/<subject>/c/<id>/`.
-- `lernapps check` gives a hint for each such prerequisite with neither, naming the page and the prerequisite. Without
-  the map it finds nothing (`competencies-on-map` says it could not check).
+- Each direct prerequisite (`requires` in the map) of a page's competency is practised on that page or an earlier one,
+  repeated on a recap page before it (`recap: <subject>/<competency>`), or named in the page's text with a link to its
+  page on the map: `https://lernapps.net/apps/map/<subject>/c/<id>/`. A recapped competency's own prerequisites do
+  not count.
+- `lernapps check` names the page and the prerequisite, once, at the first page that needs it:
+  - order: the app practises or repeats it, but only later. Move the pages.
+  - gap: the app does not have it, but practises something it builds on. Practise it in between, or recap or link it.
+  - entry: nothing of its chain is in the app. The app starts here: a recap page before the page, or a link.
+- Severity by the subject's map: `explainerFocus: competency` a warning, `strand` a hint. At the listing order and gap
+  are errors with `competency`, else warnings. Without the map it finds nothing (`competencies-on-map` says it could
+  not check).
 
 ## Gotchas
 

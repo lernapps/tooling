@@ -29,6 +29,10 @@ Before you write competencies, look at the learning map of the subject. A strand
 - A strand fits the app → recommend it to the creator: one app, one strand. A strand runs over several school years;
   a topic that spans two strands is two apps. Show the strand and its competencies (Bausteine), with the ones still
   no app practises.
+- The map says `explainerFocus: competency` (foreign languages, German) → the strands only illustrate. A unit of the
+  class (a situation with its words, grammar and communication) may be one app across strands: `subject: <subject>`
+  instead of `strand`, each page in one strand, the pages in the order of `requires` (skill
+  `lernapps-explainer-design`).
 - The creator takes the strand → the app practises only competencies of that strand. Write each with its id from the
   map. The app's "Ich kann …" competencies are those of the map, in its words: do not reword or invent them. The
   map's `requires` shows what learners need first; a prerequisite the app does not practise, of any strand, gets a
@@ -38,7 +42,7 @@ Before you write competencies, look at the learning map of the subject. A strand
   ones the map has, or wait for the answer.
 - No strand fits, the creator wants none, or the subject has no map (the address answers "not found") →
   `strand: none`. The app is listed as usual, only not on the map; write its competencies as in the next section.
-- Write the strand (`<subject>/<strand>`, or `none`) and the competency ids under "Notes".
+- Write the strand (`<subject>/<strand>`, or `none`) or the subject of a unit app, and the competency ids under "Notes".
 - Tell the creator now how the content will be structured: a competency is one teachable thing (one or two lessons);
   in an explainer as a rule one page per competency, chapters of competencies that build on each other (skill
   `lernapps-explainer-design`).

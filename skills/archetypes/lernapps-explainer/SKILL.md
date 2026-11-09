@@ -26,7 +26,8 @@ license: MIT
 - [references/runtime.md](references/runtime.md): when the build or a runtime test fails, and before you set up the
   tutor.
 - [references/rules.md](references/rules.md): when a check names an `explainer-*`, `vue-component-*` or
-  `competencies-on-map` rule, and before you write a page with `competencies`.
+  `competencies-on-map` rule, and before you write a page with `competencies`. For `prerequisites-in-order`:
+  [structure](references/structure.md) and skill `lernapps-explainer-design`.
 
 ## Gotchas
 
@@ -35,7 +36,9 @@ license: MIT
 - YAML: quote a text that has `: ` in it or looks like a number (`"8."`, `"01000001"`, `"0"`). Unquoted, YAML reads a map or a
   number: the build stops, or the digits change. A table cell, a header cell too, is a text and never empty.
 - A page with `competencies` teaches what their "Ich kann …" in the map says, not clearly more or other
-  (`content-matches-competencies`).
+  (`content-matches-competencies`). Its competencies are of one strand, also in a unit app (`subject`).
+- Pages in the order of the map's `requires`: a prerequisite comes on an earlier page or a recap page before
+  (`prerequisites-in-order`). Moving or adding a page → run `lernapps check`.
 - A page with formulas written through the shell: a heredoc with an unquoted delimiter replaces `$…` and `\`
   (`<<EOF`). Quote the delimiter (`<<'EOF'`), or write the file with the file tool.
 - A new chapter: a folder with `chapter.yaml`, listed in `src/app.yaml`, each page listed in `chapter.yaml`.

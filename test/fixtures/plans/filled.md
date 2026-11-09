@@ -37,7 +37,7 @@ Learners in year 6 compare fractions and order them on a number line, with feedb
 
 ```yaml
 title: Brüche vergleichen
-subject: Mathematik
+subject: mathematik
 ```
 
 ### Completed

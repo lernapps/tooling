@@ -20,6 +20,21 @@
     exercise asks for it.
   - A word above the level or outside the list: only when the situation needs it, explained where it first appears.
 
+## Strand app or unit app
+
+- The maps of the foreign languages and German say `explainerFocus: competency`: their strands (words, grammar,
+  communication, …) only illustrate. Other subjects say `strand`: one app, one strand.
+- A strand app (`strand: <subject>/<strand>`): e.g. the forms of one tense.
+- A unit app (`subject: <subject>`): a unit of the class, e.g. "Einkaufen", with its words, grammar and phrases from
+  several strands.
+- One strand per page: a page practises competencies of one strand, so the method of each strand stays the same. The
+  unit mixes strands across its pages.
+- Prerequisites in order: each `requires` of a page's competency comes on an earlier page. Nothing missing in
+  between: a step of the chain the unit skips is a gap.
+- At the entry: what learners bring from earlier units goes on a recap page before the first page that needs it
+  (`recap: <subject>/<competency>`), or the page links it on the map. `lernapps check` names each missing one
+  (`prerequisites-in-order`).
+
 ## Kinds of competency
 
 | Idea | Learners see and do | Expressed with |
