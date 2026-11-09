@@ -20,6 +20,8 @@ license: MIT
 - [references/structure.md](references/structure.md): before you add or move a chapter or page.
 - [references/blocks.md](references/blocks.md): before you write a page.
 - [references/exercises.md](references/exercises.md): before you write an exercise, above all a `generated` one.
+- [references/language-tasks.md](references/language-tasks.md): before you write an exercise in a foreign language
+  (`language-task`).
 - [references/components.md](references/components.md): only when the plan names a component.
 - [references/runtime.md](references/runtime.md): when the build or a runtime test fails, and before you set up the
   tutor.
