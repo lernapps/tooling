@@ -46,7 +46,8 @@ license: MIT
 - Read the patterns of your subject before you choose: [mathematics](references/mathematics.md),
   [physics](references/physics.md), [chemistry](references/chemistry.md),
   [biology and geography](references/biology-geography.md), [history](references/history.md),
-  [computer science](references/computer-science.md). Another subject: the one closest to it.
+  [computer science](references/computer-science.md), [foreign languages](references/foreign-languages.md). Another
+  subject: the one closest to it.
 - Explainer: read [references/page-structures.md](references/page-structures.md) when you plan the sections of a
   page; any archetype with figures: [references/figures.md](references/figures.md).
 - Write each pattern into "Content method": name, kind of competency, form in the archetype (what is fixed, what

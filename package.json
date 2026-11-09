@@ -61,6 +61,7 @@
     "./skills/archetypes/lernapps-explainer/references/blocks.md": "./skills/archetypes/lernapps-explainer/references/blocks.md",
     "./skills/archetypes/lernapps-explainer/references/components.md": "./skills/archetypes/lernapps-explainer/references/components.md",
     "./skills/archetypes/lernapps-explainer/references/exercises.md": "./skills/archetypes/lernapps-explainer/references/exercises.md",
+    "./skills/archetypes/lernapps-explainer/references/language-tasks.md": "./skills/archetypes/lernapps-explainer/references/language-tasks.md",
     "./skills/archetypes/lernapps-explainer/references/rules.md": "./skills/archetypes/lernapps-explainer/references/rules.md",
     "./skills/archetypes/lernapps-explainer/references/runtime.md": "./skills/archetypes/lernapps-explainer/references/runtime.md",
     "./skills/archetypes/lernapps-explainer/references/structure.md": "./skills/archetypes/lernapps-explainer/references/structure.md",
@@ -78,6 +79,7 @@
     "./skills/content/lernapps-exercise-patterns/references/chemistry.md": "./skills/content/lernapps-exercise-patterns/references/chemistry.md",
     "./skills/content/lernapps-exercise-patterns/references/computer-science.md": "./skills/content/lernapps-exercise-patterns/references/computer-science.md",
     "./skills/content/lernapps-exercise-patterns/references/figures.md": "./skills/content/lernapps-exercise-patterns/references/figures.md",
+    "./skills/content/lernapps-exercise-patterns/references/foreign-languages.md": "./skills/content/lernapps-exercise-patterns/references/foreign-languages.md",
     "./skills/content/lernapps-exercise-patterns/references/history.md": "./skills/content/lernapps-exercise-patterns/references/history.md",
     "./skills/content/lernapps-exercise-patterns/references/mathematics.md": "./skills/content/lernapps-exercise-patterns/references/mathematics.md",
     "./skills/content/lernapps-exercise-patterns/references/page-structures.md": "./skills/content/lernapps-exercise-patterns/references/page-structures.md",
@@ -107,7 +109,7 @@
     "arc42": "arc42 --dir docs/arc42"
   },
   "dependencies": {
-    "@lernapps/app-templates": "0.3.2",
+    "@lernapps/app-templates": "0.4.0",
     "axe-core": "4.14.0",
     "playwright": "1.64.1",
     "skills": "1.7.6",
