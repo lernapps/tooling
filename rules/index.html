@@ -98,7 +98,7 @@
 <tr><td><a href="#lockfile-matches"><code>lockfile-matches</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#one-competency-per-page"><code>one-competency-per-page</code></a></td><td>tooling</td><td>hint</td></tr>
 <tr><td><a href="#plan-file"><code>plan-file</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
-<tr><td><a href="#prerequisites-linked"><code>prerequisites-linked</code></a></td><td>tooling</td><td>hint</td></tr>
+<tr><td><a href="#prerequisites-in-order"><code>prerequisites-in-order</code></a></td><td>tooling</td><td>warning</td></tr>
 <tr><td><a href="#retrospective-filled"><code>retrospective-filled</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#stop-at-checkpoints"><code>stop-at-checkpoints</code></a></td><td>tooling</td><td>error, warning at listing</td></tr>
 <tr><td><a href="#strand-from-map"><code>strand-from-map</code></a></td><td>tooling</td><td>hint</td></tr>
@@ -460,14 +460,15 @@
 </section>
 
 <section id="competencies-on-map">
-<h2>The strand and the page competencies are on the map</h2>
+<h2>The strand or subject and the page competencies are on the map</h2>
 <p><code>competencies-on-map</code> · tooling · warning</p>
 <div>
 <ul>
 <li><code>strand</code> in <code>src/app.yaml</code> is a strand of the subject's map; each page's <code>competencies</code> are ids of that strand.</li>
+<li><code>subject</code> in <code>src/app.yaml</code> (a unit app) only where the subject's map says <code>explainerFocus: competency</code>. Then <code>competencies</code> may be ids of every strand of the subject, but each page's ids belong to one strand.</li>
 <li>A recap page's <code>recap</code> (<code>&lt;subject&gt;/&lt;competency&gt;</code>) is on the map, of any strand, and the app does not practise it on a page of its own.</li>
 <li><code>lernapps check</code> loads <code>https://lernapps.net/apps/map/&lt;subject&gt;.json</code> and warns before the push. Not reachable or no map yet → one hint that it could not check.</li>
-<li>At the listing an unknown id or one of another strand is an error of the catalog (<code>entry-learning-map</code>).</li>
+<li>At the listing an unknown id, one of another strand, a <code>subject</code> in a subject with <code>explainerFocus: strand</code>, and a page across strands are errors of the catalog (<code>entry-learning-map</code>).</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/competencies-on-map.ts"><code>check/rules/competencies-on-map.ts</code></a>.</p>
@@ -589,17 +590,17 @@
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
 </section>
 
-<section id="prerequisites-linked">
-<h2>Prerequisites the app does not practise are recapped or linked</h2>
-<p><code>prerequisites-linked</code> · tooling · hint</p>
+<section id="prerequisites-in-order">
+<h2>Prerequisites come before the page that needs them</h2>
+<p><code>prerequisites-in-order</code> · tooling · warning</p>
 <div>
 <ul>
-<li>A competency of a page requires one the app does not practise (<code>requires</code> in the map), of another strand or of the app's own: learners find it from the app.</li>
-<li>Either a recap page of the app repeats it (<code>recap: &lt;subject&gt;/&lt;competency&gt;</code>), or the page's text names it with a link to its page on the map: <code>https://lernapps.net/apps/map/&lt;subject&gt;/c/&lt;id&gt;/</code>.</li>
-<li><code>lernapps check</code> gives a hint for each such prerequisite with neither, naming the page and the prerequisite. Without the map it finds nothing (<code>competencies-on-map</code> says it could not check).</li>
+<li>Each direct prerequisite (<code>requires</code> in the map) of a page's competency is practised on that page or an earlier one, repeated on a recap page before it (<code>recap: &lt;subject&gt;/&lt;competency&gt;</code>), or named in the page's text with a link to its page on the map: <code>https://lernapps.net/apps/map/&lt;subject&gt;/c/&lt;id&gt;/</code>. A recapped competency's own prerequisites do not count.</li>
+<li><code>lernapps check</code> names the page and the prerequisite, once, at the first page that needs it: - order: the app practises or repeats it, but only later. Move the pages. - gap: the app does not have it, but practises something it builds on. Practise it in between, or recap or link it. - entry: nothing of its chain is in the app. The app starts here: a recap page before the page, or a link.</li>
+<li>Severity by the subject's map: <code>explainerFocus: competency</code> a warning, <code>strand</code> a hint. At the listing order and gap are errors with <code>competency</code>, else warnings. Without the map it finds nothing (<code>competencies-on-map</code> says it could not check).</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/prerequisites-linked.ts"><code>check/rules/prerequisites-linked.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/prerequisites-in-order.ts"><code>check/rules/prerequisites-in-order.ts</code></a>.</p>
 </section>
 
 <section id="retrospective-filled">
