@@ -1,9 +1,11 @@
 // An explainer in format 2 and the learning map of the catalog, for the checks one-competency-per-page,
-// competencies-on-map and prerequisites-linked. An explainer is in format 2 when its src/app.yaml says `format: 2`; it
-// names the app's strand (`<subject>/<strand>` or `none`) and every page the competencies of the map it practises
-// (`competencies`, ids of the subject), or, on a recap page, the one competency it repeats and does not practise
-// (`recap: <subject>/<competency>`). The map of a subject is data at https://lernapps.net/apps/map/<subject>.json (lernapps/apps,
-// docs/learning-map-contract.md, section 5).
+// competencies-on-map and prerequisites-in-order. An explainer is in format 2 when its src/app.yaml says `format: 2`;
+// it names either the app's strand (`<subject>/<strand>` or `none`, a strand app) or its subject (`subject: <subject>`,
+// a unit app that practises competencies of several strands; only in a subject whose map has `explainerFocus:
+// competency`), and every page the competencies of the map it practises (`competencies`, ids of the subject), or, on a
+// recap page, the one competency it repeats and does not practise (`recap: <subject>/<competency>`). The map of a
+// subject is data at https://lernapps.net/apps/map/<subject>.json (lernapps/apps, docs/learning-map-contract.md,
+// section 5).
 import { existsSync, readFileSync } from "node:fs";
 import { isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -29,13 +31,36 @@ export interface ExplainerPage {
   text: string;
 }
 
-export interface Explainer {
-  /** `<subject>/<strand>` or `none`, as src/app.yaml writes it. */
-  strand: string;
-  /** `src/app.yaml:<line>` of the strand. */
-  strandAt: string;
+interface ExplainerPages {
   /** Every page the chapters list, in the app's order; a file that is missing is left out (the build names it). */
   pages: ExplainerPage[];
+}
+
+/** A strand app (`strand`) or a unit app (`subject`): src/app.yaml names exactly one of them. */
+export type Explainer = ExplainerPages &
+  (
+    | {
+        /** `<subject>/<strand>` or `none`, as src/app.yaml writes it. */
+        strand: string;
+        /** `src/app.yaml:<line>` of the strand. */
+        strandAt: string;
+      }
+    | {
+        /** The subject of a unit app, as src/app.yaml writes it. */
+        subject: string;
+        /** `src/app.yaml:<line>` of the subject. */
+        subjectAt: string;
+      }
+  );
+
+/**
+ * The subject whose map an explainer is checked against, and the line that names it (`strand` or `subject`), or
+ * undefined for `strand: none`.
+ */
+export function subjectOf(explainer: Explainer): { subject: string; at: string } | undefined {
+  if ("subject" in explainer) return { subject: explainer.subject, at: explainer.subjectAt };
+  if (explainer.strand === "none") return undefined;
+  return { subject: explainer.strand.split("/")[0] ?? "", at: explainer.strandAt };
 }
 
 const read = (file: string): unknown => {
@@ -57,13 +82,16 @@ function lineOf(text: string, ...keys: string[]): number | undefined {
 
 /**
  * The explainer in format 2 in the repo `project`, or undefined when there is none: no src/app.yaml, or one without
- * `format: 2` (format 1, which has no strand), or one the build cannot read.
+ * `format: 2` (format 1, which has no strand), or one with neither `strand` nor `subject`, or one the build cannot
+ * read. With both (the schema forbids it) the strand counts.
  */
 export function readExplainer(project: string): Explainer | undefined {
   const appFile = join(project, APP_YAML);
   if (!existsSync(appFile)) return undefined;
-  const app = read(appFile) as { format?: unknown; strand?: unknown; chapters?: unknown } | undefined;
-  if (app?.format !== 2 || typeof app.strand !== "string") return undefined;
+  const app = read(appFile) as
+    | { format?: unknown; strand?: unknown; subject?: unknown; chapters?: unknown }
+    | undefined;
+  if (app?.format !== 2 || (typeof app.strand !== "string" && typeof app.subject !== "string")) return undefined;
   const pages: ExplainerPage[] = [];
   for (const chapter of ids(app.chapters)) {
     const chapterYaml = read(join(project, "src", chapter, "chapter.yaml")) as { pages?: unknown } | undefined;
@@ -87,13 +115,26 @@ export function readExplainer(project: string): Explainer | undefined {
       });
     }
   }
-  const strandLine = lineOf(readFileSync(appFile, "utf8"), "strand");
-  return { strand: app.strand, strandAt: strandLine === undefined ? APP_YAML : `${APP_YAML}:${strandLine}`, pages };
+  const appText = readFileSync(appFile, "utf8");
+  const at = (key: string) => {
+    const line = lineOf(appText, key);
+    return line === undefined ? APP_YAML : `${APP_YAML}:${line}`;
+  };
+  if (typeof app.strand === "string") return { strand: app.strand, strandAt: at("strand"), pages };
+  return { subject: app.subject as string, subjectAt: at("subject"), pages };
 }
 
-/** A subject's map as the catalog serves it: its strands, each with the ids of its competencies. */
+/**
+ * What an explainer of a subject focuses on: `strand` (one app, one strand) or `competency` (a unit app may practise
+ * competencies of several strands; the strands only illustrate).
+ */
+export type ExplainerFocus = "strand" | "competency";
+
+/** A subject's map as the catalog serves it: its focus and its strands, each with the ids of its competencies. */
 export interface SubjectMap {
   id: string;
+  /** Always set once loaded: a map JSON without it (an older one) counts as `strand`. */
+  explainerFocus: ExplainerFocus;
   strands: { id: string; competencies: { id: string; requires?: string[] }[] }[];
 }
 
@@ -126,6 +167,18 @@ const isMap = (value: unknown): value is SubjectMap =>
   (value as SubjectMap).strands.every((strand) => typeof strand?.id === "string" && Array.isArray(strand.competencies));
 
 type Loaded = { map: SubjectMap } | { failed: string };
+
+/** A map as loaded: `explainerFocus` missing (an older map JSON) or unknown counts as `strand`. */
+const asLoaded = (url: string, value: unknown): Loaded =>
+  isMap(value)
+    ? {
+        map: {
+          ...value,
+          explainerFocus:
+            (value as { explainerFocus?: unknown }).explainerFocus === "competency" ? "competency" : "strand",
+        },
+      }
+    : { failed: `${url} is not the map of a subject (no strands)` };
 
 /** The maps loaded in this run, by address: the checks of one run share one request per map. */
 const loaded = new Map<string, Promise<Loaded>>();
@@ -163,7 +216,7 @@ async function fetchMap(url: string): Promise<Loaded> {
   } catch {
     return { failed: `${url} is not JSON` };
   }
-  return isMap(value) ? { map: value } : { failed: `${url} is not the map of a subject (no strands)` };
+  return asLoaded(url, value);
 }
 
 /** The map in a local file (LERNAPPS_TEST_MAP_URL with a `file:` URL or a directory), read as fetchMap reads one. */
@@ -182,5 +235,5 @@ function readMap(url: string): Loaded {
   } catch {
     return { failed: `${url} is not JSON` };
   }
-  return isMap(value) ? { map: value } : { failed: `${url} is not the map of a subject (no strands)` };
+  return asLoaded(url, value);
 }

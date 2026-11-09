@@ -42,7 +42,7 @@ For you, the assistant.
 
 ## Notes
 
-<!-- Strand (<subject>/<strand> or none), curriculum orientation, competencies by chapter (ids), didactic approach, scope, sources and licences, open
+<!-- Strand (<subject>/<strand> or none) or subject of a unit app, curriculum orientation, competencies by chapter (ids), didactic approach, scope, sources and licences, open
 questions. -->
 
 ## Explore
@@ -76,7 +76,8 @@ questions. -->
 - [ ] Load skill `lernapps-content-research`. Research as it says. Under "Notes": curriculum orientation,
       competencies by chapter as "Ich kann …", verified sources. No competencies → not done. First the learning map as
       skill `lernapps-content-research` says: recommend a strand that fits (`<subject>/<strand>`), else `none`; with a
-      strand, only its competencies, by their ids from the map. Write both under "Notes", and how they map onto
+      strand, only its competencies, by their ids from the map. A map with `explainerFocus: competency` also allows a
+      unit app across strands (`subject: <subject>`), one strand per page. Write both under "Notes", and how they map onto
       chapters and pages (an explainer: as a rule one page per competency; competencies that build on each other, by
       the map's `requires`, share a chapter, in that order).
 - [ ] Under "Notes", one line per competency: how learners get there (derive, not only read off; e.g. a tree diagram

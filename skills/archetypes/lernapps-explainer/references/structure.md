@@ -26,7 +26,7 @@
 - Each page's `scope`: what the page teaches, in your own words; `src/app.yaml`: `scope: { text, out: [...] }` with
   what does not belong (`explainer-scope-matches`, form in `runtime.md`).
 
-## Format 2: strand and competencies
+## Format 2: strand or subject, and competencies
 
 An explainer on the learning map is in format 2. `src/app.yaml` starts with:
 
@@ -40,22 +40,29 @@ title: Stochastik
 | Field | Where | Rule |
 |---|---|---|
 | `format` | `src/app.yaml` | `2`; absent means format 1 (an app that has not moved) |
-| `strand` | `src/app.yaml` | required in format 2: `<subject>/<strand>` (two ids of the map) or `none` |
-| `competencies` | every page | strand set: required, ids of the app's strand; as a rule one. `none`: not allowed |
+| `strand` | `src/app.yaml` | a strand app: `<subject>/<strand>` (two ids of the map) or `none` |
+| `subject` | `src/app.yaml` | a unit app: `<subject>`, only where the map says `explainerFocus: competency`; never with `strand` |
+| `competencies` | every page | strand or subject set: required, ids of the map; as a rule one. `none`: not allowed |
 
 - A page: `competencies: [laplace]` beside `title` and `blocks`. One page per competency; a large one may take
   several pages; several on one page are not recommended (`one-competency-per-page`).
 - Chapters group competencies that build on each other; pages follow the map's `requires`.
-- One app, one strand. The ids are those of `https://lernapps.net/apps/map/<subject>.json`; the build cannot know
-  them. `lernapps check` compares them with the map before the push (`competencies-on-map`); the listing checks
-  them again.
-- The build writes `lernapps-pages.json` (path, title, competencies or recap per page, in the app's order) beside
-  `index.html`; the catalog lists the pages from it.
+- Format 2 names exactly one: `strand` or `subject`. Which one the subject's map decides (`explainerFocus` in
+  `https://lernapps.net/apps/map/<subject>.json`):
+  - `strand` (most subjects): one app, one strand. Every page practises competencies of the app's strand.
+  - `competency` (foreign languages, German): a strand app as above, or a unit app (`subject: franzoesisch`) that
+    practises competencies of every strand of the subject. Each page practises competencies of one strand only.
+- The ids are those of the map; the build cannot know them. `lernapps check` compares them with the map before the
+  push (`competencies-on-map`); the listing checks them again.
+- Pages in the order of the prerequisites: each `requires` of a page's competency is practised on an earlier page,
+  repeated on a recap page before it, or linked in the page's text (`prerequisites-in-order`).
+- The build writes `lernapps-pages.json` (the strand or subject; path, title, competencies or recap per page, in the
+  app's order) beside `index.html`; the catalog lists the pages from it.
 
 ### A recap page
 
-A competency of the app may require one the app does not practise: of another strand, or of the app's strand outside
-the app's scope. The app may repeat it on a recap page, placed before the page that needs it:
+A competency of the app may require one the app does not practise: of another strand, or outside the app's scope, as
+at the app's entry. The app may repeat it on a recap page, placed before the page that needs it:
 
 ```yaml
 title: Brüche – kurz wiederholt
@@ -71,8 +78,10 @@ blocks: [...]                       # descriptive blocks only: no exercise
 | The recapped competency exists, and the app does not practise it on a page of its own | `lernapps check` (`competencies-on-map`, warning), listing (error) |
 
 - A recap page counts as nothing on the map and is left out of the self-assessment.
-- A prerequisite the app does not practise (of any strand) with neither a recap page nor a link in the page's text to
-  `https://lernapps.net/apps/map/<subject>/c/<id>/`: a hint of `lernapps check` (`prerequisites-linked`).
+- A prerequisite practised or repeated only after the page (order), missing inside the app's chain (gap), or missing
+  at the app's entry with neither a recap page before nor a link in the page's text to
+  `https://lernapps.net/apps/map/<subject>/c/<id>/` (entry): `lernapps check` (`prerequisites-in-order`) warns with
+  `explainerFocus: competency`, else gives a hint.
 - Format 1 stays valid. `lernapps update` adds `format: 2` and `strand: none` to a format-1 app when its runtime
   knows format 2.
 

@@ -284,7 +284,7 @@ describe.skipIf(inner)("lernapps check on a URL, with --entry", () => {
     const topics = fields.topics.map((path) => `  - title: Thema\n    path: ${path}\n`).join("");
     writeFileSync(
       file,
-      `title: Brüche üben\nsubject: Mathematik\ngrades: [6]\nsummary: Brüche kürzen.\nurl: ${fields.url}\n` +
+      `title: Brüche üben\nsubject: mathematik\ngrades: [6]\nsummary: Brüche kürzen.\nurl: ${fields.url}\n` +
         `topics:\n${topics}creator:\n  name: Test\nfitness:\n  account: false\n  install: false\n` +
         `  storage: ${fields.storage}\n  thirdParty: none\n  checked: false\n`,
     );

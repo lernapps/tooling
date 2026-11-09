@@ -1,0 +1,68 @@
+{
+  "id": "franzoesisch",
+  "name": { "de": "Französisch", "en": "French" },
+  "explainerFocus": "competency",
+  "strands": [
+    {
+      "id": "wortschatz",
+      "name": { "de": "Wortschatz", "en": "Vocabulary" },
+      "competencies": [
+        {
+          "id": "essen",
+          "iCan": "Ich kann Lebensmittel benennen.",
+          "gradeBand": "5-6",
+          "requires": [],
+          "practisedBy": []
+        },
+        {
+          "id": "einkaufen",
+          "iCan": "Ich kann Wörter zum Einkaufen verwenden.",
+          "gradeBand": "5-6",
+          "requires": ["essen"],
+          "practisedBy": []
+        }
+      ]
+    },
+    {
+      "id": "grammatik",
+      "name": { "de": "Grammatik", "en": "Grammar" },
+      "competencies": [
+        {
+          "id": "artikel",
+          "iCan": "Ich kann den bestimmten und unbestimmten Artikel verwenden.",
+          "gradeBand": "5-6",
+          "requires": [],
+          "practisedBy": []
+        },
+        {
+          "id": "teilungsartikel",
+          "iCan": "Ich kann den Teilungsartikel verwenden.",
+          "gradeBand": "5-6",
+          "requires": ["artikel"],
+          "practisedBy": []
+        },
+        {
+          "id": "mengen",
+          "iCan": "Ich kann Mengen angeben.",
+          "gradeBand": "5-6",
+          "requires": ["teilungsartikel"],
+          "practisedBy": []
+        }
+      ]
+    },
+    {
+      "id": "kommunikation",
+      "name": { "de": "Kommunikation", "en": "Communication" },
+      "competencies": [
+        {
+          "id": "bestellen",
+          "iCan": "Ich kann beim Einkaufen etwas verlangen.",
+          "gradeBand": "5-6",
+          "requires": ["einkaufen", "mengen"],
+          "practisedBy": []
+        }
+      ]
+    }
+  ],
+  "curricula": []
+}

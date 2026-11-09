@@ -1,8 +1,11 @@
 // The checks of an explainer in format 2 against the learning map, as `lernapps check` runs them in an app's repo:
-// one-competency-per-page (a hint for every page with more than one competency), competencies-on-map (the strand,
-// the page competencies and the recap pages on the subject's map) and prerequisites-linked (a prerequisite the app
-// does not practise recapped or linked), the maps loaded from LERNAPPS_TEST_MAP_URL (here a local server with a fixture
-// map, or the fixture's directory on disk; a map that cannot be loaded is one hint, never more). On files alone, without installing or building anything.
+// one-competency-per-page (a hint for every page with more than one competency), competencies-on-map (the strand or
+// subject, the page competencies and the recap pages on the subject's map; a unit app with `subject` only in a subject
+// with explainerFocus competency, one strand per page) and prerequisites-in-order (each prerequisite practised or
+// recapped before, or linked: order, gap, entry), the maps loaded from LERNAPPS_TEST_MAP_URL (here a local server with
+// the fixture maps, mathematik without explainerFocus as an older map, franzoesisch with competency, or the fixtures'
+// directory on disk; a map that cannot be loaded is one hint, never more). On files alone, without installing or
+// building anything.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
@@ -11,19 +14,24 @@ import { pathToFileURL } from "node:url";
 import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import onePerPage from "../check/rules/one-competency-per-page.ts";
 import onMap from "../check/rules/competencies-on-map.ts";
-import linked from "../check/rules/prerequisites-linked.ts";
+import inOrder from "../check/rules/prerequisites-in-order.ts";
 import { loadMap, mapUrl, readExplainer } from "../check/explainer-map.ts";
 import type { Problem } from "../check/check.ts";
 import { repoRoot, tempDir } from "./support.ts";
 
-const MAP = readFileSync(join(repoRoot, "test/fixtures/map/mathematik.json"), "utf8");
+const MAPS: Record<string, string> = Object.fromEntries(
+  ["mathematik", "franzoesisch"].map((subject) => [
+    `/map/${subject}.json`,
+    readFileSync(join(repoRoot, `test/fixtures/map/${subject}.json`), "utf8"),
+  ]),
+);
 
 /**
- * An explainer's repo: src/app.yaml with the strand, one chapter "kapitel" with the pages given (id → competencies, or
- * the lines of the page after its title as a string, e.g. a recap page).
+ * An explainer's repo: src/app.yaml with the strand (or `{ subject }` for a unit app), one chapter "kapitel" with the
+ * pages given (id → competencies, or the lines of the page after its title as a string, e.g. a recap page).
  */
 function explainer(
-  strand: string | undefined,
+  strand: string | { subject: string } | undefined,
   pages: Record<string, string[] | string | undefined>,
   format = 2,
 ): string {
@@ -32,7 +40,9 @@ function explainer(
     "src/app.yaml": [
       "# yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json",
       ...(format === 2 ? ["format: 2"] : []),
-      ...(strand === undefined ? [] : [`strand: ${strand}`]),
+      ...(strand === undefined
+        ? []
+        : [typeof strand === "string" ? `strand: ${strand}` : `subject: ${strand.subject}`]),
       "title: Test",
       "intro: Ein Test.",
       "languages: [de]",
@@ -58,7 +68,9 @@ function explainer(
 }
 
 const hints = (project: string) => onePerPage.run({ project }) as Problem[] | undefined;
-const linkedOf = async (project: string) => (await linked.run({ project })) as Problem[] | undefined;
+const inOrderOf = async (project: string) => (await inOrder.run({ project })) as Problem[] | undefined;
+const short = (problems: Problem[] | undefined) =>
+  problems?.map(({ where, found, severity }) => ({ where, found, severity }));
 const onMapOf = async (project: string) => (await onMap.run({ project })) as Problem[] | undefined;
 
 let server: Server;
@@ -66,8 +78,9 @@ let previous: string | undefined;
 
 beforeAll(async () => {
   server = createServer((request, response) => {
-    if (request.url === "/map/mathematik.json") {
-      response.writeHead(200, { "content-type": "application/json" }).end(MAP);
+    const map = MAPS[request.url ?? ""];
+    if (map !== undefined) {
+      response.writeHead(200, { "content-type": "application/json" }).end(map);
     } else if (request.url === "/map/kaputt.json") {
       response.writeHead(200, { "content-type": "application/json" }).end("{ nicht json");
     } else {
@@ -97,7 +110,24 @@ describe("an explainer in format 2", () => {
       ],
     });
     expect(readExplainer(explainer(undefined, { seite: undefined }, 1))).toBeUndefined();
+    expect(readExplainer(explainer(undefined, { seite: undefined }))).toBeUndefined();
     expect(readExplainer(tempDir("no-app"))).toBeUndefined();
+  });
+
+  test("a unit app is read with its subject, at its line", () => {
+    const dir = explainer({ subject: "franzoesisch" }, { a: ["essen"] });
+    expect(readExplainer(dir)).toEqual({
+      subject: "franzoesisch",
+      subjectAt: "src/app.yaml:3",
+      pages: [expect.objectContaining({ where: "src/kapitel/a.yaml:2", competencies: ["essen"] })],
+    });
+  });
+
+  test("a map without explainerFocus (an older one) counts as strand; the map says competency where it is", async () => {
+    const math = await loadMap(mapUrl("mathematik"));
+    expect("map" in math && math.map.explainerFocus).toBe("strand");
+    const french = await loadMap(mapUrl("franzoesisch"));
+    expect("map" in french && french.map.explainerFocus).toBe("competency");
   });
 
   test("the map's address is lernapps.net unless LERNAPPS_TEST_MAP_URL names another", () => {
@@ -265,59 +295,182 @@ describe("competencies-on-map", () => {
   });
 });
 
-describe("prerequisites-linked", () => {
-  test("checks nothing without an explainer in format 2 with a strand", async () => {
-    expect(await linkedOf(tempDir("no-app"))).toBeUndefined();
-    expect(await linkedOf(explainer("none", { seite: undefined }))).toBeUndefined();
+describe("competencies-on-map, a unit app (subject)", () => {
+  test("in a subject with explainerFocus competency, competencies of every strand pass, one strand per page", async () => {
+    const dir = explainer(
+      { subject: "franzoesisch" },
+      { a: ["essen"], b: ["artikel"], c: ["einkaufen"], d: ["teilungsartikel", "mengen"], e: ["bestellen"] },
+    );
+    expect(await onMapOf(dir)).toEqual([]);
   });
 
-  test("a prerequisite of another strand without a recap page or a link is a hint naming the page and it", async () => {
-    // laplace requires haeufigkeiten (the app's strand, practised here) and brueche-anteile (arithmetik)
-    const problems = await linkedOf(explainer("mathematik/stochastik", { a: ["haeufigkeiten"], b: ["laplace"] }));
-    expect(problems).toEqual([
-      expect.objectContaining({
+  test("in a subject whose map has explainerFocus strand (or none), the subject is a warning at its line", async () => {
+    const problems = await onMapOf(explainer({ subject: "mathematik" }, { a: ["laplace"], b: ["brueche-anteile"] }));
+    expect(short(problems)).toEqual([
+      {
+        where: "src/app.yaml:3",
+        found:
+          "the app names subject: mathematik, but the map of mathematik has explainerFocus strand: its explainers practise one strand each",
+        severity: undefined,
+      },
+    ]);
+    expect(problems?.[0]?.fix).toContain("strand: mathematik/<strand>, one of stochastik, arithmetik");
+  });
+
+  test("a page that practises competencies of two strands is a warning at the page (KD-07)", async () => {
+    const problems = await onMapOf(explainer({ subject: "franzoesisch" }, { a: ["essen", "artikel"] }));
+    expect(short(problems)).toEqual([
+      {
+        where: "src/kapitel/a.yaml:2",
+        found:
+          "the page practises competencies of 2 strands (franzoesisch/wortschatz: essen; franzoesisch/grammatik: artikel)",
+        severity: undefined,
+      },
+    ]);
+  });
+
+  test("an id not on the map is a warning; a map that cannot be loaded is a hint at the subject", async () => {
+    expect(short(await onMapOf(explainer({ subject: "franzoesisch" }, { a: ["erfunden"] })))).toEqual([
+      {
+        where: "src/kapitel/a.yaml:2",
+        found: "the competency erfunden is not on the map of franzoesisch",
+        severity: undefined,
+      },
+    ]);
+    const problems = await onMapOf(explainer({ subject: "physik" }, { a: ["kraft"] }));
+    expect(problems).toEqual([expect.objectContaining({ where: "src/app.yaml:3", severity: "hint" })]);
+    expect(problems?.[0]?.found).toMatch(/^the subject and the competencies could not be checked/);
+  });
+});
+
+describe("prerequisites-in-order", () => {
+  test("checks nothing without an explainer in format 2 with a strand or a subject", async () => {
+    expect(await inOrderOf(tempDir("no-app"))).toBeUndefined();
+    expect(await inOrderOf(explainer("none", { seite: undefined }))).toBeUndefined();
+    expect(inOrder.severity).toBe("warning");
+  });
+
+  test("every prerequisite practised on an earlier page or the same page passes", async () => {
+    const dir = explainer(
+      { subject: "franzoesisch" },
+      { a: ["essen"], b: ["artikel"], c: ["einkaufen"], d: ["teilungsartikel", "mengen"], e: ["bestellen"] },
+    );
+    expect(await inOrderOf(dir)).toEqual([]);
+  });
+
+  test("a prerequisite practised only on a later page is order, a warning with explainerFocus competency", async () => {
+    const dir = explainer({ subject: "franzoesisch" }, { a: ["essen"], b: ["einkaufen"], c: ["artikel"] });
+    expect(await inOrderOf(dir)).toEqual([]);
+    const problems = await inOrderOf(explainer({ subject: "franzoesisch" }, { a: ["einkaufen"], b: ["essen"] }));
+    expect(short(problems)).toEqual([
+      {
+        where: "src/kapitel/a.yaml:2",
+        found:
+          "einkaufen requires franzoesisch/essen (strand franzoesisch/wortschatz), which the app practises only later (src/kapitel/b.yaml:2): order",
+        severity: "warning",
+      },
+    ]);
+  });
+
+  test("a recap page after the page that needs it is order too", async () => {
+    const problems = await inOrderOf(
+      explainer({ subject: "franzoesisch" }, { a: ["einkaufen"], r: "recap: franzoesisch/essen\nblocks: []" }),
+    );
+    expect(problems?.map(({ found }) => found)).toEqual([
+      "einkaufen requires franzoesisch/essen (strand franzoesisch/wortschatz), which the app repeats only later (src/kapitel/r.yaml:2): order",
+    ]);
+  });
+
+  test("a prerequisite missing between two competencies of the app is a gap", async () => {
+    // mengen requires teilungsartikel, which requires artikel: the app practises artikel and mengen, not teilungsartikel
+    const problems = await inOrderOf(explainer({ subject: "franzoesisch" }, { a: ["artikel"], b: ["mengen"] }));
+    expect(short(problems)).toEqual([
+      {
         where: "src/kapitel/b.yaml:2",
         found:
-          "laplace requires mathematik/brueche-anteile (strand mathematik/arithmetik), which the app does not practise; no recap page repeats it and the page does not link it",
+          "mengen requires franzoesisch/teilungsartikel (strand franzoesisch/grammatik), which the app does not practise, though it practises artikel that teilungsartikel builds on (src/kapitel/a.yaml:2): gap",
+        severity: "warning",
+      },
+    ]);
+    expect(problems?.[0]?.fix).toContain("practise it on a page before this one");
+  });
+
+  test("a prerequisite with nothing of its chain in the app is the entry; a recap page before it passes", async () => {
+    const problems = await inOrderOf(explainer({ subject: "franzoesisch" }, { a: ["teilungsartikel"] }));
+    expect(short(problems)).toEqual([
+      {
+        where: "src/kapitel/a.yaml:2",
+        found:
+          "teilungsartikel requires franzoesisch/artikel (strand franzoesisch/grammatik), which the app does not practise; no recap page before this page repeats it and the page does not link it: entry",
+        severity: "warning",
+      },
+    ]);
+    expect(problems?.[0]?.fix).toContain("recap: franzoesisch/artikel");
+    expect(problems?.[0]?.fix).toContain("https://lernapps.net/apps/map/franzoesisch/c/artikel/");
+    const recapped = explainer(
+      { subject: "franzoesisch" },
+      { r: "recap: franzoesisch/artikel\nblocks: []", a: ["teilungsartikel"], b: ["mengen"] },
+    );
+    expect(await inOrderOf(recapped)).toEqual([]);
+  });
+
+  test("a link in the page's text to the prerequisite's page on the map passes", async () => {
+    const link = explainer(
+      { subject: "franzoesisch" },
+      {
+        a: [
+          "competencies: [teilungsartikel]",
+          "blocks:",
+          '  - "Du brauchst den [Artikel](https://lernapps.net/apps/map/franzoesisch/c/artikel/)."',
+        ].join("\n"),
+      },
+    );
+    expect(await inOrderOf(link)).toEqual([]);
+  });
+
+  test("each prerequisite is reported once, at the first page that needs it", async () => {
+    const problems = await inOrderOf(
+      explainer({ subject: "franzoesisch" }, { a: ["teilungsartikel"], b: ["teilungsartikel"] }),
+    );
+    expect(problems?.map(({ where }) => where)).toEqual(["src/kapitel/a.yaml:2"]);
+  });
+
+  test("with explainerFocus strand (a map without it) every finding is a hint; a prerequisite of another strand is the entry", async () => {
+    // laplace requires haeufigkeiten (the app's strand) and brueche-anteile (arithmetik)
+    const problems = await inOrderOf(explainer("mathematik/stochastik", { b: ["laplace"] }));
+    expect(short(problems)).toEqual([
+      {
+        where: "src/kapitel/b.yaml:2",
+        found:
+          "laplace requires mathematik/haeufigkeiten (strand mathematik/stochastik), which the app does not practise; no recap page before this page repeats it and the page does not link it: entry",
+        severity: "hint",
+      },
+      {
+        where: "src/kapitel/b.yaml:2",
+        found:
+          "laplace requires mathematik/brueche-anteile (strand mathematik/arithmetik), which the app does not practise; no recap page before this page repeats it and the page does not link it: entry",
+        severity: "hint",
+      },
+    ]);
+    const ordered = explainer("mathematik/stochastik", {
+      a: ["haeufigkeiten"],
+      r: "recap: mathematik/brueche-anteile\nblocks: []",
+      b: ["laplace"],
+      c: ["baumdiagramm"],
+    });
+    expect(await inOrderOf(ordered)).toEqual([]);
+    const late = await inOrderOf(explainer("mathematik/stochastik", { c: ["baumdiagramm"], b: ["laplace"] }));
+    expect(short(late)?.[0]).toEqual(
+      expect.objectContaining({
+        where: "src/kapitel/c.yaml:2",
+        severity: "hint",
+        found: expect.stringMatching(/: order$/),
       }),
-    ]);
-    expect(problems?.[0]?.fix).toContain("https://lernapps.net/apps/map/mathematik/c/brueche-anteile/");
-    expect(linked.severity).toBe("hint");
-  });
-
-  test("a prerequisite of the app's own strand that the app does not practise is a hint too, a recap of it passes", async () => {
-    const problems = await linkedOf(explainer("mathematik/stochastik", { b: ["laplace"] }));
-    expect(problems?.map(({ found }) => found)).toEqual([
-      "laplace requires mathematik/haeufigkeiten (strand mathematik/stochastik), which the app does not practise; no recap page repeats it and the page does not link it",
-      "laplace requires mathematik/brueche-anteile (strand mathematik/arithmetik), which the app does not practise; no recap page repeats it and the page does not link it",
-    ]);
-    const recapped = explainer("mathematik/stochastik", {
-      h: "recap: mathematik/haeufigkeiten\nblocks: []",
-      r: "recap: mathematik/brueche-anteile\nblocks: []",
-      b: ["laplace"],
-    });
-    expect(await linkedOf(recapped)).toEqual([]);
-  });
-
-  test("a recap page in the app or a link in the page's text to the competency's page on the map passes", async () => {
-    const recap = explainer("mathematik/stochastik", {
-      a: ["haeufigkeiten"],
-      r: "recap: mathematik/brueche-anteile\nblocks: []",
-      b: ["laplace"],
-    });
-    expect(await linkedOf(recap)).toEqual([]);
-    const link = explainer("mathematik/stochastik", {
-      a: ["haeufigkeiten"],
-      b: [
-        "competencies: [laplace]",
-        "blocks:",
-        '  - "Du brauchst [Brüche](https://lernapps.net/apps/map/mathematik/c/brueche-anteile/)."',
-      ].join("\n"),
-    });
-    expect(await linkedOf(link)).toEqual([]);
+    );
   });
 
   test("without the map: no finding, competencies-on-map says it could not check", async () => {
-    expect(await linkedOf(explainer("physik/mechanik", { a: ["kraft"] }))).toEqual([]);
+    expect(await inOrderOf(explainer("physik/mechanik", { a: ["kraft"] }))).toEqual([]);
+    expect(await inOrderOf(explainer({ subject: "physik" }, { a: ["kraft"] }))).toEqual([]);
   });
 });

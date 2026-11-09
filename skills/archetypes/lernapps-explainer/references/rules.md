@@ -298,7 +298,7 @@ severity: hint
   (`map/<subject>.yaml`), never invent it in the app.
 - The review reads each page with the `iCan` of its competencies.
 
-## `competencies-on-map`: The strand and the page competencies are on the map
+## `competencies-on-map`: The strand or subject and the page competencies are on the map
 
 ```rule
 id: competencies-on-map
@@ -307,8 +307,11 @@ severity: warning
 ```
 
 - `strand` in `src/app.yaml` is a strand of the subject's map; each page's `competencies` are ids of that strand.
+- `subject` in `src/app.yaml` (a unit app) only where the subject's map says `explainerFocus: competency`. Then
+  `competencies` may be ids of every strand of the subject, but each page's ids belong to one strand.
 - A recap page's `recap` (`<subject>/<competency>`) is on the map, of any strand, and the app does not practise it
   on a page of its own.
 - `lernapps check` loads `https://lernapps.net/apps/map/<subject>.json` and warns before the push. Not reachable or
   no map yet → one hint that it could not check.
-- At the listing an unknown id or one of another strand is an error of the catalog (`entry-learning-map`).
+- At the listing an unknown id, one of another strand, a `subject` in a subject with `explainerFocus: strand`, and a
+  page across strands are errors of the catalog (`entry-learning-map`).
