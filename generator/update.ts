@@ -45,6 +45,7 @@ import {
   SKILLS_LOCK,
   templatesPackage,
   TOOLING,
+  writeJson,
 } from "./create.ts";
 
 /** The options of `lernapps update`, as node:util parseArgs takes them. */
@@ -62,6 +63,8 @@ moves the app within its version ranges; this moves the ranges, and what npm doe
                            (e.g. from Renovate) is kept. A git commit, as apps once pinned, becomes a version; while
                            this tooling depends on a commit (an unreleased runtime), the app moves to that commit
   @lernapps/tooling        to the version of this tooling (unchanged when run from the app)
+  vite-plus                to the version the runtime was built with, which it names as its peer (a newer one
+                           stays), and the override of vite to its core with it
   .github/workflows/       the actions and reusable workflows of lernapps/tooling at the tag of that version;
                            preview-cleanup.yml where the app has previews and no such file yet
   .agents/skills/app-content/SKILL.md
@@ -146,6 +149,54 @@ function moveActions(ref: string): string[] {
     }
   }
   return changed;
+}
+
+/**
+ * The lock without the packages that move, and what depends on them only below them: npm resolves those afresh. With
+ * them still locked, npm keeps the old runtime's peer set and cannot move the runtime and its toolchain at once
+ * (ERESOLVE: an app at a runtime from a git commit next to vite-plus 1.0.0 could not move to app-templates 0.6.0 and
+ * vite-plus 1.4.0, while the same package.json without a lock resolves). The other packages stay as locked.
+ */
+export function forgetLocked(lock: { packages?: Record<string, unknown> }, names: readonly string[]): void {
+  if (lock.packages === undefined) return;
+  for (const path of Object.keys(lock.packages)) {
+    if (names.some((name) => path === `node_modules/${name}` || path.startsWith(`node_modules/${name}/`))) {
+      delete lock.packages[path];
+    }
+  }
+}
+
+/** The toolchain of an app, which the runtime names as its peer: its version moves with the runtime. */
+export const TOOLCHAIN = "vite-plus";
+/** The override that makes vite the toolchain's core: it moves with the toolchain. */
+const TOOLCHAIN_CORE = "npm:@voidzero-dev/vite-plus-core@";
+
+/**
+ * The toolchain of the app at the version the runtime was built and tested with (its devDependency vite-plus): a
+ * runtime names exactly that version as its peer, so npm cannot install a new runtime next to an older toolchain
+ * (ERESOLVE). An older toolchain moves to it, a newer one stays; the app's override of vite, which points at the
+ * toolchain's core, moves with it. What changes, and the line of the output; undefined when the app or the runtime
+ * names no toolchain.
+ */
+export function nextToolchain(
+  app: { devDependencies?: Record<string, string>; [key: string]: unknown },
+  runtime: { devDependencies?: Record<string, string> },
+): { spec: string; line: string; overrides?: Record<string, unknown> } | undefined {
+  const current = app.devDependencies?.[TOOLCHAIN];
+  const target = runtime.devDependencies?.[TOOLCHAIN];
+  if (current === undefined || target === undefined) return undefined;
+  const next = nextRange(TOOLCHAIN, current, target, target);
+  if (next.spec === current) return next;
+  const appOverrides =
+    typeof app["overrides"] === "object" && app["overrides"] !== null
+      ? (app["overrides"] as Record<string, unknown>)
+      : {};
+  const vite = appOverrides["vite"];
+  const overrides =
+    typeof vite === "string" && vite.startsWith(TOOLCHAIN_CORE)
+      ? { ...appOverrides, vite: `${TOOLCHAIN_CORE}${next.spec}` }
+      : undefined;
+  return overrides === undefined ? next : { ...next, overrides };
 }
 
 /** The workflow that removes the previews whose pull request is not open (issue lernapps/tooling#275). */
@@ -439,6 +490,16 @@ export function update(args: string[]): number {
     if (next.spec !== runtime) specs.push(`${RUNTIME}@${next.spec}`);
     lines.push(next.line);
   }
+  // the toolchain the runtime names as its peer, and the override of vite that goes with it: the override is written
+  // before npm install, which reads it
+  const toolchain = nextToolchain(app, readJson(join(templates.root, "package.json")));
+  if (toolchain !== undefined) {
+    if (toolchain.spec !== devDependencies[TOOLCHAIN]) specs.push(`${TOOLCHAIN}@${toolchain.spec}`);
+    if (toolchain.overrides !== undefined) {
+      writeJson("package.json", { ...readJson("package.json"), overrides: toolchain.overrides });
+    }
+    lines.push(toolchain.line);
+  }
   const version = ownVersion();
   const nextTooling = nextRange(TOOLING, current, version);
   if (nextTooling.spec !== current) specs.push(`${TOOLING}@${nextTooling.spec}`);
@@ -449,7 +510,23 @@ export function update(args: string[]): number {
   }
 
   if (specs.length > 0) {
-    const install = spawnSync("npm", ["install", "--no-audit", "--no-fund", "--save-dev", ...specs], {
+    // the new specs go into package.json as they are (an exact toolchain stays exact), and the lock forgets the
+    // packages that move, so that npm resolves them together
+    const moved = specs.map((spec) => [spec.slice(0, spec.indexOf("@", 1)), spec.slice(spec.indexOf("@", 1) + 1)]);
+    const manifest = readJson("package.json");
+    writeJson("package.json", {
+      ...manifest,
+      devDependencies: { ...manifest.devDependencies, ...Object.fromEntries(moved) },
+    });
+    if (existsSync("package-lock.json")) {
+      const lock = JSON.parse(readFileSync("package-lock.json", "utf8")) as { packages?: Record<string, unknown> };
+      forgetLocked(
+        lock,
+        moved.map(([name]) => name ?? ""),
+      );
+      writeJson("package-lock.json", lock);
+    }
+    const install = spawnSync("npm", ["install", "--no-audit", "--no-fund"], {
       stdio: ["ignore", 2, 2],
     });
     if (install.error || install.status !== 0) {
