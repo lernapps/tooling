@@ -1,0 +1,38 @@
+[
+  {
+    "id": "2026-10-21-phase-announced",
+    "title": "Phase announced",
+    "dataDate": "2026-10-21",
+    "guidanceCommits": [
+      "cbe3b299143d16215983edeeb1d264989e65e931",
+      "dab96feaf99ae0ab747c4f94f81c5f64f0f08397",
+      "124d83e43917f767287b225f71b225f04f138eeb"
+    ],
+    "trials": 6,
+    "results": "runs/2026-10-21-phase-announced/results.json",
+    "conclusions": "runs/2026-10-21-phase-announced/conclusions.json"
+  },
+  {
+    "id": "2026-10-21-guidance-by-phase",
+    "title": "Guidance by phase",
+    "dataDate": "2026-10-21",
+    "guidanceCommits": [
+      "b20b514ee7e7d10984b4bb7bb77ed12e20a84794",
+      "1e4ba5994ff0f25dd8072b310616479c8f24523f"
+    ],
+    "trials": 30,
+    "results": "runs/2026-10-21-guidance-by-phase/results.json",
+    "conclusions": "runs/2026-10-21-guidance-by-phase/conclusions.json"
+  },
+  {
+    "id": "2026-10-18-first-run",
+    "title": "First eval run",
+    "dataDate": "2026-10-18",
+    "guidanceCommits": [
+      "7ceb8c4c61f120b0d5d66cd05b0c307cee468336"
+    ],
+    "trials": 33,
+    "results": "runs/2026-10-18-first-run/results.json",
+    "conclusions": "runs/2026-10-18-first-run/conclusions.json"
+  }
+]
