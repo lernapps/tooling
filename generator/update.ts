@@ -54,6 +54,7 @@ export const UPDATE_OPTIONS = {
 } as const satisfies ParseArgsOptionsConfig;
 
 const LATEST = "npx --yes @lernapps/tooling@latest update";
+const TOOLCHAIN_NAME = "vite-plus";
 
 export const UPDATE_USAGE = `Usage: lernapps update
 
@@ -166,8 +167,40 @@ export function forgetLocked(lock: { packages?: Record<string, unknown> }, names
   }
 }
 
+/**
+ * What an app must change itself when a package moves across a version: `lernapps update` prints each as a line
+ * `breaking: …`, and the update pull request of lernapps/apps lists those lines on top. Add one when a move of the
+ * tooling, the runtime or the toolchain breaks code that only the app can fix.
+ */
+export const BREAKING: readonly { package: string; below: string; text: string }[] = [
+  {
+    package: TOOLCHAIN_NAME,
+    below: "1.4.0",
+    text: "vite-plus 1.4.0 no longer resolves the module `vitest`: tests import describe, expect and it from `vite-plus/test`",
+  },
+];
+
+/**
+ * The lines `breaking: …` for the packages that move (`moved`: name@spec) from below a version (`before`: the app's
+ * devDependencies; a spec without a version, e.g. a git commit, counts as below) to it or above.
+ */
+export function breakingLines(moved: readonly string[], before: Readonly<Record<string, string>>): string[] {
+  return BREAKING.filter((note) =>
+    moved.some((spec) => {
+      const at = spec.indexOf("@", 1);
+      const name = spec.slice(0, at);
+      if (name !== note.package || before[name] === undefined) return false;
+      const below = lowest(note.below);
+      const next = lowest(spec.slice(at + 1));
+      const now = lowest(before[name]);
+      if (below === undefined || next === undefined || older(next, below)) return false;
+      return now === undefined || older(now, below);
+    }),
+  ).map((note) => `breaking: ${note.text}`);
+}
+
 /** The toolchain of an app, which the runtime names as its peer: its version moves with the runtime. */
-export const TOOLCHAIN = "vite-plus";
+export const TOOLCHAIN = TOOLCHAIN_NAME;
 /** The override that makes vite the toolchain's core: it moves with the toolchain. */
 const TOOLCHAIN_CORE = "npm:@voidzero-dev/vite-plus-core@";
 
@@ -508,6 +541,9 @@ export function update(args: string[]): number {
   if (nextTooling.spec === current && resolve(fromPackage()) === resolve("node_modules", TOOLING)) {
     lines.push(`this is the app's own tooling, which knows only its own version; for the latest run: ${LATEST}`);
   }
+
+  // what the app must change itself: on top, where the update pull request lists it
+  lines.unshift(...breakingLines(specs, devDependencies));
 
   if (specs.length > 0) {
     // the new specs go into package.json as they are (an exact toolchain stays exact), and the lock forgets the

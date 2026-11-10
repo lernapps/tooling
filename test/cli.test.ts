@@ -6,6 +6,7 @@ import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS, IGNORED_SKILLS_LINES, ownVersion, runtimeSpec } from "../generator/create.ts";
 import {
+  breakingLines,
   forgetLocked,
   nextRange,
   nextToolchain,
@@ -181,6 +182,16 @@ describe("lernapps", { timeout: 20_000 }, () => {
     // an app or a runtime without the toolchain: nothing to move
     expect(nextToolchain({ devDependencies: {} }, runtime)).toBeUndefined();
     expect(nextToolchain(old, {})).toBeUndefined();
+  });
+
+  test("update names what the app must change itself, once a package crosses the version that breaks it", () => {
+    const vitest = /^breaking: vite-plus 1\.4\.0 no longer resolves the module `vitest`/;
+    expect(breakingLines(["vite-plus@1.4.0"], { "vite-plus": "1.0.0" })).toEqual([expect.stringMatching(vitest)]);
+    expect(breakingLines(["vite-plus@1.5.0"], { "vite-plus": "1.0.0" })).toHaveLength(1);
+    // already across, not moved there, or not in the app
+    expect(breakingLines(["vite-plus@1.5.0"], { "vite-plus": "1.4.0" })).toEqual([]);
+    expect(breakingLines(["@lernapps/tooling@^0.8.4"], { "vite-plus": "1.0.0" })).toEqual([]);
+    expect(breakingLines(["vite-plus@1.4.0"], {})).toEqual([]);
   });
 
   test("update's lock forgets the packages that move, with what lies below them, and keeps the rest", () => {
