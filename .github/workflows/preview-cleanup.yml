@@ -71,5 +71,10 @@ jobs:
           node-version: 26
       - env:
           GITHUB_TOKEN: ${{ github.token }}
-          DRY_RUN: ${{ inputs.dry-run && '--dry-run' || '' }}
-        run: node .lernapps-tooling/publish/gh-pages.ts cleanup $DRY_RUN
+          DRY_RUN: ${{ inputs.dry-run == true }}
+        run: |
+          if [ "$DRY_RUN" = true ]; then
+            node .lernapps-tooling/publish/gh-pages.ts cleanup --dry-run
+          else
+            node .lernapps-tooling/publish/gh-pages.ts cleanup
+          fi
