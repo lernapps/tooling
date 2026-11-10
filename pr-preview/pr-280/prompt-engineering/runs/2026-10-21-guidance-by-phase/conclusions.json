@@ -1,0 +1,283 @@
+{
+  "title": "Guidance by phase",
+  "question": "Does the guidance by phase (one skill per phase, the archetype chosen from the templates' READMEs, GitHub only in Commit; #118) keep the process as well as the guidance of 2026-10-18, and does the agent load each skill in the phase it belongs to?",
+  "bottomLine": [
+    "Sonnet 5.5 and Opus 5.5 pass the check in every run and tick nearly all plan boxes; the content guide is now filled in every run.",
+    "Haiku 5.5 reaches the scenario's end with a green check in every quiz and explainer run, but the interactive app passes the check in 1 of 3 runs, and Haiku loads only about a third of the skills a phase names.",
+    "Sonnet and Opus load 76–95 % of a phase's skills by its end, but often too early.",
+    "Creators need more turns after the plan. Apps created before the plan are rare in the score (3 runs), but the transcripts show more: agents that took a yes to an early draft for the plan's yes."
+  ],
+  "findings": [
+    {
+      "id": "big-models-follow",
+      "title": "Sonnet 5.5 and Opus 5.5 still follow the process, and fill the content guide",
+      "text": "Both pass the check in every run and tick 99–100 % of the plan's boxes. The content guide is filled in every run, also where Opus left it empty on 2026-10-18 (interactive, 1 of 2).",
+      "evidence": [
+        {
+          "task": "interactive-fresh",
+          "model": "Opus 5.5",
+          "row": "app_content_filled"
+        },
+        {
+          "task": "explainer-fresh",
+          "model": "Sonnet 5.5",
+          "row": "plan_boxes_ticked"
+        },
+        {
+          "task": "interactive-fresh",
+          "model": "Sonnet 5.5",
+          "row": "check_passes"
+        }
+      ]
+    },
+    {
+      "id": "haiku-content-guide",
+      "title": "Haiku 5.5 fills the content guide far more often",
+      "text": "The content guide was filled in 3 of 3 quiz and interactive runs and 2 of 3 explainer runs, against 2 of 14 runs on 2026-10-18.",
+      "evidence": [
+        {
+          "task": "quiz-fresh",
+          "model": "Haiku 5.5",
+          "row": "app_content_filled"
+        },
+        {
+          "task": "explainer-fresh",
+          "model": "Haiku 5.5",
+          "row": "app_content_filled"
+        }
+      ]
+    },
+    {
+      "id": "haiku-falls-behind",
+      "title": "Haiku 5.5 falls behind on the rest",
+      "text": "The interactive app passes the check in 1 of 3 runs (its browser tests fail on ö and ü; on 2026-10-18 in 3 of 3). One explainer run chose the interactive archetype. Haiku needs the most turns after the plan: in no interactive run were there three or fewer. Every Haiku cell ends with `phase: code` (67 %), but every quiz and explainer run reached the scenario's end with a green check (\"Code done\"): Haiku asked about GitHub or publishing without setting `phase: commit` first, and the creator ends the scenario there. So the phase row measures only whether the agent set the phase before that question, which Sonnet and Opus mostly do and Haiku does not.",
+      "evidence": [
+        {
+          "task": "interactive-fresh",
+          "model": "Haiku 5.5",
+          "row": "check_passes"
+        },
+        {
+          "task": "quiz-fresh",
+          "model": "Haiku 5.5",
+          "row": "phase_reached"
+        },
+        {
+          "task": "quiz-fresh",
+          "model": "Haiku 5.5",
+          "row": "code_done"
+        },
+        {
+          "task": "interactive-fresh",
+          "model": "Haiku 5.5",
+          "row": "code_done"
+        },
+        {
+          "task": "explainer-fresh",
+          "model": "Haiku 5.5",
+          "row": "archetype_expected"
+        },
+        {
+          "task": "interactive-fresh",
+          "model": "Haiku 5.5",
+          "row": "turns_after_plan_max_3"
+        }
+      ]
+    },
+    {
+      "id": "skills-in-phase",
+      "title": "The skills of a phase are mostly loaded, often too early",
+      "text": "New in this run (A2, scored from the phases of the skills' building blocks in the architecture). Sonnet and Opus load 76–95 % of the skills a phase names by the end of that phase, Haiku 20–38 %. Many loads come before their phase, mostly `lernapps-exercise-patterns` (then in Plan) and the Code skills, read already in Explore. `lernapps-listing` and `lernapps-commit` are not expected: their tasks come after the scenario's end.",
+      "evidence": [
+        {
+          "task": "interactive-fresh",
+          "model": "Sonnet 5.5",
+          "row": "skills_in_phase"
+        },
+        {
+          "task": "explainer-fresh",
+          "model": "Haiku 5.5",
+          "row": "skills_in_phase"
+        },
+        {
+          "task": "quiz-fresh",
+          "model": "Opus 5.5",
+          "row": "no_skill_out_of_place"
+        }
+      ]
+    },
+    {
+      "id": "created-before-plan",
+      "title": "Some agents take a yes to an early draft for the plan's yes",
+      "text": "The row counts 3 runs that created the app before the plan was confirmed (explainer and interactive with Sonnet, interactive with Haiku); on 2026-10-18 Sonnet and Opus had none. It counts a create before the agent sets `phase: code` after the creator's yes, so it misses the other kind the transcripts show: 5 times the agent took a yes to an early draft without sketches as the plan's yes, set the phase and created before the Plan phase was worked through (3 with Haiku, 2 with Sonnet).",
+      "evidence": [
+        {
+          "task": "interactive-fresh",
+          "model": "Sonnet 5.5",
+          "row": "not_created_before_plan"
+        },
+        {
+          "task": "explainer-fresh",
+          "model": "Sonnet 5.5",
+          "row": "not_created_before_plan"
+        },
+        {
+          "task": "interactive-fresh",
+          "model": "Haiku 5.5",
+          "row": "not_created_before_plan"
+        }
+      ]
+    },
+    {
+      "id": "turns-after-plan",
+      "title": "Creators need more turns after the plan",
+      "text": "Three or fewer turns after the plan in half of the runs or less in five cells, where on 2026-10-18 most cells stayed within three.",
+      "evidence": [
+        {
+          "task": "explainer-fresh",
+          "model": "Sonnet 5.5",
+          "row": "turns_after_plan_max_3"
+        },
+        {
+          "task": "quiz-fresh",
+          "model": "Opus 5.5",
+          "row": "turns_after_plan_max_3"
+        }
+      ]
+    },
+    {
+      "id": "questions",
+      "title": "Still no model keeps to one or two questions per turn",
+      "text": "Sonnet 5.5 and Opus 5.5 ask more than two questions in a turn in every run; Haiku 5.5 keeps to two in 1 of 3 runs per archetype.",
+      "evidence": [
+        {
+          "task": "quiz-fresh",
+          "model": "Sonnet 5.5",
+          "row": "questions_max_2"
+        },
+        {
+          "task": "quiz-fresh",
+          "model": "Haiku 5.5",
+          "row": "questions_max_2"
+        }
+      ]
+    },
+    {
+      "id": "rerun-newer-guidance",
+      "title": "The re-run at guidance 1e4ba59 looks like the run at b20b514",
+      "text": "The quiz with Sonnet 5.5 was run again after the usage limit, by then at a newer guidance (listing rule \"own data only\", questions and page frame after the runtime). It passes the check in every run and loads 79 % of the skills by their phase; its verifier did not crash again.",
+      "evidence": [
+        {
+          "task": "quiz-fresh",
+          "model": "Sonnet 5.5",
+          "configuration": "c3",
+          "row": "check_passes"
+        },
+        {
+          "task": "quiz-fresh",
+          "model": "Sonnet 5.5",
+          "configuration": "c3",
+          "row": "skills_in_phase"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "text": "Score a skill as loaded when it was loaded by the end of its phase; loading it before counts once, as out of place.",
+      "status": "done",
+      "findings": [
+        "skills-in-phase"
+      ]
+    },
+    {
+      "text": "Leave out trials that hit the usage limit (HTTP 429) or broke off before the agent started, in the results file of a run.",
+      "status": "done"
+    },
+    {
+      "text": "Make `lernapps-commit` and `lernapps-listing` hard to skip in Commit. Dropped: the scenario ends before their tasks; the fresh tasks now leave them to that condition (`skills_conditional`).",
+      "status": "dropped",
+      "findings": [
+        "skills-in-phase"
+      ]
+    },
+    {
+      "text": "Move `lernapps-exercise-patterns` to Explore, where the agents read it anyway: the kind of practice it shows points to the archetype, so the plan loads it before the archetype is chosen.",
+      "status": "done",
+      "findings": [
+        "skills-in-phase",
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Check whether \"created before the plan\" counts right. It did not: the score now reads the phase a `sed` or one-liner writes (the new value) and the output of the template's `grep '^phase:'`, which covers helper scripts.",
+      "status": "done",
+      "findings": [
+        "created-before-plan"
+      ]
+    },
+    {
+      "text": "The plan's yes is the one at the Plan checkpoint, with the sketches: a yes to a draft in Explore never lets the agent run `create`.",
+      "status": "open",
+      "findings": [
+        "created-before-plan",
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Measure the scenario's end as such: the row \"Code done\" counts a green check and a conversation that ended after the plan with the creator's stop at publishing or its thanks when the agent is done; the phase row stays beside it. Run 2 is re-scored with it and with the phase detection above.",
+      "status": "done",
+      "findings": [
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Say plainly that only a checkpoint waits: a phase's last box sets the next phase and goes on in the same message, and Code has no checkpoint before Commit.",
+      "status": "done",
+      "findings": [
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Find out why the interactive app's browser tests fail on ö and ü with Haiku 5.5.",
+      "status": "open",
+      "findings": [
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "The simulated creator marks its last message with the end (`[Ende: veröffentlichen]`, `fertig`, `festgefahren`), so that the end is read, not guessed from its sentences, which took three fixes in the re-score.",
+      "status": "done",
+      "findings": [
+        "haiku-falls-behind"
+      ]
+    },
+    {
+      "text": "Each reply begins with the phase in `phase:` (\"**Plan · Checkpoint**\"), so that the creator always knows where the agent is, and a yes to a draft is not taken for the plan's yes. Scored from the next run: replies that begin with the phase, and whether it is the plan's.",
+      "status": "done",
+      "findings": [
+        "haiku-falls-behind",
+        "created-before-plan"
+      ]
+    },
+    {
+      "text": "The verifier skips a dangling symlink under `.claude/skills/` instead of crashing (verify.ts, findVibeDirs).",
+      "status": "done",
+      "findings": [
+        "rerun-newer-guidance"
+      ]
+    },
+    {
+      "text": "Rethink the rule of one or two questions per turn (carried over from 2026-10-18).",
+      "status": "open",
+      "findings": [
+        "questions"
+      ]
+    }
+  ],
+  "notes": [
+    "The creator was played by Haiku 5.5 for every model, as on 2026-10-18. Claude Code was updated during the run (2.1.305 to 2.1.306): the interactive jobs ran on the newer version, which makes them a configuration of their own; they share no cell with the others, so the table shows them together.",
+    "The subscription's usage limit hit after eight jobs: the interactive job with Opus 5.5 (3 runs, broken off after about 34 minutes) and a first re-run of the quiz with Sonnet 5.5 (3 runs, before the agent started) are left out. The first was run again at the same guidance, the second at the newer guidance 1e4ba59.",
+    "One quiz run with Sonnet 5.5 kept its transcript scores but lost the verifier's: the verifier crashed on a dangling symlink the agent left in `.claude/skills/`."
+  ]
+}
