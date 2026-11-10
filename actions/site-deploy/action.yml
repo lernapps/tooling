@@ -38,3 +38,4 @@ runs:
         folder: _site
         clean-exclude: ${{ steps.keep.outputs.patterns }}
         force: false
+        attempt-limit: 10 # other runs write gh-pages too (the previews): fetch, rebase and push again

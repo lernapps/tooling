@@ -1,0 +1,75 @@
+name: Preview cleanup
+
+# Removes every preview on gh-pages (pr-preview/pr-<number>/) whose pull request is not open, as a whole folder, in one
+# commit (publish/gh-pages.ts cleanup; issue #275). The preview actions (site-preview, app-preview) remove a preview
+# when its pull request closes, but some closings start no run, or a run loses: a stacked pull request that GitHub
+# closes with its deleted base, a preview written after its pull request was merged within seconds, a push that
+# failed every attempt. This workflow catches them. It is a reusable workflow: each repo with previews calls it from a
+# small file of its own, daily and by hand (Actions → Preview cleanup → Run workflow); the tooling's own previews are
+# cleaned up by this file itself, on the same triggers:
+#
+#   name: Preview cleanup
+#   on:
+#     schedule:
+#       - cron: "41 4 * * *" # daily
+#     workflow_dispatch:
+#       inputs:
+#         dry-run:
+#           description: Only list the previews that would be removed
+#           type: boolean
+#           default: false
+#   permissions:
+#     contents: write # removes the previews on gh-pages
+#     pull-requests: read # which pull requests are open
+#   jobs:
+#     cleanup:
+#       uses: lernapps/tooling/.github/workflows/preview-cleanup.yml@<commit> # main
+#       with:
+#         tooling-ref: <commit> # the script of the same commit
+#         dry-run: ${{ inputs.dry-run == true }}
+#
+# When GitHub does not say which pull requests are open, the workflow fails and removes nothing.
+on:
+  workflow_call:
+    inputs:
+      tooling-ref:
+        description: The commit (or tag) of lernapps/tooling whose script runs, in a repo other than the tooling
+        type: string
+        default: main
+      dry-run:
+        description: Only list the previews that would be removed
+        type: boolean
+        default: false
+  schedule:
+    - cron: "41 4 * * *" # daily
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Only list the previews that would be removed
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # removes the previews on gh-pages
+      pull-requests: read # which pull requests are open
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: lernapps/tooling
+          ref: ${{ github.repository == 'lernapps/tooling' && github.sha || inputs.tooling-ref }}
+          path: .lernapps-tooling
+          sparse-checkout: publish
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+      - env:
+          GITHUB_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ inputs.dry-run && '--dry-run' || '' }}
+        run: node .lernapps-tooling/publish/gh-pages.ts cleanup $DRY_RUN

@@ -47,6 +47,7 @@ flowchart TB
     bb-app-check-action["App check action"]
     bb-app-publish["App publish"]
     bb-app-preview["App preview"]
+    bb-preview-cleanup["Preview cleanup"]
     subgraph bb-platform-upkeep["Platform upkeep (not used by creators)"]
         bb-tooling-build["Tooling build and docs"]
         bb-site-check["Platform site check"]
@@ -70,6 +71,7 @@ flowchart TB
     bb-tooling-build -->|"if-site-check"| bb-site-check
     bb-tooling-build -->|"if-site-deploy"| bb-site-deploy
     bb-tooling-build -->|"if-site-preview"| bb-site-preview
+    bb-tooling-build -->|"if-preview-cleanup"| bb-preview-cleanup
 ```
 
 ## Level 2: archetype presets
@@ -1071,6 +1073,41 @@ protocol: GitHub Actions, pinned to a commit; pull request comment
 :::
 ```
 
+## Preview cleanup
+
+Removes the previews of pull requests that are no longer open from the branch gh-pages of an app or a site, daily and
+by hand. The preview actions remove a preview when its pull request closes, but some closings start no run (a stacked
+pull request that GitHub closes with its deleted base), and a run can lose (a preview written after a merge within
+seconds, a push that failed every attempt): the cleanup is accountable for none of these staying. It removes a whole
+folder, and nothing when GitHub does not say which pull requests are open. The previews, the cleanup and the deploys
+all write gh-pages; each starts again from the newer branch when another run pushed first (publish/gh-pages.ts for
+the previews and the cleanup, the deploy action's own retries for the deploys), so they need no shared concurrency
+group, which would cancel a waiting run.
+
+```arc42
+:::building-block
+id: bb-preview-cleanup
+title: Preview cleanup
+technology: GitHub reusable workflow, Node.js script
+path: .github/workflows/preview-cleanup.yml
+:::
+```
+
+### Preview cleanup interface
+
+A consumer can rely on gh-pages holding a preview only for an open pull request, at the latest a day after it closed.
+It calls the reusable workflow from a workflow of its own, on a schedule and by hand, with the permissions contents:
+write and pull-requests: read; the generator writes that workflow into every app.
+
+```arc42
+:::interface
+id: if-preview-cleanup
+title: Preview cleanup
+provider: bb-preview-cleanup
+protocol: GitHub Actions reusable workflow, pinned to a commit or tag
+:::
+```
+
 ## Listing validation
 
 Runs on pull requests to the catalog that add or change an entry, a new listing or an update. It runs the checks of
@@ -1129,7 +1166,7 @@ id: bb-tooling-build
 title: Tooling build and docs
 parent: bb-platform-upkeep
 technology: shell script, arc42
-requires: if-site-check, if-site-deploy, if-site-preview
+requires: if-site-check, if-site-deploy, if-site-preview, if-preview-cleanup
 :::
 ```
 

@@ -62,7 +62,8 @@ moves the app within its version ranges; this moves the ranges, and what npm doe
                            (e.g. from Renovate) is kept. A git commit, as apps once pinned, becomes a version; while
                            this tooling depends on a commit (an unreleased runtime), the app moves to that commit
   @lernapps/tooling        to the version of this tooling (unchanged when run from the app)
-  .github/workflows/       the actions of lernapps/tooling at the tag of that version
+  .github/workflows/       the actions and reusable workflows of lernapps/tooling at the tag of that version;
+                           preview-cleanup.yml where the app has previews and no such file yet
   .agents/skills/app-content/SKILL.md
                            the content guide's skeleton, where the app has none yet (and its link for Claude Code)
   .vibe/plan.md            the plan of an app made before the plans had a folder: moved to
@@ -128,18 +129,39 @@ export function nextRange(
   return { spec: target, line: `${name}: ${current ?? "none"} → ${target}` };
 }
 
-/** The workflows' `uses: lernapps/tooling/actions/<name>@<ref>`, set to `ref` (a commit or a tag); the files it changed. */
+/**
+ * The workflows' `uses: lernapps/tooling/actions/<name>@<ref>`, `uses: lernapps/tooling/.github/workflows/<name>@<ref>`
+ * and `tooling-ref: <ref>`, set to `ref` (a commit or a tag); the files it changed.
+ */
 function moveActions(ref: string): string[] {
   const changed: string[] = [];
+  const pinned =
+    /(lernapps\/tooling\/(?:actions\/[\w-]+|\.github\/workflows\/[\w-]+\.ya?ml)@|\btooling-ref:[ \t]*["']?)(?:[0-9a-f]{40}|v\d+\.\d+\.\d+)\b/g;
   for (const file of workflows()) {
     const text = readFileSync(file, "utf8");
-    const next = text.replace(/(lernapps\/tooling\/actions\/[\w-]+@)(?:[0-9a-f]{40}|v\d+\.\d+\.\d+)\b/g, `$1${ref}`);
+    const next = text.replace(pinned, `$1${ref}`);
     if (next !== text) {
       writeFileSync(file, next);
       changed.push(file);
     }
   }
   return changed;
+}
+
+/** The workflow that removes the previews whose pull request is not open (issue lernapps/tooling#275). */
+const PREVIEW_CLEANUP = join(".github", "workflows", "preview-cleanup.yml");
+
+/**
+ * Adds the preview cleanup to an app made before the generator wrote it, at `ref`; what it did, as lines of the
+ * output. Only to an app whose workflows publish previews (the app preview action).
+ */
+function addPreviewCleanup(ref: string): string[] {
+  if (existsSync(PREVIEW_CLEANUP)) return [];
+  if (!workflows().some((file) => readFileSync(file, "utf8").includes("lernapps/tooling/actions/app-preview@")))
+    return [];
+  const text = readFileSync(fromPackage("generator", "app", PREVIEW_CLEANUP), "utf8").replaceAll("{{tooling}}", ref);
+  writeFileSync(PREVIEW_CLEANUP, text);
+  return [`added ${PREVIEW_CLEANUP}: removes the previews of closed pull requests, daily and by hand`];
 }
 
 /**
@@ -441,6 +463,7 @@ export function update(args: string[]): number {
   }
   const changed = moveActions(`v${version}`);
   if (changed.length > 0) lines.push(`the actions of lernapps/tooling in ${changed.join(", ")}: v${version}`);
+  lines.push(...addPreviewCleanup(`v${version}`));
   // an app made before the generator wrote the content guide gets its skeleton
   const guide = addContentGuide(".");
   lines.push(...guide.map((line) => `content guide: ${line}`));

@@ -121,6 +121,34 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(JSON.parse(readFileSync(join(dir, "package.json"), "utf8"))).toEqual({ name: "app", devDependencies });
   });
 
+  test("update moves the reusable workflows and tooling-ref too, and adds the preview cleanup to an app with previews", () => {
+    const { version } = JSON.parse(readFileSync(join(repoRoot, "package.json"), "utf8")) as { version: string };
+    const dir = tempDir("app-previews");
+    mkdirSync(join(dir, ".github/workflows"), { recursive: true });
+    writeFileSync(
+      join(dir, ".github/workflows/pages.yml"),
+      "jobs:\n  preview:\n    steps:\n      - uses: lernapps/tooling/actions/app-preview@v0.1.0\n",
+    );
+    writeFileSync(
+      join(dir, ".github/workflows/other.yml"),
+      "jobs:\n  x:\n    uses: lernapps/tooling/.github/workflows/changes.yml@v0.1.0\n    with:\n      tooling-ref: v0.1.0\n",
+    );
+    const devDependencies = { "@lernapps/tooling": `^${version}` };
+    writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "app", devDependencies }));
+    const result = run("node", [join(repoRoot, "src/cli.ts"), "update"], dir);
+    expect(result.code, result.stderr).toBe(0);
+    expect(readFileSync(join(dir, ".github/workflows/other.yml"), "utf8")).toBe(
+      `jobs:\n  x:\n    uses: lernapps/tooling/.github/workflows/changes.yml@v${version}\n    with:\n      tooling-ref: v${version}\n`,
+    );
+    const cleanup = readFileSync(join(dir, ".github/workflows/preview-cleanup.yml"), "utf8");
+    expect(cleanup).toContain(`uses: lernapps/tooling/.github/workflows/preview-cleanup.yml@v${version}`);
+    expect(cleanup).toContain(`tooling-ref: "v${version}"`);
+    expect(cleanup).not.toContain("{{tooling}}");
+    expect(result.stdout).toContain(`lernapps update: added ${join(".github", "workflows", "preview-cleanup.yml")}`);
+    // a second run keeps the file
+    expect(run("node", [join(repoRoot, "src/cli.ts"), "update"], dir).stdout).not.toContain("added ");
+  });
+
   test("update's ranges: a git commit or an older version becomes this version, a newer one stays", () => {
     const commit = "github:lernapps/tooling#0123456789abcdef0123456789abcdef01234567";
     expect(nextRange("@lernapps/tooling", commit, "0.2.0")).toEqual({

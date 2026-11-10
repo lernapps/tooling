@@ -1,7 +1,7 @@
 // The contract of the app preview (actions/app-preview, publish/preview.ts) and of the job `preview` in the workflow
 // the generator writes: a pull request from the app's own repo gets the checked bundle as a preview, not indexed, with
-// one comment in German for the creator; closing the pull request removes it. Deploying to GitHub Pages is not tested
-// here: that is pr-preview-action's.
+// one comment in German for the creator; closing the pull request removes it. Writing gh-pages is tested in
+// gh-pages.test.ts.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, describe, expect, test, vi } from "vite-plus/test";
@@ -121,16 +121,16 @@ describe("the job preview of the app's workflow", () => {
     const action = (name: string) =>
       parse(readFileSync(join(repoRoot, "actions", name, "action.yml"), "utf8")) as {
         inputs: Record<string, { default?: string }>;
-        runs: { steps: { uses?: string; with?: Record<string, unknown> }[] };
+        runs: { steps: { id?: string; uses?: string; run?: string; with?: Record<string, unknown> }[] };
       };
     expect(action("app-check").inputs["upload"]?.default).toContain(
       "github.event.pull_request.head.repo.full_name == github.repository",
     );
     const steps = action("app-preview").runs.steps;
     const download = steps.find((step) => step.uses?.startsWith("actions/download-artifact@"));
-    const deploy = steps.find((step) => step.uses?.startsWith("rossjrw/pr-preview-action@"));
+    const deploy = steps.find((step) => step.id === "write");
     expect(download?.with).toMatchObject({ name: "app", path: "_app" });
-    expect(deploy?.with).toMatchObject({ "source-dir": "_app", "umbrella-dir": "pr-preview", comment: false });
+    expect(deploy?.run).toContain('publish/gh-pages.ts" deploy --number "$NUMBER" --dir _app');
     // app-publish keeps the previews when it publishes
     expect(JSON.stringify(action("app-publish").runs.steps)).toContain('"clean-exclude":"pr-preview/"');
   });

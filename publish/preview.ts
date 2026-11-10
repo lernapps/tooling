@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // The logic of the app preview action (actions/app-preview): a preview of a pull request's checked bundle, at
 // <the app's address>pr-preview/pr-<number>/ on the branch gh-pages, for the creator to look at before it goes online.
-// The action deploys and removes the folder (rossjrw/pr-preview-action); this file does the rest, in two commands:
-//   before  [--dir <bundle>] finds the app's address and the preview's (outputs app, url, base). With --dir it marks
+// The action deploys and removes the folder (publish/gh-pages.ts); this file does the rest, in two commands:
+//   before  [--dir <bundle>] finds the app's address and the preview's (outputs app, url). With --dir it marks
 //           every page of the bundle noindex (a preview is not for search engines) and writes the marker file
 //           lernapps-preview.txt (the commit) into it.
 //   after   on a pull request that is open, makes sure gh-pages has .nojekyll at its root (without it Pages runs
@@ -184,7 +184,6 @@ async function before(e: Env, dir: string | undefined): Promise<void> {
   const preview = previewAddress(app, e.number);
   output("app", app);
   output("url", preview);
-  output("base", app.replace(/^https?:\/\//, "").replace(/\/$/, "")); // for pr-preview-action: host and path
   if (dir === undefined) return;
   if (!existsSync(join(dir, "index.html"))) {
     throw new Error(`${dir} has no index.html: the artifact "app" of the app check action is missing or empty`);

@@ -138,7 +138,7 @@ id: dn-tooling-repo
 title: lernapps/tooling repository
 type: environment
 parent: dn-github
-hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-app-preview, bb-tooling-build, bb-site-check, bb-site-pre-push, bb-site-deploy, bb-site-preview, bb-renovate-preset
+hosts: bb-tooling-package, bb-app-check-action, bb-app-publish, bb-app-preview, bb-preview-cleanup, bb-tooling-build, bb-site-check, bb-site-pre-push, bb-site-deploy, bb-site-preview, bb-renovate-preset
 :::
 ```
 
@@ -163,7 +163,8 @@ The GitHub Actions of the app repo, which belongs to the developer: the node whe
 the app preview action run. It receives them,
 named in the workflow the generator wrote, at the commit of the package the app was created with. On every change it
 runs the same check as the hooks. On the main line it publishes the checked bundle to the GitHub Pages of the app's
-repo; on a pull request from the repo itself it previews it there.
+repo; on a pull request from the repo itself it previews it there. Daily, the preview cleanup removes the previews of
+closed pull requests.
 
 ```arc42
 :::deployment-node
@@ -171,7 +172,7 @@ id: dn-app-ci
 title: Developer's GitHub Actions
 type: container
 parent: dn-github
-hosts: bb-app-check-action, bb-app-publish, bb-app-preview, bb-check-cli
+hosts: bb-app-check-action, bb-app-publish, bb-app-preview, bb-preview-cleanup, bb-check-cli
 :::
 ```
 

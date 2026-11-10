@@ -192,6 +192,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
       "LICENSE",
       "renovate.json",
       ".github/workflows/pages.yml",
+      ".github/workflows/preview-cleanup.yml",
       ".github/ISSUE_TEMPLATE/inhaltsfehler.yml",
     ]) {
       expect(existsSync(join(app, file)), file).toBe(true);
@@ -227,6 +228,10 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
     expect(pages).toContain(`uses: lernapps/tooling/actions/app-preview@v${version}`);
     expect(pages).toContain("pages: write"); // the app publish action reads the Pages settings
     expect(pages).not.toContain("site-check");
+    // the cleanup of the previews, the reusable workflow and its script of the same version
+    const cleanup = readFileSync(join(app, ".github/workflows/preview-cleanup.yml"), "utf8");
+    expect(cleanup).toContain(`uses: lernapps/tooling/.github/workflows/preview-cleanup.yml@v${version}`);
+    expect(cleanup).toContain(`tooling-ref: "v${version}"`);
   });
 
   test("it writes the scaffold, not the example app: the placeholder, no example content, no tests of the runtime", () => {
