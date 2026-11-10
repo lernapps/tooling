@@ -1,0 +1,262 @@
+# Leiter und Isolatoren – Tutor-Datei
+
+> Welche Stoffe Strom leiten, welche nicht, und wie Isolatoren im Alltag vor Stromschlägen schützen.
+
+App: Der elektrische Stromkreis. Seite: [Leiter und Isolatoren](./)
+
+Diese Datei ist für einen KI-Tutor. Sie enthält die Lösungen: Nutze sie, um anzuleiten und Fehler zu erkennen, nicht um vorzusagen. Die Regeln stehen in llms.txt. Kannst du eine Datei der App nicht abrufen, bitte die lernende Person, den Text der Seite oder diese Datei einzufügen oder anzuhängen.
+
+## Abschnitte
+
+- [Warum ist das wichtig?](./#warum)
+- [Das steckt dahinter](./#regel)
+- [Ein Beispiel](./#beispiel)
+- [Übung](./#uebung)
+
+## Übungen
+
+### stoffe-zuordnen (matching)
+
+- Link: [./#stoffe-zuordnen](./#stoffe-zuordnen), im Abschnitt „Übung“
+- Aufgabe: Ordne jedem Stoff zu, ob er Strom leitet oder nicht.
+- Antwortformat: jedem Eintrag links den passenden rechts zuordnen
+- Lösung: Kupfer – Leiter, weil die Ladungen frei beweglich sind; Kunststoff – Isolator, weil die Ladungen fest gebunden sind; Eisen – Leiter, weil es ein Metall ist; Glas – Isolator, weil die Ladungen nicht wandern können; Gummi – Isolator, weil er die Ladungen festhält
+- Erklärung: Metalle wie Kupfer und Eisen leiten Strom. Kunststoff, Glas und Gummi sind Isolatoren.
+- Tipp, den die App zeigt: Frage dich bei jedem Stoff, ob dort Ladungen frei wandern können.
+
+### warum-metall-leitet (single-choice)
+
+- Link: [./#warum-metall-leitet](./#warum-metall-leitet), im Abschnitt „Übung“
+- Aufgabe: Warum leitet ein Metall den elektrischen Strom?
+- Antwortformat: eine Antwort wählen
+- Antworten zur Wahl (✓ richtig, ✗ falsch, mit der Meldung der App):
+  - ✓ Weil sich die Ladungen im Metall frei bewegen können. – Im Metall sind die negativen Ladungen nicht fest an einen Platz gebunden. Sie können sich durch das Metall bewegen und den Strom transportieren.
+  - ✗ Weil Metall magnetisch ist. – Magnetismus und elektrische Leitfähigkeit sind zwei verschiedene Dinge. Auch nichtmagnetische Metalle wie Kupfer leiten Strom.
+  - ✗ Weil Metall keine Atome hat. – Auch Metall besteht aus Atomen. Entscheidend ist, dass sich einige Ladungen zwischen ihnen frei bewegen können.
+- Lösung: Weil sich die Ladungen im Metall frei bewegen können.
+- Erklärung: Leitfähigkeit bedeutet, dass Ladungen wandern können. Das ist bei Metallen der Fall, bei Kunststoff und Glas nicht.
+- Tipp, den die App zeigt: Überlege, was sich im Metall bewegt, wenn Strom fließt.
+
+### isolatoren-alltag (multiple-choice)
+
+- Link: [./#isolatoren-alltag](./#isolatoren-alltag), im Abschnitt „Übung“
+- Aufgabe: Welche Gegenstände sind Isolatoren und schützen dich deshalb vor Stromschlägen?
+- Antwortformat: alle richtigen Antworten wählen
+- Antworten zur Wahl (✓ richtig, ✗ falsch, mit der Meldung der App):
+  - ✓ Der Kunststoffgriff einer Zange – Kunststoff ist ein Isolator. Der Griff hält den Strom von deiner Hand fern.
+  - ✓ Die Gummiisolierung eines Kabels – Gummi ist ein Isolator und umgibt den leitenden Draht.
+  - ✗ Ein Kupfernagel – Kupfer ist ein Leiter. Ein Kupfernagel schützt nicht vor Strom.
+  - ✓ Ein Glasstab – Glas ist ein Isolator. Ein Glasstab leitet den Strom nicht.
+- Lösung: Der Kunststoffgriff einer Zange; Die Gummiisolierung eines Kabels; Ein Glasstab
+- Erklärung: Isolatoren sind Kunststoff, Gummi und Glas. Metalle wie Kupfer leiten Strom und schützen nicht.
+- Tipp, den die App zeigt: Achte darauf, welche Stoffe Metalle sind.
+
+### stoff-beispiel (generated, choice)
+
+- Link: [./#stoff-beispiel](./#stoff-beispiel), im Abschnitt „Übung“
+- Antwortformat: eine Antwort wählen
+- Tipp, den die App zeigt (Vorlage: {{…}} sind die Werte der Aufgabe): Überlege, wo genau dieser Stoff im Alltag vorkommt.
+- Lösungsweg (Vorlage: {{…}} sind die Werte der Aufgabe):
+  - {{stoff.name}} kommt vor als: {{stoff.beispiel}}
+- Aufgaben nach Nummer, 1 bis 67: jede eine andere (die App zeigt „Aufgabe Nr. …“):
+  - [Aufgabe Nr. 1](./?stoff-beispiel=1#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Eine Fensterscheibe.; Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Gummi.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Gummi.
+  - [Aufgabe Nr. 2](./?stoff-beispiel=2#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Der Griff eines Schraubendrehers.; Die Ummantelung eines Kabels.; Eine Fensterscheibe.. → Lösung: Ein Nagel.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Eisen.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Eisen.
+  - [Aufgabe Nr. 3](./?stoff-beispiel=3#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Die Ummantelung eines Kabels.; Eine Fensterscheibe.; Eine Getränkedose.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Gummi.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Gummi.
+  - [Aufgabe Nr. 4](./?stoff-beispiel=4#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.; Ein Nagel.; Die Ummantelung eines Kabels.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Gummi.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Gummi.
+  - [Aufgabe Nr. 5](./?stoff-beispiel=5#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Die Ummantelung eines Kabels.; Das Innere eines Stromkabels.; Eine Getränkedose.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Gummi.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Gummi.
+  - [Aufgabe Nr. 6](./?stoff-beispiel=6#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Ein Nagel.; Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.. → Lösung: Eine Getränkedose.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Aluminium.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Aluminium.
+  - [Aufgabe Nr. 7](./?stoff-beispiel=7#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Eine Fensterscheibe.; Die Ummantelung eines Kabels.; Ein Nagel.. → Lösung: Eine Getränkedose.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Aluminium.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Aluminium.
+  - [Aufgabe Nr. 8](./?stoff-beispiel=8#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Eine Fensterscheibe.; Ein Nagel.; Eine Getränkedose.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kupfer.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kupfer.
+  - [Aufgabe Nr. 9](./?stoff-beispiel=9#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Der Griff eines Schraubendrehers.; Eine Getränkedose.; Die Ummantelung eines Kabels.. → Lösung: Ein Nagel.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Eisen.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Eisen.
+  - [Aufgabe Nr. 10](./?stoff-beispiel=10#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Ein Nagel.; Eine Getränkedose.; Die Ummantelung eines Kabels.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kupfer.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Kupfer.
+  - [Aufgabe Nr. 11](./?stoff-beispiel=11#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Der Griff eines Schraubendrehers.; Eine Fensterscheibe.; Die Ummantelung eines Kabels.. → Lösung: Ein Nagel.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Eisen.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Eisen.
+  - [Aufgabe Nr. 12](./?stoff-beispiel=12#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Eine Getränkedose.; Ein Nagel.; Der Griff eines Schraubendrehers.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Kunststoff.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kunststoff.
+  - [Aufgabe Nr. 13](./?stoff-beispiel=13#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Eine Fensterscheibe.; Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.. → Lösung: Eine Getränkedose.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Aluminium.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Aluminium.
+  - [Aufgabe Nr. 14](./?stoff-beispiel=14#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Der Griff eines Schraubendrehers.; Ein Nagel.; Das Innere eines Stromkabels.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kunststoff.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kunststoff.
+  - [Aufgabe Nr. 15](./?stoff-beispiel=15#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Glas? Zur Wahl: Eine Fensterscheibe.; Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.; Eine Getränkedose.. → Lösung: Eine Fensterscheibe.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Glas.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Glas.
+  - [Aufgabe Nr. 16](./?stoff-beispiel=16#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Eine Getränkedose.; Eine Fensterscheibe.; Der Griff eines Schraubendrehers.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Kupfer.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kupfer.
+  - [Aufgabe Nr. 17](./?stoff-beispiel=17#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Ein Nagel.; Der Griff eines Schraubendrehers.; Die Ummantelung eines Kabels.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kupfer.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kupfer.
+  - [Aufgabe Nr. 18](./?stoff-beispiel=18#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Ein Nagel.; Der Griff eines Schraubendrehers.; Eine Fensterscheibe.. → Lösung: Eine Getränkedose.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Aluminium.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Aluminium.
+  - [Aufgabe Nr. 19](./?stoff-beispiel=19#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Die Ummantelung eines Kabels.; Das Innere eines Stromkabels.; Eine Getränkedose.. → Lösung: Ein Nagel.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Eisen.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Eisen.
+  - [Aufgabe Nr. 20](./?stoff-beispiel=20#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Glas? Zur Wahl: Eine Fensterscheibe.; Das Innere eines Stromkabels.; Eine Getränkedose.; Die Ummantelung eines Kabels.. → Lösung: Eine Fensterscheibe.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Glas.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Glas.
+  - [Aufgabe Nr. 21](./?stoff-beispiel=21#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Der Griff eines Schraubendrehers.; Ein Nagel.; Die Ummantelung eines Kabels.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kupfer.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kupfer.
+  - [Aufgabe Nr. 22](./?stoff-beispiel=22#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Die Ummantelung eines Kabels.; Das Innere eines Stromkabels.; Der Griff eines Schraubendrehers.. → Lösung: Ein Nagel.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Eisen.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Eisen.
+  - [Aufgabe Nr. 23](./?stoff-beispiel=23#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.; Ein Nagel.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kunststoff.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Kunststoff.
+  - [Aufgabe Nr. 24](./?stoff-beispiel=24#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Eine Fensterscheibe.; Die Ummantelung eines Kabels.; Ein Nagel.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kupfer.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Kupfer.
+  - [Aufgabe Nr. 25](./?stoff-beispiel=25#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.. → Lösung: Eine Getränkedose.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Aluminium.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Aluminium.
+  - [Aufgabe Nr. 26](./?stoff-beispiel=26#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Die Ummantelung eines Kabels.; Ein Nagel.; Das Innere eines Stromkabels.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Gummi.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Gummi.
+  - [Aufgabe Nr. 27](./?stoff-beispiel=27#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Der Griff eines Schraubendrehers.; Eine Getränkedose.; Eine Fensterscheibe.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kunststoff.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Kunststoff.
+  - [Aufgabe Nr. 28](./?stoff-beispiel=28#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.; Ein Nagel.; Eine Getränkedose.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Gummi.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Gummi.
+  - [Aufgabe Nr. 29](./?stoff-beispiel=29#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Der Griff eines Schraubendrehers.; Eine Getränkedose.; Die Ummantelung eines Kabels.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kupfer.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Kupfer.
+  - [Aufgabe Nr. 30](./?stoff-beispiel=30#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Glas? Zur Wahl: Eine Fensterscheibe.; Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.; Eine Getränkedose.. → Lösung: Eine Fensterscheibe.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Glas.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Glas.
+  - [Aufgabe Nr. 31](./?stoff-beispiel=31#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Glas? Zur Wahl: Eine Fensterscheibe.; Eine Getränkedose.; Die Ummantelung eines Kabels.; Das Innere eines Stromkabels.. → Lösung: Eine Fensterscheibe.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Glas.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Glas.
+  - [Aufgabe Nr. 32](./?stoff-beispiel=32#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Ein Nagel.; Eine Fensterscheibe.; Die Ummantelung eines Kabels.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Gummi.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Gummi.
+  - [Aufgabe Nr. 33](./?stoff-beispiel=33#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Glas? Zur Wahl: Eine Fensterscheibe.; Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.; Ein Nagel.. → Lösung: Eine Fensterscheibe.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Glas.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Glas.
+  - [Aufgabe Nr. 34](./?stoff-beispiel=34#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.; Ein Nagel.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Gummi.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Gummi.
+  - [Aufgabe Nr. 35](./?stoff-beispiel=35#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.; Eine Fensterscheibe.. → Lösung: Eine Getränkedose.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Aluminium.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Aluminium.
+  - [Aufgabe Nr. 36](./?stoff-beispiel=36#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Der Griff eines Schraubendrehers.; Die Ummantelung eines Kabels.; Eine Getränkedose.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kupfer.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Kupfer.
+  - [Aufgabe Nr. 37](./?stoff-beispiel=37#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Glas? Zur Wahl: Eine Fensterscheibe.; Der Griff eines Schraubendrehers.; Eine Getränkedose.; Ein Nagel.. → Lösung: Eine Fensterscheibe.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Glas.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Glas.
+  - [Aufgabe Nr. 38](./?stoff-beispiel=38#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Ein Nagel.; Der Griff eines Schraubendrehers.; Eine Getränkedose.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kunststoff.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kunststoff.
+  - [Aufgabe Nr. 39](./?stoff-beispiel=39#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Eine Getränkedose.; Das Innere eines Stromkabels.; Eine Fensterscheibe.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Gummi.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Gummi.
+  - [Aufgabe Nr. 40](./?stoff-beispiel=40#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Ein Nagel.; Eine Fensterscheibe.; Die Ummantelung eines Kabels.. → Lösung: Eine Getränkedose.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Aluminium.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Aluminium.
+  - [Aufgabe Nr. 41](./?stoff-beispiel=41#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Die Ummantelung eines Kabels.; Eine Fensterscheibe.; Der Griff eines Schraubendrehers.. → Lösung: Ein Nagel.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Eisen.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Eisen.
+  - [Aufgabe Nr. 42](./?stoff-beispiel=42#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Glas? Zur Wahl: Eine Fensterscheibe.; Eine Getränkedose.; Ein Nagel.; Das Innere eines Stromkabels.. → Lösung: Eine Fensterscheibe.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Glas.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Glas.
+  - [Aufgabe Nr. 43](./?stoff-beispiel=43#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Eine Getränkedose.; Die Ummantelung eines Kabels.; Eine Fensterscheibe.. → Lösung: Ein Nagel.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Eisen.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Eisen.
+  - [Aufgabe Nr. 44](./?stoff-beispiel=44#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.; Der Griff eines Schraubendrehers.; Eine Fensterscheibe.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Kupfer.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kupfer.
+  - [Aufgabe Nr. 45](./?stoff-beispiel=45#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.; Ein Nagel.. → Lösung: Eine Getränkedose.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Aluminium.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Aluminium.
+  - [Aufgabe Nr. 46](./?stoff-beispiel=46#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Eine Fensterscheibe.; Ein Nagel.; Das Innere eines Stromkabels.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kunststoff.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kunststoff.
+  - [Aufgabe Nr. 47](./?stoff-beispiel=47#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Ein Nagel.; Eine Getränkedose.; Der Griff eines Schraubendrehers.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kupfer.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Kupfer.
+  - [Aufgabe Nr. 48](./?stoff-beispiel=48#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Eine Getränkedose.; Eine Fensterscheibe.; Das Innere eines Stromkabels.. → Lösung: Ein Nagel.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Eisen.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Eisen.
+  - [Aufgabe Nr. 49](./?stoff-beispiel=49#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Der Griff eines Schraubendrehers.; Eine Fensterscheibe.; Eine Getränkedose.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kupfer.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kupfer.
+  - [Aufgabe Nr. 50](./?stoff-beispiel=50#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Die Ummantelung eines Kabels.; Eine Fensterscheibe.; Der Griff eines Schraubendrehers.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Kupfer.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kupfer.
+  - [Aufgabe Nr. 51](./?stoff-beispiel=51#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Eine Getränkedose.; Die Ummantelung eines Kabels.; Ein Nagel.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Gummi.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Gummi.
+  - [Aufgabe Nr. 52](./?stoff-beispiel=52#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.; Eine Fensterscheibe.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kunststoff.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Kunststoff.
+  - [Aufgabe Nr. 53](./?stoff-beispiel=53#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Die Ummantelung eines Kabels.; Das Innere eines Stromkabels.; Ein Nagel.. → Lösung: Eine Getränkedose.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Aluminium.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Aluminium.
+  - [Aufgabe Nr. 54](./?stoff-beispiel=54#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Die Ummantelung eines Kabels.; Der Griff eines Schraubendrehers.; Eine Getränkedose.. → Lösung: Ein Nagel.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Eisen.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Eisen.
+  - [Aufgabe Nr. 55](./?stoff-beispiel=55#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Eine Getränkedose.; Das Innere eines Stromkabels.; Ein Nagel.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Kunststoff.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Kunststoff.
+  - [Aufgabe Nr. 56](./?stoff-beispiel=56#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Eine Fensterscheibe.; Der Griff eines Schraubendrehers.; Eine Getränkedose.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kupfer.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Kupfer.
+  - [Aufgabe Nr. 57](./?stoff-beispiel=57#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kupfer? Zur Wahl: Das Innere eines Stromkabels.; Ein Nagel.; Eine Fensterscheibe.; Die Ummantelung eines Kabels.. → Lösung: Das Innere eines Stromkabels.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Kupfer.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kupfer.
+  - [Aufgabe Nr. 58](./?stoff-beispiel=58#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Der Griff eines Schraubendrehers.; Die Ummantelung eines Kabels.; Ein Nagel.. → Lösung: Eine Getränkedose.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Aluminium.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Aluminium.
+  - [Aufgabe Nr. 59](./?stoff-beispiel=59#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Das Innere eines Stromkabels.; Eine Getränkedose.; Der Griff eines Schraubendrehers.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Kunststoff.
+    - ✗ Eine Getränkedose.: Das Beispiel gehört zu Aluminium, nicht zu Kunststoff.
+  - [Aufgabe Nr. 60](./?stoff-beispiel=60#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Eisen? Zur Wahl: Ein Nagel.; Der Griff eines Schraubendrehers.; Eine Fensterscheibe.; Das Innere eines Stromkabels.. → Lösung: Ein Nagel.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Eisen.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Eisen.
+  - [Aufgabe Nr. 61](./?stoff-beispiel=61#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Die Ummantelung eines Kabels.; Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.. → Lösung: Eine Getränkedose.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Aluminium.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Aluminium.
+  - [Aufgabe Nr. 62](./?stoff-beispiel=62#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Kunststoff? Zur Wahl: Die Ummantelung eines Kabels.; Das Innere eines Stromkabels.; Eine Fensterscheibe.; Ein Nagel.. → Lösung: Die Ummantelung eines Kabels.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Kunststoff.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Kunststoff.
+  - [Aufgabe Nr. 63](./?stoff-beispiel=63#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Ein Nagel.; Die Ummantelung eines Kabels.; Eine Fensterscheibe.. → Lösung: Eine Getränkedose.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Aluminium.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Aluminium.
+  - [Aufgabe Nr. 64](./?stoff-beispiel=64#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Der Griff eines Schraubendrehers.; Das Innere eines Stromkabels.; Eine Fensterscheibe.. → Lösung: Eine Getränkedose.
+    - ✗ Der Griff eines Schraubendrehers.: Das Beispiel gehört zu Gummi, nicht zu Aluminium.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Aluminium.
+  - [Aufgabe Nr. 65](./?stoff-beispiel=65#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Eine Fensterscheibe.; Ein Nagel.; Eine Getränkedose.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Gummi.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Gummi.
+  - [Aufgabe Nr. 66](./?stoff-beispiel=66#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Aluminium? Zur Wahl: Eine Getränkedose.; Ein Nagel.; Das Innere eines Stromkabels.; Der Griff eines Schraubendrehers.. → Lösung: Eine Getränkedose.
+    - ✗ Ein Nagel.: Das Beispiel gehört zu Eisen, nicht zu Aluminium.
+    - ✗ Das Innere eines Stromkabels.: Das Beispiel gehört zu Kupfer, nicht zu Aluminium.
+  - [Aufgabe Nr. 67](./?stoff-beispiel=67#stoff-beispiel): Welches Alltagsbeispiel passt zum Stoff Gummi? Zur Wahl: Der Griff eines Schraubendrehers.; Die Ummantelung eines Kabels.; Eine Fensterscheibe.; Das Innere eines Stromkabels.. → Lösung: Der Griff eines Schraubendrehers.
+    - ✗ Die Ummantelung eines Kabels.: Das Beispiel gehört zu Kunststoff, nicht zu Gummi.
+    - ✗ Eine Fensterscheibe.: Das Beispiel gehört zu Glas, nicht zu Gummi.
