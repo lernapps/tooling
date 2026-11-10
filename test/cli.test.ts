@@ -5,7 +5,14 @@ import { pathToFileURL } from "node:url";
 import type { ParseArgsOptionsConfig } from "node:util";
 import { describe, expect, test } from "vite-plus/test";
 import { CREATE_OPTIONS, IGNORED_SKILLS_LINES, ownVersion, runtimeSpec } from "../generator/create.ts";
-import { nextRange, replaceSkills, unignoreSkills, UPDATE_OPTIONS } from "../generator/update.ts";
+import {
+  forgetLocked,
+  nextRange,
+  nextToolchain,
+  replaceSkills,
+  unignoreSkills,
+  UPDATE_OPTIONS,
+} from "../generator/update.ts";
 import { countFailedChecks, countPrePushFailure } from "../src/plan.ts";
 import { CHANGES_OPTIONS, CHECK_OPTIONS, HOOKS_OPTIONS, SCREENSHOTS_OPTIONS } from "../src/usage.ts";
 import { repoRoot, run, tempDir, templatesVersion } from "./support.ts";
@@ -147,6 +154,55 @@ describe("lernapps", { timeout: 20_000 }, () => {
     expect(result.stdout).toContain(`lernapps update: added ${join(".github", "workflows", "preview-cleanup.yml")}`);
     // a second run keeps the file
     expect(run("node", [join(repoRoot, "src/cli.ts"), "update"], dir).stdout).not.toContain("added ");
+  });
+
+  test("update moves the toolchain to the runtime's, with the override of vite, and never back", () => {
+    const runtime = { devDependencies: { "vite-plus": "1.4.0" } };
+    const core = (v: string) => `npm:@voidzero-dev/vite-plus-core@${v}`;
+    // the apps that stopped at vite-plus 1.0.0: npm could not install the runtime 0.6.0 next to it (ERESOLVE)
+    const old = { devDependencies: { "vite-plus": "1.0.0" }, overrides: { vite: core("1.0.0"), other: "1.0.0" } };
+    expect(nextToolchain(old, runtime)).toEqual({
+      spec: "1.4.0",
+      line: "vite-plus: 1.0.0 → 1.4.0",
+      overrides: { vite: core("1.4.0"), other: "1.0.0" },
+    });
+    // without an override of vite, none is added
+    expect(nextToolchain({ devDependencies: { "vite-plus": "1.0.0" } }, runtime)).toEqual({
+      spec: "1.4.0",
+      line: "vite-plus: 1.0.0 → 1.4.0",
+    });
+    expect(nextToolchain({ devDependencies: { "vite-plus": "1.4.0" } }, runtime)?.line).toBe(
+      "vite-plus: unchanged (1.4.0)",
+    );
+    expect(nextToolchain({ devDependencies: { "vite-plus": "1.5.0" } }, runtime)).toEqual({
+      spec: "1.5.0",
+      line: "vite-plus: kept 1.5.0, not moved to 1.4.0: it is not older",
+    });
+    // an app or a runtime without the toolchain: nothing to move
+    expect(nextToolchain({ devDependencies: {} }, runtime)).toBeUndefined();
+    expect(nextToolchain(old, {})).toBeUndefined();
+  });
+
+  test("update's lock forgets the packages that move, with what lies below them, and keeps the rest", () => {
+    const lock = {
+      packages: {
+        "": {},
+        "node_modules/vite-plus": {},
+        "node_modules/vite-plus/node_modules/x": {},
+        "node_modules/vite-plus-other": {},
+        "node_modules/@lernapps/app-templates": {},
+        "node_modules/vue-tsc": {},
+      },
+    };
+    forgetLocked(lock, ["vite-plus", "@lernapps/app-templates"]);
+    expect(Object.keys(lock.packages)).toEqual(["", "node_modules/vite-plus-other", "node_modules/vue-tsc"]);
+  });
+
+  test("the toolchain the runtime names as its peer is the one it was built with", () => {
+    const manifest = JSON.parse(
+      readFileSync(join(repoRoot, "node_modules/@lernapps/app-templates/package.json"), "utf8"),
+    ) as { devDependencies?: Record<string, string>; peerDependencies?: Record<string, string> };
+    expect(manifest.peerDependencies?.["vite-plus"]).toBe(manifest.devDependencies?.["vite-plus"]);
   });
 
   test("update's ranges: a git commit or an older version becomes this version, a newer one stays", () => {
