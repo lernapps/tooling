@@ -125,7 +125,7 @@ Offene Fragen an den Owner:
 ## Commit
 ### Tasks
 - [x] Branch zu einem Commit zusammenfassen (squash), pushen
-- [ ] Pull Request in lernapps/tooling anlegen (Owner hat es verlangt); darin: was apps und docs ergänzen müssen
+- [x] Pull Request in lernapps/tooling anlegen: #277 (Owner hat es verlangt); darin: was apps und docs ergänzen müssen
 - [ ] Nach dem Merge, nicht hier: in apps und docs je eine `preview-cleanup.yml` (Aufruf-Datei), nur mit Freigabe
 
 ### Completed
