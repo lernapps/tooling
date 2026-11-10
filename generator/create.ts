@@ -73,7 +73,8 @@ AGENTS.md, the plan in .vibe/plans/ (the one already there is kept), the content
 .agents/skills/app-content/SKILL.md (a skeleton the assistant fills in; linked as .claude/skills/app-content for
 Claude Code where the system allows symbolic links), the workflow
 .github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
-publish action to the repo's GitHub Pages), an issue form for content errors, LICENSE (MIT), renovate.json (the
+publish action to the repo's GitHub Pages), the workflow .github/workflows/preview-cleanup.yml (removes the previews of
+closed pull requests, daily and by hand), an issue form for content errors, LICENSE (MIT), renovate.json (the
 Renovate preset of lernapps). The installed skills and skills-lock.json are committed with the app, like the
 content guide; lernapps update replaces the lernapps-* skills.
 

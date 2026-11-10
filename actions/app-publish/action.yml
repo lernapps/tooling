@@ -59,6 +59,7 @@ runs:
         folder: _app
         clean-exclude: pr-preview/
         force: false
+        attempt-limit: 10 # other runs write gh-pages too (the previews): fetch, rebase and push again
     - if: steps.changes.outputs.code == 'true'
       id: after
       shell: bash

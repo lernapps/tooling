@@ -1,8 +1,11 @@
 name: lernapps site preview
 description: >-
   A preview of a pull request at https://lernapps.net/<site>pr-preview/pr-<number>/, on the gh-pages branch
-  next to the published site; removed when the pull request closes. Builds like site-check, with
-  SITE_PATH_PREFIX (links stay inside the preview) and SITE_PREVIEW (banner, noindex) set.
+  next to the published site; removed as a whole folder when the pull request closes. Builds like site-check, with
+  SITE_PATH_PREFIX (links stay inside the preview) and SITE_PREVIEW (banner, noindex) set. publish/gh-pages.ts writes
+  gh-pages: a push that another run beat starts over from the newer branch, up to 10 times; a pull request that is no
+  longer open when the preview is ready (merged within seconds) gets its preview removed, not written. The previews a
+  run still misses are removed by the reusable workflow preview-cleanup.yml.
   Use it in the job "preview" of the site's pr-preview.yml, on pull_request (opened, reopened, synchronize,
   closed), with the input site; see lernapps/apps for a full file. The job needs permissions: contents: write,
   pull-requests: write.
@@ -36,27 +39,44 @@ runs:
         echo "SITE_PATH_PREFIX=$prefix" >> "$GITHUB_ENV"
         echo "SITE_PREVIEW=1" >> "$GITHUB_ENV"
         echo "url=https://lernapps.net$prefix" >> "$GITHUB_OUTPUT"
-        base="lernapps.net${SITE%/}"
-        echo "base=$base" >> "$GITHUB_OUTPUT"
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
-    - if: github.event.action != 'closed'
-      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+    # Node also on closing: publish/gh-pages.ts removes the preview.
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
         node-version: 26
-        cache: npm
+        cache: ${{ github.event.action != 'closed' && 'npm' || '' }}
     - if: github.event.action != 'closed'
       run: npm ci && npm run build && npm run "$CHECK_SCRIPT"
       shell: bash
       env:
         CHECK_SCRIPT: ${{ inputs.check-script }}
-    - uses: rossjrw/pr-preview-action@873417d2df72380da1f3978378fb58560bcde976 # v1.8.2
+    - id: write
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        NUMBER: ${{ github.event.pull_request.number }}
+        ACTION: ${{ github.event.action }}
+      run: |
+        if [ "$ACTION" = closed ]; then
+          node "$GITHUB_ACTION_PATH/../../publish/gh-pages.ts" remove --number "$NUMBER"
+        else
+          node "$GITHUB_ACTION_PATH/../../publish/gh-pages.ts" deploy --number "$NUMBER" --dir _site
+        fi
+    # One comment on the pull request, updated in place (the header of the comment that pr-preview-action wrote before).
+    - if: inputs.comment == 'true' && (steps.write.outputs.result == 'deployed' || steps.write.outputs.result == 'unchanged') && github.event.action != 'closed'
+      uses: marocchino/sticky-pull-request-comment@67d0dec7b07ed060a405f9b2a64b8ab319fdd7db # v2.9.2
       with:
-        source-dir: _site
-        preview-branch: gh-pages
-        umbrella-dir: pr-preview
-        pages-base-url: ${{ steps.prefix.outputs.base }}
-        qr-code: false
-        comment: ${{ inputs.comment }}
-        action: auto
+        header: pr-preview
+        message: |
+          :rocket: Preview of this pull request: ${{ steps.prefix.outputs.url }}
+
+          Updated with commit ${{ github.event.pull_request.head.sha }}. It is ready once the GitHub Pages deployment of `gh-pages` has finished, and removed when the pull request is closed.
+    - if: inputs.comment == 'true' && (github.event.action == 'closed' || steps.write.outputs.result == 'removed')
+      uses: marocchino/sticky-pull-request-comment@67d0dec7b07ed060a405f9b2a64b8ab319fdd7db # v2.9.2
+      with:
+        header: pr-preview
+        only_update: true
+        message: |
+          The preview of this pull request is removed: the pull request is closed.

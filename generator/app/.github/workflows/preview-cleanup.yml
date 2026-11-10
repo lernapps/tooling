@@ -1,0 +1,26 @@
+name: Preview cleanup
+
+# Removes every preview of a pull request on gh-pages (pr-preview/pr-<number>/) whose pull request is not open: the
+# ones the job `preview` of pages.yml missed, for example when a pull request was merged within seconds. Daily, and by
+# hand: Actions → Preview cleanup → Run workflow (with "dry-run", it only lists them). The reusable workflow of
+# lernapps/tooling does the work; when GitHub does not say which pull requests are open, it removes nothing.
+on:
+  schedule:
+    - cron: "41 4 * * *" # daily
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Only list the previews that would be removed
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # removes the previews on gh-pages
+  pull-requests: read # which pull requests are open
+
+jobs:
+  cleanup:
+    uses: lernapps/tooling/.github/workflows/preview-cleanup.yml@{{tooling}}
+    with:
+      tooling-ref: "{{tooling}}" # the script of the same version
+      dry-run: ${{ inputs.dry-run == true }}

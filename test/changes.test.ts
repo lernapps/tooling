@@ -482,9 +482,10 @@ describe("the reusable workflow changes.yml and the tooling's own workflows", ()
     expect(steps.some((step) => step.run?.includes('node "$tooling/changes/main.ts" --ci'))).toBe(true);
   });
 
-  // release.yml runs after a merge to main and releases whatever the commits say: no change scope gates it
+  // release.yml runs after a merge to main and releases whatever the commits say, and preview-cleanup.yml runs daily
+  // and by hand, no required check: no change scope gates them
   const consumers = readdirSync(join(repoRoot, ".github/workflows")).filter(
-    (file) => file !== "changes.yml" && file !== "release.yml",
+    (file) => !["changes.yml", "release.yml", "preview-cleanup.yml"].includes(file),
   );
   test("release.yml releases after a merge to main with semantic-release, the app token and no npm token", () => {
     const { on } = workflow("release.yml");
