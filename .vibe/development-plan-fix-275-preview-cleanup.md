@@ -31,6 +31,8 @@ nutzen (apps, docs, tooling selbst).
   ausgenommen, wie `release.yml`: Er läuft nicht zu einem Push und ist keine Pflichtprüfung.
 - KD-10: Im Generator steht `tooling-ref: "{{tooling}}"` in Anführungszeichen; sonst formatiert der Formatter den
   Platzhalter kaputt. `lernapps update` und das Renovate-Muster erlauben die Anführungszeichen.
+- KD-11: Die Uhrzeit des täglichen Aufräumens legt jedes Repo selbst fest. Gleiche Zeiten stören sich nicht (jedes
+  Repo hat sein eigenes gh-pages). Vorschlag für apps/docs: andere Minuten (z. B. `13 4`, `27 4`).
 - KD-8: Kommentar von site-preview: `marocchino/sticky-pull-request-comment` mit `header: pr-preview` (dieselbe
   Kennung wie bisher bei rossjrw, so wird der alte Kommentar weiter aktualisiert).
 
@@ -126,6 +128,8 @@ Offene Fragen an den Owner:
 ### Tasks
 - [x] Branch zu einem Commit zusammenfassen (squash), pushen
 - [x] Pull Request in lernapps/tooling anlegen: #277 (Owner hat es verlangt); darin: was apps und docs ergänzen müssen
+- [x] CI rot (actionlint SC2086 in preview-cleanup.yml) behoben
+- [x] Owner gibt Merge frei (Squash-Merge)
 - [ ] Nach dem Merge, nicht hier: in apps und docs je eine `preview-cleanup.yml` (Aufruf-Datei), nur mit Freigabe
 
 ### Completed
