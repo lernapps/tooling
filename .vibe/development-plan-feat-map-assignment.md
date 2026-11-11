@@ -64,6 +64,12 @@ Zu ändern (Vorschläge der Sitzung, von mir gewichtet):
 Außerhalb des Skills: Ersatzweg in llms.txt kopiert die Archetyp-Skills nicht; YAML-Fallen (Komma in Tabellenzellen,
 „on“ → true); Quellen blockieren automatisierte Abrufe; autonome Agenten brauchen die Erlaubnis für `npx`.
 
+### KD-08: Lehrplan irrelevant, nur der logische Aufbau; Skill kompakt (Owner, 2026-11-11)
+Der Skill nennt keinen Lehrplan und kein Land: Es zählt die Kette der Karte. Überarbeitet nach den Befunden 1–5,
+7–9, 11 und den Best Practices für Skills (Beschreibung sagt, wann; Imperativ mit Begründung; knapp; was immer
+anfällt, liegt bei: `references/read-map.md` mit einem Skript für Lücken, Schritt und „öffnet den Weg“). Zweite
+Erprobung in einer neuen Sitzung, selber Auftrag.
+
 ### KD-06: Später (Owner, 2026-11-11)
 Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
 
