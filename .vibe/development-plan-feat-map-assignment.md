@@ -118,6 +118,14 @@ Abschlusstext erlaubt; feste Wendung braucht nichts, `ahead` nur, wenn die Seite
 Datei-Id je Seite; höchstens 2 Fragen; Tabelle Auftrag → Plan; das „ja“ bestätigt den Inhalt, nicht den Plan.
 Eintrag in arc42 Kap. 5 und ein Schritt in der Plan-Vorlage (Explore), damit der Skill geladen wird.
 
+### Befunde der Erprobung 4 und KD-11 (2026-11-11, session_016Nmpwbzy3yg2WJ9RSMAXaq)
+Von init bis grünem `lernapps check` (8 Seiten, 31 Übungen), nach Freigabe von npx durch den Owner; der Ersatzweg
+über den Klon scheiterte an `npm ci` (ebenfalls gesperrt). Skill: Beispiel für `ahead` war falsch (Begrüßen setzt
+être nicht mehr voraus) → Beispiel subjonctif-il-faut-que/subjonctif-bildung; Erklärer annehmen, weil die App-Art
+erst danach gewählt wird; spätere Schritte dürfen früher stehen, wenn ihre Voraussetzungen davor stehen; Beispiel für
+n; typische Fehler schon in Abschnitt 1 erfragen. Baukasten: lernapps/app-templates#151; Plan und init:
+lernapps/tooling#286.
+
 ### KD-06: Später (Owner, 2026-11-11)
 Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
 
