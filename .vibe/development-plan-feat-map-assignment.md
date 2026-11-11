@@ -33,6 +33,12 @@ Figuren, ohne Klischees, Zahlen plausibel (`explainer-plausible-numbers`). Die G
 trägt die Aufgaben, sie lenkt nicht ab. Angenommen kommt sie in den Inhaltsleitfaden (`app-content`, „Content
 structure“).
 
+### KD-07: Erprobung in einer eigenen Sitzung (Owner, 2026-11-11)
+Der Skill-Entwurf wird zuerst erprobt: Eine neue Sitzung ohne Repo (session_016Nmpwc6nnrUph2Pi6mniC3) spielt den
+Assistenten einer Lehrkraft (Französisch, 2. FS, Hessen G9, Kl. 7, Anfang 1. Lernjahr) und baut einen Einstieg.
+Diese Sitzung spielt die Lehrkraft. Ohne Push, ohne PR, ohne Eintrag. Ihre Rückmeldung zum Skill fließt vor der
+Registrierung ein. Teil A (place im JSON) folgt danach.
+
 ### KD-06: Später (Owner, 2026-11-11)
 Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
 
@@ -96,7 +102,7 @@ Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst spä
 
 ### Tasks
 - [x] Plan Teil A und B
-- [ ] Owner bestätigt den Plan
+- [x] Owner: Skill zuerst schreiben und in einer Sitzung erproben (KD-07)
 
 ### Completed
 - [x] Owner-Antworten KD-03 bis KD-06
