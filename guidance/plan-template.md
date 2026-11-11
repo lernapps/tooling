@@ -72,11 +72,14 @@ questions. -->
       "Key decisions". Set `archetype`.
 - [ ] Install the archetype's skills: `npx --no -- lernapps skills --archetype <archetype>`. Load skill
       `lernapps-<archetype>-design`.
-- [ ] Interview: ask the other topics of "Answers" in order. Skip a topic only when an earlier answer covers it; note
-      which. No answer → ask once more; still none → write your assumption with "(guess)". Done when every topic
-      has an answer or a guess.
-- [ ] Load skill `lernapps-content-research`. Research as it says. Under "Notes": curriculum orientation,
-      competencies by chapter as "Ich kann …", verified sources. No competencies → not done. First the learning map as
+- [ ] Interview: ask the other topics of "Answers" in order. Skip a topic an earlier answer covers; note which.
+      A confirmed assignment covers Goal, Learners, Content, Amount and Languages; an explainer has no "Look and
+      feel" (its look is the runtime's): note "covered by the assignment" or "fixed by the archetype", ask only the
+      rest. No answer → ask once more; still none → write your assumption with "(guess)". Done when every topic has
+      an answer, a note or a guess.
+- [ ] Load skill `lernapps-content-research`. Research as it says. Under "Notes": curriculum orientation (none
+      when the content comes from the map, an assignment or a strand: the map gives the order), competencies by
+      chapter as "Ich kann …", verified sources. No competencies → not done. First the learning map as
       skill `lernapps-content-research` says: recommend a strand that fits (`<subject>/<strand>`), else `none`; with a
       strand, only its competencies, by their ids from the map. A map with `explainerFocus: competency` also allows a
       unit app across strands (`subject: <subject>`), one strand per page. Write both under "Notes", and how they map onto
@@ -89,8 +92,8 @@ questions. -->
 - [ ] Fetch https://lernapps.net/apps/schemas/entry.v1.schema.json and read each property's description. Ask what
       helps teachers and parents find the app. Fill "Entry draft". Search words: one or two words each, as people
       type them.
-- [ ] **Checkpoint:** research. Show in plain words: the strand or why none, curriculum orientation, competencies by
-      chapter (with their ids) and their pages, didactic approach, scope, every "(guess)", sources and how you
+- [ ] **Checkpoint:** research. Show in plain words: the strand or why none, curriculum orientation (not with a
+      strand), competencies by chapter (with their ids) and their pages, didactic approach, scope, every "(guess)", sources and how you
       checked them, what is unchecked, archetype and reason. With a strand, the map decides the structure: competencies
       that build on each other (its `requires`) share a chapter, in that order; no curriculum search is needed for it.
       Stop and wait. Changes → change, ask again.
@@ -204,6 +207,8 @@ the app does not practise, and which get a recap page, which a link. Becomes the
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
       No checkpoint here: set it before you ask or report anything, then start Commit in the same message.
+      The creator asked to stop before publishing (e.g. a trial) → stop instead: leave this box open, the reason
+      under it.
 
 ### Completed
 

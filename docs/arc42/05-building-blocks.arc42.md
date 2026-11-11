@@ -168,7 +168,8 @@ plan templates, the workflow rules with their ids, `AGENTS.md`, and the briefs f
 
 The information goes down in this order. `llms.txt` checks the entry criteria (a shell, npm, whether `npx` may run),
 starts the build with `lernapps init`, has a fallback without `npx` for Explore and Plan (the same files from the
-repository), and ends with `AGENTS.md`: the assistant has every process rule from its first read. `init` writes
+repository; a later `init` keeps the plan and replaces the skills copied by hand with the package's, which the sync of
+the package `skills` would skip as foreign), and ends with `AGENTS.md`: the assistant has every process rule from its first read. `init` writes
 `AGENTS.md` and a `CLAUDE.md` that imports it into the app's folder, so that every later session loads it; `create`
 writes them again. `AGENTS.md` holds every process rule as a table, written from `workflow-rules.md`
 (`scripts/agents-md.ts`), which stays the source with the full text for the rule page, the checks and the review. The
