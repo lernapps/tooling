@@ -17,6 +17,25 @@ Der Skill führt bis zum Auftrag. Das Bauen danach folgt den vorhandenen Skills 
 Dort liegen die Skills, die die Agenten der Lehrkräfte mit der Vorlage bekommen. Die Karte kommt aus lernapps/apps
 (`/apps/map/<fach>.json`).
 
+### KD-03: Die Karten-JSON liefert den Ort mit (Owner, 2026-11-11)
+lernapps/apps ergänzt `/apps/map/<fach>.json` je Baustein um `place: { band, step }` (Klasse und Schritt der
+Ansicht nach Klasse und Kette, lib/map.js `places`). Der Skill rechnet nichts nach. Eigener Branch in apps
+(`feat/map-json-place`), Vertrag Abschnitt 5 und Test.
+
+### KD-04: Der Agent lässt nachschauen und schlägt selbst vor (Owner, 2026-11-11)
+Nennt die Lehrkraft kein Thema, bittet der Agent sie, die Karte anzusehen (`/apps/map/<fach>/c/`, Lücken gestrichelt),
+und macht selbst einen begründeten Vorschlag. Die Lehrkraft entscheidet.
+
+### KD-05: Vorschlag für eine kindgerechte Geschichte (Owner, 2026-11-11)
+Zum Auftrag gehört ein Vorschlag für eine Geschichte, an der sich der Erklärer entlangzieht: Figuren, Ort, ein
+Anliegen; je Baustein (Seite) eine Situation, in der er gebraucht wird. Passend zur Klasse, ohne fremde Marken und
+Figuren, ohne Klischees, Zahlen plausibel (`explainer-plausible-numbers`). Die Geschichte dient dem Lernen: Sie
+trägt die Aufgaben, sie lenkt nicht ab. Angenommen kommt sie in den Inhaltsleitfaden (`app-content`, „Content
+structure“).
+
+### KD-06: Später (Owner, 2026-11-11)
+Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
+
 ## Notes
 - Einordnung (pdt, lernapps/docs): Service `s-gap-finding` „Seeing which app is still missing“ (D6, x-phase
   explore) und Annahme `a-gaps-guide-creators` (D8, MVP first draft): „Creators build an app for a gap they see on the
@@ -47,11 +66,40 @@ Dort liegen die Skills, die die Agenten der Lehrkräfte mit der Vorlage bekommen
 ### Entrance Criteria
 - Name, Zuschnitt und Abgrenzung zu `lernapps-content-research` sind mit dem Owner geklärt.
 
+### Plan
+**Teil A – lernapps/apps, Branch `feat/map-json-place` (zuerst, damit der Skill sich darauf stützt):**
+1. `src/_data/map.js` (JSON je Fach): je Baustein `place: { band, step }` aus `subject.places`.
+2. `docs/learning-map-contract.md` Abschnitt 5: Feld beschreiben; Abschnitt „place“ ergänzen („The JSON carries it“).
+3. Test in `test/map.e2e.test.mjs`: JSON hat `place` für jeden Baustein, gleiche Werte wie die Ansicht.
+4. Eigener PR; Owner entscheidet über Merge.
+
+**Teil B – lernapps/tooling, dieser Branch:**
+1. Neuer Skill `skills/content/lernapps-map-assignment/SKILL.md` (Englisch, Stil der anderen Skills, kurz):
+   - Wann: Explore, wenn die Lehrkraft eine App „für eine Lücke“ will oder nicht weiß, was sie bauen soll; vor
+     `lernapps-content-research`.
+   - 1 Fragen: Fach, Land/Schulform, Klasse, laufendes Thema.
+   - 2 Karte lesen: JSON, `place`, `practisedBy`, `requires`, `explainerFocus`; Lehrkraft bitten, die Seite
+     `/apps/map/<fach>/c/` anzusehen (KD-04).
+   - 3 Kandidaten: Lücken in ihrer Klasse; Strang (oder Einheit bei `explainerFocus: competency`).
+   - 4 Bewerten: passt zu Klasse/Thema; Voraussetzungen geübt oder als Wiederholung machbar; was darauf aufbaut;
+     zusammenhängende Kette.
+   - 5 Zuschnitt: 3–8 Bausteine, ein Schritt nach dem anderen, eine Seite je Baustein; Voraussetzungen außerhalb →
+     Wiederholungsseite oder Link.
+   - 6 Geschichte (KD-05): Vorschlag mit Figuren, Ort, Anliegen; je Baustein eine Situation.
+   - 7 Auftrag schreiben (feste Form, Beispiel) und mit der Lehrkraft bestätigen; danach `lernapps-content-research`.
+   - Eine Regel im Rule-Format der anderen Skills (z. B. `assignment-from-map`, severity hint), falls passend.
+2. `lernapps-content-research` Abschnitt 2: ein Satz mit Verweis auf den neuen Skill.
+3. Registrierung: Export in `package.json`; arc42 Kap. 5 Baustein unter `bb-skills-explore`
+   (`implements`, `x-phase: explore`); ggf. Erwartung in `test/evals.test.ts` und Wege, über die Skills in Apps
+   kommen (generator/update.ts, guidance), prüfen.
+4. Prüfen: `npm test`, Lint der Skills (falls vorhanden), `npm run build`.
+
 ### Tasks
-- [ ] *To be added when this phase becomes active*
+- [x] Plan Teil A und B
+- [ ] Owner bestätigt den Plan
 
 ### Completed
-*None yet*
+- [x] Owner-Antworten KD-03 bis KD-06
 
 ## Code
 ### Entrance Criteria
