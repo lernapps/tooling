@@ -112,6 +112,12 @@ Zu ändern (Vorschläge der Sitzung, von mir gewichtet):
 6. Unklar: „Propose all the same“, „phonetic signs“ (wirkt wie Pflicht), Ids oder Namen in Zeile Strang/Einheit.
 Kleiner: Abschlusstext mit `opens` 0 erlauben; Datei-Id je Seite.
 
+### KD-10: Überarbeitung nach Erprobung 3 (Owner, 2026-11-11)
+Fach-Id und Liste der Karten; Karte nach Stufe filtern; n bis Klasse 10, sonst fragen; Lautschrift nur auf Wunsch;
+Abschlusstext erlaubt; feste Wendung braucht nichts, `ahead` nur, wenn die Seite die Voraussetzung benutzt;
+Datei-Id je Seite; höchstens 2 Fragen; Tabelle Auftrag → Plan; das „ja“ bestätigt den Inhalt, nicht den Plan.
+Eintrag in arc42 Kap. 5 und ein Schritt in der Plan-Vorlage (Explore), damit der Skill geladen wird.
+
 ### KD-06: Später (Owner, 2026-11-11)
 Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
 

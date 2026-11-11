@@ -13,12 +13,17 @@ nothing is built yet.
 ## 1. Ask
 
 Subject; where the class stands (school year, and for a foreign language the year of the course); a topic or
-situation, if the teacher has one. Ask the teacher to look at the map themselves:
-`https://lernapps.net/apps/map/<subject>/c/` (rows by grade band and step, gaps dashed). Propose all the same.
+situation, if the teacher has one. At most 2 questions per message. Ask the teacher to look at the map themselves:
+`https://lernapps.net/apps/map/<subject>/c/` (rows by grade band and step, gaps dashed), and do not wait for it: your
+proposal comes in the same message or the next.
+
+The subject is the id of the map, in German without umlauts: `franzoesisch`, `mathematik`, `deutsch`. The list:
+`https://lernapps.net/apps/map/`.
 
 ## 2. Read the map
 
-Fetch `https://lernapps.net/apps/map/<subject>.json` and read it in full; no script needed. Per competency:
+Fetch `https://lernapps.net/apps/map/<subject>.json`. Keep the competencies of the class's band and their
+prerequisites; leave the rest. No script needed. Per competency:
 
 - `place.band`, `place.step`: within its band a competency is one step below its deepest prerequisite of the same
   band, from any strand. Everything it requires stands above it; competencies of one step do not depend on each other.
@@ -26,26 +31,30 @@ Fetch `https://lernapps.net/apps/map/<subject>.json` and read it in full; no scr
 - `practisedBy` empty: a gap.
 
 The class's band: its school year. A foreign language counts the course, not the school year: year y of n years →
-part ⌊3(y − ½)/n⌋ + 1, and parts 1, 2, 3 are 5-6, 7-8, 9-10.
+part ⌊3(y − ½)/n⌋ + 1, and parts 1, 2, 3 are 5-6, 7-8, 9-10. n counts the years up to class 10; unclear → ask.
 
 ## 3. Choose
 
 Take gaps of the class's band and weigh them in this order:
 
 1. **The archetype can practise it.** An explainer shows text, figures and exercises; it plays no sound and checks
-   no speaking or listening. Pronunciation becomes reading: sound and spelling, phonetic signs.
+   no speaking or listening. Pronunciation becomes reading: which letters sound how (phonetic signs only if the
+   teacher wants them).
 2. **It can start:** each prerequisite is in the cut, practised by an app, or fits on one recap page.
 3. **It opens the way:** prefer the higher `opens`. On a map of gaps this decides.
 4. **It holds together:** one strand, or for a unit (`explainerFocus: competency`) one situation that needs words,
    grammar and texts at once. No topic given → choose the situation the earliest gaps serve best, and say why.
 
-Cut 3-8 competencies: one chapter, one page each. Order them by step; within a step the story decides.
+Cut 3-8 competencies: one chapter, one page each. Order them by step; within a step the story decides. The last
+page may be a text that uses the others (a profile, a letter), even if nothing builds on it.
 
 - **Hidden prerequisites:** for each page, ask what its exercises need that is not in the cut (words, forms: "I am
-  12" needs numbers; pronouns need a verb to stand in). Put it in the cut, keep the exercise without it, or list it
-  under "Offen".
-- **A page ahead on purpose:** a fixed phrase may come before the grammar behind it ("Bonjour, je suis Léa" before
-  être). Then the page names that prerequisite in `ahead`, and the cut must practise it on another page.
+  12" needs numbers; pronouns need a verb to stand in). Put it in the cut, use it as a fixed phrase, or leave the
+  exercise out.
+- **Fixed phrase:** a phrase learnt whole, its grammar not explained ("je m'appelle", "le foot"), needs nothing.
+- **A page ahead on purpose:** a page uses a prerequisite of its own competency before the app practises it ("je
+  suis" on the greeting page, être two pages later). Then the page names it in `ahead`, and the cut practises it on a
+  later page. `lernapps check` reports an `ahead` that is not needed.
 - Do not reword competencies; a missing one is proposed to `lernapps/apps` (skill `lernapps-content-research`).
 
 ## 4. Propose a story
@@ -63,22 +72,32 @@ One concern that runs through the chapter, so each page answers a question the s
 ```markdown
 ## Auftrag: <title>
 - Fach: <subject> · Stand: <school year / year of the course> · Richtstufe <band>
-- Strang: <subject>/<strand> | Einheit: Fach <subject>, Stränge <a>, <b>
+- Strang: <subject>/<strand-id> | Einheit: Fach <subject>, Stränge <strand-id>, <strand-id>
 - Warum: <why these gaps, in one or two sentences from step 3>
 - Seiten (ein Kapitel), in dieser Reihenfolge:
-  1. <id> – <name>: „<iCan>“ (<strand>, Schritt <step>, öffnet <opens>) – Szene: <scene>
+  1. <id> – <name>: „<iCan>“ (<strand>, Schritt <step>, öffnet <opens>) – Datei <chapter>/<page> – Szene: <scene>
      [ahead: <id>, geübt auf Seite <n>]
 - Wiederholung: <id> – <name> (<app> | Wiederholungsseite) | keine
 - Geschichte: <characters with age and looks, place, concern>
 - Sprache der Seiten: <e.g. German explanations, French examples>
 - Übungen: <only exercises the app checks | also free writing>
 - Was die App nicht kann: <e.g. no sound: pronunciation as phonetic signs>
-- Offen: <questions, hidden prerequisites>
+- Offen: <at most 2 questions>
 ```
 
-Wait for "yes". Then the assignment answers the plan's interview and is the result of the checkpoint "research": copy
-it into the plan, the competencies and the story into the content guide (`app-content`, "Competencies" and "Content
-structure"), and go on with `lernapps-content-research` for the sources only.
+Wait for "yes". The yes confirms the content, not the plan. Then carry it into the plan:
+
+| Assignment | Plan |
+|---|---|
+| Fach, Stand | Answers: Learners |
+| Warum, Seiten | Answers: Goal, Amount; Notes: strand or subject, competencies by chapter |
+| Sprache der Seiten | Answers: Languages |
+| Übungen, Was die App nicht kann | Notes: scope |
+| Geschichte | content guide (`app-content`, "Content structure"): characters fixed once |
+
+Ask the topics still open (Model and focus, Hurdles, Look and feel, Terms) in the interview. Then
+`lernapps-content-research` for the sources only; the checkpoint "research" shows them and does not ask the
+assignment again.
 
 ### `assignment-from-map`: An app without fixed content starts from an assignment
 

@@ -63,6 +63,8 @@ questions. -->
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
       their own address, free, public, and once listed as a copy on lernapps.net. The technical part (GitHub) comes at the end, and you do it.
 - [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
+- [ ] No fixed content yet ("an app for my class", "a gap on the map") → load skill `lernapps-map-assignment` and
+      write its assignment first; its yes answers the topics it covers.
 - [ ] Load skill `lernapps-exercise-patterns` and read the patterns of the subject: how will learners practise what
       the goal names? The kind of practice points to the archetype, as the skill says.
 - [ ] Choose the archetype as skill `lernapps-app` says, from the kind of practice: read the README of each
