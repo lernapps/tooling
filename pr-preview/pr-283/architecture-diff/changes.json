@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "base": {
+    "label": "cd063c46d9ac17fbf7e4836a524ef129f3f67ccf",
+    "commit": "cd063c46d9ac17fbf7e4836a524ef129f3f67ccf"
+  },
+  "head": {
+    "label": "e12330fe58876651e1a2694f5291715b2c3d1c3f"
+  },
+  "acceptanceBase": "cd063c46d9ac17fbf7e4836a524ef129f3f67ccf",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-skill-map-assignment",
+        "kind": "building-block",
+        "status": "added",
+        "attributes": [],
+        "proseChanged": true,
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 293
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "@lernapps/tooling",
+            "Skills",
+            "Explore skills",
+            "lernapps-map-assignment"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [
+      {
+        "id": "building-blocks-skills",
+        "status": "modified",
+        "attributes": [
+          {
+            "name": "source",
+            "before": "flowchart LR\n    subgraph bb-skills[\"Skills\"]\n        subgraph bb-skills-explore[\"Explore\"]\n            bb-skill-app[\"lernapps-app\"]\n            bb-skill-content-research[\"lernapps-content-research\"]\n            bb-skill-exercise-patterns[\"lernapps-exercise-patterns\"]\n            bb-skill-quiz-design[\"lernapps-quiz-design\"]\n            bb-skill-explainer-design[\"lernapps-explainer-design\"]\n            bb-skill-interactive-design[\"lernapps-interactive-design\"]\n        end\n        subgraph bb-skills-plan[\"Plan\"]\n            bb-skill-content-growth[\"lernapps-content-growth\"]\n        end\n        subgraph bb-skills-code[\"Code\"]\n            bb-skill-cli[\"lernapps-cli\"]\n            bb-skill-quiz[\"lernapps-quiz\"]\n            bb-skill-explainer[\"lernapps-explainer\"]\n            bb-skill-interactive[\"lernapps-interactive\"]\n            bb-skill-content-questions[\"lernapps-content-questions\"]\n        end\n        subgraph bb-skills-commit[\"Commit\"]\n            bb-skill-explainer-self-assessment[\"lernapps-explainer-self-assessment\"]\n            bb-skill-github[\"lernapps-github\"]\n            bb-skill-commit[\"lernapps-commit\"]\n            bb-skill-listing[\"lernapps-listing\"]\n        end\n        bb-skills-explore ~~~ bb-skills-plan ~~~ bb-skills-code ~~~ bb-skills-commit\n    end",
+            "after": "flowchart LR\n    subgraph bb-skills[\"Skills\"]\n        subgraph bb-skills-explore[\"Explore\"]\n            bb-skill-app[\"lernapps-app\"]\n            bb-skill-map-assignment[\"lernapps-map-assignment\"]\n            bb-skill-content-research[\"lernapps-content-research\"]\n            bb-skill-exercise-patterns[\"lernapps-exercise-patterns\"]\n            bb-skill-quiz-design[\"lernapps-quiz-design\"]\n            bb-skill-explainer-design[\"lernapps-explainer-design\"]\n            bb-skill-interactive-design[\"lernapps-interactive-design\"]\n        end\n        subgraph bb-skills-plan[\"Plan\"]\n            bb-skill-content-growth[\"lernapps-content-growth\"]\n        end\n        subgraph bb-skills-code[\"Code\"]\n            bb-skill-cli[\"lernapps-cli\"]\n            bb-skill-quiz[\"lernapps-quiz\"]\n            bb-skill-explainer[\"lernapps-explainer\"]\n            bb-skill-interactive[\"lernapps-interactive\"]\n            bb-skill-content-questions[\"lernapps-content-questions\"]\n        end\n        subgraph bb-skills-commit[\"Commit\"]\n            bb-skill-explainer-self-assessment[\"lernapps-explainer-self-assessment\"]\n            bb-skill-github[\"lernapps-github\"]\n            bb-skill-commit[\"lernapps-commit\"]\n            bb-skill-listing[\"lernapps-listing\"]\n        end\n        bb-skills-explore ~~~ bb-skills-plan ~~~ bb-skills-code ~~~ bb-skills-commit\n    end"
+          }
+        ],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 106
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 106
+        }
+      }
+    ],
+    "edges": [
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-map-assignment",
+          "to": "concept-rule-catalog",
+          "relation": "implements"
+        }
+      },
+      {
+        "status": "added",
+        "edge": {
+          "from": "bb-skill-map-assignment",
+          "to": "bb-skills-explore",
+          "relation": "parent"
+        }
+      }
+    ],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 1,
+        "modified": 1,
+        "removed": 0
+      }
+    ]
+  }
+}
