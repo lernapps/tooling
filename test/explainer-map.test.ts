@@ -372,6 +372,20 @@ describe("prerequisites-in-order", () => {
     ]);
   });
 
+  test("a page ahead of a prerequisite on purpose passes when the app practises it on another page", async () => {
+    const ahead = "competencies: [einkaufen]\nahead: [essen]\nblocks: []";
+    expect(await inOrderOf(explainer({ subject: "franzoesisch" }, { a: ahead, b: ["essen"] }))).toEqual([]);
+    const problems = await inOrderOf(explainer({ subject: "franzoesisch" }, { a: ahead }));
+    expect(short(problems)).toEqual([
+      {
+        where: "src/kapitel/a.yaml:2",
+        found:
+          "einkaufen comes ahead of franzoesisch/essen on purpose (ahead), but the app practises essen on no page: ahead",
+        severity: "warning",
+      },
+    ]);
+  });
+
   test("a recap page after the page that needs it is order too", async () => {
     const problems = await inOrderOf(
       explainer({ subject: "franzoesisch" }, { a: ["einkaufen"], r: "recap: franzoesisch/essen\nblocks: []" }),

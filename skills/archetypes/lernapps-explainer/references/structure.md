@@ -56,7 +56,10 @@ title: Stochastik
   push (`competencies-on-map`); the listing checks them again.
 - Pages in the order of the prerequisites: each `requires` of a page's competency is practised on an earlier page,
   repeated on a recap page before it, or linked in the page's text (`prerequisites-in-order`).
-- The build writes `lernapps-pages.json` (the strand or subject; path, title, competencies or recap per page, in the
+- A page may come before a prerequisite on purpose, e.g. greetings as fixed phrases before the grammar behind them:
+  it names it in `ahead: [<id>]` (only with `competencies`), and the app practises it on another page. `lernapps
+  check` and the listing report `ahead` otherwise.
+- The build writes `lernapps-pages.json` (the strand or subject; path, title, competencies (and ahead) or recap per page, in the
   app's order) beside `index.html`; the catalog lists the pages from it.
 
 ### A recap page

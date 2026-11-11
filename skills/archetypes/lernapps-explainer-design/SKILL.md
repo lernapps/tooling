@@ -33,6 +33,8 @@ license: MIT
     recap page.
   - Where the app starts, its first competencies need what learners bring: a recap page there. Inside the app no
     step is missing: a prerequisite between two competencies of the app is practised too (else a gap).
+  - A page must come first on purpose, e.g. greetings as fixed phrases before the grammar behind them → the page
+    names that prerequisite in `ahead: [<id>]`, and the app practises it on another page.
 - Strand app or unit app: the subject's map decides (`explainerFocus` in
   `https://lernapps.net/apps/map/<subject>.json`).
   - `strand` (most subjects): the app has one strand of the map (recommended, skill `lernapps-content-research`),
@@ -110,6 +112,9 @@ severity: warning
   - order: the app practises or repeats it, but only later. Move the pages.
   - gap: the app does not have it, but practises something it builds on. Practise it in between, or recap or link it.
   - entry: nothing of its chain is in the app. The app starts here: a recap page before the page, or a link.
+  - ahead: the page names it in `ahead`, but no page of the app practises it. Practise it, or remove it from `ahead`.
+- A page may come before a prerequisite on purpose: it names it in `ahead: [<id>]`, and the app practises it on
+  another page, earlier or later. A recap page or a link does not count.
 - Severity by the subject's map: `explainerFocus: competency` a warning, `strand` a hint. At the listing order and gap
   are errors with `competency`, else warnings. Without the map it finds nothing (`competencies-on-map` says it could
   not check).
