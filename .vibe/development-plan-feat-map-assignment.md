@@ -39,6 +39,31 @@ Assistenten einer Lehrkraft (Französisch, 2. FS, Hessen G9, Kl. 7, Anfang 1. Le
 Diese Sitzung spielt die Lehrkraft. Ohne Push, ohne PR, ohne Eintrag. Ihre Rückmeldung zum Skill fließt vor der
 Registrierung ein. Teil A (place im JSON) folgt danach.
 
+### Befunde der Erprobung (2026-11-11, Bericht der Sitzung session_016Nmpwc6nnrUph2Pi6mniC3)
+Auftrag „Bonjour ! – Mia in Lyon“: 6 Bausteine (laut-und-schrift, subjektpronomen, verb-etre,
+begruessen-und-vorstellen, tu-oder-vous, begruessungsrituale), Ort selbst berechnet und korrekt; Plan bestätigt;
+6 Seiten als Entwurf, gegen explainer.v2 gültig. Kein Build, kein `lernapps check`: `npx` war im automatischen
+Modus der Sitzung gesperrt („Code from External“).
+Was half: fester Ablauf bis zu einem bestätigbaren Auftrag; die Regel für den Ort; Richtstufe nach Kursstand bei
+Fremdsprachen; Regeln für die Geschichte; „Offen“ sammelt alle Fragen.
+Zu ändern (Vorschläge der Sitzung, von mir gewichtet):
+1. Kriterium „Kann der Archetyp es üben?“ (Erklärer: kein Ton; Hören/Sprechen nicht) und Zeile „Was die App nicht
+   kann“ im Auftrag.
+2. Ort: Voraussetzungen aus allen Strängen zählen, nur die Richtstufe trennt („same band“ eindeutig).
+3. Reihenfolge und Geschichte: Innerhalb eines Schritts frei; die Geschichte darf die Reihenfolge in einem Schritt
+   bestimmen. Befund für die Karte Französisch: `begruessen-und-vorstellen` braucht `verb-etre`, darum kommt
+   „Bonjour“ erst auf Seite 4. Feste Wendungen vor der Regel (wie Englisch classroom-phrases → imperativ) prüfen.
+4. Bei einer Karte voller Lücken: „öffnet den Weg“ zählbar machen (Zahl der Bausteine, die darauf aufbauen).
+5. Ohne Thema: wie man eine Situation für eine Einheit wählt (Sprachen).
+6. Lehrplan nennen (`lernapps-content-research`), auch wenn er die ersten Wochen nicht beschreibt.
+7. Plan-Vorlage verweist auf den Auftrag; Interview und Research-Checkpoint nicht doppeln.
+8. Kapitel: ein Auftrag = in der Regel ein Kapitel.
+9. Wo die Geschichte liegt: Inhaltsleitfaden „Content structure“ (steht schon), ggf. Beispiel.
+10. Registrierung im Paket (`package.json`), damit `init` den Skill mitbringt (war ohnehin geplant).
+11. Kurzes Beispielskript, um die Karten-JSON zu lesen (Lücken, Ort).
+Außerhalb des Skills: Ersatzweg in llms.txt kopiert die Archetyp-Skills nicht; YAML-Fallen (Komma in Tabellenzellen,
+„on“ → true); Quellen blockieren automatisierte Abrufe; autonome Agenten brauchen die Erlaubnis für `npx`.
+
 ### KD-06: Später (Owner, 2026-11-11)
 Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
 
