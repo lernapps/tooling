@@ -1,6 +1,6 @@
 ---
 name: lernapps-map-assignment
-description: Use in Explore whenever a teacher wants an app for a subject but has no fixed content yet - "a start into French", "what should I build for my class 7", "an app for a gap on the map" - even if they never mention the map. Turns the lernapps.net learning map into one assignment the teacher confirms: which competencies (gaps), in which order, what the app cannot do, and a story for children that carries the pages. Run it before lernapps-content-research and the plan.
+description: Use in Explore whenever a teacher wants an app for a subject but has no fixed content yet - "a start into French", "what should I build for my class 7", "an app for a gap on the map" - even if they never mention the map. Turns the lernapps.net learning map into one assignment the teacher confirms, naming which competencies (gaps), in which order, what the app cannot do, and a story for children that carries the pages. Run it before lernapps-content-research and the plan.
 license: MIT
 ---
 
@@ -18,7 +18,7 @@ situation, if the teacher has one. Ask the teacher to look at the map themselves
 
 ## 2. Read the map
 
-`https://lernapps.net/apps/map/<subject>.json`, in full; `references/read-map.md` has a script that lists the gaps with
+`https://lernapps.net/apps/map/<subject>.json`, in full; [references/read-map.md](references/read-map.md) has a script that lists the gaps with
 their place and how much builds on them.
 
 - **Band:** where the class stands. Foreign languages count the course, not the school year: its first third is
