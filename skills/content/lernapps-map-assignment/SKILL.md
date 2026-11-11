@@ -13,7 +13,8 @@ nothing is built yet.
 ## 1. Ask
 
 Subject; where the class stands (school year, and for a foreign language the year of the course); a topic or
-situation, if the teacher has one. At most 2 questions per message. Ask the teacher to look at the map themselves:
+situation, if the teacher has one; the mistakes the class makes most (they can add a page). At most 2 questions per
+message. Ask the teacher to look at the map themselves:
 `https://lernapps.net/apps/map/<subject>/c/` (rows by grade band and step, gaps dashed), and do not wait for it: your
 proposal comes in the same message or the next.
 
@@ -32,29 +33,32 @@ prerequisites; leave the rest. No script needed. Per competency:
 
 The class's band: its school year. A foreign language counts the course, not the school year: year y of n years →
 part ⌊3(y − ½)/n⌋ + 1, and parts 1, 2, 3 are 5-6, 7-8, 9-10. n counts the years up to class 10; unclear → ask.
+Example: a second language from class 7 has n = 4; its first year is part 1, so 5-6.
 
 ## 3. Choose
 
 Take gaps of the class's band and weigh them in this order:
 
-1. **The archetype can practise it.** An explainer shows text, figures and exercises; it plays no sound and checks
-   no speaking or listening. Pronunciation becomes reading: which letters sound how (phonetic signs only if the
-   teacher wants them).
+1. **The archetype can practise it.** The archetype is chosen after the assignment: assume an explainer. It shows text,
+   figures and exercises; it plays no sound and checks no speaking or listening. Pronunciation becomes reading: which
+   letters sound how (phonetic signs only if the teacher wants them).
 2. **It can start:** each prerequisite is in the cut, practised by an app, or fits on one recap page.
 3. **It opens the way:** prefer the higher `opens`. On a map of gaps this decides.
 4. **It holds together:** one strand, or for a unit (`explainerFocus: competency`) one situation that needs words,
    grammar and texts at once. No topic given → choose the situation the earliest gaps serve best, and say why.
 
-Cut 3-8 competencies: one chapter, one page each. Order them by step; within a step the story decides. The last
-page may be a text that uses the others (a profile, a letter), even if nothing builds on it.
+Cut 3-8 competencies: one chapter, one page each. Order them by step; within a step the story decides. A page of a later
+step may come earlier once all it requires stands on earlier pages (silent letters right after sound and spelling). The
+last page may be a text that uses the others (a profile, a letter), even if nothing builds on it.
 
 - **Hidden prerequisites:** for each page, ask what its exercises need that is not in the cut (words, forms: "I am
   12" needs numbers; pronouns need a verb to stand in). Put it in the cut, use it as a fixed phrase, or leave the
   exercise out.
 - **Fixed phrase:** a phrase learnt whole, its grammar not explained ("je m'appelle", "le foot"), needs nothing.
-- **A page ahead on purpose:** a page uses a prerequisite of its own competency before the app practises it ("je
-  suis" on the greeting page, être two pages later). Then the page names it in `ahead`, and the cut practises it on a
-  later page. `lernapps check` reports an `ahead` that is not needed.
+- **A page ahead on purpose:** only for a prerequisite in the `requires` of the page's own competency that the app
+  practises on a later page, e.g. "il faut que" with the subjunctive (`subjonctif-il-faut-que`) before its forms
+  (`subjonctif-bildung`). Then the page names it in `ahead`. Anything else needs no `ahead`; `lernapps check`
+  reports one that is not needed.
 - Do not reword competencies; a missing one is proposed to `lernapps/apps` (skill `lernapps-content-research`).
 
 ## 4. Propose a story
