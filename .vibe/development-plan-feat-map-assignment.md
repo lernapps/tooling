@@ -88,6 +88,14 @@ Zu ändern:
    vorsieht).
 Karte Französisch: `begruessen-und-vorstellen` → `verb-etre` lässt „Bonjour“ ans Ende rutschen (zweimal gesehen).
 
+### KD-09: Überarbeitung nach Erprobung 2 (Owner, 2026-11-11)
+Die Karten-JSON trägt `place` und `opens` (lernapps/apps#261): Das Skript `references/read-map.md` entfällt. Neu im
+Skill: Formel für den Kursstand; versteckte Voraussetzungen; `ahead` für feste Wendungen vor der Regel
+(lernapps/tooling#282, app-templates#150); Zeilen „Sprache der Seiten“ und „Übungen“; Ausgabe mit Name, iCan und
+opens; der Auftrag ist das Ergebnis des Checkpoints „research“. Figuren der Geschichte stehen im Inhaltsleitfaden:
+Datendateien des Erklärers liest nur eine Zeitleiste, eine Übung oder eine Komponente (sonst explainer-unused-data).
+Karte Französisch: `begruessen-und-vorstellen` ohne `requires` (Owner). Dritte Erprobung, selber Auftrag.
+
 ### KD-06: Später (Owner, 2026-11-11)
 Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
 
