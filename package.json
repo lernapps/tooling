@@ -117,7 +117,7 @@
   },
   "devDependencies": {
     "@doctc/arc42": "0.38.0",
-    "@lernapps/site": "github:lernapps/lernapps.github.io#e0bb07ad53e31aaa30f470ac843d94583588d737",
+    "@lernapps/site": "github:lernapps/lernapps.github.io#7bf158646014068e83b522be16d1b86f0077580d",
     "@types/node": "26.6.6",
     "ajv": "8.20.0",
     "vite-plus": "1.4.0"
