@@ -28,12 +28,13 @@ license: MIT
 ## What each archetype can do
 
 The READMEs are files of the package `@lernapps/app-templates`, which `init` installed: read them from the folder, in full.
+Before `init` (no `node_modules`), read the same file from the URL; fetch it as it is, not summarised.
 
-| Archetype | Learners … | Can and cannot (README of its template) |
+| Archetype | Learners … | Can and cannot (README of its template, then its URL) |
 |---|---|---|
-| `quiz` | answer questions with options and feedback | `node_modules/@lernapps/app-templates/quiz/README.md` |
-| `explainer` | read pages that explain, each with exercises | `node_modules/@lernapps/app-templates/explainer/README.md` |
-| `interactive` | act in one app page, by turns or in real time | `node_modules/@lernapps/app-templates/interactive/README.md` |
+| `quiz` | answer questions with options and feedback | `node_modules/@lernapps/app-templates/quiz/README.md`, <https://unpkg.com/@lernapps/app-templates/quiz/README.md> |
+| `explainer` | read pages that explain, each with exercises | `node_modules/@lernapps/app-templates/explainer/README.md`, <https://unpkg.com/@lernapps/app-templates/explainer/README.md> |
+| `interactive` | act in one app page, by turns or in real time | `node_modules/@lernapps/app-templates/interactive/README.md`, <https://unpkg.com/@lernapps/app-templates/interactive/README.md> |
 
 ## Choose the archetype
 
