@@ -11,6 +11,9 @@
 ## Key Decisions
 - In `ahead` genannt und auf irgendeiner Seite geübt (früher oder später): kein Befund. Nicht geübt: Befund `ahead`.
 - Wiederholungsseite oder Link zählen für `ahead` nicht: Der Owner verlangt, dass die App den Baustein übt.
+- `ahead` nicht nötig (Owner, 2026-11-11): Die Id ist keine direkte Voraussetzung einer Kompetenz der Seite, oder
+  die App übt sie auf dieser oder einer früheren Seite bzw. wiederholt sie davor. Ob die Seite die Voraussetzung
+  wirklich benutzt, kann keine Prüfung sehen; das bleibt beim Review.
 - Schwere wie die übrigen Befunde der Regel (nach `explainerFocus`).
 - Einordnung: keine Änderung an Plattform-Design oder Architektur; eine Ausnahme in einer bestehenden Regel.
 
@@ -22,6 +25,7 @@
 ### Completed
 - [x] Leser liest `ahead`; Regel mit Befund `ahead`
 - [x] Test in test/explainer-map.test.ts; alle 588 Tests grün
+- [x] Befund „ahead not needed“ mit Test
 - [x] Doku: lernapps-explainer-design (Regel), lernapps-explainer/references/structure.md
 
 ## Finalize

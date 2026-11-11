@@ -113,6 +113,7 @@ severity: warning
   - gap: the app does not have it, but practises something it builds on. Practise it in between, or recap or link it.
   - entry: nothing of its chain is in the app. The app starts here: a recap page before the page, or a link.
   - ahead: the page names it in `ahead`, but no page of the app practises it. Practise it, or remove it from `ahead`.
+  - ahead not needed: no competency of the page requires it, or the app has it on this page or before. Remove it.
 - A page may come before a prerequisite on purpose: it names it in `ahead: [<id>]`, and the app practises it on
   another page, earlier or later. A recap page or a link does not count.
 - Severity by the subject's map: `explainerFocus: competency` a warning, `strand` a hint. At the listing order and gap

@@ -386,6 +386,22 @@ describe("prerequisites-in-order", () => {
     ]);
   });
 
+  test("ahead where the order is fine anyway, or for no prerequisite of the page, is not needed", async () => {
+    const b = "competencies: [einkaufen]\nahead: [essen]\nblocks: []";
+    const c = "competencies: [artikel]\nahead: [essen]\nblocks: []";
+    const problems = await inOrderOf(explainer({ subject: "franzoesisch" }, { a: ["essen"], b, c }));
+    expect(problems?.map(({ where, found }) => [where, found])).toEqual([
+      [
+        "src/kapitel/b.yaml:2",
+        "the page names franzoesisch/essen in ahead, but the app has it before or on this page: ahead not needed",
+      ],
+      [
+        "src/kapitel/c.yaml:2",
+        "the page names franzoesisch/essen in ahead, but no competency of the page requires it: ahead not needed",
+      ],
+    ]);
+  });
+
   test("a recap page after the page that needs it is order too", async () => {
     const problems = await inOrderOf(
       explainer({ subject: "franzoesisch" }, { a: ["einkaufen"], r: "recap: franzoesisch/essen\nblocks: []" }),
