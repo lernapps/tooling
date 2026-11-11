@@ -6,7 +6,16 @@
 // plan has chosen one: `skills --archetype <name>` then adds that archetype's. `lernapps create` later takes over the
 // package.json (the marker lernapps.init) and the installed packages.
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -46,6 +55,8 @@ else. In order:
                                 the plan template of the add-on, else of this tooling, copied complete and unchanged
   .agents/skills/, ...          the skills of the installed packages, for every agent \`skills\` finds, except those of
                                 the archetypes: after the plan chose one, run \`lernapps skills --archetype <name>\`
+                                A lernapps-* skill copied by hand (the fallback without npx) is replaced
+                                with the package's, and named; a plan already there is kept
 
 Then follow the plan: it says what to do, and when to wait for the creator.
 
@@ -135,6 +146,54 @@ export function archetypeSkills(): { name: string; archetype: string }[] {
       archetype: /^lernapps-([a-z]+)(?:-|$)/.exec(entry.name)?.[1] ?? entry.name,
     }));
 }
+
+/** The names of the skills `lernapps-*` a package ships: the folders with a SKILL.md under its folder skills/. */
+export function packageSkills(root: string): string[] {
+  const names: string[] = [];
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const path = join(dir, entry.name);
+      if (entry.name.startsWith("lernapps-") && existsSync(join(path, "SKILL.md"))) names.push(entry.name);
+      else walk(path);
+    }
+  };
+  if (existsSync(join(root, "skills"))) walk(join(root, "skills"));
+  return names.sort();
+}
+
+/**
+ * Removes the skills in `names` that were copied by hand (the fallback without npx of llms.txt), so that the sync
+ * installs the package's: `skills experimental_sync` skips a skill folder that skills-lock.json does not list as its
+ * own ("already exists and was not installed by sync"). A skill the lock lists stays: the sync replaces its own, and
+ * one installed with `skills add` is the creator's. The folders are those of every agent, `.<agent>/skills/<name>`.
+ * Returns the names removed.
+ */
+export function removeHandCopies(dir: string, names: string[]): string[] {
+  let locked: Record<string, unknown> = {};
+  const lock = join(dir, "skills-lock.json");
+  if (existsSync(lock)) locked = (readJson(lock)["skills"] as Record<string, unknown> | undefined) ?? {};
+  const agents = readdirSync(dir).filter((entry) => entry.startsWith(".") && entry !== ".git");
+  const removed = new Set<string>();
+  for (const name of names) {
+    if (name in locked) continue;
+    for (const agent of agents) {
+      const path = join(dir, agent, "skills", name);
+      try {
+        lstatSync(path);
+      } catch {
+        continue;
+      }
+      rmSync(path, { recursive: true, force: true });
+      removed.add(name);
+    }
+  }
+  return [...removed].sort();
+}
+
+/** The line of the output that names the skills copied by hand that were replaced; empty when there were none. */
+const replacedLine = (removed: string[]) =>
+  removed.length > 0 ? `; replaced the skills copied by hand with the package's: ${removed.join(", ")}` : "";
 
 /** The script of a command that is run; its failure is an error of `fail`. */
 function run(command: string, args: string[], fail: (message: string) => Error, cwd = "."): void {
@@ -251,14 +310,17 @@ export function init(args: string[]): number {
   // a plan begun in the fallback stays: it holds the creator's answers
   const kept = existsSync(target);
   if (!kept) writeFileSync(target, readFileSync(template));
-  syncSkills(
+  const excluded = archetypeSkills().map((skill) => skill.name);
+  const shipped = [source(TOOLING), ...(addon ? [source(addon)] : [])].flatMap(packageSkills);
+  const replaced = removeHandCopies(
     dir,
-    archetypeSkills().map((skill) => skill.name),
+    shipped.filter((name) => !excluded.includes(name)),
   );
+  syncSkills(dir, excluded);
   writeProcessGuidance(dir);
   if (repository.warning !== undefined) process.stderr.write(`lernapps init: warning: ${repository.warning}\n`);
   process.stdout.write(
-    `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md and ${relative(dir, target)} completely and follow the plan, in this folder\n`,
+    `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${replacedLine(replaced)}${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md and ${relative(dir, target)} completely and follow the plan, in this folder\n`,
   );
   return 0;
 }
@@ -281,7 +343,15 @@ export function skills(args: string[]): number {
   const others = archetypeSkills()
     .filter((skill) => skill.archetype !== values.archetype)
     .map((skill) => skill.name);
+  const replaced = removeHandCopies(
+    resolve("."),
+    archetypeSkills()
+      .filter((skill) => skill.archetype === values.archetype)
+      .map((skill) => skill.name),
+  );
   syncSkills(resolve("."), others);
-  process.stdout.write(`lernapps skills: the skills of the archetype ${values.archetype} are installed\n`);
+  process.stdout.write(
+    `lernapps skills: the skills of the archetype ${values.archetype} are installed${replacedLine(replaced)}\n`,
+  );
   return 0;
 }
