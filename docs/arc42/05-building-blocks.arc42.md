@@ -116,6 +116,7 @@ flowchart LR
     subgraph bb-skills["Skills"]
         subgraph bb-skills-explore["Explore"]
             bb-skill-app["lernapps-app"]
+            bb-skill-map-assignment["lernapps-map-assignment"]
             bb-skill-content-research["lernapps-content-research"]
             bb-skill-exercise-patterns["lernapps-exercise-patterns"]
             bb-skill-quiz-design["lernapps-quiz-design"]
@@ -280,6 +281,25 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: explore
 x-agent: Knows what every app must be, and chooses the archetype from what learners do.
+:::
+```
+
+##### lernapps-map-assignment
+
+Goal: A teacher without fixed content gets one assignment from the learning map: which gaps, in which order, what the app cannot do, and a story that carries the pages.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-map-assignment
+title: lernapps-map-assignment
+parent: bb-skills-explore
+path: skills/content/lernapps-map-assignment
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+x-phase: explore
+x-agent: Reads the map, proposes the gaps and a story, writes the assignment the teacher confirms.
+x-person: Says where the class stands, looks at the map, confirms or changes the assignment.
 :::
 ```
 
