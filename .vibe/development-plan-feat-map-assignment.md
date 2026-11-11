@@ -70,6 +70,24 @@ Der Skill nennt keinen Lehrplan und kein Land: Es zählt die Kette der Karte. Ü
 anfällt, liegt bei: `references/read-map.md` mit einem Skript für Lücken, Schritt und „öffnet den Weg“). Zweite
 Erprobung in einer neuen Sitzung, selber Auftrag.
 
+### Befunde der Erprobung 2 (2026-11-11, session_016NmpwdLKA6DtRRNRjzpvz6)
+Auftrag „Salut ! – Ich stelle mich vor“ im ersten Anlauf bestätigt; Auswahl nach `opens` begründet
+(subjektpronomen 120, bestimmter-artikel 68, verb-etre 40, laut-und-schrift 38); „Was die App nicht kann“ von selbst
+genannt. Plan bestätigt (ohne „Jetzt du“); 6 Seiten und 5 Zeichnungen als Entwurf, gegen explainer.v2 gültig.
+Wieder kein Build: `npx` gesperrt, ebenso `node read-map.mjs` (lädt aus dem Netz und führt aus).
+Zu ändern:
+1. Kein Skript: Die Karten-JSON liefert `place` und `opens` (Teil A in apps, erweitert), oder ein Befehl im Paket.
+2. Ausgabe mit `name`/`iCan`.
+3. Versteckte Voraussetzungen: Was brauchen die Übungen einer Seite (Wörter, Formen), das nicht im Schnitt steht?
+   (avoir → Alter → Zahlen; Pronomen ohne Verben; Artikel ohne un/une) → als offene Frage.
+4. Feste Zeilen im Auftrag: Sprache der Seiten; Art der Übungen (nur geprüfte oder auch freie). Übergabe: Der
+   Auftrag erledigt den Checkpoint „research“ der Plan-Vorlage.
+5. Kursstand genauer: Formel aus map-research (Lernjahr y von n → Teil ⌊3(y−½)/n⌋+1).
+6. Skill nur auf dem Branch: erst nach dem Merge bringen `init` und der Ersatzweg ihn mit.
+7. Geschichte: Figuren in einer Datendatei, damit sie auf allen Seiten gleich bleiben (prüfen, ob der Erklärer das
+   vorsieht).
+Karte Französisch: `begruessen-und-vorstellen` → `verb-etre` lässt „Bonjour“ ans Ende rutschen (zweimal gesehen).
+
 ### KD-06: Später (Owner, 2026-11-11)
 Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
 
