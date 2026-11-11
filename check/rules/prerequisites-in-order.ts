@@ -5,7 +5,11 @@
 //   - order: the app practises or repeats r, but only after this page;
 //   - gap: the app neither practises nor repeats r, but practises a competency r builds on (an ancestor of r, through
 //     `requires`): r is missing between two competencies of the app;
-//   - entry: the app has nothing of r's chain: the app starts here, and a recap page before the page helps.
+//   - entry: the app has nothing of r's chain: the app starts here, and a recap page before the page helps;
+//   - ahead: the page names r in `ahead` (it comes before r on purpose, e.g. a fixed phrase before the grammar behind
+//     it) but the app practises r on no page. Named in `ahead` and practised on any page: fine;
+//   - ahead not needed: a page names r in `ahead`, but none of its competencies requires r, or the app already
+//     practises r on this or an earlier page, or repeats it before.
 // Only direct prerequisites are followed; the chain follows step by step. A recapped competency's own prerequisites
 // are not followed. Each prerequisite is judged once, at the first page that needs it. Severity by the subject's
 // map: `explainerFocus: competency` a warning, `strand` a hint (at the listing an error for order and gap, or a
@@ -21,7 +25,7 @@ export default {
   id: "prerequisites-in-order",
   url: "https://lernapps.net/tooling/rules/#prerequisites-in-order",
   description:
-    "Every prerequisite of a page's competencies is practised on that page or an earlier one, repeated on a recap page before it, or linked in the page's text; none comes only later, none is missing inside the app's chain.",
+    "Every prerequisite of a page's competencies is practised on that page or an earlier one, repeated on a recap page before it, or linked in the page's text; none comes only later, unless the page names it in ahead and the app practises it on another page; none is missing inside the app's chain.",
   severity: "warning",
   run: async ({ project }) => {
     const explainer = project === undefined ? undefined : readExplainer(project);
@@ -64,6 +68,21 @@ export default {
     const judged = new Set<string>();
     const problems: Problem[] = [];
     explainer.pages.forEach((page, index) => {
+      // `ahead` only where it is needed: a direct prerequisite of the page that the app practises only after it.
+      for (const prerequisite of page.ahead) {
+        const needed = page.competencies.some((id) => requires.get(id)?.includes(prerequisite));
+        const at = practised.get(prerequisite);
+        const recap = recapped.get(prerequisite);
+        if (needed && !((at !== undefined && at <= index) || (recap !== undefined && recap < index))) continue;
+        problems.push({
+          where: page.where,
+          found: needed
+            ? `the page names ${subject}/${prerequisite} in ahead, but the app has it before or on this page: ahead not needed`
+            : `the page names ${subject}/${prerequisite} in ahead, but no competency of the page requires it: ahead not needed`,
+          fix: `Remove ${prerequisite} from ahead`,
+          severity,
+        });
+      }
       for (const id of page.competencies) {
         for (const prerequisite of requires.get(id) ?? []) {
           const strand = strandOf.get(prerequisite);
@@ -71,6 +90,16 @@ export default {
           judged.add(prerequisite);
           const at = practised.get(prerequisite);
           const recap = recapped.get(prerequisite);
+          if (page.ahead.includes(prerequisite)) {
+            if (at === undefined)
+              problems.push({
+                where: page.where,
+                found: `${id} comes ahead of ${subject}/${prerequisite} on purpose (ahead), but the app practises ${prerequisite} on no page: ahead`,
+                fix: `Practise ${prerequisite} on a page of the app, or remove it from ahead`,
+                severity,
+              });
+            continue;
+          }
           if ((at !== undefined && at <= index) || (recap !== undefined && recap < index)) continue;
           const link = new RegExp(`/apps/map/${escape(subject)}/c/${escape(prerequisite)}(?:/|\\b)`);
           if (link.test(page.text)) continue;

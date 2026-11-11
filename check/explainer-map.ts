@@ -27,6 +27,8 @@ export interface ExplainerPage {
   competencies: string[];
   /** A recap page: the `<subject>/<competency>` it repeats, as written. */
   recap?: string;
+  /** Prerequisites the page comes ahead of on purpose (`ahead`); the app practises them on another page. */
+  ahead: string[];
   /** The page's YAML as written, for the links in its text. */
   text: string;
 }
@@ -100,7 +102,7 @@ export function readExplainer(project: string): Explainer | undefined {
       if (!existsSync(join(project, file))) continue;
       const text = readFileSync(join(project, file), "utf8");
       const value = read(join(project, file)) as
-        | { competencies?: unknown; competency?: unknown; recap?: unknown }
+        | { competencies?: unknown; competency?: unknown; recap?: unknown; ahead?: unknown }
         | undefined;
       // `competencies` is a list; a single `competency` (an id) is read the same, so either spelling is checked.
       const competencies = typeof value?.competency === "string" ? [value.competency] : ids(value?.competencies);
@@ -111,6 +113,7 @@ export function readExplainer(project: string): Explainer | undefined {
         where: line === undefined ? file : `${file}:${line}`,
         competencies,
         ...(recap === undefined ? {} : { recap }),
+        ahead: ids(value?.ahead),
         text,
       });
     }
