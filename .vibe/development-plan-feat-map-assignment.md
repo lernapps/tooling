@@ -96,6 +96,22 @@ opens; der Auftrag ist das Ergebnis des Checkpoints „research“. Figuren der 
 Datendateien des Erklärers liest nur eine Zeitleiste, eine Übung oder eine Komponente (sonst explainer-unused-data).
 Karte Französisch: `begruessen-und-vorstellen` ohne `requires` (Owner). Dritte Erprobung, selber Auftrag.
 
+### Befunde der Erprobung 3 (2026-11-11, session_016NmpwaZz75T2SmeR2QZkLo)
+Auftrag „Salut ! Je m'appelle …“ im ersten Anlauf bestätigt: 8 Seiten (laut-und-schrift, begruessen-und-vorstellen
+mit `ahead: verb-etre`, subjektpronomen, zahlen-bis-100, verb-etre, verb-avoir, tu-oder-vous, steckbrief); Stufe
+nach Formel; versteckte Voraussetzungen selbst gefunden (Zahlen fürs Alter, quel, Artikel); Figuren mit Aussehen.
+Plan, Inhaltsleitfaden und 8 Seiten als Entwurf, gegen explainer.v2 gültig (außer `ahead`: erst app-templates#150).
+Wieder kein Build: `npx` gesperrt.
+Zu ändern (Vorschläge der Sitzung, von mir gewichtet):
+1. Fach-Id nennen (`franzoesisch`, nicht `french`); Filtern nach `place.band` erlauben (JSON 270 kB).
+2. n für den Kursstand: Jahre bis Klasse 10, sonst fragen.
+3. Feste Wendung ohne Erklärung (je m'appelle, le foot) braucht kein `ahead`; `ahead` nur, wenn die Seite die
+   Voraussetzung erkennbar benutzt und die App sie übt.
+4. Tabelle Auftrag → Teile des Plans; das „ja“ ersetzt den Checkpoint „research“, nicht „confirm the plan“.
+5. Höchstens 2 offene Fragen je Nachricht (wie die Plan-Vorlage).
+6. Unklar: „Propose all the same“, „phonetic signs“ (wirkt wie Pflicht), Ids oder Namen in Zeile Strang/Einheit.
+Kleiner: Abschlusstext mit `opens` 0 erlauben; Datei-Id je Seite.
+
 ### KD-06: Später (Owner, 2026-11-11)
 Der Link „Baue eine App“ auf den Seiten der Karte gibt den Auftrag erst später mit.
 
