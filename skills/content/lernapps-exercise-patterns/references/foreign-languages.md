@@ -49,7 +49,7 @@
 | Understanding | a short text; fill in gaps in the learners' language, or answer questions | `text` or `quote`; `language-task` `direction: to-source`; question types |
 | Writing a text | a task from everyday life | `open-task` with points of form |
 | Culture | facts about the countries | question types; figures |
-| Listening, speaking | — | not possible (no audio): note it under "Where I had to guess" |
+| Listening, speaking | a sentence to hear and write, or to hear and translate; a model to say after, recorded and compared | `language-task` items with `audio`; `speaking-task`; made with skill `lernapps-audio`, for English, French, Spanish and Italian only: for another language note it under "Where I had to guess" |
 
 ## A page
 

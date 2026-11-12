@@ -40,8 +40,10 @@ Example: a second language from class 7 has n = 4; its first year is part 1, so 
 Take gaps of the class's band and weigh them in this order:
 
 1. **The archetype can practise it.** The archetype is chosen after the assignment: assume an explainer. It shows text,
-   figures and exercises; it plays no sound and checks no speaking or listening. Pronunciation becomes reading: which
-   letters sound how (phonetic signs only if the teacher wants them).
+   figures and exercises. In English, French, Spanish and Italian it also has listening and speaking: dictations and
+   listening tasks with AI voices, and speaking tasks in which the learner records themself and rates the
+   pronunciation (skill `lernapps-audio`); nothing judges how a learner speaks. In another language pronunciation
+   becomes reading: which letters sound how (phonetic signs only if the teacher wants them).
 2. **It can start:** each prerequisite is in the cut, practised by an app, or fits on one recap page.
 3. **It opens the way:** prefer the higher `opens`. On a map of gaps this decides.
 4. **It holds together:** one strand, or for a unit (`explainerFocus: competency`) one situation that needs words,
@@ -84,8 +86,8 @@ One concern that runs through the chapter, so each page answers a question the s
 - Wiederholung: <id> – <name> (<app> | Wiederholungsseite) | keine
 - Geschichte: <characters with age and looks, place, concern>
 - Sprache der Seiten: <e.g. German explanations, French examples>
-- Übungen: <only exercises the app checks | also free writing>
-- Was die App nicht kann: <e.g. no sound: pronunciation as phonetic signs>
+- Übungen: <only exercises the app checks | also free writing | also listening and speaking, in a language with voices>
+- Was die App nicht kann: <e.g. nothing checks how a learner speaks; no voice for this language: pronunciation as phonetic signs>
 - Offen: <at most 2 questions>
 ```
 
