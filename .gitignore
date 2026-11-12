@@ -12,3 +12,4 @@ dist/
 /evals/tasks/*/environment/creator-say.ts
 /evals/tasks/*/tests/verify.ts
 /evals/tasks/*/tests/plan-front-matter.v1.schema.json
+__pycache__/
