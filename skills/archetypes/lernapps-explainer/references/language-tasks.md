@@ -11,8 +11,11 @@
 - `direction`: `to-target` (default) or `to-source`: which side the learner writes.
 - `mode`: `write` (default; the whole answer), `gap` (the gaps), `choice` (one choice per gap, with `distractors`),
   `table` (a `table` with gaps instead of `items`).
-- `items`: 1–20. Each has the side the learner writes and one thing to start from: the other side, `cue`, or
-  `marker` (a label of a `labelled-figure` with `legend: false` in `material`).
+- `items`: 1–20. Each has the side the learner writes and one thing to start from: the other side, `cue`,
+  `marker` (a label of a `labelled-figure` with `legend: false` in `material`), or `audio` (a file of `src/audio/`,
+  spoken in the target language: a dictation when the learner writes `target`, a listening task with a translation
+  when `direction: to-source` and the item has `source` and no `target`). The text of the file must be a right answer.
+  Make the files with skill `lernapps-audio`; it also says what the creator must know first.
 - `task`: optional; without it a text by mode.
 - `form`: per class (`case`, `accents`, `hyphen`, `apostrophe`, `punctuation`) `ok`, `hint`, `partly` or `wrong`
   (default).
@@ -32,3 +35,10 @@
 - A `marker` needs the figure in the task's own `material`.
 - YAML: quote a text with `: `, or one that starts with `'` or `[`.
 - The build runs each mistake and each example through the page's check and stops with the place to fix.
+
+## Speaking
+
+- `speaking-task` (not a `language-task`): the learner hears a model, records themself, compares and rates the
+  pronunciation. Fields: `id`, `language` (the target language code), `items` (1–10, each `audio` and optional `text`),
+  `task`, `hint`. The page checks nothing, and the recording stays in the browser. It counts as the page's exercise, but a
+  chapter's `selfAssessment` cannot ask it. Make the models and write the block with skill `lernapps-audio`.

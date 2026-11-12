@@ -54,8 +54,23 @@ Say this in a few lines, then wait for the yes (the first run downloads a lot):
   target: "Je m'appelle (Marie|Paul)."
 ```
 
-- Speaking, compare with the model: block `speaking-task`; each item has `audio` (the model) and optional `text`.
+- `direction: to-source` (listen, then write the translation): the item has `audio` and `source`, no `target`.
+  A gap dictation is `mode: gap` with the gaps in `target`: `target: "Je [suis] de [Berlin]."`.
+- Speaking, compare with the model: block `speaking-task`. The learner records themself, plays the original, the
+  recording or both, and rates the pronunciation (it is not in a chapter's self-assessment: the build says so):
+
+```yaml
+- type: speaking-task
+  id: nachsprechen
+  language: fr
+  items:
+    - audio: je-mappelle.mp3
+      text: "Je m'appelle Marie."   # optional: the sentence to read aloud; it must be what the file says
+```
+
 - The file name has no folder: files live in `src/audio/`. Every sentence needs its own file.
+- The page "Medienübersicht" (`medien/`) lists every image, audio file and video with credit, licence and, for speech
+  a model made, the AI voice, model and text. Look there when you review the audio of an app.
 
 ## The files
 
