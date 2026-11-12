@@ -132,6 +132,7 @@ flowchart LR
             bb-skill-explainer["lernapps-explainer"]
             bb-skill-interactive["lernapps-interactive"]
             bb-skill-content-questions["lernapps-content-questions"]
+            bb-skill-audio["lernapps-audio"]
         end
         subgraph bb-skills-commit["Commit"]
             bb-skill-explainer-self-assessment["lernapps-explainer-self-assessment"]
@@ -528,6 +529,24 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
 x-agent: Writes options and feedback that teach.
+:::
+```
+
+##### lernapps-audio
+
+Goal: A language explainer with dictation or speaking tasks gets its synthetic speech as MP3 files with the AI mark in their metadata, from the voices the owner allowed, made on the creator's machine after the creator knows what it needs.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-audio
+title: lernapps-audio
+parent: bb-skills-code
+path: skills/content/lernapps-audio
+technology: Markdown (agentskills.io), Python 3.10+ (one script, standard library; engines in a venv in the user's cache)
+implements: concept-rule-catalog
+x-phase: code
+x-agent: Tells the creator what the audio needs, runs the preflight and the script, has the files heard and referenced.
 :::
 ```
 
