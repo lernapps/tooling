@@ -39,6 +39,10 @@ Say this in a few lines, then wait for the yes (the first run downloads a lot):
 
 - The spoken text is the answer: the build compares the file's text with the task's answers and stops if it is none
   of them. Write the sentence exactly as the learner shall type it.
+- No single words. A voice makes a lone word badly. With its article ("le pain", "la pomme") it is mostly good, and in a
+  short sentence ("Le pain est bon.") it is better and helps the learner too: the word is heard in use. So give each
+  word a short sentence as its text, the sentence is then what the learner types or says. Listen to any file with a
+  lone word twice.
 - Traps for the voice: numbers ("1998", "3,5", "2nd": write them out in words), names and loan words, abbreviations,
   French liaison and silent endings. The voice says it wrong → respell the word or rewrite the sentence, then make
   the file again with `--force`. Short sentences sound better than long ones.
