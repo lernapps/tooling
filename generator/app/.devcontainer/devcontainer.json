@@ -1,0 +1,13 @@
+{
+  "name": "lernapps",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+  "features": {
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
+  },
+  "postCreateCommand": "npm install --global @openai/codex && if [ -f package-lock.json ]; then npm ci; fi",
+  "customizations": {
+    "vscode": {
+      "extensions": ["anthropic.claude-code"]
+    }
+  }
+}

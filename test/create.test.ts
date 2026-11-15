@@ -48,11 +48,24 @@ describe("lernapps create refuses", () => {
 
   test("a folder that is not empty, naming what is there", () => {
     const dir = tempDir("create-full");
-    writeFileSync(join(dir, "README.md"), "# Mein Quiz\n");
+    writeFileSync(join(dir, "notes.txt"), "Ideen\n");
     const result = lernapps(["create", "--archetype", "quiz", dir], repoRoot);
     expect(result.code, output(result)).toBe(1);
-    expect(result.stderr).toContain("is not empty (README.md)");
+    expect(result.stderr).toContain("is not empty (notes.txt)");
     expect(existsSync(join(dir, "package.json"))).toBe(false);
+  });
+
+  test("a folder with what the starter repository has (README.md, LICENSE, .devcontainer/) is empty enough", () => {
+    const dir = tempDir("create-starter");
+    writeFileSync(join(dir, "README.md"), "# Eine Lernapp bauen\n");
+    writeFileSync(join(dir, "LICENSE"), "MIT\n");
+    mkdirSync(join(dir, ".devcontainer"));
+    writeFileSync(join(dir, ".devcontainer/devcontainer.json"), "{}\n");
+    confirmedPlan(dir, "quiz");
+    const result = lernapps(["create", "--archetype", "quiz", dir, "--templates", join(dir, "nowhere")], repoRoot);
+    expect(result.code, output(result)).toBe(1);
+    expect(result.stderr).not.toContain("is not empty");
+    expect(result.stderr).toContain("is no package @lernapps/app-templates");
   });
 
   test("an app-templates folder that is no package, saying how to name one", () => {
@@ -194,6 +207,7 @@ describe.skipIf(inner)("a quiz app from lernapps create, its files", () => {
       ".github/workflows/pages.yml",
       ".github/workflows/preview-cleanup.yml",
       ".github/ISSUE_TEMPLATE/inhaltsfehler.yml",
+      ".devcontainer/devcontainer.json",
     ]) {
       expect(existsSync(join(app, file)), file).toBe(true);
     }
