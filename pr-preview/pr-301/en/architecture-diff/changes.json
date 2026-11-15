@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "base": {
+    "label": "00bf160914f7d22def41db9a65bb1035ed4af1b9",
+    "commit": "00bf160914f7d22def41db9a65bb1035ed4af1b9"
+  },
+  "head": {
+    "label": "2594cd6ec5a73f16d5f85cf82c2f1c974d894081"
+  },
+  "acceptanceBase": "00bf160914f7d22def41db9a65bb1035ed4af1b9",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [
+    {
+      "kind": "new-building-block-hint",
+      "severity": "hint",
+      "file": ".github/workflows/devcontainer-image.yml",
+      "line": 0,
+      "message": "'.github/workflows/devcontainer-image.yml' is not covered by any building block — consider adding a building-block element."
+    }
+  ],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": [
+      ".github/workflows/devcontainer-image.yml"
+    ]
+  },
+  "architecture": {
+    "elements": [],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": []
+  }
+}
