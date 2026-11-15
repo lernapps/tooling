@@ -1,0 +1,45 @@
+name: Dev container image
+
+# Builds the image of the development container of lernapps apps (devcontainer/Dockerfile) and publishes it to
+# ghcr.io/lernapps/devcontainer: on every change of the Dockerfile on main, and weekly, so that the agents it carries
+# stay current. The first publication makes the package public (Packages settings of the organisation, once), so that
+# a codespace pulls it without a login. The apps pin it by digest; Renovate passes on each new one.
+on:
+  push:
+    branches: [main]
+    paths: [devcontainer/**, .github/workflows/devcontainer-image.yml]
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: devcontainer-image
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE: ghcr.io/lernapps/devcontainer
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Log in to ghcr.io
+        run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        run: docker build --pull -t "$IMAGE:latest" -t "$IMAGE:$GITHUB_SHA" devcontainer
+      - name: Smoke test
+        run: |
+          docker run --rm "$IMAGE:latest" bash -lc 'claude --version && codex --version && playwright-cli --version && ls ~/.claude/skills/playwright-cli ~/.agents/skills/playwright-cli >/dev/null'
+      - name: Publish
+        run: |
+          docker push "$IMAGE:latest"
+          docker push "$IMAGE:$GITHUB_SHA"
+          docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE:latest" | tee -a "$GITHUB_STEP_SUMMARY"

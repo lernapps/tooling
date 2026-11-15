@@ -75,7 +75,8 @@ Claude Code where the system allows symbolic links), the workflow
 .github/workflows/pages.yml (the app check action on every pull request and push to main; on main, then the app
 publish action to the repo's GitHub Pages), the workflow .github/workflows/preview-cleanup.yml (removes the previews of
 closed pull requests, daily and by hand), an issue form for content errors, LICENSE (MIT), renovate.json (the
-Renovate preset of lernapps). The installed skills and skills-lock.json are committed with the app, like the
+Renovate preset of lernapps), .devcontainer/devcontainer.json (the development container for GitHub Codespaces: Node 22,
+Claude Code and Codex). The installed skills and skills-lock.json are committed with the app, like the
 content guide; lernapps update replaces the lernapps-* skills.
 
 It installs nothing and commits nothing. Its last lines say what to do next, in this order: git init
@@ -206,6 +207,9 @@ function contents(dir: string): string[] {
     if (name === "node_modules" || name === "package-lock.json") return [];
     // the process guidance init wrote; create writes it again
     if (name === "AGENTS.md" || name === "CLAUDE.md") return [];
+    // what the starter repository (lernapps/start) has: the development container, which create writes again, the
+    // licence, which it writes again, and a README, which stays
+    if (name === ".devcontainer" || name === "LICENSE" || name === "README.md") return [];
     if (name === "package.json" && readJson(join(dir, name)).lernapps?.init === true) return [];
     if (name === ".vibe") {
       // the planning folder: the plans are checked (a first version has one), what the planning leaves beside them stays
@@ -459,7 +463,7 @@ export function create(args: string[]): number {
   const found = contents(dir);
   if (found.length > 0) {
     throw new CreateError(
-      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, .vibe/ (the first version's plan .vibe/plans/01-<short name>.md, and its sketches) and what lernapps init wrote (AGENTS.md, CLAUDE.md, its skills, package.json, package-lock.json and node_modules) may be there`,
+      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, .vibe/ (the first version's plan .vibe/plans/01-<short name>.md, and its sketches) and what lernapps init wrote (AGENTS.md, CLAUDE.md, its skills, package.json, package-lock.json and node_modules) and what the starter repository has (README.md, LICENSE, .devcontainer/) may be there`,
     );
   }
   const plan = confirmedPlan(dir, archetype, values.plan);

@@ -34,7 +34,7 @@ import {
 } from "./create.ts";
 
 /** What may be in the folder before init: git, and what the fallback without npx of llms.txt copied there. */
-const FALLBACK_FILES = [".git", ".vibe", ".agents", "AGENTS.md", "CLAUDE.md"];
+const FALLBACK_FILES = [".git", ".vibe", ".agents", ".devcontainer", "AGENTS.md", "CLAUDE.md", "LICENSE", "README.md"];
 
 /** The options of `lernapps init`, as node:util parseArgs takes them. */
 export const INIT_OPTIONS = {
