@@ -1,6 +1,6 @@
 {
   "name": "lernapps",
-  "image": "ghcr.io/lernapps/devcontainer:latest@sha256:9ef5095be1f92f2b0963e5576c3c472104decdcda07d734268d1678dea95ed9f",
+  "image": "ghcr.io/lernapps/devcontainer@sha256:4e33870f17081419a7223ada0c321c1458993a93ea0f165bf19c36144d2c88e4",
   "postCreateCommand": "if [ -f package-lock.json ]; then npm ci; fi",
   "customizations": {
     "vscode": {
