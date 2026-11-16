@@ -1,0 +1,56 @@
+name: Sync starter
+
+# Keeps the AGENTS.md of the starter repository lernapps/start the same as guidance/AGENTS.md of this repository. The
+# starter's first session reads it before `lernapps init` exists, and `init` writes the same file again, so the two
+# must not drift. It runs after a merge to main that changes the file, and by hand. It commits to main of lernapps/start
+# with the token of the GitHub App push-to-protected-mrsimpson (organisation variable VERSION_BUMPER_APPID, secret
+# VERSION_BUMPER_SECRET), which is on the bypass list of the rulesets (see release.yml); the App has to be installed on
+# lernapps/start. Nothing is committed when the files are the same.
+on:
+  push:
+    branches: [main]
+    paths: [guidance/AGENTS.md, .github/workflows/sync-start.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# one sync at a time: a second push waits instead of racing for main of the starter
+concurrency:
+  group: sync-start
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: app
+        with:
+          app-id: ${{ vars.VERSION_BUMPER_APPID }}
+          private-key: ${{ secrets.VERSION_BUMPER_SECRET }}
+          repositories: start
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: tooling
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: lernapps/start
+          token: ${{ steps.app.outputs.token }}
+          path: start
+      - name: Copy AGENTS.md and push when it differs
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          cp tooling/guidance/AGENTS.md start/AGENTS.md
+          cd start
+          if git diff --quiet -- AGENTS.md; then
+            echo "AGENTS.md is the same as in lernapps/tooling: nothing to do"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add AGENTS.md
+          git commit -m "chore: sync AGENTS.md with lernapps/tooling@${SOURCE_SHA::7}" \
+            -m "AGENTS.md is the file lernapps init writes (guidance/AGENTS.md of lernapps/tooling), so that the first session of the starter and the app agree."
+          git push origin HEAD:main
