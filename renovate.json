@@ -1,4 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>lernapps/tooling"]
+  "extends": ["local>lernapps/tooling", "customManagers:dockerfileVersions"],
+  "packageRules": [
+    {
+      "description": "The Playwright of the dev container image (ARG PLAYWRIGHT_VERSION in devcontainer/Dockerfile) is the one of package.json, which lernapps check uses: both move in one pull request, so that the browser the image carries is the one the check expects",
+      "matchDepNames": ["playwright"],
+      "groupName": "playwright"
+    }
+  ]
 }

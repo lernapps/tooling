@@ -1,15 +1,14 @@
 name: Dev container image
 
 # Builds the image of the development container of lernapps apps (devcontainer/Dockerfile) and publishes it to
-# ghcr.io/lernapps/devcontainer: on every change of the Dockerfile on main, and weekly, so that the agents it carries
-# stay current. The first publication makes the package public (Packages settings of the organisation, once), so that
-# a codespace pulls it without a login. The apps pin it by digest; Renovate passes on each new one.
+# ghcr.io/lernapps/devcontainer on every change of the Dockerfile on main. The Dockerfile pins every version, and
+# Renovate moves them (renovate.json), so a new version of an agent arrives as a pull request here, and the new image
+# as one in each app that pins it by digest. The first publication makes the package public (Packages settings of the
+# organisation, once), so that a codespace pulls it without a login.
 on:
   push:
     branches: [main]
     paths: [devcontainer/**, .github/workflows/devcontainer-image.yml]
-  schedule:
-    - cron: "17 4 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -37,7 +36,7 @@ jobs:
         run: docker build --pull -t "$IMAGE:latest" -t "$IMAGE:$GITHUB_SHA" devcontainer
       - name: Smoke test
         run: |
-          docker run --rm "$IMAGE:latest" bash -lc 'claude --version && codex --version && playwright-cli --version && ls ~/.claude/skills/playwright-cli ~/.agents/skills/playwright-cli >/dev/null'
+          docker run --rm "$IMAGE:latest" bash -lc 'playwright-cli --version && ls ~/.claude/skills/playwright-cli ~/.agents/skills/playwright-cli >/dev/null'
       - name: Publish
         run: |
           docker push "$IMAGE:latest"

@@ -1,13 +1,31 @@
 {
   "name": "lernapps",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
-  "features": {
-    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {}
-  },
-  "postCreateCommand": "npm install --global @openai/codex && if [ -f package-lock.json ]; then npm ci; fi",
+  "image": "ghcr.io/lernapps/devcontainer:latest@sha256:9ef5095be1f92f2b0963e5576c3c472104decdcda07d734268d1678dea95ed9f",
+  "postCreateCommand": "if [ -f package-lock.json ]; then npm ci; fi",
   "customizations": {
     "vscode": {
-      "extensions": ["anthropic.claude-code"]
+      "extensions": ["anthropic.claude-code", "openai.chatgpt"],
+      "settings": {
+        "http.linkProtectionTrustedDomains": [
+          "https://claude.ai",
+          "https://claude.com",
+          "https://platform.claude.com",
+          "https://auth.openai.com",
+          "https://chatgpt.com",
+          "https://github.com"
+        ],
+        "chat.disableAIFeatures": true,
+        "claudeCode.preferredLocation": "sidebar",
+        "terminal.integrated.hideOnStartup": "always",
+        "extensions.supportUntrustedWorkspaces": {
+          "anthropic.claude-code": {
+            "supported": true
+          },
+          "openai.chatgpt": {
+            "supported": true
+          }
+        }
+      }
     }
   }
 }

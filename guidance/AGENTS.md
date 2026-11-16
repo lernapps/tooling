@@ -2,6 +2,13 @@
 
 Learning app for lernapps.net: static, runs in the browser, collects nothing, accessible. Built with its creator.
 
+## Before `lernapps init`
+
+No `package.json` with `lernapps.init` here yet? The app does not exist. Ask the creator what they want (topic, grade,
+what learners do), one question at a time. Choose a short name (lower case, hyphens) and run
+`npx --yes @lernapps/tooling init <short name>` once, in this folder, never in a subfolder. It rewrites this file: read
+it again.
+
 ## Start here
 
 1. Current plan: `.vibe/plans/<NN>-<short name>.md` with the highest NN.
