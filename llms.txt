@@ -75,10 +75,10 @@ Learning app for lernapps.net: static, runs in the browser, collects nothing, ac
 
 ### Before `lernapps init`
 
-No `package.json` with `lernapps.init` here yet? The app does not exist. Ask the creator what they want (topic, grade,
-what learners do), one question at a time. Choose a short name (lower case, hyphens) and run
-`npx --yes @lernapps/tooling init <short name>` once, in this folder, never in a subfolder. It rewrites this file: read
-it again.
+No `package.json` with `lernapps.init` here yet? The app does not exist. Ask the creator what they want: an app to share
+(topic, grade, what learners do), or to practise for an occasion such as a test. One question at a time. Choose a short
+name (lower case, hyphens). Run once, in this folder, never in a subfolder, `npx --yes @lernapps/tooling init <name>`, or
+for an occasion `npx --yes @lernapps/practice init <name>`. It rewrites this file: read it again.
 
 ### Start here
 
