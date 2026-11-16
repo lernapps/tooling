@@ -16,6 +16,7 @@
         ],
         "chat.disableAIFeatures": true,
         "claudeCode.preferredLocation": "sidebar",
+        "workbench.secondarySideBar.defaultVisibility": "visible",
         "terminal.integrated.hideOnStartup": "always",
         "extensions.supportUntrustedWorkspaces": {
           "anthropic.claude-code": {
