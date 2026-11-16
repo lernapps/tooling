@@ -38,6 +38,16 @@
       "groupName": "lernapps building blocks"
     },
     {
+      "description": "The image of the creator's workplace (ghcr.io/lernapps/devcontainer, named by tag and digest in the dev container files of the tooling, of the starter and of every app) follows the tooling like our other building blocks: a new digest is meant to reach every codespace, so no minimumReleaseAge (the shared preset holds an update 3 days and creates it on Saturday mornings only), the same three-hour windows, and it merges when green. Its own group, so that a failing image does not hold the pins of the tooling commit back",
+      "matchDepNames": ["ghcr.io/lernapps/**"],
+      "minimumReleaseAge": "0 days",
+      "schedule": ["* */3 * * *"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "groupName": "lernapps workplace image"
+    },
+    {
       "description": "The runtime dependencies on our own packages (@lernapps/tooling of a package that ships with it, @lernapps/app-templates of the tooling) are fixes of the package that has them: the pull request is titled fix(deps), so that the release of that package (semantic-release reads the commits) follows the release it depends on by itself, as the chain app-templates, tooling, practice. Development dependencies, like the tooling in an app or in a template, stay chore(deps): an app or a template is no package, and a release of app-templates on every move of the tooling would answer each release of the tooling with another",
       "matchManagers": ["npm"],
       "matchDepTypes": ["dependencies"],

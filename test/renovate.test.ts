@@ -153,6 +153,18 @@ test("one group moves every pin of the tooling commit: actions, changes.yml@, th
   expect(groupOf("vite-plus")).toEqual([]);
 });
 
+test("the workplace image moves at once, in its own group, and merges when green", () => {
+  const rule = preset.packageRules.find((candidate) => candidate.groupName === "lernapps workplace image");
+  expect(rule).toMatchObject({
+    matchDepNames: ["ghcr.io/lernapps/**"],
+    minimumReleaseAge: "0 days",
+    automerge: true,
+  });
+  expect(rule?.schedule).toEqual(["* */3 * * *"]);
+  expect(matchesGlob("ghcr.io/lernapps/devcontainer", "ghcr.io/lernapps/**")).toBe(true);
+  expect(matchesGlob("ghcr.io/other/devcontainer", "ghcr.io/lernapps/**")).toBe(false);
+});
+
 test("a runtime dependency on our own package is a fix of the package that has it, so that the release chain follows itself", () => {
   const rule = preset.packageRules.find((candidate) => candidate.groupName === "lernapps runtime dependencies");
   expect(rule).toMatchObject({
