@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "base": {
+    "label": "40392aa4d7a515832601d242cf475a59e9da6ac6",
+    "commit": "40392aa4d7a515832601d242cf475a59e9da6ac6"
+  },
+  "head": {
+    "label": "e0a0fc62cca9821f130a4558e0203517b63f7458"
+  },
+  "acceptanceBase": "40392aa4d7a515832601d242cf475a59e9da6ac6",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [
+    {
+      "kind": "new-building-block-hint",
+      "severity": "hint",
+      "file": ".github/workflows/sync-start.yml",
+      "line": 0,
+      "message": "'.github/workflows/sync-start.yml' is not covered by any building block — consider adding a building-block element."
+    }
+  ],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": [
+      ".github/workflows/sync-start.yml"
+    ]
+  },
+  "architecture": {
+    "elements": [],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": []
+  }
+}
