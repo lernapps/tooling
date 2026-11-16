@@ -58,3 +58,16 @@ test("the image is built when its files change, not on a schedule", () => {
   };
   expect(Object.keys(workflow.on).sort()).toEqual(["push", "workflow_dispatch"]);
 });
+
+test("the agents of the workplace are in view when the codespace opens", () => {
+  // The Claude Code extension hides its icon in the activity bar when the editor has a secondary side bar, and Codex
+  // sits there too: with that bar closed, a creator sees neither agent.
+  const container = JSON.parse(
+    readFileSync(join(repoRoot, "generator/app/.devcontainer/devcontainer.json"), "utf8"),
+  ) as {
+    customizations: { vscode: { extensions: string[]; settings: Record<string, unknown> } };
+  };
+  const { extensions, settings } = container.customizations.vscode;
+  expect(extensions).toEqual(["anthropic.claude-code", "openai.chatgpt"]);
+  expect(settings["workbench.secondarySideBar.defaultVisibility"]).toBe("visible");
+});
