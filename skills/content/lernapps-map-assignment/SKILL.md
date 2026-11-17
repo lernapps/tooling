@@ -86,6 +86,7 @@ One concern that runs through the chapter, so each page answers a question the s
 - Wiederholung: <id> – <name> (<app> | Wiederholungsseite) | keine
 - Geschichte: <characters with age and looks, place, concern>
 - Sprache der Seiten: <e.g. German explanations, French examples>
+- Wörter: <foreign language only: its basic vocabulary page and the level>
 - Übungen: <only exercises the app checks | also free writing | also listening and speaking, in a language with voices>
 - Was die App nicht kann: <e.g. nothing checks how a learner speaks; no voice for this language: pronunciation as phonetic signs>
 - Offen: <at most 2 questions>
@@ -98,6 +99,7 @@ Wait for "yes". The yes confirms the content, not the plan. Then carry it into t
 | Fach, Stand | Answers: Learners |
 | Warum, Seiten | Answers: Goal, Amount; Notes: strand or subject, competencies by chapter |
 | Sprache der Seiten | Answers: Languages |
+| Wörter | Content method: source of the words |
 | Übungen, Was die App nicht kann | Notes: scope |
 | Geschichte | content guide (`app-content`, "Content structure"): characters fixed once |
 

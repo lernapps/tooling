@@ -15,10 +15,11 @@
 - **No textbook assumed.** Everything a task needs is on the page, every new word with its meaning.
 - **The basic vocabulary** beside the learning map (`https://lernapps.net/apps/map/<subject>/grundwortschatz/`): its
   words by CEFR level. It says how far a word is, not where it belongs.
-  - Assume the words of the levels below the unit's.
-  - Choose the words of the exercises from the unit's level and situation; introduce each with its meaning before an
-    exercise asks for it.
-  - A word above the level or outside the list: only when the situation needs it, explained where it first appears.
+  1. Open the page before you choose words. "Content method" names it as the source of the words.
+  2. Assume the words of the levels below the unit's; choose the words of the exercises from the unit's level and
+     situation, each introduced with its meaning before an exercise asks for it.
+  3. A word above the level or outside the list: only when the situation needs it, explained where it first appears,
+     and listed in "Content method".
 
 ## Strand app or unit app
 

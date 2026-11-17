@@ -101,6 +101,7 @@ Drei Teile:
   Update von app-templates, keine Änderung hier; (4) `llms.txt` bleibt, dafür im Skill `manual-eval`: bei Berechtigungsproblemen
   fragt die Session den Owner direkt.
 - Wortbudget der berührten Skill-Dateien: 12021 (Vorgabe 12049).
+- Nach Durchsicht der App durch den Owner: Grundwortschatz wurde nicht verwendet (Wortliste im Feld `vocabulary` der Karte war vom Orchestrator gekürzt, die Seite nicht angefordert); Audio fehlte, weil die Persona es ausgeschlossen hatte. Umgesetzt nur das Vokabular: `foreign-languages.md` macht die Seite zur Quelle in "Content method" (nummeriert), der Auftrag hat die Zeile "Wörter". Audio als Vorschlag im Auftrag ist noch offen.
 
 ## Commit
 ### Tasks
