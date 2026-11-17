@@ -16,6 +16,14 @@ Drei Teile:
    (und Links); bei **falscher** Antwort wie bisher alle. "Lösung zeigen" ohne Antwort: alle.
 
 ## Key Decisions
+- Skills: nicht mehr Prosa. Budget: Wörter in `skills/archetypes/lernapps-explainer*` und `content/lernapps-content-questions`
+  nach der Änderung <= vorher (Messung vorher/nachher im Commit).
+- Widersprüche, die aufgelöst werden: (a) `info` je Option (`content-questions`) gegen `info` je falsche Option
+  (`exercises.md`): richtige Option kein `info` nötig, `explanation` wiederholt nicht das `info`; (b) "same sections on
+  every page" (`design/SKILL.md`, `page-structures.md`): Ids fest, Reihenfolge und Auswahl frei; (c) Zeile "Wanted"
+  ohne Wirkung: durch den kurzen Abschnitt ersetzt.
+- Doppelungen, die gestrichen werden: `prerequisites-in-order` (Fälle order/gap/entry/ahead nur im Rule-Block, sonst
+  Verweis), `one-competency-per-page` (nur im Rule-Block), Mechanik, die `lernapps check` selbst meldet.
 - Annahme: Checks starten als `hint` (nie `error`); Schwellen nach Klassenstufe aus `app.yaml`/Katalog, wenn bekannt,
   sonst Standard; erst an francais-1 und klima messen (Kalibrierung), dann festlegen. (guess)
 - Metriken je Seite aus dem YAML: Wörter (text, definition, note, example, `info`, `explanation`, `mistakes`),
@@ -45,26 +53,42 @@ Drei Teile:
 
 ## Plan
 ### Tasks
-- [ ] *To be added when this phase becomes active*
+- [x] Skill-Änderung entschieden: kein neuer Skill, Abschnitt "Engagement" in `lernapps-explainer-design` (<= 150 Wörter:
+      Hook, Handlung in den ersten Sekunden, Wechsel der Aktivität, Belohnung am Ende)
+- [x] Testfälle festgelegt (siehe Code)
 
 ### Completed
-*None yet*
+- Reihenfolge und Tests der Code-Phase festgelegt.
 
 ## Code
 ### Tasks
-- [ ] *To be added when this phase becomes active*
+- [ ] **app-templates**, `runtime/shared/questions/engine.ts`: `reveal(right)`; bei `single-choice`/`multiple-choice` und
+      richtiger Antwort `.question-infos` verbergen (nur `explanation`, Links); falsch oder "Lösung zeigen": alles.
+      Tests: e2e in `runtime/explainer/e2e.ts`, `runtime/quiz/e2e.ts`, `test/fixtures/question-page/e2e/question.e2e.ts`
+      (richtig: keine Infos; falsch: alle; Lösung zeigen: alle; ohne JS unverändert). Branch in app-templates.
+- [ ] **tooling**, Messskript `scripts/measure-explainer.ts`: Kennzahlen je Seite aus YAML (siehe unten); an francais-1 und
+      klima laufen lassen; Ergebnis in die Notes
+- [ ] **tooling**, Hilfsmodul `check/explainer-pages.ts`: liest die Blöcke je Seite (Aufgabenarten, Wörter, Textfolgen)
+- [ ] **tooling**, Checks (je `check/rules/<id>.ts`, `hint`, Test in `test/explainer-structure.test.ts` mit
+      Positiv- und Negativfall): `explainer-text-load` (Wörter je Seite/Abschnitt, längste reine Textfolge, erste
+      Blöcke ohne Figur/Aufgabe), `explainer-repetition` (Wortfolgen >= 5 Wörter und Formen mehrfach auf einer Seite,
+      auch Text/`info`/`explanation`/`mistakes`), `explainer-interaction` (Anteil Aufgaben mit mehr als Ankreuzen:
+      `generated`, `language-task`, `speaking-task`, Komponenten, `ordering`, `matching`), `explainer-exercise-variety`
+      (Zahl verschiedener Übungsarten je Seite). Schwellen aus der Messung
+- [ ] **tooling**, Skills: vier `rule`-Blöcke (Titel, Rule-Block, höchstens zwei Sätze); Abschnitt "Engagement";
+      Widersprüche und Doppelungen wie unter Key Decisions; Wortzahl vorher/nachher messen
+- [ ] **tooling**, `npm test` bzw. `lernapps check` des Repos grün; Rule-Seite enthält die neuen Regeln
 
 ### Completed
 *None yet*
 
 ## Commit
 ### Tasks
-- [ ] *To be added when this phase becomes active*
+- [ ] Je Repo ein Commit (Squash) mit Intent/Key changes/Dependencies; Push nur auf `claude/focused-hawking-9sf3r1`;
+      kein PR ohne Auftrag; Notes mit gemessenen Wörtern vorher/nachher und Schwellen
 
 ### Completed
 *None yet*
-
-
 
 ---
 *This plan is maintained by the LLM. Tool responses provide guidance on which section to focus on and what tasks to work on.*
