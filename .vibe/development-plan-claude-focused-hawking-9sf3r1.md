@@ -97,8 +97,12 @@ Drei Teile:
 
 ## Commit
 ### Tasks
-- [ ] Je Repo ein Commit (Squash) mit Intent/Key changes/Dependencies; Push nur auf `claude/focused-hawking-9sf3r1`;
+- [x] Aufräumen: keine Debug-Ausgaben, keine TODOs; `console.log` in `scripts/measure-explainer.ts` ist die Ausgabe des Skripts
+- [x] Je Repo ein Commit (Squash) mit Intent/Key changes/Dependencies; Push nur auf `claude/focused-hawking-9sf3r1`;
       kein PR ohne Auftrag; Notes mit gemessenen Wörtern vorher/nachher und Schwellen
+      Stand: app-templates 1 Commit (`b3ed0be`); tooling 4 Commits auf dem Branch (2 Plan, Feature, Fix). Squash vor dem
+      Merge nach main (Squash-Merge, `lernapps-commit`), kein Force-Push des gepushten Branches ohne Auftrag.
+- [ ] Offen für den Merge: PR beider Repos auf Auftrag; danach `lernapps update` in francais-1 und klima
 
 ### Completed
 *None yet*
