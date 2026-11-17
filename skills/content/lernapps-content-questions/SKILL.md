@@ -62,10 +62,12 @@ scope: [archetype:quiz, archetype:explainer]
 severity: hint
 ```
 
-- Every option has an `info` of 1–3 sentences about the option, true either way ("Der Nil fließt durch mehrere
-  Länder Afrikas und mündet in Ägypten ins Mittelmeer."). A wrong option's `info` also says why it does not fit.
-- `explanation`: 1–3 sentences why the answer is right; for true-false, number, ordering and matching also the
-  background.
+- A wrong option's `info` says what the option is and why it does not fit, in 1–3 sentences ("Der Nil fließt durch
+  mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer. Gefragt war ein Fluss in Südamerika."). After a right
+  answer the options' `info` is not shown, so the right option needs one only where it adds a fact, which
+  `explanation` does not say.
+- `explanation`: 1–3 sentences why the answer is right, shown after every answer; it does not repeat an `info`. For
+  true-false, number, ordering and matching also the background.
 - `number`: typical wrong numbers as `mistakes` (`answer`, `message`). Any question: an optional `hint`, not the
   answer.
 - A wrong answer's `message` (and an exercise component's `reason`) says what does not fit and where to look, never

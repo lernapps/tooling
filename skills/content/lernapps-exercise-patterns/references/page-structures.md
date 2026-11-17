@@ -1,6 +1,7 @@
 # Page structures (explainer)
 
-- Recommended; keep alike across the app's pages.
+- Recommended starting points; keep the section ids alike across the app's pages, vary order and choice by what a
+  page teaches.
 - Maths, sciences: Warum, Regel (formula, figure), Beispiel (`example` box), Übung.
 - History: Quelle (`quote`), Einordnung, Zeitleiste (`timeline` from data), Übung (ordering or `generated`).
 - Biology, geography: Überblick, Aufbau (`labelled-figure`), Funktion (`table`), Übung (matching).

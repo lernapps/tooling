@@ -45,7 +45,7 @@ incomplete one, then press "Prüfen". Before "Prüfen", look at what the page sh
 For each figure, model and component, answer: What is the whole? What do its parts, colours and marks mean? What do I
 change, and what stays the same? How does that lead to what the page says? What do I enter afterwards? Then: Does the
 page start from something I know? Does it explain each word where it first needs it? Does the text name only what the
-page has? Does anything give the answer away before "Prüfen"? Does it talk to me as someone of my age?
+page has? Does anything give the answer away before "Prüfen"? Does it talk to me as someone of my age? Where did I read the same thing twice? Where did I want to skip ahead? Where did I do more than tick?
 
 Report, short: per figure or component the questions it leaves open, quoting the page; every place where you were
 stuck or guessed, with what you did; nothing else.

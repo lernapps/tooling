@@ -10,7 +10,6 @@ severity: error
 
 - Every page has at least one exercise that practises what the page explains, with solution or feedback; best in a
   last section "Übung".
-- The schema requires it; start, chapter and glossary pages are generated. The review judges the fit.
 - Except a recap page (`recap`, format 2): it repeats a prerequisite the app does not practise and has no exercise.
 
 ## `prefer-built-in-block`: A component only where no block fits
@@ -48,8 +47,7 @@ scope: archetype:explainer
 severity: warning
 ```
 
-- Ranges fit the thing: prices in whole cents, people whole, a bicycle 150–1500 €.
-- Preconditions rule out misfits (90.91 people).
+- Ranges fit the thing (prices in whole cents, people whole); preconditions rule out misfits (90.91 people).
 
 ## `explainer-mistakes-diagnosed`: Typical mistakes with their message
 

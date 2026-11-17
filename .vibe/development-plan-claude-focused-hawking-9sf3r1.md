@@ -35,6 +35,15 @@ Drei Teile:
 - Reihenfolge: zuerst Runtime-Änderung (klein, klar), dann Messskript, dann Checks, dann Skills.
 
 ## Notes
+- Gemessen (scripts/measure-explainer.ts) an francais-1 (7 Seiten) und klima (9 Seiten): Lesetext 160-505 Wörter je Seite,
+  Wörter in Aufgaben und Rückmeldungen 140-390 (oft mehr als der Lesetext), längste Textfolge bis 10 Blöcke, erste
+  Aktivität bis Block 11, wiederholte Fünf-Wort-Phrasen bis 37. francais-1: kaum statisch, aber viel Wiederholung und
+  Rückmeldungstext; klima: viele reine Auswahl-Aufgaben, lange Textfolgen.
+- Schwellen (hint): Lesetext > 350, Aufgaben-/Rückmeldungstext > 350, Textfolge > 4, erste Aktivität > Block 4,
+  wiederholte Phrasen > 20, ab 3 Aufgaben >= 75 % Auswahl ohne Komponente oder nur eine Art.
+- Entscheidung: `explainer-exercise-variety` ist in `explainer-interaction` aufgegangen (drei statt vier Checks, weniger
+  Regeltext).
+- Wortbudget: berührte Skill-Dateien vorher 12049 Wörter, nachher 12042.
 - Quellen: tooling `check/rules/*.ts` (Typ `Check`, `readExplainer` in `check/explainer-map.ts`), Tests `test/*.test.ts`;
   Regeln mit Seite `https://lernapps.net/tooling/rules/#<id>` kommen aus `rule`-Blöcken in Skills (scope `tooling`).
 - Runtime: `runtime/shared/questions/engine.ts` `reveal()` zeigt `.question-reveal` immer ganz; `render.ts`
@@ -62,22 +71,22 @@ Drei Teile:
 
 ## Code
 ### Tasks
-- [ ] **app-templates**, `runtime/shared/questions/engine.ts`: `reveal(right)`; bei `single-choice`/`multiple-choice` und
+- [x] **app-templates**, `runtime/shared/questions/engine.ts`: `reveal(right)`; bei `single-choice`/`multiple-choice` und
       richtiger Antwort `.question-infos` verbergen (nur `explanation`, Links); falsch oder "Lösung zeigen": alles.
       Tests: e2e in `runtime/explainer/e2e.ts`, `runtime/quiz/e2e.ts`, `test/fixtures/question-page/e2e/question.e2e.ts`
       (richtig: keine Infos; falsch: alle; Lösung zeigen: alle; ohne JS unverändert). Branch in app-templates.
-- [ ] **tooling**, Messskript `scripts/measure-explainer.ts`: Kennzahlen je Seite aus YAML (siehe unten); an francais-1 und
+- [x] **tooling**, Messskript `scripts/measure-explainer.ts`: Kennzahlen je Seite aus YAML (siehe unten); an francais-1 und
       klima laufen lassen; Ergebnis in die Notes
-- [ ] **tooling**, Hilfsmodul `check/explainer-pages.ts`: liest die Blöcke je Seite (Aufgabenarten, Wörter, Textfolgen)
-- [ ] **tooling**, Checks (je `check/rules/<id>.ts`, `hint`, Test in `test/explainer-structure.test.ts` mit
+- [x] **tooling**, Hilfsmodul `check/explainer-pages.ts`: liest die Blöcke je Seite (Aufgabenarten, Wörter, Textfolgen)
+- [x] **tooling**, Checks (je `check/rules/<id>.ts`, `hint`, Test in `test/explainer-structure.test.ts` mit
       Positiv- und Negativfall): `explainer-text-load` (Wörter je Seite/Abschnitt, längste reine Textfolge, erste
       Blöcke ohne Figur/Aufgabe), `explainer-repetition` (Wortfolgen >= 5 Wörter und Formen mehrfach auf einer Seite,
       auch Text/`info`/`explanation`/`mistakes`), `explainer-interaction` (Anteil Aufgaben mit mehr als Ankreuzen:
       `generated`, `language-task`, `speaking-task`, Komponenten, `ordering`, `matching`), `explainer-exercise-variety`
       (Zahl verschiedener Übungsarten je Seite). Schwellen aus der Messung
-- [ ] **tooling**, Skills: vier `rule`-Blöcke (Titel, Rule-Block, höchstens zwei Sätze); Abschnitt "Engagement";
+- [x] **tooling**, Skills: vier `rule`-Blöcke (Titel, Rule-Block, höchstens zwei Sätze); Abschnitt "Engagement";
       Widersprüche und Doppelungen wie unter Key Decisions; Wortzahl vorher/nachher messen
-- [ ] **tooling**, `npm test` bzw. `lernapps check` des Repos grün; Rule-Seite enthält die neuen Regeln
+- [x] **tooling**, `npm test` bzw. `lernapps check` des Repos grün; Rule-Seite enthält die neuen Regeln
 
 ### Completed
 *None yet*
