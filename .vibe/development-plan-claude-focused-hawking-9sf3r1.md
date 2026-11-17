@@ -95,6 +95,13 @@ Drei Teile:
 ### Completed
 *None yet*
 
+## Nachtrag nach dem manuellen Eval (Sonnet-Session, App "Dans ma classe")
+- Entscheidung des Erstellers: (1) Engagement je Seite als eine Zeile im Plan unter "Content method", nummeriert und knapp;
+  (2) richtige Option ohne `info` in `exercises.md`; (3) Wiederholung `recap` mit mehreren Kompetenzen kommt über das
+  Update von app-templates, keine Änderung hier; (4) `llms.txt` bleibt, dafür im Skill `manual-eval`: bei Berechtigungsproblemen
+  fragt die Session den Owner direkt.
+- Wortbudget der berührten Skill-Dateien: 12021 (Vorgabe 12049).
+
 ## Commit
 ### Tasks
 - [x] Aufräumen: keine Debug-Ausgaben, keine TODOs; `console.log` in `scripts/measure-explainer.ts` ist die Ausgabe des Skripts

@@ -3,8 +3,7 @@
 - Every page at least one, best in a last section "Übung".
 - What counts as right and each wrong answer's feedback: from "Content method" of the plan.
 - Wrong answer gets the most specific reason: chosen option's `info`, a matching `mistakes` entry (`generated`;
-  `number` with `answer`, `message`), the `hint`, else "look again". Write `info` per wrong option, 2–3 mistakes,
-  a `hint`.
+  `number` with `answer`, `message`), the `hint`, else "look again". Write `info` per wrong option (none for the right one: a right answer does not show it), 2–3 mistakes, a `hint`.
 
 ## Quiz types
 

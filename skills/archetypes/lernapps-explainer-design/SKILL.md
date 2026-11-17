@@ -64,15 +64,14 @@ license: MIT
 
 ## Engagement
 
-Answer for each page before you write it, in the plan:
+Per page, one line under "Content method" in the plan:
 
-- What question, puzzle or task opens the page, so that learners act within the first blocks and not after a screen of
-  text? A figure, a thing to label, or a component, before the explanation.
-- Which activities alternate: look, do, read, do? Never more than a short text block between two.
-- What is the reward at the end: something learners made or could not do before, not only "Richtig"?
-- What does the story contribute here? Cut it from a page where it only decorates.
-- Repeat on purpose only: a fact met again in another form (text, table, task) deepens it; the same words twice do
-  not. `explainer-text-load`, `explainer-repetition` and `explainer-interaction` of `lernapps check` hint at the rest.
+1. Opening: the task or question learners act on in the first blocks, before the explanation.
+2. Change: which activities alternate (look, do, read); never a long text run.
+3. Reward: what learners made or can do now, not only "Richtig".
+4. Story: what it adds here; cut it where it only decorates.
+5. Repeat on purpose only: a fact met again in another form deepens it, the same words twice do not.
+   `explainer-text-load`, `explainer-repetition` and `explainer-interaction` of `lernapps check` hint at the rest.
 
 ## Decide
 

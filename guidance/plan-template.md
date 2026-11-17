@@ -161,7 +161,7 @@ questions. -->
 checks and cannot; how a later agent adds a chapter. Each figure, model and component: its learning action in two to
 four sentences: the whole, what its parts and marks mean, what learners do and what stays the same, how that leads to
 the statement (an explainer: rule `explainer-representation-explained`). A control without a part in it goes. An explainer on the map: per page its prerequisites (`requires`)
-the app does not practise, and which get a recap page, which a link. Becomes the content guide in Code. -->
+the app does not practise, and which get a recap page, which a link. An explainer: per page one line, opening task, change of activity, reward ("Engagement" of the explainer design skill, loaded in Explore). Becomes the content guide in Code. -->
 
 ### Completed
 
