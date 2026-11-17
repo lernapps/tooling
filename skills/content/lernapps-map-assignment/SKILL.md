@@ -44,7 +44,9 @@ Take gaps of the class's band and weigh them in this order:
    listening tasks with AI voices, and speaking tasks in which the learner records themself and rates the
    pronunciation (skill `lernapps-audio`); nothing judges how a learner speaks. In another language pronunciation
    becomes reading: which letters sound how (phonetic signs only if the teacher wants them).
-2. **It can start:** each prerequisite is in the cut, practised by an app, or fits on one recap page.
+2. **It can start:** each prerequisite is in the cut, practised by an app, or fits on a recap page. Several of them
+   for one chapter share one collective recap at the chapter's start ("Das brauchst du hier"): very compact, no new
+   content, no exercise.
 3. **It opens the way:** prefer the higher `opens`. On a map of gaps this decides.
 4. **It holds together:** one strand, or for a unit (`explainerFocus: competency`) one situation that needs words,
    grammar and texts at once. No topic given → choose the situation the earliest gaps serve best, and say why.
@@ -83,7 +85,7 @@ One concern that runs through the chapter, so each page answers a question the s
 - Seiten (ein Kapitel), in dieser Reihenfolge:
   1. <id> – <name>: „<iCan>“ (<strand>, Schritt <step>, öffnet <opens>) – Datei <chapter>/<page> – Szene: <scene>
      [ahead: <id>, geübt auf Seite <n>]
-- Wiederholung: <id> – <name> (<app> | Wiederholungsseite) | keine
+- Wiederholung: <id> – <name> (<app> | Wiederholungsseite | Sammel-Wiederholung am Anfang von Kapitel <chapter>) | keine
 - Geschichte: <characters with age and looks, place, concern>
 - Sprache der Seiten: <e.g. German explanations, French examples>
 - Übungen: <only exercises the app checks | also free writing | also listening and speaking, in a language with voices>

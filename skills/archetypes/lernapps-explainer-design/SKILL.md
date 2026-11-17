@@ -31,6 +31,10 @@ license: MIT
     writes the link to its page on the map. Place the recap page before the page that needs it
     ([structure](../lernapps-explainer/references/structure.md)). Never both: a competency the app practises gets no
     recap page.
+  - A chapter needs several of them → one collective recap at its start, not a page each: `recap: [<subject>/<id>,
+    …]`, titled e.g. "Das brauchst du hier". Very compact, no new content, no exercise; a short self-check written by
+    hand that names each competency with its "Ich kann …" sentence from the map (`recap-names-competencies`). Read
+    the competencies off the map: the `requires` of the chapter's competencies that the app does not practise.
   - Where the app starts, its first competencies need what learners bring: a recap page there. Inside the app no
     step is missing: a prerequisite between two competencies of the app is practised too (else a gap).
   - A page must come first on purpose, e.g. greetings as fixed phrases before the grammar behind them → the page
@@ -105,7 +109,7 @@ severity: warning
 ```
 
 - Each direct prerequisite (`requires` in the map) of a page's competency is practised on that page or an earlier one,
-  repeated on a recap page before it (`recap: <subject>/<competency>`), or named in the page's text with a link to its
+  repeated on a recap page before it (`recap: <subject>/<competency>`, or in its list), or named in the page's text with a link to its
   page on the map: `https://lernapps.net/apps/map/<subject>/c/<id>/`. A recapped competency's own prerequisites do
   not count.
 - `lernapps check` names the page and the prerequisite, once, at the first page that needs it:

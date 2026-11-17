@@ -12,8 +12,10 @@ quiz's types. Read the content in `src/` and the built pages in the bundle.
 id: topic-has-exercises
 ```
 
-The schema already requires an exercise on every page except a recap page (`recap`), which has none; judge whether it
-fits. Open every page. A finding: an exercise
+The schema already requires an exercise on every page except a recap page (`recap`, one competency or a list), which
+has none; judge whether it fits. A recap page is very compact and teaches nothing new: a collective recap at a
+chapter's start names each competency it repeats with its "Ich kann …" sentence, as a short self-check written by
+hand; a finding when it explains something new or holds an exercise. Open every page. A finding: an exercise
 that practises something other than what its page explains, or one whose solution or feedback does not let learners
 check their answer; a task that shows several representations at once. Name the page and the exercise. Not here:
 content of a later page (`explainer-one-step`), the order of the exercises (`explainer-exercise-progression`).

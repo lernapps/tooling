@@ -1,7 +1,7 @@
 // The prerequisites of an explainer's pages come in the order of the app (KD-03, KD-03a and KD-04 of lernapps/apps#226).
 // For each page, each competency it practises and each direct prerequisite r of it (`requires` in the subject's map):
 //   - fine: r is practised on this page or an earlier one, or repeated on a recap page before it
-//     (`recap: <subject>/<r>`), or the page's text links r's page on the map (…/apps/map/<subject>/c/<r>/);
+//     (`recap: <subject>/<r>`, or r in its list), or the page's text links r's page on the map (…/apps/map/<subject>/c/<r>/);
 //   - order: the app practises or repeats r, but only after this page;
 //   - gap: the app neither practises nor repeats r, but practises a competency r builds on (an ancestor of r, through
 //     `requires`): r is missing between two competencies of the app;
@@ -46,8 +46,10 @@ export default {
     const recapped = new Map<string, number>();
     explainer.pages.forEach((page, index) => {
       for (const id of page.competencies) if (!practised.has(id)) practised.set(id, index);
-      const id = page.recap?.startsWith(`${subject}/`) ? page.recap.slice(subject.length + 1) : undefined;
-      if (id !== undefined && !recapped.has(id)) recapped.set(id, index);
+      for (const recap of page.recap ?? []) {
+        const id = recap.startsWith(`${subject}/`) ? recap.slice(subject.length + 1) : undefined;
+        if (id !== undefined && !recapped.has(id)) recapped.set(id, index);
+      }
     });
     /** A competency r builds on (transitively) that the app practises, or undefined. */
     const practisedAncestor = (id: string): string | undefined => {
@@ -105,7 +107,7 @@ export default {
           if (link.test(page.text)) continue;
           const name = `${subject}/${prerequisite} (strand ${subject}/${strand})`;
           const url = competencyPage(subject, prerequisite);
-          const recapFix = `a recap page (recap: ${subject}/${prerequisite}, descriptive blocks only) before this page`;
+          const recapFix = `a recap page (recap: ${subject}/${prerequisite}, descriptive blocks only) before this page, or ${subject}/${prerequisite} in the recap list of one`;
           if (at !== undefined || recap !== undefined) {
             const later = explainer.pages[at ?? recap ?? 0]?.where ?? "";
             problems.push({

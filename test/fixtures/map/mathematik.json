@@ -12,6 +12,7 @@
       "competencies": [
         {
           "id": "haeufigkeiten",
+          "name": { "de": "Häufigkeiten", "en": "Frequencies" },
           "iCan": { "de": "Ich kann absolute und relative Häufigkeiten bestimmen." },
           "gradeBand": "5-6",
           "requires": [],
@@ -39,6 +40,7 @@
       "competencies": [
         {
           "id": "brueche-anteile",
+          "name": { "de": "Brüche als Anteile" },
           "iCan": "Ich kann Anteile als Brüche angeben.",
           "gradeBand": "5-6",
           "requires": [],

@@ -3,7 +3,7 @@
 // it names either the app's strand (`<subject>/<strand>` or `none`, a strand app) or its subject (`subject: <subject>`,
 // a unit app that practises competencies of several strands; only in a subject whose map has `explainerFocus:
 // competency`), and every page the competencies of the map it practises (`competencies`, ids of the subject), or, on a
-// recap page, the one competency it repeats and does not practise (`recap: <subject>/<competency>`). The map of a
+// recap page, the competencies it repeats and does not practise (`recap: <subject>/<competency>`, or a list of them). The map of a
 // subject is data at https://lernapps.net/apps/map/<subject>.json (lernapps/apps, docs/learning-map-contract.md,
 // section 5).
 import { existsSync, readFileSync } from "node:fs";
@@ -25,8 +25,8 @@ export interface ExplainerPage {
   /** `src/<chapter>/<page>.yaml`, with `:<line>` of the competencies (or of the recap) when the page has them. */
   where: string;
   competencies: string[];
-  /** A recap page: the `<subject>/<competency>` it repeats, as written. */
-  recap?: string;
+  /** A recap page: the `<subject>/<competency>` it repeats, as written; one or several, always as a list. */
+  recap?: string[];
   /** Prerequisites the page comes ahead of on purpose (`ahead`); the app practises them on another page. */
   ahead: string[];
   /** The page's YAML as written, for the links in its text. */
@@ -106,7 +106,9 @@ export function readExplainer(project: string): Explainer | undefined {
         | undefined;
       // `competencies` is a list; a single `competency` (an id) is read the same, so either spelling is checked.
       const competencies = typeof value?.competency === "string" ? [value.competency] : ids(value?.competencies);
-      const recap = typeof value?.recap === "string" ? value.recap : undefined;
+      // `recap` is one competency or a list of several; read as a list either way
+      const recap =
+        typeof value?.recap === "string" ? [value.recap] : Array.isArray(value?.recap) ? ids(value.recap) : undefined;
       const line =
         lineOf(text, "competencies", "competency") ?? (recap === undefined ? undefined : lineOf(text, "recap"));
       pages.push({
@@ -133,13 +135,28 @@ export function readExplainer(project: string): Explainer | undefined {
  */
 export type ExplainerFocus = "strand" | "competency";
 
-/** A subject's map as the catalog serves it: its focus and its strands, each with the ids of its competencies. */
+/** A text of the map: one string, or a map of strings by language. */
+export type MapText = string | Record<string, string>;
+
+/** A competency of a map: its id, its prerequisites, its short name and its "Ich kann …" sentence. */
+export interface MapCompetency {
+  id: string;
+  requires?: string[];
+  name?: MapText;
+  iCan?: MapText;
+}
+
+/** A subject's map as the catalog serves it: its focus and its strands, each with its competencies. */
 export interface SubjectMap {
   id: string;
   /** Always set once loaded: a map JSON without it (an older one) counts as `strand`. */
   explainerFocus: ExplainerFocus;
-  strands: { id: string; competencies: { id: string; requires?: string[] }[] }[];
+  strands: { id: string; competencies: MapCompetency[] }[];
 }
+
+/** A text of the map in German (the language of the map), or undefined. */
+export const germanOf = (text: MapText | undefined): string | undefined =>
+  typeof text === "string" ? text : text?.["de"];
 
 /** The strand of each competency of the map, by its id. */
 export const strandsOf = (map: SubjectMap): Map<string, string> =>
