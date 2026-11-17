@@ -1,5 +1,5 @@
-// An explainer for children that is tables and text has nothing to look at. The check counts the pages with a figure,
-// a labelled figure, a timeline, a video or a component (not a table, not a formula) and hints when fewer than half
+// An explainer that is tables and text has nothing to look at. The check counts the pages with a figure, a labelled
+// figure, a timeline, a video, a component, a formula, code or a quote (not a table) and hints when fewer than half
 // have one (check/explainer-structure.ts). It needs the app's repo, with `format: 2` in src/app.yaml.
 import type { Check } from "../check.ts";
 import { readExplainer } from "../explainer-map.ts";
@@ -14,7 +14,7 @@ export default {
   id: "explainer-visual",
   url: "https://lernapps.net/tooling/rules/#explainer-visual",
   description:
-    "At least half of the pages of an explainer in format 2 have a figure, a timeline, a video or a component.",
+    "At least half of the pages of an explainer in format 2 have something to look at besides tables and text.",
   severity: "hint",
   run: ({ project }) => {
     const explainer = project === undefined ? undefined : readExplainer(project);
@@ -24,8 +24,8 @@ export default {
     return [
       {
         where: "src/app.yaml",
-        found: `${withPicture} of ${explainer.pages.length} pages have a figure, a timeline, a video or a component`,
-        fix: "Give each page something to look at that carries the idea: a scene of the story, a labelled figure, a drawing; or leave out a story that only the text tells",
+        found: `${withPicture} of ${explainer.pages.length} pages have a figure, formula, code, quote, timeline, video or component`,
+        fix: "Give each page something to look at that carries the idea: a scene or a case of the story, a labelled figure, a drawing, a formula or a source; or leave out a story that only the text tells",
       },
     ];
   },

@@ -21,6 +21,22 @@
   3. A word above the level or outside the list: only when the situation needs it, explained where it first appears,
      and listed in "Content method".
 
+## Content method of a language app
+
+One line each under "Content method" (rule `explainer-language-practice`):
+
+1. Listening and speaking: yes, with voices where the language has them (skill `lernapps-audio`), or declined by the
+   creator and why.
+2. Words: always with their article; the source is the basic vocabulary (above).
+3. Kinds of exercise: vary them from page to page (match, order, dictation, `generated`, write), not the same three.
+4. The class's typical mistakes (from the interview), each with its own message.
+
+```rule
+id: explainer-language-practice
+scope: archetype:explainer
+severity: hint
+```
+
 ## Strand app or unit app
 
 - The maps of the foreign languages and German say `explainerFocus: competency`: their strands (words, grammar,

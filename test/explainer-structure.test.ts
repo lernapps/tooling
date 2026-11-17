@@ -121,11 +121,14 @@ describe("explainer-repetition", () => {
 });
 
 describe("explainer-interaction", () => {
-  test("a page with fewer than four exercises is named, a recap page is left out", () => {
-    const problems = run(interaction, explainer({ a: page(choice("a"), choice("b")) }));
-    expect(problems?.[0]?.found).toContain("only 2 exercises");
+  test("a page with fewer than four exercises is named from four pages on, a recap page is left out", () => {
+    const two = page(choice("a"), choice("b"));
+    const four = page(choice("a"), choice("b", "multiple-choice"), number("c"), number("d"));
+    const problems = run(interaction, explainer({ a: two, b: four, c: four, d: four }));
+    expect(problems).toEqual([expect.objectContaining({ found: expect.stringContaining("only 2 exercises") })]);
+    expect(run(interaction, explainer({ a: two }))).toEqual([]);
     const recap = "recap: mathematik/prozent\nblocks: []\n";
-    expect(run(interaction, explainer({ a: recap }))).toEqual([]);
+    expect(run(interaction, explainer({ a: recap, b: four, c: four, d: four }))).toEqual([]);
   });
 
   test("a page of guessable choices only is named, also when they are all of one kind", () => {
@@ -182,14 +185,16 @@ describe("explainer-visual", () => {
     expect(run(visual, explainer({ a: page(text("kurz")) }))).toBeUndefined();
   });
 
-  test("an app where half of the pages have a figure passes; tables alone do not count", () => {
+  test("an app where half of the pages have a figure or a formula passes; tables alone do not count", () => {
     const withFigure = page(figure, text("kurz"));
     const plain = page(text("kurz"));
     expect(run(visual, explainer({ a: withFigure, b: withFigure, c: plain, d: plain }))).toEqual([]);
     const table = "  - type: table\n    caption: T\n    header: [a, b]\n    rows: [[c, d]]\n";
     const problems = run(visual, explainer({ a: withFigure, b: page(table), c: page(table), d: plain }));
     expect(problems).toEqual([
-      expect.objectContaining({ found: "1 of 4 pages have a figure, a timeline, a video or a component" }),
+      expect.objectContaining({
+        found: "1 of 4 pages have a figure, formula, code, quote, timeline, video or component",
+      }),
     ]);
     expect(visual.severity).toBe("hint");
   });

@@ -116,6 +116,22 @@ Drei Teile:
   Seite) in den Skills; Owner klärt.
 - Wortbudget: 12039 (Vorgabe 12049).
 
+## Nachtrag 3: Geschichte nach Stufe, Sprachmuster, Rules und Review
+- Entscheidung des Erstellers: Die Geschichte trägt als Mechanismus (Anliegen, Schritt je Seite, Weitergabe an die nächste
+  Seite), die Form folgt dem Alter (bis Klasse 6 gezeichnete sprechende Figuren, 7-9 Nachrichten/Dialog, ab 10 ein
+  realer Fall; Stufen sind ein Vorschlag, `(guess)`). `explainer-visual` zählt auch Formel, Code und Zitat als etwas zum
+  Ansehen (Tabelle nicht).
+- Ort: `map-assignment` §4 (entsteht), "Engagement" Punkt 4 (wird geplant), `figures.md` (Szenen für Jüngere).
+- Sprachmuster in `foreign-languages.md` als vier Zeilen für "Content method" (Ton, Wörter mit Artikel und Quelle,
+  wechselnde Aufgabenarten, typische Fehler); sie tragen die Regel `explainer-language-practice`.
+- Neue Rules mit Review-Rubrik (`review/archetypes/explainer.md`): `explainer-story-carries`,
+  `explainer-language-practice`; bestehende Regeln um je einen Halbsatz erweitert (`explainer-page-goal`: sagt, was
+  folgt; `explainer-representation-explained`: Merke-Kasten; Engagement 1 und 3: erste leichte Aufgabe mit Begründung,
+  Rückblick am Kapitelende).
+- Mindestzahl Aufgaben gilt erst ab vier Seiten (der Platzhalter von `create` wird nicht beurteilt, sonst bestand
+  `create.e2e` nicht).
+- Wortbudget: 12010 (Vorgabe 12049); sieben Begründungsabsätze in den Regeln gestrichen.
+
 ## Commit
 ### Tasks
 - [x] Aufräumen: keine Debug-Ausgaben, keine TODOs; `console.log` in `scripts/measure-explainer.ts` ist die Ausgabe des Skripts

@@ -30,8 +30,6 @@ scope: archetype:explainer
 severity: error
 ```
 
-An exercise that can be solved by looking teaches looking. Learners stop thinking as soon as the page tells them.
-
 - A task's figure shows what is given, never the answer. Its caption and `alt` name what is given, not the value
   to find.
 - An exercise component shows nothing before "Prüfen" that answers the task: no counter or live sentence that states
@@ -80,11 +78,9 @@ scope: archetype:explainer
 severity: hint
 ```
 
-Learners keep going when they know where a page leads and how it follows from the last one.
-
 - Near its start each page says, in the learner's words, what they will be able to do after it, and how it builds on
   the page before (or on what they know, for a chapter's first page).
-- The page ends where it said: its exercises check that goal.
+- The page ends where it said: its exercises check that goal, and it says what comes next.
 
 ## `explainer-learner-start`: Start where learners stand
 
@@ -108,9 +104,6 @@ scope: archetype:explainer
 severity: hint
 ```
 
-Experts read a figure at a glance; learners see shapes, colours and lines. What a figure means is part of what the
-page teaches.
-
 - Each figure, diagram and component shows what the text next to it explains. Before learners use it, the text
   answers the questions that apply: What is the whole or the reference? What do its parts, colours and marks mean?
   How does it lead to the statement of the page? What do they enter or check afterwards? (What learners change in a
@@ -119,7 +112,20 @@ page teaches.
   things; a mark does not look like a sign it is not. Several figures: a visible label says which is which. A figure
   to read values from has a scale.
 - Where learners commonly misread a figure (a graph taken for a picture of the path, a longer bar for a larger
-  number), the text names the misreading.
+  number) or confuse a rule, the text names it, in a box "Merke" before the exercises.
+
+## `explainer-story-carries`: A story carries the pages
+
+```rule
+id: explainer-story-carries
+scope: archetype:explainer
+severity: hint
+```
+
+- An explainer with a story: each page takes it on from the page before and ends with the next step; its tasks are
+  steps of the story, and what is learned is used in it.
+- The form fits the age (up to class 6 drawn, speaking children; 7-9 messages or a dialogue; 10 up a real case). A
+  page without its scene or case has no story on it.
 
 ## `explainer-control-purpose`: Every control has a visible purpose
 
@@ -128,9 +134,6 @@ id: explainer-control-purpose
 scope: archetype:explainer
 severity: hint
 ```
-
-A control without a purpose makes learners search for one. A start state that is already changed hides what the
-change does.
 
 - The page names each control of a component, says what to do with it and what to watch, on every page that has
   it. A reset or a "next" whose label says what it does needs no words. Each control changes something learners can see; one that changes nothing in a view on purpose says so there.
@@ -145,9 +148,6 @@ scope: archetype:explainer
 severity: hint
 ```
 
-Learners take the text at its word. When it names another number or a tool that is not there, they doubt
-themselves, not the page.
-
 - Text, figure and task use the same numbers and the same whole. A switch to another example is announced.
 - The text names only views, tools and controls the page has.
 
@@ -158,8 +158,6 @@ id: explainer-one-step
 scope: archetype:explainer
 severity: hint
 ```
-
-Each new idea costs attention. Two new ideas on one page, or a glimpse of a later one, and learners keep neither.
 
 - A page adds one new idea: one statement its exercises check. A figure with several readings can bring several.
 - Nothing of a later competency (`requires` in the map) or page, also not among the options of an exercise.
@@ -172,9 +170,6 @@ id: explainer-steps-explain
 scope: archetype:explainer
 severity: hint
 ```
-
-The steps are the explanation learners turn to when they are stuck. A step that only names the rule repeats what
-they did not understand.
 
 - Each step uses the numbers of the task and gives its reason. "Setze die Angaben in die Regel ein" explains nothing.
 - Given values are shown worked out, unless working them out is the exercise.

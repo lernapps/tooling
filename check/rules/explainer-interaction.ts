@@ -7,6 +7,8 @@ import { readExplainer } from "../explainer-map.ts";
 import { measurePage } from "../explainer-structure.ts";
 
 /** Fewer exercises (components count) on a page practise too little; a recap page has none and is left out. */
+/** The minimum applies from this many pages on: the placeholder `create` writes is not judged. */
+export const MIN_PAGES = 4;
 export const MIN_PRACTICE = 4;
 /** From this many exercises on a page the check looks at their kinds. */
 export const MIN_EXERCISES = 3;
@@ -29,7 +31,7 @@ export default {
       const m = measurePage(page.text);
       const found: string[] = [];
       const practice = m.exercises.length + m.components;
-      if (page.recap === undefined && practice < MIN_PRACTICE)
+      if (page.recap === undefined && explainer.pages.length >= MIN_PAGES && practice < MIN_PRACTICE)
         found.push(`only ${practice} exercises (fewer than ${MIN_PRACTICE})`);
       if (m.exercises.length < MIN_EXERCISES)
         return found.length === 0 ? [] : [{ where: page.where, found: found.join("; "), fix: FIX }];

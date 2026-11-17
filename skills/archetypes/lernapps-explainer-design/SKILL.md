@@ -66,10 +66,10 @@ license: MIT
 
 Per page, one line under "Content method" in the plan:
 
-1. Opening: the task or question learners act on in the first blocks, before the explanation.
+1. Opening: a first, easy task learners act on in the first blocks, before the explanation, with the reason for its answer.
 2. Change: which activities alternate (look, do, read); never a long text run.
-3. Reward: what learners made or can do now, not only "Richtig".
-4. Story: what it adds here; cut it where it only decorates.
+3. Reward: what learners made or can do now, not only "Richtig"; a chapter ends with a look back.
+4. Story: how the concern shows on this page (a scene, messages, a case) and what comes next; none, none.
 5. Repeat on purpose only: a fact met again in another form deepens it, the same words twice do not.
    `explainer-text-load`, `explainer-repetition` and `explainer-interaction` of `lernapps check` hint at the rest.
 
@@ -145,7 +145,8 @@ scope: tooling
 severity: hint
 ```
 
-- At least half of the pages have a figure, labelled figure, timeline, video or component; a table does not count.
+- At least half of the pages have something to look at besides tables and text: a figure, formula, code, quote, timeline,
+  video or component.
 
 ## `prerequisites-in-order`: Prerequisites come before the page that needs them
 

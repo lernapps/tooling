@@ -8,8 +8,17 @@ import { parse } from "yaml";
 const PROSE = new Set(["text", "definition", "quote"]);
 /** Boxes: their blocks count as part of the page, in order. */
 const BOXES = new Set(["section", "example", "note"]);
-/** What a learner looks at as a picture: a figure, not a table or a formula. */
-const PICTURE = new Set(["figure", "labelled-figure", "timeline", "video", "vue-component"]);
+/** What a learner looks at besides prose: a figure, a formula, code or a quote; not a table. */
+const PICTURE = new Set([
+  "figure",
+  "labelled-figure",
+  "timeline",
+  "video",
+  "vue-component",
+  "formula",
+  "code",
+  "quote",
+]);
 /** What shows something to look at: no reading needed first. */
 const VISUAL = new Set(["figure", "labelled-figure", "table", "timeline", "video", "formula", "code"]);
 /** An answer chosen from given options: a learner can guess it. */
@@ -43,7 +52,7 @@ export interface PageMetrics {
   choiceExercises: number;
   /** Blocks that need a hand: components. Exercises are counted in `exercises`. */
   components: number;
-  /** Figures, labelled figures, timelines, videos and components: what is a picture and not a table or a formula. */
+  /** Figures, labelled figures, timelines, videos, components, formulas, code and quotes: not a table. */
   pictures: number;
   /**
    * Phrases of five words that two blocks of the same part of the page say: two text blocks, or two exercises of one type

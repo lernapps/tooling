@@ -9,3 +9,8 @@
 - Same conventions (colours, labels, units, orientation) across the app; write them into the guide, "Figures".
 - The same figures work in a quiz question (`material`, skill `lernapps-content-questions`): an image of `src/images/` with
   `alt`, `caption`, `source` and `licence`.
+
+## Story scenes (younger learners)
+
+- Draw the characters once, in a fixed style, and write it into the guide, "Figures". One scene per page from a script
+  in the repo, the characters in the same places, speaking the words of the page.
