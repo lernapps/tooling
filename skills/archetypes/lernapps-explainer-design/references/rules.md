@@ -94,9 +94,6 @@ scope: archetype:explainer
 severity: hint
 ```
 
-A new idea sticks when it hangs on something learners already know. A page that starts with a rule or a definition
-starts where they are not.
-
 - Start each page from what learners of the grade know: the competencies its competency `requires` in the map, and
   their everyday life.
 - Link the new idea to it with an analogy or a situation. Say where the analogy stops; two analogies for one idea:
@@ -216,9 +213,6 @@ id: explainer-age-appropriate
 scope: archetype:explainer
 severity: hint
 ```
-
-Learners judge in the first lines whether a page is for them. Too childish loses older learners as surely as too
-hard loses younger ones.
 
 - Tone, examples and length fit the grade: younger learners get short sentences and things from their day; older
   learners are not talked down to and get situations of their own world.

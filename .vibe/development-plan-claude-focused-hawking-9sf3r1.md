@@ -103,6 +103,19 @@ Drei Teile:
 - Wortbudget der berührten Skill-Dateien: 12021 (Vorgabe 12049).
 - Nach Durchsicht der App durch den Owner: Grundwortschatz wurde nicht verwendet (Wortliste im Feld `vocabulary` der Karte war vom Orchestrator gekürzt, die Seite nicht angefordert); Audio fehlte, weil die Persona es ausgeschlossen hatte. Umgesetzt nur das Vokabular: `foreign-languages.md` macht die Seite zur Quelle in "Content method" (nummeriert), der Auftrag hat die Zeile "Wörter". Audio als Vorschlag im Auftrag ist noch offen.
 
+## Nachtrag 2: Vergleich der autonom gebauten App mit francais-1 (Owner)
+- Befund: Die autonome App ist didaktisch viel schwächer (2 einfache SVGs für 8 Seiten, kein Ton, 2-5 Aufgaben, überall
+  Auswahl/Lücke/Schreiben, Geschichte nur als Satz); die drei ersten Checks haben nicht gemeldet (Tabelle gilt als
+  Aktivität, Lücke/Schreiben als aktiv).
+- Umgesetzt (Hints): `explainer-page-variety` (ab 4 Seiten kein Satz Aufgabenarten auf >= der Hälfte der Seiten),
+  `explainer-visual` (mindestens die Hälfte der Seiten mit Figur, Zeitleiste, Video oder Komponente; Tabelle zählt
+  nicht), und in `explainer-interaction` mindestens vier Aufgaben je Seite (Komponenten zählen, Wiederholungsseite
+  ausgenommen). Gegen die Zahlen des Tests: Seiten 5/8 mit demselben Satz, 2/8 mit Bild, 7/8 unter vier Aufgaben:
+  alle drei hätten gemeldet; francais-1 und klima melden bei page-variety und visual nichts.
+- Offen: Ort der Sprachmuster (francais-1-Muster: Kurz geübt, Nachsprechen, Ordnen, Rückmeldung mit Regel, Szene je
+  Seite) in den Skills; Owner klärt.
+- Wortbudget: 12039 (Vorgabe 12049).
+
 ## Commit
 ### Tasks
 - [x] Aufräumen: keine Debug-Ausgaben, keine TODOs; `console.log` in `scripts/measure-explainer.ts` ist die Ausgabe des Skripts

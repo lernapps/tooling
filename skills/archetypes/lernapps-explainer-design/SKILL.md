@@ -124,8 +124,28 @@ scope: tooling
 severity: hint
 ```
 
-- From three exercises on a page, not three quarters or more choices a learner can guess (single choice, multiple
-  choice, true or false) without a component, and not all of one kind.
+- At least four exercises on a page (a component counts), not three quarters or more guessable choices (single choice,
+  multiple choice, true or false) without a component, and not all of one kind.
+
+## `explainer-page-variety`: Pages do not all practise alike
+
+```rule
+id: explainer-page-variety
+scope: tooling
+severity: hint
+```
+
+- From four pages on, no one set of exercise kinds on half of the pages or more.
+
+## `explainer-visual`: Something to look at
+
+```rule
+id: explainer-visual
+scope: tooling
+severity: hint
+```
+
+- At least half of the pages have a figure, labelled figure, timeline, video or component; a table does not count.
 
 ## `prerequisites-in-order`: Prerequisites come before the page that needs them
 

@@ -8,6 +8,8 @@ import { parse } from "yaml";
 const PROSE = new Set(["text", "definition", "quote"]);
 /** Boxes: their blocks count as part of the page, in order. */
 const BOXES = new Set(["section", "example", "note"]);
+/** What a learner looks at as a picture: a figure, not a table or a formula. */
+const PICTURE = new Set(["figure", "labelled-figure", "timeline", "video", "vue-component"]);
 /** What shows something to look at: no reading needed first. */
 const VISUAL = new Set(["figure", "labelled-figure", "table", "timeline", "video", "formula", "code"]);
 /** An answer chosen from given options: a learner can guess it. */
@@ -41,6 +43,8 @@ export interface PageMetrics {
   choiceExercises: number;
   /** Blocks that need a hand: components. Exercises are counted in `exercises`. */
   components: number;
+  /** Figures, labelled figures, timelines, videos and components: what is a picture and not a table or a formula. */
+  pictures: number;
   /**
    * Phrases of five words that two blocks of the same part of the page say: two text blocks, or two exercises of one type
    * (lower case). A phrase said by the text and again by an exercise, or by exercises of different types, is not listed:
@@ -118,6 +122,7 @@ export function measurePage(text: string): PageMetrics {
   let longestProseRun = 0;
   let firstActivity = 0;
   let components = 0;
+  let pictures = 0;
   let choiceExercises = 0;
   const exercises: string[] = [];
   /** One entry per block: its part (text, or the type of the exercise) and the phrases it says. */
@@ -140,6 +145,7 @@ export function measurePage(text: string): PageMetrics {
       continue;
     }
     run = 0;
+    if (PICTURE.has(type)) pictures++;
     if (type === "vue-component") components++;
     if (EXERCISE.has(type)) {
       exercises.push(kindOf(block));
@@ -163,6 +169,7 @@ export function measurePage(text: string): PageMetrics {
     exercises,
     choiceExercises,
     components,
+    pictures,
     repeated,
   };
 }

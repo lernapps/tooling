@@ -7,6 +7,8 @@ import { dirname, join } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
 import type { Problem } from "../check/check.ts";
 import interaction from "../check/rules/explainer-interaction.ts";
+import pageVariety from "../check/rules/explainer-page-variety.ts";
+import visual from "../check/rules/explainer-visual.ts";
 import repetition from "../check/rules/explainer-repetition.ts";
 import textLoad from "../check/rules/explainer-text-load.ts";
 import { measurePage } from "../check/explainer-structure.ts";
@@ -119,8 +121,11 @@ describe("explainer-repetition", () => {
 });
 
 describe("explainer-interaction", () => {
-  test("a page with fewer than three exercises passes", () => {
-    expect(run(interaction, explainer({ a: page(choice("a"), choice("b")) }))).toEqual([]);
+  test("a page with fewer than four exercises is named, a recap page is left out", () => {
+    const problems = run(interaction, explainer({ a: page(choice("a"), choice("b")) }));
+    expect(problems?.[0]?.found).toContain("only 2 exercises");
+    const recap = "recap: mathematik/prozent\nblocks: []\n";
+    expect(run(interaction, explainer({ a: recap }))).toEqual([]);
   });
 
   test("a page of guessable choices only is named, also when they are all of one kind", () => {
@@ -138,5 +143,54 @@ describe("explainer-interaction", () => {
     expect(
       run(interaction, explainer({ a: page(component, choice("a"), choice("b"), choice("c", "multiple-choice")) })),
     ).toEqual([]);
+  });
+});
+
+describe("explainer-page-variety", () => {
+  const pageWith = (...kinds: string[]) =>
+    page(...kinds.map((kind, i) => (kind === "number" ? number(`n${i}`) : choice(`c${i}`, kind))));
+
+  test("checks nothing without an explainer in format 2, and with fewer than four pages", () => {
+    expect(run(pageVariety, tempDir("no-app"))).toBeUndefined();
+    const same = pageWith("single-choice", "number");
+    expect(run(pageVariety, explainer({ a: same, b: same, c: same }))).toEqual([]);
+  });
+
+  test("pages that practise with different kinds pass", () => {
+    const dir = explainer({
+      a: pageWith("single-choice", "number"),
+      b: pageWith("true-false", "number"),
+      c: pageWith("multiple-choice", "number"),
+      d: pageWith("single-choice", "true-false"),
+    });
+    expect(run(pageVariety, dir)).toEqual([]);
+  });
+
+  test("half of the pages or more with the same set of kinds is a hint that names the set", () => {
+    const same = pageWith("single-choice", "number");
+    const dir = explainer({ a: same, b: same, c: same, d: pageWith("true-false", "number") });
+    expect(run(pageVariety, dir)).toEqual([
+      expect.objectContaining({ found: "3 of 4 pages practise with the same exercise kinds (number, single-choice)" }),
+    ]);
+    expect(pageVariety.severity).toBe("hint");
+  });
+});
+
+describe("explainer-visual", () => {
+  test("checks nothing without an explainer in format 2, and with fewer than four pages", () => {
+    expect(run(visual, tempDir("no-app"))).toBeUndefined();
+    expect(run(visual, explainer({ a: page(text("kurz")) }))).toBeUndefined();
+  });
+
+  test("an app where half of the pages have a figure passes; tables alone do not count", () => {
+    const withFigure = page(figure, text("kurz"));
+    const plain = page(text("kurz"));
+    expect(run(visual, explainer({ a: withFigure, b: withFigure, c: plain, d: plain }))).toEqual([]);
+    const table = "  - type: table\n    caption: T\n    header: [a, b]\n    rows: [[c, d]]\n";
+    const problems = run(visual, explainer({ a: withFigure, b: page(table), c: page(table), d: plain }));
+    expect(problems).toEqual([
+      expect.objectContaining({ found: "1 of 4 pages have a figure, a timeline, a video or a component" }),
+    ]);
+    expect(visual.severity).toBe("hint");
   });
 });
