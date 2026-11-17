@@ -309,9 +309,24 @@ severity: warning
 - `strand` in `src/app.yaml` is a strand of the subject's map; each page's `competencies` are ids of that strand.
 - `subject` in `src/app.yaml` (a unit app) only where the subject's map says `explainerFocus: competency`. Then
   `competencies` may be ids of every strand of the subject, but each page's ids belong to one strand.
-- A recap page's `recap` (`<subject>/<competency>`) is on the map, of any strand, and the app does not practise it
-  on a page of its own.
+- Each competency of a recap page's `recap` (`<subject>/<competency>`, or a list of them) is on the map, of any
+  strand, and the app does not practise it on a page of its own.
 - `lernapps check` loads `https://lernapps.net/apps/map/<subject>.json` and warns before the push. Not reachable or
   no map yet → one hint that it could not check.
 - At the listing an unknown id, one of another strand, a `subject` in a subject with `explainerFocus: strand`, and a
   page across strands are errors of the catalog (`entry-learning-map`).
+
+## `recap-names-competencies`: A recap page names each competency it repeats
+
+```rule
+id: recap-names-competencies
+scope: tooling
+severity: warning
+```
+
+- The runtime writes at the top of a recap page only a link to the map for each recapped competency, with its id as
+  the link's text. What the learner should already know, the page's text says.
+- So the text names each competency of `recap`: its name (`name.de`) or its "Ich kann …" sentence (`iCan`) from
+  `https://lernapps.net/apps/map/<subject>.json`, in any case. Best as a short self-check at the start of the page.
+- `lernapps check` warns about a competency the text does not name. Map not reachable, or the competency not on it:
+  no finding here (`competencies-on-map` says so).

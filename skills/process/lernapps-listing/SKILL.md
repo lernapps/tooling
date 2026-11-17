@@ -32,10 +32,12 @@ At the checkpoint "list", without asking first: the pull request publishes nothi
      one app, one strand.
    - Errors of the listing (`entry-learning-map`, lernapps/apps): an unknown id, one of another strand, a unit app
      in a subject with `explainerFocus: strand`, a page across strands.
-   - Prerequisites in order: a recap page before or a link in the page's text counts. With `explainerFocus:
+   - Prerequisites in order: a recap page before (one competency, or a list of several in one collective recap) or a
+     link in the page's text counts. With `explainerFocus:
      competency` a prerequisite only on a later page (order) or missing inside the app's chain (gap) is an error, one
      missing at the app's entry a warning; with `strand` all are warnings. An app without pages: only gap and entry.
-   - `lernapps check` warns about these before (`competencies-on-map`, `prerequisites-in-order`). The review adds two
+   - `lernapps check` warns about these before (`competencies-on-map`, `prerequisites-in-order`), and about a recap
+     page whose text does not name a competency it repeats (`recap-names-competencies`). The review adds two
      hints, never errors: a strand that could fit an app with `strand: none` (`strand-from-map`), a page that teaches
      more or other than its competencies say (`content-matches-competencies`).
 3. Run the check the guide names. Fix its findings first: the pull request runs the same check.
