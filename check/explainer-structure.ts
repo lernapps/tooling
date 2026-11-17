@@ -41,7 +41,11 @@ export interface PageMetrics {
   choiceExercises: number;
   /** Blocks that need a hand: components. Exercises are counted in `exercises`. */
   components: number;
-  /** Phrases of five words that two different blocks of the page say, as written (lower case). */
+  /**
+   * Phrases of five words that two blocks of the same part of the page say: two text blocks, or two exercises of one type
+   * (lower case). A phrase said by the text and again by an exercise, or by exercises of different types, is not listed:
+   * repeating in another form is a way to teach.
+   */
   repeated: string[];
 }
 
@@ -116,8 +120,8 @@ export function measurePage(text: string): PageMetrics {
   let components = 0;
   let choiceExercises = 0;
   const exercises: string[] = [];
-  /** One entry per block: the phrases it says, for the repetition across blocks. */
-  const said: Set<string>[] = [];
+  /** One entry per block: its part (text, or the type of the exercise) and the phrases it says. */
+  const said: { part: string; phrases: Set<string> }[] = [];
   let position = 0;
 
   for (const block of flat) {
@@ -130,7 +134,7 @@ export function measurePage(text: string): PageMetrics {
       const texts = [str(block["text"]), str(block["explanation"])].filter((t) => t !== "");
       const words = texts.flatMap(wordsOf);
       proseWords += words.length;
-      said.push(shingles(words));
+      said.push({ part: "text", phrases: shingles(words) });
       run++;
       longestProseRun = Math.max(longestProseRun, run);
       continue;
@@ -143,13 +147,14 @@ export function measurePage(text: string): PageMetrics {
       const task = [str(block["text"]), str(block["task"])].flatMap(wordsOf);
       const feedback = feedbackTexts(block).flatMap(wordsOf);
       feedbackWords += task.length + feedback.length;
-      for (const text of feedbackTexts(block)) said.push(shingles(wordsOf(text)));
+      said.push({ part: type, phrases: shingles(feedbackTexts(block).flatMap(wordsOf)) });
     }
   }
 
   const count = new Map<string, number>();
-  for (const phrases of said) for (const phrase of phrases) count.set(phrase, (count.get(phrase) ?? 0) + 1);
-  const repeated = [...count].filter(([, n]) => n > 1).map(([phrase]) => phrase);
+  for (const { part, phrases } of said)
+    for (const phrase of phrases) count.set(`${part}\n${phrase}`, (count.get(`${part}\n${phrase}`) ?? 0) + 1);
+  const repeated = [...count].filter(([, n]) => n > 1).map(([key]) => key.slice(key.indexOf("\n") + 1));
   return {
     proseWords,
     feedbackWords,

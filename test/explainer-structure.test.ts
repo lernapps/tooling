@@ -102,7 +102,13 @@ describe("explainer-repetition", () => {
     ).toEqual([]);
   });
 
-  test("a sentence said again in a note, a message and an explanation is named", () => {
+  test("a sentence said in the text and again in an exercise is not named: repeating in another part is a way to teach", () => {
+    const sentence = `${words(30, "satz")} zu je gehört suis`;
+    const exercise = `  - type: number\n    id: n\n    text: Wie viel?\n    answer: 3\n    explanation: ${JSON.stringify(sentence)}\n`;
+    expect(run(repetition, explainer({ a: page(text(sentence), exercise) }))).toEqual([]);
+  });
+
+  test("a sentence said again in two text blocks is named", () => {
     const sentence = `${words(30, "satz")} zu je gehört suis`;
     const dir = explainer({ a: page(text(sentence), text(sentence), text(sentence)) });
     expect(run(repetition, dir)).toEqual([

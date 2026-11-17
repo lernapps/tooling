@@ -15,8 +15,7 @@ license: MIT
 
 ## Can and cannot
 
-- The README of the template says it: `node_modules/@lernapps/app-templates/explainer/README.md` (in the folder `init` made).
-  Read it before this skill's mapping, if you have not yet.
+- The template's README says it: `node_modules/@lernapps/app-templates/explainer/README.md`. Read it first.
 
 ## Map the content
 
@@ -72,8 +71,8 @@ Answer for each page before you write it, in the plan:
 - Which activities alternate: look, do, read, do? Never more than a short text block between two.
 - What is the reward at the end: something learners made or could not do before, not only "Richtig"?
 - What does the story contribute here? Cut it from a page where it only decorates.
-- Each fact stands once: in the text, the table, the task, or the feedback. `explainer-text-load`,
-  `explainer-repetition` and `explainer-interaction` of `lernapps check` hint at the rest.
+- Repeat on purpose only: a fact met again in another form (text, table, task) deepens it; the same words twice do
+  not. `explainer-text-load`, `explainer-repetition` and `explainer-interaction` of `lernapps check` hint at the rest.
 
 ## Decide
 
@@ -115,8 +114,8 @@ scope: tooling
 severity: hint
 ```
 
-- No phrase of five words said by two blocks of a page, more than 20 times: text, note, table, explanation, `info` and
-  message of a mistake each say something of their own.
+- Not more than 10 phrases of five words said by two text blocks of a page, or by two exercises of one type.
+  Repeating in another part (text, then task, then table) is a way to teach: do it on purpose, to deepen it differently.
 
 ## `explainer-interaction`: Learners do more than tick
 

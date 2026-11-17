@@ -40,10 +40,14 @@ Drei Teile:
   Aktivität bis Block 11, wiederholte Fünf-Wort-Phrasen bis 37. francais-1: kaum statisch, aber viel Wiederholung und
   Rückmeldungstext; klima: viele reine Auswahl-Aufgaben, lange Textfolgen.
 - Schwellen (hint): Lesetext > 350, Aufgaben-/Rückmeldungstext > 350, Textfolge > 4, erste Aktivität > Block 4,
-  wiederholte Phrasen > 20, ab 3 Aufgaben >= 75 % Auswahl ohne Komponente oder nur eine Art.
+  wiederholte Phrasen im selben Teil > 10, ab 3 Aufgaben >= 75 % Auswahl ohne Komponente oder nur eine Art.
 - Entscheidung: `explainer-exercise-variety` ist in `explainer-interaction` aufgegangen (drei statt vier Checks, weniger
   Regeltext).
-- Wortbudget: berührte Skill-Dateien vorher 12049 Wörter, nachher 12042.
+- Entscheidung des Erstellers: Wiederholung in verschiedenen Teilen (Text, Aufgabe, Tabelle, mehrere Aufgabentypen) ist
+  didaktisch gewollt und wird nicht gemeldet. Gemeldet wird nur dasselbe im selben Teil (zwei Textblöcke, zwei
+  Aufgaben desselben Typs); Hint und Skill sagen, dass bewusste Wiederholung zum Vertiefen gut ist. Neu gemessen:
+  höchstens 14 Phrasen je Seite, Schwelle 10.
+- Wortbudget: berührte Skill-Dateien vorher 12049 Wörter, nachher 12048.
 - Quellen: tooling `check/rules/*.ts` (Typ `Check`, `readExplainer` in `check/explainer-map.ts`), Tests `test/*.test.ts`;
   Regeln mit Seite `https://lernapps.net/tooling/rules/#<id>` kommen aus `rule`-Blöcken in Skills (scope `tooling`).
 - Runtime: `runtime/shared/questions/engine.ts` `reveal()` zeigt `.question-reveal` immer ganz; `render.ts`
