@@ -15,7 +15,11 @@ Die Anleitung, die ein Agent beim Erstellen eines Explainers liest, effizienter 
 - D3 Regelabschnitte sagen, was zu tun ist. Wie die Prüfung arbeitet, sagt ihre Meldung, nicht der Skill.
 - D4 Für Felder gilt das Schema (`dec-schema-explains-itself`); Skills nennen Felder nur, wo das Schema nichts über das gute Schreiben sagt.
 - D5 Passt in die Architektur: `dec-one-skill-one-phase` ("A reference is linked with the moment to read it") und `dec-rules-in-artifacts`. Kein neuer Baustein. Neu: ein Budget für den Lesepfad als Test (`qg-checked-not-declared`).
-- Offen (Owner): Eintragsschema erst in Commit lesen (O1); `info` der richtigen Option: Text ans Schema angleichen oder Schema lockern (O2).
+- Owner (18.11., Leitidee): AGENTS.md trägt den allgemeinen Prozess (Phasen, Plan-Datei). Die Plan-Datei legt bei ihrer Instanziierung die konkrete Methodik fest. Skills erklären bedarfsgerecht Konventionen, die Review oder Check auch prüfen. O1 damit entschieden: Schemata nicht früh lesen.
+- D6 Sortierregel für jeden Satz der Anleitung: Prozess (wer, wann, wo notieren, Checkpoint) → AGENTS.md oder Plan-Vorlage; Konvention → Skill, als Regelabschnitt mit Id, Grund und Beispiel, geprüft durch Check oder Rubrik; Notation → Schema und ein vollständiges Beispiel; Beschreibung des Systems → README oder streichen; was das Modell ohnehin weiß → streichen.
+- D7 Best Practices (platform.claude.com "Skill authoring best practices", agentskills.io, gelesen 18.11.): nur ergänzen, was das Modell nicht weiß; Freiheitsgrad nach Fragilität (Notation: genaues Beispiel; Didaktik: Grundsatz mit Grund); Beispiele vor Beschreibung; Referenz über 100 Zeilen mit Inhaltsverzeichnis; nichts Veraltetes (Format 1, "old contract"); deterministische Schritte als Skript; Prüfen, Beheben, Wiederholen statt Vorab-Wissen über die Prüfung.
+- D8 Kürzen heißt Themen streichen, nicht Sätze zu Stichworten verdichten: der Telegrammstil spart Wörter, ist aber nicht instruktiv. Das Budget zählt deshalb den Lesepfad, nicht die einzelne Datei.
+- Offen (Owner): O2 `info`; O3 Plan je Archetyp instanziieren (Generator ergänzt die Aufgaben des Archetyps, wenn er gewählt ist) oder eine Vorlage mit Verzweigungen behalten.
 
 ## Notes
 ### Quellen
