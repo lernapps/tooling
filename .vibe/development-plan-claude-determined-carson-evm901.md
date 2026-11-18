@@ -19,7 +19,9 @@ Die Anleitung, die ein Agent beim Erstellen eines Explainers liest, effizienter 
 - D6 Sortierregel für jeden Satz der Anleitung: Prozess (wer, wann, wo notieren, Checkpoint) → AGENTS.md oder Plan-Vorlage; Konvention → Skill, als Regelabschnitt mit Id, Grund und Beispiel, geprüft durch Check oder Rubrik; Notation → Schema und ein vollständiges Beispiel; Beschreibung des Systems → README oder streichen; was das Modell ohnehin weiß → streichen.
 - D7 Best Practices (platform.claude.com "Skill authoring best practices", agentskills.io, gelesen 18.11.): nur ergänzen, was das Modell nicht weiß; Freiheitsgrad nach Fragilität (Notation: genaues Beispiel; Didaktik: Grundsatz mit Grund); Beispiele vor Beschreibung; Referenz über 100 Zeilen mit Inhaltsverzeichnis; nichts Veraltetes (Format 1, "old contract"); deterministische Schritte als Skript; Prüfen, Beheben, Wiederholen statt Vorab-Wissen über die Prüfung.
 - D8 Kürzen heißt Themen streichen, nicht Sätze zu Stichworten verdichten: der Telegrammstil spart Wörter, ist aber nicht instruktiv. Das Budget zählt deshalb den Lesepfad, nicht die einzelne Datei.
-- Offen (Owner): O2 `info`; O3 Plan je Archetyp instanziieren (Generator ergänzt die Aufgaben des Archetyps, wenn er gewählt ist) oder eine Vorlage mit Verzweigungen behalten.
+- Owner (18.11.): O2 Skills ans Schema angleichen. O3 Plan je Archetyp. Skills dürfen neu geschnitten werden, auch die Sub-Agent-Briefs.
+- D9 Plan je Archetyp: `guidance/plan-template.md` reicht bis zur Wahl des Archetyps. `lernapps skills --archetype <name>` installiert wie bisher die Skills, setzt `archetype:` und fügt aus `guidance/plan-<archetype>.md` die Aufgaben des Archetyps in die Plan-Datei ein (Rest von Explore, Plan, Code, Commit, "Content method"). Keine Verzweigung "An explainer: …" und kein `lernapps-<archetype>` mehr im Plan. Der Befehlsname bleibt (bestehende Apps, Tests, llms.txt). Der Fallback ohne npx kopiert die Teildatei von Hand.
+- D10 Neuer Schnitt: Skill `lernapps-learner-check` (Code) aus dem Verfahren von `early-preview` und den Briefs "Learner check" und "Whole-app check" (je eine Datei, gelesen bei ihrer Plan-Aufgabe). Der Brief für Kapitel-Scheiben geht als Referenz zu `lernapps-content-growth`. `guidance/subagent-brief.md` entfällt. Komponenten und Sprachaufgaben bleiben Referenzen von `lernapps-explainer` (weniger Einträge in der Skill-Liste).
 
 ## Notes
 ### Quellen
@@ -97,7 +99,8 @@ Die Anleitung, die ein Agent beim Erstellen eines Explainers liest, effizienter 
 ### Tasks
 - [x] Lesepfad und Einschränkungen geklärt: Beschreibung beginnt mit "Use … in <Phase>"; Regelblöcke werden aus `skills/**/*.md` gelesen (`scripts/rules.ts`), Verschieben zwischen Dateien ist erlaubt; AGENTS.md höchstens 350 Wörter.
 - [x] Einordnung in arc42 (D5)
-- [ ] Owner: Plan bestätigen, O1 und O2 entscheiden
+- [x] Owner: O1, O2, O3 entschieden; neuer Schnitt erlaubt
+- [ ] Owner: Aufgabenliste bestätigen
 
 ### Risiken
 - Kürzen entfernt still eine Anweisung, die Fehler verhindert hat → Eval vergleicht; jede gestrichene Regel hat weiter ihren Abschnitt mit Id.
@@ -110,19 +113,22 @@ Die Anleitung, die ein Agent beim Erstellen eines Explainers liest, effizienter 
 
 ## Code
 ### Tasks
-Je Aufgabe ein Commit; nach jeder `npm test` für die betroffenen Tests.
-- [ ] 1 Ausgangsmessung: Test "Lesepfad des Explainers bleibt im Budget" (`test/guidance.test.ts`), der die Dateien des Pfads aus Plan-Vorlage und "Read when" zählt; Budget zunächst auf den heutigen Wert.
-- [ ] 2 Widersprüche beheben: `info` (nach O2; vorher `runtime/shared/questions/engine.ts` und Schema lesen, auch `links` im Explainer); Datendatei im Design-Skill; "cannot show an image" und "in the foreground" bedingt formulieren; `git add -A` erst mit `.gitignore` (prüfen, was `init` schreibt; Fehler im Generator als Issue, nicht hier).
-- [ ] 3 `lernapps-explainer`: `SKILL.md` wie oben; `rules.md` ohne Komponenten- und Landkarten-Regeln und ohne Beschreibung der Prüfung; `components.md` nimmt `vue-component-*`; `runtime.md` auf Build-Meldung, Adressen, Tutor-Eingaben, `scope`; `structure.md` Wiederholungsseite einmal, Format 1 eine Zeile; `exercises.md` ohne Feldlisten der Fragetypen.
-- [ ] 4 `lernapps-explainer-design`: "Map the content" einmal und geordnet (Entscheidung → Verweis auf Regel); "Blocks" bis auf den Weg zur Komponente streichen (README); "Decide" zusammenführen; Regeln zur Landkarte nach `references/rules.md`.
-- [ ] 5 `lernapps-content-research`: Landkarte zuerst, Lehrplan nur ohne Strang und Auftrag; Strukturaussagen als Verweis. Verweise in map-assignment, foreign-languages, listing kürzen.
-- [ ] 6 Plan-Vorlage und Increment-Vorlage: Aufgaben nennen genaue Dateien; nacherzählter Skill-Inhalt raus; "move to Completed" raus, falls nichts es prüft; Eintragsschema nach O1.
-- [ ] 7 `lernapps-cli`: Code-Regeln in die Referenz; Schritt für Maintainer in den internen Skill `manual-eval`.
-- [ ] 8 arc42: Konzept "ein Ort je Thema" und Budget des Lesepfads (Kapitel 8, 10); `arc42 validate`.
-- [ ] 9 Budget im Test auf den erreichten Wert senken; `npm run rules` und Skill `rules-review` (Drift, Überschneidung); alle Tests.
-- [ ] 10 `lernapps/app-templates`: README des Explainers straffen (Selbsteinschätzung, Tutor, Audio je auf das, was die Wahl des Archetyps braucht); eigener Branch-Commit.
-- [ ] 11 Manueller Eval nach Skill `manual-eval`: ein Lauf Stochastik, Sonnet 5.5, gleicher Auftrag wie Lauf 3. Vergleich: gelesene Zeichen, rote Prüfungen nach Art, Kosten, Urteil der Lern-Prüfung. Vorher den Owner fragen (Kosten 7–24 USD).
-- [ ] 12 Befunde des Evals einarbeiten oder als offen notieren.
+Je Aufgabe ein Commit; nach jeder die betroffenen Tests. Vor jedem Schritt `grep` in `test/` nach den Wortlauten, die er ändert.
+- [ ] 1 Messung: Test "Lesepfad des Explainers bleibt im Budget" (`test/guidance.test.ts`): zählt die Dateien, die der Plan des Explainers und die "Read when" ohne Bedingung nennen. Budget zuerst der heutige Wert; ebenso Quiz und Interactive als Vergleich.
+- [ ] 2 Widersprüche: `info` und `links` ans Schema (vorher `engine.ts` und Schema lesen); Datendatei; "cannot show an image", "in the foreground" bedingt; `git add -A` und `.gitignore` (was `init` schreibt, prüfen; Fehler im Generator hier beheben, wenn klein, sonst Issue).
+- [ ] 3 Plan je Archetyp (D9): `guidance/plan-explainer.md`, `plan-quiz.md`, `plan-interactive.md` aus den Verzweigungen der Vorlage; `skills --archetype` fügt ein und setzt `archetype:` (idempotent; Plan ohne Marke bleibt unverändert, mit Hinweis); Tests für Generator und Vorlagen; `llms.txt`, Usage, Fallback.
+- [ ] 4 Prozess aus den Skills in den Plan (D6): jede Anweisung "write under Notes", "show at the checkpoint", "tell the creator", "then commit" wandert in die Plan-Aufgabe; die Aufgabe nennt die genaue Datei. Eintragsschema erst in Commit; in Explore nur die Frage an den Creator. Kopfregeln der Vorlage, die nichts prüft und nichts braucht ("move to Completed"), entfallen. Increment-Vorlage ebenso.
+- [ ] 5 `lernapps-explainer` (D2): `SKILL.md` mit Seitengerüst und "Vor der ersten Seite"; `rules.md` nur Konventionen des Schreibens, mit Inhaltsverzeichnis; `vue-component-*` nach `components.md`; `runtime.md` auf das, was das Schreiben ändert; `structure.md` Wiederholungsseite einmal; Veraltetes raus; `exercises.md` ohne Feldlisten.
+- [ ] 6 `lernapps-explainer-design`: "Map the content" einmal; Regeln zur Landkarte in `references/rules.md`; "Blocks" bis auf den Weg zur Komponente weg; Konventionen je mit Grund und Beispiel statt Stichwortkette.
+- [ ] 7 `lernapps-content-research`, `lernapps-exercise-patterns`, `lernapps-content-questions`, `lernapps-map-assignment`: Landkarte vor Lehrplan; Verweise statt Wiederholung; was das Modell weiß, raus. Die Entscheidungen des Owners zu Geschichte und Sprachdidaktik bleiben im Wortlaut.
+- [ ] 8 `lernapps-cli`: Code-Regeln in `references/code-rules.md`; Maintainer-Schritt in den internen Skill `manual-eval`.
+- [ ] 9 Neuer Schnitt (D10): Skill `lernapps-learner-check`; Brief für Kapitel-Scheiben zu `lernapps-content-growth`; `subagent-brief.md` weg; `workflow-rules.md` `early-preview` kürzen, AGENTS-Tabelle neu erzeugen.
+- [ ] 10 Jede Konvention hat einen Prüfer: `npm run rules`, Skill `rules-review`. Konvention ohne Check und ohne Rubrik-Punkt → Rubrik-Punkt ergänzen oder als Liste an den Owner; keine neuen Checks in dieser Arbeit.
+- [ ] 11 arc42: Leitidee (Prozess, Methodik, Konvention) in Kapitel 4 und 8, Entscheidung "Plan je Archetyp" in 9, Budget in 10, Bausteine in 5 (neuer Skill, Plan-Teile); `arc42 validate`.
+- [ ] 12 Budget im Test auf den erreichten Wert; alle Tests; `npm run build` soweit nötig.
+- [ ] 13 `lernapps/app-templates`: README des Explainers auf das, was die Wahl des Archetyps braucht; eigener Commit dort.
+- [ ] 14 Manueller Eval (Skill `manual-eval`): Stochastik, Sonnet 5.5, Auftrag wie Lauf 3. Vorher den Owner fragen. Vergleich: gelesene Zeichen, rote Prüfungen nach Art, Kosten, Lern-Prüfung.
+- [ ] 15 Befunde des Evals einarbeiten oder als offen notieren.
 
 ### Completed
 *None yet*
