@@ -12,9 +12,9 @@ scope: tooling
 severity: error
 ```
 
-- Each plan in `.vibe/plans/`, with every section and front matter key of its template.
+- Keep each plan in `.vibe/plans/` as its template says: every section and front matter key, `phase` set when you
+  enter a phase, each task box ticked when it is done.
 - Never change the plan of an earlier piece of work.
-- Set `phase` when you enter a phase. Tick each task box when it is done.
 - Never edit `prePushFailures` or `failedChecks`: the hook and the check write them.
 
 ### `explore-before-code`: No code before the plan is confirmed
@@ -49,8 +49,8 @@ scope: tooling
 severity: hint
 ```
 
-- After the confirmation, ask only what you cannot decide.
-- Else choose, mark "(guess)" under "Key decisions" and list it in the retrospective.
+- After the confirmation, ask only what you cannot decide; else choose, mark "(guess)" under "Key decisions" and list
+  it in the retrospective.
 
 ### `early-preview`: A pattern page first, with the creator's look
 
@@ -60,8 +60,10 @@ scope: tooling
 severity: hint
 ```
 
-- In Code, build one complete page or screen first: the pattern for the others. An explainer: entry, figure or
-  model, how learners use it, example, exercise.
+- In Code, build one complete page or screen first, check it as a learner would, then show it to the creator and ask
+  whether the other pages may follow it.
+- The page is the pattern for the others. An explainer: entry, figure or model, how learners use it, example,
+  exercise.
 - Before you show it, check it: against the rules of skill `lernapps-<archetype>-design` (an explainer: the five
   questions of `explainer-representation-explained` for each figure and model), and let a sub-agent use it in the
   browser as a learner of the app's grade (`@lernapps/tooling/guidance/subagent-brief.md`, "Learner check"). The app
@@ -90,9 +92,11 @@ scope: tooling
 severity: hint
 ```
 
-- The creator remarks on one page, figure or component: say whether it is about that place or a pattern ("Gilt das
-  für alle Seiten?" only when you cannot tell). A pattern → find every place that follows it (the same component,
-  block type or wording) and change them all in the same task.
+- A remark of the creator on one place that is about a pattern, a fact or a term holds for every place: find them all
+  and change them in the same task.
+- Say first whether the remark is about that place or more ("Gilt das für alle Seiten?" only when you cannot tell).
+- Search all of `src/` for it, with variants: texts, answer infos, explanations, captions, alt texts and the content
+  guide. Name the places in the plan.
 - A fix in a shared component: look at every page that uses it again.
 
 ### `retrospective-filled`: Fill the retrospective
@@ -117,7 +121,9 @@ scope: tooling
 severity: error
 ```
 
-- Keep `.agents/skills/app-content/SKILL.md` with its fixed headings, in this order, each filled: Curriculum,
+- Keep the app's content guide `.agents/skills/app-content/SKILL.md` complete and true: no placeholder left once
+  content is written, and it says what was built.
+- Its fixed headings, in this order, each filled: Curriculum,
   Competencies, Content structure, Terminology, Exercise patterns, Figures, Sources, Adding a chapter or round,
   Rules learned from mistakes ("None yet." until the first rule).
 - After the plan is confirmed and before content: replace every placeholder ("FILL IN") with concrete instructions
@@ -135,7 +141,8 @@ scope: tooling
 severity: error
 ```
 
+- The guide describes the app as built, so that an agent without your conversation can add the next chapter or round
+  from it alone.
 - Every pattern it names is used; no pattern is used that it does not name.
 - Curriculum, competencies, chapters, pages or rounds match the content.
 - Its procedure for a new chapter or round names the current files.
-- An agent without your conversation can add the next chapter or round from it alone.

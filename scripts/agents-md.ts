@@ -1,6 +1,7 @@
 // Writes the table of the process rules into guidance/AGENTS.md, between its markers, from the rule blocks of
-// guidance/workflow-rules.md: one row per rule with its id, its title and what it asks, so that the file every app
-// gets (and the end of https://lernapps.net/tooling/llms.txt) holds every rule of the process in a few lines.
+// guidance/workflow-rules.md: one row per rule with its id, its title, its first point (a sentence that tells what to
+// do) and the lines the rule has in workflow-rules.md, so that the file every app gets (and the end of
+// https://lernapps.net/tooling/llms.txt) holds every rule of the process in a few lines and says where to read more.
 // workflow-rules.md stays the source: its full text is what the rule page, the checks and the review read.
 //
 //   node scripts/agents-md.ts           rewrite the table
@@ -19,34 +20,57 @@ export interface ProcessRule {
   title: string;
   severity: string;
   points: string[];
+  /** First and last line (1-based) of the rule in workflow-rules.md: heading to its last point. */
+  lines: [number, number];
 }
 
 /** The rules of workflow-rules.md in order: heading "### `id`: Title", its rule block, its bullet points. */
 export function processRules(text = readFileSync(RULES, "utf8")): ProcessRule[] {
-  const sections = text.split(/^### /m).slice(1);
-  return sections.map((section) => {
-    const heading = /^`([a-z0-9-]+)`: (.+)$/m.exec(section);
-    if (!heading) throw new Error(`workflow-rules.md: a rule heading without "\`id\`: Title": ${section.slice(0, 60)}`);
-    const severity = /^severity: (\w+)$/m.exec(section)?.[1] ?? "hint";
-    const body = section.split(/^## /m)[0] ?? "";
+  const lines = text.split("\n");
+  const rules: ProcessRule[] = [];
+  lines.forEach((line, index) => {
+    if (!line.startsWith("### ")) return;
+    const heading = /^### `([a-z0-9-]+)`: (.+)$/.exec(line);
+    if (!heading) throw new Error(`workflow-rules.md: a rule heading without "\`id\`: Title": ${line.slice(0, 60)}`);
+    let last = lines.findIndex((l, i) => i > index && l.startsWith("#"));
+    if (last < 0) last = lines.length;
+    while (last > index + 1 && (lines[last - 1] ?? "").trim() === "") last--;
+    const body = lines.slice(index, last);
+    const severity = /^severity: (\w+)$/m.exec(body.join("\n"))?.[1] ?? "hint";
     const points: string[] = [];
-    for (const line of body.split("\n")) {
-      if (line.startsWith("- ")) points.push(line.slice(2).trim());
-      else if (/^ {2}\S/.test(line) && points.length) points[points.length - 1] += ` ${line.trim()}`;
+    for (const l of body) {
+      if (l.startsWith("- ")) points.push(l.slice(2).trim());
+      else if (/^ {2}\S/.test(l) && points.length) points[points.length - 1] += ` ${l.trim()}`;
     }
-    return { id: heading[1] as string, title: (heading[2] as string).trim(), severity, points };
+    rules.push({
+      id: heading[1] as string,
+      title: (heading[2] as string).trim(),
+      severity,
+      points,
+      lines: [index + 1, last],
+    });
   });
+  return rules;
 }
 
 const cell = (text: string) => text.replace(/\|/g, "\\|");
 
 /** The table, one row per rule. */
 export function table(rules = processRules()): string {
-  // the examples stay in workflow-rules.md: the table holds what to do
+  // the first point of a rule tells what to do; the rest and the examples are read in workflow-rules.md, at its lines
   const rows = rules.map(
-    (r) => `| \`${r.id}\` | ${cell(r.title)} | ${cell(r.points.filter((p) => !p.startsWith("Example")).join(" "))} |`,
+    (r) =>
+      `| \`${r.id}\` | ${cell(r.title)} | ${cell(r.points.find((p) => !p.startsWith("Example")) ?? "")} | ${r.lines[0]}–${r.lines[1]} |`,
   );
-  return [BEGIN, "", "| Rule | What | What to do |", "|---|---|---|", ...rows, "", END].join("\n");
+  return [
+    BEGIN,
+    "",
+    "| Rule | What | What to do | Lines in workflow-rules.md |",
+    "|---|---|---|---|",
+    ...rows,
+    "",
+    END,
+  ].join("\n");
 }
 
 /** AGENTS.md with the table between its markers. */
