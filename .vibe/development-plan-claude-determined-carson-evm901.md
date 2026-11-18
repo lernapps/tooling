@@ -9,7 +9,13 @@ Die Anleitung, die ein Agent beim Erstellen eines Explainers liest, effizienter 
 ## Key Decisions
 - Workflow epcc, Branch `claude/determined-carson-evm901` (von der Sitzung vorgegeben).
 - Entscheidungen des Owners aus der Planungssitzung (`session_016NmpwZmab2sBK7nUXFhokD`) gelten weiter: kein neuer Skill; berührte Skill-Dateien wachsen nicht (Grenze 12.049 Wörter); Messbares als `hint`-Prüfung statt Prosa; Sprachdidaktik in `foreign-languages.md`; Geschichte in `lernapps-map-assignment`; Tabelle in `AGENTS.md` erzeugt.
-- Offen (Owner fragen): Umfang (nur die drei Explainer-Skills oder der ganze Lesepfad), Umbau oder nur Straffen, Nachweis durch neuen manuellen Eval.
+- Owner (18.11.): Umfang, Tiefe und Nachweis werden in der Plan-Phase festgelegt. Annahme, bis er widerspricht: ganzer Lesepfad, Umbau erlaubt, ein manueller Eval am Ende.
+- D1 Ein Ort je Thema (Tabelle unter "Plan"). Andere Stellen verweisen mit einem Halbsatz und der Regel-Id.
+- D2 `lernapps-explainer` folgt dem Moment des Schreibens: Gerüst und häufigste Fehler in `SKILL.md`, Referenzen zum Nachschlagen.
+- D3 Regelabschnitte sagen, was zu tun ist. Wie die Prüfung arbeitet, sagt ihre Meldung, nicht der Skill.
+- D4 Für Felder gilt das Schema (`dec-schema-explains-itself`); Skills nennen Felder nur, wo das Schema nichts über das gute Schreiben sagt.
+- D5 Passt in die Architektur: `dec-one-skill-one-phase` ("A reference is linked with the moment to read it") und `dec-rules-in-artifacts`. Kein neuer Baustein. Neu: ein Budget für den Lesepfad als Test (`qg-checked-not-declared`).
+- Offen (Owner): Eintragsschema erst in Commit lesen (O1); `info` der richtigen Option: Text ans Schema angleichen oder Schema lockern (O2).
 
 ## Notes
 ### Quellen
@@ -50,24 +56,69 @@ Die Anleitung, die ein Agent beim Erstellen eines Explainers liest, effizienter 
 
 ## Explore
 ### Tasks
-- [ ] Owner: Umfang, Umbau oder Straffen, Nachweis klären
 
 ### Completed
 - [x] Created development plan file
 - [x] Die drei Eval-Sitzungen und die Planungssitzung ausgewertet
 - [x] Explainer-Skills, Plan-Vorlage und Referenzen gelesen und gemessen
+- [x] Owner: Umfang, Tiefe, Nachweis in der Plan-Phase
 - [x] Gemeldete Widersprüche am aktuellen Stand geprüft (`info`, Lehrplan, Grundwortschatz)
 
 ## Plan
+### Ziel und Maß
+- Lesepfad eines Strang-Explainers ohne Komponente und ohne Fremdsprache, heute rund 176.000 Zeichen:
+  llms.txt 4,9 · AGENTS 4,3 · Plan 16,8 · app 3,5 · README 6,9 · patterns 4,5 + Fach 4,4 + 3 Referenzen 3,0 · map-assignment 7,8 · design 10,5 + rules 7,9 · research 6,1 + sources 0,8 · Eintragsschema 10,7 · explainer 3,6 + structure 6,8 + blocks 5,7 + exercises 7,0 + rules 12,1 + runtime 5,5 · cli 7,8 · questions 5,4 + 3,7 · brief 4,4 · self-assessment 5,8 · github 6,6 · commit 1,9 · listing 4,7.
+- Ziel: höchstens 140.000 Zeichen (etwa −20 %; mit O1). Ehrlich: mehr geht nur, wenn Inhalte entfallen, die der Owner erst kürzlich wollte.
+- Wichtiger als die Menge: beim ersten Schreiben richtig. Maß im Eval: rote `lernapps check` wegen Notation im Stochastik-Lauf von 17 auf höchstens 8; kein Build-Fehler aus einem Widerspruch.
+
+### Ein Ort je Thema (D1)
+| Thema | Ort | Nur noch Verweis in |
+|---|---|---|
+| Strang oder Einheit, Kompetenz je Seite, Reihenfolge, Wiederholungsseite, `ahead`: die Entscheidung | `lernapps-explainer-design/SKILL.md`, "Map the content", einmal | content-research, Plan-Vorlage, map-assignment, foreign-languages, listing, explainer-Gotchas |
+| dasselbe: die Notation (YAML) | `lernapps-explainer/references/structure.md`, einmal | design, README |
+| Regeln zur Landkarte (`prerequisites-in-order`, `one-competency-per-page`, `competencies-on-map`, `recap-names-competencies`, `content-matches-competencies`) | ein Abschnitt je Regel in `lernapps-explainer-design/references/rules.md` | `structure.md`, explainer `rules.md` |
+| Felder der Fragetypen | Schema, `question-types.md` | `exercises.md` |
+| Regeln für Komponenten (`vue-component-*`) | `components.md` (nur gelesen, wenn der Plan eine Komponente nennt) | explainer `rules.md` |
+| Regeln für TypeScript, Speicher, Preset, Lockfile, Unterdrücken | `lernapps-cli/references/code-rules.md` (neu als Referenz, kein neuer Skill) | `lernapps-cli/SKILL.md` |
+| `early-preview` | `workflow-rules.md`; der Auftrag in `subagent-brief.md` | Plan-Aufgaben nennen nur die Regel |
+| Lehrplan | `lernapps-content-research`, nach der Landkarte, nur ohne Strang und ohne Auftrag | Plan-Vorlage, Interview-Thema |
+| Was Laufzeit, Tutor, Tests tun | README (kann/kann nicht) | `runtime.md` behält nur, was das Schreiben ändert |
+
+### Aufbau `lernapps-explainer/SKILL.md` (D2)
+1. Was du schreibst (3 Zeilen), Schema-Zeile.
+2. Eine Seite als Gerüst: ein kurzes, gültiges YAML mit Abschnitt, Text, Abbildung, einer Frage mit allen Pflichtfeldern, einer `generated`-Aufgabe.
+3. "Vor der ersten Seite": die Fehler aus den Läufen, je eine Zeile: Text mit `: ` oder Komma in Anführung; nur Formelbefehle der Liste; jede Option mit den Pflichtfeldern des Schemas; `generated`: kein Fehler gleich der Antwort, Dezimalstellen; Grenzen von `explainer-text-load`; Tabelle bei 360 px; Formel in `matching`.
+4. "Read when": je Zeile Auslöser und Datei; `rules.md` nur, wenn eine Meldung eine Regel nennt.
+
 ### Tasks
-- [ ] *To be added when this phase becomes active*
+- [x] Lesepfad und Einschränkungen geklärt: Beschreibung beginnt mit "Use … in <Phase>"; Regelblöcke werden aus `skills/**/*.md` gelesen (`scripts/rules.ts`), Verschieben zwischen Dateien ist erlaubt; AGENTS.md höchstens 350 Wörter.
+- [x] Einordnung in arc42 (D5)
+- [ ] Owner: Plan bestätigen, O1 und O2 entscheiden
+
+### Risiken
+- Kürzen entfernt still eine Anweisung, die Fehler verhindert hat → Eval vergleicht; jede gestrichene Regel hat weiter ihren Abschnitt mit Id.
+- Tests prüfen Wortlaute in Skills und Vorlagen → vor jedem Schritt `grep` in `test/`, Tests nach jedem Schritt.
+- Vorlagen sind für alle Archetypen: Änderungen an Plan-Vorlage und cli dürfen Quiz und Interactive nicht verschlechtern → deren Lesepfad vorher und nachher messen.
+- README liegt in `lernapps/app-templates`: eigener Pull Request, wirkt erst nach Release und Bump.
 
 ### Completed
 *None yet*
 
 ## Code
 ### Tasks
-- [ ] *To be added when this phase becomes active*
+Je Aufgabe ein Commit; nach jeder `npm test` für die betroffenen Tests.
+- [ ] 1 Ausgangsmessung: Test "Lesepfad des Explainers bleibt im Budget" (`test/guidance.test.ts`), der die Dateien des Pfads aus Plan-Vorlage und "Read when" zählt; Budget zunächst auf den heutigen Wert.
+- [ ] 2 Widersprüche beheben: `info` (nach O2; vorher `runtime/shared/questions/engine.ts` und Schema lesen, auch `links` im Explainer); Datendatei im Design-Skill; "cannot show an image" und "in the foreground" bedingt formulieren; `git add -A` erst mit `.gitignore` (prüfen, was `init` schreibt; Fehler im Generator als Issue, nicht hier).
+- [ ] 3 `lernapps-explainer`: `SKILL.md` wie oben; `rules.md` ohne Komponenten- und Landkarten-Regeln und ohne Beschreibung der Prüfung; `components.md` nimmt `vue-component-*`; `runtime.md` auf Build-Meldung, Adressen, Tutor-Eingaben, `scope`; `structure.md` Wiederholungsseite einmal, Format 1 eine Zeile; `exercises.md` ohne Feldlisten der Fragetypen.
+- [ ] 4 `lernapps-explainer-design`: "Map the content" einmal und geordnet (Entscheidung → Verweis auf Regel); "Blocks" bis auf den Weg zur Komponente streichen (README); "Decide" zusammenführen; Regeln zur Landkarte nach `references/rules.md`.
+- [ ] 5 `lernapps-content-research`: Landkarte zuerst, Lehrplan nur ohne Strang und Auftrag; Strukturaussagen als Verweis. Verweise in map-assignment, foreign-languages, listing kürzen.
+- [ ] 6 Plan-Vorlage und Increment-Vorlage: Aufgaben nennen genaue Dateien; nacherzählter Skill-Inhalt raus; "move to Completed" raus, falls nichts es prüft; Eintragsschema nach O1.
+- [ ] 7 `lernapps-cli`: Code-Regeln in die Referenz; Schritt für Maintainer in den internen Skill `manual-eval`.
+- [ ] 8 arc42: Konzept "ein Ort je Thema" und Budget des Lesepfads (Kapitel 8, 10); `arc42 validate`.
+- [ ] 9 Budget im Test auf den erreichten Wert senken; `npm run rules` und Skill `rules-review` (Drift, Überschneidung); alle Tests.
+- [ ] 10 `lernapps/app-templates`: README des Explainers straffen (Selbsteinschätzung, Tutor, Audio je auf das, was die Wahl des Archetyps braucht); eigener Branch-Commit.
+- [ ] 11 Manueller Eval nach Skill `manual-eval`: ein Lauf Stochastik, Sonnet 5.5, gleicher Auftrag wie Lauf 3. Vergleich: gelesene Zeichen, rote Prüfungen nach Art, Kosten, Urteil der Lern-Prüfung. Vorher den Owner fragen (Kosten 7–24 USD).
+- [ ] 12 Befunde des Evals einarbeiten oder als offen notieren.
 
 ### Completed
 *None yet*
