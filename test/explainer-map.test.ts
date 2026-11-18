@@ -15,6 +15,7 @@ import { afterAll, beforeAll, describe, expect, test } from "vite-plus/test";
 import onePerPage from "../check/rules/one-competency-per-page.ts";
 import onMap from "../check/rules/competencies-on-map.ts";
 import inOrder from "../check/rules/prerequisites-in-order.ts";
+import namesRecap from "../check/rules/recap-names-competencies.ts";
 import { loadMap, mapUrl, readExplainer } from "../check/explainer-map.ts";
 import type { Problem } from "../check/check.ts";
 import { repoRoot, tempDir } from "./support.ts";
@@ -72,6 +73,7 @@ const inOrderOf = async (project: string) => (await inOrder.run({ project })) as
 const short = (problems: Problem[] | undefined) =>
   problems?.map(({ where, found, severity }) => ({ where, found, severity }));
 const onMapOf = async (project: string) => (await onMap.run({ project })) as Problem[] | undefined;
+const namesOf = async (project: string) => (await namesRecap.run({ project })) as Problem[] | undefined;
 
 let server: Server;
 let previous: string | undefined;
@@ -112,6 +114,20 @@ describe("an explainer in format 2", () => {
     expect(readExplainer(explainer(undefined, { seite: undefined }, 1))).toBeUndefined();
     expect(readExplainer(explainer(undefined, { seite: undefined }))).toBeUndefined();
     expect(readExplainer(tempDir("no-app"))).toBeUndefined();
+  });
+
+  test("a recap page is read with its recap as a list: one competency or several", () => {
+    const dir = explainer("mathematik/stochastik", {
+      r: "recap: mathematik/haeufigkeiten\nblocks: []",
+      s: "recap: [mathematik/haeufigkeiten, mathematik/brueche-anteile]\nblocks: []",
+    });
+    expect(readExplainer(dir)?.pages).toEqual([
+      expect.objectContaining({ where: "src/kapitel/r.yaml:2", recap: ["mathematik/haeufigkeiten"] }),
+      expect.objectContaining({
+        where: "src/kapitel/s.yaml:2",
+        recap: ["mathematik/haeufigkeiten", "mathematik/brueche-anteile"],
+      }),
+    ]);
   });
 
   test("a unit app is read with its subject, at its line", () => {
@@ -288,6 +304,32 @@ describe("competencies-on-map", () => {
     ]);
   });
 
+  test("a recap page that repeats several is checked for each of them", async () => {
+    const ok = explainer("mathematik/stochastik", {
+      r: "recap: [mathematik/haeufigkeiten, mathematik/brueche-anteile]\nblocks: []",
+      b: ["laplace"],
+    });
+    expect(await onMapOf(ok)).toEqual([]);
+    const problems = await onMapOf(
+      explainer("mathematik/stochastik", {
+        r: "recap: [mathematik/brueche-anteile, mathematik/erfunden, mathematik/laplace]\nblocks: []",
+        b: ["laplace"],
+      }),
+    );
+    expect(short(problems)).toEqual([
+      {
+        where: "src/kapitel/r.yaml:2",
+        found: "the recap mathematik/erfunden is not on the map of mathematik",
+        severity: undefined,
+      },
+      {
+        where: "src/kapitel/r.yaml:2",
+        found: "the recap mathematik/laplace is a competency the app also practises (src/kapitel/b.yaml:2)",
+        severity: undefined,
+      },
+    ]);
+  });
+
   test("a recap of another subject whose map cannot be loaded is a hint that it could not be checked", async () => {
     const problems = await onMapOf(explainer("mathematik/stochastik", { a: "recap: physik/kraft\nblocks: []" }));
     expect(problems).toEqual([expect.objectContaining({ where: "src/kapitel/a.yaml:2", severity: "hint" })]);
@@ -444,6 +486,24 @@ describe("prerequisites-in-order", () => {
     expect(await inOrderOf(recapped)).toEqual([]);
   });
 
+  test("a recap page that repeats several before the page counts for each of them", async () => {
+    const recapped = explainer("mathematik/stochastik", {
+      r: "recap: [mathematik/haeufigkeiten, mathematik/brueche-anteile]\nblocks: []",
+      b: ["laplace"],
+    });
+    expect(await inOrderOf(recapped)).toEqual([]);
+    const late = await inOrderOf(
+      explainer("mathematik/stochastik", {
+        b: ["laplace"],
+        r: "recap: [mathematik/haeufigkeiten, mathematik/brueche-anteile]\nblocks: []",
+      }),
+    );
+    expect(late?.map(({ found }) => found)).toEqual([
+      "laplace requires mathematik/haeufigkeiten (strand mathematik/stochastik), which the app repeats only later (src/kapitel/r.yaml:2): order",
+      "laplace requires mathematik/brueche-anteile (strand mathematik/arithmetik), which the app repeats only later (src/kapitel/r.yaml:2): order",
+    ]);
+  });
+
   test("a link in the page's text to the prerequisite's page on the map passes", async () => {
     const link = explainer(
       { subject: "franzoesisch" },
@@ -502,5 +562,52 @@ describe("prerequisites-in-order", () => {
   test("without the map: no finding, competencies-on-map says it could not check", async () => {
     expect(await inOrderOf(explainer("physik/mechanik", { a: ["kraft"] }))).toEqual([]);
     expect(await inOrderOf(explainer({ subject: "physik" }, { a: ["kraft"] }))).toEqual([]);
+  });
+});
+
+describe("recap-names-competencies", () => {
+  /** A recap page of `recap` whose text is `text`. */
+  const recapPage = (recap: string, text: string) =>
+    [`recap: ${recap}`, "blocks:", "  - type: text", `    text: ${text}`].join("\n");
+
+  test("checks nothing without an explainer in format 2; a page without recap passes", async () => {
+    expect(await namesOf(tempDir("no-app"))).toBeUndefined();
+    expect(await namesOf(explainer(undefined, { seite: undefined }, 1))).toBeUndefined();
+    expect(await namesOf(explainer("mathematik/stochastik", { a: ["laplace"] }))).toEqual([]);
+    expect(namesRecap.severity).toBe("warning");
+  });
+
+  test("a recap page that names each competency by its name or its sentence passes, ignoring case and line breaks", async () => {
+    const dir = explainer("none", {
+      r: recapPage(
+        "[mathematik/haeufigkeiten, mathematik/baumdiagramm]",
+        '"Das brauchst du hier: HÄUFIGKEITEN. Ich kann ein mehrstufiges Zufallsexperiment\n      als Baumdiagramm darstellen."',
+      ),
+      s: recapPage("mathematik/brueche-anteile", "Wiederholung, Brüche als Anteile"),
+    });
+    expect(await namesOf(dir)).toEqual([]);
+  });
+
+  test("a competency the text does not name is a warning at the page, with its name and its sentence", async () => {
+    const problems = await namesOf(
+      explainer("mathematik/stochastik", {
+        r: recapPage("[mathematik/haeufigkeiten, mathematik/brueche-anteile]", "Häufigkeiten kennst du schon."),
+      }),
+    );
+    expect(short(problems)).toEqual([
+      {
+        where: "src/kapitel/r.yaml:2",
+        found: "the recap page does not name mathematik/brueche-anteile in its text",
+        severity: undefined,
+      },
+    ]);
+    expect(problems?.[0]?.fix).toContain("„Brüche als Anteile“ or „Ich kann Anteile als Brüche angeben.“");
+  });
+
+  test("a map that cannot be loaded or a competency not on it: no finding here", async () => {
+    const dir = explainer("mathematik/stochastik", {
+      r: recapPage("[physik/kraft, mathematik/erfunden, brueche]", "Nichts."),
+    });
+    expect(await namesOf(dir)).toEqual([]);
   });
 });

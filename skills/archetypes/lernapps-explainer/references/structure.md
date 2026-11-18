@@ -57,7 +57,7 @@ title: Stochastik
 - Pages in the order of the prerequisites (`prerequisites-in-order`, skill `lernapps-explainer-design`). A page that
   comes before a prerequisite on purpose names it in `ahead: [<id>]` (only with `competencies`).
 - The build writes `lernapps-pages.json` (the strand or subject; path, title, competencies (and ahead) or recap per page, in the
-  app's order) beside `index.html`; the catalog lists the pages from it.
+  app's order; `recap` a string for one competency, a list for several) beside `index.html`; the catalog lists the pages from it.
 
 ### A recap page
 
@@ -70,12 +70,30 @@ recap: mathematik/brueche-anteile   # "<subject>/<competency>", one the app does
 blocks: [...]                       # descriptive blocks only: no exercise
 ```
 
+A chapter that needs several such competencies gets one collective recap at its start ("Das brauchst du hier"),
+not a recap page each:
+
+```yaml
+title: Das brauchst du hier
+recap: [physik/kraft, physik/masse]   # a list: at least one, none twice
+blocks: [...]                         # very compact; descriptive blocks only: no exercise
+```
+
+- Place it at the start of the chapter that first needs the competencies.
+- Very compact: no new content, only what the learner should already know.
+- Name each recapped competency with its "Ich kann …" sentence (`iCan`) or its name (`name`) from
+  `https://lernapps.net/apps/map/<subject>.json`, e.g. as a short self-check written by hand: "Kannst du das? Ich
+  kann …". Read the competencies off the map: the `requires` of the chapter's competencies that the app does not
+  practise.
+- No exercise, not even a short one: a self-check is plain text the learner answers in their head.
+
 | Rule | Checked by |
 |---|---|
 | A page has either `competencies` or `recap`, never both | schema v2 |
 | A recap page has no exercise; `topic-has-exercises` does not apply to it | schema v2, build |
-| The link to the competency's page on the map is written by the runtime, so it cannot be missing | runtime |
-| The recapped competency exists, and the app does not practise it on a page of its own | `lernapps check` (`competencies-on-map`, warning), listing (error) |
+| The link to each competency's page on the map (link text: its id) is written by the runtime, so it cannot be missing | runtime |
+| Each recapped competency exists, and the app does not practise it on a page of its own | `lernapps check` (`competencies-on-map`, warning), listing (error) |
+| The page's text names each recapped competency: its `name` or its `iCan` sentence from the map | `lernapps check` (`recap-names-competencies`, warning) |
 
 - A recap page counts as nothing on the map and is left out of the self-assessment.
 - Format 1 stays valid. `lernapps update` adds `format: 2` and `strand: none` to a format-1 app when its runtime

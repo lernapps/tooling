@@ -1,9 +1,9 @@
 // The strand or subject of an explainer in format 2 and the competencies of its pages are on the learning map: the
 // check loads the map of the subject (https://lernapps.net/apps/map/<subject>.json; of a strand app the part of the
 // strand before "/") and warns before the push about a strand the subject does not have, an id it does not have, and
-// an id of another strand, and about a recap page whose `recap` is not on the map or that the app also practises on a
-// page of its own (a recap repeats a competency the app does not practise, of any strand, maybe of another subject,
-// whose map is then loaded too; KD-27 of the learning map). A unit app (`subject: <subject>`) may practise competencies
+// an id of another strand, and about a recap page whose recapped competencies (`recap`, one or a list) are not on the
+// map or that the app also practises on a page of its own (a recap repeats competencies the app does not practise, of
+// any strand, maybe of another subject, whose map is then loaded too; KD-27 of the learning map). A unit app (`subject: <subject>`) may practise competencies
 // of every strand of its subject, but only when the subject's map has `explainerFocus: competency`; then each page
 // practises competencies of one strand only (KD-07 of lernapps/apps#226). Advice: at the listing the catalog checks the
 // same as an error (entry-learning-map of lernapps/apps). The map not reachable (no network, not deployed yet) is one
@@ -18,7 +18,7 @@ export default {
   id: "competencies-on-map",
   url: "https://lernapps.net/tooling/rules/#competencies-on-map",
   description:
-    "The strand or subject of an explainer in format 2 is on its subject's learning map (a subject only when the map's explainerFocus is competency), every page's competencies belong to the strand, or of a subject to one strand per page, and every recap page repeats a competency of the map that the app does not practise.",
+    "The strand or subject of an explainer in format 2 is on its subject's learning map (a subject only when the map's explainerFocus is competency), every page's competencies belong to the strand, or of a subject to one strand per page, and every recap page repeats competencies of the map that the app does not practise.",
   severity: "warning",
   run: async ({ project }) => {
     const explainer = project === undefined ? undefined : readExplainer(project);
@@ -95,14 +95,14 @@ export default {
           fix: "Give each strand a page of its own: a page practises competencies of one strand, so the method of each strand stays the same",
         });
       }
-      if (page.recap !== undefined)
-        problems.push(...(await recapProblems(page.where, page.recap, { subject, map: loaded.map, url, practised })));
+      for (const recap of page.recap ?? [])
+        problems.push(...(await recapProblems(page.where, recap, { subject, map: loaded.map, url, practised })));
     }
     return problems;
   },
 } satisfies Check;
 
-/** A recap page's `recap`: a competency of a map, of any strand, that the app does not practise on a page of its own. */
+/** A competency a recap page repeats (`recap`, or an entry of its list): a competency of a map, of any strand, that the app does not practise on a page of its own. */
 async function recapProblems(
   where: string,
   recap: string,
@@ -146,7 +146,7 @@ async function recapProblems(
       {
         where,
         found: `the recap ${recap} is a competency the app also practises (${page})`,
-        fix: `A competency the app practises needs no recap: remove this recap page, or the competency ${id} from the page that practises it`,
+        fix: `A competency the app practises needs no recap: remove ${recap} from this recap page, or the competency ${id} from the page that practises it`,
       },
     ];
   }

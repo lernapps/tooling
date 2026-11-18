@@ -22,10 +22,22 @@ license: MIT
 - A competency (one teachable thing, one or two lessons) → a page. A large competency may take several pages.
 - A chapter → competencies that build on each other. Order chapters and pages along the map's `requires`: what
   learners need first comes first.
-- Prerequisites: each `requires` of a page's competency comes before the page: practised on an earlier page, repeated
-  on a recap page (`recap: <subject>/<competency>`, descriptive blocks only, never both), or, where a page must come
-  first on purpose, named in `ahead: [<id>]`. The rule `prerequisites-in-order` below says which case `lernapps check`
-  reports and how to fix it.
+- Prerequisites: for each page's competency, read its `requires` in the map. Each comes before the page that needs
+  it (`prerequisites-in-order`).
+  - The app practises it (a page of its own) → that page comes first; the text may link it.
+  - The app does not practise it → of another strand, or outside the app's scope. The page names it. The app may
+    repeat it on a recap page (`recap: <subject>/<competency>`): descriptive blocks only, no exercise; the runtime
+    writes the link to its page on the map. Place the recap page before the page that needs it
+    ([structure](../lernapps-explainer/references/structure.md)). Never both: a competency the app practises gets no
+    recap page.
+  - A chapter needs several of them → one collective recap at its start, not a page each: `recap: [<subject>/<id>,
+    …]`, titled e.g. "Das brauchst du hier". Very compact, no new content, no exercise; a short self-check written by
+    hand that names each competency with its "Ich kann …" sentence from the map (`recap-names-competencies`). Read
+    the competencies off the map: the `requires` of the chapter's competencies that the app does not practise.
+  - Where the app starts, its first competencies need what learners bring: a recap page there. Inside the app no
+    step is missing: a prerequisite between two competencies of the app is practised too (else a gap).
+  - A page must come first on purpose, e.g. greetings as fixed phrases before the grammar behind them → the page
+    names that prerequisite in `ahead: [<id>]`, and the app practises it on another page.
 - Strand app or unit app: the subject's map decides (`explainerFocus` in
   `https://lernapps.net/apps/map/<subject>.json`).
   - `strand` (most subjects): the app has one strand of the map (recommended, skill `lernapps-content-research`),
@@ -157,7 +169,7 @@ severity: warning
 ```
 
 - Each direct prerequisite (`requires` in the map) of a page's competency is practised on that page or an earlier one,
-  repeated on a recap page before it (`recap: <subject>/<competency>`), or named in the page's text with a link to its
+  repeated on a recap page before it (`recap: <subject>/<competency>`, or in its list), or named in the page's text with a link to its
   page on the map: `https://lernapps.net/apps/map/<subject>/c/<id>/`. A recapped competency's own prerequisites do
   not count.
 - `lernapps check` names the page and the prerequisite, once, at the first page that needs it:
