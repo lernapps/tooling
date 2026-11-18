@@ -12,6 +12,6 @@
 
 ## Story scenes (younger learners)
 
-- Only where the story has drawn children. Start from `story-characters.svg` in this folder: copy it, keep the two
-  figures, change the scene. Write names, looks and style into the guide, "Figures". One scene per page, the characters
+- Only where the story has drawn children. Start from `story-characters.svg` in this folder (the two children of the French app): copy it,
+  keep the style, change the children's looks to your own, change the scene. Write names, looks and style into the guide, "Figures". One scene per page, the characters
   in the same places, the words they say in the page's text.
