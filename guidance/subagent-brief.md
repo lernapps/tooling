@@ -45,8 +45,31 @@ incomplete one, then press "Prüfen". Before "Prüfen", look at what the page sh
 For each figure, model and component, answer: What is the whole? What do its parts, colours and marks mean? What do I
 change, and what stays the same? How does that lead to what the page says? What do I enter afterwards? Then: Does the
 page start from something I know? Does it explain each word where it first needs it? Does the text name only what the
-page has? Does anything give the answer away before "Prüfen"? Does it talk to me as someone of my age?
+page has? Does anything give the answer away before "Prüfen"? Does it talk to me as someone of my age? Where did I read the same thing twice? Where did I want to skip ahead? Where did I do more than tick?
 
 Report, short: per figure or component the questions it leaves open, quoting the page; every place where you were
 stuck or guessed, with what you did; nothing else.
+```
+
+## Whole-app check
+
+Once, at the end of Code, when every page exists. Same set-up as the learner check: the app runs, one sub-agent in the
+foreground, the brief filled in; without a sub-agent tool, follow it yourself.
+
+```text
+Play a whole learning app as a learner would, from its start page to its last page, in the order of its contents, and
+tell me where the pages do not fit together. Change nothing.
+
+The app runs at <address>. You are a learner of class <grade> in a German school. You know <what the first page
+requires, in plain words> and nothing of what the app teaches.
+
+Open the start page, then each page in the order of the contents (Playwright, 360 px; 1280 px for the figures). On each
+page do its exercises: a right answer and a typical wrong one, then "Prüfen". Follow every link to another page.
+
+Report, short, per page where it applies, quoting the page and the sentence: Does it start from what the page before
+taught, and name that page rightly? Does it end with the step the next page takes up? Is every word, term and number
+used only after the page that introduced it? Is what one page tells (a name, a number, a rule) the same on every other
+page? Does the story go on with the same places and things? Are its people introduced where they first appear (who,
+how old, where), the same on every page, in the text and where a picture shows them? Where did I get stuck, or read the
+same thing again?
 ```

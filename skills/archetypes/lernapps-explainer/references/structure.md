@@ -54,12 +54,8 @@ title: Stochastik
     practises competencies of every strand of the subject. Each page practises competencies of one strand only.
 - The ids are those of the map; the build cannot know them. `lernapps check` compares them with the map before the
   push (`competencies-on-map`); the listing checks them again.
-- Pages in the order of the prerequisites: each `requires` of a page's competency is practised on an earlier page,
-  repeated on a recap page before it, or linked in the page's text (`prerequisites-in-order`).
-- A page may come before a prerequisite on purpose, e.g. greetings as fixed phrases before the grammar behind them:
-  it names it in `ahead: [<id>]` (only with `competencies`), and the app practises it on another page. `lernapps
-  check` and the listing report `ahead` otherwise, and `ahead` that is not needed: no competency of the page requires
-  it, or the app has it on this page or before.
+- Pages in the order of the prerequisites (`prerequisites-in-order`, skill `lernapps-explainer-design`). A page that
+  comes before a prerequisite on purpose names it in `ahead: [<id>]` (only with `competencies`).
 - The build writes `lernapps-pages.json` (the strand or subject; path, title, competencies (and ahead) or recap per page, in the
   app's order; `recap` a string for one competency, a list for several) beside `index.html`; the catalog lists the pages from it.
 
@@ -100,10 +96,6 @@ blocks: [...]                         # very compact; descriptive blocks only: n
 | The page's text names each recapped competency: its `name` or its `iCan` sentence from the map | `lernapps check` (`recap-names-competencies`, warning) |
 
 - A recap page counts as nothing on the map and is left out of the self-assessment.
-- A prerequisite practised or repeated only after the page (order), missing inside the app's chain (gap), or missing
-  at the app's entry with neither a recap page before nor a link in the page's text to
-  `https://lernapps.net/apps/map/<subject>/c/<id>/` (entry): `lernapps check` (`prerequisites-in-order`) warns with
-  `explainerFocus: competency`, else gives a hint.
 - Format 1 stays valid. `lernapps update` adds `format: 2` and `strand: none` to a format-1 app when its runtime
   knows format 2.
 

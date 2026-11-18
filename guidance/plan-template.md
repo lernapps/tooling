@@ -161,7 +161,7 @@ questions. -->
 checks and cannot; how a later agent adds a chapter. Each figure, model and component: its learning action in two to
 four sentences: the whole, what its parts and marks mean, what learners do and what stays the same, how that leads to
 the statement (an explainer: rule `explainer-representation-explained`). A control without a part in it goes. An explainer on the map: per page its prerequisites (`requires`)
-the app does not practise, and which get a recap page, which a link. Becomes the content guide in Code. -->
+the app does not practise, and which get a recap page, which a link. An explainer: per page one line, opening task, change of activity, reward ("Engagement" of the explainer design skill, loaded in Explore). Becomes the content guide in Code. -->
 
 ### Completed
 
@@ -204,6 +204,9 @@ the app does not practise, and which get a recap page, which a link. Becomes the
       each with the confirmed sketches; each figure in its own image (`npx --no -- lernapps screenshots --desktop`).
       Your tools cannot show an image: check each screen in the browser instead (text, element boxes at both widths),
       write that under "Notes" and tick the box.
+- [ ] Play the whole app once, in the order of its pages, as a learner of the grade, and check that the pages fit
+      together: a sub-agent with the "Whole-app check" of `@lernapps/tooling/guidance/subagent-brief.md`, in the
+      foreground; without a sub-agent tool, yourself in the browser. Fix what it finds, write what you fixed under "Notes".
 - [ ] Every box of Explore, Plan and Code ticked.
 - [ ] Set `phase: commit`: change the value line (`grep '^phase:'` prints `phase: commit`).
       No checkpoint here: set it before you ask or report anything, then start Commit in the same message.

@@ -15,8 +15,7 @@ license: MIT
 
 ## Can and cannot
 
-- The README of the template says it: `node_modules/@lernapps/app-templates/explainer/README.md` (in the folder `init` made).
-  Read it before this skill's mapping, if you have not yet.
+- The template's README says it: `node_modules/@lernapps/app-templates/explainer/README.md`. Read it first.
 
 ## Map the content
 
@@ -50,9 +49,9 @@ license: MIT
     to the catalog, not invented here. With `strand: none` pages name none.
 - Show the creator this structure in Explore: which competency on which page, which pages in which chapter.
 - Depth: chapter, page, section, subsection. Need more levels → two apps.
-- The content structure → the same sections on every page, with fixed ids (e.g. `einstieg`, `beispiel`, `uebung`).
-  Their titles fit what each section does on that page (`explainer-honest-headings`); a section a page does not need
-  is left out.
+- The content structure → section ids fixed across pages (e.g. `einstieg`, `beispiel`, `uebung`); which sections a page
+  has and in which order follows what it teaches, not a template. Titles fit what each section does on that page
+  (`explainer-honest-headings`).
 - Each page: one new step (`explainer-one-step`), from what learners of the grade know (`explainer-learner-start`); it
   says where it leads (`explainer-page-goal`), and its exercises go from recognising to applying
   (`explainer-exercise-progression`).
@@ -74,8 +73,17 @@ license: MIT
   mistakes, hint and steps); a component.
 - Something no block can show or check → a component: read a value off a scale, label a figure, drag into place,
   build a circuit. Logic in its own module, tested; a text for readers without JavaScript.
-- Wanted, not only allowed: all that makes the content attractive - figures, drawings, labelled figures, tables,
-  timelines, videos; a component where no block fits.
+
+## Engagement
+
+Per page, one line under "Content method" in the plan:
+
+1. Opening: a first, easy task learners act on in the first blocks, before the explanation, with the reason for its answer.
+2. Change: which activities alternate (look, do, read); never a long text run.
+3. Reward: what learners made or can do now, not only "Richtig"; a chapter ends with a look back.
+4. Story: how the concern shows on this page (a scene, messages, a case) and what comes next; none, none.
+5. Repeat on purpose only: a fact met again in another form deepens it, the same words twice do not.
+   `explainer-text-load`, `explainer-repetition` and `explainer-interaction` of `lernapps check` hint at the rest.
 
 ## Decide
 
@@ -95,10 +103,62 @@ scope: tooling
 severity: hint
 ```
 
-- Each page teaches one competency of the map: `competencies` with one id. Several pages for one large competency
-  are fine.
-- Several competencies on one page: allowed by the schema, not recommended. Split the page, one per competency.
-- `lernapps check` gives a hint for every page of a format-2 explainer with more than one competency.
+- Each page teaches one competency of the map: `competencies` with one id; several pages for one large competency are
+  fine. `lernapps check` hints at every page with more than one.
+
+## `explainer-text-load`: A page is not mostly text
+
+```rule
+id: explainer-text-load
+scope: tooling
+severity: hint
+```
+
+- At most 350 words to read and 350 in tasks and feedback on a page, at most 4 text blocks in a row, and a figure,
+  table or exercise within the first 4 blocks. `lernapps check` counts them.
+
+## `explainer-repetition`: Each thing once
+
+```rule
+id: explainer-repetition
+scope: tooling
+severity: hint
+```
+
+- Not more than 10 phrases of five words said by two text blocks of a page, or by two exercises of one type.
+  Repeating in another part (text, then task, then table) is a way to teach: do it on purpose, to deepen it differently.
+
+## `explainer-interaction`: Learners do more than tick
+
+```rule
+id: explainer-interaction
+scope: tooling
+severity: hint
+```
+
+- At least four exercises on a page (a component counts), not three quarters or more guessable choices (single choice,
+  multiple choice, true or false) without a component, and not all of one kind.
+
+## `explainer-page-variety`: Pages do not all practise alike
+
+```rule
+id: explainer-page-variety
+scope: tooling
+severity: hint
+```
+
+- From four pages on, no one set of exercise kinds on half of the pages or more.
+
+## `explainer-visual`: Something to look at
+
+```rule
+id: explainer-visual
+scope: tooling
+severity: hint
+```
+
+- At least half of the pages have something to look at besides tables and text: a figure, formula, code, quote, timeline,
+  video or component.
 
 ## `prerequisites-in-order`: Prerequisites come before the page that needs them
 
@@ -120,13 +180,12 @@ severity: warning
   - ahead not needed: no competency of the page requires it, or the app has it on this page or before. Remove it.
 - A page may come before a prerequisite on purpose: it names it in `ahead: [<id>]`, and the app practises it on
   another page, earlier or later. A recap page or a link does not count.
-- Severity by the subject's map: `explainerFocus: competency` a warning, `strand` a hint. At the listing order and gap
-  are errors with `competency`, else warnings. Without the map it finds nothing (`competencies-on-map` says it could
-  not check).
+- Severity by the subject's map: `explainerFocus: competency` a warning, `strand` a hint; at the listing order and gap
+  are errors with `competency`, else warnings.
 
 ## Gotchas
 
-- Each component costs a module, a test and a no-JS text: plan one only where it teaches what no block can.
+- A component costs a module, a test and a no-JS text: only where no block can teach it.
 
 ## Read when
 

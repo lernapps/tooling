@@ -47,6 +47,8 @@ Testmodus für die Anleitung:
 <name: description, je Zeile, so wie der Harness sie zeigt>
 4. Ohne GitHub: lege kein Repo an und pushe nicht. Kommt ein GitHub-Schritt, sag, was du tun würdest, und mach
    lokal weiter. Ziel: `npx lernapps check` grün, alles lokal committet.
+5. Blockiert eine Berechtigungsprüfung einen Befehl, frag sofort den Owner direkt im Chat dieser Session, nicht mich.
+   Er muss ausdrücklich zustimmen, dann geht es weiter. Umgehe die Sperre nicht.
 
 Einstieg: GET https://lernapps.net/tooling/llms.txt
 ```
@@ -73,6 +75,8 @@ Einstieg: GET https://lernapps.net/tooling/llms.txt
 - Stop all sessions at the subscription limit; do not resume them after the reset unless the owner says so.
 - Archive each session when evaluated (`archive_session`).
 - Never give a session a credential or a key. Never read the eval key.
+- A permission problem in a session (a refused command, a blocked host): it asks the owner directly in its chat; you cannot
+  grant it. The owner approves explicitly, then it goes on. Tell the session so, and report the blocker.
 
 ## Evaluate
 

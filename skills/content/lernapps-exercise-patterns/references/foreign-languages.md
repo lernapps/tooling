@@ -15,10 +15,27 @@
 - **No textbook assumed.** Everything a task needs is on the page, every new word with its meaning.
 - **The basic vocabulary** beside the learning map (`https://lernapps.net/apps/map/<subject>/grundwortschatz/`): its
   words by CEFR level. It says how far a word is, not where it belongs.
-  - Assume the words of the levels below the unit's.
-  - Choose the words of the exercises from the unit's level and situation; introduce each with its meaning before an
-    exercise asks for it.
-  - A word above the level or outside the list: only when the situation needs it, explained where it first appears.
+  1. Open the page before you choose words. "Content method" names it as the source of the words.
+  2. Assume the words of the levels below the unit's; choose the words of the exercises from the unit's level and
+     situation, each introduced with its meaning before an exercise asks for it.
+  3. A word above the level or outside the list: only when the situation needs it, explained where it first appears,
+     and listed in "Content method".
+
+## Content method of a language app
+
+One line each under "Content method" (rule `explainer-language-practice`):
+
+1. Listening and speaking: yes, with voices where the language has them (skill `lernapps-audio`), or declined by the
+   creator and why.
+2. Words: always with their article; the source is the basic vocabulary (above).
+3. Kinds of exercise: vary them from page to page (match, order, dictation, `generated`, write), not the same three.
+4. The class's typical mistakes (from the interview), each with its own message.
+
+```rule
+id: explainer-language-practice
+scope: archetype:explainer
+severity: hint
+```
 
 ## Strand app or unit app
 

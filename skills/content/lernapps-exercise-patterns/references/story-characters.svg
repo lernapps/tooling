@@ -1,0 +1,36 @@
+<!-- Template of two story characters, for classes up to 6; the figures are those of the French app of lernapps.net
+     (own drawing, CC-BY-4.0). Copy it into src/images/. Keep the style (a head, a soft rounded body, outlines, no neck,
+     arms or legs); change names, hair and clothes to your own children and then keep them the same on every page. Change
+     only the scene around them: background, objects, places and sizes of the two (`use` with `translate` and `scale`).
+     Put names, ages and looks into the content guide, "Figures"; name the children in `alt` and `caption`; give the
+     file a title. The words they say stand in the page's text, not in the picture. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" role="img">
+  <title>Zwei Kinder im Klassenzimmer (Vorlage): links Kind A mit kurzen braunen Haaren, rechts Kind B mit schwarzen Locken</title>
+  <defs>
+    <!-- child A: short brown hair, red jacket -->
+    <g id="kind-a" stroke="#333" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M14 168 C8 120 22 88 50 84 C78 88 92 120 86 168 C70 178 30 178 14 168 Z" fill="#d33"/>
+      <ellipse cx="50" cy="52" rx="30" ry="32" fill="#f3d2b3"/>
+      <path d="M18 54 Q14 14 50 12 Q86 14 82 54 Q80 34 62 28 Q40 36 22 40 Z" fill="#6b3f1e"/>
+      <circle cx="40" cy="56" r="3" fill="#222"/><circle cx="60" cy="56" r="3" fill="#222"/>
+      <path d="M42 68 Q50 75 58 68" fill="none"/>
+    </g>
+    <!-- child B: black curls, glasses, blue jacket with a backpack strap -->
+    <g id="kind-b" stroke="#333" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M14 168 C8 120 22 88 50 84 C78 88 92 120 86 168 C70 178 30 178 14 168 Z" fill="#3a6fd8"/>
+      <path d="M26 100 C22 130 24 156 30 170" stroke="#244a9a" stroke-width="5" fill="none"/>
+      <ellipse cx="50" cy="54" rx="30" ry="32" fill="#c68f62"/>
+      <path d="M18 54 Q10 22 30 14 Q40 6 52 12 Q72 6 82 22 Q92 40 82 54 Q80 34 62 28 Q40 34 22 42 Z" fill="#222"/>
+      <circle cx="39" cy="57" r="8" fill="none"/><circle cx="61" cy="57" r="8" fill="none"/><path d="M47 57 L53 57" fill="none"/>
+      <circle cx="39" cy="57" r="2.5" fill="#222"/><circle cx="61" cy="57" r="2.5" fill="#222"/>
+      <path d="M42 70 Q50 77 58 70" fill="none"/>
+    </g>
+  </defs>
+  <!-- scene: replace -->
+  <rect width="640" height="340" fill="#f4efe2"/>
+  <rect y="270" width="640" height="70" fill="#c9a77a"/>
+  <rect x="190" y="30" width="260" height="190" rx="8" fill="#cfe6f7" stroke="#7a5a35" stroke-width="8"/>
+  <!-- the two children: change places and sizes -->
+  <use href="#kind-a" transform="translate(40,130) scale(.85)"/>
+  <use href="#kind-b" transform="translate(500,130) scale(.85)"/>
+</svg>

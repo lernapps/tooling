@@ -12,6 +12,17 @@ Bring a branch into `main` by squash: squash-merge its pull request, or `git swi
 `git commit`. One piece of work is one commit on `main`; never a merge commit. The commit message of the squash
 describes the whole piece of work, not the last step. When you merge yourself, you squash and write it.
 
+## `no-committed-dependencies`: Dependencies are not committed
+
+```rule
+id: no-committed-dependencies
+scope: listing
+severity: warning
+```
+
+- `node_modules/` is not in the repository, however it got there (`git add -A` before `.gitignore`). Repair: `git rm -r
+  --cached node_modules`, commit. `lernapps check` finds tracked files below it.
+
 ## Content from the plan
 
 Do not invent the message: take it from the current plan (`.vibe/plans/<NN>-<short name>.md`). Intent comes from

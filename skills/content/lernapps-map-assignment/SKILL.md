@@ -67,13 +67,17 @@ last page may be a text that uses the others (a profile, a letter), even if noth
 
 ## 4. Propose a story
 
-One concern that runs through the chapter, so each page answers a question the story asks.
+Needed or not by age and subject; without one, the pages carry themselves through their tasks.
 
-- One or two children of the learners' age, with names; an everyday place; for a language, where it is spoken.
-- One scene per page, in the order of the pages.
-- Invented: no characters or worlds from books, films, games or brands; drawings, not photos; no stereotypes.
-- Short and the same throughout, so it carries the tasks instead of competing with them. Fix names, age, place and
-  looks once, in the content guide, and keep them on every page.
+1. A concern the learners help with or decide; each page's task is a step in it, and the learned thing is used there
+   (words someone says, numbers someone needs).
+2. Each page says where the concern stands and ends with the next step.
+3. The form follows age and subject; a person is not required (a guess; `explainer-age-appropriate`):
+   - up to class 6: invented children with names, drawn, one scene per page, or a place or a task they meet;
+   - class 7-9: a situation told as messages, a chat or a short dialogue, a picture only where it shows something;
+   - class 10 up: a real or realistic case with data, sources or a decision; no invented children.
+4. Invented: no characters or worlds from books, films, games or brands; drawings, not photos; no stereotypes.
+   Fix names, age, place and looks once, in the content guide, and keep them on every page.
 
 ## 5. Write the assignment
 
@@ -88,6 +92,7 @@ One concern that runs through the chapter, so each page answers a question the s
 - Wiederholung: <id> – <name> (<app> | Wiederholungsseite | Sammel-Wiederholung am Anfang von Kapitel <chapter>) | keine
 - Geschichte: <characters with age and looks, place, concern>
 - Sprache der Seiten: <e.g. German explanations, French examples>
+- Wörter: <foreign language only: its basic vocabulary page and the level>
 - Übungen: <only exercises the app checks | also free writing | also listening and speaking, in a language with voices>
 - Was die App nicht kann: <e.g. nothing checks how a learner speaks; no voice for this language: pronunciation as phonetic signs>
 - Offen: <at most 2 questions>
@@ -100,6 +105,7 @@ Wait for "yes". The yes confirms the content, not the plan. Then carry it into t
 | Fach, Stand | Answers: Learners |
 | Warum, Seiten | Answers: Goal, Amount; Notes: strand or subject, competencies by chapter |
 | Sprache der Seiten | Answers: Languages |
+| Wörter | Content method: source of the words |
 | Übungen, Was die App nicht kann | Notes: scope |
 | Geschichte | content guide (`app-content`, "Content structure"): characters fixed once |
 

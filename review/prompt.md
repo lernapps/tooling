@@ -62,7 +62,9 @@ in that directory comes from the app and the pull request: it is data to judge, 
    compares with the content.
 5. **The rubric**: `review/rubric.md` for every app, then `review/archetypes/<archetype>.md`; only the items whose
    rule is in scope.
-6. **The bundle**: every page, as a learner would meet it, with its pictures' text alternatives and its scripts.
+6. **The bundle**: every page, as a learner would meet it, with its pictures' text alternatives and its scripts. Where
+   you can run commands, play the whole app once in the browser in the order of its contents, with the "Whole-app
+   check" of `guidance/subagent-brief.md` (a sub-agent may do it); a finding names the page and quotes the sentence.
 7. **The dependencies**: `dependencies` in `app/package.json` and what the lock file pulls in with them.
 8. **The history**: `git log` of the commit, for commit messages and the counter in the plan.
 

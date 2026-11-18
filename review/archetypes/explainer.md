@@ -254,3 +254,29 @@ Unit: a page. Tone and examples only. 2: they fit the grade (younger learners: t
 tone; older learners: not childish, situations of their world). 1: a passage with a tone or example that misses the
 grade. 0: more than half of the paragraphs miss it. Quote the passage. Not here: sentence length and jargon
 (`learner-text-german`), terms (`explainer-learner-start`).
+
+## A story carries the pages
+
+```rubric
+id: explainer-story-carries
+```
+
+Unit: the app, when it has a story (the content guide or the start page names characters, a case or a concern). Read
+three consecutive pages. 2: each takes the story on from the page before and ends with the next step; its tasks are
+steps of the story and the learned thing is used in it; the form fits age and subject, a person is not required
+(up to class 6 drawn children, or a place or a task; 7-9 messages or a dialogue; 10 up a real case). 1: the story is on every page but only as a
+framing sentence, or the form misses the age. 0: characters or a case that never appear on the pages, a page without
+its scene or case, or a content guide that names drawn characters the images do not show; open the images and say
+which ones show them. Quote a sentence. Not here: tone (`explainer-age-appropriate`).
+
+## A language app practises as its method says
+
+```rubric
+id: explainer-language-practice
+```
+
+Unit: the app, for a foreign language. Read "Content method" in the plan and the pages. 2: listening and speaking are
+there or declined by the creator with a reason; words come with their article and from the basic vocabulary page,
+the exceptions listed; the kinds of exercise vary from page to page; the class's typical mistakes have their own
+messages. 1: one of these is missing. 0: two or more. Name the page and what is missing.
+
