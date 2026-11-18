@@ -8,9 +8,9 @@
 // Usage: node scripts/session-analysis.ts <session.jsonl> <out.json>
 import { readFileSync, writeFileSync } from "node:fs";
 
-export type Source = "creator" | "guidance" | "skills" | "data" | "check" | "subagent" | "environment";
+export type Source = "creator" | "guidance" | "skills" | "data" | "check" | "subagent" | "retrieval" | "writes";
 
-export const SOURCES: readonly Source[] = ["creator", "guidance", "skills", "data", "check", "subagent", "environment"];
+export const SOURCES: readonly Source[] = ["creator", "guidance", "skills", "data", "check", "subagent", "retrieval", "writes"];
 
 export interface Event {
   /** Minutes since the first message. */
@@ -20,7 +20,7 @@ export interface Event {
   chars: number;
   /** Short kind, e.g. "ReadNotifications", "Bash:lernapps check". No session text. */
   kind: string;
-  /** For messages of the creator's session: "answer", "task" or the kind of file it passed on. */
+  /** For messages of the creator's session: "answer", "task" or the kind of file it passed on. For retrieval: "web" (web, GitHub) or "own files". */
   detail?: string;
   /** The file reached the assistant through the creator's session, not from a file of the app. */
   relayed?: boolean;
@@ -134,7 +134,13 @@ function classifyCrossSession(raw: string): { source: Source; detail: string; re
   return { source: "creator", detail: /^(Auftrag|Ergänzung)/.test(b) ? "task" : "answer" };
 }
 
-function classifyTool(name: string, input: Json): { source: Source; kind: string } {
+/** Reaching out for information on the web or on GitHub: a clone, a fetch, a read-only API call, a page. */
+const reachesOut = (command: string): boolean =>
+  /git (clone|fetch|ls-remote)\b/.test(command) ||
+  (/\bgh api\b/.test(command) && !/-X\s*(POST|PATCH|PUT|DELETE)|--input|-f\s|-F\s/.test(command)) ||
+  /curl[^|;&]*https?:\/\/(?!localhost|127\.|0\.0\.0\.0)/.test(command);
+
+function classifyTool(name: string, input: Json): { source: Source; kind: string; detail?: string } {
   const command = asString(input.command);
   const path = asString(input.file_path) || asString(input.path);
   if (name === "Read" || name === "Bash" || name === "Grep" || name === "Glob") {
@@ -143,8 +149,9 @@ function classifyTool(name: string, input: Json): { source: Source; kind: string
       /lernapps(_audio)?[ .a-z_-]*\b(check|create|screenshots)\b|lernapps_audio\.py|@lernapps\/tooling|vp (build|test)|git commit/.test(
         command,
       );
+    if (name === "Bash" && !toolRun && reachesOut(command)) return { source: "retrieval", kind: "Bash:web or GitHub", detail: "web" };
     const writes = name === "Bash" && !toolRun && !readsOnly(command);
-    if (writes) return { source: "environment", kind: "Bash:own work" };
+    if (writes) return { source: "writes", kind: "Bash:own work" };
     if (/\.agents\/skills\/|\.claude\/skills\//.test(target)) return { source: "skills", kind: `${name}:skill file` };
     if (/AGENTS\.md|CLAUDE\.md|\.vibe\/plans\//.test(target)) return { source: "guidance", kind: `${name}:AGENTS.md or plan` };
   }
@@ -160,9 +167,15 @@ function classifyTool(name: string, input: Json): { source: Source; kind: string
     if (/lernapps\/tooling|@lernapps\/tooling/.test(command)) return { source: "check", kind: "Bash:lernapps init" };
     if (/vp build|vp test/.test(command)) return { source: "check", kind: "Bash:build" };
     if (/git commit/.test(command)) return { source: "check", kind: "Bash:git commit (hooks)" };
+    return { source: "retrieval", kind: "Bash:read", detail: "own files" };
   }
   if (name === "Agent") return { source: "subagent", kind: "Agent" };
-  return { source: "environment", kind: name };
+  if (name === "Read" || name === "Grep" || name === "Glob") return { source: "retrieval", kind: name, detail: "own files" };
+  if (name === "WebFetch" || name === "WebSearch" || /^mcp__claude-code-remote__(list_repos|add_repo)$/.test(name)) {
+    return { source: "retrieval", kind: name, detail: "web" };
+  }
+  if (name === "ToolSearch" || name === "ListAgents") return { source: "retrieval", kind: name, detail: "own files" };
+  return { source: "writes", kind: name };
 }
 
 function countVerdict(text: string): Verdict | null {
@@ -276,8 +289,10 @@ export function analyse(raw: string): Analysis {
           }
           continue;
         }
+        // Results of the Artifact tool are left out: its built-in design guidance was not used to decide anything.
+        if (use.name === "Artifact") continue;
         const c = classifyTool(use.name, use.input);
-        events.push({ t, source: c.source, chars: text.length, kind: c.kind });
+        events.push({ t, source: c.source, chars: text.length, kind: c.kind, ...(c.detail !== undefined ? { detail: c.detail } : {}) });
       } else if (b.type === "text") {
         const text = asString(b.text);
         // A person's own chat messages are left out. A report of a sub-agent is counted.

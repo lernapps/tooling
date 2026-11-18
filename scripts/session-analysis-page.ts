@@ -11,7 +11,8 @@ const LABEL: Record<Source, string> = {
   data: "Platform data (map, schemas)",
   check: "Check tool and hooks",
   subagent: "Sub-agent",
-  environment: "Environment and own work",
+  retrieval: "Information retrieval",
+  writes: "Own writes and runs",
 };
 
 const NOTE: Record<Source, string> = {
@@ -21,7 +22,8 @@ const NOTE: Record<Source, string> = {
   data: "The learning map and schemas.",
   check: "Output of lernapps init, create, check, screenshots, the build and the git hooks.",
   subagent: "Reports of the learner checks and of the review.",
-  environment: "Results of commands and tools that only describe the workspace: listings, own files, publishing.",
+  retrieval: "Looking things up: the web and GitHub (clone, fetch, read-only API calls, repository lists), and reading or listing the app's own files.",
+  writes: "Results of what the assistant did: files written or edited, commands that change or run the app, messages sent.",
 };
 
 const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -94,6 +96,13 @@ export function page(a: Analysis): string {
         a.bySource[s].chars,
       )}</td><td>${pct(a.bySource[s].chars, total)}</td><td>${esc(NOTE[s])}</td></tr>`,
   ).join("\n");
+  const sum = (d: string) => {
+    const e = a.events.filter((x) => x.source === "retrieval" && x.detail === d);
+    return { n: e.length, chars: e.reduce((n, x) => n + x.chars, 0) };
+  };
+  const web = sum("web");
+  const own = sum("own files");
+  const retrievalText = `Information retrieval splits into ${web.n} results from the web or GitHub (${kchars(web.chars)} characters) and ${own.n} from reading the app's own files (${kchars(own.chars)}). The assistant fetched nothing from the open web in this run: it could not open lernapps.net, and the creator's session passed on the documents it needed. The web and GitHub results are repository access and listings.`;
   const agentRows = a.agents
     .map(
       (r) =>
@@ -193,6 +202,8 @@ ${rows}
       </table>
     </div>
 
+    <p>${retrievalText}</p>
+
     <h2>Reviews and checks in this run</h2>
     <p>Three sub-agents, each in a fresh context, looked at the app. The numbers come from the log; what they found is from their reports.</p>
     <div class="scroll">
@@ -215,6 +226,7 @@ ${agentRows}
       <li>The counts come from the session log, with <a href="https://github.com/lernapps/tooling/blob/main/scripts/session-analysis.ts"><code>scripts/session-analysis.ts</code></a>. They contain no text of the session.</li>
       <li>In this run the assistant was not allowed to open addresses of lernapps.net or to install skills. The creator's session therefore passed on ${a.relayedFiles} files (entry file, skills, references, rules, template README, schema). They are counted as skills, guidance or data, not as the creator's decisions. The creator's own messages are counted as answers (to the assistant's questions) or tasks (a review, changes to the app, measurements). In a normal run they come from the package and from the app's folders.</li>
       <li>"Characters" measure how much text arrived, not how much it helped. A long skill file counts more than a short answer that decided the content.</li>
+      <li>Results of the Artifact tool (a page the assistant published to show the app) are left out. Its built-in design guidance was not used to decide anything. The text of the tool that attaches a repository (about 10k characters of instructions) is counted as GitHub retrieval.</li>
       <li>Time is active time. The session waited overnight between the first work and the reviews; waits longer than 15 minutes count as one minute.</li>
       <li>One run is an example, not a result. The evals described under <a href="../how-evals-work/">How we evaluate the guidance</a> repeat runs and score them.</li>
     </ul>
