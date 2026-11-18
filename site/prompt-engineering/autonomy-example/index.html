@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light dark">
+  <title>A highly autonomous run, measured – lernapps.net</title>
+  <meta name="description" content="One real session of an assistant that built a French explainer with a simulated creator: how many people's messages it needed, and where its information came from: the creator, AGENTS.md, skills or the check tool.">
+  <link rel="canonical" href="https://lernapps.net/tooling/prompt-engineering/autonomy-example/">
+  <link rel="stylesheet" href="../../lernapps-page.css">
+  <style>
+    :root {
+      --au-bg: #ffffff; --au-text: var(--la-text, #1e293b); --au-muted: var(--la-muted, #475569);
+      --au-link: var(--la-link, #1d4ed8); --au-panel: var(--la-surface, #f8fafc); --au-border: var(--la-border, #e2e8f0);
+      --c0: #b45309; --c1: #7c3aed; --c2: #1d4ed8; --c3: #0f766e; --c4: #64748b; --c5: #be185d; --c6: #a16207; --c7: #94a3b8;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --au-bg: #111827; --au-text: #e5e7eb; --au-muted: #a3adbd; --au-link: #93c5fd; --au-panel: #1b2433; --au-border: #2c3747;
+        --c0: #fbbf24; --c1: #c4b5fd; --c2: #93c5fd; --c3: #5eead4; --c4: #cbd5e1; --c5: #f9a8d4; --c6: #fde047; --c7: #64748b;
+      }
+    }
+    :root[data-theme="dark"] {
+      --au-bg: #111827; --au-text: #e5e7eb; --au-muted: #a3adbd; --au-link: #93c5fd; --au-panel: #1b2433; --au-border: #2c3747;
+      --c0: #fbbf24; --c1: #c4b5fd; --c2: #93c5fd; --c3: #5eead4; --c4: #cbd5e1; --c5: #f9a8d4; --c6: #fde047; --c7: #64748b;
+    }
+    body { background: var(--au-bg); color: var(--au-text); }
+    main { color: var(--au-text); max-width: 48rem; }
+    main a { color: var(--au-link); }
+    main a:focus-visible { outline: 3px solid var(--au-link); outline-offset: 2px; }
+    h2 { margin-top: 2.5rem; line-height: 1.3; }
+    .lead { font-size: 1.1rem; }
+    .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .75rem; margin: 1.5rem 0; padding: 0; list-style: none; }
+    .facts li { background: var(--au-panel); border: 1px solid var(--au-border); border-radius: .5rem; padding: .7rem .8rem; }
+    .facts b { display: block; font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .facts span { color: var(--au-muted); font-size: .9rem; }
+    figure { margin: 1.5rem 0; }
+    figcaption { color: var(--au-muted); font-size: .9rem; margin-top: .4rem; }
+    .chart { width: 100%; height: auto; display: block; }
+    .chart .lbl { fill: var(--au-text); font: 12px system-ui, sans-serif; }
+    .chart .grid { stroke: var(--au-border); stroke-width: 1; }
+    .chart .tick { stroke: var(--au-border); stroke-width: 1; stroke-dasharray: 2 3; }
+    .chart .dot { fill: var(--c); fill-opacity: .8; stroke: var(--au-bg); stroke-width: 1; }
+    .chart .bar { fill: var(--c); }
+    .s-creator{--c:var(--c0)}.s-guidance{--c:var(--c1)}.s-skills{--c:var(--c2)}.s-data{--c:var(--c3)}.s-check{--c:var(--c4)}.s-subagent{--c:var(--c5)}.s-retrieval{--c:var(--c6)}.s-writes{--c:var(--c7)}
+    .sw { display: inline-block; width: .8rem; height: .8rem; border-radius: 2px; background: var(--c); margin-right: .5rem; vertical-align: -1px; }
+    .scroll, pre { overflow-x: auto; max-width: 100%; }
+    table { border-collapse: collapse; width: 100%; font-size: .93rem; min-width: 34rem; }
+    th, td { border: 1px solid var(--au-border); padding: .45rem .6rem; text-align: left; vertical-align: top; }
+    td:nth-child(2), td:nth-child(3), td:nth-child(4) { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    thead th { background: var(--au-panel); }
+  </style>
+</head>
+<body>
+  <main id="main-content" tabindex="-1">
+    <h1>A highly autonomous run, measured</h1>
+    <p class="lead">One session in which an assistant built a French explainer for class 5 from the guidance of this repository. A simulated creator answered its questions and later asked for a review, changes and measurements. This page counts how much the creator had to say, where the assistant got its information, and what the reviews and checks of the run found.</p>
+
+    <ul class="facts">
+      <li><b>133 min</b><span>of work (waits longer than 15 minutes count as one)</span></li>
+      <li><b>286</b><span>tool calls by the assistant</span></li>
+      <li><b>12</b><span>answers of the creator, plus 3 tasks</span></li>
+      <li><b>3</b><span>sub-agent runs: a learner check, a review, a walkthrough</span></li>
+      <li><b>89</b><span>results in a row without a message of the creator's session (longest run, average 17.1)</span></li>
+    </ul>
+
+    <h2>When information arrived</h2>
+    <figure>
+<svg viewBox="0 0 760 340" role="img" aria-labelledby="tl-t tl-d" class="chart">
+<title id="tl-t">When which information reached the assistant</title>
+<desc id="tl-d">One row per source, one dot per result or message, over 132.74 minutes. A larger dot is a longer text. The table below gives the same numbers.</desc>
+<line x1="190" y1="41" x2="744" y2="41" class="grid"/>
+<text x="180" y="45" text-anchor="end" class="lbl">Creator's session</text>
+<line x1="190" y1="75" x2="744" y2="75" class="grid"/>
+<text x="180" y="79" text-anchor="end" class="lbl">AGENTS.md, plan, entry file</text>
+<line x1="190" y1="109" x2="744" y2="109" class="grid"/>
+<text x="180" y="113" text-anchor="end" class="lbl">Skills and their references</text>
+<line x1="190" y1="143" x2="744" y2="143" class="grid"/>
+<text x="180" y="147" text-anchor="end" class="lbl">Platform data (map, schemas)</text>
+<line x1="190" y1="177" x2="744" y2="177" class="grid"/>
+<text x="180" y="181" text-anchor="end" class="lbl">Check tool and hooks</text>
+<line x1="190" y1="211" x2="744" y2="211" class="grid"/>
+<text x="180" y="215" text-anchor="end" class="lbl">Sub-agent</text>
+<line x1="190" y1="245" x2="744" y2="245" class="grid"/>
+<text x="180" y="249" text-anchor="end" class="lbl">Information retrieval</text>
+<line x1="190" y1="279" x2="744" y2="279" class="grid"/>
+<text x="180" y="283" text-anchor="end" class="lbl">Own writes and runs</text>
+<circle cx="190.2" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 0, 0 characters</title></circle>
+<circle cx="190.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 0, 101 characters</title></circle>
+<circle cx="190.5" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 0, 315 characters</title></circle>
+<circle cx="191.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 0, 22 characters</title></circle>
+<circle cx="192.3" cy="75" r="8.3" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 1, 5518 characters</title></circle>
+<circle cx="192.6" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 1, 34 characters</title></circle>
+<circle cx="192.8" cy="177" r="3.6" class="dot s-check"><title>Check tool and hooks, minute 1, 1026 characters</title></circle>
+<circle cx="197.4" cy="177" r="3.6" class="dot s-check"><title>Check tool and hooks, minute 2, 1024 characters</title></circle>
+<circle cx="203.6" cy="177" r="5.4" class="dot s-check"><title>Check tool and hooks, minute 3, 2361 characters</title></circle>
+<circle cx="203.7" cy="75" r="9.6" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 3, 7392 characters</title></circle>
+<circle cx="203.7" cy="75" r="11.0" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 3, 17390 characters</title></circle>
+<circle cx="204.1" cy="109" r="11.0" class="dot s-skills"><title>Skills and their references, minute 3, 11239 characters</title></circle>
+<circle cx="204.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 3, 22 characters</title></circle>
+<circle cx="204.4" cy="109" r="7.6" class="dot s-skills"><title>Skills and their references, minute 3, 4664 characters</title></circle>
+<circle cx="204.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 3, 242 characters</title></circle>
+<circle cx="207.4" cy="143" r="11.0" class="dot s-data"><title>Platform data (map, schemas), minute 4, 16421 characters</title></circle>
+<circle cx="214.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 6, 22 characters</title></circle>
+<circle cx="217.6" cy="41" r="11.0" class="dot s-creator"><title>Creator's session, minute 7, 12528 characters</title></circle>
+<circle cx="218.1" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 7, 22 characters</title></circle>
+<circle cx="218.1" cy="109" r="9.3" class="dot s-skills"><title>Skills and their references, minute 7, 6957 characters</title></circle>
+<circle cx="218.7" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 7, 276 characters</title></circle>
+<circle cx="218.8" cy="75" r="4.7" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 7, 1803 characters</title></circle>
+<circle cx="218.9" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 7, 482 characters</title></circle>
+<circle cx="220.0" cy="109" r="9.7" class="dot s-skills"><title>Skills and their references, minute 7, 7591 characters</title></circle>
+<circle cx="220.8" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 7, 133 characters</title></circle>
+<circle cx="220.8" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 7, 22 characters</title></circle>
+<circle cx="221.5" cy="41" r="3.8" class="dot s-creator"><title>Creator's session, minute 8, 1173 characters</title></circle>
+<circle cx="222.0" cy="279" r="4.7" class="dot s-writes"><title>Own writes and runs, minute 8, 1815 characters</title></circle>
+<circle cx="222.8" cy="109" r="11.0" class="dot s-skills"><title>Skills and their references, minute 8, 10702 characters</title></circle>
+<circle cx="223.2" cy="109" r="8.7" class="dot s-skills"><title>Skills and their references, minute 8, 6062 characters</title></circle>
+<circle cx="223.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 8, 22 characters</title></circle>
+<circle cx="224.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 8, 3 characters</title></circle>
+<circle cx="225.2" cy="143" r="11.0" class="dot s-data"><title>Platform data (map, schemas), minute 8, 11307 characters</title></circle>
+<circle cx="225.9" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 9, 135 characters</title></circle>
+<circle cx="226.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 9, 22 characters</title></circle>
+<circle cx="227.2" cy="41" r="3.2" class="dot s-creator"><title>Creator's session, minute 9, 842 characters</title></circle>
+<circle cx="227.7" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 9, 13 characters</title></circle>
+<circle cx="227.7" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 9, 22 characters</title></circle>
+<circle cx="229.5" cy="109" r="10.7" class="dot s-skills"><title>Skills and their references, minute 9, 9287 characters</title></circle>
+<circle cx="231.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 10, 2 characters</title></circle>
+<circle cx="232.1" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 10, 4 characters</title></circle>
+<circle cx="232.1" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 10, 22 characters</title></circle>
+<circle cx="232.6" cy="109" r="9.1" class="dot s-skills"><title>Skills and their references, minute 10, 6758 characters</title></circle>
+<circle cx="232.6" cy="109" r="6.7" class="dot s-skills"><title>Skills and their references, minute 10, 3644 characters</title></circle>
+<circle cx="232.6" cy="109" r="5.3" class="dot s-skills"><title>Skills and their references, minute 10, 2243 characters</title></circle>
+<circle cx="233.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 10, 2 characters</title></circle>
+<circle cx="233.5" cy="41" r="3.4" class="dot s-creator"><title>Creator's session, minute 10, 958 characters</title></circle>
+<circle cx="233.7" cy="245" r="3.2" class="dot s-retrieval"><title>Information retrieval, minute 10, 838 characters</title></circle>
+<circle cx="233.7" cy="245" r="4.6" class="dot s-retrieval"><title>Information retrieval, minute 10, 1716 characters</title></circle>
+<circle cx="234.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 11, 22 characters</title></circle>
+<circle cx="234.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 11, 22 characters</title></circle>
+<circle cx="234.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 11, 2 characters</title></circle>
+<circle cx="235.0" cy="41" r="2.9" class="dot s-creator"><title>Creator's session, minute 11, 695 characters</title></circle>
+<circle cx="235.3" cy="279" r="9.8" class="dot s-writes"><title>Own writes and runs, minute 11, 7819 characters</title></circle>
+<circle cx="235.6" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 11, 320 characters</title></circle>
+<circle cx="236.4" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 11, 394 characters</title></circle>
+<circle cx="236.6" cy="245" r="3.4" class="dot s-retrieval"><title>Information retrieval, minute 11, 921 characters</title></circle>
+<circle cx="237.3" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 11, 49 characters</title></circle>
+<circle cx="237.6" cy="109" r="2.5" class="dot s-skills"><title>Skills and their references, minute 11, 28 characters</title></circle>
+<circle cx="239.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 12, 152 characters</title></circle>
+<circle cx="240.0" cy="109" r="2.5" class="dot s-skills"><title>Skills and their references, minute 12, 192 characters</title></circle>
+<circle cx="240.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 12, 22 characters</title></circle>
+<circle cx="241.2" cy="41" r="7.6" class="dot s-creator"><title>Creator's session, minute 12, 4673 characters</title></circle>
+<circle cx="241.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 12, 22 characters</title></circle>
+<circle cx="242.2" cy="109" r="9.0" class="dot s-skills"><title>Skills and their references, minute 13, 6613 characters</title></circle>
+<circle cx="242.4" cy="245" r="3.8" class="dot s-retrieval"><title>Information retrieval, minute 13, 1148 characters</title></circle>
+<circle cx="243.1" cy="109" r="9.0" class="dot s-skills"><title>Skills and their references, minute 13, 6518 characters</title></circle>
+<circle cx="243.3" cy="109" r="9.4" class="dot s-skills"><title>Skills and their references, minute 13, 7172 characters</title></circle>
+<circle cx="243.7" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 13, 22 characters</title></circle>
+<circle cx="245.1" cy="109" r="10.0" class="dot s-skills"><title>Skills and their references, minute 13, 8065 characters</title></circle>
+<circle cx="247.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 14, 2 characters</title></circle>
+<circle cx="248.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 14, 138 characters</title></circle>
+<circle cx="249.2" cy="177" r="5.8" class="dot s-check"><title>Check tool and hooks, minute 14, 2698 characters</title></circle>
+<circle cx="250.8" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 15, 422 characters</title></circle>
+<circle cx="251.8" cy="109" r="3.4" class="dot s-skills"><title>Skills and their references, minute 15, 926 characters</title></circle>
+<circle cx="252.1" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 15, 22 characters</title></circle>
+<circle cx="253.5" cy="177" r="3.4" class="dot s-check"><title>Check tool and hooks, minute 15, 942 characters</title></circle>
+<circle cx="253.6" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 15, 0 characters</title></circle>
+<circle cx="253.6" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 15, 0 characters</title></circle>
+<circle cx="253.9" cy="109" r="11.0" class="dot s-skills"><title>Skills and their references, minute 15, 13367 characters</title></circle>
+<circle cx="253.9" cy="41" r="4.2" class="dot s-creator"><title>Creator's session, minute 15, 1397 characters</title></circle>
+<circle cx="253.9" cy="109" r="7.0" class="dot s-skills"><title>Skills and their references, minute 15, 3984 characters</title></circle>
+<circle cx="253.9" cy="41" r="3.3" class="dot s-creator"><title>Creator's session, minute 15, 869 characters</title></circle>
+<circle cx="254.2" cy="109" r="3.7" class="dot s-skills"><title>Skills and their references, minute 15, 1089 characters</title></circle>
+<circle cx="256.9" cy="109" r="2.5" class="dot s-skills"><title>Skills and their references, minute 16, 349 characters</title></circle>
+<circle cx="258.1" cy="109" r="3.1" class="dot s-skills"><title>Skills and their references, minute 16, 788 characters</title></circle>
+<circle cx="259.8" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 17, 422 characters</title></circle>
+<circle cx="261.0" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 17, 223 characters</title></circle>
+<circle cx="261.1" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 17, 376 characters</title></circle>
+<circle cx="261.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 17, 3 characters</title></circle>
+<circle cx="270.3" cy="211" r="3.6" class="dot s-subagent"><title>Sub-agent, minute 19, 1033 characters</title></circle>
+<circle cx="283.8" cy="211" r="11.0" class="dot s-subagent"><title>Sub-agent, minute 22, 14753 characters</title></circle>
+<circle cx="286.8" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 23, 422 characters</title></circle>
+<circle cx="287.8" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 23, 120 characters</title></circle>
+<circle cx="287.8" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 23, 72 characters</title></circle>
+<circle cx="287.9" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 23, 210 characters</title></circle>
+<circle cx="288.0" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 23, 0 characters</title></circle>
+<circle cx="289.0" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 24, 234 characters</title></circle>
+<circle cx="289.0" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 24, 0 characters</title></circle>
+<circle cx="290.7" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 24, 165 characters</title></circle>
+<circle cx="291.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 24, 22 characters</title></circle>
+<circle cx="292.2" cy="41" r="3.4" class="dot s-creator"><title>Creator's session, minute 24, 939 characters</title></circle>
+<circle cx="292.5" cy="245" r="11.0" class="dot s-retrieval"><title>Information retrieval, minute 25, 11427 characters</title></circle>
+<circle cx="292.5" cy="245" r="4.6" class="dot s-retrieval"><title>Information retrieval, minute 25, 1728 characters</title></circle>
+<circle cx="294.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 25, 22 characters</title></circle>
+<circle cx="294.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 25, 22 characters</title></circle>
+<circle cx="294.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 25, 22 characters</title></circle>
+<circle cx="296.2" cy="41" r="2.9" class="dot s-creator"><title>Creator's session, minute 25, 694 characters</title></circle>
+<circle cx="297.0" cy="109" r="8.2" class="dot s-skills"><title>Skills and their references, minute 26, 5471 characters</title></circle>
+<circle cx="297.2" cy="109" r="6.8" class="dot s-skills"><title>Skills and their references, minute 26, 3691 characters</title></circle>
+<circle cx="304.5" cy="109" r="2.5" class="dot s-skills"><title>Skills and their references, minute 27, 383 characters</title></circle>
+<circle cx="304.9" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 28, 27 characters</title></circle>
+<circle cx="306.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 28, 128 characters</title></circle>
+<circle cx="307.5" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 28, 422 characters</title></circle>
+<circle cx="309.4" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 29, 42 characters</title></circle>
+<circle cx="309.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 29, 140 characters</title></circle>
+<circle cx="310.8" cy="177" r="2.6" class="dot s-check"><title>Check tool and hooks, minute 29, 536 characters</title></circle>
+<circle cx="312.5" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 29, 34 characters</title></circle>
+<circle cx="312.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 29, 129 characters</title></circle>
+<circle cx="314.0" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 30, 516 characters</title></circle>
+<circle cx="315.6" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 30, 18 characters</title></circle>
+<circle cx="317.9" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 31, 66 characters</title></circle>
+<circle cx="319.5" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 31, 61 characters</title></circle>
+<circle cx="319.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 31, 127 characters</title></circle>
+<circle cx="321.3" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 31, 171 characters</title></circle>
+<circle cx="323.0" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 32, 51 characters</title></circle>
+<circle cx="323.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 32, 128 characters</title></circle>
+<circle cx="325.3" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 32, 172 characters</title></circle>
+<circle cx="327.0" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 33, 48 characters</title></circle>
+<circle cx="327.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 33, 134 characters</title></circle>
+<circle cx="327.7" cy="177" r="2.7" class="dot s-check"><title>Check tool and hooks, minute 33, 585 characters</title></circle>
+<circle cx="327.9" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 33, 476 characters</title></circle>
+<circle cx="329.8" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 33, 176 characters</title></circle>
+<circle cx="330.4" cy="109" r="5.4" class="dot s-skills"><title>Skills and their references, minute 34, 2351 characters</title></circle>
+<circle cx="331.1" cy="279" r="3.8" class="dot s-writes"><title>Own writes and runs, minute 34, 1160 characters</title></circle>
+<circle cx="331.5" cy="279" r="4.3" class="dot s-writes"><title>Own writes and runs, minute 34, 1492 characters</title></circle>
+<circle cx="336.7" cy="177" r="2.8" class="dot s-check"><title>Check tool and hooks, minute 35, 648 characters</title></circle>
+<circle cx="336.8" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 35, 0 characters</title></circle>
+<circle cx="336.8" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 35, 0 characters</title></circle>
+<circle cx="336.9" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 35, 0 characters</title></circle>
+<circle cx="339.5" cy="75" r="2.5" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 36, 458 characters</title></circle>
+<circle cx="341.8" cy="75" r="2.5" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 36, 347 characters</title></circle>
+<circle cx="342.1" cy="177" r="2.7" class="dot s-check"><title>Check tool and hooks, minute 36, 611 characters</title></circle>
+<circle cx="353.5" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 39, 380 characters</title></circle>
+<circle cx="358.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 40, 182 characters</title></circle>
+<circle cx="358.9" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 40, 52 characters</title></circle>
+<circle cx="361.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 41, 449 characters</title></circle>
+<circle cx="363.7" cy="279" r="2.6" class="dot s-writes"><title>Own writes and runs, minute 42, 537 characters</title></circle>
+<circle cx="364.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 42, 203 characters</title></circle>
+<circle cx="364.1" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 42, 0 characters</title></circle>
+<circle cx="375.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 44, 256 characters</title></circle>
+<circle cx="375.8" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 45, 178 characters</title></circle>
+<circle cx="376.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 45, 3 characters</title></circle>
+<circle cx="376.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 45, 26 characters</title></circle>
+<circle cx="379.8" cy="177" r="4.5" class="dot s-check"><title>Check tool and hooks, minute 45, 1656 characters</title></circle>
+<circle cx="380.5" cy="279" r="4.9" class="dot s-writes"><title>Own writes and runs, minute 46, 1984 characters</title></circle>
+<circle cx="382.9" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 46, 31 characters</title></circle>
+<circle cx="383.0" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 46, 267 characters</title></circle>
+<circle cx="383.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 46, 17 characters</title></circle>
+<circle cx="385.4" cy="245" r="5.6" class="dot s-retrieval"><title>Information retrieval, minute 47, 2517 characters</title></circle>
+<circle cx="424.1" cy="177" r="4.0" class="dot s-check"><title>Check tool and hooks, minute 56, 1292 characters</title></circle>
+<circle cx="424.4" cy="245" r="3.5" class="dot s-retrieval"><title>Information retrieval, minute 56, 973 characters</title></circle>
+<circle cx="425.1" cy="245" r="6.7" class="dot s-retrieval"><title>Information retrieval, minute 56, 3674 characters</title></circle>
+<circle cx="425.7" cy="245" r="7.8" class="dot s-retrieval"><title>Information retrieval, minute 56, 4979 characters</title></circle>
+<circle cx="426.0" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 57, 399 characters</title></circle>
+<circle cx="426.3" cy="75" r="5.4" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 57, 2367 characters</title></circle>
+<circle cx="427.4" cy="279" r="4.0" class="dot s-writes"><title>Own writes and runs, minute 57, 1270 characters</title></circle>
+<circle cx="427.8" cy="279" r="5.2" class="dot s-writes"><title>Own writes and runs, minute 57, 2212 characters</title></circle>
+<circle cx="428.6" cy="245" r="7.8" class="dot s-retrieval"><title>Information retrieval, minute 57, 4934 characters</title></circle>
+<circle cx="428.9" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 57, 379 characters</title></circle>
+<circle cx="429.0" cy="75" r="4.8" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 57, 1863 characters</title></circle>
+<circle cx="429.2" cy="245" r="5.2" class="dot s-retrieval"><title>Information retrieval, minute 57, 2174 characters</title></circle>
+<circle cx="429.5" cy="245" r="3.9" class="dot s-retrieval"><title>Information retrieval, minute 57, 1260 characters</title></circle>
+<circle cx="432.0" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 58, 142 characters</title></circle>
+<circle cx="432.3" cy="279" r="5.1" class="dot s-writes"><title>Own writes and runs, minute 58, 2073 characters</title></circle>
+<circle cx="433.1" cy="279" r="4.8" class="dot s-writes"><title>Own writes and runs, minute 58, 1891 characters</title></circle>
+<circle cx="433.8" cy="177" r="3.3" class="dot s-check"><title>Check tool and hooks, minute 58, 895 characters</title></circle>
+<circle cx="434.1" cy="245" r="3.7" class="dot s-retrieval"><title>Information retrieval, minute 58, 1084 characters</title></circle>
+<circle cx="435.1" cy="279" r="2.7" class="dot s-writes"><title>Own writes and runs, minute 59, 595 characters</title></circle>
+<circle cx="437.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 59, 147 characters</title></circle>
+<circle cx="437.7" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 59, 212 characters</title></circle>
+<circle cx="437.8" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 59, 0 characters</title></circle>
+<circle cx="438.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 59, 211 characters</title></circle>
+<circle cx="438.4" cy="245" r="3.2" class="dot s-retrieval"><title>Information retrieval, minute 60, 847 characters</title></circle>
+<circle cx="438.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 60, 223 characters</title></circle>
+<circle cx="439.0" cy="245" r="3.1" class="dot s-retrieval"><title>Information retrieval, minute 60, 758 characters</title></circle>
+<circle cx="439.8" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 60, 165 characters</title></circle>
+<circle cx="440.2" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 60, 184 characters</title></circle>
+<circle cx="440.8" cy="75" r="2.5" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 60, 432 characters</title></circle>
+<circle cx="441.1" cy="245" r="4.5" class="dot s-retrieval"><title>Information retrieval, minute 60, 1654 characters</title></circle>
+<circle cx="441.8" cy="109" r="2.5" class="dot s-skills"><title>Skills and their references, minute 60, 152 characters</title></circle>
+<circle cx="442.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 61, 360 characters</title></circle>
+<circle cx="443.1" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 61, 157 characters</title></circle>
+<circle cx="443.5" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 61, 364 characters</title></circle>
+<circle cx="444.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 61, 48 characters</title></circle>
+<circle cx="446.2" cy="75" r="2.5" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 61, 47 characters</title></circle>
+<circle cx="446.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 61, 44 characters</title></circle>
+<circle cx="505.2" cy="41" r="4.4" class="dot s-creator"><title>Creator's session, minute 76, 1600 characters</title></circle>
+<circle cx="506.1" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 76, 526 characters</title></circle>
+<circle cx="506.5" cy="245" r="10.1" class="dot s-retrieval"><title>Information retrieval, minute 76, 8311 characters</title></circle>
+<circle cx="506.8" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 76, 132 characters</title></circle>
+<circle cx="507.9" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 76, 148 characters</title></circle>
+<circle cx="517.0" cy="211" r="3.6" class="dot s-subagent"><title>Sub-agent, minute 78, 1033 characters</title></circle>
+<circle cx="522.1" cy="211" r="11.0" class="dot s-subagent"><title>Sub-agent, minute 80, 11154 characters</title></circle>
+<circle cx="522.4" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 80, 144 characters</title></circle>
+<circle cx="522.8" cy="245" r="8.7" class="dot s-retrieval"><title>Information retrieval, minute 80, 6070 characters</title></circle>
+<circle cx="524.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 80, 22 characters</title></circle>
+<circle cx="524.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 80, 22 characters</title></circle>
+<circle cx="525.7" cy="41" r="3.8" class="dot s-creator"><title>Creator's session, minute 80, 1142 characters</title></circle>
+<circle cx="526.0" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 81, 206 characters</title></circle>
+<circle cx="526.2" cy="245" r="5.5" class="dot s-retrieval"><title>Information retrieval, minute 81, 2431 characters</title></circle>
+<circle cx="526.6" cy="279" r="8.1" class="dot s-writes"><title>Own writes and runs, minute 81, 5379 characters</title></circle>
+<circle cx="527.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 81, 22 characters</title></circle>
+<circle cx="527.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 81, 22 characters</title></circle>
+<circle cx="532.3" cy="41" r="8.8" class="dot s-creator"><title>Creator's session, minute 82, 6260 characters</title></circle>
+<circle cx="535.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 83, 329 characters</title></circle>
+<circle cx="539.3" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 84, 393 characters</title></circle>
+<circle cx="539.4" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 84, 0 characters</title></circle>
+<circle cx="539.5" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 84, 0 characters</title></circle>
+<circle cx="539.5" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 84, 0 characters</title></circle>
+<circle cx="539.6" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 84, 0 characters</title></circle>
+<circle cx="539.7" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 84, 0 characters</title></circle>
+<circle cx="539.7" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 84, 0 characters</title></circle>
+<circle cx="542.4" cy="109" r="2.5" class="dot s-skills"><title>Skills and their references, minute 84, 405 characters</title></circle>
+<circle cx="542.9" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 85, 117 characters</title></circle>
+<circle cx="543.1" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 85, 256 characters</title></circle>
+<circle cx="543.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 85, 7 characters</title></circle>
+<circle cx="552.3" cy="211" r="3.6" class="dot s-subagent"><title>Sub-agent, minute 87, 1033 characters</title></circle>
+<circle cx="552.6" cy="41" r="3.5" class="dot s-creator"><title>Creator's session, minute 87, 971 characters</title></circle>
+<circle cx="553.3" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 87, 181 characters</title></circle>
+<circle cx="564.8" cy="211" r="11.0" class="dot s-subagent"><title>Sub-agent, minute 90, 14372 characters</title></circle>
+<circle cx="567.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 90, 437 characters</title></circle>
+<circle cx="568.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 91, 467 characters</title></circle>
+<circle cx="571.0" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 91, 66 characters</title></circle>
+<circle cx="574.5" cy="109" r="2.5" class="dot s-skills"><title>Skills and their references, minute 92, 301 characters</title></circle>
+<circle cx="577.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 93, 22 characters</title></circle>
+<circle cx="577.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 93, 22 characters</title></circle>
+<circle cx="577.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 93, 22 characters</title></circle>
+<circle cx="578.7" cy="41" r="3.4" class="dot s-creator"><title>Creator's session, minute 93, 916 characters</title></circle>
+<circle cx="579.1" cy="245" r="5.6" class="dot s-retrieval"><title>Information retrieval, minute 93, 2541 characters</title></circle>
+<circle cx="579.8" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 93, 22 characters</title></circle>
+<circle cx="580.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 93, 22 characters</title></circle>
+<circle cx="591.2" cy="279" r="4.7" class="dot s-writes"><title>Own writes and runs, minute 96, 1795 characters</title></circle>
+<circle cx="593.8" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 97, 96 characters</title></circle>
+<circle cx="593.9" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 97, 401 characters</title></circle>
+<circle cx="595.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 97, 153 characters</title></circle>
+<circle cx="595.8" cy="279" r="2.8" class="dot s-writes"><title>Own writes and runs, minute 97, 640 characters</title></circle>
+<circle cx="596.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 97, 31 characters</title></circle>
+<circle cx="596.8" cy="279" r="3.3" class="dot s-writes"><title>Own writes and runs, minute 97, 907 characters</title></circle>
+<circle cx="597.1" cy="279" r="3.3" class="dot s-writes"><title>Own writes and runs, minute 98, 868 characters</title></circle>
+<circle cx="597.8" cy="279" r="3.2" class="dot s-writes"><title>Own writes and runs, minute 98, 853 characters</title></circle>
+<circle cx="598.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 98, 283 characters</title></circle>
+<circle cx="599.7" cy="177" r="2.9" class="dot s-check"><title>Check tool and hooks, minute 98, 697 characters</title></circle>
+<circle cx="599.9" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 98, 65 characters</title></circle>
+<circle cx="600.1" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 98, 0 characters</title></circle>
+<circle cx="600.9" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 98, 123 characters</title></circle>
+<circle cx="600.9" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 98, 0 characters</title></circle>
+<circle cx="601.7" cy="177" r="2.9" class="dot s-check"><title>Check tool and hooks, minute 99, 661 characters</title></circle>
+<circle cx="602.7" cy="75" r="2.5" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 99, 49 characters</title></circle>
+<circle cx="603.2" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 99, 74 characters</title></circle>
+<circle cx="603.8" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 99, 96 characters</title></circle>
+<circle cx="603.9" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 99, 179 characters</title></circle>
+<circle cx="604.4" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 99, 168 characters</title></circle>
+<circle cx="605.0" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 99, 155 characters</title></circle>
+<circle cx="606.9" cy="75" r="2.5" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 100, 91 characters</title></circle>
+<circle cx="623.1" cy="279" r="3.6" class="dot s-writes"><title>Own writes and runs, minute 104, 1056 characters</title></circle>
+<circle cx="641.4" cy="75" r="3.3" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 108, 858 characters</title></circle>
+<circle cx="642.1" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 108, 123 characters</title></circle>
+<circle cx="642.1" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 108, 0 characters</title></circle>
+<circle cx="643.6" cy="75" r="2.5" class="dot s-guidance"><title>AGENTS.md, plan, entry file, minute 109, 341 characters</title></circle>
+<circle cx="692.8" cy="109" r="5.0" class="dot s-skills"><title>Skills and their references, minute 120, 1990 characters</title></circle>
+<circle cx="693.6" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 121, 361 characters</title></circle>
+<circle cx="694.3" cy="279" r="7.2" class="dot s-writes"><title>Own writes and runs, minute 121, 4214 characters</title></circle>
+<circle cx="695.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 121, 331 characters</title></circle>
+<circle cx="696.0" cy="177" r="2.5" class="dot s-check"><title>Check tool and hooks, minute 121, 205 characters</title></circle>
+<circle cx="697.8" cy="279" r="4.8" class="dot s-writes"><title>Own writes and runs, minute 122, 1896 characters</title></circle>
+<circle cx="699.1" cy="279" r="4.1" class="dot s-writes"><title>Own writes and runs, minute 122, 1334 characters</title></circle>
+<circle cx="700.3" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 122, 156 characters</title></circle>
+<circle cx="700.8" cy="279" r="2.7" class="dot s-writes"><title>Own writes and runs, minute 122, 612 characters</title></circle>
+<circle cx="701.2" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 122, 313 characters</title></circle>
+<circle cx="701.2" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 122, 0 characters</title></circle>
+<circle cx="702.0" cy="109" r="2.5" class="dot s-skills"><title>Skills and their references, minute 123, 449 characters</title></circle>
+<circle cx="740.3" cy="245" r="3.5" class="dot s-retrieval"><title>Information retrieval, minute 132, 983 characters</title></circle>
+<circle cx="740.9" cy="245" r="9.3" class="dot s-retrieval"><title>Information retrieval, minute 132, 7028 characters</title></circle>
+<circle cx="741.3" cy="245" r="7.4" class="dot s-retrieval"><title>Information retrieval, minute 132, 4485 characters</title></circle>
+<circle cx="742.5" cy="279" r="2.5" class="dot s-writes"><title>Own writes and runs, minute 132, 141 characters</title></circle>
+<circle cx="742.8" cy="245" r="2.5" class="dot s-retrieval"><title>Information retrieval, minute 132, 265 characters</title></circle>
+<circle cx="743.2" cy="245" r="4.8" class="dot s-retrieval"><title>Information retrieval, minute 133, 1839 characters</title></circle>
+<circle cx="743.7" cy="279" r="3.5" class="dot s-writes"><title>Own writes and runs, minute 133, 968 characters</title></circle>
+<line x1="190" y1="20" x2="190" y2="298" class="tick"/>
+<text x="190" y="314" text-anchor="middle" class="lbl">0</text>
+<line x1="231.73572397167396" y1="20" x2="231.73572397167396" y2="298" class="tick"/>
+<text x="231.73572397167396" y="314" text-anchor="middle" class="lbl">10</text>
+<line x1="273.4714479433479" y1="20" x2="273.4714479433479" y2="298" class="tick"/>
+<text x="273.4714479433479" y="314" text-anchor="middle" class="lbl">20</text>
+<line x1="315.20717191502183" y1="20" x2="315.20717191502183" y2="298" class="tick"/>
+<text x="315.20717191502183" y="314" text-anchor="middle" class="lbl">30</text>
+<line x1="356.9428958866958" y1="20" x2="356.9428958866958" y2="298" class="tick"/>
+<text x="356.9428958866958" y="314" text-anchor="middle" class="lbl">40</text>
+<line x1="398.67861985836976" y1="20" x2="398.67861985836976" y2="298" class="tick"/>
+<text x="398.67861985836976" y="314" text-anchor="middle" class="lbl">50</text>
+<line x1="440.41434383004366" y1="20" x2="440.41434383004366" y2="298" class="tick"/>
+<text x="440.41434383004366" y="314" text-anchor="middle" class="lbl">60</text>
+<line x1="482.1500678017176" y1="20" x2="482.1500678017176" y2="298" class="tick"/>
+<text x="482.1500678017176" y="314" text-anchor="middle" class="lbl">70</text>
+<line x1="523.8857917733916" y1="20" x2="523.8857917733916" y2="298" class="tick"/>
+<text x="523.8857917733916" y="314" text-anchor="middle" class="lbl">80</text>
+<line x1="565.6215157450655" y1="20" x2="565.6215157450655" y2="298" class="tick"/>
+<text x="565.6215157450655" y="314" text-anchor="middle" class="lbl">90</text>
+<line x1="607.3572397167395" y1="20" x2="607.3572397167395" y2="298" class="tick"/>
+<text x="607.3572397167395" y="314" text-anchor="middle" class="lbl">100</text>
+<line x1="649.0929636884134" y1="20" x2="649.0929636884134" y2="298" class="tick"/>
+<text x="649.0929636884134" y="314" text-anchor="middle" class="lbl">110</text>
+<line x1="690.8286876600873" y1="20" x2="690.8286876600873" y2="298" class="tick"/>
+<text x="690.8286876600873" y="314" text-anchor="middle" class="lbl">120</text>
+<line x1="732.5644116317613" y1="20" x2="732.5644116317613" y2="298" class="tick"/>
+<text x="732.5644116317613" y="314" text-anchor="middle" class="lbl">130</text>
+<text x="744" y="330" text-anchor="end" class="lbl">minutes of work</text>
+</svg>
+      <figcaption>Each dot is one tool result or message. The row says where it came from; a larger dot is a longer text. The creator's session (first row) speaks rarely; most of the time the assistant reads guidance, runs checks and works on the app.</figcaption>
+    </figure>
+
+    <h2>How much each source gave</h2>
+    <figure>
+<svg viewBox="0 0 760 234" role="img" aria-labelledby="bar-t bar-d" class="chart">
+<title id="bar-t">How much text each source gave</title>
+<desc id="bar-d">One bar per source, as a share of all 435829 characters that reached the assistant.</desc>
+<text x="180" y="21" text-anchor="end" class="lbl">Creator's session</text>
+<rect x="190" y="7" width="40.9" height="18" rx="3" class="bar s-creator"/>
+<text x="238.90709888511321" y="21" class="lbl">8 %</text>
+<text x="180" y="49" text-anchor="end" class="lbl">AGENTS.md, plan, entry file</text>
+<rect x="190" y="35" width="44.7" height="18" rx="3" class="bar s-guidance"/>
+<text x="242.69184014831507" y="49" class="lbl">9 %</text>
+<text x="180" y="77" text-anchor="end" class="lbl">Skills and their references</text>
+<rect x="190" y="63" width="153.1" height="18" rx="3" class="bar s-skills"/>
+<text x="351.0772390088773" y="77" class="lbl">31 %</text>
+<text x="180" y="105" text-anchor="end" class="lbl">Platform data (map, schemas)</text>
+<rect x="190" y="91" width="31.8" height="18" rx="3" class="bar s-data"/>
+<text x="229.81064132951226" y="105" class="lbl">6 %</text>
+<text x="180" y="133" text-anchor="end" class="lbl">Check tool and hooks</text>
+<rect x="190" y="119" width="25.1" height="18" rx="3" class="bar s-check"/>
+<text x="223.08552666298021" y="133" class="lbl">5 %</text>
+<text x="180" y="161" text-anchor="end" class="lbl">Sub-agent</text>
+<rect x="190" y="147" width="49.8" height="18" rx="3" class="bar s-subagent"/>
+<text x="247.7649307411852" y="161" class="lbl">10 %</text>
+<text x="180" y="189" text-anchor="end" class="lbl">Information retrieval</text>
+<rect x="190" y="175" width="93.2" height="18" rx="3" class="bar s-retrieval"/>
+<text x="291.19939701121314" y="189" class="lbl">19 %</text>
+<text x="180" y="217" text-anchor="end" class="lbl">Own writes and runs</text>
+<rect x="190" y="203" width="61.5" height="18" rx="3" class="bar s-writes"/>
+<text x="259.4633262128036" y="217" class="lbl">12 %</text>
+</svg>
+      <figcaption>Share of the 435.8k characters that reached the assistant as tool results or messages. Text the assistant wrote itself is not counted.</figcaption>
+    </figure>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th scope="col">Source</th><th scope="col">Events</th><th scope="col">Characters</th><th scope="col">Share</th><th scope="col">What counts</th></tr></thead>
+        <tbody>
+<tr><th scope="row"><span class="sw s-creator" aria-hidden="true"></span>Creator's session</th><td>15</td><td>35.7k</td><td>8 %</td><td>What the creator decided or answered, and the tasks it gave (a review, changes, measurements).</td></tr>
+<tr><th scope="row"><span class="sw s-guidance" aria-hidden="true"></span>AGENTS.md, plan, entry file</th><td>14</td><td>39.0k</td><td>9 %</td><td>AGENTS.md, the plan file and the entry file llms.txt.</td></tr>
+<tr><th scope="row"><span class="sw s-skills" aria-hidden="true"></span>Skills and their references</th><td>31</td><td>133.4k</td><td>31 %</td><td>Skill files read in the app, and skill files and references that the creator's session passed on.</td></tr>
+<tr><th scope="row"><span class="sw s-data" aria-hidden="true"></span>Platform data (map, schemas)</th><td>2</td><td>27.7k</td><td>6 %</td><td>The learning map and schemas.</td></tr>
+<tr><th scope="row"><span class="sw s-check" aria-hidden="true"></span>Check tool and hooks</th><td>44</td><td>21.9k</td><td>5 %</td><td>Output of lernapps init, create, check, screenshots, the build and the git hooks.</td></tr>
+<tr><th scope="row"><span class="sw s-subagent" aria-hidden="true"></span>Sub-agent</th><td>6</td><td>43.4k</td><td>10 %</td><td>Reports of the learner checks and of the review.</td></tr>
+<tr><th scope="row"><span class="sw s-retrieval" aria-hidden="true"></span>Information retrieval</th><td>66</td><td>81.2k</td><td>19 %</td><td>Looking things up: the web and GitHub (clone, fetch, read-only API calls, repository lists), and reading or listing the app's own files.</td></tr>
+<tr><th scope="row"><span class="sw s-writes" aria-hidden="true"></span>Own writes and runs</th><td>111</td><td>53.6k</td><td>12 %</td><td>Results of what the assistant did: files written or edited, commands that change or run the app, messages sent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Information retrieval splits into 11 results from the web or GitHub (24.1k characters) and 55 from reading the app's own files (57.1k). The web and GitHub results are repository access, listings and read-only calls. The assistant fetched nothing from the open web in this run: it could not open lernapps.net, and the creator's session passed on the documents it needed.</p>
+
+    <h2>Reviews and checks in this run</h2>
+    <p>3 sub-agent runs, each in a fresh context. The numbers come from the log; what they found is from their reports.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th scope="col">Run</th><th scope="col">Minutes</th><th scope="col">Tool calls</th><th scope="col">Tokens</th></tr></thead>
+        <tbody>
+<tr><th scope="row">Learner check page 1</th><td>5.2</td><td>13</td><td>94k</td></tr>
+<tr><th scope="row">Review the app at a commit</th><td>3.2</td><td>21</td><td>154k</td></tr>
+<tr><th scope="row">Play whole app as learner</th><td>5.0</td><td>34</td><td>141k</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Learner check of the pattern page</strong> (before the creator saw it): the sub-agent used page 1 as a child of class 5 and found about a dozen places where a learner gets stuck: unexplained words (Artikel, Voilà, Vokal), a figure whose markers hid the objects, missing error messages. All were fixed before the page was shown.</li>
+      <li><strong>Review of the committed app</strong> (<code>review/prompt.md</code> with the rubric, no listing pull request): verdict <b>pass</b> with 0 errors, 2 warnings and 6 hints (one warning is a proposed new rule). The findings the checks had not decided: a scope that named a date the page did not use, wrong "last page" references, an article rule that later pages broke, numbers 21 to 69 missing under the title "0 à 100", a licence question, and 4888 files of <code>node_modules/</code> that had been committed. It did not notice that the two story children were nowhere in the drawings.</li>
+      <li><strong>Walkthrough of the whole app</strong> as a child of class 5, from the start page to the last page: it found where pages did not fit together. A calendar showed Saturday while the text said Monday, three pages named the wrong page before them, a picture showed a book where the text said a pencil case, words were asked before they were taught (salut, le français, 0, 21 to 69), and the story jumped between places. Most were fixed in one commit.</li>
+    </ul>
+    <p><code>lernapps check</code> passed on the final state of each step and flagged none of these. The review and the learner checks found what the program could not decide: whether the pages fit together for a child.</p>
+
+    <h2>What this does and does not show</h2>
+    <ul>
+      <li>The counts come from the session log, with <a href="https://github.com/lernapps/tooling/blob/main/scripts/session-analysis.ts"><code>scripts/session-analysis.ts</code></a>. They contain no text of the session.</li>
+      <li>The creator's session passed on 14 files (entry file, skills, references, rules, template README, schema). They are counted as skills, guidance or data, not as the creator's decisions. The creator's own messages are counted as answers (to the assistant's questions) or tasks (a review, changes to the app, measurements).</li>
+      <li>"Characters" measure how much text arrived, not how much it helped. A long skill file counts more than a short answer that decided the content.</li>
+      <li>Results of tools named with <code>--leave-out</code> (by default the Artifact tool, whose built-in guidance decides nothing) are not counted. The text of the tool that attaches a repository is counted as GitHub retrieval.</li>
+      <li>Time is active time: a wait of more than 15 minutes between two entries of the log counts as one minute.</li>
+      <li>In this run the assistant was not allowed to open addresses of lernapps.net or to install skills. That is why the creator's session passed on the files. In a normal run they come from the package and from the app's folders.</li>
+      <li>The session waited overnight between the first work and the reviews.</li>
+      <li>One run is an example, not a result. The evals described under <a href="../how-evals-work/">How we evaluate the guidance</a> repeat runs and score them.</li>
+    </ul>
+
+    <h2>Repeat it</h2>
+    <pre><code>node scripts/session-analysis-run.ts --page index.html [--notes notes.json]</code></pre>
+  </main>
+</body>
+</html>

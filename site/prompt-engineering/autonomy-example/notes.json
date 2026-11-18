@@ -1,0 +1,15 @@
+{
+  "title": "A highly autonomous run, measured",
+  "lead": "One session in which an assistant built a French explainer for class 5 from the guidance of this repository. A simulated creator answered its questions and later asked for a review, changes and measurements. This page counts how much the creator had to say, where the assistant got its information, and what the reviews and checks of the run found.",
+  "retrievalNote": "The assistant fetched nothing from the open web in this run: it could not open lernapps.net, and the creator's session passed on the documents it needed.",
+  "findings": [
+    "<strong>Learner check of the pattern page</strong> (before the creator saw it): the sub-agent used page 1 as a child of class 5 and found about a dozen places where a learner gets stuck: unexplained words (Artikel, Voilà, Vokal), a figure whose markers hid the objects, missing error messages. All were fixed before the page was shown.",
+    "<strong>Review of the committed app</strong> (<code>review/prompt.md</code> with the rubric, no listing pull request): {{verdict}} The findings the checks had not decided: a scope that named a date the page did not use, wrong \"last page\" references, an article rule that later pages broke, numbers 21 to 69 missing under the title \"0 à 100\", a licence question, and 4888 files of <code>node_modules/</code> that had been committed. It did not notice that the two story children were nowhere in the drawings.",
+    "<strong>Walkthrough of the whole app</strong> as a child of class 5, from the start page to the last page: it found where pages did not fit together. A calendar showed Saturday while the text said Monday, three pages named the wrong page before them, a picture showed a book where the text said a pencil case, words were asked before they were taught (salut, le français, 0, 21 to 69), and the story jumped between places. Most were fixed in one commit."
+  ],
+  "findingsNote": "<code>lernapps check</code> passed on the final state of each step and flagged none of these. The review and the learner checks found what the program could not decide: whether the pages fit together for a child.",
+  "limits": [
+    "In this run the assistant was not allowed to open addresses of lernapps.net or to install skills. That is why the creator's session passed on the files. In a normal run they come from the package and from the app's folders.",
+    "The session waited overnight between the first work and the reviews."
+  ]
+}
