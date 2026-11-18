@@ -22,8 +22,10 @@ const NOTE: Record<Source, string> = {
   data: "The learning map and schemas.",
   check: "Output of lernapps init, create, check, screenshots, the build and the git hooks.",
   subagent: "Reports of the learner checks and of the review.",
-  retrieval: "Looking things up: the web and GitHub (clone, fetch, read-only API calls, repository lists), and reading or listing the app's own files.",
-  writes: "Results of what the assistant did: files written or edited, commands that change or run the app, messages sent.",
+  retrieval:
+    "Looking things up: the web and GitHub (clone, fetch, read-only API calls, repository lists), and reading or listing the app's own files.",
+  writes:
+    "Results of what the assistant did: files written or edited, commands that change or run the app, messages sent.",
 };
 
 const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -76,13 +78,19 @@ function bars(a: Analysis): string {
   const out: string[] = [];
   out.push(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="bar-t bar-d" class="chart">`);
   out.push(`<title id="bar-t">How much text each source gave</title>`);
-  out.push(`<desc id="bar-d">One bar per source, as a share of all ${total} characters that reached the assistant.</desc>`);
+  out.push(
+    `<desc id="bar-d">One bar per source, as a share of all ${total} characters that reached the assistant.</desc>`,
+  );
   SOURCES.forEach((s, i) => {
     const y = 4 + i * row;
     const w = (a.bySource[s].chars / total) * (W - left - 70);
     out.push(`<text x="${left - 10}" y="${y + 17}" text-anchor="end" class="lbl">${esc(LABEL[s])}</text>`);
-    out.push(`<rect x="${left}" y="${y + 3}" width="${Math.max(1, w).toFixed(1)}" height="18" rx="3" class="bar s-${s}"/>`);
-    out.push(`<text x="${left + Math.max(1, w) + 8}" y="${y + 17}" class="lbl">${pct(a.bySource[s].chars, total)}</text>`);
+    out.push(
+      `<rect x="${left}" y="${y + 3}" width="${Math.max(1, w).toFixed(1)}" height="18" rx="3" class="bar s-${s}"/>`,
+    );
+    out.push(
+      `<text x="${left + Math.max(1, w) + 8}" y="${y + 17}" class="lbl">${pct(a.bySource[s].chars, total)}</text>`,
+    );
   });
   out.push(`</svg>`);
   return out.join("\n");
@@ -117,7 +125,7 @@ export function page(a: Analysis, notes: PageNotes = {}): string {
   const web = sum("web");
   const own = sum("own files");
   const retrievalText = `Information retrieval splits into ${web.n} results from the web or GitHub (${kchars(web.chars)} characters) and ${own.n} from reading the app's own files (${kchars(own.chars)}). The web and GitHub results are repository access, listings and read-only calls.${notes.retrievalNote ? " " + notes.retrievalNote : ""}`;
-  
+
   const agentRows = a.agents
     .map(
       (r) =>

@@ -19,9 +19,24 @@ import { dirname, join, resolve } from "node:path";
 import { analyse, SOURCES, type Analysis, type Source } from "./session-analysis.ts";
 import { page, type PageNotes } from "./session-analysis-page.ts";
 
-const FLAGS_WITH_VALUE = ["--session", "--projects-dir", "--cwd", "--out", "--page", "--notes", "--leave-out", "--max-gap", "--task-pattern"];
+const FLAGS_WITH_VALUE = [
+  "--session",
+  "--projects-dir",
+  "--cwd",
+  "--out",
+  "--page",
+  "--notes",
+  "--leave-out",
+  "--max-gap",
+  "--task-pattern",
+];
 
-function parseArgs(argv: readonly string[]): { values: Map<string, string>; list: boolean; help: boolean; events: boolean } {
+function parseArgs(argv: readonly string[]): {
+  values: Map<string, string>;
+  list: boolean;
+  help: boolean;
+  events: boolean;
+} {
   const values = new Map<string, string>();
   let list = false;
   let help = false;
@@ -96,21 +111,21 @@ function summary(a: Analysis, file: string): string {
     ``,
   );
   lines.push(`| Source | Events | Characters | Share |`, `|---|---|---|---|`);
-  for (const s of SOURCES) lines.push(`| ${s} | ${a.bySource[s].events} | ${kchars(a.bySource[s].chars)} | ${pct(s)} |`);
+  for (const s of SOURCES)
+    lines.push(`| ${s} | ${a.bySource[s].events} | ${kchars(a.bySource[s].chars)} | ${pct(s)} |`);
   const web = a.events.filter((e) => e.source === "retrieval" && e.detail === "web");
   const own = a.events.filter((e) => e.source === "retrieval" && e.detail === "own files");
-  lines.push(
-    ``,
-    `Retrieval: ${web.length} results from the web or GitHub, ${own.length} from reading own files.`,
-    ``,
-  );
+  lines.push(``, `Retrieval: ${web.length} results from the web or GitHub, ${own.length} from reading own files.`, ``);
   if (a.agents.length > 0) {
     lines.push(`| Sub-agent run | Minutes | Tool calls | Tokens |`, `|---|---|---|---|`);
-    for (const r of a.agents) lines.push(`| ${r.description} | ${r.minutes.toFixed(1)} | ${r.toolUses} | ${kchars(r.tokens)} |`);
+    for (const r of a.agents)
+      lines.push(`| ${r.description} | ${r.minutes.toFixed(1)} | ${r.toolUses} | ${kchars(r.tokens)} |`);
     lines.push(``);
   }
   for (const v of a.verdicts) {
-    lines.push(`Review verdict: ${v.outcome}, ${v.errors} errors, ${v.warnings} warnings, ${v.hints} hints, ${v.proposals} proposals.`);
+    lines.push(
+      `Review verdict: ${v.outcome}, ${v.errors} errors, ${v.warnings} warnings, ${v.hints} hints, ${v.proposals} proposals.`,
+    );
   }
   return lines.join("\n") + "\n";
 }
@@ -118,7 +133,13 @@ function summary(a: Analysis, file: string): string {
 function main(): void {
   const { values, list, help, events } = parseArgs(process.argv.slice(2));
   if (help) {
-    console.log(readFileSync(new URL(import.meta.url), "utf8").split("\n").filter((l) => l.startsWith("//")).map((l) => l.slice(3)).join("\n"));
+    console.log(
+      readFileSync(new URL(import.meta.url), "utf8")
+        .split("\n")
+        .filter((l) => l.startsWith("//"))
+        .map((l) => l.slice(3))
+        .join("\n"),
+    );
     return;
   }
   const projectsDir = values.get("--projects-dir") ?? join(homedir(), ".claude", "projects");
@@ -144,7 +165,9 @@ function main(): void {
   mkdirSync(out, { recursive: true });
   writeFileSync(join(out, "analysis.json"), JSON.stringify(result, null, 2) + "\n");
   writeFileSync(join(out, "summary.md"), summary(result, log.file));
-  console.log(`log: ${log.file} (changed ${new Date(log.modified).toISOString()}, ${(log.bytes / 1024).toFixed(0)} kB)`);
+  console.log(
+    `log: ${log.file} (changed ${new Date(log.modified).toISOString()}, ${(log.bytes / 1024).toFixed(0)} kB)`,
+  );
   console.log(`wrote ${join(out, "analysis.json")} and ${join(out, "summary.md")}`);
 
   const pageFile = values.get("--page");
@@ -158,7 +181,9 @@ function main(): void {
   console.log(summary(result, log.file));
   if (events) {
     for (const e of result.events) {
-      console.log(`${e.t.toFixed(1).padStart(6)}  ${e.source.padEnd(10)} ${e.kind.padEnd(34)} ${(e.detail ?? "").padEnd(16)} ${e.chars}`);
+      console.log(
+        `${e.t.toFixed(1).padStart(6)}  ${e.source.padEnd(10)} ${e.kind.padEnd(34)} ${(e.detail ?? "").padEnd(16)} ${e.chars}`,
+      );
     }
   }
 }

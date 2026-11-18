@@ -4,7 +4,7 @@
 # in examples/, as their build wrote them), the page A workshop, not a factory (workshop/: who does what
 # in which phase, rendered by scripts/workshop.ts from the building blocks), the page GitHub, explained (github/), the page Prompt
 # engineering with the eval runs (prompt-engineering/, rendered by evals/site.ts from evals/runs/; evals/ redirects
-# to it) and its page How we evaluate the guidance (prompt-engineering/how-evals-work/), llms.txt, the rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the
+# to it) and its pages How we evaluate the guidance (prompt-engineering/how-evals-work/) and A highly autonomous run, measured (prompt-engineering/autonomy-example/, rendered by scripts/session-analysis-run.ts), llms.txt, the rule page (rules/, read from the artifacts by scripts/rules.ts), the JSON Schemas of the
 # validation report and of the review verdict (schemas/) and the architecture (arc42, docs/arc42/) as the arc42 web
 # app. The schemas of a quiz's question bank and of an explainer's content are not published: they live with their
 # runtimes in lernapps/app-templates, in the app's node_modules, where its YAML and JSON files point to them.
@@ -31,6 +31,8 @@ cp site/assistants/index.html _site/assistants/
 mkdir -p _site/prompt-engineering/how-evals-work _site/evals
 node evals/site.ts page _site/prompt-engineering
 cp site/prompt-engineering/how-evals-work/index.html _site/prompt-engineering/how-evals-work/
+mkdir -p _site/prompt-engineering/autonomy-example
+cp site/prompt-engineering/autonomy-example/index.html _site/prompt-engineering/autonomy-example/
 cp site/evals/index.html _site/evals/
 mkdir -p _site/schemas
 cp check/validation-report.v1.schema.json review/verdict.v1.schema.json _site/schemas/

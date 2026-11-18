@@ -10,7 +10,16 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 export type Source = "creator" | "guidance" | "skills" | "data" | "check" | "subagent" | "retrieval" | "writes";
 
-export const SOURCES: readonly Source[] = ["creator", "guidance", "skills", "data", "check", "subagent", "retrieval", "writes"];
+export const SOURCES: readonly Source[] = [
+  "creator",
+  "guidance",
+  "skills",
+  "data",
+  "check",
+  "subagent",
+  "retrieval",
+  "writes",
+];
 
 export interface Event {
   /** Minutes since the first message. */
@@ -91,9 +100,7 @@ const asString = (v: unknown): string => (typeof v === "string" ? v : "");
 function textOf(content: unknown): string {
   if (typeof content === "string") return content;
   if (!Array.isArray(content)) return "";
-  return content
-    .map((b) => (isObject(b) ? asString(b.text) || textOf(b.content) : ""))
-    .join("\n");
+  return content.map((b) => (isObject(b) ? asString(b.text) || textOf(b.content) : "")).join("\n");
 }
 
 function relayedKind(body: string): string {
@@ -104,7 +111,8 @@ function relayedKind(body: string): string {
   if (/"\$schema"/.test(b)) return "schema";
   if (/Lernlandkarte|^- strand: /m.test(b)) return "learning map";
   if (/^```rule/m.test(b) || /^## `[a-z-]+`:/m.test(b)) return "rules";
-  if (/^# (Blocks|Exercises|Structure|Language tasks|Explainer runtime|Sub-agent brief)/m.test(b)) return "skill reference";
+  if (/^# (Blocks|Exercises|Structure|Language tasks|Explainer runtime|Sub-agent brief)/m.test(b))
+    return "skill reference";
   if (/<svg /.test(b)) return "figure";
   return "file";
 }
@@ -120,7 +128,7 @@ function innerMessage(body: string): string {
 function classifyCrossSession(raw: string, taskPattern: RegExp): { source: Source; detail: string; relayed?: boolean } {
   const body = innerMessage(raw);
   const b = body.replace(/^\s+/gm, "").trim();
-  if (/^Hinweis: Die Original-Datei/.test(b)) return { source: "data", detail: "learning map", relayed: true };
+  if (b.startsWith("Hinweis: Die Original-Datei")) return { source: "data", detail: "learning map", relayed: true };
   if (/^(#|---|\{|<svg)/.test(b)) {
     const detail = relayedKind(body);
     const source: Source =
@@ -149,11 +157,13 @@ function classifyTool(name: string, input: Json): { source: Source; kind: string
       /lernapps(_audio)?[ .a-z_-]*\b(check|create|screenshots)\b|lernapps_audio\.py|@lernapps\/tooling|vp (build|test)|git commit/.test(
         command,
       );
-    if (name === "Bash" && !toolRun && reachesOut(command)) return { source: "retrieval", kind: "Bash:web or GitHub", detail: "web" };
+    if (name === "Bash" && !toolRun && reachesOut(command))
+      return { source: "retrieval", kind: "Bash:web or GitHub", detail: "web" };
     const writes = name === "Bash" && !toolRun && !readsOnly(command);
     if (writes) return { source: "writes", kind: "Bash:own work" };
     if (/\.agents\/skills\/|\.claude\/skills\//.test(target)) return { source: "skills", kind: `${name}:skill file` };
-    if (/AGENTS\.md|CLAUDE\.md|\.vibe\/plans\//.test(target)) return { source: "guidance", kind: `${name}:AGENTS.md or plan` };
+    if (/AGENTS\.md|CLAUDE\.md|\.vibe\/plans\//.test(target))
+      return { source: "guidance", kind: `${name}:AGENTS.md or plan` };
   }
   if (name === "Skill") return { source: "skills", kind: "Skill" };
   if (name === "Bash") {
@@ -170,7 +180,8 @@ function classifyTool(name: string, input: Json): { source: Source; kind: string
     return { source: "retrieval", kind: "Bash:read", detail: "own files" };
   }
   if (name === "Agent") return { source: "subagent", kind: "Agent" };
-  if (name === "Read" || name === "Grep" || name === "Glob") return { source: "retrieval", kind: name, detail: "own files" };
+  if (name === "Read" || name === "Grep" || name === "Glob")
+    return { source: "retrieval", kind: name, detail: "own files" };
   if (name === "WebFetch" || name === "WebSearch" || /^mcp__claude-code-remote__(list_repos|add_repo)$/.test(name)) {
     return { source: "retrieval", kind: name, detail: "web" };
   }
@@ -216,8 +227,10 @@ export function analyse(raw: string, options: Options = {}): Analysis {
   const stamp = (o: Json) => Date.parse(asString(o.timestamp));
   // Active time: a gap of more than 15 minutes between two entries (the session waited) counts as one minute.
   const MAX_GAP = (options.maxGapMinutes ?? 15) * 60000;
-  const sorted = rows.map(stamp).filter((n) => !Number.isNaN(n)).sort((a, b) => a - b);
-  const start = sorted[0] ?? 0;
+  const sorted = rows
+    .map(stamp)
+    .filter((n) => !Number.isNaN(n))
+    .sort((a, b) => a - b);
   const active: number[] = [];
   let sum = 0;
   sorted.forEach((n, i) => {
@@ -232,7 +245,7 @@ export function analyse(raw: string, options: Options = {}): Analysis {
   };
 
   const uses = new Map<string, { name: string; input: Json }>();
-    const toolCallsByName: Record<string, number> = {};
+  const toolCallsByName: Record<string, number> = {};
   const events: Event[] = [];
   const agents: AgentRun[] = [];
   const verdicts: Verdict[] = [];
@@ -303,11 +316,18 @@ export function analyse(raw: string, options: Options = {}): Analysis {
         // Tools named in `leaveOut` (by default the Artifact tool) are not counted.
         if (leaveOut.includes(use.name)) continue;
         const c = classifyTool(use.name, use.input);
-        events.push({ t, source: c.source, chars: text.length, kind: c.kind, ...(c.detail !== undefined ? { detail: c.detail } : {}) });
+        events.push({
+          t,
+          source: c.source,
+          chars: text.length,
+          kind: c.kind,
+          ...(c.detail !== undefined ? { detail: c.detail } : {}),
+        });
       } else if (b.type === "text") {
         const text = asString(b.text);
         // A person's own chat messages are left out. A report of a sub-agent is counted.
-        if (origin === "peer") events.push({ t, source: "subagent", chars: text.length, kind: "report of a sub-agent" });
+        if (origin === "peer")
+          events.push({ t, source: "subagent", chars: text.length, kind: "report of a sub-agent" });
       }
     }
   }
