@@ -141,8 +141,12 @@ Drei Teile:
 - Entscheidung des Erstellers: Die Regeln zum Zeichnen von Personen werden gelockert: eine Geschichte braucht keine Person,
   gerade in höheren Stufen; die Zeichenregel gilt nur, wo die Geschichte gezeichnete Kinder hat. Ein Beispiel-SVG mit
   zwei Figuren liegt als Vorlage in `exercise-patterns/references/story-characters.svg`.
-- Offen: Lerner-Check mit Browser für alle Seiten und im Review (Plan und `review/prompt.md`); Check gegen
-  `node_modules` im Repo.
+- Entscheidung des Erstellers: Am Ende der Code-Phase einmal die ganze App komplett durchspielen und den Zusammenhang der
+  Seiten prüfen (nicht ein Lerner-Check je Seite). Umgesetzt: Abschnitt "Whole-app check" in
+  `guidance/subagent-brief.md`, ein Plan-Schritt am Ende von Code, derselbe Lauf im Review (`review/prompt.md`, wo der
+  Agent Befehle ausführen kann). Außerdem Check `no-committed-dependencies` (Regel in `lernapps-commit`, Scope listing,
+  Warnung) gegen verfolgte Dateien unter `node_modules/`.
+- Die Figuren der Vorlage haben bereits einen Körper (Kopf und weicher Rumpf wie in francais-1).
 
 ## Commit
 ### Tasks
