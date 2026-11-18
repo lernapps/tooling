@@ -49,7 +49,8 @@ license: MIT
   [computer science](references/computer-science.md), [foreign languages](references/foreign-languages.md). Another
   subject: the one closest to it.
 - Explainer: read [references/page-structures.md](references/page-structures.md) when you plan the sections of a
-  page; any archetype with figures: [references/figures.md](references/figures.md).
+  page; any archetype with figures: [references/figures.md](references/figures.md), for a story with drawn children
+  the template [references/story-characters.svg](references/story-characters.svg).
 - Write each pattern into "Content method": name, kind of competency, form in the archetype (what is fixed, what
   varies), one example, data file. In Code it goes into the content guide.
 
