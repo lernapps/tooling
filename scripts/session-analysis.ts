@@ -117,7 +117,7 @@ function innerMessage(body: string): string {
 }
 
 /** A message of the creator's session is a document it passed on, or the creator's own word: an answer or a task. */
-function classifyCrossSession(raw: string): { source: Source; detail: string; relayed?: boolean } {
+function classifyCrossSession(raw: string, taskPattern: RegExp): { source: Source; detail: string; relayed?: boolean } {
   const body = innerMessage(raw);
   const b = body.replace(/^\s+/gm, "").trim();
   if (/^Hinweis: Die Original-Datei/.test(b)) return { source: "data", detail: "learning map", relayed: true };
@@ -131,7 +131,7 @@ function classifyCrossSession(raw: string): { source: Source; detail: string; re
           : "skills";
     return { source, detail, relayed: true };
   }
-  return { source: "creator", detail: /^(Auftrag|Ergänzung)/.test(b) ? "task" : "answer" };
+  return { source: "creator", detail: taskPattern.test(b) ? "task" : "answer" };
 }
 
 /** Reaching out for information on the web or on GitHub: a clone, a fetch, a read-only API call, a page. */
@@ -191,7 +191,18 @@ function countVerdict(text: string): Verdict | null {
   };
 }
 
-export function analyse(raw: string): Analysis {
+export interface Options {
+  /** Names of tools whose results are not counted. Default: the Artifact tool, whose built-in guidance decides nothing. */
+  leaveOut?: readonly string[];
+  /** A wait longer than this many minutes counts as one minute. Default 15. */
+  maxGapMinutes?: number;
+  /** A message of the creator's session that starts like this is a task, else an answer. Default: German and English words. */
+  taskPattern?: RegExp;
+}
+
+export function analyse(raw: string, options: Options = {}): Analysis {
+  const leaveOut = options.leaveOut ?? ["Artifact"];
+  const taskPattern = options.taskPattern ?? /^(Auftrag|Ergänzung|Task|Assignment|Please run|Bitte)/i;
   const rows: Json[] = [];
   for (const line of raw.split("\n")) {
     if (!line.trim()) continue;
@@ -204,7 +215,7 @@ export function analyse(raw: string): Analysis {
   }
   const stamp = (o: Json) => Date.parse(asString(o.timestamp));
   // Active time: a gap of more than 15 minutes between two entries (the session waited) counts as one minute.
-  const MAX_GAP = 15 * 60000;
+  const MAX_GAP = (options.maxGapMinutes ?? 15) * 60000;
   const sorted = rows.map(stamp).filter((n) => !Number.isNaN(n)).sort((a, b) => a - b);
   const start = sorted[0] ?? 0;
   const active: number[] = [];
@@ -274,7 +285,7 @@ export function analyse(raw: string): Analysis {
         if (use.name === "ReadNotifications") {
           const bodies = text.split(/<cross-session-message[^>]*>/).slice(1);
           for (const body of bodies) {
-            const c = classifyCrossSession(body.split("</cross-session-message>")[0] ?? "");
+            const c = classifyCrossSession(body.split("</cross-session-message>")[0] ?? "", taskPattern);
             events.push({
               t,
               source: c.source,
@@ -289,8 +300,8 @@ export function analyse(raw: string): Analysis {
           }
           continue;
         }
-        // Results of the Artifact tool are left out: its built-in design guidance was not used to decide anything.
-        if (use.name === "Artifact") continue;
+        // Tools named in `leaveOut` (by default the Artifact tool) are not counted.
+        if (leaveOut.includes(use.name)) continue;
         const c = classifyTool(use.name, use.input);
         events.push({ t, source: c.source, chars: text.length, kind: c.kind, ...(c.detail !== undefined ? { detail: c.detail } : {}) });
       } else if (b.type === "text") {

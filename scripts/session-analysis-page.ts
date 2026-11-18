@@ -88,7 +88,21 @@ function bars(a: Analysis): string {
   return out.join("\n");
 }
 
-export function page(a: Analysis): string {
+/** Text of one session that the counts cannot give; every part is optional and is HTML. */
+export interface PageNotes {
+  title?: string;
+  lead?: string;
+  /** One list item each: what a review or check of the run found. `{{verdict}}` becomes the counts of the first verdict. */
+  findings?: string[];
+  /** A paragraph after the findings. */
+  findingsNote?: string;
+  /** List items added to "What this does and does not show". */
+  limits?: string[];
+  /** A sentence added after the retrieval counts. */
+  retrievalNote?: string;
+}
+
+export function page(a: Analysis, notes: PageNotes = {}): string {
   const total = SOURCES.reduce((n, s) => n + a.bySource[s].chars, 0);
   const rows = SOURCES.map(
     (s) =>
@@ -102,7 +116,8 @@ export function page(a: Analysis): string {
   };
   const web = sum("web");
   const own = sum("own files");
-  const retrievalText = `Information retrieval splits into ${web.n} results from the web or GitHub (${kchars(web.chars)} characters) and ${own.n} from reading the app's own files (${kchars(own.chars)}). The assistant fetched nothing from the open web in this run: it could not open lernapps.net, and the creator's session passed on the documents it needed. The web and GitHub results are repository access and listings.`;
+  const retrievalText = `Information retrieval splits into ${web.n} results from the web or GitHub (${kchars(web.chars)} characters) and ${own.n} from reading the app's own files (${kchars(own.chars)}). The web and GitHub results are repository access, listings and read-only calls.${notes.retrievalNote ? " " + notes.retrievalNote : ""}`;
+  
   const agentRows = a.agents
     .map(
       (r) =>
@@ -113,6 +128,7 @@ export function page(a: Analysis): string {
   const verdictText = v
     ? `verdict <b>${esc(v.outcome)}</b> with ${v.errors} errors, ${v.warnings} warnings and ${v.hints} hints (one warning is a proposed new rule).`
     : "no verdict was found in the log.";
+  const findings = (notes.findings ?? []).map((f) => f.replace("{{verdict}}", verdictText));
   const css = SOURCES.map((s, i) => `.s-${s}{--c:var(--c${i})}`).join("");
   return `<!doctype html>
 <html lang="en">
@@ -121,7 +137,7 @@ export function page(a: Analysis): string {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="light dark">
-  <title>A highly autonomous run, measured – lernapps.net</title>
+  <title>${esc(notes.title ?? "A session, measured")} – lernapps.net</title>
   <meta name="description" content="One real session of an assistant that built a French explainer with a simulated creator: how many people's messages it needed, and where its information came from: the creator, AGENTS.md, skills or the check tool.">
   <link rel="canonical" href="https://lernapps.net/tooling/prompt-engineering/autonomy-example/">
   <link rel="stylesheet" href="../../lernapps-page.css">
@@ -170,8 +186,8 @@ export function page(a: Analysis): string {
 </head>
 <body>
   <main id="main-content" tabindex="-1">
-    <h1>A highly autonomous run, measured</h1>
-    <p class="lead">One session in which an assistant built a French explainer for class 5 from the guidance of this repository. A simulated creator answered its questions and later asked for a review, changes and measurements. This page counts how much the creator had to say, where the assistant got its information, and what the reviews and checks of the run found.</p>
+    <h1>${esc(notes.title ?? "A session, measured")}</h1>
+    <p class="lead">${notes.lead ?? "One session of an assistant working with the guidance of this repository. This page counts how much the creator's session had to say, where the assistant got its information, and what the sub-agent runs found."}</p>
 
     <ul class="facts">
       <li><b>${a.minutes.toFixed(0)} min</b><span>of work (waits longer than 15 minutes count as one)</span></li>
@@ -205,7 +221,7 @@ ${rows}
     <p>${retrievalText}</p>
 
     <h2>Reviews and checks in this run</h2>
-    <p>Three sub-agents, each in a fresh context, looked at the app. The numbers come from the log; what they found is from their reports.</p>
+    <p>${a.agents.length} sub-agent runs, each in a fresh context. The numbers come from the log${findings.length > 0 ? "; what they found is from their reports" : ""}.</p>
     <div class="scroll">
       <table>
         <thead><tr><th scope="col">Run</th><th scope="col">Minutes</th><th scope="col">Tool calls</th><th scope="col">Tokens</th></tr></thead>
@@ -214,26 +230,22 @@ ${agentRows}
         </tbody>
       </table>
     </div>
-    <ul>
-      <li><strong>Learner check of the pattern page</strong> (before the creator saw it): the sub-agent used page 1 as a child of class 5 and found about a dozen places where a learner gets stuck: unexplained words (Artikel, Voilà, Vokal), a figure whose markers hid the objects, missing error messages. All were fixed before the page was shown.</li>
-      <li><strong>Review of the committed app</strong> (<code>review/prompt.md</code> with the rubric, no listing pull request): ${verdictText} The findings the checks had not decided: a scope that named a date the page did not use, wrong "last page" references, an article rule that later pages broke, numbers 21 to 69 missing under the title "0 à 100", a licence question, and 4888 files of <code>node_modules/</code> that had been committed. It did not notice that the two story children were nowhere in the drawings.</li>
-      <li><strong>Walkthrough of the whole app</strong> as a child of class 5, from the start page to the last page: it found where pages did not fit together. A calendar showed Saturday while the text said Monday, three pages named the wrong page before them, a picture showed a book where the text said a pencil case, words were asked before they were taught (salut, le français, 0, 21 to 69), and the story jumped between places. Most were fixed in one commit.</li>
-    </ul>
-    <p><code>lernapps check</code> passed on the final state of each step and flagged none of these. The review and the learner checks found what the program could not decide: whether the pages fit together for a child.</p>
+${findings.length > 0 ? `    <ul>\n${findings.map((f) => `      <li>${f}</li>`).join("\n")}\n    </ul>` : ""}
+${notes.findingsNote ? `    <p>${notes.findingsNote}</p>` : ""}
 
     <h2>What this does and does not show</h2>
     <ul>
       <li>The counts come from the session log, with <a href="https://github.com/lernapps/tooling/blob/main/scripts/session-analysis.ts"><code>scripts/session-analysis.ts</code></a>. They contain no text of the session.</li>
-      <li>In this run the assistant was not allowed to open addresses of lernapps.net or to install skills. The creator's session therefore passed on ${a.relayedFiles} files (entry file, skills, references, rules, template README, schema). They are counted as skills, guidance or data, not as the creator's decisions. The creator's own messages are counted as answers (to the assistant's questions) or tasks (a review, changes to the app, measurements). In a normal run they come from the package and from the app's folders.</li>
+      ${a.relayedFiles > 0 ? `<li>The creator's session passed on ${a.relayedFiles} files (entry file, skills, references, rules, template README, schema). They are counted as skills, guidance or data, not as the creator's decisions. The creator's own messages are counted as answers (to the assistant's questions) or tasks (a review, changes to the app, measurements).</li>` : ""}
       <li>"Characters" measure how much text arrived, not how much it helped. A long skill file counts more than a short answer that decided the content.</li>
-      <li>Results of the Artifact tool (a page the assistant published to show the app) are left out. Its built-in design guidance was not used to decide anything. The text of the tool that attaches a repository (about 10k characters of instructions) is counted as GitHub retrieval.</li>
-      <li>Time is active time. The session waited overnight between the first work and the reviews; waits longer than 15 minutes count as one minute.</li>
+      <li>Results of tools named with <code>--leave-out</code> (by default the Artifact tool, whose built-in guidance decides nothing) are not counted. The text of the tool that attaches a repository is counted as GitHub retrieval.</li>
+      <li>Time is active time: a wait of more than 15 minutes between two entries of the log counts as one minute.</li>
+${(notes.limits ?? []).map((l) => `      <li>${l}</li>`).join("\n")}
       <li>One run is an example, not a result. The evals described under <a href="../how-evals-work/">How we evaluate the guidance</a> repeat runs and score them.</li>
     </ul>
 
     <h2>Repeat it</h2>
-    <pre><code>node scripts/session-analysis.ts &lt;session.jsonl&gt; analysis.json
-node scripts/session-analysis-page.ts analysis.json index.html</code></pre>
+    <pre><code>node scripts/session-analysis-run.ts --page index.html [--notes notes.json]</code></pre>
   </main>
 </body>
 </html>
@@ -241,12 +253,13 @@ node scripts/session-analysis-page.ts analysis.json index.html</code></pre>
 }
 
 if (process.argv[1]?.endsWith("session-analysis-page.ts")) {
-  const [, , input, output] = process.argv;
+  const [, , input, output, notesFile] = process.argv;
   if (!input || !output) {
-    console.error("Usage: node scripts/session-analysis-page.ts <analysis.json> <index.html>");
+    console.error("Usage: node scripts/session-analysis-page.ts <analysis.json> <index.html> [notes.json]");
     process.exit(2);
   }
   const a = JSON.parse(readFileSync(input, "utf8")) as Analysis;
-  writeFileSync(output, page(a));
+  const notes = notesFile ? (JSON.parse(readFileSync(notesFile, "utf8")) as PageNotes) : {};
+  writeFileSync(output, page(a, notes));
   console.log(`wrote ${output}`);
 }
