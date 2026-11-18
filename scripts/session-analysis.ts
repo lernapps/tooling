@@ -1,30 +1,16 @@
 // Reads the log of a Claude Code session (JSON lines) and counts where the information came from that reached the
-// assistant: the creator, the owner in the chat, AGENTS.md and the plan, the skills, the check tool, a sub-agent,
-// or the working environment. It writes numbers only (no texts of the session) as JSON.
+// assistant: the creator's session, AGENTS.md and the plan, the skills, the check tool, a sub-agent, or the working
+// environment. It also lists the sub-agent runs (reviews, learner checks) and the severities of review verdicts.
+// It writes numbers only (no texts of the session) as JSON.
+//
+// Messages that a person typed in the chat to support the session administratively are not counted.
 //
 // Usage: node scripts/session-analysis.ts <session.jsonl> <out.json>
 import { readFileSync, writeFileSync } from "node:fs";
 
-export type Source =
-  | "creator"
-  | "owner"
-  | "guidance"
-  | "skills"
-  | "data"
-  | "check"
-  | "subagent"
-  | "environment";
+export type Source = "creator" | "guidance" | "skills" | "data" | "check" | "subagent" | "environment";
 
-export const SOURCES: readonly Source[] = [
-  "creator",
-  "owner",
-  "guidance",
-  "skills",
-  "data",
-  "check",
-  "subagent",
-  "environment",
-];
+export const SOURCES: readonly Source[] = ["creator", "guidance", "skills", "data", "check", "subagent", "environment"];
 
 export interface Event {
   /** Minutes since the first message. */
@@ -34,22 +20,40 @@ export interface Event {
   chars: number;
   /** Short kind, e.g. "ReadNotifications", "Bash:lernapps check". No session text. */
   kind: string;
-  /** For files the creator's session passed on: what kind of file it was. */
+  /** For messages of the creator's session: "answer", "task" or the kind of file it passed on. */
   detail?: string;
   /** The file reached the assistant through the creator's session, not from a file of the app. */
   relayed?: boolean;
+}
+
+export interface AgentRun {
+  description: string;
+  /** Minutes the run took (its own report). */
+  minutes: number;
+  toolUses: number;
+  tokens: number;
+}
+
+export interface Verdict {
+  outcome: string;
+  errors: number;
+  warnings: number;
+  hints: number;
+  proposals: number;
 }
 
 export interface Analysis {
   minutes: number;
   toolCalls: number;
   toolCallsByName: Record<string, number>;
-  humanMessages: number;
   creatorAnswers: number;
+  creatorTasks: number;
   relayedFiles: number;
   events: Event[];
   bySource: Record<Source, { events: number; chars: number }>;
-  /** Tool calls between two inputs of people (owner or creator answer), longest and average. */
+  agents: AgentRun[];
+  verdicts: Verdict[];
+  /** Results between two messages of the creator's session, longest and average. */
   longestRun: number;
   averageRun: number;
 }
@@ -57,6 +61,7 @@ export interface Analysis {
 /** An object of the log. The keys the code reads are declared, so that they can be read with a dot. */
 interface Json {
   [key: string]: unknown;
+  operation?: unknown;
   type?: unknown;
   message?: unknown;
   timestamp?: unknown;
@@ -71,7 +76,9 @@ interface Json {
   command?: unknown;
   file_path?: unknown;
   path?: unknown;
+  description?: unknown;
 }
+
 /** A command that only reads: cat, head, sed -n, grep, ls; never one that writes a file. */
 const readsOnly = (command: string): boolean => {
   const c = command.replace(/\d*>&\d+|\d*>\s*\/dev\/null/g, "");
@@ -106,21 +113,25 @@ function relayedKind(body: string): string {
 function innerMessage(body: string): string {
   const i = body.search(/To reply, call the send_message tool[^\n]*\n/);
   if (i < 0) return body;
-  const rest = body.slice(i).replace(/^[^\n]*\n/, "");
-  return rest;
+  return body.slice(i).replace(/^[^\n]*\n/, "");
 }
 
-function classifyCrossSession(raw: string): { source: Source; detail?: string; relayed?: boolean } {
+/** A message of the creator's session is a document it passed on, or the creator's own word: an answer or a task. */
+function classifyCrossSession(raw: string): { source: Source; detail: string; relayed?: boolean } {
   const body = innerMessage(raw);
   const b = body.replace(/^\s+/gm, "").trim();
-  if (/^(Antworten der Creatorin|Ja[,.]|Danke|Hinweis|Die Skizzen|Die Antwort der Creatorin|Zu Frage)/.test(b)) {
-    return { source: "creator" };
+  if (/^Hinweis: Die Original-Datei/.test(b)) return { source: "data", detail: "learning map", relayed: true };
+  if (/^(#|---|\{|<svg)/.test(b)) {
+    const detail = relayedKind(body);
+    const source: Source =
+      detail === "entry file llms.txt"
+        ? "guidance"
+        : detail === "learning map" || detail === "schema" || detail === "figure"
+          ? "data"
+          : "skills";
+    return { source, detail, relayed: true };
   }
-  const relayed = true;
-  const detail = relayedKind(body);
-  const source: Source =
-    detail === "entry file llms.txt" ? "guidance" : detail === "learning map" || detail === "schema" || detail === "figure" ? "data" : "skills";
-  return { source, detail, relayed };
+  return { source: "creator", detail: /^(Auftrag|Ergänzung)/.test(b) ? "task" : "answer" };
 }
 
 function classifyTool(name: string, input: Json): { source: Source; kind: string } {
@@ -128,7 +139,10 @@ function classifyTool(name: string, input: Json): { source: Source; kind: string
   const path = asString(input.file_path) || asString(input.path);
   if (name === "Read" || name === "Bash" || name === "Grep" || name === "Glob") {
     const target = name === "Bash" ? command : path;
-    const toolRun = /lernapps(_audio)?[ .a-z_-]*\b(check|create|screenshots)\b|lernapps_audio\.py|@lernapps\/tooling|vp (build|test)|git commit/.test(command);
+    const toolRun =
+      /lernapps(_audio)?[ .a-z_-]*\b(check|create|screenshots)\b|lernapps_audio\.py|@lernapps\/tooling|vp (build|test)|git commit/.test(
+        command,
+      );
     const writes = name === "Bash" && !toolRun && !readsOnly(command);
     if (writes) return { source: "environment", kind: "Bash:own work" };
     if (/\.agents\/skills\/|\.claude\/skills\//.test(target)) return { source: "skills", kind: `${name}:skill file` };
@@ -137,7 +151,10 @@ function classifyTool(name: string, input: Json): { source: Source; kind: string
   if (name === "Skill") return { source: "skills", kind: "Skill" };
   if (name === "Bash") {
     if (/lernapps(_audio)?[ .a-z_-]*\b(check|create|screenshots)\b/.test(command)) {
-      return { source: "check", kind: "Bash:lernapps " + (/check/.test(command) ? "check" : /create/.test(command) ? "create" : "screenshots") };
+      return {
+        source: "check",
+        kind: "Bash:lernapps " + (/check/.test(command) ? "check" : /create/.test(command) ? "create" : "screenshots"),
+      };
     }
     if (/lernapps_audio\.py/.test(command)) return { source: "skills", kind: "Bash:audio script of a skill" };
     if (/lernapps\/tooling|@lernapps\/tooling/.test(command)) return { source: "check", kind: "Bash:lernapps init" };
@@ -146,6 +163,19 @@ function classifyTool(name: string, input: Json): { source: Source; kind: string
   }
   if (name === "Agent") return { source: "subagent", kind: "Agent" };
   return { source: "environment", kind: name };
+}
+
+function countVerdict(text: string): Verdict | null {
+  if (!/^reviewed:\s*\n\s+commit:/m.test(text) || !/^outcome:/m.test(text)) return null;
+  const outcome = /^outcome:\s*(\w+)/m.exec(text)?.[1] ?? "";
+  const count = (s: string) => (text.match(new RegExp(`^ {4}severity: ${s}$`, "gm")) ?? []).length;
+  return {
+    outcome,
+    errors: count("error"),
+    warnings: count("warning"),
+    hints: count("hint"),
+    proposals: (text.match(/^ {2}- proposal:/gm) ?? []).length,
+  };
 }
 
 export function analyse(raw: string): Analysis {
@@ -160,15 +190,30 @@ export function analyse(raw: string): Analysis {
     }
   }
   const stamp = (o: Json) => Date.parse(asString(o.timestamp));
-  const times = rows.map(stamp).filter((n) => !Number.isNaN(n));
-  const start = Math.min(...times);
-  const end = Math.max(...times);
+  // Active time: a gap of more than 15 minutes between two entries (the session waited) counts as one minute.
+  const MAX_GAP = 15 * 60000;
+  const sorted = rows.map(stamp).filter((n) => !Number.isNaN(n)).sort((a, b) => a - b);
+  const start = sorted[0] ?? 0;
+  const active: number[] = [];
+  let sum = 0;
+  sorted.forEach((n, i) => {
+    const gap = i === 0 ? 0 : n - (sorted[i - 1] ?? n);
+    sum += gap > MAX_GAP ? 60000 : gap;
+    active.push(sum);
+  });
+  const activeAt = (ms: number): number => {
+    let lo = 0;
+    for (let i = 0; i < sorted.length; i += 1) if ((sorted[i] ?? 0) <= ms) lo = i;
+    return (active[lo] ?? 0) / 60000;
+  };
 
   const uses = new Map<string, { name: string; input: Json }>();
-  const toolCallsByName: Record<string, number> = {};
+    const toolCallsByName: Record<string, number> = {};
   const events: Event[] = [];
-  let humanMessages = 0;
+  const agents: AgentRun[] = [];
+  const verdicts: Verdict[] = [];
   let creatorAnswers = 0;
+  let creatorTasks = 0;
   let relayedFiles = 0;
   let toolCalls = 0;
 
@@ -178,15 +223,30 @@ export function analyse(raw: string): Analysis {
       for (const b of message.content) {
         if (isObject(b) && b.type === "tool_use") {
           const name = asString(b.name);
-          uses.set(asString(b.id), { name, input: isObject(b.input) ? b.input : {} });
+          const input = isObject(b.input) ? b.input : {};
+          uses.set(asString(b.id), { name, input });
           toolCallsByName[name] = (toolCallsByName[name] ?? 0) + 1;
           toolCalls += 1;
         }
       }
       continue;
     }
+    if (o.type === "queue-operation" && o.operation === "enqueue") {
+      const text = asString(o.content);
+      const done = /<summary>Agent "([^"]+)" finished<\/summary>/.exec(text);
+      if (done?.[1]) {
+        const usage = (tag: string) => Number(new RegExp(`<${tag}>(\\d+)</${tag}>`).exec(text)?.[1] ?? 0);
+        agents.push({
+          description: done[1],
+          minutes: Math.round(usage("duration_ms") / 600) / 100,
+          toolUses: usage("tool_uses"),
+          tokens: usage("subagent_tokens"),
+        });
+      }
+      continue;
+    }
     if (o.type !== "user" || !message) continue;
-    const t = (stamp(o) - start) / 60000;
+    const t = activeAt(stamp(o));
     const origin = isObject(o.origin) ? asString(o.origin.kind) : "";
     const content = message.content;
     const parts = Array.isArray(content) ? content : [{ type: "text", text: content }];
@@ -196,6 +256,8 @@ export function analyse(raw: string): Analysis {
         const use = uses.get(asString(b.tool_use_id));
         const text = textOf(b.content);
         if (!use) continue;
+        const verdict = /verdict\.yaml/.test(asString(use.input.command)) ? countVerdict(text) : null;
+        if (verdict) verdicts.push(verdict);
         if (use.name === "ReadNotifications") {
           const bodies = text.split(/<cross-session-message[^>]*>/).slice(1);
           for (const body of bodies) {
@@ -205,11 +267,12 @@ export function analyse(raw: string): Analysis {
               source: c.source,
               chars: body.length,
               kind: "message of the creator's session",
-              ...(c.detail !== undefined ? { detail: c.detail } : {}),
+              detail: c.detail,
               ...(c.relayed ? { relayed: true } : {}),
             });
-            if (c.source === "creator") creatorAnswers += 1;
-            else relayedFiles += 1;
+            if (c.relayed) relayedFiles += 1;
+            else if (c.detail === "task") creatorTasks += 1;
+            else creatorAnswers += 1;
           }
           continue;
         }
@@ -217,12 +280,8 @@ export function analyse(raw: string): Analysis {
         events.push({ t, source: c.source, chars: text.length, kind: c.kind });
       } else if (b.type === "text") {
         const text = asString(b.text);
-        if (origin === "human") {
-          humanMessages += 1;
-          events.push({ t, source: "owner", chars: text.length, kind: "message in the chat" });
-        } else if (origin === "peer") {
-          events.push({ t, source: "subagent", chars: text.length, kind: "report of a sub-agent" });
-        }
+        // A person's own chat messages are left out. A report of a sub-agent is counted.
+        if (origin === "peer") events.push({ t, source: "subagent", chars: text.length, kind: "report of a sub-agent" });
       }
     }
   }
@@ -234,11 +293,11 @@ export function analyse(raw: string): Analysis {
     bySource[e.source].chars += e.chars;
   }
 
-  // Runs: tool results between two inputs of people.
+  // Runs: results between two messages of the creator's session.
   const runs: number[] = [];
   let run = 0;
   for (const e of events) {
-    if (e.source === "owner" || e.source === "creator") {
+    if (e.source === "creator") {
       runs.push(run);
       run = 0;
     } else run += 1;
@@ -246,14 +305,16 @@ export function analyse(raw: string): Analysis {
   runs.push(run);
 
   return {
-    minutes: Math.round((end - start) / 600) / 100,
+    minutes: Math.round(sum / 600) / 100,
     toolCalls,
     toolCallsByName,
-    humanMessages,
     creatorAnswers,
+    creatorTasks,
     relayedFiles,
     events,
     bySource,
+    agents,
+    verdicts,
     longestRun: Math.max(...runs),
     averageRun: Math.round((runs.reduce((a, b) => a + b, 0) / runs.length) * 10) / 10,
   };

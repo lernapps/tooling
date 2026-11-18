@@ -5,8 +5,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { SOURCES, type Analysis, type Source } from "./session-analysis.ts";
 
 const LABEL: Record<Source, string> = {
-  creator: "Creator (answers)",
-  owner: "Owner (chat)",
+  creator: "Creator's session",
   guidance: "AGENTS.md, plan, entry file",
   skills: "Skills and their references",
   data: "Platform data (map, schemas)",
@@ -16,13 +15,12 @@ const LABEL: Record<Source, string> = {
 };
 
 const NOTE: Record<Source, string> = {
-  creator: "What the creator decided or answered.",
-  owner: "Messages and approvals of the person who owns the session.",
+  creator: "What the creator decided or answered, and the tasks it gave (a review, changes, measurements).",
   guidance: "AGENTS.md, the plan file and the entry file llms.txt.",
   skills: "Skill files read in the app, and skill files and references that the creator's session passed on.",
   data: "The learning map and schemas.",
   check: "Output of lernapps init, create, check, screenshots, the build and the git hooks.",
-  subagent: "The report of the learner check.",
+  subagent: "Reports of the learner checks and of the review.",
   environment: "Results of commands and tools that only describe the workspace: listings, own files, publishing.",
 };
 
@@ -34,7 +32,7 @@ function timeline(a: Analysis): string {
   const W = 760;
   const left = 190;
   const lane = 34;
-  const H = 30 + lane * SOURCES.length + 26;
+  const H = 30 + lane * SOURCES.length + 38;
   const x = (t: number) => left + (t / a.minutes) * (W - left - 16);
   const out: string[] = [];
   out.push(`<svg viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="tl-t tl-d" class="chart">`);
@@ -62,7 +60,7 @@ function timeline(a: Analysis): string {
     out.push(`<line x1="${x(m)}" y1="20" x2="${x(m)}" y2="${base - 4}" class="tick"/>`);
     out.push(`<text x="${x(m)}" y="${base + 12}" text-anchor="middle" class="lbl">${m}</text>`);
   }
-  out.push(`<text x="${W - 16}" y="${base + 12}" text-anchor="end" class="lbl">minutes</text>`);
+  out.push(`<text x="${W - 16}" y="${base + 28}" text-anchor="end" class="lbl">minutes of work</text>`);
   out.push(`</svg>`);
   return out.join("\n");
 }
@@ -96,6 +94,16 @@ export function page(a: Analysis): string {
         a.bySource[s].chars,
       )}</td><td>${pct(a.bySource[s].chars, total)}</td><td>${esc(NOTE[s])}</td></tr>`,
   ).join("\n");
+  const agentRows = a.agents
+    .map(
+      (r) =>
+        `<tr><th scope="row">${esc(r.description)}</th><td>${r.minutes.toFixed(1)}</td><td>${r.toolUses}</td><td>${(r.tokens / 1000).toFixed(0)}k</td></tr>`,
+    )
+    .join("\n");
+  const v = a.verdicts[0];
+  const verdictText = v
+    ? `verdict <b>${esc(v.outcome)}</b> with ${v.errors} errors, ${v.warnings} warnings and ${v.hints} hints (one warning is a proposed new rule).`
+    : "no verdict was found in the log.";
   const css = SOURCES.map((s, i) => `.s-${s}{--c:var(--c${i})}`).join("");
   return `<!doctype html>
 <html lang="en">
@@ -154,20 +162,20 @@ export function page(a: Analysis): string {
 <body>
   <main id="main-content" tabindex="-1">
     <h1>A highly autonomous run, measured</h1>
-    <p class="lead">One session in which an assistant built a French explainer for class 5 from the guidance of this repository. A simulated creator answered its questions. This page counts how much the people had to do, and where the assistant got its information.</p>
+    <p class="lead">One session in which an assistant built a French explainer for class 5 from the guidance of this repository. A simulated creator answered its questions and later asked for a review, changes and measurements. This page counts how much the creator had to say, where the assistant got its information, and what the reviews and checks of the run found.</p>
 
     <ul class="facts">
-      <li><b>${a.minutes.toFixed(0)} min</b><span>from the first task to the last result</span></li>
+      <li><b>${a.minutes.toFixed(0)} min</b><span>of work (waits longer than 15 minutes count as one)</span></li>
       <li><b>${a.toolCalls}</b><span>tool calls by the assistant</span></li>
-      <li><b>${a.creatorAnswers}</b><span>answers of the creator</span></li>
-      <li><b>${a.humanMessages}</b><span>messages and approvals of the owner</span></li>
-      <li><b>${a.longestRun}</b><span>results in a row without a word from a person (longest run, average ${a.averageRun})</span></li>
+      <li><b>${a.creatorAnswers}</b><span>answers of the creator, plus ${a.creatorTasks} tasks</span></li>
+      <li><b>${a.agents.length}</b><span>sub-agent runs: a learner check, a review, a walkthrough</span></li>
+      <li><b>${a.longestRun}</b><span>results in a row without a message of the creator's session (longest run, average ${a.averageRun})</span></li>
     </ul>
 
     <h2>When information arrived</h2>
     <figure>
 ${timeline(a)}
-      <figcaption>Each dot is one tool result or message. The row says where it came from; a larger dot is a longer text. The people (the first two rows) speak rarely; most of the time the assistant reads guidance and runs checks.</figcaption>
+      <figcaption>Each dot is one tool result or message. The row says where it came from; a larger dot is a longer text. The creator's session (first row) speaks rarely; most of the time the assistant reads guidance, runs checks and works on the app.</figcaption>
     </figure>
 
     <h2>How much each source gave</h2>
@@ -185,12 +193,29 @@ ${rows}
       </table>
     </div>
 
+    <h2>Reviews and checks in this run</h2>
+    <p>Three sub-agents, each in a fresh context, looked at the app. The numbers come from the log; what they found is from their reports.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th scope="col">Run</th><th scope="col">Minutes</th><th scope="col">Tool calls</th><th scope="col">Tokens</th></tr></thead>
+        <tbody>
+${agentRows}
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><strong>Learner check of the pattern page</strong> (before the creator saw it): the sub-agent used page 1 as a child of class 5 and found about a dozen places where a learner gets stuck: unexplained words (Artikel, Voilà, Vokal), a figure whose markers hid the objects, missing error messages. All were fixed before the page was shown.</li>
+      <li><strong>Review of the committed app</strong> (<code>review/prompt.md</code> with the rubric, no listing pull request): ${verdictText} The findings the checks had not decided: a scope that named a date the page did not use, wrong "last page" references, an article rule that later pages broke, numbers 21 to 69 missing under the title "0 à 100", a licence question, and 4888 files of <code>node_modules/</code> that had been committed. It did not notice that the two story children were nowhere in the drawings.</li>
+      <li><strong>Walkthrough of the whole app</strong> as a child of class 5, from the start page to the last page: it found where pages did not fit together. A calendar showed Saturday while the text said Monday, three pages named the wrong page before them, a picture showed a book where the text said a pencil case, words were asked before they were taught (salut, le français, 0, 21 to 69), and the story jumped between places. Most were fixed in one commit.</li>
+    </ul>
+    <p><code>lernapps check</code> passed on the final state of each step and flagged none of these. The review and the learner checks found what the program could not decide: whether the pages fit together for a child.</p>
+
     <h2>What this does and does not show</h2>
     <ul>
       <li>The counts come from the session log, with <a href="https://github.com/lernapps/tooling/blob/main/scripts/session-analysis.ts"><code>scripts/session-analysis.ts</code></a>. They contain no text of the session.</li>
-      <li>In this run the assistant was not allowed to open addresses of lernapps.net or to install skills. The creator's session therefore passed on ${a.relayedFiles} files (entry file, skills, references, rules, template README, schema). They are counted as skills, guidance or data, not as the creator's decisions. In a normal run they come from the package and from the app's folders.</li>
+      <li>In this run the assistant was not allowed to open addresses of lernapps.net or to install skills. The creator's session therefore passed on ${a.relayedFiles} files (entry file, skills, references, rules, template README, schema). They are counted as skills, guidance or data, not as the creator's decisions. The creator's own messages are counted as answers (to the assistant's questions) or tasks (a review, changes to the app, measurements). In a normal run they come from the package and from the app's folders.</li>
       <li>"Characters" measure how much text arrived, not how much it helped. A long skill file counts more than a short answer that decided the content.</li>
-      <li>One permission check blocked the first call of the tool until the owner agreed in the chat. Such steps show up as owner messages.</li>
+      <li>Time is active time. The session waited overnight between the first work and the reviews; waits longer than 15 minutes count as one minute.</li>
       <li>One run is an example, not a result. The evals described under <a href="../how-evals-work/">How we evaluate the guidance</a> repeat runs and score them.</li>
     </ul>
 
