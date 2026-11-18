@@ -1,0 +1,31 @@
+<!-- Template of two story characters, for classes up to 6. Copy it into src/images/, keep the style of the two figures
+     (a head, a soft rounded body, no neck, arms or legs) and change only the scene around them: the background, the
+     objects, the places of the two. Colours, hair and clothes stay the same on every page. Put their names, ages and
+     looks into the content guide, "Figures", and name them in `alt` and `caption`. Replace the title. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img">
+  <title>Léa (links, rote Jacke) und Noé (rechts, blaue Jacke) vor ihrem Klassenzimmer</title>
+  <!-- scene: replace -->
+  <rect width="400" height="260" fill="#f6f1e7"/>
+  <rect y="200" width="400" height="60" fill="#d9c9a8"/>
+  <rect x="150" y="40" width="100" height="120" fill="#cfe8f7" stroke="#5a4326" stroke-width="3"/>
+  <!-- Léa: brown short hair, red jacket -->
+  <g id="lea">
+    <rect x="60" y="120" width="70" height="90" rx="30" fill="#d94f4f"/>
+    <circle cx="95" cy="95" r="28" fill="#f2c9a0"/>
+    <path d="M67 92a28 28 0 0 1 56 0c-10-8-46-8-56 0z" fill="#6b4226"/>
+    <circle cx="86" cy="98" r="3" fill="#333"/><circle cx="104" cy="98" r="3" fill="#333"/>
+    <path d="M88 108q7 6 14 0" fill="none" stroke="#333" stroke-width="2"/>
+  </g>
+  <!-- Noé: black curls, glasses, blue jacket -->
+  <g id="noe">
+    <rect x="270" y="120" width="70" height="90" rx="30" fill="#3d6fc4"/>
+    <circle cx="305" cy="95" r="28" fill="#e0b088"/>
+    <circle cx="285" cy="75" r="9" fill="#222"/><circle cx="305" cy="70" r="10" fill="#222"/><circle cx="325" cy="75" r="9" fill="#222"/>
+    <circle cx="296" cy="98" r="7" fill="none" stroke="#222" stroke-width="2"/><circle cx="314" cy="98" r="7" fill="none" stroke="#222" stroke-width="2"/>
+    <path d="M298 110q7 5 14 0" fill="none" stroke="#333" stroke-width="2"/>
+  </g>
+  <!-- speech bubble: the words of the page, as text in the page, not in the picture -->
+  <rect x="140" y="28" width="100" height="44" rx="10" fill="#fff" stroke="#999"/>
+  <polygon points="152,72 172,72 128,92" fill="#fff" stroke="#999" stroke-linejoin="round"/>
+  <rect x="150" y="70" width="22" height="4" fill="#fff"/>
+</svg>

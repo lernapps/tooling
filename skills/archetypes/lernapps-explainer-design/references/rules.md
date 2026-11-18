@@ -124,8 +124,8 @@ severity: hint
 
 - An explainer with a story: each page takes it on from the page before and ends with the next step; its tasks are
   steps of the story, and what is learned is used in it.
-- The form fits the age (up to class 6 drawn, speaking children; 7-9 messages or a dialogue; 10 up a real case). A
-  page without its scene or case has no story on it.
+- The form fits age and subject, a person is not required (up to class 6 drawn children, or a place or a task; 7-9
+  messages or a dialogue; 10 up a real case). A page without its scene or case has no story on it.
 
 ## `explainer-control-purpose`: Every control has a visible purpose
 

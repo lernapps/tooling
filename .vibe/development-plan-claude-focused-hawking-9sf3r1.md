@@ -132,6 +132,18 @@ Drei Teile:
   `create.e2e` nicht).
 - Wortbudget: 12010 (Vorgabe 12049); sieben Begründungsabsätze in den Regeln gestrichen.
 
+## Nachtrag 4: Zweiter Test, Review, Figuren
+- Zweiter autonomer Lauf: App deutlich reicher als der erste (7-8 Aufgaben je Seite, 4-6 Arten, Audio auf allen Seiten),
+  aber in keiner der 7 Zeichnungen sind Léa und Noé gezeichnet; der Leitfaden behauptet es trotzdem. Lokaler Review
+  durch einen Sub-Agenten: pass, 0 Fehler, 2 Warnungen (Scope, `node_modules` im Commit), 6 Hinweise; hat die fehlenden
+  Figuren nicht bemerkt. Lerner-Check mit Browser nur für die Musterseite (so steht es im Plan); der Review spielte die
+  Seiten nicht durch.
+- Entscheidung des Erstellers: Die Regeln zum Zeichnen von Personen werden gelockert: eine Geschichte braucht keine Person,
+  gerade in höheren Stufen; die Zeichenregel gilt nur, wo die Geschichte gezeichnete Kinder hat. Ein Beispiel-SVG mit
+  zwei Figuren liegt als Vorlage in `exercise-patterns/references/story-characters.svg`.
+- Offen: Lerner-Check mit Browser für alle Seiten und im Review (Plan und `review/prompt.md`); Check gegen
+  `node_modules` im Repo.
+
 ## Commit
 ### Tasks
 - [x] Aufräumen: keine Debug-Ausgaben, keine TODOs; `console.log` in `scripts/measure-explainer.ts` ist die Ausgabe des Skripts

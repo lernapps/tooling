@@ -12,5 +12,6 @@
 
 ## Story scenes (younger learners)
 
-- Draw the characters once, in a fixed style, and write it into the guide, "Figures". One scene per page from a script
-  in the repo, the characters in the same places, speaking the words of the page.
+- Only where the story has drawn children. Start from `story-characters.svg` in this folder: copy it, keep the two
+  figures, change the scene. Write names, looks and style into the guide, "Figures". One scene per page, the characters
+  in the same places, the words they say in the page's text.

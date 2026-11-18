@@ -70,8 +70,8 @@ Needed or not by age and subject; without one, the pages carry themselves throug
 1. A concern the learners help with or decide; each page's task is a step in it, and the learned thing is used there
    (words someone says, numbers someone needs).
 2. Each page says where the concern stands and ends with the next step.
-3. The form follows the age (a guess; `explainer-age-appropriate`):
-   - up to class 6: invented children with names, drawn, who speak; one scene per page, the same characters;
+3. The form follows age and subject; a person is not required (a guess; `explainer-age-appropriate`):
+   - up to class 6: invented children with names, drawn, one scene per page, or a place or a task they meet;
    - class 7-9: a situation told as messages, a chat or a short dialogue, a picture only where it shows something;
    - class 10 up: a real or realistic case with data, sources or a decision; no invented children.
 4. Invented: no characters or worlds from books, films, games or brands; drawings, not photos; no stereotypes.
