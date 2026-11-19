@@ -336,8 +336,8 @@ const lastOf = (text: string, pattern: RegExp) => [...text.matchAll(pattern)].at
 /**
  * The phase a plan holds after a tool call, if the call shows it: `phase: <name>` written into `.vibe/` (the last such
  * line), a command on `.vibe/` that writes it (`sed 's/^phase: plan$/phase: code/'`, a heredoc, or a one-liner: the
- * last value named, which is the new one), or the output of the `grep '^phase:'` the plan template prescribes, which
- * also covers a helper script that changed the plan.
+ * last value named, which is the new one), the output of a `grep '^phase:'`, which also covers a helper script that
+ * changed the plan, or the output of `lernapps plan`, which names the phase the plan is in.
  */
 const phaseSet = (tool: Turn["tools"][number]): string | undefined => {
   const written = [tool.input["new_string"], tool.input["content"]].filter((value) => typeof value === "string");
@@ -357,7 +357,13 @@ const phaseSet = (tool: Turn["tools"][number]): string | undefined => {
     /\bgrep\b/.test(command) && /phase/.test(command) && tool.result
       ? lastOf(tool.result, /^(?:[^\n:]*:)?phase:\s*(explore|plan|code|commit)\b/gm)
       : undefined;
-  return inFile ?? inCommand ?? shown;
+  // `lernapps plan done` enters the next phase after the last task of one; its output starts with the plan and the
+  // phase it is in now: ".vibe/plans/01-quiz.md · Code"
+  const byPlan =
+    /\blernapps plan\b/.test(command) && tool.result
+      ? lastOf(tool.result, /^\S*\.vibe\/plans?\S* · (Explore|Plan|Code|Commit)$/gm)?.toLowerCase()
+      : undefined;
+  return inFile ?? inCommand ?? shown ?? byPlan;
 };
 
 /** Whether a tool call sets `phase: code` in a plan file: the agent's sign that the plan was confirmed. */

@@ -62,6 +62,10 @@ describe("lernapps create refuses", () => {
     mkdirSync(join(dir, ".devcontainer"));
     writeFileSync(join(dir, ".devcontainer/devcontainer.json"), "{}\n");
     writeFileSync(join(dir, "renovate.json"), "{}\n");
+    // the folder Claude Code watches for skills, kept in git by an empty file, with the starter's settings beside it
+    mkdirSync(join(dir, ".claude/skills"), { recursive: true });
+    writeFileSync(join(dir, ".claude/skills/.gitkeep"), "");
+    writeFileSync(join(dir, ".claude/settings.json"), "{}\n");
     // and what init adds before the app has its own: the list of what git ignores
     writeFileSync(join(dir, ".gitignore"), "node_modules/\n");
     confirmedPlan(dir, "quiz");

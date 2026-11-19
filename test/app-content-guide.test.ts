@@ -39,10 +39,14 @@ describe("app-content-guide", () => {
     expect(SKELETON).toMatch(/^---\nname: app-content\ndescription: .+\n---\n/);
   });
 
-  test("the plan's task and the rule name every fixed heading, in order: the agent knows them before the check", () => {
-    for (const file of ["guidance/plan-template.md", "guidance/workflow-rules.md"]) {
-      expect(readFileSync(join(repoRoot, file), "utf8").replace(/\s+/g, " "), file).toContain(HEADINGS.join(", "));
-    }
+  test("the rule names every fixed heading, in order, and the plan's task points to the guide whose skeleton has them", () => {
+    const rules = readFileSync(join(repoRoot, "guidance/workflow-rules.md"), "utf8").replace(/\s+/g, " ");
+    expect(rules).toContain(HEADINGS.join(", "));
+    const plan = readFileSync(join(repoRoot, "guidance/plan-template.md"), "utf8").replace(/\s+/g, " ");
+    expect(plan).toContain(
+      'Fill the content guide `.agents/skills/app-content/SKILL.md` from "Notes" and "Content method"',
+    );
+    for (const heading of HEADINGS) expect(SKELETON).toContain(`## ${heading}`);
   });
 
   test("checks nothing where there is no app from an archetype's template", () => {

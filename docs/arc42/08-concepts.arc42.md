@@ -85,7 +85,10 @@ Every token an assistant reads costs the creator time and money. Output is short
   one line.
 - **Reports** are YAML, readable by people and agents without a viewer.
 - **Guidance** is loaded when needed: the agent instructions stay short and point to skills; a skill covers one
-  concern.
+  concern. Each topic has one home: the process in the agent instructions, the method in the plan, a convention in
+  one rule section of one skill, a field in the schema. Other places point to it with the rule's id. A skill says
+  what to do and why, with an example; what the system does and how a check works is left to the README and to the
+  check's message. A test keeps the reading path of an explainer within a budget (`test/guidance.test.ts`).
 
 ```arc42
 :::concept

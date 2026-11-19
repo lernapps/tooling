@@ -45,7 +45,8 @@ import { ARCHITECTURE, hasArchitecture } from "../generator/architecture.ts";
 import { create, CreateError, RUNTIME } from "../generator/create.ts";
 import { init, skills } from "../generator/init.ts";
 import { update, UpdateError } from "../generator/update.ts";
-import { countFailedChecks, countPrePushFailure } from "./plan.ts";
+import { changedTasks, countFailedChecks, countPrePushFailure, PLAN_NAME, PLANS } from "./plan.ts";
+import { planCommand } from "./plan-command.ts";
 import { NoBrowser, ScreenshotsError, screenshots } from "./screenshots.ts";
 import { CHECK_OPTIONS, CHECK_USAGE, SCREENSHOTS_USAGE, USAGE, UsageError } from "./usage.ts";
 
@@ -318,6 +319,34 @@ function commitOrDirectory(): Report["checked"] {
   const git = spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" });
   const commit = git.status === 0 ? git.stdout.trim() : "";
   return /^[0-9a-f]{40}$/.test(commit) ? { commit } : { directory: process.cwd() };
+}
+
+const PLAN_FILE = "plan-file";
+
+/**
+ * Before a commit: the tasks of a staged plan that the last commit had and the staged file no longer has in the same
+ * words (src/plan.ts, changedTasks). A task is ticked, skipped or added with `lernapps plan`, never rewritten or
+ * removed; a placeholder of an older template (`<the tasks written in Plan>`) may go.
+ */
+function changedPlanTasks(): { where: string; found: string; fix: string }[] {
+  const git = (...args: string[]) => spawnSync("git", args, { encoding: "utf8" });
+  const staged = git("diff", "--cached", "--name-only", "--diff-filter=M", "--", PLANS);
+  if (staged.status !== 0) return [];
+  return staged.stdout
+    .split("\n")
+    .filter((file) => PLAN_NAME.test(file.slice(PLANS.length + 1)))
+    .flatMap((file) => {
+      const before = git("show", `HEAD:${file}`);
+      const after = git("show", `:${file}`);
+      if (before.status !== 0 || after.status !== 0) return [];
+      return changedTasks(before.stdout, after.stdout)
+        .filter((task) => !task.startsWith("<"))
+        .map((task) => ({
+          where: file,
+          found: `the task "${task.length > 90 ? `${task.slice(0, 87)}…` : task}" was reworded or removed`,
+          fix: `Restore the task as the last commit has it (git show HEAD:${file}). A task that does not apply: npx --no -- lernapps plan skip "<reason>"; another task: npx --no -- lernapps plan add "<task>"`,
+        }));
+    });
 }
 
 function readEntry(file: string): { file: string; value: Entry } {
@@ -760,7 +789,16 @@ async function check(args: string[]): Promise<number> {
     // a commit of only docs still checks a change of the architecture, which is docs to the change scope
     const architecture =
       scope !== undefined && "skip" in scope && values["pre-commit"] ? architectureBeforeCommit() : undefined;
-    if (architecture !== undefined) {
+    const plan = values["pre-commit"] && !all ? changedPlanTasks() : [];
+    if (plan.length > 0) {
+      report = {
+        checked: commitOrDirectory(),
+        parts: ["pre-commit"],
+        rules: [PLAN_FILE],
+        findings: plan.map((problem) => finding(PLAN_FILE, "error", problem)),
+        suppressions: [],
+      };
+    } else if (architecture !== undefined) {
       report = {
         checked: commitOrDirectory(),
         parts: ["pre-commit"],
@@ -864,6 +902,8 @@ async function main(argv: string[]): Promise<number> {
       return installHooks(rest);
     case "init":
       return init(rest);
+    case "plan":
+      return planCommand(rest);
     case "screenshots":
       return screenshotsCommand(rest);
     case "skills":

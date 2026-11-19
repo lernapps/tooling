@@ -1,10 +1,14 @@
 ---
 name: lernapps-map-assignment
-description: Use in Explore whenever a teacher wants an app for a subject but has no fixed content yet - "a start into French", "what should I build for my class 7", "an app for a gap on the map" - even if they never mention the map. Turns the lernapps.net learning map into one assignment the teacher confirms, naming which competencies (gaps), in which order, what the app cannot do, and a story for children that carries the pages. Run it before lernapps-content-research and the plan.
+description: Use in Explore for every app whose subject has a learning map - to read the map, and, whenever the creator brings no content of their own ("a start into French", "what should I build for my class 7", "an app for a gap on the map", a topic without material), to turn it into one assignment the creator confirms, naming which competencies (gaps), in which order, what the app cannot do, and a story for children that carries the pages. Run it before lernapps-content-research and the plan.
 license: MIT
 ---
 
 # From the learning map to an assignment
+
+Every app starts from the map: read it (section 2) also when the creator brings the content, and note which of its
+competencies that content covers. The sections 1 and 3 to 5 are for a creator without content of their own; a topic
+alone ("à l'école") is not content.
 
 The map knows what builds on what. Use that logic, not a curriculum or a textbook: an app that follows the chain
 can be used by any class at that point of the course. The result is an assignment the teacher confirms with "yes";

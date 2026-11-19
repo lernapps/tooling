@@ -14,8 +14,9 @@ Commands:
   create --archetype <name> [<dir>]               write a new app from the archetype's template
   hooks                                           install the app's git hooks (the app's prepare script)
   init <short name> [--addon <package>]           start an app: plan template and skills from the registry
+  plan <next | done | skip | add | new>           read and change the tasks of the current plan, one at a time
   screenshots [--out <dir>] [<dir>]               an image of every page and every figure of a built explainer or quiz
-  skills --archetype <name>                       add the skills of the archetype the plan chose
+  skills --archetype <name>                       add the skills and the plan tasks of the archetype the plan chose
   update                                          move the app to the runtime and tooling this tooling depends on
 
 Options:

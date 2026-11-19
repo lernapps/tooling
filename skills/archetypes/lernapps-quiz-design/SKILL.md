@@ -1,6 +1,6 @@
 ---
 name: lernapps-quiz-design
-description: Use in Explore right after choosing the `quiz` archetype - how the content of a lernapps.net quiz maps onto rounds, question types and patterns, which the plan then applies.
+description: Use in Explore right after choosing the `quiz` archetype, and again in Plan to map the confirmed content - how the content of a lernapps.net quiz maps onto rounds, question types and patterns.
 license: MIT
 ---
 

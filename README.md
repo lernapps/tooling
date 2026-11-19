@@ -26,9 +26,11 @@ lernapps.net's own websites, and the update policy for dependencies.
 - **The [skills](skills/):** one per phase, grouped by what they hold: `process/`, `tooling/`, `content/`,
   `archetypes/`. The [platform rules](skills/tooling/lernapps-cli/references/platform-rules.md) hold for every app,
   however it is built.
-- **The [plan template](guidance/plan-template.md):** the whole workflow of an app's first version, from the first
-  question to the listing. It names each skill at the step where it is needed. Every later change follows the
-  [increment template](guidance/increment-template.md), in a plan of its own.
+- **The [plan template](guidance/plan-template.md):** the workflow of an app's first version, from the first
+  question to the listing, up to the choice of the archetype; the archetype's tasks come from its part
+  (`guidance/plan-<archetype>.md`). It names each skill at the step where it is needed. An assistant reads and ticks
+  its tasks with `lernapps plan`, one at a time. Every later change follows the
+  [increment template](guidance/increment-template.md), in a plan of its own (`lernapps plan new`).
 - **The [architecture](https://lernapps.net/tooling/architecture/):** what each part is responsible for and why.
 - **The [rule catalog](https://lernapps.net/tooling/rules/):** every rule by id, with where it is told and checked.
 

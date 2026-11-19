@@ -533,6 +533,19 @@ test("the plan counts as confirmed when sed, a helper script or a write sets pha
     ]),
   ]);
   expect(byScript.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 0 });
+  // the way the plan prescribes: `lernapps plan done` ticks the checkpoint and enters Code; its output names the phase
+  const byPlan = scoreTurns([
+    turn("Ein Quiz zu Brüchen", []),
+    turn("Ja, passt so.", [
+      {
+        name: "Bash",
+        input: { command: 'npx --no -- lernapps plan done --answer "Ja, passt so."' },
+        result: ".vibe/plans/01-quiz.md · Code\n\nTask 1 of 12:\nLoad skill `lernapps-cli`.",
+      },
+      create,
+    ]),
+  ]);
+  expect(byPlan.dimensions).toMatchObject({ plan_confirmed: 1, installs_before_plan: 0 });
   const early = scoreTurns([
     turn("Ein Quiz zu Brüchen", []),
     turn("Ja, passt so.", [create]),

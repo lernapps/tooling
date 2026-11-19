@@ -222,7 +222,11 @@ function contents(dir: string): string[] {
     if ((name === ".agents" || name === ".claude") && skills.size > 0) {
       // .claude/settings.json: the permissions the starter repository gives the assistant for the tooling's commands
       return within(name, (folder) => folder === "skills" || `${name}/${folder}` === ".claude/settings.json").concat(
-        existsSync(join(dir, name, "skills")) ? within(`${name}/skills`, (skill) => skills.has(skill)) : [],
+        // .gitkeep: the starter repository keeps .claude/skills/ in git, so that the folder is there when a session
+        // starts and Claude Code watches it for the skills init installs
+        existsSync(join(dir, name, "skills"))
+          ? within(`${name}/skills`, (skill) => skills.has(skill) || skill === ".gitkeep")
+          : [],
       );
     }
     return [name];
@@ -545,7 +549,7 @@ export function create(args: string[]): number {
         ...(existsSync(join(dir, ".git")) ? [] : [`git init --initial-branch=${WORK_BRANCH}`]),
         "npm install (the runtime and the git hooks)",
         "git add -A, then git commit (the first commit; the hooks check it)",
-        `follow ${relative(dir, plan.target)}`,
+        `npx --no -- lernapps plan done (the next task of ${relative(dir, plan.target)})`,
       ].map((step, index) => `  ${index + 1}. ${step}`),
       "",
     ].join("\n"),
