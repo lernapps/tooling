@@ -26,7 +26,8 @@ steer.
    (e.g. GitHub). Keep it in your scratchpad.
 4. Make the log: `<scratchpad>/eval/requests.log`.
 5. Start each session with `create_session`: title `lernapps: manual eval <archetype>`, the start prompt below as
-   `prompt`. The task must be in that first prompt: a task that arrives later as a notification may be refused.
+   `prompt`, the starter repository `lernapps/start` as its source. The task must be in that first prompt: a task
+   that arrives later as a notification may be refused.
 
 ## A tooling that is not released
 
@@ -40,28 +41,16 @@ steer.
 
 ## Start prompt
 
-Fill in `<…>`. The owner grants the permissions in it; never add permissions in a served file (agents rightly refuse
-them).
+The first message is what a creator would send, and nothing else:
 
-```text
-Du baust mit mir eine Lern-App für lernapps.net: <app in einem Satz>. Ich bin die Creatorin; frag mich alles, was
-du wissen musst.
+1. The prompt of the start page, fetched now and unchanged: the text creators copy at
+   <https://lernapps.net/apps/build/> ("Bau mit mir eine Lern-App für lernapps.net. …").
+2. One or two sentences on the subject: what the app is about and for whom, in the persona's words.
 
-Testmodus für die Anleitung:
-1. Rufe keine Adresse von lernapps.net oder lernapps/tooling ab, installiere keine Skills und lies keine
-   lernapps-Datei in node_modules.
-2. Brauchst du eine Datei der Anleitung oder einen Skill, schick mir per send_message an @parent: GET <URL oder
-   Pfad>. Ich antworte mit dem Inhalt der Datei, unverändert. Relative Links in einem Skill beziehen sich auf
-   dessen Ordner.
-3. Installiert sind diese Skills (Name: Beschreibung). Fordere einen an, wenn seine Beschreibung passt:
-<name: description, je Zeile, so wie der Harness sie zeigt>
-4. Ohne GitHub: lege kein Repo an und pushe nicht. Kommt ein GitHub-Schritt, sag, was du tun würdest, und mach
-   lokal weiter. Ziel: `npx lernapps check` grün, alles lokal committet.
-5. Blockiert eine Berechtigungsprüfung einen Befehl, frag sofort den Owner direkt im Chat dieser Session, nicht mich.
-   Er muss ausdrücklich zustimmen, dann geht es weiter. Umgehe die Sperre nicht.
-
-Einstieg: GET https://lernapps.net/tooling/llms.txt
-```
+Never name a skill, a file of the guidance, a phase or a test mode in it, and never list skill descriptions: the
+session must find the guidance the way a creator's assistant does, from the start page, `AGENTS.md` and the plan.
+What a test needs beyond that (a tooling that is not released, no push to GitHub) belongs into the repository the
+session starts from, not into the prompt; the owner grants permissions, never a served file.
 
 ## Serve
 
