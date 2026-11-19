@@ -384,12 +384,7 @@ const skillsLoaded = (tool: Turn["tools"][number]): string[] => {
   const inFolder =
     folder && /\b(?:cat|head|tail|less|sed -n [^ ]+)\s+SKILL\.md\b/.test(command) ? [`${folder}/SKILL.md`] : [];
   const downloads = /\b(curl|wget)\b/.test(command) ? urlsIn(command).filter((url) => url.endsWith("/SKILL.md")) : [];
-  // `lernapps skill <name>` prints the skill whole (src/skill-command.ts); with a second argument it prints one of the
-  // skill's other files, which is no load of the skill
-  const printed = [...command.matchAll(/\blernapps skill ([a-z][a-z0-9-]*)(?=\s*(?:$|[;&|\n]))/gm)].map(
-    (match) => match[1] ?? "",
-  );
-  return [...[...reads, ...inFolder, ...downloads].map(fromPath).filter((name) => name !== undefined), ...printed];
+  return [...reads, ...inFolder, ...downloads].map(fromPath).filter((name) => name !== undefined);
 };
 
 /**

@@ -11,8 +11,8 @@ case, hyphens). Run once, in this folder, `npx --yes @lernapps/tooling init <nam
 
 ## The plan
 
-- Four phases: Explore, Plan, Code, Commit. The current plan: `.vibe/plans/<NN>-<short name>.md`, highest NN. The
-  creator reads it too.
+- Four phases: Explore, Plan, Code, Commit. The current plan is `.vibe/plans/<NN>-<short name>.md` with the highest
+  NN. The creator reads it too.
 - `npx --no -- lernapps plan next` prints the one task to do now. Do it, then `npx --no -- lernapps plan done`: it
   ticks the task and prints the next. Does not apply: `plan skip "<reason>"`. More to do: `plan add "<task>"`. A
   task done in part stays open.
@@ -25,8 +25,7 @@ case, hyphens). Run once, in this folder, `npx --yes @lernapps/tooling init <nam
 ## Always
 
 - The app is this folder. Every command runs here, never in a subfolder or a copy.
-- A task names a skill: load it with `npx --no -- lernapps skill <name>` (one of its files: add `<file>`). Never cut
-  the output.
+- Load a skill when a task names it. Read each file a task names to its last line, never cut.
 - Push only the branch the current plan names. A push to `main` publishes.
 - Never `--no-verify`.
 - Never edit a `lernapps-*` skill: `lernapps update` replaces them. The app's own skills (`app-content`, `app-*`)

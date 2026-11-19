@@ -649,9 +649,7 @@ conventions, each a rule that a check or the review validates; they hold no proc
 the tasks: `next`, `done`, `skip`, `add`, `new`. Tasks, phase and front matter change only through it; the free
 sections (Goal, Key decisions, Notes, Answers, Entry draft, Content method, Retrospective) the assistant writes by
 hand. A checkpoint is ticked only with the creator's answer, which stays in the plan. The commit hook stops a commit
-that reworded or removed a task (`plan-file`). A skill is read the same way: `lernapps skill <name>` prints it
-whole. A harness offers a project's skills only if it found them when the session started, and an assistant that reads
-a skill as a plain file read its first 80 lines in a manual run and missed a step below them.
+that reworded or removed a task (`plan-file`).
 **Consequences:** an assistant reads one task at a time, with exact skill and file names; the plan stays Markdown
 that the creator reads, and no state lives outside it. The commands cannot prove that a task was done, and a hand
 can still tick a box: the rule is told, the hook catches only rewording. Every step of the plan is now a call of

@@ -39,7 +39,7 @@ describe("reading the plan", () => {
   test("next gives the first open task of the phase, with the hints of the phase", () => {
     const position = planPosition(TEMPLATE);
     expect(position.phase).toBe("explore");
-    expect(position.task?.text).toMatch(/^Check the start: `npx --no -- lernapps skill` lists the skills/);
+    expect(position.task?.text).toMatch(/^Check the start: the folder `\.agents\/skills\/lernapps-app` exists/);
     expect(position.ticked).toBe(0);
     const printed = describePosition(".vibe/plans/01-x.md", position);
     expect(printed).toContain("In Explore:\n- Find out what the app teaches");
