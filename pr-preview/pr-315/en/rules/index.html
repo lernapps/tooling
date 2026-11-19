@@ -664,6 +664,7 @@
 <div>
 <ul>
 <li>Change the tasks, the phase and the front matter of a plan only with <code>lernapps plan</code>: <code>next</code> prints the task to do, <code>done</code> ticks it, <code>skip</code> ticks a task that does not apply, <code>add</code> adds one. Never reword, delete or tick a task by hand.</li>
+<li>Run <code>plan done</code> as a command of its own, after the work of the task has succeeded and its message to the creator is sent; never in one command line with the work, and never for several tasks in a loop.</li>
 <li>Write into the plan's other sections yourself: Goal, Key decisions, Notes, Answers, Entry draft, Content method, Retrospective. Keep every section.</li>
 <li>Never change the plan of an earlier piece of work.</li>
 <li>The commit hook compares the tasks with the last commit and stops a commit that reworded or removed one. Restore the task; what it should say instead is a new task (<code>plan add</code>) or a skipped one (<code>plan skip</code>).</li>
