@@ -26,7 +26,7 @@ page, which a link. -->
 
 ## code-start
 
-- [ ] Load skill `lernapps-content-questions`. Read, with your file tool and whole,
+- [ ] Load skill `lernapps-content-questions`. Read whole, with your file tool:
       `.agents/skills/lernapps-explainer/references/blocks.md` and
       `.agents/skills/lernapps-explainer/references/exercises.md`. A foreign language: also
       `references/language-tasks.md` in the same folder. A component in the plan: also `references/components.md`.

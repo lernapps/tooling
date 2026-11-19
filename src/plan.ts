@@ -283,15 +283,9 @@ export function describePosition(file: string, position: Position, withHints = t
   }
   out.push("", `Task ${position.ticked + 1} of ${position.total}:`, position.task.text, "");
   const files = skillFiles(position.task.text);
-  if (files.length > 0) {
-    // In manual runs an assistant read skills through the shell and cut them with head or sed; a step below the cut
-    // was then not done. Reads with the file tool were whole.
-    out.push(
-      "Read first, with your file tool and not through the shell, each file whole to its last line:",
-      ...files.map((file) => `  ${file}`),
-      "",
-    );
-  }
+  // In manual runs an assistant read skills through the shell and cut them with head or sed; a step below the cut was
+  // then not done. Reads with the file tool were whole.
+  if (files.length > 0) out.push(`Read whole, with your file tool: ${files.join(", ")}`, "");
   out.push(
     position.task.text.includes(CHECKPOINT)
       ? 'A checkpoint: stop, ask the creator, wait. With their answer: npx --no -- lernapps plan done --answer "<their words>"'

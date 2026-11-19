@@ -25,7 +25,7 @@ case, hyphens). Run once, in this folder, `npx --yes @lernapps/tooling init <nam
 ## Always
 
 - The app is this folder. Every command runs here, never in a subfolder or a copy.
-- Read a skill or file a task names with your file tool, whole. Never through the shell, never cut.
+- Read each skill or file a task names whole, with your file tool.
 - Push only the branch the current plan names. A push to `main` publishes.
 - Never `--no-verify`.
 - Never edit a `lernapps-*` skill: `lernapps update` replaces them. The app's own skills (`app-content`, `app-*`)

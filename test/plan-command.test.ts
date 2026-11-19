@@ -65,8 +65,7 @@ describe("the skills of a task", () => {
   test("a task that loads a skill names its file and asks for the file tool: the shell invites cutting", () => {
     const at = until(TEMPLATE, (task) => task.startsWith("Load skill `lernapps-app`"));
     const printed = describePosition("p", planPosition(at));
-    expect(printed).toContain("Read first, with your file tool and not through the shell, each file whole");
-    expect(printed).toContain("\n  .agents/skills/lernapps-app/SKILL.md\n");
+    expect(printed).toContain("\nRead whole, with your file tool: .agents/skills/lernapps-app/SKILL.md\n");
   });
 
   test("every skill a task loads is listed once; a skill it only refers to is not", () => {
@@ -76,7 +75,7 @@ describe("the skills of a task", () => {
     ]);
     expect(skillFiles("Publish as skill `lernapps-github` says.")).toEqual([]);
     const first = describePosition("p", planPosition(TEMPLATE));
-    expect(first).not.toContain("Read first");
+    expect(first).not.toContain("Read whole");
   });
 
   test("the explainer's first Code tasks name the skills they load", () => {
