@@ -34,8 +34,23 @@ import {
   writeProcessGuidance,
 } from "./create.ts";
 
-/** What may be in the folder before init: git, and what the fallback without npx of llms.txt copied there. */
-const FALLBACK_FILES = [".git", ".vibe", ".agents", ".devcontainer", "AGENTS.md", "CLAUDE.md", "LICENSE", "README.md"];
+/**
+ * What may be in the folder before init: git, what the fallback without npx of llms.txt copied there, and what the
+ * starter repository (lernapps/start) has, with its settings for Claude Code (.claude/) and for Renovate.
+ */
+const FALLBACK_FILES = [
+  ".git",
+  ".gitignore",
+  ".vibe",
+  ".agents",
+  ".claude",
+  ".devcontainer",
+  "AGENTS.md",
+  "CLAUDE.md",
+  "LICENSE",
+  "README.md",
+  "renovate.json",
+];
 
 /** The options of `lernapps init`, as node:util parseArgs takes them. */
 export const INIT_OPTIONS = {

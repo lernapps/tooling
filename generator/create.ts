@@ -207,9 +207,9 @@ function contents(dir: string): string[] {
     if (name === "node_modules" || name === "package-lock.json") return [];
     // the process guidance init wrote; create writes it again
     if (name === "AGENTS.md" || name === "CLAUDE.md") return [];
-    // what the starter repository (lernapps/start) has: the development container, which create writes again, the
-    // licence, which it writes again, and a README, which stays
-    if (name === ".devcontainer" || name === "LICENSE" || name === "README.md") return [];
+    // what the starter repository (lernapps/start) has: the development container, the licence and the Renovate
+    // configuration, which create writes again, and a README, which stays
+    if (name === ".devcontainer" || name === "LICENSE" || name === "README.md" || name === "renovate.json") return [];
     // what git ignores until the app has its own list: init writes it so that a commit in Explore or Plan leaves
     // node_modules out, and create writes the archetype's again
     if (name === ".gitignore") return [];
@@ -469,7 +469,7 @@ export function create(args: string[]): number {
   const found = contents(dir);
   if (found.length > 0) {
     throw new CreateError(
-      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, .vibe/ (the first version's plan .vibe/plans/01-<short name>.md, and its sketches) and what lernapps init wrote (AGENTS.md, CLAUDE.md, its skills, package.json, package-lock.json and node_modules) and what the starter repository has (README.md, LICENSE, .devcontainer/) may be there`,
+      `${dir} is not empty (${found.slice(0, 5).join(", ")}${found.length > 5 ? ", ..." : ""}): create the app in an empty folder; only .git, .vibe/ (the first version's plan .vibe/plans/01-<short name>.md, and its sketches) and what lernapps init wrote (AGENTS.md, CLAUDE.md, its skills, package.json, package-lock.json and node_modules) and what the starter repository has (README.md, LICENSE, renovate.json, .devcontainer/, .claude/settings.json) may be there`,
     );
   }
   const plan = confirmedPlan(dir, archetype, values.plan);
