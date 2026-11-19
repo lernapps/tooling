@@ -61,6 +61,8 @@ describe("lernapps create refuses", () => {
     writeFileSync(join(dir, "LICENSE"), "MIT\n");
     mkdirSync(join(dir, ".devcontainer"));
     writeFileSync(join(dir, ".devcontainer/devcontainer.json"), "{}\n");
+    // and what init adds before the app has its own: the list of what git ignores
+    writeFileSync(join(dir, ".gitignore"), "node_modules/\n");
     confirmedPlan(dir, "quiz");
     const result = lernapps(["create", "--archetype", "quiz", dir, "--templates", join(dir, "nowhere")], repoRoot);
     expect(result.code, output(result)).toBe(1);

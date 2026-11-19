@@ -1,109 +1,85 @@
 # Structure
 
+## Files
+
 | Level | File | Holds |
 |---|---|---|
-| App | `src/app.yaml` | `title`, `intro`, `languages`, order of `chapters`, `sources` |
-| Chapter | `src/<chapter>/chapter.yaml` | `title`, `summary`, order of its `pages` |
-| Page | `src/<chapter>/<page>.yaml` | `title`, `description`, `blocks` |
-| Section | `section` block in a page | `id`, `title`, `blocks`; one more section level inside |
-| Scope | `scope` in app, chapter and page (optional) | the whole learning path for the tutor, beside each page (`runtime.md`) |
+| App | `src/app.yaml` | `format: 2`, `strand` or `subject`, `title`, `intro`, `languages`, the order of `chapters`, `sources` |
+| Chapter | `src/<chapter>/chapter.yaml` | `title`, `summary`, the order of its `pages` |
+| Page | `src/<chapter>/<page>.yaml` | `title`, `description`, `competencies` or `recap`, `blocks` |
+| Section | a `section` block in a page | `id`, `title`, `blocks`; one more level of sections inside |
 
-- Chapters mandatory. One chapter: hidden in navigation; addresses keep it (`/<chapter>/<page>/`).
-- Order lists complete: `chapters`, `pages` list every folder or file exactly once. No sorting by name.
-- Ids: lowercase, digits, hyphens; unique per level; stable once published. Not chapter ids: `data`, `images`,
-  `glossar`, `components`, `assets`, `scope`.
-- Depth: page, section, subsection; headings follow from nesting (h1–h3). Boxes (`example`, `note`) take the next
-  level, hold no sections. More levels = two apps.
-- Navigation generated: contents on start and chapter pages, breadcrumbs, previous/next across chapters, page
-  contents from three sections, glossary from `definition` blocks.
+- `chapters` and `pages` list every folder and file exactly once, in reading order. Nothing is sorted by name.
+- An app with one chapter hides it in the navigation; the addresses keep it (`/<chapter>/<page>/`).
+- Ids: lower-case letters, digits and hyphens, unique per level, kept once published. Not allowed as a chapter id:
+  `data`, `images`, `glossar`, `components`, `assets`, `scope`, `einschaetzung`.
+- Depth: page, section, subsection. Headings follow from the nesting. A box (`example`, `note`) holds no sections.
+- The runtime generates the navigation: contents on the start page and the chapter pages, breadcrumbs, previous and
+  next across chapters, the contents of a page from three sections on, the glossary from `definition` blocks.
 
-### When `scope` is needed
+## The place on the learning map
 
-- All or nothing: `scope` in `src/app.yaml` → every page needs its own `scope`, else the build stops; none in
-  `src/app.yaml` → no page has one.
-- Needed when the app has an `open-task` (the tutor judges open answers by the scope, never from general knowledge),
-  or follows the creator's material (the scope keeps the tutor to it). Else optional; the plan says which.
-- Each page's `scope`: what the page teaches, in your own words; `src/app.yaml`: `scope: { text, out: [...] }` with
-  what does not belong (`explainer-scope-matches`, form in `runtime.md`).
-
-## Format 2: strand or subject, and competencies
-
-An explainer on the learning map is in format 2. `src/app.yaml` starts with:
+Which strand, which competency on which page and which order: skill `lernapps-explainer-design` ("Map the content").
+Here is how to write the result.
 
 ```yaml
+# src/app.yaml
 # yaml-language-server: $schema=../node_modules/@lernapps/app-templates/runtime/explainer/explainer.v2.schema.json
 format: 2
 strand: mathematik/stochastik   # "<subject>/<strand>" of the map, or none
 title: Stochastik
 ```
 
-| Field | Where | Rule |
-|---|---|---|
-| `format` | `src/app.yaml` | `2`; absent means format 1 (an app that has not moved) |
-| `strand` | `src/app.yaml` | a strand app: `<subject>/<strand>` (two ids of the map) or `none` |
-| `subject` | `src/app.yaml` | a unit app: `<subject>`, only where the map says `explainerFocus: competency`; never with `strand` |
-| `competencies` | every page | strand or subject set: required, ids of the map; as a rule one. `none`: not allowed |
+```yaml
+# src/zufall/laplace.yaml
+title: Laplace-Wahrscheinlichkeit
+competencies: [laplace]         # the id of the map
+blocks: [...]
+```
 
-- A page: `competencies: [laplace]` beside `title` and `blocks`. One page per competency; a large one may take
-  several pages; several on one page are not recommended (`one-competency-per-page`).
-- Chapters group competencies that build on each other; pages follow the map's `requires`.
-- Format 2 names exactly one: `strand` or `subject`. Which one the subject's map decides (`explainerFocus` in
-  `https://lernapps.net/apps/map/<subject>.json`):
-  - `strand` (most subjects): one app, one strand. Every page practises competencies of the app's strand.
-  - `competency` (foreign languages, German): a strand app as above, or a unit app (`subject: franzoesisch`) that
-    practises competencies of every strand of the subject. Each page practises competencies of one strand only.
-- The ids are those of the map; the build cannot know them. `lernapps check` compares them with the map before the
-  push (`competencies-on-map`); the listing checks them again.
-- Pages in the order of the prerequisites (`prerequisites-in-order`, skill `lernapps-explainer-design`). A page that
-  comes before a prerequisite on purpose names it in `ahead: [<id>]` (only with `competencies`).
-- The build writes `lernapps-pages.json` (the strand or subject; path, title, competencies (and ahead) or recap per page, in the
-  app's order; `recap` a string for one competency, a list for several) beside `index.html`; the catalog lists the pages from it.
+| Field | Where | Value |
+|---|---|---|
+| `strand` | `src/app.yaml` | a strand app: `<subject>/<strand>`, or `none` for an app that is not on the map |
+| `subject` | `src/app.yaml` | a unit app across strands: `<subject>`, instead of `strand`; only where the subject's map says `explainerFocus: competency` |
+| `competencies` | every page | the ids of the map the page practises, as a rule one; with `strand: none` the page has none |
+| `recap` | a recap page | `<subject>/<competency>`, or a list of them, instead of `competencies` |
+| `ahead` | a page with `competencies` | the ids of prerequisites that come on a later page on purpose |
+
+The build cannot know the ids of the map: `lernapps check` compares them with the map before the push.
 
 ### A recap page
 
-A competency of the app may require one the app does not practise: of another strand, or outside the app's scope, as
-at the app's entry. The app may repeat it on a recap page, placed before the page that needs it:
-
-```yaml
-title: Brüche – kurz wiederholt
-recap: mathematik/brueche-anteile   # "<subject>/<competency>", one the app does not practise
-blocks: [...]                       # descriptive blocks only: no exercise
-```
-
-A chapter that needs several such competencies gets one collective recap at its start ("Das brauchst du hier"),
-not a recap page each:
+A recap page repeats what the app needs but does not practise. It stands before the first page that needs it; a
+chapter that needs several such competencies gets one recap page at its start, not one each.
 
 ```yaml
 title: Das brauchst du hier
-recap: [physik/kraft, physik/masse]   # a list: at least one, none twice
-blocks: [...]                         # very compact; descriptive blocks only: no exercise
+recap: [physik/kraft, physik/masse]   # one competency: recap: physik/kraft
+blocks:
+  - type: text
+    text: |
+      Kannst du das schon? Ich kann eine Kraft mit ihrem Betrag und ihrer Richtung angeben. Ich kann die Masse
+      eines Körpers in Kilogramm angeben.
 ```
 
-- Place it at the start of the chapter that first needs the competencies.
-- Very compact: no new content, only what the learner should already know.
-- Name each recapped competency with its "Ich kann …" sentence (`iCan`) or its name (`name`) from
-  `https://lernapps.net/apps/map/<subject>.json`, e.g. as a short self-check written by hand: "Kannst du das? Ich
-  kann …". Read the competencies off the map: the `requires` of the chapter's competencies that the app does not
-  practise.
-- No exercise, not even a short one: a self-check is plain text the learner answers in their head.
+- It is short and has no new content and no exercise, not even a short one: a self-check is plain text the learner
+  answers in their head.
+- Its text names each competency of `recap`, with its name or its "Ich kann …" sentence from
+  `https://lernapps.net/apps/map/<subject>.json` (`recap-names-competencies`). The runtime adds the link to each
+  competency on the map by itself.
+- A competency the app practises on a page of its own gets no recap page.
 
-| Rule | Checked by |
-|---|---|
-| A page has either `competencies` or `recap`, never both | schema v2 |
-| A recap page has no exercise; `topic-has-exercises` does not apply to it | schema v2, build |
-| The link to each competency's page on the map (link text: its id) is written by the runtime, so it cannot be missing | runtime |
-| Each recapped competency exists, and the app does not practise it on a page of its own | `lernapps check` (`competencies-on-map`, warning), listing (error) |
-| The page's text names each recapped competency: its `name` or its `iCan` sentence from the map | `lernapps check` (`recap-names-competencies`, warning) |
+## `scope`
 
-- A recap page counts as nothing on the map and is left out of the self-assessment.
-- Format 1 stays valid. `lernapps update` adds `format: 2` and `strand: none` to a format-1 app when its runtime
-  knows format 2.
+- All or nothing: `scope` in `src/app.yaml` makes the build require a `scope` on every page; without it no page has
+  one.
+- The app needs it when it has an `open-task` (the tutor judges open answers by the scope, never from general
+  knowledge) or when it follows the creator's material (the scope keeps the tutor to it). Else it is optional.
+- How to write it: [runtime.md](runtime.md) ("Tutor") and rule `explainer-scope-matches`.
 
-## Entry topics
+## What the build writes for the catalog
 
-- An explainer in format 2 has no hand-written topics: the catalog takes its pages from `lernapps-pages.json`. The
-  rest of this section holds for the other apps.
-
-- Path of a page or section relative to the app's `url`: `prozent/prozentwert/`, `prozent/prozentwert/#regel`
-  (`entry-links-resolve`; `lernapps check --entry` checks the section).
-- From the stable ids (`explainer-stable-ids`).
+- `lernapps-pages.json`, beside `index.html`: the strand or subject and, per page in the app's order, its path, title
+  and `competencies`, `ahead` or `recap`. The catalog lists the pages from it; you write no list of topics.
+- An app made before the learning map has no `format` in `src/app.yaml`. `lernapps update` moves it to `format: 2`
+  with `strand: none`.

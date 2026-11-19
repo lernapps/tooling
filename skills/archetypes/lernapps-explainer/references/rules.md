@@ -1,7 +1,25 @@
 # Explainer rules
 
-- Quiz-type exercises: the rules of skill `lernapps-content-questions`.
-- The rules for planning pages, figures and numbers: skill `lernapps-explainer-design`.
+The rules a finding of the build or of `lernapps check` may name. Read the section of the rule the finding names.
+The rules for planning pages, figures and the place on the learning map are in skill `lernapps-explainer-design`
+(`references/rules.md`); those for questions in skill `lernapps-content-questions`; those for components in
+[components.md](components.md).
+
+## Contents
+
+- `explainer-only-content`: Write only the content
+- `explainer-content-valid`: The content validates
+- `explainer-structure-complete`: Every chapter and page listed once
+- `explainer-structure-depth`: Chapter, page, two section levels
+- `explainer-structure-by-sections`: Structure only by sections
+- `explainer-stable-ids`: Keep the ids
+- `explainer-navigation`: Every page in one chain
+- `explainer-languages`: German first, every language complete
+- `explainer-readable-without-js`: Every page readable without JavaScript
+- `explainer-formulas-static`: Formulas as formulas
+- `explainer-generated-sound`: The property test passes
+- `explainer-open-points`: An open task checks what the material teaches
+- `explainer-scope-matches`: The scope says what the pages teach
 
 ## `explainer-only-content`: Write only the content
 
@@ -11,11 +29,14 @@ scope: archetype:explainer
 severity: error
 ```
 
-- Write: YAML of app, chapters, pages, data; images in `src/images/`; components with logic and tests in
-  `src/components/`.
-- `src/main.ts`, `index.html`, `e2e/explainer.e2e.ts`, config as generated (`keep-the-preset`). Any other file in
-  `src/` fails the build.
-- Not expressible → "Where I had to guess", never code around the runtime.
+The runtime owns rendering, so that every explainer stays accessible, readable without JavaScript and up to date with
+`lernapps update`.
+
+- You write the YAML of app, chapters, pages and data, images in `src/images/`, and components with their logic and
+  tests in `src/components/`. Any other file in `src/` fails the build.
+- `src/main.ts`, `index.html`, `e2e/explainer.e2e.ts` and the configuration stay as generated (`keep-the-preset`).
+- What the notation cannot express goes under "Where I had to guess" in the plan. Never code around the runtime, and
+  never change it in `node_modules`.
 
 ## `explainer-content-valid`: The content validates
 
@@ -25,9 +46,9 @@ scope: archetype:explainer
 severity: error
 ```
 
-- Schema-valid; ids unique per level; references exist (data file, image, component, page or section link);
-  placeholders declared; formulas only from the command list.
-- Build names each problem with file, line, block path.
+- The content is valid against the schema; ids are unique per level; every reference exists (data file, image,
+  component, link to a page or section); every placeholder is declared; formulas use only the listed commands.
+- The build names each problem with file, line and block path. Fix it there.
 
 ## `explainer-structure-complete`: Every chapter and page listed once
 
@@ -37,9 +58,9 @@ scope: archetype:explainer
 severity: error
 ```
 
-- At least one chapter.
-- Every chapter folder in `chapters` of `src/app.yaml`, every page file in `pages` of its `chapter.yaml`, exactly
-  once, in reading order.
+- The app has at least one chapter.
+- Every chapter folder is in `chapters` of `src/app.yaml`, every page file in `pages` of its `chapter.yaml`, exactly
+  once, in reading order. The order of the lists is the order of the navigation; nothing is sorted by name.
 
 ## `explainer-structure-depth`: Chapter, page, two section levels
 
@@ -49,7 +70,8 @@ scope: archetype:explainer
 severity: error
 ```
 
-- Sections at most two deep. No heading levels set: they follow from nesting. More levels = two apps.
+- Sections nest at most two deep. Heading levels follow from the nesting; you set none.
+- Content that needs more levels is two apps.
 
 ## `explainer-structure-by-sections`: Structure only by sections
 
@@ -59,8 +81,10 @@ scope: archetype:explainer
 severity: error
 ```
 
-- Every heading = a `section` block with `id`, `title`.
-- A Markdown heading (`#`, `##`, underlined) in a text fails the build.
+The contents of a page, its anchors and the entry links of the catalog are made from sections.
+
+- Every heading is a `section` block with `id` and `title`.
+- A Markdown heading (`#`, `##`, an underlined line) in a text fails the build.
 
 ## `explainer-stable-ids`: Keep the ids
 
@@ -70,9 +94,11 @@ scope: archetype:explainer
 severity: warning
 ```
 
-- Short, telling ids ("prozentwert", "regel") for chapters, pages, sections, exercises; keep them when texts
-  change (entry topics, teachers' links).
-- New content, new ids; never reuse a removed one.
+Teachers link to pages and sections, and the catalog lists them by their ids.
+
+- Give chapters, pages, sections and exercises short, telling ids ("prozentwert", "regel"), and keep them when the
+  text changes.
+- New content gets new ids. Never reuse a removed one.
 
 ## `explainer-navigation`: Every page in one chain
 
@@ -82,10 +108,9 @@ scope: archetype:explainer
 severity: error
 ```
 
-- Navigation is the runtime's: from the order lists; every page in one chain, reachable from the start page.
-- Prose links: paths from the app root.
-- `lernapps check` finds unreachable pages (`pages-reachable`) and entry topics with a missing `#<section>`
-  (`entry-links-resolve`).
+- The runtime builds the navigation from the order lists: every page is in one chain and reachable from the start
+  page.
+- A link in a text is a path from the app's root (`/prozent/grundwert/#regel`).
 
 ## `explainer-languages`: German first, every language complete
 
@@ -95,8 +120,9 @@ scope: archetype:explainer
 severity: error
 ```
 
-- `languages`, German first.
-- Every learner text (content, data files, component props) in each, no other. Build fails otherwise.
+- `languages` in `src/app.yaml` starts with German.
+- Every text a learner reads (content, data files, props of components) is there in each declared language, and in
+  no other. A missing translation fails the build.
 
 ## `explainer-readable-without-js`: Every page readable without JavaScript
 
@@ -106,10 +132,11 @@ scope: archetype:explainer
 severity: error
 ```
 
-- Every fact in a block, visible without JS. No meaning only inside an exercise or component.
-- Every component a `nojs` text: what it shows, its content.
-- `lernapps check` opens every explainer page again with JS off, bundle and deployed (listing and review too):
-  headings, formulas, figures visible, figures named; every "Lösung" and `nojs` text not empty.
+A page must teach the same on a school computer that blocks scripts and for a screen reader.
+
+- Every fact stands in a block that shows without JavaScript. Nothing a learner needs is only inside an exercise or
+  a component.
+- Every component that is no exercise has a `nojs` text that says what it shows, with its content.
 
 ## `explainer-formulas-static`: Formulas as formulas
 
@@ -119,8 +146,8 @@ scope: archetype:explainer
 severity: error
 ```
 
-- Every formula in a `formula` block or `$…$`; never plain text (`W = G * p / 100`) or a picture. MathML for
-  screen readers.
+- Every formula is a `formula` block or inline `$…$`, never plain text (`W = G * p / 100`) and never a picture.
+  The runtime renders it as MathML, which a screen reader reads.
 
 ## `explainer-generated-sound`: The property test passes
 
@@ -130,134 +157,11 @@ scope: archetype:explainer
 severity: error
 ```
 
-- `given`, `where`: `where` holds often; answer defined and in format for every draw; no mistake can equal it.
-- Failure names the seed: narrow `given` or change the mistake; never the comparator.
+The build draws 200 tasks of each `generated` exercise and stops at the first that is wrong, naming its seed.
 
-## `vue-component-props-valid`: Props as the component declares them
-
-```rule
-id: vue-component-props-valid
-scope: archetype:explainer
-severity: error
-```
-
-- `defineProps<{ … }>()` with types; each block passes exactly the declared props, of their types.
-
-## `vue-component-nojs`: Every component block has its `nojs` text
-
-```rule
-id: vue-component-nojs
-scope: archetype:explainer
-severity: error
-```
-
-- Every non-exercise `vue-component` block: `nojs` in every language (exercise: from `describe`): what it shows
-  and does, with content; same meaning without JS.
-- Schema requires it; `lernapps check` finds empty or hidden ones (`explainer-readable-without-js`).
-
-## `vue-component-exercise-contract`: An exercise component has its logic module
-
-```rule
-id: vue-component-exercise-contract
-scope: archetype:explainer
-severity: error
-```
-
-- Emits `answer` → `src/components/<Name>.ts` with pure, deterministic `generate(seed, props)`,
-  `check(task, answer)`, `solution(task)`, `wrong(task)`, `reason(task, answer, props, lang)`; property test passes.
-- Emits no `answered` (the old contract): the explainer draws "Prüfen" and checks; a component draws none.
-- Block lists `examples` with at least one `accepted` and one `rejected`, `{ answer, seed? }` in the shape of
-  `check` (no seed: seeds 1–50), incl. another correct answer where the text allows.
-- Declares prop `seed: number`, shows `generate(seed, props)`. The explainer gives the seed, shows "Aufgabe Nr.",
-  "Neue Aufgabe", keeps `?<id>=<n>`: never draw a seed or offer "next" inside.
-- Also exports `describe(task, props, lang)` → `{ task, solution }` (restricted Markdown, task exactly as shown) and
-  `about = { task, answer, correct, mistakes }` (texts by language). The tutor reads only these (the tutor page, no-JS
-  text).
-- Any exercise may carry `examples: { accepted, rejected }`; `generated`: expressions of `given` and `answer`, per
-  seed (e.g. `reverse(answer)`).
-- With `template`, `params`, `mistakes` and `show` (all four or none, rule `vue-component-tutor-table`): `check`
-  accepts the solution and rejects each mistake's answer, `params` gives the same names for every task, each
-  placeholder of `template` is one of them.
-
-## `vue-component-tutor-table`: An exercise component declares its exercise for the tutor
-
-```rule
-id: vue-component-tutor-table
-scope: archetype:explainer
-severity: hint
-```
-
-- The logic module also exports `template(props, lang)`: the task once, `{name}` for each input;
-  `params(task, props, lang)`: the inputs by name (`{ G: 1260, p: 15 }`), numbers or texts, the same names for every
-  task; `mistakes(task, props)`: per `about.mistakes`, in order, the answer it gives, `undefined` where none;
-  `show(answer, task, props, lang)`: an answer as text, short ("C", "3 Kästchen").
-- The tutor page then has the task once, the mistakes as F1, F2 … and a table of every number (inputs, solution,
-  each mistake), like `generated`. Without them: each number's `describe` as far as 64 kB allow, and the build's hint
-  names the block.
-- Example: `node_modules/@lernapps/app-templates/explainer/src/components/ProzentFeld.ts`, the template's.
-
-## `vue-component-tested`: A test per component
-
-```rule
-id: vue-component-tested
-scope: archetype:explainer
-severity: error
-```
-
-- `src/components/<Name>.test.ts` per component, testing its logic: other right answers the text allows, typical
-  wrong ones with reasons, edge cases. Run by `lernapps check`.
-
-## `vue-component-no-network`: No network
-
-```rule
-id: vue-component-no-network
-scope: [archetype:explainer, archetype:interactive]
-severity: error
-```
-
-- No request, no URL import: props or bundle.
-
-## `vue-component-no-html-injection`: No code or HTML from strings
-
-```rule
-id: vue-component-no-html-injection
-scope: [archetype:explainer, archetype:interactive]
-severity: error
-```
-
-- No `eval`, `new Function`, `innerHTML`, `v-html`: the template renders.
-
-## `vue-component-imports`: Imports only from the allowed packages
-
-```rule
-id: vue-component-imports
-scope: [archetype:explainer, archetype:interactive]
-severity: error
-```
-
-- Only `vue`, `@lernapps/app-templates`, `@lernapps/tooling/storage`, `i18n`, `a11y`, own folder. Types from
-  anywhere.
-- Interactive: also the app's `src/` files and its `dependencies`.
-
-## `vue-component-browser-globals`: Browser globals only once mounted
-
-```rule
-id: vue-component-browser-globals
-scope: [archetype:explainer, archetype:interactive]
-severity: error
-```
-
-- `window`, `document`, `localStorage` etc. only in `onMounted` or later unmount hooks (server render has none).
-
-## `vue-component-size`: Within 20 kB
-
-```rule
-id: vue-component-size
-scope: archetype:explainer
-severity: error
-```
-
-- Own code max 20 kB gzip. More → split, or a new block: write it into the retrospective.
+- `where` holds in at least one of ten draws; the answer is defined and fits its format for every draw; no mistake
+  gives the same value as the answer.
+- A failure for a seed: narrow `given` or change the mistake. Never loosen the comparison.
 
 ## `explainer-open-points`: An open task checks what the material teaches
 
@@ -267,8 +171,9 @@ scope: archetype:explainer
 severity: warning
 ```
 
-- 2 to 5 points, each one sentence a learner can check with yes or no; together what a good answer needs.
-- A point of the content names its section (`source`), and its content is there; a point of form has `kind: form`.
+- An `open-task` has 2 to 5 points, each one sentence a learner can check with yes or no; together they are what a
+  good answer needs.
+- A point of the content names the section that teaches it (`source`). A point of form has `kind: form`.
 - The model answer has every point, in the words of the class.
 
 ## `explainer-scope-matches`: The scope says what the pages teach
@@ -279,54 +184,8 @@ scope: archetype:explainer
 severity: warning
 ```
 
-- `scope` of each page in your own words, never copied from the material; `scope` in `src/app.yaml` with what does not
-  belong to it.
-- Each page's scope says what the page teaches, no more and no less; "Gehört nicht dazu" names what a learner or tutor
-  might expect but the material does not teach.
+The tutor judges open answers by the scope and stays within it.
 
-## `content-matches-competencies`: Each page teaches its competencies
-
-```rule
-id: content-matches-competencies
-scope: tooling
-severity: hint
-```
-
-- A page of a format-2 explainer with a strand teaches what the "Ich kann …" (`iCan`) of its competencies says in
-  `https://lernapps.net/apps/map/<subject>.json`: not clearly more, not something else.
-- More to teach → a page of the competency that says it; none in the map → propose it to `lernapps/apps`
-  (`map/<subject>.yaml`), never invent it in the app.
-- The review reads each page with the `iCan` of its competencies.
-
-## `competencies-on-map`: The strand or subject and the page competencies are on the map
-
-```rule
-id: competencies-on-map
-scope: tooling
-severity: warning
-```
-
-- `strand` in `src/app.yaml` is a strand of the subject's map; each page's `competencies` are ids of that strand.
-- `subject` in `src/app.yaml` (a unit app) only where the subject's map says `explainerFocus: competency`. Then
-  `competencies` may be ids of every strand of the subject, but each page's ids belong to one strand.
-- Each competency of a recap page's `recap` (`<subject>/<competency>`, or a list of them) is on the map, of any
-  strand, and the app does not practise it on a page of its own.
-- `lernapps check` loads `https://lernapps.net/apps/map/<subject>.json` and warns before the push. Not reachable or
-  no map yet → one hint that it could not check.
-- At the listing an unknown id, one of another strand, a `subject` in a subject with `explainerFocus: strand`, and a
-  page across strands are errors of the catalog (`entry-learning-map`).
-
-## `recap-names-competencies`: A recap page names each competency it repeats
-
-```rule
-id: recap-names-competencies
-scope: tooling
-severity: warning
-```
-
-- The runtime writes at the top of a recap page only a link to the map for each recapped competency, with its id as
-  the link's text. What the learner should already know, the page's text says.
-- So the text names each competency of `recap`: its name (`name.de`) or its "Ich kann …" sentence (`iCan`) from
-  `https://lernapps.net/apps/map/<subject>.json`, in any case. Best as a short self-check at the start of the page.
-- `lernapps check` warns about a competency the text does not name. Map not reachable, or the competency not on it:
-  no finding here (`competencies-on-map` says so).
+- Write the `scope` of each page in your own words, never copied from the material: what the page teaches, no more
+  and no less.
+- `scope` in `src/app.yaml` also names what does not belong to the app and a learner or tutor might expect.

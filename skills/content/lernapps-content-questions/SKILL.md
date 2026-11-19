@@ -62,10 +62,10 @@ scope: [archetype:quiz, archetype:explainer]
 severity: hint
 ```
 
-- A wrong option's `info` says what the option is and why it does not fit, in 1–3 sentences ("Der Nil fließt durch
-  mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer. Gefragt war ein Fluss in Südamerika."). After a right
-  answer the options' `info` is not shown, so the right option needs one only where it adds a fact, which
-  `explanation` does not say.
+- Every option has an `info` (the schema requires it): one to three sentences on the option itself, true whether
+  or not it is the right answer. For a wrong option it also says why it does not fit ("Der Nil fließt durch mehrere
+  Länder Afrikas und mündet in Ägypten ins Mittelmeer. Gefragt war ein Fluss in Südamerika."). The page shows the
+  `info` of every option after a wrong answer, and none after a right one.
 - `explanation`: 1–3 sentences why the answer is right, shown after every answer; it does not repeat an `info`. For
   true-false, number, ordering and matching also the background.
 - `number`: typical wrong numbers as `mistakes` (`answer`, `message`). Any question: an optional `hint`, not the
@@ -77,14 +77,14 @@ severity: hint
 
 ```rule
 id: quiz-further-reading
-scope: archetype:quiz
+scope: [archetype:quiz, archetype:explainer]
 severity: warning
 ```
 
 - At least one link per question, best the German Wikipedia (`https://de.wikipedia.org/wiki/...`).
 - `title` names the page ("Uluru (Wikipedia)").
 - No page of its own (a term like "Wortgleichung"): the page that fits best, preferably the one the question's facts
-  came from. Never no link (the schema needs one).
+  came from. Never no link: the schema requires one, in a quiz and for a question of an explainer.
 - HTTP 429 → tell the creator which; mark the facts "not checked" in the plan; go on.
 
 ## `quiz-own-words`: Write in your own words

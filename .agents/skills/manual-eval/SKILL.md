@@ -28,6 +28,16 @@ steer.
 5. Start each session with `create_session`: title `lernapps: manual eval <archetype>`, the start prompt below as
    `prompt`. The task must be in that first prompt: a task that arrives later as a notification may be refused.
 
+## A tooling that is not released
+
+- A build that is not on the registry (a local build has version `0.0.0`): give it to both commands,
+  `lernapps init <short name> --tooling <spec>` and `create --tooling <spec>`, e.g.
+  `file:/path/to/lernapps-tooling-0.0.0.tgz` (from `npm pack`) or `github:lernapps/tooling#<commit>`. Run from a
+  checkout of the tooling, `init` packs it into a temporary folder and installs that tarball by itself; `create`
+  takes the same from `package.json`.
+- A sandbox without a server for the map: `LERNAPPS_TEST_MAP_URL=<folder>` (or a `file:` URL) makes
+  `lernapps check` read `<folder>/<subject>.json`.
+
 ## Start prompt
 
 Fill in `<…>`. The owner grants the permissions in it; never add permissions in a served file (agents rightly refuse

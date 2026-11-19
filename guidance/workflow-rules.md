@@ -4,7 +4,7 @@ The plan holds the workflow. These rules say what each step must meet. They hold
 
 ## Plan
 
-### `plan-file`: Keep the plan file
+### `plan-file`: The plan's tasks change only through `lernapps plan`
 
 ```rule
 id: plan-file
@@ -12,10 +12,14 @@ scope: tooling
 severity: error
 ```
 
-- Keep each plan in `.vibe/plans/` as its template says: every section and front matter key, `phase` set when you
-  enter a phase, each task box ticked when it is done.
+- Change the tasks, the phase and the front matter of a plan only with `lernapps plan`: `next` prints the task to do,
+  `done` ticks it, `skip` ticks a task that does not apply, `add` adds one. Never reword, delete or tick a task by
+  hand.
+- Write into the plan's other sections yourself: Goal, Key decisions, Notes, Answers, Entry draft, Content method,
+  Retrospective. Keep every section.
 - Never change the plan of an earlier piece of work.
-- Never edit `prePushFailures` or `failedChecks`: the hook and the check write them.
+- The commit hook compares the tasks with the last commit and stops a commit that reworded or removed one. Restore
+  the task; what it should say instead is a new task (`plan add`) or a skipped one (`plan skip`).
 
 ### `explore-before-code`: No code before the plan is confirmed
 
@@ -38,7 +42,8 @@ severity: error
 - Checkpoints: research, confirm the plan and the content method, the pattern page (`early-preview`), publish. Stop at
   each and wait for the answer.
 - Checkpoint list: open the listing pull request first (it publishes nothing), then show it and its result and wait.
-- A message sent before the checkpoint's question is no yes.
+- A message sent before the checkpoint's question is no yes. `lernapps plan done --answer "<their words>"` ticks a
+  checkpoint and keeps the answer in the plan.
 - Example: "Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?"
 
 ### `few-turns-after-plan`: Work on your own after the plan
@@ -62,27 +67,8 @@ severity: hint
 
 - In Code, build one complete page or screen first, check it as a learner would, then show it to the creator and ask
   whether the other pages may follow it.
-- The page is the pattern for the others. An explainer: entry, figure or model, how learners use it, example,
-  exercise.
-- Before you show it, check it: against the rules of skill `lernapps-<archetype>-design` (an explainer: the five
-  questions of `explainer-representation-explained` for each figure and model), and let a sub-agent use it in the
-  browser as a learner of the app's grade (`@lernapps/tooling/guidance/subagent-brief.md`, "Learner check"). The app
-  must run for it: start `npm run dev` as a background task of your harness (a process started with `nohup … &` in a
-  shell that ends dies with it), and check that its address answers before the sub-agent starts. Run the
-  sub-agent in the foreground and wait for its report in the same turn; no turn ends while it runs. No sub-agent
-  tool: do the learner check yourself, in the browser, with the same brief. Fix what they find.
-- Look at the screenshots yourself, each image (`npx --no -- lernapps screenshots --desktop`, desktop and 360 px):
-  what you have not seen you cannot show. Your tools cannot show an image (a read gives only bytes): check the page in
-  the browser instead (its text, the boxes of its elements at both widths) and say so to the creator.
-- Then send the creator one message that begins "**Code · Checkpoint** Zwischenstand": the screenshots (their paths,
-  or the images where the chat shows them), on the creator's machine also the address of `npm run dev`, started in
-  the background; what learners do on the page in one or two sentences; one question: may the other pages follow
-  this pattern?
-- A checkpoint: wait for the answer. Every message after it is the creator's answer. A change → change the pattern
-  first, then build the other pages after it.
-- Example: "**Code · Checkpoint** Zwischenstand: So sieht die erste Seite aus (Bilder: …). Die Kinder teilen einen
-  Kuchen mit dem Regler in gleich große Stücke und markieren dann selbst. Soll ich die anderen Seiten nach diesem
-  Muster bauen?"
+- The learner check and the message to the creator: skill `lernapps-learner-check`.
+- A checkpoint: wait for the answer. A change → change the pattern first, then build the other pages after it.
 
 ### `feedback-applied-everywhere`: A remark on one page is checked on all
 

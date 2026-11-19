@@ -29,5 +29,5 @@ Each slice is one Code task and ends in one commit:
 - A sub-agent's: one chapter (its pages, its own data file); in a quiz, the question drafts of one round.
 - Each sub-agent works in its own git worktree, branch and browser port. You merge one by one, add the shared parts
   and run the check.
-- In Code, each sub-agent gets the brief `@lernapps/tooling/guidance/subagent-brief.md`, filled in. Write in Plan
-  which slices go to sub-agents.
+- In Code, each sub-agent gets the brief [references/slice-brief.md](references/slice-brief.md), filled in. Say in
+  each task of Plan which slices go to sub-agents.

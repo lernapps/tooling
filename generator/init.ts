@@ -21,7 +21,8 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
-import { PLANS } from "../src/plan.ts";
+import { applyArchetype, currentPlan, PLANS } from "../src/plan.ts";
+import { archetypePart } from "../src/plan-command.ts";
 import {
   CreateError,
   fromPackage,
@@ -320,7 +321,7 @@ export function init(args: string[]): number {
   writeProcessGuidance(dir);
   if (repository.warning !== undefined) process.stderr.write(`lernapps init: warning: ${repository.warning}\n`);
   process.stdout.write(
-    `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${replacedLine(replaced)}${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md and ${relative(dir, target)} completely and follow the plan, in this folder\n`,
+    `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${replacedLine(replaced)}${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md, then run "npx --no -- lernapps plan next" and follow the plan task by task, in this folder\n`,
   );
   return 0;
 }
@@ -351,7 +352,22 @@ export function skills(args: string[]): number {
   );
   syncSkills(resolve("."), others);
   process.stdout.write(
-    `lernapps skills: the skills of the archetype ${values.archetype} are installed${replacedLine(replaced)}\n`,
+    `lernapps skills: the skills of the archetype ${values.archetype} are installed${replacedLine(replaced)}\n${planOfArchetype(resolve("."), values.archetype)}`,
   );
   return 0;
+}
+
+/**
+ * Makes the current plan the plan of the archetype (src/plan.ts, applyArchetype): its tasks and hints go where the
+ * template leaves room for them. A plan without such places keeps its tasks: one made before the archetypes had
+ * their parts, or one that has its archetype already. Returns the line that says what happened.
+ */
+function planOfArchetype(dir: string, archetype: string): string {
+  const plan = currentPlan(dir);
+  if (plan === undefined) return "";
+  const file = join(dir, plan);
+  const text = readFileSync(file, "utf8");
+  if (!/^<!-- archetype: [a-z][a-z0-9-]* -->$/m.test(text)) return `${plan}: unchanged, it has its tasks already\n`;
+  writeFileSync(file, applyArchetype(text, archetype, archetypePart(archetype)));
+  return `${plan}: the archetype is set and its tasks are added. Next: npx --no -- lernapps plan done\n`;
 }

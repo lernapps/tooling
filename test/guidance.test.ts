@@ -9,6 +9,7 @@ import { join, relative } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
 import { parse } from "yaml";
 import { archetypeSkills } from "../generator/init.ts";
+import { applyArchetype } from "../src/plan.ts";
 import { frontMatter, frontMatterErrors, headings } from "./plan.ts";
 import { repoRoot, run } from "./support.ts";
 
@@ -20,6 +21,14 @@ const TEMPLATE = "guidance/plan-template.md";
 const INCREMENT = "guidance/increment-template.md";
 const TEMPLATES = [TEMPLATE, INCREMENT];
 const AGENTS = "guidance/AGENTS.md";
+const ARCHETYPES = ["explainer", "interactive", "quiz"] as const;
+/** The archetype's part of a plan, which `lernapps skills --archetype` and `lernapps plan new` put into a template. */
+const part = (archetype: string) => `guidance/plan-${archetype}.md`;
+/** Each template as the plan of each archetype: what an assistant works with once the archetype is chosen. */
+const BUILT = TEMPLATES.flatMap((template) =>
+  ARCHETYPES.map((archetype) => [template, archetype] as [string, (typeof ARCHETYPES)[number]]),
+);
+const built = (template: string, archetype: string) => applyArchetype(read(template), archetype, read(part(archetype)));
 const PHASES = ["Explore", "Plan", "Code", "Commit"] as const;
 const fixture = (name: string) => `test/fixtures/plans/${name}.md`;
 /** A level-2 section of a plan, up to the next one. */
@@ -169,10 +178,29 @@ describe("the plan's sections", () => {
     expect(at("Open the listing pull request")).toBeGreaterThan(at("Commit this plan on `main` and push it"));
   });
 
-  test("the template asks to fetch the entry schema instead of repeating its fields", () => {
+  test("the template leaves the entry to the listing skill, in Commit: no schema is read in Explore", () => {
     const template = read(TEMPLATE);
-    expect(template).toContain("https://lernapps.net/apps/schemas/entry.v1.schema.json");
+    expect(section(template, "## Commit")).toContain("Load skill `lernapps-listing`. Write the entry");
+    expect(section(template, "## Explore")).not.toContain("schema");
     for (const field of ["grades", "fitness", "thirdParty", "keywords"]) expect(template).not.toContain(field);
+  });
+
+  test.each(BUILT)(
+    "%s becomes the plan of the %s: no place for an archetype and no placeholder is left",
+    (template, archetype) => {
+      const plan = built(template, archetype);
+      expect(plan).not.toMatch(/<!-- archetype: /);
+      expect(plan).not.toContain("<archetype>");
+      expect(frontMatter(plan)).toMatchObject({ archetype, phase: "explore" });
+      expect(headings(plan).filter((heading) => PLAN_SECTIONS.includes(heading))).toEqual(PLAN_SECTIONS);
+    },
+  );
+
+  test.each(ARCHETYPES)("every section of the %s's part has its place in a template", (archetype) => {
+    const places = TEMPLATES.flatMap((template) =>
+      [...read(template).matchAll(/^<!-- archetype: ([a-z-]+) -->$/gm)].map((match) => match[1]),
+    );
+    for (const [, name] of read(part(archetype)).matchAll(/^## ([a-z-]+)$/gm)) expect(places).toContain(name);
   });
 });
 
@@ -191,14 +219,12 @@ describe("AGENTS.md", () => {
     expect(read(INCREMENT)).toContain("Work on the branch `increment/<NN>-<short name>`");
   });
 
-  test("points to the plans and both templates, which exist in the package", () => {
+  test("points to the plans and to `lernapps plan`, which reads and starts them", () => {
     const agents = read(AGENTS);
     expect(agents).toContain(".vibe/plans/<NN>-<short name>.md");
-    expect(agents).toContain("@lernapps/tooling/guidance/");
-    for (const template of TEMPLATES) {
-      expect(agents).toContain(template.replace("guidance/", "`") + "`");
-      expect(read(template)).toMatch(/^---\n/);
-    }
+    expect(agents).toContain("npx --no -- lernapps plan next");
+    expect(agents).toContain("npx --no -- lernapps plan new <short name>");
+    for (const template of TEMPLATES) expect(read(template)).toMatch(/^---\n/);
   });
 });
 
@@ -266,20 +292,26 @@ describe("the skills", () => {
     expect(description(name).length).toBeLessThanOrEqual(1024);
   });
 
-  test.each(TEMPLATES)("%s loads each skill in the phase its description names", (template) => {
-    const plan = read(template);
-    for (const phase of PHASES) {
-      for (const name of named(section(plan, `## ${phase}`))) {
-        const skill = name ?? "";
-        if (!skills.includes(skill)) continue; // a name that is no skill: the next test fails on it
-        expect(description(skill), `${template}: ${phase} names ${name}`).toMatch(new RegExp(`^Use .*?in ${phase}\\b`));
+  test.each(BUILT)(
+    "%s as the plan of the %s loads each skill in the phase its description names",
+    (template, archetype) => {
+      const plan = built(template, archetype);
+      for (const phase of PHASES) {
+        for (const name of named(section(plan, `## ${phase}`))) {
+          const skill = name ?? "";
+          if (!skills.includes(skill)) continue; // a name that is no skill: the next test fails on it
+          expect(description(skill), `${template}: ${phase} names ${name}`).toMatch(
+            new RegExp(`^Use .*?in ${phase}\\b`),
+          );
+        }
       }
-    }
-  });
+    },
+  );
 
   test.each([
     TEMPLATE,
     INCREMENT,
+    ...ARCHETYPES.map(part),
     AGENTS,
     ...skills.flatMap((name) => ["SKILL.md", ...filesOf(name)].map((path) => `${folder(name)}/${path}`)),
   ])("every skill %s names exists, with its name, and a consumer can resolve it", (path) => {
@@ -302,15 +334,13 @@ describe("the skills", () => {
         .map((skill) => skill.name)
         .sort(),
     ).toEqual(groups("archetypes"));
-    expect(explore).toContain("npx --no -- lernapps skills --archetype <archetype>");
+    expect(explore).toContain("npx --no -- lernapps skills --archetype <name>");
     for (const name of groups("archetypes")) {
       expect(name).toMatch(/^lernapps-(quiz|explainer|interactive)(-design)?$|^lernapps-explainer-self-assessment$/);
     }
     // the explainer's self-assessment, once its content is known: in Commit, of the first version and of every increment
-    for (const file of [TEMPLATE, "guidance/increment-template.md"]) {
-      const commit = section(read(file), "## Commit");
-      expect(commit).toContain("lernapps-explainer-self-assessment");
-      expect(commit).toMatch(/npx --no -- lernapps skills --archetype\s+explainer/);
+    for (const template of TEMPLATES) {
+      expect(section(built(template, "explainer"), "## Commit")).toContain("lernapps-explainer-self-assessment");
     }
   });
 
@@ -320,6 +350,42 @@ describe("the skills", () => {
     expect(skill).toContain("https://lernapps.net/apps/enter/llms.txt");
     for (const field of ["grades", "thirdParty", "keywords", "topics"]) expect(skill).not.toContain(field);
   });
+});
+
+test("the reading path of an explainer stays within its budget", () => {
+  // What an assistant reads on the way to a first explainer on the learning map, without a component and without a
+  // foreign language: the agent instructions, the plan of the explainer, each skill the plan loads and each reference
+  // its task or its "Read when" names without a condition. Every character is read again with each later step, so
+  // the path has a budget (concept-terse-output). Before the plan had commands and each topic one home, the same
+  // path had about 144 000 characters, with the entry schema read in Explore. Raise the budget only with a reason;
+  // a text that grows makes room by moving what a finding can name into a reference read on demand.
+  const skill = (group: string, name: string, ...references: string[]) =>
+    ["SKILL.md", ...references.map((reference) => `references/${reference}`)].map(
+      (path) => `skills/${group}/${name}/${path}`,
+    );
+  const path = [
+    AGENTS,
+    ...skill("process", "lernapps-app"),
+    ...skill("content", "lernapps-exercise-patterns", "mathematics.md"),
+    ...skill("content", "lernapps-content-research", "sources.md"),
+    ...skill("archetypes", "lernapps-explainer-design", "rules.md"),
+    ...skill("tooling", "lernapps-cli"),
+    ...skill("archetypes", "lernapps-explainer", "blocks.md", "exercises.md", "structure.md"),
+    ...skill("content", "lernapps-content-questions", "question-types.md"),
+    ...skill("process", "lernapps-learner-check", "page.md", "whole-app.md"),
+    ...skill("archetypes", "lernapps-explainer-self-assessment"),
+    ...skill("process", "lernapps-github"),
+    ...skill("process", "lernapps-commit"),
+    ...skill("process", "lernapps-listing"),
+  ];
+  const read = (file: string) => readFileSync(join(repoRoot, file), "utf8");
+  const plan = built(TEMPLATE, "explainer");
+  for (const file of path.slice(1)) {
+    const name = file.split("/")[2] ?? "";
+    expect(plan, `the plan of the explainer loads ${name}`).toContain(`\`${name}\``);
+  }
+  const characters = plan.length + path.reduce((sum, file) => sum + read(file).length, 0);
+  expect(characters).toBeLessThanOrEqual(113_000);
 });
 
 test("AGENTS.md holds every process rule of workflow-rules.md, as the table scripts/agents-md.ts writes", async () => {

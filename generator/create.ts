@@ -210,6 +210,9 @@ function contents(dir: string): string[] {
     // what the starter repository (lernapps/start) has: the development container, which create writes again, the
     // licence, which it writes again, and a README, which stays
     if (name === ".devcontainer" || name === "LICENSE" || name === "README.md") return [];
+    // what git ignores until the app has its own list: init writes it so that a commit in Explore or Plan leaves
+    // node_modules out, and create writes the archetype's again
+    if (name === ".gitignore") return [];
     if (name === "package.json" && readJson(join(dir, name)).lernapps?.init === true) return [];
     if (name === ".vibe") {
       // the planning folder: the plans are checked (a first version has one), what the planning leaves beside them stays
@@ -217,7 +220,8 @@ function contents(dir: string): string[] {
       return existsSync(join(dir, PLANS)) ? within(PLANS, (file) => PLAN_NAME.test(file)) : [];
     }
     if ((name === ".agents" || name === ".claude") && skills.size > 0) {
-      return within(name, (folder) => folder === "skills").concat(
+      // .claude/settings.json: the permissions the starter repository gives the assistant for the tooling's commands
+      return within(name, (folder) => folder === "skills" || `${name}/${folder}` === ".claude/settings.json").concat(
         existsSync(join(dir, name, "skills")) ? within(`${name}/skills`, (skill) => skills.has(skill)) : [],
       );
     }
@@ -402,6 +406,8 @@ function writeAppFiles(dir: string, values: Record<string, string>): void {
  * the first session, and again by create; a CLAUDE.md the creator wrote stays.
  */
 export function writeProcessGuidance(dir: string): void {
+  // before create writes the archetype's .gitignore, a commit must already leave the installed packages out
+  if (!existsSync(join(dir, ".gitignore"))) writeFileSync(join(dir, ".gitignore"), "node_modules/\n");
   writeFileSync(join(dir, "AGENTS.md"), readFileSync(fromPackage("guidance", "AGENTS.md")));
   if (!existsSync(join(dir, "CLAUDE.md"))) writeFileSync(join(dir, "CLAUDE.md"), "@AGENTS.md\n");
 }
@@ -536,7 +542,7 @@ export function create(args: string[]): number {
         ...(existsSync(join(dir, ".git")) ? [] : [`git init --initial-branch=${WORK_BRANCH}`]),
         "npm install (the runtime and the git hooks)",
         "git add -A, then git commit (the first commit; the hooks check it)",
-        `follow ${relative(dir, plan.target)}`,
+        `npx --no -- lernapps plan done (the next task of ${relative(dir, plan.target)})`,
       ].map((step, index) => `  ${index + 1}. ${step}`),
       "",
     ].join("\n"),

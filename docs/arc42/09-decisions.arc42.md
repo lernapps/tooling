@@ -636,6 +636,36 @@ addresses: qg-guidance-evolves, qg-few-iterations, qg-any-assistant
 :::
 ```
 
+## The plan is read and changed by commands, one archetype per plan
+
+**Context:** manual runs with three explainers showed how assistants treat the plan as a file: they read the whole
+template once (about 17 000 characters, with the branches of every archetype) and not again, changed it with scripts
+of their own, ticked every box of a phase in one replacement, and guessed file names where a task said
+`lernapps-<archetype>`. The skills, in turn, repeated what the plan said and told how to use the plan.
+**Decision:** three layers, each with one job. The agent instructions hold the process that is the same for every
+app. The plan file holds the method of one app: it is made for its archetype, by `lernapps skills --archetype`, which
+puts the archetype's tasks (`guidance/plan-<archetype>.md`) into the plan and names its skills. The skills explain
+conventions, each a rule that a check or the review validates; they hold no process. `lernapps plan` is the way to
+the tasks: `next`, `done`, `skip`, `add`, `new`. Tasks, phase and front matter change only through it; the free
+sections (Goal, Key decisions, Notes, Answers, Entry draft, Content method, Retrospective) the assistant writes by
+hand. A checkpoint is ticked only with the creator's answer, which stays in the plan. The commit hook stops a commit
+that reworded or removed a task (`plan-file`).
+**Consequences:** an assistant reads one task at a time, with exact skill and file names; the plan stays Markdown
+that the creator reads, and no state lives outside it. The commands cannot prove that a task was done, and a hand
+can still tick a box: the rule is told, the hook catches only rewording. Every step of the plan is now a call of
+`npx`, which a harness must allow. The fallback without `npx` works on the template by hand. Rejected: a workflow
+server (an agent protocol, `qg-any-assistant`); a state file beside the plan (two sources).
+
+```arc42
+:::decision
+id: dec-plan-commands
+title: The plan is read and changed by commands, one archetype per plan
+status: accepted
+date: 2026-11-19
+addresses: qg-few-iterations, qg-any-assistant, qg-guidance-evolves, risk-assistants-skip-guidance
+:::
+```
+
 ## The tooling sends nothing
 
 **Context:** sessions that never reach a listing stay invisible, but the platform collects nothing in secret.

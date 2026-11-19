@@ -133,6 +133,7 @@ flowchart LR
             bb-skill-interactive["lernapps-interactive"]
             bb-skill-content-questions["lernapps-content-questions"]
             bb-skill-audio["lernapps-audio"]
+            bb-skill-learner-check["lernapps-learner-check"]
         end
         subgraph bb-skills-commit["Commit"]
             bb-skill-explainer-self-assessment["lernapps-explainer-self-assessment"]
@@ -177,6 +178,14 @@ writes them again. `AGENTS.md` holds every process rule as a table, written from
 plan template gives the order. Before, `AGENTS.md` came only with `create`, after the plan, and Claude Code did not
 load it: the evals of `feat/explainer-learning-juror` found it in no agent's context.
 
+The agent instructions hold the process that is the same for every app: the phases, the plan file and how to work
+with it. The plan file holds the method of one app. It starts from the template, which reaches up to the choice of
+the archetype; `lernapps skills --archetype` then puts the archetype's tasks into it (`guidance/plan-<archetype>.md`)
+and names its skills, so that a plan has no branches for other archetypes. `lernapps plan` reads and changes the
+tasks: `next` prints the one task to do, `done` ticks it and enters the next phase after the last, `skip` and `add`
+change the list, `new` starts the plan of an increment. The assistant writes by hand only in the plan's free
+sections; the commit hook stops a commit that reworded or removed a task (`dec-plan-commands`).
+
 The plan starts with the questions for the creator, including what the catalog needs to help adults find the app,
 and keeps the answers for the listing. It ends with a retrospective: phases reached, the creator's turns after the
 plan, and where the assistant had to guess; the failed checks the check itself counts in the front matter. Comments
@@ -191,7 +200,7 @@ parent: bb-tooling-package
 technology: Markdown
 implements: concept-plain-language, concept-terse-output, concept-traceability, concept-rule-catalog
 x-phase: across
-x-agent: Gives the four phases, the checkpoints, and which skill comes when; a brief for each sub-agent.
+x-agent: Gives the four phases, the checkpoints, and which skill comes when; `lernapps plan` hands out one task at a time.
 x-person: Answers the interview and confirms at each checkpoint.
 :::
 ```
@@ -457,6 +466,24 @@ technology: Markdown (agentskills.io)
 implements: concept-rule-catalog
 x-phase: code
 x-agent: Fixes every failed check from its message and never bypasses one; shows the creator the pages of the app.
+:::
+```
+
+##### lernapps-learner-check
+
+Goal: Before the creator sees the pattern page, and once for the whole app, someone uses the app in the browser as a learner of its grade and reports where a learner gets stuck. The skill holds the steps and, as references, the brief for one page and the brief for the whole app, which the review uses too.
+
+```arc42
+:::ignore W002 a part of the skills; the contract is the skills interface :::
+:::building-block
+id: bb-skill-learner-check
+title: lernapps-learner-check
+parent: bb-skills-code
+path: skills/process/lernapps-learner-check
+technology: Markdown (agentskills.io)
+implements: concept-rule-catalog
+x-phase: code
+x-agent: Lets a sub-agent use a page, and at the end the whole app, as a learner would, and fixes what it finds.
 :::
 ```
 
