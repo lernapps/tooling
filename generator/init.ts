@@ -33,8 +33,23 @@ import {
   writeProcessGuidance,
 } from "./create.ts";
 
-/** What may be in the folder before init: git, and what the fallback without npx of llms.txt copied there. */
-const FALLBACK_FILES = [".git", ".vibe", ".agents", ".devcontainer", "AGENTS.md", "CLAUDE.md", "LICENSE", "README.md"];
+/**
+ * What may be in the folder before init: git, what the fallback without npx of llms.txt copied there, and what the
+ * starter repository (lernapps/start) has, with its settings for Claude Code (.claude/) and for Renovate.
+ */
+const FALLBACK_FILES = [
+  ".git",
+  ".gitignore",
+  ".vibe",
+  ".agents",
+  ".claude",
+  ".devcontainer",
+  "AGENTS.md",
+  "CLAUDE.md",
+  "LICENSE",
+  "README.md",
+  "renovate.json",
+];
 
 /** The options of `lernapps init`, as node:util parseArgs takes them. */
 export const INIT_OPTIONS = {
@@ -317,7 +332,9 @@ export function init(args: string[]): number {
     shipped.filter((name) => !excluded.includes(name)),
   );
   syncSkills(dir, excluded);
-  writeProcessGuidance(dir);
+  // the process guidance of the tooling the app now depends on, like the plan template: with --tooling the running
+  // package may be another version, whose AGENTS.md would not fit the plan and the skills just installed
+  writeProcessGuidance(dir, source(TOOLING, "guidance", "AGENTS.md"));
   if (repository.warning !== undefined) process.stderr.write(`lernapps init: warning: ${repository.warning}\n`);
   process.stdout.write(
     `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${replacedLine(replaced)}${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md and ${relative(dir, target)} completely and follow the plan, in this folder\n`,

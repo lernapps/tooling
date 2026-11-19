@@ -55,12 +55,15 @@ describe("lernapps create refuses", () => {
     expect(existsSync(join(dir, "package.json"))).toBe(false);
   });
 
-  test("a folder with what the starter repository has (README.md, LICENSE, .devcontainer/) is empty enough", () => {
+  test("a folder with what the starter repository has (README.md, LICENSE, renovate.json, .devcontainer/) is empty enough", () => {
     const dir = tempDir("create-starter");
     writeFileSync(join(dir, "README.md"), "# Eine Lernapp bauen\n");
     writeFileSync(join(dir, "LICENSE"), "MIT\n");
     mkdirSync(join(dir, ".devcontainer"));
     writeFileSync(join(dir, ".devcontainer/devcontainer.json"), "{}\n");
+    writeFileSync(join(dir, "renovate.json"), "{}\n");
+    // and what init adds before the app has its own: the list of what git ignores
+    writeFileSync(join(dir, ".gitignore"), "node_modules/\n");
     confirmedPlan(dir, "quiz");
     const result = lernapps(["create", "--archetype", "quiz", dir, "--templates", join(dir, "nowhere")], repoRoot);
     expect(result.code, output(result)).toBe(1);
