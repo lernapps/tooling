@@ -333,7 +333,9 @@ export function init(args: string[]): number {
     shipped.filter((name) => !excluded.includes(name)),
   );
   syncSkills(dir, excluded);
-  writeProcessGuidance(dir);
+  // the process guidance of the tooling the app now depends on, like the plan template: with --tooling the running
+  // package may be another version, whose AGENTS.md would not fit the plan and the skills just installed
+  writeProcessGuidance(dir, source(TOOLING, "guidance", "AGENTS.md"));
   if (repository.warning !== undefined) process.stderr.write(`lernapps init: warning: ${repository.warning}\n`);
   process.stdout.write(
     `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${replacedLine(replaced)}${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md, then run "npx --no -- lernapps plan next" and follow the plan task by task, in this folder\n`,

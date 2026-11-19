@@ -405,10 +405,13 @@ function writeAppFiles(dir: string, values: Record<string, string>): void {
  * reads CLAUDE.md and not AGENTS.md, a CLAUDE.md that imports it. Written by lernapps init, so that it is there from
  * the first session, and again by create; a CLAUDE.md the creator wrote stays.
  */
-export function writeProcessGuidance(dir: string): void {
+export function writeProcessGuidance(dir: string, agents = fromPackage("guidance", "AGENTS.md")): void {
   // before create writes the archetype's .gitignore, a commit must already leave the installed packages out
   if (!existsSync(join(dir, ".gitignore"))) writeFileSync(join(dir, ".gitignore"), "node_modules/\n");
-  writeFileSync(join(dir, "AGENTS.md"), readFileSync(fromPackage("guidance", "AGENTS.md")));
+  writeFileSync(
+    join(dir, "AGENTS.md"),
+    readFileSync(existsSync(agents) ? agents : fromPackage("guidance", "AGENTS.md")),
+  );
   if (!existsSync(join(dir, "CLAUDE.md"))) writeFileSync(join(dir, "CLAUDE.md"), "@AGENTS.md\n");
 }
 

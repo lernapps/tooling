@@ -3,7 +3,7 @@
 import { existsSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { describe, expect, test } from "vite-plus/test";
-import { CreateError } from "../generator/create.ts";
+import { CreateError, writeProcessGuidance } from "../generator/create.ts";
 import {
   archetypeSkills,
   ensureRepository,
@@ -120,5 +120,36 @@ describe("skills copied by hand before init (the fallback without npx)", () => {
     );
     expect(removeHandCopies(dir, ["lernapps-app"])).toEqual([]);
     expect(existsSync(join(dir, ".agents/skills/lernapps-app/SKILL.md"))).toBe(true);
+  });
+});
+
+describe("the process guidance init writes", () => {
+  test("is the AGENTS.md of the tooling the app installed, not of the package that runs init", () => {
+    // `npx --yes @lernapps/tooling init <name> --tooling <spec>`: the released CLI installs another version, whose
+    // plan and skills go into the app; its AGENTS.md must go with them
+    const dir = tempDir("init-guidance");
+    const installed = join(dir, "node_modules/@lernapps/tooling/guidance/AGENTS.md");
+    mkdirSync(join(installed, ".."), { recursive: true });
+    writeFileSync(installed, "# AGENTS.md of the installed tooling\n");
+    writeProcessGuidance(dir, installed);
+    expect(readFileSync(join(dir, "AGENTS.md"), "utf8")).toBe("# AGENTS.md of the installed tooling\n");
+    expect(readFileSync(join(dir, "CLAUDE.md"), "utf8")).toBe("@AGENTS.md\n");
+  });
+
+  test("an installed tooling without the file (an old version) gets this package's AGENTS.md", () => {
+    const dir = tempDir("init-guidance");
+    writeProcessGuidance(dir, join(dir, "node_modules/@lernapps/tooling/guidance/AGENTS.md"));
+    expect(readFileSync(join(dir, "AGENTS.md"), "utf8")).toBe(
+      readFileSync(join(repoRoot, "guidance/AGENTS.md"), "utf8"),
+    );
+  });
+
+  test("comes with a .gitignore that keeps node_modules out of a commit before the app exists; an own one stays", () => {
+    const dir = tempDir("init-guidance");
+    writeProcessGuidance(dir);
+    expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe("node_modules/\n");
+    writeFileSync(join(dir, ".gitignore"), "node_modules/\n.env\n");
+    writeProcessGuidance(dir);
+    expect(readFileSync(join(dir, ".gitignore"), "utf8")).toBe("node_modules/\n.env\n");
   });
 });
