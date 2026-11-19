@@ -151,7 +151,7 @@
 <tr><td><a href="#quiz-clear-question"><code>quiz-clear-question</code></a></td><td>archetype:quiz, archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#quiz-feedback-explains"><code>quiz-feedback-explains</code></a></td><td>archetype:quiz, archetype:explainer</td><td>hint</td></tr>
 <tr><td><a href="#quiz-fitting-type"><code>quiz-fitting-type</code></a></td><td>archetype:quiz, archetype:explainer</td><td>hint</td></tr>
-<tr><td><a href="#quiz-further-reading"><code>quiz-further-reading</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
+<tr><td><a href="#quiz-further-reading"><code>quiz-further-reading</code></a></td><td>archetype:quiz, archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#quiz-number-precision"><code>quiz-number-precision</code></a></td><td>archetype:quiz, archetype:explainer</td><td>warning</td></tr>
 <tr><td><a href="#quiz-only-data"><code>quiz-only-data</code></a></td><td>archetype:quiz</td><td>error</td></tr>
 <tr><td><a href="#quiz-own-words"><code>quiz-own-words</code></a></td><td>archetype:quiz</td><td>warning</td></tr>
@@ -497,14 +497,13 @@
 <p><code>competencies-on-map</code> · tooling · warning</p>
 <div>
 <ul>
-<li><code>strand</code> in <code>src/app.yaml</code> is a strand of the subject's map; each page's <code>competencies</code> are ids of that strand.</li>
-<li><code>subject</code> in <code>src/app.yaml</code> (a unit app) only where the subject's map says <code>explainerFocus: competency</code>. Then <code>competencies</code> may be ids of every strand of the subject, but each page's ids belong to one strand.</li>
-<li>Each competency of a recap page's <code>recap</code> (<code>&lt;subject&gt;/&lt;competency&gt;</code>, or a list of them) is on the map, of any strand, and the app does not practise it on a page of its own.</li>
-<li><code>lernapps check</code> loads <code>https://lernapps.net/apps/map/&lt;subject&gt;.json</code> and warns before the push. Not reachable or no map yet → one hint that it could not check.</li>
-<li>At the listing an unknown id, one of another strand, a <code>subject</code> in a subject with <code>explainerFocus: strand</code>, and a page across strands are errors of the catalog (<code>entry-learning-map</code>).</li>
+<li><code>strand</code> in <code>src/app.yaml</code> is a strand of the subject's map, and each page's <code>competencies</code> are ids of that strand.</li>
+<li><code>subject</code> (a unit app) only where the subject's map says <code>explainerFocus: competency</code>. Its pages may take ids of every strand of the subject, but the ids of one page belong to one strand.</li>
+<li>Each competency of a recap page (<code>recap</code>) is on the map, of any strand, and the app does not practise it on a page of its own.</li>
+<li>At the listing each of these is an error of the catalog (<code>entry-learning-map</code>).</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/competencies-on-map.ts"><code>check/rules/competencies-on-map.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/map-rules.md"><code>skills/archetypes/lernapps-explainer-design/references/map-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/competencies-on-map.ts"><code>check/rules/competencies-on-map.ts</code></a>.</p>
 </section>
 
 <section id="content-matches-competencies">
@@ -512,12 +511,11 @@
 <p><code>content-matches-competencies</code> · tooling · hint</p>
 <div>
 <ul>
-<li>A page of a format-2 explainer with a strand teaches what the &quot;Ich kann …&quot; (<code>iCan</code>) of its competencies says in <code>https://lernapps.net/apps/map/&lt;subject&gt;.json</code>: not clearly more, not something else.</li>
-<li>More to teach → a page of the competency that says it; none in the map → propose it to <code>lernapps/apps</code> (<code>map/&lt;subject&gt;.yaml</code>), never invent it in the app.</li>
-<li>The review reads each page with the <code>iCan</code> of its competencies.</li>
+<li>A page teaches what the &quot;Ich kann …&quot; sentence (<code>iCan</code>) of its competencies says in the map: not clearly more, and not something else. The review reads each page with that sentence.</li>
+<li>More to teach belongs on a page of the competency that says it. If the map has none, propose it to <code>lernapps/apps</code> (<code>map/&lt;subject&gt;.yaml</code>); never invent a competency in the app.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/map-rules.md"><code>skills/archetypes/lernapps-explainer-design/references/map-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
 </section>
 
 <section id="early-preview">
@@ -526,12 +524,8 @@
 <div>
 <ul>
 <li>In Code, build one complete page or screen first, check it as a learner would, then show it to the creator and ask whether the other pages may follow it.</li>
-<li>The page is the pattern for the others. An explainer: entry, figure or model, how learners use it, example, exercise.</li>
-<li>Before you show it, check it: against the rules of skill <code>lernapps-&lt;archetype&gt;-design</code> (an explainer: the five questions of <code>explainer-representation-explained</code> for each figure and model), and let a sub-agent use it in the browser as a learner of the app's grade (<code>@lernapps/tooling/guidance/subagent-brief.md</code>, &quot;Learner check&quot;). The app must run for it: start <code>npm run dev</code> as a background task of your harness (a process started with <code>nohup … &amp;</code> in a shell that ends dies with it), and check that its address answers before the sub-agent starts. Run the sub-agent in the foreground and wait for its report in the same turn; no turn ends while it runs. No sub-agent tool: do the learner check yourself, in the browser, with the same brief. Fix what they find.</li>
-<li>Look at the screenshots yourself, each image (<code>npx --no -- lernapps screenshots --desktop</code>, desktop and 360 px): what you have not seen you cannot show. Your tools cannot show an image (a read gives only bytes): check the page in the browser instead (its text, the boxes of its elements at both widths) and say so to the creator.</li>
-<li>Then send the creator one message that begins &quot;<strong>Code · Checkpoint</strong> Zwischenstand&quot;: the screenshots (their paths, or the images where the chat shows them), on the creator's machine also the address of <code>npm run dev</code>, started in the background; what learners do on the page in one or two sentences; one question: may the other pages follow this pattern?</li>
-<li>A checkpoint: wait for the answer. Every message after it is the creator's answer. A change → change the pattern first, then build the other pages after it.</li>
-<li>Example: &quot;<strong>Code · Checkpoint</strong> Zwischenstand: So sieht die erste Seite aus (Bilder: …). Die Kinder teilen einen Kuchen mit dem Regler in gleich große Stücke und markieren dann selbst. Soll ich die anderen Seiten nach diesem Muster bauen?&quot;</li>
+<li>The learner check and the message to the creator: skill <code>lernapps-learner-check</code>.</li>
+<li>A checkpoint: wait for the answer. A change → change the pattern first, then build the other pages after it.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>.</p>
@@ -545,7 +539,7 @@
 <li>At least four exercises on a page (a component counts), not three quarters or more guessable choices (single choice, multiple choice, true or false) without a component, and not all of one kind.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-interaction.ts"><code>check/rules/explainer-interaction.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-interaction.ts"><code>check/rules/explainer-interaction.ts</code></a>.</p>
 </section>
 
 <section id="explainer-page-variety">
@@ -556,7 +550,7 @@
 <li>From four pages on, no one set of exercise kinds on half of the pages or more.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-page-variety.ts"><code>check/rules/explainer-page-variety.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-page-variety.ts"><code>check/rules/explainer-page-variety.ts</code></a>.</p>
 </section>
 
 <section id="explainer-repetition">
@@ -567,7 +561,7 @@
 <li>Not more than 10 phrases of five words said by two text blocks of a page, or by two exercises of one type. Repeating in another part (text, then task, then table) is a way to teach: do it on purpose, to deepen it differently.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-repetition.ts"><code>check/rules/explainer-repetition.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-repetition.ts"><code>check/rules/explainer-repetition.ts</code></a>.</p>
 </section>
 
 <section id="explainer-text-load">
@@ -575,10 +569,10 @@
 <p><code>explainer-text-load</code> · tooling · hint</p>
 <div>
 <ul>
-<li>At most 350 words to read and 350 in tasks and feedback on a page, at most 4 text blocks in a row, and a figure, table or exercise within the first 4 blocks. <code>lernapps check</code> counts them.</li>
+<li>At most 350 words to read and 350 in tasks and feedback on a page, at most 4 text blocks in a row, and a figure, table or exercise within the first 4 blocks.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-text-load.ts"><code>check/rules/explainer-text-load.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-text-load.ts"><code>check/rules/explainer-text-load.ts</code></a>.</p>
 </section>
 
 <section id="explainer-visual">
@@ -589,7 +583,7 @@
 <li>At least half of the pages have something to look at besides tables and text: a figure, formula, code, quote, timeline, video or component.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-visual.ts"><code>check/rules/explainer-visual.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-visual.ts"><code>check/rules/explainer-visual.ts</code></a>.</p>
 </section>
 
 <section id="explore-before-code">
@@ -650,7 +644,7 @@
 <li>A git pin (<code>github:…#&lt;commit&gt;</code>) moves in both files together.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/lockfile-matches.ts"><code>check/rules/lockfile-matches.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/code-rules.md"><code>skills/tooling/lernapps-cli/references/code-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/lockfile-matches.ts"><code>check/rules/lockfile-matches.ts</code></a>.</p>
 </section>
 
 <section id="one-competency-per-page">
@@ -658,20 +652,22 @@
 <p><code>one-competency-per-page</code> · tooling · hint</p>
 <div>
 <ul>
-<li>Each page teaches one competency of the map: <code>competencies</code> with one id; several pages for one large competency are fine. <code>lernapps check</code> hints at every page with more than one.</li>
+<li>Each page teaches one competency of the map: <code>competencies</code> holds one id. Several pages for one large competency are fine.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/one-competency-per-page.ts"><code>check/rules/one-competency-per-page.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/map-rules.md"><code>skills/archetypes/lernapps-explainer-design/references/map-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/one-competency-per-page.ts"><code>check/rules/one-competency-per-page.ts</code></a>.</p>
 </section>
 
 <section id="plan-file">
-<h2>Keep the plan file</h2>
+<h2>The plan's tasks change only through <code>lernapps plan</code></h2>
 <p><code>plan-file</code> · tooling · error · warning at listing</p>
 <div>
 <ul>
-<li>Keep each plan in <code>.vibe/plans/</code> as its template says: every section and front matter key, <code>phase</code> set when you enter a phase, each task box ticked when it is done.</li>
+<li>Change the tasks, the phase and the front matter of a plan only with <code>lernapps plan</code>: <code>next</code> prints the task to do, <code>done</code> ticks it, <code>skip</code> ticks a task that does not apply, <code>add</code> adds one. Never reword, delete or tick a task by hand.</li>
+<li>Run <code>plan done</code> when the work of the task has succeeded. In one command line with that work, join it with <code>&amp;&amp;</code>, so that a step that fails does not tick the task. Never tick several tasks in a loop.</li>
+<li>Write into the plan's other sections yourself: Goal, Key decisions, Notes, Answers, Entry draft, Content method, Retrospective. Keep every section.</li>
 <li>Never change the plan of an earlier piece of work.</li>
-<li>Never edit <code>prePushFailures</code> or <code>failedChecks</code>: the hook and the check write them.</li>
+<li>The commit hook compares the tasks with the last commit and stops a commit that reworded or removed one. Restore the task; what it should say instead is a new task (<code>plan add</code>) or a skipped one (<code>plan skip</code>).</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/guidance/workflow-rules.md"><code>guidance/workflow-rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/rubric.md"><code>review/rubric.md</code></a>.</p>
@@ -681,27 +677,27 @@
 <h2>Prerequisites come before the page that needs them</h2>
 <p><code>prerequisites-in-order</code> · tooling · warning</p>
 <div>
+<p>A learner who meets a page without what it builds on is stuck, and the map shows which pages those are.</p>
 <ul>
-<li>Each direct prerequisite (<code>requires</code> in the map) of a page's competency is practised on that page or an earlier one, repeated on a recap page before it (<code>recap: &lt;subject&gt;/&lt;competency&gt;</code>, or in its list), or named in the page's text with a link to its page on the map: <code>https://lernapps.net/apps/map/&lt;subject&gt;/c/&lt;id&gt;/</code>. A recapped competency's own prerequisites do not count.</li>
-<li><code>lernapps check</code> names the page and the prerequisite, once, at the first page that needs it: - order: the app practises or repeats it, but only later. Move the pages. - gap: the app does not have it, but practises something it builds on. Practise it in between, or recap or link it. - entry: nothing of its chain is in the app. The app starts here: a recap page before the page, or a link. - ahead: the page names it in <code>ahead</code>, but no page of the app practises it. Practise it, or remove it from <code>ahead</code>. - ahead not needed: no competency of the page requires it, or the app has it on this page or before. Remove it.</li>
-<li>A page may come before a prerequisite on purpose: it names it in <code>ahead: [&lt;id&gt;]</code>, and the app practises it on another page, earlier or later. A recap page or a link does not count.</li>
-<li>Severity by the subject's map: <code>explainerFocus: competency</code> a warning, <code>strand</code> a hint; at the listing order and gap are errors with <code>competency</code>, else warnings.</li>
+<li>Each direct prerequisite (<code>requires</code> in the map) of a page's competency is one of these: practised on that page or an earlier one; repeated on a recap page before it; or named in the page's text with a link to its page on the map, <code>https://lernapps.net/apps/map/&lt;subject&gt;/c/&lt;id&gt;/</code>. The prerequisites of a recapped competency do not count.</li>
+<li>A page that comes before its prerequisite on purpose names it in <code>ahead: [&lt;id&gt;]</code>, and another page of the app practises it. A recap page or a link is not enough for <code>ahead</code>.</li>
+<li>A finding names the page, the prerequisite and its kind: - order: the app has it, but later. Move the pages. - gap: the app lacks it, but practises something that builds on it. Practise it in between, or recap or link it. - entry: nothing of its chain is in the app. Add a recap page before the page, or a link. - ahead: named in <code>ahead</code>, but no page practises it, or no competency of the page requires it. Practise it, or remove it from <code>ahead</code>.</li>
+<li>In a subject with <code>explainerFocus: competency</code> a finding is a warning, else a hint. At the listing, order and gap are errors there.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/SKILL.md"><code>skills/archetypes/lernapps-explainer-design/SKILL.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/prerequisites-in-order.ts"><code>check/rules/prerequisites-in-order.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/map-rules.md"><code>skills/archetypes/lernapps-explainer-design/references/map-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/prerequisites-in-order.ts"><code>check/rules/prerequisites-in-order.ts</code></a>.</p>
 </section>
 
 <section id="recap-names-competencies">
 <h2>A recap page names each competency it repeats</h2>
 <p><code>recap-names-competencies</code> · tooling · warning</p>
 <div>
+<p>The runtime puts only a link with the competency's id at the top of a recap page. What the learner should already know, the page's text has to say.</p>
 <ul>
-<li>The runtime writes at the top of a recap page only a link to the map for each recapped competency, with its id as the link's text. What the learner should already know, the page's text says.</li>
-<li>So the text names each competency of <code>recap</code>: its name (<code>name.de</code>) or its &quot;Ich kann …&quot; sentence (<code>iCan</code>) from <code>https://lernapps.net/apps/map/&lt;subject&gt;.json</code>, in any case. Best as a short self-check at the start of the page.</li>
-<li><code>lernapps check</code> warns about a competency the text does not name. Map not reachable, or the competency not on it: no finding here (<code>competencies-on-map</code> says so).</li>
+<li>The text names each competency of <code>recap</code>, with its name (<code>name.de</code>) or its &quot;Ich kann …&quot; sentence (<code>iCan</code>) from <code>https://lernapps.net/apps/map/&lt;subject&gt;.json</code>. Best as a short self-check at the start of the page.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/recap-names-competencies.ts"><code>check/rules/recap-names-competencies.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/map-rules.md"><code>skills/archetypes/lernapps-explainer-design/references/map-rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/recap-names-competencies.ts"><code>check/rules/recap-names-competencies.ts</code></a>.</p>
 </section>
 
 <section id="retrospective-filled">
@@ -723,7 +719,7 @@
 <ul>
 <li>Checkpoints: research, confirm the plan and the content method, the pattern page (<code>early-preview</code>), publish. Stop at each and wait for the answer.</li>
 <li>Checkpoint list: open the listing pull request first (it publishes nothing), then show it and its result and wait.</li>
-<li>A message sent before the checkpoint's question is no yes.</li>
+<li>A message sent before the checkpoint's question is no yes. <code>lernapps plan done --answer &quot;&lt;their words&gt;&quot;</code> ticks a checkpoint and keeps the answer in the plan.</li>
 <li>Example: &quot;Die App ist fertig und geprüft. Soll ich sie jetzt veröffentlichen?&quot;</li>
 </ul>
 </div>
@@ -753,7 +749,7 @@
 <li>The review reads every suppression.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/suppression-reason.ts"><code>lint/rules/suppression-reason.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/code-rules.md"><code>skills/tooling/lernapps-cli/references/code-rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/suppression-reason.ts"><code>lint/rules/suppression-reason.ts</code></a>.</p>
 </section>
 
 <section id="explainer-age-appropriate">
@@ -773,8 +769,8 @@
 <p><code>explainer-content-valid</code> · archetype:explainer · error</p>
 <div>
 <ul>
-<li>Schema-valid; ids unique per level; references exist (data file, image, component, page or section link); placeholders declared; formulas only from the command list.</li>
-<li>Build names each problem with file, line, block path.</li>
+<li>The content is valid against the schema; ids are unique per level; every reference exists (data file, image, component, link to a page or section); every placeholder is declared; formulas use only the listed commands.</li>
+<li>The build names each problem with file, line and block path. Fix it there.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -823,7 +819,7 @@
 <p><code>explainer-formulas-static</code> · archetype:explainer · error</p>
 <div>
 <ul>
-<li>Every formula in a <code>formula</code> block or <code>$…$</code>; never plain text (<code>W = G * p / 100</code>) or a picture. MathML for screen readers.</li>
+<li>Every formula is a <code>formula</code> block or inline <code>$…$</code>, never plain text (<code>W = G * p / 100</code>) and never a picture. The runtime renders it as MathML, which a screen reader reads.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
@@ -833,9 +829,10 @@
 <h2>The property test passes</h2>
 <p><code>explainer-generated-sound</code> · archetype:explainer · error</p>
 <div>
+<p>The build draws 200 tasks of each <code>generated</code> exercise and stops at the first that is wrong, naming its seed.</p>
 <ul>
-<li><code>given</code>, <code>where</code>: <code>where</code> holds often; answer defined and in format for every draw; no mistake can equal it.</li>
-<li>Failure names the seed: narrow <code>given</code> or change the mistake; never the comparator.</li>
+<li><code>where</code> holds in at least one of ten draws; the answer is defined and fits its format for every draw; no mistake gives the same value as the answer.</li>
+<li>A failure for a seed: narrow <code>given</code> or change the mistake. Never loosen the comparison.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -867,8 +864,8 @@
 <p><code>explainer-languages</code> · archetype:explainer · error</p>
 <div>
 <ul>
-<li><code>languages</code>, German first.</li>
-<li>Every learner text (content, data files, component props) in each, no other. Build fails otherwise.</li>
+<li><code>languages</code> in <code>src/app.yaml</code> starts with German.</li>
+<li>Every text a learner reads (content, data files, props of components) is there in each declared language, and in no other. A missing translation fails the build.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -904,9 +901,8 @@
 <p><code>explainer-navigation</code> · archetype:explainer · error</p>
 <div>
 <ul>
-<li>Navigation is the runtime's: from the order lists; every page in one chain, reachable from the start page.</li>
-<li>Prose links: paths from the app root.</li>
-<li><code>lernapps check</code> finds unreachable pages (<code>pages-reachable</code>) and entry topics with a missing <code>#&lt;section&gt;</code> (<code>entry-links-resolve</code>).</li>
+<li>The runtime builds the navigation from the order lists: every page is in one chain and reachable from the start page.</li>
+<li>A link in a text is a path from the app's root (<code>/prozent/grundwert/#regel</code>).</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -929,10 +925,11 @@
 <h2>Write only the content</h2>
 <p><code>explainer-only-content</code> · archetype:explainer · error</p>
 <div>
+<p>The runtime owns rendering, so that every explainer stays accessible, readable without JavaScript and up to date with <code>lernapps update</code>.</p>
 <ul>
-<li>Write: YAML of app, chapters, pages, data; images in <code>src/images/</code>; components with logic and tests in <code>src/components/</code>.</li>
-<li><code>src/main.ts</code>, <code>index.html</code>, <code>e2e/explainer.e2e.ts</code>, config as generated (<code>keep-the-preset</code>). Any other file in <code>src/</code> fails the build.</li>
-<li>Not expressible → &quot;Where I had to guess&quot;, never code around the runtime.</li>
+<li>You write the YAML of app, chapters, pages and data, images in <code>src/images/</code>, and components with their logic and tests in <code>src/components/</code>. Any other file in <code>src/</code> fails the build.</li>
+<li><code>src/main.ts</code>, <code>index.html</code>, <code>e2e/explainer.e2e.ts</code> and the configuration stay as generated (<code>keep-the-preset</code>).</li>
+<li>What the notation cannot express goes under &quot;Where I had to guess&quot; in the plan. Never code around the runtime, and never change it in <code>node_modules</code>.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -943,8 +940,8 @@
 <p><code>explainer-open-points</code> · archetype:explainer · warning</p>
 <div>
 <ul>
-<li>2 to 5 points, each one sentence a learner can check with yes or no; together what a good answer needs.</li>
-<li>A point of the content names its section (<code>source</code>), and its content is there; a point of form has <code>kind: form</code>.</li>
+<li>An <code>open-task</code> has 2 to 5 points, each one sentence a learner can check with yes or no; together they are what a good answer needs.</li>
+<li>A point of the content names the section that teaches it (<code>source</code>). A point of form has <code>kind: form</code>.</li>
 <li>The model answer has every point, in the words of the class.</li>
 </ul>
 </div>
@@ -989,10 +986,10 @@
 <h2>Every page readable without JavaScript</h2>
 <p><code>explainer-readable-without-js</code> · archetype:explainer · error</p>
 <div>
+<p>A page must teach the same on a school computer that blocks scripts and for a screen reader.</p>
 <ul>
-<li>Every fact in a block, visible without JS. No meaning only inside an exercise or component.</li>
-<li>Every component a <code>nojs</code> text: what it shows, its content.</li>
-<li><code>lernapps check</code> opens every explainer page again with JS off, bundle and deployed (listing and review too): headings, formulas, figures visible, figures named; every &quot;Lösung&quot; and <code>nojs</code> text not empty.</li>
+<li>Every fact stands in a block that shows without JavaScript. Nothing a learner needs is only inside an exercise or a component.</li>
+<li>Every component that is no exercise has a <code>nojs</code> text that says what it shows, with its content.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the check <a href="https://github.com/lernapps/tooling/blob/main/check/rules/explainer-readable-without-js.ts"><code>check/rules/explainer-readable-without-js.ts</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
@@ -1015,9 +1012,10 @@
 <h2>The scope says what the pages teach</h2>
 <p><code>explainer-scope-matches</code> · archetype:explainer · warning</p>
 <div>
+<p>The tutor judges open answers by the scope and stays within it.</p>
 <ul>
-<li><code>scope</code> of each page in your own words, never copied from the material; <code>scope</code> in <code>src/app.yaml</code> with what does not belong to it.</li>
-<li>Each page's scope says what the page teaches, no more and no less; &quot;Gehört nicht dazu&quot; names what a learner or tutor might expect but the material does not teach.</li>
+<li>Write the <code>scope</code> of each page in your own words, never copied from the material: what the page teaches, no more and no less.</li>
+<li><code>scope</code> in <code>src/app.yaml</code> also names what does not belong to the app and a learner or tutor might expect.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
@@ -1027,9 +1025,10 @@
 <h2>Keep the ids</h2>
 <p><code>explainer-stable-ids</code> · archetype:explainer · warning</p>
 <div>
+<p>Teachers link to pages and sections, and the catalog lists them by their ids.</p>
 <ul>
-<li>Short, telling ids (&quot;prozentwert&quot;, &quot;regel&quot;) for chapters, pages, sections, exercises; keep them when texts change (entry topics, teachers' links).</li>
-<li>New content, new ids; never reuse a removed one.</li>
+<li>Give chapters, pages, sections and exercises short, telling ids (&quot;prozentwert&quot;, &quot;regel&quot;), and keep them when the text changes.</li>
+<li>New content gets new ids. Never reuse a removed one.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
@@ -1063,9 +1062,10 @@
 <h2>Structure only by sections</h2>
 <p><code>explainer-structure-by-sections</code> · archetype:explainer · error</p>
 <div>
+<p>The contents of a page, its anchors and the entry links of the catalog are made from sections.</p>
 <ul>
-<li>Every heading = a <code>section</code> block with <code>id</code>, <code>title</code>.</li>
-<li>A Markdown heading (<code>#</code>, <code>##</code>, underlined) in a text fails the build.</li>
+<li>Every heading is a <code>section</code> block with <code>id</code> and <code>title</code>.</li>
+<li>A Markdown heading (<code>#</code>, <code>##</code>, an underlined line) in a text fails the build.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -1076,8 +1076,8 @@
 <p><code>explainer-structure-complete</code> · archetype:explainer · error</p>
 <div>
 <ul>
-<li>At least one chapter.</li>
-<li>Every chapter folder in <code>chapters</code> of <code>src/app.yaml</code>, every page file in <code>pages</code> of its <code>chapter.yaml</code>, exactly once, in reading order.</li>
+<li>The app has at least one chapter.</li>
+<li>Every chapter folder is in <code>chapters</code> of <code>src/app.yaml</code>, every page file in <code>pages</code> of its <code>chapter.yaml</code>, exactly once, in reading order. The order of the lists is the order of the navigation; nothing is sorted by name.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -1088,7 +1088,8 @@
 <p><code>explainer-structure-depth</code> · archetype:explainer · error</p>
 <div>
 <ul>
-<li>Sections at most two deep. No heading levels set: they follow from nesting. More levels = two apps.</li>
+<li>Sections nest at most two deep. Heading levels follow from the nesting; you set none.</li>
+<li>Content that needs more levels is two apps.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
@@ -1167,7 +1168,7 @@
 <li>Never turn a lint rule off or lower its severity.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/code-rules.md"><code>skills/tooling/lernapps-cli/references/code-rules.md</code></a>.</p>
 </section>
 
 <section id="pages-from-gh-pages">
@@ -1237,7 +1238,7 @@
 <p><code>quiz-feedback-explains</code> · archetype:quiz, archetype:explainer · hint</p>
 <div>
 <ul>
-<li>A wrong option's <code>info</code> says what the option is and why it does not fit, in 1–3 sentences (&quot;Der Nil fließt durch mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer. Gefragt war ein Fluss in Südamerika.&quot;). After a right answer the options' <code>info</code> is not shown, so the right option needs one only where it adds a fact, which <code>explanation</code> does not say.</li>
+<li>Every option has an <code>info</code> (the schema requires it): one to three sentences on the option itself, true whether or not it is the right answer. For a wrong option it also says why it does not fit (&quot;Der Nil fließt durch mehrere Länder Afrikas und mündet in Ägypten ins Mittelmeer. Gefragt war ein Fluss in Südamerika.&quot;). The page shows the <code>info</code> of every option after a wrong answer, and none after a right one.</li>
 <li><code>explanation</code>: 1–3 sentences why the answer is right, shown after every answer; it does not repeat an <code>info</code>. For true-false, number, ordering and matching also the background.</li>
 <li><code>number</code>: typical wrong numbers as <code>mistakes</code> (<code>answer</code>, <code>message</code>). Any question: an optional <code>hint</code>, not the answer.</li>
 <li>A wrong answer's <code>message</code> (and an exercise component's <code>reason</code>) says what does not fit and where to look, never the solution itself: the solution comes after the answer, with &quot;Lösung&quot; or the tutor.</li>
@@ -1260,12 +1261,12 @@
 
 <section id="quiz-further-reading">
 <h2>Every question links to further reading</h2>
-<p><code>quiz-further-reading</code> · archetype:quiz · warning</p>
+<p><code>quiz-further-reading</code> · archetype:quiz, archetype:explainer · warning</p>
 <div>
 <ul>
 <li>At least one link per question, best the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>).</li>
 <li><code>title</code> names the page (&quot;Uluru (Wikipedia)&quot;).</li>
-<li>No page of its own (a term like &quot;Wortgleichung&quot;): the page that fits best, preferably the one the question's facts came from. Never no link (the schema needs one).</li>
+<li>No page of its own (a term like &quot;Wortgleichung&quot;): the page that fits best, preferably the one the question's facts came from. Never no link: the schema requires one, in a quiz and for a question of an explainer.</li>
 <li>HTTP 429 → tell the creator which; mark the facts &quot;not checked&quot; in the plan; go on.</li>
 </ul>
 </div>
@@ -1357,7 +1358,7 @@
 <li>Never <code>localStorage</code>, <code>sessionStorage</code>, IndexedDB or cookies directly.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/storage-through-wrapper.ts"><code>lint/rules/storage-through-wrapper.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/code-rules.md"><code>skills/tooling/lernapps-cli/references/code-rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/storage-through-wrapper.ts"><code>lint/rules/storage-through-wrapper.ts</code></a>.</p>
 </section>
 
 <section id="strict-typescript">
@@ -1370,7 +1371,7 @@
 <li>Type the creator's data; validate it at build time.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/SKILL.md"><code>skills/tooling/lernapps-cli/SKILL.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/tooling/lernapps-cli/references/code-rules.md"><code>skills/tooling/lernapps-cli/references/code-rules.md</code></a>.</p>
 </section>
 
 <section id="topic-has-exercises">
@@ -1393,7 +1394,7 @@
 <li><code>window</code>, <code>document</code>, <code>localStorage</code> etc. only in <code>onMounted</code> or later unmount hooks (server render has none).</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-browser-globals.ts"><code>lint/rules/vue-component-browser-globals.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-browser-globals.ts"><code>lint/rules/vue-component-browser-globals.ts</code></a>.</p>
 </section>
 
 <section id="vue-component-exercise-contract">
@@ -1410,7 +1411,7 @@
 <li>With <code>template</code>, <code>params</code>, <code>mistakes</code> and <code>show</code> (all four or none, rule <code>vue-component-tutor-table</code>): <code>check</code> accepts the solution and rejects each mistake's answer, <code>params</code> gives the same names for every task, each placeholder of <code>template</code> is one of them.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>.</p>
 </section>
 
 <section id="vue-component-imports">
@@ -1422,7 +1423,7 @@
 <li>Interactive: also the app's <code>src/</code> files and its <code>dependencies</code>.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-imports.ts"><code>lint/rules/vue-component-imports.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-imports.ts"><code>lint/rules/vue-component-imports.ts</code></a>.</p>
 </section>
 
 <section id="vue-component-no-html-injection">
@@ -1433,7 +1434,7 @@
 <li>No <code>eval</code>, <code>new Function</code>, <code>innerHTML</code>, <code>v-html</code>: the template renders.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-no-html-injection.ts"><code>lint/rules/vue-component-no-html-injection.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-no-html-injection.ts"><code>lint/rules/vue-component-no-html-injection.ts</code></a>.</p>
 </section>
 
 <section id="vue-component-no-network">
@@ -1444,7 +1445,7 @@
 <li>No request, no URL import: props or bundle.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-no-network.ts"><code>lint/rules/vue-component-no-network.ts</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>; checked by the lint rule <a href="https://github.com/lernapps/tooling/blob/main/lint/rules/vue-component-no-network.ts"><code>lint/rules/vue-component-no-network.ts</code></a>.</p>
 </section>
 
 <section id="vue-component-nojs">
@@ -1456,7 +1457,7 @@
 <li>Schema requires it; <code>lernapps check</code> finds empty or hidden ones (<code>explainer-readable-without-js</code>).</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>.</p>
 </section>
 
 <section id="vue-component-props-valid">
@@ -1467,7 +1468,7 @@
 <li><code>defineProps&lt;{ … }&gt;()</code> with types; each block passes exactly the declared props, of their types.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>.</p>
 </section>
 
 <section id="vue-component-size">
@@ -1478,7 +1479,7 @@
 <li>Own code max 20 kB gzip. More → split, or a new block: write it into the retrospective.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>.</p>
 </section>
 
 <section id="vue-component-tested">
@@ -1489,7 +1490,7 @@
 <li><code>src/components/&lt;Name&gt;.test.ts</code> per component, testing its logic: other right answers the text allows, typical wrong ones with reasons, edge cases. Run by <code>lernapps check</code>.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>.</p>
 </section>
 
 <section id="vue-component-tutor-table">
@@ -1502,7 +1503,7 @@
 <li>Example: <code>node_modules/@lernapps/app-templates/explainer/src/components/ProzentFeld.ts</code>, the template's.</li>
 </ul>
 </div>
-<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/rules.md"><code>skills/archetypes/lernapps-explainer/references/rules.md</code></a>.</p>
+<p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer/references/components.md"><code>skills/archetypes/lernapps-explainer/references/components.md</code></a>.</p>
 </section>
   </main>
 <footer class="la-footer" lang="en">
