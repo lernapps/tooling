@@ -21,7 +21,7 @@
    `CLAUDE.md` and the skills of the phases.
 2. Read `AGENTS.md`. Then `npx --no -- lernapps plan next` prints the one task to do now, and
    `npx --no -- lernapps plan done` ticks it and prints the next. The plan gives the order, names the skill of each
-   task and holds the creator's checkpoints.
+   task and holds the creator's checkpoints. `npx --no -- lernapps skill <name>` prints a skill whole.
 
 Read guidance from the file, in full. Nothing is downloaded: a fetch tool that summarises loses tasks and rules, and
 `init` copies the files as they are.

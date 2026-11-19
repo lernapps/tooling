@@ -154,7 +154,9 @@ test("the skill score counts the skills loaded by the end of their phase, and th
           name: "Edit",
           input: { file_path: "/app/.vibe/plans/01-quiz.md", old_string: "phase: plan", new_string: "phase: code" },
         },
-        { name: "Bash", input: { command: "cat .agents/skills/lernapps-cli/SKILL.md" } },
+        // the way AGENTS.md names: the CLI prints the skill whole; a file of a skill is no load of the skill
+        { name: "Bash", input: { command: "npx --no -- lernapps skill lernapps-cli" } },
+        { name: "Bash", input: { command: "npx --no -- lernapps skill lernapps-audio references/voices.md" } },
         { name: "Skill", input: { skill: "lernapps-explainer" } },
       ]),
     ],

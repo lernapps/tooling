@@ -44,7 +44,7 @@ For you, the assistant. The process is in AGENTS.md; this plan holds the method.
 
 ### Tasks
 
-- [ ] Check the start: the folder `.agents/skills/lernapps-app` exists (else stop and tell the creator that the folder
+- [ ] Check the start: `npx --no -- lernapps skill` lists the skills (else stop and tell the creator that the folder
       was not started with `init`), and `git branch --show-current` prints `work` (else `git switch -c work`).
 - [ ] Load skill `lernapps-app`. Tell the creator in two sentences what a lernapps app is and where it will live: at
       their own address, free and public, and once listed as a copy on lernapps.net. Say that the technical part

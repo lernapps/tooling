@@ -47,6 +47,7 @@ import { init, skills } from "../generator/init.ts";
 import { update, UpdateError } from "../generator/update.ts";
 import { changedTasks, countFailedChecks, countPrePushFailure, PLAN_NAME, PLANS } from "./plan.ts";
 import { planCommand } from "./plan-command.ts";
+import { skillCommand } from "./skill-command.ts";
 import { NoBrowser, ScreenshotsError, screenshots } from "./screenshots.ts";
 import { CHECK_OPTIONS, CHECK_USAGE, SCREENSHOTS_USAGE, USAGE, UsageError } from "./usage.ts";
 
@@ -906,6 +907,8 @@ async function main(argv: string[]): Promise<number> {
       return planCommand(rest);
     case "screenshots":
       return screenshotsCommand(rest);
+    case "skill":
+      return skillCommand(rest);
     case "skills":
       return skills(rest);
     case "update":

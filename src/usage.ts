@@ -16,6 +16,7 @@ Commands:
   init <short name> [--addon <package>]           start an app: plan template and skills from the registry
   plan <next | done | skip | add | new>           read and change the tasks of the current plan, one at a time
   screenshots [--out <dir>] [<dir>]               an image of every page and every figure of a built explainer or quiz
+  skill [<name> [<file>]]                         print a skill of the app whole, or list the app's skills
   skills --archetype <name>                       add the skills and the plan tasks of the archetype the plan chose
   update                                          move the app to the runtime and tooling this tooling depends on
 

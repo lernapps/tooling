@@ -23,6 +23,7 @@ import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
 import { applyArchetype, currentPlan, PLANS, startPlan } from "../src/plan.ts";
 import { archetypePart } from "../src/plan-command.ts";
+import { describeSkills } from "../src/skill-command.ts";
 import {
   CreateError,
   fromPackage,
@@ -339,7 +340,7 @@ export function init(args: string[]): number {
   writeProcessGuidance(dir, source(TOOLING, "guidance", "AGENTS.md"));
   if (repository.warning !== undefined) process.stderr.write(`lernapps init: warning: ${repository.warning}\n`);
   process.stdout.write(
-    `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${replacedLine(replaced)}${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md, then run "npx --no -- lernapps plan next" and follow the plan task by task, in this folder\n`,
+    `lernapps init: ${relative(dir, target)} ${kept ? "kept" : `from ${relativeTemplate(template, dir)}`}; AGENTS.md (every process rule) and CLAUDE.md; the skills of the packages are installed${replacedLine(replaced)}${repository.done ? `; ${repository.done}` : ""}\nNext: ${repository.warning ? `git switch -c ${WORK_BRANCH}, then ` : ""}read AGENTS.md, then run "npx --no -- lernapps plan next" and follow the plan task by task, in this folder\n${describeSkills(dir)}`,
   );
   return 0;
 }
@@ -370,7 +371,12 @@ export function skills(args: string[]): number {
   );
   syncSkills(resolve("."), others);
   process.stdout.write(
-    `lernapps skills: the skills of the archetype ${values.archetype} are installed${replacedLine(replaced)}\n${planOfArchetype(resolve("."), values.archetype)}`,
+    `lernapps skills: the skills of the archetype ${values.archetype} are installed${replacedLine(replaced)}\n${planOfArchetype(resolve("."), values.archetype)}${describeSkills(
+      resolve("."),
+      archetypeSkills()
+        .filter((skill) => skill.archetype === values.archetype)
+        .map((skill) => skill.name),
+    )}`,
   );
   return 0;
 }
