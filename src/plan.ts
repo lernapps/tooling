@@ -282,12 +282,40 @@ export function describePosition(file: string, position: Position, withHints = t
     out.push("", `In ${title(position.phase)}:`, position.hints);
   }
   out.push("", `Task ${position.ticked + 1} of ${position.total}:`, position.task.text, "");
+  const files = skillFiles(position.task.text);
+  if (files.length > 0) {
+    // In manual runs an assistant read skills through the shell and cut them with head or sed; a step below the cut
+    // was then not done. Reads with the file tool were whole.
+    out.push(
+      "Read first, with your file tool and not through the shell, each file whole to its last line:",
+      ...files.map((file) => `  ${file}`),
+      "",
+    );
+  }
   out.push(
     position.task.text.includes(CHECKPOINT)
       ? 'A checkpoint: stop, ask the creator, wait. With their answer: npx --no -- lernapps plan done --answer "<their words>"'
       : 'When the task is done, as a command of its own: npx --no -- lernapps plan done (it does not apply: plan skip "<reason>"; more to do: plan add "<task>")',
   );
   return `${out.join("\n")}\n`;
+}
+
+/** Where an app's skills are, relative to its root: what `lernapps init`, `skills` and `create` put there. */
+const SKILLS = ".agents/skills";
+
+/**
+ * The skills a task asks to load ("Load skill `lernapps-app`", "load skills `a` and `b`"), as the files to read. A
+ * skill a task only refers to ("as skill `lernapps-github` says") was loaded by an earlier task and is not among them.
+ */
+export function skillFiles(task: string): string[] {
+  const files: string[] = [];
+  for (const load of task.matchAll(/\bload (?:the )?skills? ((?:`[a-z][a-z0-9-]*`(?:,? and |, )?)+)/gi)) {
+    for (const name of (load[1] ?? "").matchAll(/`([a-z][a-z0-9-]*)`/g)) {
+      const file = `${SKILLS}/${name[1] ?? ""}/SKILL.md`;
+      if (!files.includes(file)) files.push(file);
+    }
+  }
+  return files;
 }
 
 const brief = (text: string) => (text.length > 70 ? `${text.slice(0, 67)}…` : text);

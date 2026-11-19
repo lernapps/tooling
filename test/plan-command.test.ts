@@ -15,6 +15,7 @@ import {
   planPhase,
   planPosition,
   planTasks,
+  skillFiles,
   startPlan,
 } from "../src/plan.ts";
 import { repoRoot, run } from "./support.ts";
@@ -57,6 +58,39 @@ describe("reading the plan", () => {
     const plan =
       "---\nphase: explore\n---\n## Explore\n<!--\n- [ ] not this\n-->\n```\n- [ ] nor this\n```\n- [ ] this\n";
     expect(planTasks(plan).map((task) => task.text)).toEqual(["this"]);
+  });
+});
+
+describe("the skills of a task", () => {
+  test("a task that loads a skill names its file and asks for the file tool: the shell invites cutting", () => {
+    const at = until(TEMPLATE, (task) => task.startsWith("Load skill `lernapps-app`"));
+    const printed = describePosition("p", planPosition(at));
+    expect(printed).toContain("Read first, with your file tool and not through the shell, each file whole");
+    expect(printed).toContain("\n  .agents/skills/lernapps-app/SKILL.md\n");
+  });
+
+  test("every skill a task loads is listed once; a skill it only refers to is not", () => {
+    expect(skillFiles("Load skills `lernapps-a` and `lernapps-b`. Then load skill `lernapps-a` again.")).toEqual([
+      ".agents/skills/lernapps-a/SKILL.md",
+      ".agents/skills/lernapps-b/SKILL.md",
+    ]);
+    expect(skillFiles("Publish as skill `lernapps-github` says.")).toEqual([]);
+    const first = describePosition("p", planPosition(TEMPLATE));
+    expect(first).not.toContain("Read first");
+  });
+
+  test("the explainer's first Code tasks name the skills they load", () => {
+    const tasks = planTasks(explainer())
+      .filter((task) => task.phase === "code")
+      .flatMap((task) => skillFiles(task.text));
+    expect(tasks).toEqual(
+      expect.arrayContaining([
+        ".agents/skills/lernapps-cli/SKILL.md",
+        ".agents/skills/lernapps-explainer/SKILL.md",
+        ".agents/skills/lernapps-content-questions/SKILL.md",
+        ".agents/skills/lernapps-learner-check/SKILL.md",
+      ]),
+    );
   });
 });
 

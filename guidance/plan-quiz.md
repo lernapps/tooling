@@ -9,4 +9,5 @@
 
 ## code-start
 
-- [ ] Load skill `lernapps-content-questions` and read its `references/question-types.md`.
+- [ ] Load skill `lernapps-content-questions`. Read, with your file tool and whole,
+      `.agents/skills/lernapps-content-questions/references/question-types.md`.

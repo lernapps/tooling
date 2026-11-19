@@ -26,11 +26,12 @@ page, which a link. -->
 
 ## code-start
 
-- [ ] Read `references/blocks.md` and `references/exercises.md` of skill `lernapps-explainer`, and load skill
-      `lernapps-content-questions`. A foreign language: also `references/language-tasks.md`. A component in the plan:
-      also `references/components.md`.
-- [ ] Decide whether the app needs `scope`, as "When `scope` is needed" in `references/structure.md` of skill
-      `lernapps-explainer` says. Write the choice under "Key decisions".
+- [ ] Load skill `lernapps-content-questions`. Read, with your file tool and whole,
+      `.agents/skills/lernapps-explainer/references/blocks.md` and
+      `.agents/skills/lernapps-explainer/references/exercises.md`. A foreign language: also
+      `references/language-tasks.md` in the same folder. A component in the plan: also `references/components.md`.
+- [ ] Decide whether the app needs `scope`, as "`scope`" in
+      `.agents/skills/lernapps-explainer/references/structure.md` says. Write the choice under "Key decisions".
 
 ## commit-start
 
