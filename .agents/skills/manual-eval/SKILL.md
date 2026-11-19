@@ -46,6 +46,14 @@ The first message is what a creator would send, and nothing else:
 1. The prompt of the start page, fetched now and unchanged: the text creators copy at
    <https://lernapps.net/apps/build/> ("Bau mit mir eine Lern-App für lernapps.net. …").
 2. One or two sentences on the subject: what the app is about and for whom, in the persona's words.
+3. One sentence on how to reach the creator: "Ich sitze nicht im Chat dieser Sitzung: Schick mir jede Frage und jeden
+   Zwischenstand per send_message an @parent und warte auf meine Antwort." Without it the session asks in its own
+   chat, where nobody answers and nothing wakes you.
+
+Two changes to the start page's prompt are allowed, and no other: "in einem neuen, leeren Ordner" becomes "in diesem
+Ordner" (the session starts in the starter repository), and for guidance that is not released the `init` command gets
+`--tooling github:lernapps/tooling#<commit>`. The released CLI then installs that commit and writes its plan, skills
+and `AGENTS.md`.
 
 Never name a skill, a file of the guidance, a phase or a test mode in it, and never list skill descriptions: the
 session must find the guidance the way a creator's assistant does, from the start page, `AGENTS.md` and the plan.
