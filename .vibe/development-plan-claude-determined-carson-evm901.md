@@ -120,11 +120,12 @@ Die Anleitung, die ein Agent beim Erstellen eines Explainers liest, effizienter 
 ## Code
 ### Tasks
 - [ ] 13 `lernapps/app-templates`: README des Explainers auf das, was die Wahl des Archetyps braucht; Beschreibung von `info` im Fragen-Schema ("After an answer it shows for every option") an #169 angleichen. Eigener Commit dort.
-- [ ] 14 Manueller Eval (Skill `manual-eval`), vom Owner freigegeben: ein Explainer, Session aus `lernapps/start` (Branch `claude/determined-carson-evm901`), Sonnet 5.5. Vergleich: gelesene Zeichen, rote Prüfungen nach Art, Kosten, Lern-Prüfung, Nutzung von `lernapps plan`, was in den Freitext-Abschnitten landet.
-- [ ] 15 Befunde des Evals einarbeiten oder als offen notieren.
+- [ ] 17 Offen aus dem Eval: Freitext wird per Skript in die Plan-Datei geschrieben (11-mal, 1 Fehlschlag) und "Content method" veraltet → Vorschlag des Owners: zwei Dateien (Aufgaben, Notizen); noch nicht entschieden. Hördateien ungehört committet: nicht verbieten (Owner). Berechtigungsregel im Start-Repository griff im Auto-Modus nicht: Ursache unbekannt.
 - [ ] 16 Offen für den Owner: `lernapps-exercise-patterns`, `lernapps-map-assignment`, `lernapps-github`, `lernapps-explainer-self-assessment`, `blocks.md` und `language-tasks.md` sind nur an den Verweisen berührt, nicht nach D6 sortiert; Konventionen ohne Prüfer (Aufgabe 10) sind nicht aufgelistet.
 
 ### Completed
+- [x] 14 Manueller Eval "explainer 3" (Französisch, à l'école, Sonnet 5.5, aus `lernapps/start`): 34 min, 6,55 USD, rund 130.000 Zeichen Anleitung gelesen (Referenz 167.000), 9 Läufe `lernapps check` ohne Fehler (Referenz 17, 2 mit Fehlern), `plan done` 33-mal, kein Handeingriff an Aufgaben. Auswertung durch Subagent, nicht einzeln nachgeprüft.
+- [x] 15 Aus dem Eval umgesetzt: `init` und `plan new` füllen Titel und Datum; `plan done` als eigener Befehl (Ausgabe, `plan-file`); jedes offene Interview-Thema wird einmal gefragt; die Landkarte wird immer gelesen (Aufgabe lädt `lernapps-map-assignment` ohne Bedingung; Auftrag, wenn der Creator keinen Inhalt mitbringt); Schritte der Selbsteinschätzung stehen vorn; AGENTS.md: Dateien bis zur letzten Zeile lesen.
 - [x] 1 Test "the reading path of an explainer stays within its budget": 113.000 Zeichen; vorher rund 144.500 auf demselben Pfad (mit Eintragsschema), jetzt rund 111.500 (−23 %).
 - [x] 2 Widersprüche: `info` und `links` nach Schema (jede Option hat `info`, jede Frage mindestens einen Link; `quiz-further-reading` gilt auch für Fragen im Explainer); Datendatei nur für `timeline` und `generated`; Bildlesen und Sub-Agent bedingt formuliert; `init` schreibt `.gitignore` mit `node_modules/`, `create` nimmt sie und `.claude/settings.json` hin.
 - [x] 3 Plan je Archetyp: `guidance/plan-explainer.md`, `plan-quiz.md`, `plan-interactive.md`; `skills --archetype` setzt `archetype:`, fügt die Aufgaben ein und ersetzt `<archetype>`.

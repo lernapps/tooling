@@ -21,7 +21,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { parseArgs, type ParseArgsOptionsConfig } from "node:util";
 import { UsageError } from "../src/usage.ts";
-import { applyArchetype, currentPlan, PLANS } from "../src/plan.ts";
+import { applyArchetype, currentPlan, PLANS, startPlan } from "../src/plan.ts";
 import { archetypePart } from "../src/plan-command.ts";
 import {
   CreateError,
@@ -325,7 +325,8 @@ export function init(args: string[]): number {
   mkdirSync(dirname(target), { recursive: true });
   // a plan begun in the fallback stays: it holds the creator's answers
   const kept = existsSync(target);
-  if (!kept) writeFileSync(target, readFileSync(template));
+  if (!kept)
+    writeFileSync(target, startPlan(readFileSync(template, "utf8"), name, new Date().toISOString().slice(0, 10)));
   const excluded = archetypeSkills().map((skill) => skill.name);
   const shipped = [source(TOOLING), ...(addon ? [source(addon)] : [])].flatMap(packageSkills);
   const replaced = removeHandCopies(

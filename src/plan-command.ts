@@ -17,6 +17,7 @@ import {
   planFrontMatter,
   PlanError,
   planPosition,
+  startPlan,
   PLANS,
   plans,
 } from "./plan.ts";
@@ -83,7 +84,11 @@ function startIncrement(root: string, name: string): string {
   const archetype = planFrontMatter(join(root, first))["archetype"];
   const number = Number((existing.at(-1) ?? "").slice(PLANS.length + 1, PLANS.length + 3)) + 1;
   const plan = `${PLANS}/${String(number).padStart(2, "0")}-${name}.md`;
-  let text = readFileSync(guidanceFile("increment-template.md"), "utf8");
+  let text = startPlan(
+    readFileSync(guidanceFile("increment-template.md"), "utf8"),
+    name,
+    new Date().toISOString().slice(0, 10),
+  );
   if (typeof archetype === "string") text = applyArchetype(text, archetype, archetypePart(archetype));
   mkdirSync(dirname(join(root, plan)), { recursive: true });
   writeFileSync(join(root, plan), text);

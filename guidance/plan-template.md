@@ -50,9 +50,10 @@ For you, the assistant. The process is in AGENTS.md; this plan holds the method.
       their own address, free and public, and once listed as a copy on lernapps.net. Say that the technical part
       (GitHub) comes at the end and that you do it.
 - [ ] Interview: ask the topics "Goal" and "Learners" of "Answers".
-- [ ] The creator has no fixed content yet ("an app for my class", "a gap on the map"): load skill
-      `lernapps-map-assignment` and write its assignment; its yes answers the topics Goal, Learners, Content, Amount
-      and Languages. With fixed content, skip this task.
+- [ ] Load skill `lernapps-map-assignment` and read the learning map of the subject as it says. The creator brings
+      the content themselves (material, a word list, the pages): note under "Notes" which competencies of the map it
+      covers. Else write the skill's assignment, with its story; the creator's yes answers the topics Content and
+      Amount. A subject without a map: skip this task and say so.
 - [ ] Load skill `lernapps-exercise-patterns` and read its reference for the subject. Note under "Notes" how learners
       will practise what the goal names.
 - [ ] Choose the archetype as skill `lernapps-app` says: read the README of each archetype in question, then tell the
@@ -61,8 +62,9 @@ For you, the assistant. The process is in AGENTS.md; this plan holds the method.
 - [ ] Run `npx --no -- lernapps skills --archetype <name>` with the chosen archetype. It installs the archetype's
       skills and adds the archetype's tasks to this plan.
 <!-- archetype: explore -->
-- [ ] Interview: ask the other topics of "Answers" in order. Skip a topic an earlier answer covers and note which
-      one. No answer: ask once more, then write your assumption with "(guess)".
+- [ ] Interview: ask every other topic of "Answers", in order. Leave out only a topic that an answer of the creator
+      already covers, and note which answer. A topic nobody answered is asked once before you write an assumption
+      with "(guess)".
 - [ ] Load skill `lernapps-content-research` and research as it says. Write under "Notes": the strand or subject, the
       competencies by chapter with their ids, the sources you opened.
 <!-- archetype: explore-structure -->

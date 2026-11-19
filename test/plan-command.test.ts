@@ -15,6 +15,7 @@ import {
   planPhase,
   planPosition,
   planTasks,
+  startPlan,
 } from "../src/plan.ts";
 import { repoRoot, run } from "./support.ts";
 
@@ -92,9 +93,9 @@ describe("ticking tasks", () => {
   });
 
   test("skip ticks a task with its reason, and the task stays readable", () => {
-    const at = until(TEMPLATE, (task) => task.startsWith("The creator has no fixed content yet"));
-    const after = planDone(at, { skip: "the content is fixed" });
-    expect(after).toContain("- [x] (skipped: the content is fixed) The creator has no fixed content yet");
+    const at = until(explainer(), (task) => task.startsWith("Draw a sketch of each screen"));
+    const after = planDone(at, { skip: "no screen of its own" });
+    expect(after).toContain("- [x] (skipped: no screen of its own) Draw a sketch of each screen");
     expect(changedTasks(at, after)).toEqual([]);
   });
 
@@ -136,6 +137,18 @@ describe("adding tasks", () => {
 
   test("an unknown place names the places the plan has", () => {
     expect(() => planAdd(explainer(), "x", "nowhere")).toThrow(/it has: pattern, pages/);
+  });
+});
+
+describe("a plan as it starts", () => {
+  test("has its name and its date: the assistant may not write the head, so init and plan new fill it", () => {
+    const plan = startPlan(TEMPLATE, "brueche", "2026-11-19");
+    expect(plan).toContain("# Plan: brueche, first version");
+    expect(plan).toContain("*Started 2026-11-19. Explore, Plan, Code, Commit.*");
+    expect(plan).not.toMatch(/<app name>|<date>/);
+    const increment = startPlan(guidance("increment-template.md"), "kapitel-dezimal", "2026-11-19");
+    expect(increment).toContain("# Increment: kapitel-dezimal");
+    expect(increment).not.toContain("<date>");
   });
 });
 

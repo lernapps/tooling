@@ -285,7 +285,7 @@ export function describePosition(file: string, position: Position, withHints = t
   out.push(
     position.task.text.includes(CHECKPOINT)
       ? 'A checkpoint: stop, ask the creator, wait. With their answer: npx --no -- lernapps plan done --answer "<their words>"'
-      : 'Then: npx --no -- lernapps plan done (it does not apply: plan skip "<reason>"; more to do: plan add "<task>")',
+      : 'When the task is done, as a command of its own: npx --no -- lernapps plan done (it does not apply: plan skip "<reason>"; more to do: plan add "<task>")',
   );
   return `${out.join("\n")}\n`;
 }
@@ -399,4 +399,15 @@ export function changedTasks(before: string, after: string): string[] {
   return planTasks(before)
     .map(stable)
     .filter((task) => !kept.has(task));
+}
+
+/**
+ * A plan as it starts: the placeholders of its head filled, which no section the assistant may write holds. `name`
+ * is the app's short name (a first version) or the short name of the increment; `date` an ISO date.
+ */
+export function startPlan(template: string, name: string, date: string): string {
+  return template
+    .replace("# Plan: <app name>, first version", `# Plan: ${name}, first version`)
+    .replace("# Increment: <what it adds>", `# Increment: ${name}`)
+    .replace("*Started <date>.", `*Started ${date}.`);
 }
