@@ -120,6 +120,9 @@ Die Anleitung, die ein Agent beim Erstellen eines Explainers liest, effizienter 
 ## Code
 ### Tasks
 - [ ] 13 `lernapps/app-templates`: README des Explainers auf das, was die Wahl des Archetyps braucht; Beschreibung von `info` im Fragen-Schema ("After an answer it shows for every option") an #169 angleichen. Eigener Commit dort.
+- [x] 18 Drei kurze Proben bis zum Checkpoint "Recherche" (explainer 4 bis 6). Ergebnis der letzten, mit neuer AGENTS.md im Start-Repository und der Zeile "Read whole, with your file tool: …": vier von fünf genannten Skill-Dateien mit dem Lese-Werkzeug ganz gelesen, eine über das Skill-Werkzeug, kein gekürztes Lesen, keine Schleife; `plan done` in 11 von 13 Fällen mit anderer Arbeit verkettet. Die Läufe streuen stark; ein einzelner Lauf ist kein Beleg.
+- [x] 19 `plan done` darf verkettet werden, aber nur mit `&&` (Owner, 19.11.): Verketten spart Schritte; der eine beobachtete Fehlerfall war ein gescheiterter Schritt vor einem trotzdem ausgeführten `plan done`.
+- [x] 20 Plan bleibt eine Datei (Owner, 19.11.). `lernapps skill` gebaut und wieder zurückgenommen. Start-Repository: `.claude/skills/.gitkeep`, damit der Harness den Ordner von Anfang an beobachtet.
 - [ ] 17 Offen aus dem Eval: Freitext wird per Skript in die Plan-Datei geschrieben (11-mal, 1 Fehlschlag) und "Content method" veraltet → Vorschlag des Owners: zwei Dateien (Aufgaben, Notizen); noch nicht entschieden. Hördateien ungehört committet: nicht verbieten (Owner). Berechtigungsregel im Start-Repository griff im Auto-Modus nicht: Ursache unbekannt.
 - [ ] 16 Offen für den Owner: `lernapps-exercise-patterns`, `lernapps-map-assignment`, `lernapps-github`, `lernapps-explainer-self-assessment`, `blocks.md` und `language-tasks.md` sind nur an den Verweisen berührt, nicht nach D6 sortiert; Konventionen ohne Prüfer (Aufgabe 10) sind nicht aufgelistet.
 

@@ -289,7 +289,7 @@ export function describePosition(file: string, position: Position, withHints = t
   out.push(
     position.task.text.includes(CHECKPOINT)
       ? 'A checkpoint: stop, ask the creator, wait. With their answer: npx --no -- lernapps plan done --answer "<their words>"'
-      : 'When the task is done, as a command of its own: npx --no -- lernapps plan done (it does not apply: plan skip "<reason>"; more to do: plan add "<task>")',
+      : 'When the task is done: npx --no -- lernapps plan done, after other work in the same command line only with && (it does not apply: plan skip "<reason>"; more to do: plan add "<task>")',
   );
   return `${out.join("\n")}\n`;
 }

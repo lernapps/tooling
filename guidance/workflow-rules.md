@@ -15,8 +15,8 @@ severity: error
 - Change the tasks, the phase and the front matter of a plan only with `lernapps plan`: `next` prints the task to do,
   `done` ticks it, `skip` ticks a task that does not apply, `add` adds one. Never reword, delete or tick a task by
   hand.
-- Run `plan done` as a command of its own, after the work of the task has succeeded and its message to the creator is
-  sent; never in one command line with the work, and never for several tasks in a loop.
+- Run `plan done` when the work of the task has succeeded. In one command line with that work, join it with `&&`,
+  so that a step that fails does not tick the task. Never tick several tasks in a loop.
 - Write into the plan's other sections yourself: Goal, Key decisions, Notes, Answers, Entry draft, Content method,
   Retrospective. Keep every section.
 - Never change the plan of an earlier piece of work.
