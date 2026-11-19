@@ -343,7 +343,7 @@ function changedPlanTasks(): { where: string; found: string; fix: string }[] {
         .filter((task) => !task.startsWith("<"))
         .map((task) => ({
           where: file,
-          found: `the task "${task.length > 90 ? `${task.slice(0, 87)}…` : task}" was reworded or removed`,
+          found: `the task "${task}" was reworded or removed`,
           fix: `Restore the task as the last commit has it (git show HEAD:${file}). A task that does not apply: npx --no -- lernapps plan skip "<reason>"; another task: npx --no -- lernapps plan add "<task>"`,
         }));
     });

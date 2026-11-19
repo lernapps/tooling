@@ -312,7 +312,12 @@ export function skillFiles(task: string): string[] {
   return files;
 }
 
-const brief = (text: string) => (text.length > 70 ? `${text.slice(0, 67)}…` : text);
+/**
+ * How much of an open task of an earlier phase is shown: its start, to recognise it. There may be many such tasks, and
+ * the line names them all, so each gets about one line of a terminal.
+ */
+const BRIEF = 70;
+const brief = (text: string) => (text.length > BRIEF ? `${text.slice(0, BRIEF - 1)}…` : text);
 
 /** Ticks the next open task of the phase; after the last one, enters the next phase. `answer` only at a checkpoint. */
 export function planDone(text: string, options: { answer?: string; skip?: string } = {}): string {
