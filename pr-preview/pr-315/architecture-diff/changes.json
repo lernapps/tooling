@@ -5,7 +5,7 @@
     "commit": "0a6b3a44c7ab49f51017889aa3426adce149eb8c"
   },
   "head": {
-    "label": "95be7e3a7fc0a1c1b5378844edb0f18ac5f4d058"
+    "label": "be46c95ce84d8f2124610b7cc19dbbf68fbeb5f5"
   },
   "acceptanceBase": "0a6b3a44c7ab49f51017889aa3426adce149eb8c",
   "untracked": [],
@@ -209,7 +209,7 @@
         "proseChanged": true,
         "head": {
           "file": "docs/arc42/09-decisions.arc42.md",
-          "line": 660
+          "line": 662
         },
         "section": {
           "file": "docs/arc42/09-decisions.arc42.md",
