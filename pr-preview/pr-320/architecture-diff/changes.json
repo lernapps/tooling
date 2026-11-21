@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "base": {
+    "label": "3faed6d17b8e916750aa1f7bb4e9bd25d93dbfa9",
+    "commit": "3faed6d17b8e916750aa1f7bb4e9bd25d93dbfa9"
+  },
+  "head": {
+    "label": "3c04016e230b5b7215f7893156ddde88b4fc29c5"
+  },
+  "acceptanceBase": "3faed6d17b8e916750aa1f7bb4e9bd25d93dbfa9",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": []
+  }
+}

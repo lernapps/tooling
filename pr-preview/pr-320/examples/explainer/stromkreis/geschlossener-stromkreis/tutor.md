@@ -1,0 +1,256 @@
+# Der geschlossene Stromkreis – Tutor-Datei
+
+> Warum eine Lampe nur leuchtet, wenn der Stromkreis geschlossen ist, und warum Strom im Verbraucher nicht verbraucht wird.
+
+App: Der elektrische Stromkreis. Seite: [Der geschlossene Stromkreis](./)
+
+Diese Datei ist für einen KI-Tutor. Sie enthält die Lösungen: Nutze sie, um anzuleiten und Fehler zu erkennen, nicht um vorzusagen. Die Regeln stehen in llms.txt. Kannst du eine Datei der App nicht abrufen, bitte die lernende Person, den Text der Seite oder diese Datei einzufügen oder anzuhängen.
+
+## Abschnitte
+
+- [Warum ist das wichtig?](./#warum)
+- [Das steckt dahinter](./#regel)
+- [Ein Beispiel](./#beispiel)
+- [Übung](./#uebung)
+
+## Übungen
+
+### bauteile-zuordnen (matching)
+
+- Link: [./#bauteile-zuordnen](./#bauteile-zuordnen), im Abschnitt „Übung“
+- Aufgabe: Ordne jedem Bauteil seine Aufgabe im Stromkreis zu.
+- Antwortformat: jedem Eintrag links den passenden rechts zuordnen
+- Lösung: Batterie – Sie liefert die elektrische Spannung.; Lampe – Sie wandelt elektrische Energie in Licht und Wärme um.; Schalter – Er öffnet und schließt den Stromkreis.; Kabel – Es verbindet die Bauteile und leitet den Strom.; Sicherung – Sie unterbricht den Stromkreis bei zu großer Stromstärke.
+- Erklärung: Jedes Bauteil hat eine eigene Aufgabe. Die Quelle liefert die Spannung, die Leitungen führen den Strom, der Verbraucher wandelt Energie um, und der Schalter steuert den Kreis.
+- Tipp, den die App zeigt: Überlege, was das Bauteil bewirkt, wenn der Kreis geschlossen ist.
+
+### bauteil-funktion (generated, choice)
+
+- Link: [./#bauteil-funktion](./#bauteil-funktion), im Abschnitt „Übung“
+- Antwortformat: eine Antwort wählen
+- Tipp, den die App zeigt (Vorlage: {{…}} sind die Werte der Aufgabe): Überlege, was das Bauteil im Stromkreis bewirkt.
+- Lösungsweg (Vorlage: {{…}} sind die Werte der Aufgabe):
+  - {{teil.name}}: {{teil.funktion}}
+- Aufgaben nach Nummer, 1 bis 67: jede eine andere (die App zeigt „Aufgabe Nr. …“):
+  - [Aufgabe Nr. 1](./?bauteil-funktion=1#bauteil-funktion): Welche Aufgabe hat Batterie im Stromkreis? Zur Wahl: Sie liefert die elektrische Spannung und treibt den Strom an.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es verbindet die Bauteile und leitet den Strom.; Er öffnet und schließt den Stromkreis.. → Lösung: Sie liefert die elektrische Spannung und treibt den Strom an.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Batterie.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Batterie.
+  - [Aufgabe Nr. 2](./?bauteil-funktion=2#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es misst die Spannung und wird parallel geschaltet.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Kabel.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Kabel.
+  - [Aufgabe Nr. 3](./?bauteil-funktion=3#bauteil-funktion): Welche Aufgabe hat Sicherung im Stromkreis? Zur Wahl: Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es misst die Stromstärke und wird in Reihe geschaltet.; Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Sie unterbricht den Stromkreis bei zu großer Stromstärke.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Sicherung.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Sicherung.
+  - [Aufgabe Nr. 4](./?bauteil-funktion=4#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Er öffnet und schließt den Stromkreis.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Kabel.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Kabel.
+  - [Aufgabe Nr. 5](./?bauteil-funktion=5#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Es misst die Spannung und wird parallel geschaltet.; Es verbindet die Bauteile und leitet den Strom.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Schalter.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Schalter.
+  - [Aufgabe Nr. 6](./?bauteil-funktion=6#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.; Es verbindet die Bauteile und leitet den Strom.; Es misst die Stromstärke und wird in Reihe geschaltet.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Voltmeter.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Voltmeter.
+  - [Aufgabe Nr. 7](./?bauteil-funktion=7#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Er öffnet und schließt den Stromkreis.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Kabel.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Kabel.
+  - [Aufgabe Nr. 8](./?bauteil-funktion=8#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Voltmeter.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Voltmeter.
+  - [Aufgabe Nr. 9](./?bauteil-funktion=9#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Sie liefert die elektrische Spannung und treibt den Strom an.; Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Kabel.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Kabel.
+  - [Aufgabe Nr. 10](./?bauteil-funktion=10#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Er öffnet und schließt den Stromkreis.; Sie wandelt elektrische Energie in Licht und Wärme um.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Kabel.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Kabel.
+  - [Aufgabe Nr. 11](./?bauteil-funktion=11#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Es misst die Stromstärke und wird in Reihe geschaltet.; Er öffnet und schließt den Stromkreis.; Es misst die Spannung und wird parallel geschaltet.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Kabel.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Kabel.
+  - [Aufgabe Nr. 12](./?bauteil-funktion=12#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Es verbindet die Bauteile und leitet den Strom.; Er öffnet und schließt den Stromkreis.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Voltmeter.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Voltmeter.
+  - [Aufgabe Nr. 13](./?bauteil-funktion=13#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Es misst die Spannung und wird parallel geschaltet.; Er öffnet und schließt den Stromkreis.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Amperemeter.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Amperemeter.
+  - [Aufgabe Nr. 14](./?bauteil-funktion=14#bauteil-funktion): Welche Aufgabe hat Batterie im Stromkreis? Zur Wahl: Sie liefert die elektrische Spannung und treibt den Strom an.; Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Sie liefert die elektrische Spannung und treibt den Strom an.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Batterie.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Batterie.
+  - [Aufgabe Nr. 15](./?bauteil-funktion=15#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Er öffnet und schließt den Stromkreis.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Voltmeter.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Voltmeter.
+  - [Aufgabe Nr. 16](./?bauteil-funktion=16#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.; Er öffnet und schließt den Stromkreis.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Voltmeter.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Voltmeter.
+  - [Aufgabe Nr. 17](./?bauteil-funktion=17#bauteil-funktion): Welche Aufgabe hat Batterie im Stromkreis? Zur Wahl: Sie liefert die elektrische Spannung und treibt den Strom an.; Sie wandelt elektrische Energie in Licht und Wärme um.; Es verbindet die Bauteile und leitet den Strom.; Es misst die Stromstärke und wird in Reihe geschaltet.. → Lösung: Sie liefert die elektrische Spannung und treibt den Strom an.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Batterie.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Batterie.
+  - [Aufgabe Nr. 18](./?bauteil-funktion=18#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Es misst die Stromstärke und wird in Reihe geschaltet.; Er öffnet und schließt den Stromkreis.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Lampe.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Lampe.
+  - [Aufgabe Nr. 19](./?bauteil-funktion=19#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Sie wandelt elektrische Energie in Licht und Wärme um.; Sie liefert die elektrische Spannung und treibt den Strom an.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Schalter.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Schalter.
+  - [Aufgabe Nr. 20](./?bauteil-funktion=20#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Es misst die Stromstärke und wird in Reihe geschaltet.; Es verbindet die Bauteile und leitet den Strom.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Schalter.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Schalter.
+  - [Aufgabe Nr. 21](./?bauteil-funktion=21#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Es misst die Stromstärke und wird in Reihe geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.; Er öffnet und schließt den Stromkreis.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Voltmeter.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Voltmeter.
+  - [Aufgabe Nr. 22](./?bauteil-funktion=22#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Er öffnet und schließt den Stromkreis.; Es misst die Stromstärke und wird in Reihe geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Lampe.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Lampe.
+  - [Aufgabe Nr. 23](./?bauteil-funktion=23#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Es misst die Spannung und wird parallel geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Er öffnet und schließt den Stromkreis.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Kabel.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Kabel.
+  - [Aufgabe Nr. 24](./?bauteil-funktion=24#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Kabel.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Kabel.
+  - [Aufgabe Nr. 25](./?bauteil-funktion=25#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es misst die Stromstärke und wird in Reihe geschaltet.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Lampe.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Lampe.
+  - [Aufgabe Nr. 26](./?bauteil-funktion=26#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Es misst die Stromstärke und wird in Reihe geschaltet.; Es misst die Spannung und wird parallel geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Lampe.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Lampe.
+  - [Aufgabe Nr. 27](./?bauteil-funktion=27#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Er öffnet und schließt den Stromkreis.; Es verbindet die Bauteile und leitet den Strom.; Es misst die Stromstärke und wird in Reihe geschaltet.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Lampe.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Lampe.
+  - [Aufgabe Nr. 28](./?bauteil-funktion=28#bauteil-funktion): Welche Aufgabe hat Sicherung im Stromkreis? Zur Wahl: Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es misst die Spannung und wird parallel geschaltet.; Er öffnet und schließt den Stromkreis.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Sie unterbricht den Stromkreis bei zu großer Stromstärke.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Sicherung.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Sicherung.
+  - [Aufgabe Nr. 29](./?bauteil-funktion=29#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Es misst die Stromstärke und wird in Reihe geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Lampe.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Lampe.
+  - [Aufgabe Nr. 30](./?bauteil-funktion=30#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie wandelt elektrische Energie in Licht und Wärme um.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Voltmeter.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Voltmeter.
+  - [Aufgabe Nr. 31](./?bauteil-funktion=31#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Er öffnet und schließt den Stromkreis.; Es misst die Spannung und wird parallel geschaltet.; Es misst die Stromstärke und wird in Reihe geschaltet.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Kabel.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Kabel.
+  - [Aufgabe Nr. 32](./?bauteil-funktion=32#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Er öffnet und schließt den Stromkreis.; Es verbindet die Bauteile und leitet den Strom.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Amperemeter.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Amperemeter.
+  - [Aufgabe Nr. 33](./?bauteil-funktion=33#bauteil-funktion): Welche Aufgabe hat Batterie im Stromkreis? Zur Wahl: Sie liefert die elektrische Spannung und treibt den Strom an.; Es misst die Stromstärke und wird in Reihe geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Sie liefert die elektrische Spannung und treibt den Strom an.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Batterie.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Batterie.
+  - [Aufgabe Nr. 34](./?bauteil-funktion=34#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Sie liefert die elektrische Spannung und treibt den Strom an.; Es misst die Stromstärke und wird in Reihe geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Schalter.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Schalter.
+  - [Aufgabe Nr. 35](./?bauteil-funktion=35#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Es verbindet die Bauteile und leitet den Strom.; Sie wandelt elektrische Energie in Licht und Wärme um.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Schalter.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Schalter.
+  - [Aufgabe Nr. 36](./?bauteil-funktion=36#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie wandelt elektrische Energie in Licht und Wärme um.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Amperemeter.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Amperemeter.
+  - [Aufgabe Nr. 37](./?bauteil-funktion=37#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Er öffnet und schließt den Stromkreis.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Kabel.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Kabel.
+  - [Aufgabe Nr. 38](./?bauteil-funktion=38#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Es misst die Stromstärke und wird in Reihe geschaltet.; Es misst die Spannung und wird parallel geschaltet.; Er öffnet und schließt den Stromkreis.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Kabel.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Kabel.
+  - [Aufgabe Nr. 39](./?bauteil-funktion=39#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Es misst die Stromstärke und wird in Reihe geschaltet.; Es misst die Spannung und wird parallel geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Schalter.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Schalter.
+  - [Aufgabe Nr. 40](./?bauteil-funktion=40#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Es misst die Spannung und wird parallel geschaltet.; Es verbindet die Bauteile und leitet den Strom.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Amperemeter.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Amperemeter.
+  - [Aufgabe Nr. 41](./?bauteil-funktion=41#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Er öffnet und schließt den Stromkreis.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Amperemeter.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Amperemeter.
+  - [Aufgabe Nr. 42](./?bauteil-funktion=42#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Es misst die Stromstärke und wird in Reihe geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.; Er öffnet und schließt den Stromkreis.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Kabel.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Kabel.
+  - [Aufgabe Nr. 43](./?bauteil-funktion=43#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Amperemeter.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Amperemeter.
+  - [Aufgabe Nr. 44](./?bauteil-funktion=44#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Er öffnet und schließt den Stromkreis.; Es misst die Spannung und wird parallel geschaltet.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Amperemeter.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Amperemeter.
+  - [Aufgabe Nr. 45](./?bauteil-funktion=45#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Es verbindet die Bauteile und leitet den Strom.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Amperemeter.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Amperemeter.
+  - [Aufgabe Nr. 46](./?bauteil-funktion=46#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Er öffnet und schließt den Stromkreis.; Es verbindet die Bauteile und leitet den Strom.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Voltmeter.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Voltmeter.
+  - [Aufgabe Nr. 47](./?bauteil-funktion=47#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Es verbindet die Bauteile und leitet den Strom.; Sie wandelt elektrische Energie in Licht und Wärme um.; Er öffnet und schließt den Stromkreis.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Voltmeter.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Voltmeter.
+  - [Aufgabe Nr. 48](./?bauteil-funktion=48#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Es verbindet die Bauteile und leitet den Strom.; Sie liefert die elektrische Spannung und treibt den Strom an.; Es misst die Spannung und wird parallel geschaltet.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Lampe.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Lampe.
+  - [Aufgabe Nr. 49](./?bauteil-funktion=49#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Es verbindet die Bauteile und leitet den Strom.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Lampe.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Lampe.
+  - [Aufgabe Nr. 50](./?bauteil-funktion=50#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.; Es verbindet die Bauteile und leitet den Strom.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Voltmeter.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Voltmeter.
+  - [Aufgabe Nr. 51](./?bauteil-funktion=51#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Es misst die Spannung und wird parallel geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Amperemeter.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Amperemeter.
+  - [Aufgabe Nr. 52](./?bauteil-funktion=52#bauteil-funktion): Welche Aufgabe hat Kabel im Stromkreis? Zur Wahl: Es verbindet die Bauteile und leitet den Strom.; Er öffnet und schließt den Stromkreis.; Es misst die Spannung und wird parallel geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Es verbindet die Bauteile und leitet den Strom.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Kabel.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Kabel.
+  - [Aufgabe Nr. 53](./?bauteil-funktion=53#bauteil-funktion): Welche Aufgabe hat Lampe im Stromkreis? Zur Wahl: Sie wandelt elektrische Energie in Licht und Wärme um.; Sie liefert die elektrische Spannung und treibt den Strom an.; Es misst die Spannung und wird parallel geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.. → Lösung: Sie wandelt elektrische Energie in Licht und Wärme um.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Lampe.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Lampe.
+  - [Aufgabe Nr. 54](./?bauteil-funktion=54#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.; Sie wandelt elektrische Energie in Licht und Wärme um.; Er öffnet und schließt den Stromkreis.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Voltmeter.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Voltmeter.
+  - [Aufgabe Nr. 55](./?bauteil-funktion=55#bauteil-funktion): Welche Aufgabe hat Sicherung im Stromkreis? Zur Wahl: Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie wandelt elektrische Energie in Licht und Wärme um.; Sie liefert die elektrische Spannung und treibt den Strom an.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Sie unterbricht den Stromkreis bei zu großer Stromstärke.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Sicherung.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Sicherung.
+  - [Aufgabe Nr. 56](./?bauteil-funktion=56#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Amperemeter.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Amperemeter.
+  - [Aufgabe Nr. 57](./?bauteil-funktion=57#bauteil-funktion): Welche Aufgabe hat Sicherung im Stromkreis? Zur Wahl: Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Sie unterbricht den Stromkreis bei zu großer Stromstärke.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Sicherung.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Sicherung.
+  - [Aufgabe Nr. 58](./?bauteil-funktion=58#bauteil-funktion): Welche Aufgabe hat Sicherung im Stromkreis? Zur Wahl: Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie liefert die elektrische Spannung und treibt den Strom an.; Er öffnet und schließt den Stromkreis.; Es misst die Stromstärke und wird in Reihe geschaltet.. → Lösung: Sie unterbricht den Stromkreis bei zu großer Stromstärke.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Sicherung.
+    - ✗ Er öffnet und schließt den Stromkreis.: Das ist die Aufgabe von Schalter, nicht von Sicherung.
+  - [Aufgabe Nr. 59](./?bauteil-funktion=59#bauteil-funktion): Welche Aufgabe hat Batterie im Stromkreis? Zur Wahl: Sie liefert die elektrische Spannung und treibt den Strom an.; Es verbindet die Bauteile und leitet den Strom.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Sie liefert die elektrische Spannung und treibt den Strom an.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Batterie.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Batterie.
+  - [Aufgabe Nr. 60](./?bauteil-funktion=60#bauteil-funktion): Welche Aufgabe hat Voltmeter im Stromkreis? Zur Wahl: Es misst die Spannung und wird parallel geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.; Es misst die Stromstärke und wird in Reihe geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Es misst die Spannung und wird parallel geschaltet.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Voltmeter.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Voltmeter.
+  - [Aufgabe Nr. 61](./?bauteil-funktion=61#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Sie wandelt elektrische Energie in Licht und Wärme um.; Es misst die Stromstärke und wird in Reihe geschaltet.; Es misst die Spannung und wird parallel geschaltet.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Schalter.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Schalter.
+  - [Aufgabe Nr. 62](./?bauteil-funktion=62#bauteil-funktion): Welche Aufgabe hat Amperemeter im Stromkreis? Zur Wahl: Es misst die Stromstärke und wird in Reihe geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es misst die Spannung und wird parallel geschaltet.; Es verbindet die Bauteile und leitet den Strom.. → Lösung: Es misst die Stromstärke und wird in Reihe geschaltet.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Amperemeter.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Amperemeter.
+  - [Aufgabe Nr. 63](./?bauteil-funktion=63#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Es misst die Spannung und wird parallel geschaltet.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Es misst die Stromstärke und wird in Reihe geschaltet.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Schalter.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Schalter.
+  - [Aufgabe Nr. 64](./?bauteil-funktion=64#bauteil-funktion): Welche Aufgabe hat Batterie im Stromkreis? Zur Wahl: Sie liefert die elektrische Spannung und treibt den Strom an.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie wandelt elektrische Energie in Licht und Wärme um.; Er öffnet und schließt den Stromkreis.. → Lösung: Sie liefert die elektrische Spannung und treibt den Strom an.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Batterie.
+    - ✗ Sie wandelt elektrische Energie in Licht und Wärme um.: Das ist die Aufgabe von Lampe, nicht von Batterie.
+  - [Aufgabe Nr. 65](./?bauteil-funktion=65#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Es verbindet die Bauteile und leitet den Strom.; Sie unterbricht den Stromkreis bei zu großer Stromstärke.; Sie liefert die elektrische Spannung und treibt den Strom an.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Es verbindet die Bauteile und leitet den Strom.: Das ist die Aufgabe von Kabel, nicht von Schalter.
+    - ✗ Sie unterbricht den Stromkreis bei zu großer Stromstärke.: Das ist die Aufgabe von Sicherung, nicht von Schalter.
+  - [Aufgabe Nr. 66](./?bauteil-funktion=66#bauteil-funktion): Welche Aufgabe hat Schalter im Stromkreis? Zur Wahl: Er öffnet und schließt den Stromkreis.; Es misst die Spannung und wird parallel geschaltet.; Sie liefert die elektrische Spannung und treibt den Strom an.; Es misst die Stromstärke und wird in Reihe geschaltet.. → Lösung: Er öffnet und schließt den Stromkreis.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Schalter.
+    - ✗ Sie liefert die elektrische Spannung und treibt den Strom an.: Das ist die Aufgabe von Batterie, nicht von Schalter.
+  - [Aufgabe Nr. 67](./?bauteil-funktion=67#bauteil-funktion): Welche Aufgabe hat Batterie im Stromkreis? Zur Wahl: Sie liefert die elektrische Spannung und treibt den Strom an.; Es misst die Spannung und wird parallel geschaltet.; Es misst die Stromstärke und wird in Reihe geschaltet.; Sie wandelt elektrische Energie in Licht und Wärme um.. → Lösung: Sie liefert die elektrische Spannung und treibt den Strom an.
+    - ✗ Es misst die Spannung und wird parallel geschaltet.: Das ist die Aufgabe von Voltmeter, nicht von Batterie.
+    - ✗ Es misst die Stromstärke und wird in Reihe geschaltet.: Das ist die Aufgabe von Amperemeter, nicht von Batterie.
+
+### kreis-geschlossen (single-choice)
+
+- Link: [./#kreis-geschlossen](./#kreis-geschlossen), im Abschnitt „Übung“
+- Aufgabe: Welcher der beiden Stromkreise ist geschlossen, sodass Strom fließen kann?
+- Antwortformat: eine Antwort wählen
+- Antworten zur Wahl (✓ richtig, ✗ falsch, mit der Meldung der App):
+  - ✓ Stromkreis A – In A ist der Weg von der Batterie über die Lampe und zurück vollständig. Der Strom kann fließen.
+  - ✗ Stromkreis B – In B ist der Schalter geöffnet. An dieser Stelle ist der Weg unterbrochen, deshalb fließt kein Strom.
+- Lösung: Stromkreis A
+- Erklärung: Strom fließt nur, wenn der Kreis an keiner Stelle unterbrochen ist. In B fehlt die Verbindung am Schalter.
+- Tipp, den die App zeigt: Verfolge den Weg mit dem Finger vom einen Pol der Batterie bis zum anderen.
+
+### strom-nicht-verbraucht (true-false)
+
+- Link: [./#strom-nicht-verbraucht](./#strom-nicht-verbraucht), im Abschnitt „Übung“
+- Aufgabe: Hinter einer leuchtenden Lampe ist die Stromstärke kleiner als vor der Lampe, weil die Lampe den Strom verbraucht.
+- Antwortformat: „Stimmt“ oder „Stimmt nicht“ wählen
+- Lösung: Die Aussage stimmt nicht.
+- Erklärung: Die Lampe wandelt Energie um, aber sie entnimmt dem Kreis keine Ladungen. Im unverzweigten Kreis ist die Stromstärke vor und hinter der Lampe gleich groß.
+- Tipp, den die App zeigt: Denke an die drei Strommesser in der Figur oben.
