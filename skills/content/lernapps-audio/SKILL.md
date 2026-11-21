@@ -48,8 +48,7 @@ Say this in a few lines, then wait for the yes (the first run downloads a lot):
   the file again with `--force`. Short sentences sound better than long ones.
 - Two syllables where a file ends. A word of one syllable at the end can come out wrong: the voice adds a sound after
   it or cuts it short. So give names two syllables wherever you can ("Léa", "Chloé", "Marie"), and end a short sentence
-  on a word of two syllables where the task allows it ("Je suis de Berlin." rather than "Je suis de Nice."). Listen to
-  a file that ends on one syllable twice.
+  on a word of two syllables where the task allows it ("Je suis de Berlin." rather than "Je suis de Nice."). 
 - Speed stays 1.0: learners slow it down in the player.
 
 ## In the app
