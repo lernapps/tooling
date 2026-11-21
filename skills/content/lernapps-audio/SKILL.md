@@ -46,6 +46,9 @@ Say this in a few lines, then wait for the yes (the first run downloads a lot):
 - Traps for the voice: numbers ("1998", "3,5", "2nd": write them out in words), names and loan words, abbreviations,
   French liaison and silent endings. The voice says it wrong → respell the word or rewrite the sentence, then make
   the file again with `--force`. Short sentences sound better than long ones.
+- Two syllables where a file ends. A word of one syllable at the end can come out wrong: the voice adds a sound after
+  it or cuts it short. So give names two syllables wherever you can ("Léa", "Chloé", "Marie"), and end a short sentence
+  on a word of two syllables where the task allows it ("Je suis de Berlin." rather than "Je suis de Nice."). 
 - Speed stays 1.0: learners slow it down in the player.
 
 ## In the app
