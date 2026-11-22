@@ -27,7 +27,8 @@ One line each under "Content method" (rule `explainer-language-practice`):
 
 1. Listening and speaking: yes, with voices where the language has them (skill `lernapps-audio`), or declined by the
    creator and why.
-2. Words: always with their article; the source is the basic vocabulary (above).
+2. Words: always with their article; the source is the basic vocabulary (above). A page shows its new words in a
+   `vocabulary` block (skill `lernapps-explainer`, `references/language-tasks.md`).
 3. Kinds of exercise: vary them from page to page (match, order, dictation, `generated`, write), not the same three.
 4. The class's typical mistakes (from the interview), each with its own message.
 

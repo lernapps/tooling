@@ -36,6 +36,42 @@
 - YAML: quote a text with `: `, or one that starts with `'` or `[`.
 - The build runs each mistake and each example through the page's check and stops with the place to fix.
 
+## Vocabulary
+
+- `vocabulary` (not a `language-task`): the new words of a page, as in a vocabulary book, each with its language.
+  Only in an app for a language; never in other subjects (a term of maths or history is a `definition`). Instead of a
+  `table` of words, which knows no languages. Not in a task's `material`.
+- Fields: `caption`, `languages` (`source`, `target`), `entries`.
+- `target`, `source`: as learners learn them, shown as written. A noun always with its article (`le pain`, `l'eau`,
+  `der Tisch`): nothing derives it, also when `gender` is given. `gender` (`m`, `f`, `n`) adds `(m)` after the word; give
+  it where the article does not show it (`l'eau`, Latin).
+- `forms`: further forms after the word, as in a dictionary: plural (`les yeux`), feminine (`belle`), principal parts
+  (`amo, amavi, amatum`), genitive (`regis`).
+- `example` (`target`, `source`), `note`, `falseFriend`: the middle column, only shown when an entry has one.
+- `inflection`: 1–4 tables of forms (`caption`, optional `header`, `rows`; the first cell heads the row; `**…**` marks
+  the ending). Only for grammar the learners already know (the tense, the cases); otherwise leave it out and teach the
+  grammar on its own page first. Every row as long as the others and the header; the build checks it.
+- Not an exercise: learners cover a column to practise, unchecked. Words to write and check: `language-task`.
+
+```yaml
+- type: vocabulary
+  caption: Die Wörter auf dem Tisch
+  languages: { source: de, target: fr }
+  entries:
+    - target: le pain
+      source: das Brot
+      example: { target: "Le pain est bon.", source: "Das Brot ist gut." }
+    - target: l'eau
+      source: das Wasser
+      gender: f
+      note: "Vor einem Vokal wird *la* zu *l'*."
+    - target: être
+      source: sein
+      inflection:
+        - caption: Präsens
+          rows: [[je, suis], [tu, es], [il / elle, est], [nous, sommes], [vous, êtes], [ils / elles, sont]]
+```
+
 ## Speaking
 
 - `speaking-task` (not a `language-task`): the learner hears a model, records themself, compares and rates the
