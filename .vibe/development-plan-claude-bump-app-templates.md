@@ -37,11 +37,10 @@ lernapps/app-templates#181) enthält.
 
 ## Finalize
 ### Tasks
-- [ ] `npm run lernapps -- check` grün
-- [ ] PR anlegen
 
 ### Completed
-*None yet*
+- [x] `npm run lernapps -- check` grün (4 Regeln, keine Befunde) und Pre-Push-Hook grün
+- [x] PR angelegt: lernapps/tooling#322
 
 
 
