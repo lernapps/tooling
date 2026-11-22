@@ -41,6 +41,9 @@ lernapps/app-templates#181) enthält.
 ### Completed
 - [x] `npm run lernapps -- check` grün (4 Regeln, keine Befunde) und Pre-Push-Hook grün
 - [x] PR angelegt: lernapps/tooling#322
+- [x] Auf Wunsch des Nutzers im selben PR: Skill `lernapps-explainer` kennt den Vokabel-Block (`references/language-tasks.md`),
+  nur für Sprach-Apps (Nutzer: „Vokabeln braucht man nur bei Sprachen“). Nicht in `blocks.md`: das liest jeder Explainer,
+  und der Test des Lesebudgets lag sonst 536 Zeichen darüber. `foreign-languages.md` verweist darauf.
 
 
 

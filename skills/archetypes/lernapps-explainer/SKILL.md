@@ -109,7 +109,8 @@ otherwise rejects. `npx --no -- lernapps check` runs everything and names the ru
   wrong answer is told.
 - [references/structure.md](references/structure.md): before you add or move a chapter or page, and for the fields
   that put the app on the learning map (`strand`, `competencies`, `recap`, `ahead`, `scope`).
-- [references/language-tasks.md](references/language-tasks.md): before an exercise in a foreign language.
+- [references/language-tasks.md](references/language-tasks.md): before an exercise or the words of a page in a foreign
+  language.
 - [references/components.md](references/components.md): only when the plan names a component.
 - [references/runtime.md](references/runtime.md): when a runtime test fails, for the addresses of pages, and before
   you write `scope` or rules for the tutor.
