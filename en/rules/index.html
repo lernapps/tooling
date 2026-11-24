@@ -1260,13 +1260,13 @@
 </section>
 
 <section id="quiz-further-reading">
-<h2>Every question links to further reading</h2>
+<h2>Further reading only where it adds something</h2>
 <p><code>quiz-further-reading</code> · archetype:quiz, archetype:explainer · warning</p>
 <div>
 <ul>
-<li>At least one link per question, best the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>).</li>
+<li><code>links</code> is optional, in a quiz and for a question of an explainer: the schema does not require it. Add a link only where a source adds something to exactly this question that the explanation does not say, e.g. the article on the very term or event asked about, best the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>).</li>
 <li><code>title</code> names the page (&quot;Uluru (Wikipedia)&quot;).</li>
-<li>No page of its own (a term like &quot;Wortgleichung&quot;): the page that fits best, preferably the one the question's facts came from. Never no link: the schema requires one, in a quiz and for a question of an explainer.</li>
+<li>A general article on the subject adds nothing (&quot;Französische Sprache&quot; for any question about French): leave the links out. No page of its own for a term (like &quot;Wortgleichung&quot;): leave them out too, rather than a page that fits badly.</li>
 <li>HTTP 429 → tell the creator which; mark the facts &quot;not checked&quot; in the plan; go on.</li>
 </ul>
 </div>
