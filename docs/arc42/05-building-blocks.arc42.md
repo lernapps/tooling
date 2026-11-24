@@ -1042,7 +1042,10 @@ Runs in an app's CI exactly what the app's git hooks ran, nothing more. It only 
 check, and keeps the report, passing or not. On the main line it also keeps the bundle it checked, so the app
 publishes what was checked and builds it once. A push to the main line does not check again what a pull request of
 the same repo has checked already: when its commit has the same tree, the action takes that run's bundle and report.
-A fork's run never counts.
+A fork's run never counts. On a pull request of the same repo it also makes the bundle of the preview: for an
+explainer it builds the app once more in the explainer's diff mode, against the base of the pull request, so that the
+preview marks what the pull request adds, changes, moves and removes. That bundle never replaces the checked one that is
+published, and when it cannot be built the preview shows the checked bundle.
 
 ```arc42
 :::building-block
@@ -1108,9 +1111,9 @@ protocol: GitHub Actions, pinned to a commit
 
 ## App preview
 
-Publishes the checked bundle of a pull request as a temporary preview next to the published app, so that the creator
+Publishes the bundle of a pull request as a temporary preview next to the published app, so that the creator
 can look at an increment in the real app before agreeing to publish it. It is accountable for the preview being the
-bundle that was checked, kept out of search engines, the catalog and the learners' way, and gone once the pull request
+bundle that was checked (for an explainer, built again with the pull request's changes marked), kept out of search engines, the catalog and the learners' way, and gone once the pull request
 is closed. It tells the creator, in plain German on the pull request, what the preview is and where it is, and says
 so when it is gone. A pull request from a fork gets none.
 

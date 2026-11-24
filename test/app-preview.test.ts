@@ -121,15 +121,23 @@ describe("the job preview of the app's workflow", () => {
     const action = (name: string) =>
       parse(readFileSync(join(repoRoot, "actions", name, "action.yml"), "utf8")) as {
         inputs: Record<string, { default?: string }>;
-        runs: { steps: { id?: string; uses?: string; run?: string; with?: Record<string, unknown> }[] };
+        runs: { steps: { id?: string; if?: string; uses?: string; run?: string; with?: Record<string, unknown> }[] };
       };
     expect(action("app-check").inputs["upload"]?.default).toContain(
       "github.event.pull_request.head.repo.full_name == github.repository",
     );
     const steps = action("app-preview").runs.steps;
-    const download = steps.find((step) => step.uses?.startsWith("actions/download-artifact@"));
+    const downloads = steps.filter((step) => step.uses?.startsWith("actions/download-artifact@"));
     const deploy = steps.find((step) => step.id === "write");
-    expect(download?.with).toMatchObject({ name: "app", path: "_app" });
+    // the bundle of the preview ("app-preview": with the marks of the explainer's diff mode), asked for by a pattern so
+    // that its absence is no error; then the checked bundle "app"
+    expect(downloads.map((step) => step.with)).toMatchObject([
+      { pattern: "app-preview", path: "_app", "merge-multiple": true },
+      { name: "app", path: "_app" },
+    ]);
+    const [diffFirst, plain] = downloads;
+    expect(diffFirst?.if).not.toContain("steps.bundle");
+    expect(plain?.if).toContain("steps.bundle.outputs.found != 'true'");
     expect(deploy?.run).toContain('publish/gh-pages.ts" deploy --number "$NUMBER" --dir _app');
     // app-publish keeps the previews when it publishes
     expect(JSON.stringify(action("app-publish").runs.steps)).toContain('"clean-exclude":"pr-preview/"');
@@ -169,5 +177,43 @@ describe("the .nojekyll file at the root of gh-pages", () => {
     const { calls } = answer(404, 403);
     expect(await ensureNoJekyll(e)).toBe(false);
     expect(calls).toHaveLength(2);
+  });
+});
+
+describe("the bundle of the preview of an explainer, in the diff mode", () => {
+  const steps = (
+    parse(readFileSync(join(repoRoot, "actions/app-check/action.yml"), "utf8")) as {
+      runs: { steps: { id?: string; if?: string; uses?: string; run?: string; with?: Record<string, string> }[] };
+    }
+  ).runs.steps;
+  const build = steps.find((step) => step.id === "preview");
+  const upload = steps.find((step) => step.with?.["name"] === "app-preview");
+
+  test("is built after the check passed, on a pull request from the repo only, and warns instead of failing", () => {
+    for (const step of [build, upload]) {
+      expect(step?.if).toContain("inputs.upload == 'true'");
+      expect(step?.if).toContain("github.event_name == 'pull_request'");
+      expect(step?.if).toContain("steps.check.outcome == 'success'");
+    }
+    expect(steps.indexOf(build as never)).toBeGreaterThan(steps.findIndex((step) => step.id === "check"));
+    expect(build?.run).toContain('EXPLAINER_BASE="$base" npx --no -- vp build --outDir dist-diff');
+    expect(build?.run).toContain("::warning::");
+    // the base is the first parent of the merge commit, and only a merge commit has one
+    expect(build?.run).toContain("git archive 'HEAD^1'");
+    expect(build?.run).toContain("'HEAD^2'");
+  });
+
+  test("never changes the bundle that is published: the artifact app is uploaded from dist/ as before", () => {
+    const published = steps.find((step) => step.with?.["name"] === "app");
+    expect(published?.with?.["path"]).toBe("${{ inputs.working-directory }}/dist");
+    expect(upload?.with?.["path"]).toBe("${{ inputs.working-directory }}/${{ steps.preview.outputs.dir }}");
+  });
+
+  test("an app that is no explainer, or has no base, previews the checked bundle", () => {
+    expect(build?.run).toContain("dir=dist\n");
+    expect(build?.run).toContain("if [ -f src/app.yaml ]");
+    expect(build?.run).toContain('&& [ -f "$base/src/app.yaml" ]');
+    // an app the base does not have yet: git archive fails, which must not fail the step
+    expect(build?.run).toContain("git archive 'HEAD^1' -- . 2> /dev/null | tar");
   });
 });
