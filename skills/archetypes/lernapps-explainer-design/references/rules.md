@@ -23,8 +23,9 @@ severity: error
 
 - Every page has at least one exercise that practises what the page explains, with solution or feedback; best in a
   last section "Übung".
-- Except a recap page (`recap`, format 2): it repeats one or several prerequisites the app does not practise and has
-  no exercise.
+- Except a recap page (`recap`, format 2): it repeats one or several prerequisites the app does not practise and needs
+  no exercise; one or two to check what it repeats are fine, three are not. A page that practises is no recap page:
+  give it `competencies`.
 
 ### `explainer-text-load`: A page is not mostly text
 

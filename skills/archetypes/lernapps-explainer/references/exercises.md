@@ -1,7 +1,7 @@
 # Exercises
 
-- Every page has at least one exercise, except a recap page (`topic-has-exercises`). An exercise component does not
-  count: the page also needs a question or a `generated` exercise.
+- Every page has at least one exercise, except a recap page (`topic-has-exercises`), which may have one or two to check what it repeats, never
+  more. An exercise component does not count: the page also needs a question or a `generated` exercise.
 - What counts as right and what each wrong answer is told comes from "Content method" of the plan.
 - A wrong answer gets the most specific reason there is: the `info` of the chosen option, a matching entry of
   `mistakes`, the `hint`, else "look again". So write an `info` that says why the option does not fit, two or three
