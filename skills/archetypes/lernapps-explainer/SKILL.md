@@ -83,8 +83,8 @@ These fail the build or the check most often. Each line says what to write inste
   with text in block style, as above. Quote a text that looks like a number too (`"8."`, `"0"`, `"01000001"`).
 - **Formulas.** Only the commands listed in [references/blocks.md](references/blocks.md) ("Formulas"): `\overline`,
   `\cdots` and `\ldots` are not among them. Write a formula in single quotes.
-- **Every option has `text`, `correct` and `info`; every question has `explanation` and at least one link in
-  `links`.** The schema requires them. A table cell is never empty, a header cell neither.
+- **Every option has `text`, `correct` and `info`; every question has `explanation`.** The schema requires them;
+  `links` is optional (rule `quiz-further-reading`). A table cell is never empty, a header cell neither.
 - **Headings.** A heading is a `section` block with `id` and `title`, never a Markdown heading in a text.
 - **`generated`.** No mistake may give the same number as the answer for any drawn values: narrow the range of
   `given` until it cannot. Keep the answer within the decimals its format allows (`where: ["decimals(…) <= 2"]`).
