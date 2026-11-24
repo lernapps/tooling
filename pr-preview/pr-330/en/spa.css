@@ -1,0 +1,8 @@
+/* For the arc42 app (architecture/, architecture-diff/), which comes with the shared header above it:
+   on a phone its fixed "Contents" button would cover the header, so it moves to the bottom. */
+@media (width <= 700px) {
+  [class*="_menuButton_"] {
+    top: auto !important;
+    bottom: 1rem;
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "base": {
+    "label": "042a3d3d2717495c5d528c23b15f0cac21bc8a14",
+    "commit": "042a3d3d2717495c5d528c23b15f0cac21bc8a14"
+  },
+  "head": {
+    "label": "bf416e2703c1a6b09c35185dbc21da02af4fc377"
+  },
+  "acceptanceBase": "042a3d3d2717495c5d528c23b15f0cac21bc8a14",
+  "untracked": [],
+  "accepted": false,
+  "hasBlockingFindings": false,
+  "findings": [],
+  "groups": {
+    "warnings": [],
+    "untouched": [],
+    "updated": [],
+    "uncovered": []
+  },
+  "architecture": {
+    "elements": [
+      {
+        "id": "bb-app-check-action",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1048
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1051
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "App check action"
+          ],
+          "occurrence": 1
+        }
+      },
+      {
+        "id": "bb-app-preview",
+        "kind": "building-block",
+        "status": "unchanged",
+        "attributes": [],
+        "proseChanged": true,
+        "proseMentions": [],
+        "base": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1118
+        },
+        "head": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "line": 1121
+        },
+        "section": {
+          "file": "docs/arc42/05-building-blocks.arc42.md",
+          "headingPath": [
+            "Building Blocks",
+            "App preview"
+          ],
+          "occurrence": 1
+        }
+      }
+    ],
+    "diagrams": [],
+    "edges": [],
+    "proseSections": [],
+    "documents": [
+      {
+        "file": "docs/arc42/05-building-blocks.arc42.md",
+        "added": 0,
+        "modified": 2,
+        "removed": 0
+      }
+    ]
+  }
+}
