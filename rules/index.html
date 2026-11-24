@@ -1267,6 +1267,8 @@
 <ul>
 <li><code>links</code> is optional, in a quiz and for a question of an explainer: the schema does not require it. Add a link only where a source adds something to exactly this question that the explanation does not say, e.g. the article on the very term or event asked about, best the German Wikipedia (<code>https://de.wikipedia.org/wiki/...</code>).</li>
 <li><code>title</code> names the page (&quot;Uluru (Wikipedia)&quot;).</li>
+<li>No page of its own (a term like &quot;Wortgleichung&quot;): the page that fits best, preferably the one the question's facts came from. Never no link: the schema requires one, in a quiz and for a question of an explainer.</li>
+<li>Never the learning map of lernapps.net (<code>https://lernapps.net/apps/map/…</code>): it is an index of competencies, no source on this question, and the build rejects it.</li>
 <li>A general article on the subject adds nothing (&quot;Französische Sprache&quot; for any question about French): leave the links out. No page of its own for a term (like &quot;Wortgleichung&quot;): leave them out too, rather than a page that fits badly.</li>
 <li>HTTP 429 → tell the creator which; mark the facts &quot;not checked&quot; in the plan; go on.</li>
 </ul>
@@ -1381,7 +1383,7 @@
 <div>
 <ul>
 <li>Every page has at least one exercise that practises what the page explains, with solution or feedback; best in a last section &quot;Übung&quot;.</li>
-<li>Except a recap page (<code>recap</code>, format 2): it repeats one or several prerequisites the app does not practise and has no exercise.</li>
+<li>Except a recap page (<code>recap</code>, format 2): it repeats one or several prerequisites the app does not practise and needs no exercise; one or two to check what it repeats are fine, three are not. A page that practises is no recap page: give it <code>competencies</code>.</li>
 </ul>
 </div>
 <p>Told in <a href="https://github.com/lernapps/tooling/blob/main/skills/archetypes/lernapps-explainer-design/references/rules.md"><code>skills/archetypes/lernapps-explainer-design/references/rules.md</code></a>; judged by the rubric item in <a href="https://github.com/lernapps/tooling/blob/main/review/archetypes/explainer.md"><code>review/archetypes/explainer.md</code></a>.</p>
