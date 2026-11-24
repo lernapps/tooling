@@ -14,6 +14,9 @@ description: >-
   docs (docs/**/*.md, which an app does not bundle), the job succeeds without installing, building or checking,
   with a notice; it uploads neither report nor bundle, and app-publish and app-preview then publish nothing. So the app's
   workflow runs on every push and pull request, needs no paths filter, and its check never stays "Pending".
+  On a pull request from the same repo it also uploads the bundle of the preview as the artifact "app-preview": for an
+  explainer, built once more in the diff mode against the base of the pull request (EXPLAINER_BASE), so that the preview
+  marks what the pull request changes; otherwise the checked bundle. app-publish takes "app", which has no marks.
   The output scope says what was decided.
   A push to main does not check again what a pull request has checked already: after its check passed, the run of a
   pull request from this repo keeps its report also as the artifact "lernapps-checked-<tree>" (<tree>: the tree of
@@ -137,3 +140,37 @@ runs:
         path: ${{ inputs.working-directory }}/node_modules/.cache/lernapps/validation-report.yaml
         include-hidden-files: true
         overwrite: true # a re-run of the same run
+    # A pull request from this repo whose check passed: the bundle of its preview, as the artifact "app-preview", which
+    # app-preview publishes. For an explainer it is built once more in the explainer's diff mode (app-templates 0.20):
+    # EXPLAINER_BASE names the app as the base of the pull request has it (the first parent of the merge commit the
+    # pull request is checked out as), and the build marks what the pull request adds, changes, moves and removes.
+    # That bundle is only for the preview: the artifact "app" stays as checked, what app-publish publishes. Anything
+    # else (no explainer, no base, a build that fails: it only warns) previews the checked bundle, as before.
+    - if: inputs.upload == 'true' && steps.changes.outputs.code == 'true' && github.event_name == 'pull_request' && steps.check.outcome == 'success'
+      id: preview
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        dir=dist
+        if [ -f src/app.yaml ]; then
+          git rev-parse --verify --quiet 'HEAD^1' > /dev/null || git fetch --no-tags --quiet --deepen=1 origin || true
+          if git rev-parse --verify --quiet 'HEAD^2' > /dev/null && git rev-parse --verify --quiet 'HEAD^1' > /dev/null; then
+            base="$RUNNER_TEMP/lernapps-base"
+            rm -rf "$base" && mkdir -p "$base"
+            # an app the base does not have yet (a new folder) has no base: it previews as checked
+            if git archive 'HEAD^1' -- . 2> /dev/null | tar -x -C "$base" 2> /dev/null && [ -f "$base/src/app.yaml" ]; then
+              if EXPLAINER_BASE="$base" npx --no -- vp build --outDir dist-diff; then
+                dir=dist-diff
+              else
+                echo "::warning::The build in the diff mode failed: the preview shows the app without marks"
+              fi
+            fi
+          fi
+        fi
+        echo "dir=$dir" >> "$GITHUB_OUTPUT"
+    - if: inputs.upload == 'true' && steps.changes.outputs.code == 'true' && github.event_name == 'pull_request' && steps.check.outcome == 'success'
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: app-preview
+        path: ${{ inputs.working-directory }}/${{ steps.preview.outputs.dir }}
+        include-hidden-files: true

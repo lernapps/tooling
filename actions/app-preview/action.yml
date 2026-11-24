@@ -1,7 +1,8 @@
 name: lernapps app preview
 description: >-
   A preview of a pull request, for the creator to look at before it goes online: the bundle the app check action
-  checked (the artifact "app"), published unchanged except for a robots noindex tag on every page, on the branch
+  made for it (the artifact "app-preview": for an explainer with the marks of the diff mode, which show what the pull
+  request changes; else the artifact "app", the bundle it checked), published unchanged except for a robots noindex tag on every page, on the branch
   gh-pages below pr-preview/pr-<number>/, so at <the app's address>pr-preview/pr-<number>/. The bundle's URLs are
   relative, so it works there as it is. It is updated on every push to the pull request and removed when the pull
   request is closed or merged, as a whole folder; app-publish keeps pr-preview/ when it publishes. publish/gh-pages.ts
@@ -43,7 +44,19 @@ runs:
       run: node "$GITHUB_ACTION_PATH/../../changes/main.ts" --ci
       shell: bash
     # Every step below runs only when the change can affect the app (output code: scope all), or to remove.
+    # The bundle of the preview, "app-preview" (marks what the pull request changes in an explainer); a pattern, not a
+    # name, so that its absence (an app check of an earlier commit) is no error and the checked bundle "app" is taken.
     - if: steps.changes.outputs.code == 'true'
+      uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+      with:
+        pattern: app-preview
+        path: _app
+        merge-multiple: true
+    - if: steps.changes.outputs.code == 'true'
+      id: bundle
+      shell: bash
+      run: if [ -f _app/index.html ]; then echo "found=true" >> "$GITHUB_OUTPUT"; fi
+    - if: steps.changes.outputs.code == 'true' && steps.bundle.outputs.found != 'true'
       uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
       with:
         name: app
