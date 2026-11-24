@@ -12,7 +12,7 @@
 - `single-choice`, `multiple-choice`, `true-false`, `number`, `ordering`, `matching` are blocks with the fields of a
   quiz question. The fields of each type are in `references/question-types.md` of skill
   `lernapps-content-questions`; how to write a good question is in that skill.
-- The schema requires `id`, `type`, `text`, `explanation` and `links` (at least one) for every question, and `text`,
+- The schema requires `id`, `type`, `text` and `explanation` for every question (`links` is optional), and `text`,
   `correct` and `info` for every option, the right one too. After a wrong answer the page shows the `info` of every
   option.
 

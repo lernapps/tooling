@@ -73,7 +73,7 @@ severity: hint
 - A wrong answer's `message` (and an exercise component's `reason`) says what does not fit and where to look, never
   the solution itself: the solution comes after the answer, with "Lösung" or the tutor.
 
-## `quiz-further-reading`: Every question links to further reading
+## `quiz-further-reading`: Further reading only where it adds something
 
 ```rule
 id: quiz-further-reading
@@ -81,12 +81,17 @@ scope: [archetype:quiz, archetype:explainer]
 severity: warning
 ```
 
-- At least one link per question, best the German Wikipedia (`https://de.wikipedia.org/wiki/...`).
+- `links` is optional, in a quiz and for a question of an explainer: the schema does not require it. Add a link only
+  where a source adds something to exactly this question that the explanation does not say, e.g. the article on the
+  very term or event asked about, best the German Wikipedia (`https://de.wikipedia.org/wiki/...`).
 - `title` names the page ("Uluru (Wikipedia)").
 - No page of its own (a term like "Wortgleichung"): the page that fits best, preferably the one the question's facts
   came from. Never no link: the schema requires one, in a quiz and for a question of an explainer.
 - Never the learning map of lernapps.net (`https://lernapps.net/apps/map/…`): it is an index of competencies, no
   source on this question, and the build rejects it.
+- A general article on the subject adds nothing ("Französische Sprache" for any question about French): leave the
+  links out. No page of its own for a term (like "Wortgleichung"): leave them out too, rather than a page that fits
+  badly.
 - HTTP 429 → tell the creator which; mark the facts "not checked" in the plan; go on.
 
 ## `quiz-own-words`: Write in your own words
