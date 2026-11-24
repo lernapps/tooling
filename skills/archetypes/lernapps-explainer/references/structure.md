@@ -62,8 +62,9 @@ blocks:
       eines Körpers in Kilogramm angeben.
 ```
 
-- It is short and has no new content and no exercise, not even a short one: a self-check is plain text the learner
-  answers in their head.
+- It is short and has no new content. It needs no exercise: a self-check is plain text the learner answers in their
+  head. One or two exercises to check what it repeats are allowed, a third is a build problem; they are not part of a
+  self-assessment. Do not build a normal page with exercises that says it repeats something: use a recap page.
 - Its text names each competency of `recap`, with its name or its "Ich kann …" sentence from
   `https://lernapps.net/apps/map/<subject>.json` (`recap-names-competencies`). The runtime adds the link to each
   competency on the map by itself.

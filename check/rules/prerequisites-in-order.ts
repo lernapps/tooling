@@ -107,7 +107,7 @@ export default {
           if (link.test(page.text)) continue;
           const name = `${subject}/${prerequisite} (strand ${subject}/${strand})`;
           const url = competencyPage(subject, prerequisite);
-          const recapFix = `a recap page (recap: ${subject}/${prerequisite}, descriptive blocks only) before this page, or ${subject}/${prerequisite} in the recap list of one`;
+          const recapFix = `a recap page (recap: ${subject}/${prerequisite}, mostly descriptive blocks) before this page, or ${subject}/${prerequisite} in the recap list of one`;
           if (at !== undefined || recap !== undefined) {
             const later = explainer.pages[at ?? recap ?? 0]?.where ?? "";
             problems.push({

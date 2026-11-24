@@ -85,6 +85,8 @@ severity: warning
 - `title` names the page ("Uluru (Wikipedia)").
 - No page of its own (a term like "Wortgleichung"): the page that fits best, preferably the one the question's facts
   came from. Never no link: the schema requires one, in a quiz and for a question of an explainer.
+- Never the learning map of lernapps.net (`https://lernapps.net/apps/map/…`): it is an index of competencies, no
+  source on this question, and the build rejects it.
 - HTTP 429 → tell the creator which; mark the facts "not checked" in the plan; go on.
 
 ## `quiz-own-words`: Write in your own words

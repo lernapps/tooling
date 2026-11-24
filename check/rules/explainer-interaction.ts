@@ -6,7 +6,7 @@ import type { Check } from "../check.ts";
 import { readExplainer } from "../explainer-map.ts";
 import { measurePage } from "../explainer-structure.ts";
 
-/** Fewer exercises (components count) on a page practise too little; a recap page has none and is left out. */
+/** Fewer exercises (components count) on a page practise too little; a recap page (at most two) is left out. */
 /** The minimum applies from this many pages on: the placeholder `create` writes is not judged. */
 export const MIN_PAGES = 4;
 export const MIN_PRACTICE = 4;
