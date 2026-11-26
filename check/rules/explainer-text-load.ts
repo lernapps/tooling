@@ -4,10 +4,12 @@
 // `format: 2` in src/app.yaml.
 import type { Check } from "../check.ts";
 import { readExplainer } from "../explainer-map.ts";
-import { measurePage } from "../explainer-structure.ts";
+import { measurePage, READING_TEXT_MARK } from "../explainer-structure.ts";
 
 /** Words of text to read on a page; more is a hint. */
 export const MAX_PROSE_WORDS = 350;
+/** Words of the reading text of a page (a block marked with READING_TEXT_MARK), counted apart from the explainer text. */
+export const MAX_READING_WORDS = 600;
 /** Words of tasks, explanations, background, hints and messages on a page. */
 export const MAX_FEEDBACK_WORDS = 350;
 /** Text blocks one after the other, with no figure, table, exercise or component between. */
@@ -28,6 +30,8 @@ export default {
       const found: string[] = [];
       if (m.proseWords > MAX_PROSE_WORDS)
         found.push(`${m.proseWords} words of text to read (more than ${MAX_PROSE_WORDS})`);
+      if (m.readingWords > MAX_READING_WORDS)
+        found.push(`${m.readingWords} words of reading text (more than ${MAX_READING_WORDS})`);
       if (m.feedbackWords > MAX_FEEDBACK_WORDS)
         found.push(`${m.feedbackWords} words in tasks, explanations and messages (more than ${MAX_FEEDBACK_WORDS})`);
       if (m.longestProseRun > MAX_PROSE_RUN)
@@ -40,7 +44,7 @@ export default {
             {
               where: page.where,
               found: found.join("; "),
-              fix: "Cut text the figure or the task already carries, move a figure or an exercise up between the text blocks, and keep the explanation of a right answer to one sentence",
+              fix: `Cut text the figure or the task already carries, move a figure or an exercise up between the text blocks, and keep the explanation of a right answer to one sentence. A reading text the page is about is no explainer text: put the line ${READING_TEXT_MARK} above its block (or its section), and it counts apart`,
             },
           ];
     });

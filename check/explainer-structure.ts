@@ -2,7 +2,7 @@
 // explainer-repetition, explainer-interaction and explainer-exercise-variety: words of reading text and of feedback,
 // the longest run of text blocks, what opens the page, the kinds of exercise, and phrases the page says twice. No
 // build, no browser, no model: the same page gives the same numbers.
-import { parse } from "yaml";
+import { isMap, isSeq, LineCounter, parse, parseDocument, type Node } from "yaml";
 
 /** Blocks that are prose for the learner to read. */
 const PROSE = new Set(["text", "definition", "quote"]);
@@ -37,9 +37,17 @@ const EXERCISE = new Set([
   "open-task",
 ]);
 
+/**
+ * The comment that marks a reading text (Lesestück): put on the line above a block, or above a section for all its
+ * blocks. The YAML comment is no field, so the runtime and its schema do not know it.
+ */
+export const READING_TEXT_MARK = "# reading-text";
+
 export interface PageMetrics {
   /** Words the learner reads before and besides the exercises: text, definitions, quotes, table and box titles not counted. */
   proseWords: number;
+  /** Words of the blocks marked as reading text (READING_TEXT_MARK): the text the page is about, counted apart from proseWords. */
+  readingWords: number;
   /** Words of the exercises' own texts: the task, the explanation, background of options, hints, steps, messages. */
   feedbackWords: number;
   /** The longest run of prose blocks with nothing to look at or do between them, in document order. */
@@ -103,6 +111,39 @@ const kindOf = (block: Obj): string =>
   block["type"] === "language-task" ? `language-task:${str(block["mode"]) || "write"}` : String(block["type"]);
 
 /**
+ * The blocks of a page marked as reading text: those with READING_TEXT_MARK on the line above, and every block inside a
+ * section so marked. `value` is the page as parsed; the blocks are found in it by their place, not by their words.
+ */
+function readingBlocks(text: string, value: unknown): Set<unknown> {
+  const found = new Set<unknown>();
+  if (!text.includes(READING_TEXT_MARK) || !isObj(value)) return found;
+  const lines = new LineCounter();
+  const doc = parseDocument(text, { lineCounter: lines });
+  const source = text.split("\n");
+  /** Lines (1-based) whose block is marked: the first line that is no comment after a mark. */
+  const marked = new Set<number>();
+  source.forEach((line, i) => {
+    if (line.trim() !== READING_TEXT_MARK) return;
+    let next = i + 1;
+    while (next < source.length && ((source[next] ?? "").trim() === "" || (source[next] ?? "").trim().startsWith("#")))
+      next++;
+    marked.add(next + 1);
+  });
+  const visit = (blocks: unknown, node: unknown, inherited: boolean): void => {
+    if (!isSeq(node)) return;
+    list(blocks).forEach((block, i) => {
+      const item = node.items[i] as Node | undefined;
+      if (!isObj(block) || !isMap(item) || item.range === undefined || item.range === null) return;
+      const here = inherited || marked.has(lines.linePos(item.range[0]).line);
+      if (here) found.add(block);
+      visit(block["blocks"], item.get("blocks", true), here);
+    });
+  };
+  visit(value["blocks"], doc.get("blocks", true), false);
+  return found;
+}
+
+/**
  * The numbers of one page. Anything that is not a page of blocks (a recap page has no exercise but is still read) gives
  * the numbers of what it has.
  */
@@ -114,6 +155,7 @@ export function measurePage(text: string): PageMetrics {
     value = undefined;
   }
   const flat: Obj[] = [];
+  const reading = readingBlocks(text, value);
   const walk = (blocks: unknown): void => {
     for (const block of list(blocks)) {
       if (!isObj(block)) continue;
@@ -126,6 +168,7 @@ export function measurePage(text: string): PageMetrics {
   walk(isObj(value) ? value["blocks"] : undefined);
 
   let proseWords = 0;
+  let readingWords = 0;
   let feedbackWords = 0;
   let run = 0;
   let longestProseRun = 0;
@@ -147,7 +190,8 @@ export function measurePage(text: string): PageMetrics {
     if (PROSE.has(type)) {
       const texts = [str(block["text"]), str(block["explanation"])].filter((t) => t !== "");
       const words = texts.flatMap(wordsOf);
-      proseWords += words.length;
+      if (reading.has(block)) readingWords += words.length;
+      else proseWords += words.length;
       said.push({ part: "text", phrases: shingles(words) });
       run++;
       longestProseRun = Math.max(longestProseRun, run);
@@ -172,6 +216,7 @@ export function measurePage(text: string): PageMetrics {
   const repeated = [...count].filter(([, n]) => n > 1).map(([key]) => key.slice(key.indexOf("\n") + 1));
   return {
     proseWords,
+    readingWords,
     feedbackWords,
     longestProseRun,
     firstActivity,
