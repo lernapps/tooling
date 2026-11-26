@@ -5,7 +5,7 @@ import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, test } from "vite-plus/test";
-import { migrateExplainer } from "../generator/update.ts";
+import { migrateExplainer, removeMapLinks } from "../generator/update.ts";
 import { runtimeSpec } from "../generator/create.ts";
 import { appTemplates, repoRoot } from "./support.ts";
 
@@ -67,5 +67,82 @@ describe("runtimeSpec", () => {
       }
     ).dependencies["@lernapps/app-templates"];
     expect(runtimeSpec("0.0.0")).toBe(own);
+  });
+});
+
+describe("removeMapLinks", () => {
+  const start = process.cwd();
+  let app: string;
+  const file = () => readFileSync(join(app, "src/prozent/seite.yaml"), "utf8");
+  const MAP = "https://lernapps.net/apps/map/mathematik/c/prozent/";
+
+  beforeEach(() => {
+    app = mkdtempSync(join(tmpdir(), "lernapps-maplinks-"));
+    mkdirSync(join(app, "src/prozent"), { recursive: true });
+    writeFileSync(join(app, "src/app.yaml"), V1);
+    process.chdir(app);
+  });
+  afterEach(() => process.chdir(start));
+
+  const write = (text: string) => writeFileSync(join(app, "src/prozent/seite.yaml"), text);
+
+  test("removes the map links of a question, with the other links, comments and layout kept", () => {
+    write(`blocks:
+  - type: choice
+    id: a
+    links:
+      - title: Karte
+        url: ${MAP}
+      # a page that fits
+      - title: Wikipedia
+        url: https://de.wikipedia.org/wiki/Prozentrechnung
+    explanation: Text
+  - type: choice
+    id: b
+    links:
+      - title: Wikipedia
+        url: https://de.wikipedia.org/wiki/Prozent
+      - title: Karte
+        url: ${MAP}
+`);
+    const lines = removeMapLinks();
+    expect(lines).toEqual([expect.stringMatching(/seite\.yaml: removed 2 links to the learning map/)]);
+    expect(file()).toBe(`blocks:
+  - type: choice
+    id: a
+    links:
+      # a page that fits
+      - title: Wikipedia
+        url: https://de.wikipedia.org/wiki/Prozentrechnung
+    explanation: Text
+  - type: choice
+    id: b
+    links:
+      - title: Wikipedia
+        url: https://de.wikipedia.org/wiki/Prozent
+`);
+    expect(removeMapLinks()).toEqual([]);
+  });
+
+  test("keeps a question whose only link is one to the map, and says where", () => {
+    const only = `blocks:
+  - type: choice
+    links:
+      - title: Karte
+        url: ${MAP}
+    explanation: Text
+`;
+    write(only);
+    expect(removeMapLinks()).toEqual([expect.stringMatching(/seite\.yaml:3: .*only a link to the learning map/)]);
+    expect(file()).toBe(only);
+  });
+
+  test("leaves an app that is no explainer, and files without map links, alone", () => {
+    write("links:\n  - title: x\n    url: https://example.org/\n");
+    expect(removeMapLinks()).toEqual([]);
+    writeFileSync(join(app, "src/app.yaml"), "title: Quiz\n");
+    write(`links:\n  - title: Karte\n    url: ${MAP}\n  - title: y\n    url: https://example.org/\n`);
+    expect(removeMapLinks()).toEqual([]);
+    expect(file()).toContain(MAP);
   });
 });
