@@ -72,6 +72,9 @@ moves the app within its version ranges; this moves the ranges, and what npm doe
                            the content guide's skeleton, where the app has none yet (and its link for Claude Code)
   .vibe/plan.md            the plan of an app made before the plans had a folder: moved to
                            .vibe/plans/01-first-version.md, the first of its plans (one per piece of work)
+  src/**/*.yaml            of an explainer: the links to the learning map (https://lernapps.net/apps/map/…) are removed
+                           from the questions' links, which explainer-content-valid rejects; a question whose only
+                           link is one to the map stays, and the output names file and line
   src/app.yaml             of an explainer in format 1, when the runtime knows format 2: adds format: 2 and
                            strand: none (the app is not on the learning map; its pages need no competencies)
   .agents/skills/lernapps-*, .claude/skills/lernapps-*, skills-lock.json
@@ -294,6 +297,101 @@ export function migrateExplainer(templatesRoot: string): string[] {
   return [
     `explainer: ${EXPLAINER_APP} moved to format 2: added format: 2 and strand: none (not on the learning map; pages need no competencies). To join the map, pick a strand of https://lernapps.net/apps/map/ and give every page competencies`,
   ];
+}
+
+/** The learning map of lernapps.net: a question must not point to it as further reading (explainer-content-valid). */
+const MAP_LINK = "https://lernapps.net/apps/map/";
+
+/** The YAML files of an explainer's content: src/ without its images. */
+function contentFiles(dir: string): string[] {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) return entry.name === "images" || entry.name === "components" ? [] : contentFiles(path);
+    return /\.ya?ml$/.test(entry.name) ? [path] : [];
+  });
+}
+
+/** The lines of one block-style `links:` list of a YAML file: where each entry starts and ends (end excluded). */
+function linkEntries(lines: string[], at: number): { start: number; end: number }[] {
+  const key = /^(\s*)links:\s*(#.*)?$/.exec(lines[at] ?? "");
+  if (key === null) return [];
+  const keyIndent = (key[1] ?? "").length;
+  const entries: { start: number; end: number }[] = [];
+  let itemIndent: number | undefined;
+  let i = at + 1;
+  for (; i < lines.length; i++) {
+    const line = lines[i] ?? "";
+    if (line.trim() === "" || line.trim().startsWith("#")) continue;
+    const indent = line.length - line.trimStart().length;
+    const dash = line.trimStart().startsWith("- ");
+    if (itemIndent === undefined) {
+      if (!dash || indent < keyIndent) break;
+      itemIndent = indent;
+    }
+    if (dash && indent === itemIndent) {
+      const last = entries.at(-1);
+      // comments right above an entry belong to it
+      let start = i;
+      while (last !== undefined && start - 1 > last.start && (lines[start - 1] ?? "").trim().startsWith("#")) start--;
+      if (last !== undefined) last.end = start;
+      entries.push({ start, end: lines.length });
+    } else if (indent <= itemIndent) break;
+  }
+  const last = entries.at(-1);
+  if (last !== undefined) {
+    // trailing blank lines and comments belong to what follows
+    let end = i;
+    while (
+      end > last.start + 1 &&
+      ((lines[end - 1] ?? "").trim() === "" || (lines[end - 1] ?? "").trim().startsWith("#"))
+    )
+      end--;
+    last.end = end;
+  }
+  return entries;
+}
+
+/**
+ * Removes the links to the learning map from the questions of an explainer, which the rule explainer-content-valid
+ * rejects: an entry of a block-style `links` list whose url starts with https://lernapps.net/apps/map/ goes, and the
+ * other entries stay. The file is edited as text, so comments and layout stay. A question whose only link is one to
+ * the map keeps it, since the schema wants a link: the line says where, and to replace it with a page that carries the
+ * question's facts. What it did, as lines of the output.
+ */
+export function removeMapLinks(): string[] {
+  if (!existsSync(EXPLAINER_APP) || !/^chapters:/m.test(readFileSync(EXPLAINER_APP, "utf8"))) return [];
+  const report: string[] = [];
+  for (const file of contentFiles("src")) {
+    const text = readFileSync(file, "utf8");
+    if (!text.includes(MAP_LINK)) continue;
+    const lines = text.split("\n");
+    const drop = new Set<number>();
+    let removed = 0;
+    lines.forEach((line, at) => {
+      if (!/^\s*links:\s*(#.*)?$/.test(line)) return;
+      const entries = linkEntries(lines, at);
+      const onMap = entries.filter((entry) =>
+        lines.slice(entry.start, entry.end).some((l) => l.includes(`url: ${MAP_LINK}`)),
+      );
+      if (onMap.length === 0) return;
+      if (onMap.length === entries.length) {
+        report.push(
+          `explainer: ${file}:${at + 1}: the question has only a link to the learning map, which explainer-content-valid rejects: replace it with a page that carries the facts of the question`,
+        );
+        return;
+      }
+      for (const entry of onMap) for (let i = entry.start; i < entry.end; i++) drop.add(i);
+      removed += onMap.length;
+    });
+    if (removed > 0) {
+      writeFileSync(file, lines.filter((_line, i) => !drop.has(i)).join("\n"));
+      report.unshift(
+        `explainer: ${file}: removed ${removed} link${removed === 1 ? "" : "s"} to the learning map from questions`,
+      );
+    }
+  }
+  return report;
 }
 
 /**
@@ -584,6 +682,8 @@ export function update(args: string[]): number {
   lines.push(...plan);
   const explainer = migrateExplainer(templates.root);
   lines.push(...explainer);
+  const mapLinks = removeMapLinks();
+  lines.push(...mapLinks);
   const skills = [...replaceSkills(), ...unignoreSkills()];
   lines.push(...skills);
   const architecture = updateArchitecture();
@@ -602,6 +702,7 @@ export function update(args: string[]): number {
   if (skills.some((line) => line.includes(".gitignore"))) files.push(".gitignore");
   if (architecture.lines.length > 0) files.push(`${ARCHITECTURE}/`);
   if (explainer.length > 0) files.push(EXPLAINER_APP);
+  if (mapLinks.some((line) => line.includes(": removed "))) files.push("src/");
   if (plan.some((line) => line.startsWith("plan: moved"))) files.push(".vibe/ (git add -A .vibe, to keep the move)");
   process.stdout.write(
     `Next: npx --no -- lernapps check, then commit ${files.slice(0, -1).join(", ")} and ${files.at(-1) ?? ""}\n`,

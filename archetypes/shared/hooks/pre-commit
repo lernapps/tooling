@@ -18,5 +18,20 @@ step() {
   echo "lernapps pre-commit: $name failed (exit $code); the full output is in $log" >&2
   exit "$code"
 }
-step "format the staged files (vp staged)" vp staged
+# vp staged backs the state up first; git cannot, when the commit deletes the files of a folder that is a link now
+# ("is beyond a symbolic link": lernapps update turns .claude/skills/* into links). Then the backup is left out: the
+# only task is a formatter, which loses nothing it did not write.
+beyond_link() {
+  git diff --cached --name-only --diff-filter=D | while IFS= read -r file; do
+    dir=$file
+    while dir=$(dirname "$dir") && [ "$dir" != . ] && [ "$dir" != / ]; do
+      [ -L "$dir" ] && echo yes && exit 0
+    done
+  done
+}
+if [ -n "$(beyond_link)" ]; then
+  step "format the staged files (vp staged --no-stash: a deleted folder is a link now)" vp staged --no-stash
+else
+  step "format the staged files (vp staged)" vp staged
+fi
 step "the fast checks (lernapps check --pre-commit)" lernapps check --pre-commit
