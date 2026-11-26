@@ -210,6 +210,24 @@ describe("the commit hook's view: tasks are ticked, skipped or added, never rewr
     expect(changedTasks(TEMPLATE, plan)).toEqual([]);
   });
 
+  test.each(["no screen of its own", "not needed (the entry exists)", "a) b (c", "ends with ) "])(
+    "a skip with the reason %j changes no task",
+    (reason) => {
+      const skipped = planDone(TEMPLATE, { skip: reason });
+      expect(skipped).toContain("(skipped: ");
+      expect(changedTasks(TEMPLATE, skipped)).toEqual([]);
+      // the next commit, with the skip note already in the last commit
+      expect(changedTasks(skipped, planDone(skipped, { skip: "another" }))).toEqual([]);
+    },
+  );
+
+  test("a skipped task that is reworded or removed is still named", () => {
+    const skipped = planDone(TEMPLATE, { skip: "not needed (yet)" });
+    const first = planTasks(TEMPLATE)[0]?.text ?? "";
+    expect(changedTasks(skipped, skipped.replace(first.slice(0, 20), "Something else"))).toHaveLength(1);
+    expect(changedTasks(skipped, skipped.replace(/^- \[x\] \(skipped:.*\n/m, ""))).toHaveLength(1);
+  });
+
   test("a reworded and a removed task are named", () => {
     const reworded = TEMPLATE.replace("Interview: ask the topics", "Interview: guess the topics");
     expect(changedTasks(TEMPLATE, reworded)).toEqual([expect.stringMatching(/^Interview: ask the topics "Goal"/)]);

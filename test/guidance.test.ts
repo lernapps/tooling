@@ -217,6 +217,10 @@ describe("AGENTS.md", () => {
     expect(read(AGENTS)).toContain("Push only the branch the current plan names");
     expect(read(TEMPLATE)).toContain("Work on the branch `work`");
     expect(read(INCREMENT)).toContain("Work on the branch `increment/<NN>-<short name>`");
+    // a checkpoint cannot be skipped, so the pull request to the catalog is a task of its own that can
+    expect(read(INCREMENT)).toMatch(
+      /- \[ \] The entry changed: open the pull request to the catalog[^]*Else skip this task[^]*\*\*Checkpoint:\*\* list\. Tell the creator/,
+    );
   });
 
   test("points to the plans and to `lernapps plan`, which reads and starts them", () => {

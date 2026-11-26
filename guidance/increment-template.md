@@ -136,9 +136,10 @@ cannot. Something new goes into the guide in the slice that adds it. -->
       changed entry. Else skip this task.
 - [ ] Fill the retrospective.
 - [ ] Commit this plan on `main` and push it. A push of only `.vibe/` publishes nothing.
-- [ ] **Checkpoint:** list. The entry changed: open the pull request to the catalog as skill `lernapps-listing`
-      says, without asking first, see it to "bestanden", then show the creator the pull request and its result. The
-      entry did not change: tell the creator that the catalog updates the app by itself.
+- [ ] The entry changed: open the pull request to the catalog as skill `lernapps-listing` says, without asking first,
+      and see it to "bestanden". Else skip this task: `npx --no -- lernapps plan skip "entry unchanged"`.
+- [ ] **Checkpoint:** list. Tell the creator the result: the pull request and its result, or, when the entry did not
+      change, that the catalog takes over the app by itself. Tick it with their reply.
 - [ ] If the plan changed since its last push, commit it on `main` and push again.
 
 ## Retrospective

@@ -407,20 +407,31 @@ export function applyArchetype(text: string, archetype: string, part: string): s
   return setFrontMatter(lines.join("\n"), "archetype", archetype).replaceAll("<archetype>", archetype);
 }
 
-/** How a task line reads without its box, a skip note and the white space a wrap adds: what must not change. */
+/** How a task line reads without its box, a Creator answer and the white space a wrap adds. */
 const stable = (task: Task) =>
   task.text
-    .replace(/^\(skipped: [^)]*\) /, "")
     .replace(/ Creator: .*$/, "")
     .replace(/\s+/g, " ")
     .trim();
 
+const SKIPPED = "(skipped: ";
+
+/**
+ * Whether a task of the later plan is the task of the earlier one: the same words, or the same words behind a skip note.
+ * The note ends with the reason, which may hold parentheses, so the task is found at the end of the line.
+ */
+function sameTask(a: string, b: string): boolean {
+  const skipped = (note: string, task: string) =>
+    note.startsWith(SKIPPED) && note.length > task.length && note.endsWith(` ${task}`);
+  return a === b || skipped(a, b) || skipped(b, a);
+}
+
 /** The tasks of `before` that `after` no longer has in the same words: a task is ticked, skipped or added, never rewritten. */
 export function changedTasks(before: string, after: string): string[] {
-  const kept = new Set(planTasks(after).map(stable));
+  const kept = planTasks(after).map(stable);
   return planTasks(before)
     .map(stable)
-    .filter((task) => !kept.has(task));
+    .filter((task) => !kept.some((candidate) => sameTask(task, candidate)));
 }
 
 /**
