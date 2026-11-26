@@ -95,6 +95,41 @@ describe("explainer-text-load", () => {
     expect(wall?.[0]?.found).toContain("the first figure, table or exercise is block 6");
     expect(textLoad.severity).toBe("hint");
   });
+
+  describe("a reading text (Lesestück)", () => {
+    const mark = "  # reading-text\n";
+    const section = (marked: boolean, ...blocks: string[]) =>
+      `${marked ? mark : ""}  - type: section\n    id: lesen\n    title: Lesen\n    blocks:\n${blocks.map((b) => b.replace(/^(?=.)/gm, "    ")).join("")}`;
+
+    test("counts apart when the line above the block says so, and not otherwise", () => {
+      const reading = explainer({ a: page(figure, `${mark}${text(words(400))}`, choice("a")) });
+      expect(run(textLoad, reading)).toEqual([]);
+      const plain = explainer({ a: page(figure, text(words(400)), choice("a")) });
+      expect(run(textLoad, plain)?.[0]?.found).toContain("400 words of text");
+      const m = measurePage(page(figure, `${mark}${text(words(400))}`, text("eins zwei")));
+      expect(m.readingWords).toBe(400);
+      expect(m.proseWords).toBe(2);
+    });
+
+    test("marks every block of a marked section, also with a comment or a blank line between", () => {
+      const m = measurePage(
+        page(
+          section(true, text("a b c"), text("d e")),
+          `  # reading-text\n\n  # eine Anmerkung\n${text("x y")}`,
+          text("z"),
+        ),
+      );
+      expect(m.readingWords).toBe(7);
+      expect(m.proseWords).toBe(1);
+      expect(measurePage(page(section(false, text("a b c")))).readingWords).toBe(0);
+    });
+
+    test("a reading text longer than the limit is named apart, with the way to mark it in the fix", () => {
+      const found = run(textLoad, explainer({ a: page(figure, `${mark}${text(words(700))}`, choice("a")) }));
+      expect(found?.[0]?.found).toContain("700 words of reading text (more than 600)");
+      expect(found?.[0]?.fix).toContain("# reading-text");
+    });
+  });
 });
 
 describe("explainer-repetition", () => {

@@ -51,7 +51,8 @@
 - `inflection`: 1–4 tables of forms (`caption`, optional `header`, `rows`; the first cell heads the row; `**…**` marks
   the ending). Only for grammar the learners already know (the tense, the cases); otherwise leave it out and teach the
   grammar on its own page first. Every row as long as the others and the header; the build checks it.
-- Not an exercise: learners cover a column to practise, unchecked. Words to write and check: `language-task`.
+- Not an exercise: with JavaScript learners may cover the column of one language and uncover each word to practise,
+  unchecked and stored nowhere; without JavaScript the page shows the whole table. Words to write and check: `language-task`.
 
 ```yaml
 - type: vocabulary

@@ -37,6 +37,9 @@ severity: hint
 
 - At most 350 words to read and 350 in tasks and feedback on a page, at most 4 text blocks in a row, and a figure,
   table or exercise within the first 4 blocks.
+- A reading text (Lesestück) the page is about is no explainer text. Put the comment line `# reading-text` directly above
+  its block, or above a section for every block in it; it then counts apart, with its own limit of 600 words. The
+  comment is no field: the runtime ignores it.
 
 ### `explainer-repetition`: Each thing once
 
