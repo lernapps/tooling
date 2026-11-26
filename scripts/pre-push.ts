@@ -60,6 +60,29 @@ export const HEAVY_PATHS = [
   "test/fixtures/",
 ];
 
+/**
+ * Paths that only one heavy test exercises (the second, narrower step of the positive list). A push whose heavy paths
+ * all belong here, or are heavy test files themselves, runs only those tests; every other heavy path (the code every
+ * app check runs through) runs all of them. A path is added here only when no other heavy test can reach it.
+ */
+export const ONLY_TESTS: Readonly<Record<string, readonly string[]>> = {
+  "test/screenshots.e2e.test.ts": ["src/screenshots.ts"],
+};
+
+/**
+ * The heavy tests a push needs, given the heavy paths it changes: the tests those paths belong to alone, else all. A
+ * heavy test file that changes belongs to itself.
+ */
+export function heavyTestsFor(heavyPaths: readonly string[]): readonly string[] {
+  const needed = new Set<string>();
+  for (const path of heavyPaths) {
+    const own = HEAVY_TESTS.filter((test) => test === path || matchesAny(path, ONLY_TESTS[test] ?? []));
+    if (own.length === 0) return HEAVY_TESTS;
+    for (const test of own) needed.add(test);
+  }
+  return HEAVY_TESTS.filter((test) => needed.has(test));
+}
+
 /** Whether a changed path is one the heavy tests exercise (the patterns of the change scope; "/" ends a folder). */
 export const isHeavy = (path: string) => matchesAny(path, HEAVY_PATHS);
 
@@ -101,10 +124,12 @@ function main(): number {
     return code;
   }
   const heavy = changed === undefined ? ["(the changed paths are not known)"] : changed.filter(isHeavy);
+  const tests = changed === undefined ? HEAVY_TESTS : heavyTestsFor(heavy);
+  const some = heavy.length > 0 && tests.length < HEAVY_TESTS.length;
   writeSync(
     log,
     heavy.length > 0
-      ? `lernapps pre-push: every test, for ${heavy.join(", ")}\n`
+      ? `lernapps pre-push: ${some ? `the heavy tests ${tests.join(", ")}` : "every test"}, for ${heavy.join(", ")}\n`
       : "lernapps pre-push: the fast tests; the push changes no path the heavy tests exercise\n",
   );
   const code = runLogged(
@@ -112,11 +137,15 @@ function main(): number {
     [["run", "--silent", "lernapps", "--", "check"]],
     // LERNAPPS_PRE_PUSH=1 tells the tests they run in the hook: a test that is load-dependent there skips itself on
     // purpose (test/check-app.e2e.test.ts) and runs in CI
-    { ...process.env, LERNAPPS_PRE_PUSH: "1", ...(heavy.length > 0 ? {} : { LERNAPPS_TESTS: "fast" }) },
+    {
+      ...process.env,
+      LERNAPPS_PRE_PUSH: "1",
+      ...(heavy.length === 0 ? { LERNAPPS_TESTS: "fast" } : some ? { LERNAPPS_HEAVY_TESTS: tests.join(",") } : {}),
+    },
   );
   if (code !== 0) {
     process.stderr.write(
-      `lernapps pre-push: lernapps check (${heavy.length > 0 ? "every test" : "the fast tests"}) failed (exit ${code}); the full output is in ${LOG}\n`,
+      `lernapps pre-push: lernapps check (${heavy.length === 0 ? "the fast tests" : some ? "some heavy tests" : "every test"}) failed (exit ${code}); the full output is in ${LOG}\n`,
     );
   }
   return code;

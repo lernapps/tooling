@@ -52,7 +52,13 @@ export default defineConfig({
     include: ["test/**/*.test.ts"],
     // LERNAPPS_TESTS=fast leaves out the heavy end-to-end tests: the pre-push hook of a push that changes none of the
     // paths they exercise (scripts/pre-push.ts). CI and every other run run everything.
-    exclude: process.env["LERNAPPS_TESTS"] === "fast" ? HEAVY_TESTS : [],
+    // LERNAPPS_HEAVY_TESTS=<files> runs only those of them: a push that changes paths only they exercise.
+    exclude:
+      process.env["LERNAPPS_TESTS"] === "fast"
+        ? HEAVY_TESTS
+        : process.env["LERNAPPS_HEAVY_TESTS"] === undefined
+          ? []
+          : HEAVY_TESTS.filter((file) => !(process.env["LERNAPPS_HEAVY_TESTS"] ?? "").split(",").includes(file)),
     // One fresh clone with `npm ci`, shared by the test files that need an installed clone.
     globalSetup: ["test/global-setup.ts"],
     // macOS keeps its temporary folders below /var, a link to /private/var. Node resolves a path to the real one

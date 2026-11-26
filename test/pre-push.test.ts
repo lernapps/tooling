@@ -5,7 +5,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { expect, test } from "vite-plus/test";
 import { stepEnv } from "../changes/changes.ts";
-import { changedPaths, HEAVY_PATHS, HEAVY_TESTS, isHeavy } from "../scripts/pre-push.ts";
+import { changedPaths, HEAVY_PATHS, HEAVY_TESTS, heavyTestsFor, isHeavy, ONLY_TESTS } from "../scripts/pre-push.ts";
 import { repoRoot } from "./support.ts";
 
 test("a change to code, the generator or a heavy test runs the heavy tests", () => {
@@ -51,4 +51,23 @@ test("every heavy test exists, and every end-to-end test that installs or builds
     "test/review.e2e.test.ts",
   ];
   expect(e2e.map((file) => `test/${file}`).sort()).toEqual([...HEAVY_TESTS, ...fast].sort());
+});
+
+test("a push that changes only what one heavy test exercises runs that test; any other heavy path runs all", () => {
+  expect(heavyTestsFor(["src/screenshots.ts"])).toEqual(["test/screenshots.e2e.test.ts"]);
+  expect(heavyTestsFor(["test/rules.e2e.test.ts", "src/screenshots.ts"])).toEqual([
+    "test/rules.e2e.test.ts",
+    "test/screenshots.e2e.test.ts",
+  ]);
+  // one path every check runs through is enough to run them all
+  expect(heavyTestsFor(["src/screenshots.ts", "src/cli.ts"])).toEqual(HEAVY_TESTS);
+  expect(heavyTestsFor(["package.json"])).toEqual(HEAVY_TESTS);
+  expect(heavyTestsFor(["test/support.ts"])).toEqual(HEAVY_TESTS);
+});
+
+test("the paths of one heavy test are heavy, and name a heavy test that exists", () => {
+  for (const [file, paths] of Object.entries(ONLY_TESTS)) {
+    expect(HEAVY_TESTS, file).toContain(file);
+    for (const path of paths) expect(isHeavy(path), path).toBe(true);
+  }
 });
