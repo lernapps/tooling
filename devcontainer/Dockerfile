@@ -12,7 +12,7 @@ FROM ${BASE}
 # renovate: datasource=npm depName=playwright
 ARG PLAYWRIGHT_VERSION=1.65.1
 # renovate: datasource=npm depName=@playwright/cli
-ARG PLAYWRIGHT_CLI_VERSION=0.1.24
+ARG PLAYWRIGHT_CLI_VERSION=0.1.25
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 # playwright-cli opens the Chrome channel by default; this image has Playwright's Chromium, which it must use instead.
