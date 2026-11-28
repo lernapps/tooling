@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="300" viewBox="0 0 360 300" role="img">
+  <title>Ladungen in einem Leiter und in einem Isolator</title>
+  <rect width="360" height="280" fill="#ffffff"/>
+  <g font-family="sans-serif" font-size="14" fill="#111111">
+    <text x="8" y="18" font-weight="bold">Metall (Leiter): Ladungen können wandern.</text>
+    <rect x="20" y="30" width="320" height="90" rx="8" fill="#eef4fb" stroke="#1f4e79" stroke-width="2"/>
+    <g fill="#1f4e79">
+      <circle cx="55" cy="60" r="10"/><circle cx="105" cy="60" r="10"/><circle cx="155" cy="60" r="10"/>
+      <circle cx="205" cy="60" r="10"/><circle cx="255" cy="60" r="10"/><circle cx="305" cy="60" r="10"/>
+      <circle cx="80" cy="95" r="10"/><circle cx="130" cy="95" r="10"/><circle cx="180" cy="95" r="10"/>
+      <circle cx="230" cy="95" r="10"/><circle cx="280" cy="95" r="10"/>
+    </g>
+    <g fill="#ffffff" font-size="14" text-anchor="middle">
+      <text x="55" y="64">+</text><text x="105" y="64">+</text><text x="155" y="64">+</text>
+      <text x="205" y="64">+</text><text x="255" y="64">+</text><text x="305" y="64">+</text>
+      <text x="80" y="99">+</text><text x="130" y="99">+</text><text x="180" y="99">+</text>
+      <text x="230" y="99">+</text><text x="280" y="99">+</text>
+    </g>
+    <g fill="#c55a11">
+      <circle cx="70" cy="45" r="8"/><circle cx="120" cy="110" r="8"/><circle cx="170" cy="45" r="8"/>
+      <circle cx="220" cy="110" r="8"/><circle cx="270" cy="45" r="8"/><circle cx="320" cy="110" r="8"/>
+    </g>
+    <g fill="#ffffff" font-size="14" text-anchor="middle">
+      <text x="70" y="49">−</text><text x="120" y="114">−</text><text x="170" y="49">−</text>
+      <text x="220" y="114">−</text><text x="270" y="49">−</text><text x="320" y="114">−</text>
+    </g>
+    <text x="20" y="140">Die orangen Ladungen sind frei beweglich.</text>
+
+    <text x="8" y="172" font-weight="bold">Kunststoff (Isolator): Ladungen sind fest gebunden.</text>
+    <rect x="20" y="184" width="320" height="84" rx="8" fill="#fdf1e7" stroke="#c55a11" stroke-width="2"/>
+    <g fill="#c55a11">
+      <circle cx="55" cy="214" r="10"/><circle cx="105" cy="214" r="10"/><circle cx="155" cy="214" r="10"/>
+      <circle cx="205" cy="214" r="10"/><circle cx="255" cy="214" r="10"/><circle cx="305" cy="214" r="10"/>
+      <circle cx="80" cy="248" r="10"/><circle cx="130" cy="248" r="10"/><circle cx="180" cy="248" r="10"/>
+      <circle cx="230" cy="248" r="10"/><circle cx="280" cy="248" r="10"/>
+    </g>
+    <g fill="#ffffff" font-size="14" text-anchor="middle">
+      <text x="55" y="218">−</text><text x="105" y="218">−</text><text x="155" y="218">−</text>
+      <text x="205" y="218">−</text><text x="255" y="218">−</text><text x="305" y="218">−</text>
+      <text x="80" y="252">−</text><text x="130" y="252">−</text><text x="180" y="252">−</text>
+      <text x="230" y="252">−</text><text x="280" y="252">−</text>
+    </g>
+    <text x="20" y="292">Die Ladungen sitzen fest an ihrem Platz und können nicht wandern.</text>
+  </g>
+</svg>
