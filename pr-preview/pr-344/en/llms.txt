@@ -1,0 +1,132 @@
+# lernapps.net tooling
+
+> Build, check and list learning apps for lernapps.net with an AI assistant. The package @lernapps/tooling is on npm.
+
+## Before you start: check the entry criteria
+
+1. **A shell:** you can run commands, with Node 22.18 or newer, git, and `npm` reaching npmjs.com. If not (a chat in
+   the browser, such as chatgpt.com, usually cannot): **stop here and do nothing else.** Tell the creator in two
+   sentences that this does not work in this environment and that they should start again in one that does, such as
+   the desktop application of their AI assistant, with the same request. Do not build the app by hand from this page.
+2. **`npx` may run:** your harness lets you run `npx --yes @lernapps/tooling …` (it runs a package from npm). If its
+   permissions block it (an auto mode that refuses code from the internet), tell the creator in two sentences how to
+   allow it, e.g. in Claude Code a permission rule `Bash(npx --yes @lernapps/tooling:*)`, and wait. Never work around
+   the block. Until it is allowed, start with the fallback below; building the app (Code) needs `npx`.
+3. **An empty folder:** the app is the folder you start in. Work in it, never in a subfolder.
+
+## Build an app
+
+1. In the empty folder run `npx --yes @lernapps/tooling init <short name>`. It writes the plan as
+   `.vibe/plans/01-<short name>.md`, `AGENTS.md` (the process and every process rule, also below on this page),
+   `CLAUDE.md` and the skills of the phases.
+2. Read `AGENTS.md`. Then `npx --no -- lernapps plan next` prints the one task to do now, and
+   `npx --no -- lernapps plan done` ticks it and prints the next. The plan gives the order, names the skill of each
+   task and holds the creator's checkpoints.
+
+Read guidance from the file, in full. Nothing is downloaded: a fetch tool that summarises loses tasks and rules, and
+`init` copies the files as they are.
+
+### Fallback: without `npx`, for Explore and Plan
+
+When `npx` may not run yet, the same files come from the repository https://github.com/lernapps/tooling:
+
+1. `git clone --depth 1 https://github.com/lernapps/tooling` into a temporary folder, not into the app's folder.
+2. Copy into the app's folder, unchanged: `guidance/plan-template.md` as `.vibe/plans/01-<short name>.md`,
+   `guidance/AGENTS.md` as `AGENTS.md`; write `CLAUDE.md` with the one line `@AGENTS.md`; copy the folders
+   `skills/process/*`, `skills/content/*` and `skills/tooling/*` into `.agents/skills/` (each skill a folder with its
+   `SKILL.md`).
+3. Follow the plan through Explore and Plan, by hand: read it in full, do its tasks in order, tick each box when it
+   is done, and set `phase` in its front matter when a phase ends. When the archetype is chosen, also copy
+   `skills/archetypes/lernapps-<archetype>-design` into `.agents/skills/`, and put each section of
+   `guidance/plan-<archetype>.md` where the plan has the line `<!-- archetype: <name> -->`. Before Code, `npx` must
+   run: in the same folder, `npx --yes @lernapps/tooling init <short name>` (the same short name) installs the
+   packages and writes the files again; it keeps the plan you filled in. From then on, `lernapps plan` reads and
+   ticks the tasks. Without the packages there is no app.
+
+## Change a published app
+
+- In the app's repo, `AGENTS.md` leads to the current plan; `npx --no -- lernapps plan new <short name>` starts the
+  plan of the next piece of work.
+
+## Reference
+
+Look things up here when you need them. Not needed for building.
+
+- Rules by id: https://lernapps.net/tooling/rules/ (check messages link `#<id>`).
+- Platform rules for an app built without this tooling (by hand, another framework, an app builder):
+  node_modules/@lernapps/tooling/skills/tooling/lernapps-cli/references/platform-rules.md (after `npx --yes @lernapps/tooling init`)
+- Check a built or published app: `npx --yes @lernapps/tooling check <dir|url>`. Every
+  command lists its options with `--help`.
+- Schemas: validation report https://lernapps.net/tooling/schemas/validation-report.v1.schema.json, review verdict
+  https://lernapps.net/tooling/schemas/verdict.v1.schema.json, catalog entry
+  https://lernapps.net/apps/schemas/entry.v1.schema.json. The schemas of a quiz and of an explainer are in the app:
+  node_modules/@lernapps/app-templates/runtime/quiz/quiz.v1.schema.json and .../explainer/explainer.v1.schema.json.
+- GitHub, explained for creators: https://lernapps.net/tooling/github/
+- Keeping an app up to date, the two GitHub Apps and the settings: https://lernapps.net/tooling/github/updates/
+- Which assistant to build with, and three apps a budget model built: https://lernapps.net/tooling/assistants/
+- How we test the guidance, with eval results: https://lernapps.net/tooling/prompt-engineering/
+- Architecture: https://lernapps.net/tooling/architecture/
+
+## Other llms.txt of lernapps.net
+
+- lernapps.net, where to find what: https://lernapps.net/llms.txt
+- Docs: https://lernapps.net/docs/llms.txt
+- Catalog: https://lernapps.net/apps/llms.txt; listing an app: https://lernapps.net/apps/enter/llms.txt
+
+The process rules follow below: `AGENTS.md`, the file `init` writes into every app, as it is in this version.
+
+## AGENTS.md
+
+Learning app for lernapps.net: static, runs in the browser, collects nothing, accessible. Built with its creator.
+
+### Before `lernapps init`
+
+No `package.json` with `lernapps.init` here? The app does not exist yet. Ask the creator what they want: an app to
+share (topic, grade, what learners do), or to practise for an occasion such as a test. Choose a short name (lower
+case, hyphens). Run once, in this folder, `npx --yes @lernapps/tooling init <name>`, or for an occasion
+`npx --yes @lernapps/practice init <name>`. It rewrites this file: read it again.
+
+### The plan
+
+- Four phases: Explore, Plan, Code, Commit. The current plan is `.vibe/plans/<NN>-<short name>.md` with the highest
+  NN. The creator reads it too.
+- `npx --no -- lernapps plan next` prints the one task to do now. Do it, then `npx --no -- lernapps plan done`: it
+  ticks the task and prints the next. Does not apply: `plan skip "<reason>"`. More to do: `plan add "<task>"`. A
+  task done in part stays open.
+- Change tasks, phase and front matter only with `lernapps plan` (`plan-file`). Findings and decisions you write
+  into the plan's other sections, in the creator's language.
+- A checkpoint: stop, ask, wait. Then `plan done --answer "<the creator's words>"`.
+- Every task ticked: `npx --no -- lernapps plan new <short name>` starts the next plan.
+- Begin each reply to the creator with the phase: "**Code**", "**Plan · Checkpoint**".
+
+### Always
+
+- The app is this folder. Every command runs here, never in a subfolder or a copy.
+- Read each skill or file a task names whole, with your file tool.
+- Push only the branch the current plan names. A push to `main` publishes.
+- Never `--no-verify`.
+- Never edit a `lernapps-*` skill: `lernapps update` replaces them. The app's own skills (`app-content`, `app-*`)
+  take precedence.
+- Nothing about a real learner in any file or commit message (`no-learner-data-in-texts`).
+- Learners, teachers, parents: German, plain language. The creator: their language, plain words.
+
+### Process rules
+
+Each rule in full: `@lernapps/tooling/guidance/workflow-rules.md` (in `node_modules/`) and
+https://lernapps.net/tooling/rules/.
+
+<!-- process rules: written by scripts/agents-md.ts from guidance/workflow-rules.md -->
+
+| Rule | What | What to do | Lines in workflow-rules.md |
+|---|---|---|---|
+| `plan-file` | The plan's tasks change only through `lernapps plan` | Change the tasks, the phase and the front matter of a plan only with `lernapps plan`: `next` prints the task to do, `done` ticks it, `skip` ticks a task that does not apply, `add` adds one. Never reword, delete or tick a task by hand. | 7–24 |
+| `explore-before-code` | No code before the plan is confirmed | No code and no `lernapps create` until the creator has confirmed the plan with a yes. | 26–34 |
+| `stop-at-checkpoints` | Stop at the creator's checkpoints | Checkpoints: research, confirm the plan and the content method, the pattern page (`early-preview`), publish. Stop at each and wait for the answer. | 36–49 |
+| `few-turns-after-plan` | Work on your own after the plan | After the confirmation, ask only what you cannot decide; else choose, mark "(guess)" under "Key decisions" and list it in the retrospective. | 51–60 |
+| `early-preview` | A pattern page first, with the creator's look | In Code, build one complete page or screen first, check it as a learner would, then show it to the creator and ask whether the other pages may follow it. | 62–73 |
+| `feedback-applied-everywhere` | A remark on one page is checked on all | A remark of the creator on one place that is about a pattern, a fact or a term holds for every place: find them all and change them in the same task. | 75–88 |
+| `retrospective-filled` | Fill the retrospective | At the end of Commit, fill every part with facts: phases reached, creator turns after the plan, where you guessed. No names. | 90–100 |
+| `app-content-guide` | Keep the app's content guide | Keep the app's content guide `.agents/skills/app-content/SKILL.md` complete and true: no placeholder left once content is written, and it says what was built. | 104–122 |
+| `app-content-matches` | The content guide says what was built | The guide describes the app as built, so that an agent without your conversation can add the next chapter or round from it alone. | 124–136 |
+
+<!-- end of the process rules -->
