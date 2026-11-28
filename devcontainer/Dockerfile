@@ -10,7 +10,7 @@ FROM ${BASE}
 
 # The Playwright version of @lernapps/tooling (package.json), so that `lernapps check` finds the browser it expects.
 # renovate: datasource=npm depName=playwright
-ARG PLAYWRIGHT_VERSION=1.65.0
+ARG PLAYWRIGHT_VERSION=1.65.1
 # renovate: datasource=npm depName=@playwright/cli
 ARG PLAYWRIGHT_CLI_VERSION=0.1.24
 
